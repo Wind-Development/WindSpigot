@@ -1,8 +1,8 @@
 package org.bukkit.command;
 
-import org.bukkit.Location;
-
 import java.util.List;
+
+import org.bukkit.Location;
 
 /**
  * Represents a class which can suggest tab completions for commands.

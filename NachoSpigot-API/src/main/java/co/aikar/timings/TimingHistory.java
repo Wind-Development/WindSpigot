@@ -23,18 +23,13 @@
  */
 package co.aikar.timings;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Sets;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.BlockState;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import co.aikar.util.LoadingMap;
-import co.aikar.util.MRUMapCache;
+import static co.aikar.timings.TimingsManager.FULL_SERVER_TICK;
+import static co.aikar.timings.TimingsManager.MINUTE_REPORTS;
+import static co.aikar.util.JSONUtil.createObject;
+import static co.aikar.util.JSONUtil.pair;
+import static co.aikar.util.JSONUtil.toArray;
+import static co.aikar.util.JSONUtil.toArrayMapper;
+import static co.aikar.util.JSONUtil.toObjectMapper;
 
 import java.lang.management.ManagementFactory;
 import java.util.Collection;
@@ -43,9 +38,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static co.aikar.timings.TimingsManager.FULL_SERVER_TICK;
-import static co.aikar.timings.TimingsManager.MINUTE_REPORTS;
-import static co.aikar.util.JSONUtil.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.BlockState;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Sets;
+
+import co.aikar.util.JSONUtil.JSONPair;
+import co.aikar.util.LoadingMap;
+import co.aikar.util.MRUMapCache;
 
 @SuppressWarnings({"deprecation", "SuppressionAnnotation"})
 public class TimingHistory {

@@ -1,9 +1,9 @@
 package org.bukkit.block;
 
+import java.util.List;
+
 import org.bukkit.DyeColor;
 import org.bukkit.block.banner.Pattern;
-
-import java.util.List;
 
 public interface Banner extends BlockState {
 

@@ -1,15 +1,13 @@
 package org.bukkit.command.defaults.nacho;
 
-import dev.cobblesword.nachospigot.CC;
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 
-import java.util.Arrays;
+import dev.cobblesword.nachospigot.CC;
 
 //[Nacho-0021] Add setMaxPlayers within Bukkit.getServer() and SetMaxSlot Command
 public class SetMaxSlotCommand extends Command {

@@ -4,58 +4,59 @@ import java.io.IOException;
 
 public class PacketPlayInChat implements Packet<PacketListenerPlayIn> {
 
-    private String a;
+	private String a;
 
-    public String getMessage()
-    {
-        return this.a;
-    }
+	public String getMessage() {
+		return this.a;
+	}
 
-    public void setMessage(String message)
-    {
-        this.a = message;
-    }
+	public void setMessage(String message) {
+		this.a = message;
+	}
 
-    public PacketPlayInChat() {}
+	public PacketPlayInChat() {
+	}
 
-    public PacketPlayInChat(String s) {
-        if (s.length() > 100) {
-            s = s.substring(0, 100);
-        }
+	public PacketPlayInChat(String s) {
+		if (s.length() > 100) {
+			s = s.substring(0, 100);
+		}
 
-        this.a = s;
-    }
+		this.a = s;
+	}
 
-    public void a(PacketDataSerializer serializer) throws IOException {
-        this.a = serializer.c(100);
-    }
+	@Override
+	public void a(PacketDataSerializer serializer) throws IOException {
+		this.a = serializer.c(100);
+	}
 
-    public void b(PacketDataSerializer serializer) throws IOException {
-        serializer.a(this.a);
-    }
+	@Override
+	public void b(PacketDataSerializer serializer) throws IOException {
+		serializer.a(this.a);
+	}
 
-    // Spigot Start
-    private static final java.util.concurrent.ExecutorService executors = java.util.concurrent.Executors.newCachedThreadPool(
-            new com.google.common.util.concurrent.ThreadFactoryBuilder().setDaemon( true ).setNameFormat( "Async Chat Thread - #%d" ).build() );
-    public void a(final PacketListenerPlayIn packetlistenerplayin) {
-        if ( !a.startsWith("/") )
-        {
-            executors.submit( new Runnable()
-            {
+	// Spigot Start
+	private static final java.util.concurrent.ExecutorService executors = java.util.concurrent.Executors
+			.newCachedThreadPool(new com.google.common.util.concurrent.ThreadFactoryBuilder().setDaemon(true)
+					.setNameFormat("Async Chat Thread - #%d").build());
 
-                @Override
-                public void run()
-                {
-                    packetlistenerplayin.a( PacketPlayInChat.this );
-                }
-            } );
-            return;
-        }
-        // Spigot End
-        packetlistenerplayin.a(this);
-    }
+	@Override
+	public void a(final PacketListenerPlayIn packetlistenerplayin) {
+		if (!a.startsWith("/")) {
+			executors.submit(new Runnable() {
 
-    public String a() {
-        return this.a;
-    }
+				@Override
+				public void run() {
+					packetlistenerplayin.a(PacketPlayInChat.this);
+				}
+			});
+			return;
+		}
+		// Spigot End
+		packetlistenerplayin.a(this);
+	}
+
+	public String a() {
+		return this.a;
+	}
 }

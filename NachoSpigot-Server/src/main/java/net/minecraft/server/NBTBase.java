@@ -6,99 +6,106 @@ import java.io.IOException;
 
 public abstract class NBTBase {
 
-    public static final String[] a = new String[] { "END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]"};
+	public static final String[] a = new String[] { "END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]",
+			"STRING", "LIST", "COMPOUND", "INT[]" };
 
-    abstract void write(DataOutput dataoutput) throws IOException;
+	abstract void write(DataOutput dataoutput) throws IOException;
 
-    abstract void load(DataInput datainput, int i, NBTReadLimiter nbtreadlimiter) throws IOException;
+	abstract void load(DataInput datainput, int i, NBTReadLimiter nbtreadlimiter) throws IOException;
 
-    public abstract String toString();
+	@Override
+	public abstract String toString();
 
-    public abstract byte getTypeId();
+	public abstract byte getTypeId();
 
-    protected NBTBase() {}
+	protected NBTBase() {
+	}
 
-    protected static NBTBase createTag(byte b0) {
-        switch (b0) {
-        case 0:
-            return new NBTTagEnd();
+	protected static NBTBase createTag(byte b0) {
+		switch (b0) {
+		case 0:
+			return new NBTTagEnd();
 
-        case 1:
-            return new NBTTagByte();
+		case 1:
+			return new NBTTagByte();
 
-        case 2:
-            return new NBTTagShort();
+		case 2:
+			return new NBTTagShort();
 
-        case 3:
-            return new NBTTagInt();
+		case 3:
+			return new NBTTagInt();
 
-        case 4:
-            return new NBTTagLong();
+		case 4:
+			return new NBTTagLong();
 
-        case 5:
-            return new NBTTagFloat();
+		case 5:
+			return new NBTTagFloat();
 
-        case 6:
-            return new NBTTagDouble();
+		case 6:
+			return new NBTTagDouble();
 
-        case 7:
-            return new NBTTagByteArray();
+		case 7:
+			return new NBTTagByteArray();
 
-        case 8:
-            return new NBTTagString();
+		case 8:
+			return new NBTTagString();
 
-        case 9:
-            return new NBTTagList();
+		case 9:
+			return new NBTTagList();
 
-        case 10:
-            return new NBTTagCompound();
+		case 10:
+			return new NBTTagCompound();
 
-        case 11:
-            return new NBTTagIntArray();
+		case 11:
+			return new NBTTagIntArray();
 
-        default:
-            return null;
-        }
-    }
+		default:
+			return null;
+		}
+	}
 
-    public abstract NBTBase clone();
+	@Override
+	public abstract NBTBase clone();
 
-    public boolean isEmpty() {
-        return false;
-    }
+	public boolean isEmpty() {
+		return false;
+	}
 
-    public boolean equals(Object object) {
-        if (!(object instanceof NBTBase)) {
-            return false;
-        } else {
-            NBTBase nbtbase = (NBTBase) object;
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof NBTBase)) {
+			return false;
+		} else {
+			NBTBase nbtbase = (NBTBase) object;
 
-            return this.getTypeId() == nbtbase.getTypeId();
-        }
-    }
+			return this.getTypeId() == nbtbase.getTypeId();
+		}
+	}
 
-    public int hashCode() {
-        return this.getTypeId();
-    }
+	@Override
+	public int hashCode() {
+		return this.getTypeId();
+	}
 
-    protected String a_() {
-        return this.toString();
-    }
+	protected String a_() {
+		return this.toString();
+	}
 
-    public abstract static class NBTNumber extends NBTBase {
+	public abstract static class NBTNumber extends NBTBase {
 
-        protected NBTNumber() {}
+		protected NBTNumber() {
+		}
 
-        public abstract long c();
+		public abstract long c();
 
-        public abstract int d();
+		public abstract int d();
 
-        public abstract short e();
+		public abstract short e();
 
-        public abstract byte f();
+		public abstract byte f();
 
-        public abstract double g();
+		public abstract double g();
 
-        public abstract float h();
-    }
+		public abstract float h();
+	}
 }

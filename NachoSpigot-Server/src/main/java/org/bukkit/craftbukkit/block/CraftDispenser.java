@@ -1,10 +1,5 @@
 package org.bukkit.craftbukkit.block;
 
-import net.minecraft.server.BlockDispenser;
-import net.minecraft.server.BlockPosition;
-import net.minecraft.server.Blocks;
-import net.minecraft.server.TileEntityDispenser;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
@@ -14,63 +9,71 @@ import org.bukkit.craftbukkit.projectiles.CraftBlockProjectileSource;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.projectiles.BlockProjectileSource;
 
+import net.minecraft.server.BlockDispenser;
+import net.minecraft.server.BlockPosition;
+import net.minecraft.server.Blocks;
+import net.minecraft.server.TileEntityDispenser;
+
 public class CraftDispenser extends CraftBlockState implements Dispenser {
-    private final CraftWorld world;
-    private final TileEntityDispenser dispenser;
+	private final CraftWorld world;
+	private final TileEntityDispenser dispenser;
 
-    public CraftDispenser(final Block block) {
-        super(block);
+	public CraftDispenser(final Block block) {
+		super(block);
 
-        world = (CraftWorld) block.getWorld();
-        dispenser = (TileEntityDispenser) world.getTileEntityAt(getX(), getY(), getZ());
-    }
+		world = (CraftWorld) block.getWorld();
+		dispenser = (TileEntityDispenser) world.getTileEntityAt(getX(), getY(), getZ());
+	}
 
-    public CraftDispenser(final Material material, final TileEntityDispenser te) {
-        super(material);
-        world = null;
-        dispenser = te;
-    }
+	public CraftDispenser(final Material material, final TileEntityDispenser te) {
+		super(material);
+		world = null;
+		dispenser = te;
+	}
 
-    public Inventory getInventory() {
-        return new CraftInventory(dispenser);
-    }
+	@Override
+	public Inventory getInventory() {
+		return new CraftInventory(dispenser);
+	}
 
-    public BlockProjectileSource getBlockProjectileSource() {
-        Block block = getBlock();
+	@Override
+	public BlockProjectileSource getBlockProjectileSource() {
+		Block block = getBlock();
 
-        if (block.getType() != Material.DISPENSER) {
-            return null;
-        }
+		if (block.getType() != Material.DISPENSER) {
+			return null;
+		}
 
-        return new CraftBlockProjectileSource(dispenser);
-    }
+		return new CraftBlockProjectileSource(dispenser);
+	}
 
-    public boolean dispense() {
-        Block block = getBlock();
+	@Override
+	public boolean dispense() {
+		Block block = getBlock();
 
-        if (block.getType() == Material.DISPENSER) {
-            BlockDispenser dispense = (BlockDispenser) Blocks.DISPENSER;
+		if (block.getType() == Material.DISPENSER) {
+			BlockDispenser dispense = (BlockDispenser) Blocks.DISPENSER;
 
-            dispense.dispense(world.getHandle(), new BlockPosition(getX(), getY(), getZ()));
-            return true;
-        } else {
-            return false;
-        }
-    }
+			dispense.dispense(world.getHandle(), new BlockPosition(getX(), getY(), getZ()));
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    @Override
-    public boolean update(boolean force, boolean applyPhysics) {
-        boolean result = super.update(force, applyPhysics);
+	@Override
+	public boolean update(boolean force, boolean applyPhysics) {
+		boolean result = super.update(force, applyPhysics);
 
-        if (result) {
-            dispenser.update();
-        }
+		if (result) {
+			dispenser.update();
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public TileEntityDispenser getTileEntity() {
-        return dispenser;
-    }
+	@Override
+	public TileEntityDispenser getTileEntity() {
+		return dispenser;
+	}
 }

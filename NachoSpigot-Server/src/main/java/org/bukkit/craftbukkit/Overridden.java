@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Indicates a method needs to be overridden in sub classes
  */
-@Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
+@Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Overridden {
 }

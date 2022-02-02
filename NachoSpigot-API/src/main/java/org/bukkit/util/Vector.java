@@ -3,11 +3,11 @@ package org.bukkit.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
-import static org.bukkit.util.NumberConversions.checkFinite;
 
 /**
  * Represents a mutable vector. Because the components of Vectors are mutable,

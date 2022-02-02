@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.WordUtils;
-import com.google.common.collect.ImmutableList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,6 +16,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.StringUtil;
+
+import com.google.common.collect.ImmutableList;
 
 @Deprecated
 public class EnchantCommand extends VanillaCommand {

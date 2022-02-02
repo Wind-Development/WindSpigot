@@ -23,14 +23,12 @@
  */
 package co.aikar.timings;
 
-import gnu.trove.map.hash.TIntObjectHashMap;
-import org.bukkit.Bukkit;
-import co.aikar.util.LoadingIntMap;
-import co.aikar.util.LoadingMap;
-import co.aikar.util.MRUMapCache;
-
-import java.util.Map;
 import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
+
+import co.aikar.util.LoadingIntMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 
 class TimingHandler implements Timing {
 

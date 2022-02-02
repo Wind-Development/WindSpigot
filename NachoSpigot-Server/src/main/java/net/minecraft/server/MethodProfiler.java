@@ -1,59 +1,55 @@
 package net.minecraft.server;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 // CraftBukkit start - Strip down to empty methods, performance cost
 public class MethodProfiler {
 
-    public boolean a;
-    public MethodProfiler() {}
+	public boolean a;
 
-    public void a() {
-    }
+	public MethodProfiler() {
+	}
 
-    public void a(String s) {
-    }
+	public void a() {
+	}
 
-    public void b() {
-    }
+	public void a(String s) {
+	}
 
-    public List<MethodProfiler.ProfilerInfo> b(String s) {
-        return null;
-    }
+	public void b() {
+	}
 
-    public void c(String s) {
-    }
+	public List<MethodProfiler.ProfilerInfo> b(String s) {
+		return null;
+	}
 
-    public String c() {
-        return "";
-    }
+	public void c(String s) {
+	}
 
-    public static final class ProfilerInfo implements Comparable<MethodProfiler.ProfilerInfo> {
+	public String c() {
+		return "";
+	}
 
-        public double a;
-        public double b;
-        public String c;
+	public static final class ProfilerInfo implements Comparable<MethodProfiler.ProfilerInfo> {
 
-        public ProfilerInfo(String s, double d0, double d1) {
-            this.c = s;
-            this.a = d0;
-            this.b = d1;
-        }
+		public double a;
+		public double b;
+		public String c;
 
-        public int a(MethodProfiler.ProfilerInfo methodprofiler_profilerinfo) {
-            return methodprofiler_profilerinfo.a < this.a ? -1 : (methodprofiler_profilerinfo.a > this.a ? 1 : methodprofiler_profilerinfo.c.compareTo(this.c));
-        }
+		public ProfilerInfo(String s, double d0, double d1) {
+			this.c = s;
+			this.a = d0;
+			this.b = d1;
+		}
 
-        public int compareTo(MethodProfiler.ProfilerInfo object) {
-            return this.a(object);
-        }
-    }
+		public int a(MethodProfiler.ProfilerInfo methodprofiler_profilerinfo) {
+			return methodprofiler_profilerinfo.a < this.a ? -1
+					: (methodprofiler_profilerinfo.a > this.a ? 1 : methodprofiler_profilerinfo.c.compareTo(this.c));
+		}
+
+		@Override
+		public int compareTo(MethodProfiler.ProfilerInfo object) {
+			return this.a(object);
+		}
+	}
 }

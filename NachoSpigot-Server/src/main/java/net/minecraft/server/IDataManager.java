@@ -4,25 +4,25 @@ import java.io.File;
 
 public interface IDataManager {
 
-    WorldData getWorldData();
+	WorldData getWorldData();
 
-    void checkSession() throws ExceptionWorldConflict;
+	void checkSession() throws ExceptionWorldConflict;
 
-    IChunkLoader createChunkLoader(WorldProvider worldprovider);
+	IChunkLoader createChunkLoader(WorldProvider worldprovider);
 
-    void saveWorldData(WorldData worlddata, NBTTagCompound nbttagcompound);
+	void saveWorldData(WorldData worlddata, NBTTagCompound nbttagcompound);
 
-    void saveWorldData(WorldData worlddata);
+	void saveWorldData(WorldData worlddata);
 
-    IPlayerFileData getPlayerFileData();
+	IPlayerFileData getPlayerFileData();
 
-    void a();
+	void a();
 
-    File getDirectory();
+	File getDirectory();
 
-    File getDataFile(String s);
+	File getDataFile(String s);
 
-    String g();
+	String g();
 
-    java.util.UUID getUUID(); // CraftBukkit
+	java.util.UUID getUUID(); // CraftBukkit
 }

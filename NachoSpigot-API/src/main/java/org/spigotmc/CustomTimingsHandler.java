@@ -23,16 +23,17 @@
  */
 package org.spigotmc;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.AuthorNagException;
-import org.bukkit.plugin.Plugin;
-import co.aikar.timings.Timing;
-import co.aikar.timings.Timings;
-import co.aikar.timings.TimingsManager;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.AuthorNagException;
+import org.bukkit.plugin.Plugin;
+
+import co.aikar.timings.Timing;
+import co.aikar.timings.Timings;
+import co.aikar.timings.TimingsManager;
 
 /**
  * This is here for legacy purposes incase any plugin used it.

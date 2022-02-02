@@ -1,13 +1,13 @@
 package org.github.paperspigot;
 
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
-
-import org.bukkit.entity.Player;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+
+import org.bukkit.entity.Player;
+
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 /**
  * Represents a title to may be sent to a {@link Player}.

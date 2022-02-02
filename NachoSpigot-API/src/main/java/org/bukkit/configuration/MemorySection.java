@@ -1,6 +1,9 @@
 package org.bukkit.configuration;
 
-import static org.bukkit.util.NumberConversions.*;
+import static org.bukkit.util.NumberConversions.toDouble;
+import static org.bukkit.util.NumberConversions.toFloat;
+import static org.bukkit.util.NumberConversions.toInt;
+import static org.bukkit.util.NumberConversions.toLong;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

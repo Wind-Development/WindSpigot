@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.map.MapView;
+import org.bukkit.material.Banner;
 import org.bukkit.material.Bed;
 import org.bukkit.material.Button;
 import org.bukkit.material.Cake;
@@ -57,7 +58,6 @@ import org.bukkit.potion.Potion;
 import org.bukkit.util.Java15Compat;
 
 import com.google.common.collect.Maps;
-import org.bukkit.material.Banner;
 
 /**
  * An enum of all material IDs accepted by the official server and client

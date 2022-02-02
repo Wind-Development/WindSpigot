@@ -2,8 +2,6 @@ package org.bukkit.craftbukkit.inventory;
 
 import java.util.Map;
 
-import net.minecraft.server.NBTTagCompound;
-
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.DelegateDeserialization;
@@ -12,120 +10,122 @@ import org.bukkit.inventory.meta.FireworkEffectMeta;
 
 import com.google.common.collect.ImmutableMap.Builder;
 
+import net.minecraft.server.NBTTagCompound;
+
 @DelegateDeserialization(SerializableMeta.class)
 class CraftMetaCharge extends CraftMetaItem implements FireworkEffectMeta {
-    static final ItemMetaKey EXPLOSION = new ItemMetaKey("Explosion", "firework-effect");
+	static final ItemMetaKey EXPLOSION = new ItemMetaKey("Explosion", "firework-effect");
 
-    private FireworkEffect effect;
+	private FireworkEffect effect;
 
-    CraftMetaCharge(CraftMetaItem meta) {
-        super(meta);
+	CraftMetaCharge(CraftMetaItem meta) {
+		super(meta);
 
-        if (meta instanceof CraftMetaCharge) {
-            effect = ((CraftMetaCharge) meta).effect;
-        }
-    }
+		if (meta instanceof CraftMetaCharge) {
+			effect = ((CraftMetaCharge) meta).effect;
+		}
+	}
 
-    CraftMetaCharge(Map<String, Object> map) {
-        super(map);
+	CraftMetaCharge(Map<String, Object> map) {
+		super(map);
 
-        setEffect(SerializableMeta.getObject(FireworkEffect.class, map, EXPLOSION.BUKKIT, true));
-    }
-    
-    CraftMetaCharge(NBTTagCompound tag) {
-        super(tag);
+		setEffect(SerializableMeta.getObject(FireworkEffect.class, map, EXPLOSION.BUKKIT, true));
+	}
 
-        if (tag.hasKey(EXPLOSION.NBT)) {
-            effect = CraftMetaFirework.getEffect(tag.getCompound(EXPLOSION.NBT));
-        }
-    }
+	CraftMetaCharge(NBTTagCompound tag) {
+		super(tag);
 
-    @Override
-    public void setEffect(FireworkEffect effect) {
-        this.effect = effect;
-    }
+		if (tag.hasKey(EXPLOSION.NBT)) {
+			effect = CraftMetaFirework.getEffect(tag.getCompound(EXPLOSION.NBT));
+		}
+	}
 
-    @Override
-    public boolean hasEffect() {
-        return effect != null;
-    }
+	@Override
+	public void setEffect(FireworkEffect effect) {
+		this.effect = effect;
+	}
 
-    @Override
-    public FireworkEffect getEffect() {
-        return effect;
-    }
+	@Override
+	public boolean hasEffect() {
+		return effect != null;
+	}
 
-    @Override
-    void applyToItem(NBTTagCompound itemTag) {
-        super.applyToItem(itemTag);
+	@Override
+	public FireworkEffect getEffect() {
+		return effect;
+	}
 
-        if (hasEffect()) {
-            itemTag.set(EXPLOSION.NBT, CraftMetaFirework.getExplosion(effect));
-        }
-    }
+	@Override
+	void applyToItem(NBTTagCompound itemTag) {
+		super.applyToItem(itemTag);
 
-    @Override
-    boolean applicableTo(Material type) {
-        switch (type) {
-            case FIREWORK_CHARGE:
-                return true;
-            default:
-                return false;
-        }
-    }
+		if (hasEffect()) {
+			itemTag.set(EXPLOSION.NBT, CraftMetaFirework.getExplosion(effect));
+		}
+	}
 
-    @Override
-    boolean isEmpty() {
-        return super.isEmpty() && !hasChargeMeta();
-    }
+	@Override
+	boolean applicableTo(Material type) {
+		switch (type) {
+		case FIREWORK_CHARGE:
+			return true;
+		default:
+			return false;
+		}
+	}
 
-    boolean hasChargeMeta() {
-        return hasEffect();
-    }
+	@Override
+	boolean isEmpty() {
+		return super.isEmpty() && !hasChargeMeta();
+	}
 
-    @Override
-    boolean equalsCommon(CraftMetaItem meta) {
-        if (!super.equalsCommon(meta)) {
-            return false;
-        }
-        if (meta instanceof CraftMetaCharge) {
-            CraftMetaCharge that = (CraftMetaCharge) meta;
+	boolean hasChargeMeta() {
+		return hasEffect();
+	}
 
-            return (hasEffect() ? that.hasEffect() && this.effect.equals(that.effect) : !that.hasEffect());
-        }
-        return true;
-    }
+	@Override
+	boolean equalsCommon(CraftMetaItem meta) {
+		if (!super.equalsCommon(meta)) {
+			return false;
+		}
+		if (meta instanceof CraftMetaCharge) {
+			CraftMetaCharge that = (CraftMetaCharge) meta;
 
-    @Override
-    boolean notUncommon(CraftMetaItem meta) {
-        return super.notUncommon(meta) && (meta instanceof CraftMetaCharge || !hasChargeMeta());
-    }
+			return (hasEffect() ? that.hasEffect() && this.effect.equals(that.effect) : !that.hasEffect());
+		}
+		return true;
+	}
 
-    @Override
-    int applyHash() {
-        final int original;
-        int hash = original = super.applyHash();
+	@Override
+	boolean notUncommon(CraftMetaItem meta) {
+		return super.notUncommon(meta) && (meta instanceof CraftMetaCharge || !hasChargeMeta());
+	}
 
-        if (hasEffect()) {
-            hash = 61 * hash + effect.hashCode();
-        }
+	@Override
+	int applyHash() {
+		final int original;
+		int hash = original = super.applyHash();
 
-        return hash != original ? CraftMetaCharge.class.hashCode() ^ hash : hash;
-    }
+		if (hasEffect()) {
+			hash = 61 * hash + effect.hashCode();
+		}
 
-    @Override
-    public CraftMetaCharge clone() {
-        return (CraftMetaCharge) super.clone();
-    }
+		return hash != original ? CraftMetaCharge.class.hashCode() ^ hash : hash;
+	}
 
-    @Override
-    Builder<String, Object> serialize(Builder<String, Object> builder) {
-        super.serialize(builder);
+	@Override
+	public CraftMetaCharge clone() {
+		return (CraftMetaCharge) super.clone();
+	}
 
-        if (hasEffect()) {
-            builder.put(EXPLOSION.BUKKIT, effect);
-        }
+	@Override
+	Builder<String, Object> serialize(Builder<String, Object> builder) {
+		super.serialize(builder);
 
-        return builder;
-    }
+		if (hasEffect()) {
+			builder.put(EXPLOSION.BUKKIT, effect);
+		}
+
+		return builder;
+	}
 }

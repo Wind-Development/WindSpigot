@@ -7,111 +7,145 @@ import org.bukkit.entity.HumanEntity;
 
 public class InventoryCraftResult implements IInventory {
 
-    private ItemStack[] items = new ItemStack[1];
+	private ItemStack[] items = new ItemStack[1];
 
-    // CraftBukkit start
-    private int maxStack = MAX_STACK;
+	// CraftBukkit start
+	private int maxStack = MAX_STACK;
 
-    public ItemStack[] getContents() {
-        return this.items;
-    }
+	@Override
+	public ItemStack[] getContents() {
+		return this.items;
+	}
 
-    public org.bukkit.inventory.InventoryHolder getOwner() {
-        return null; // Result slots don't get an owner
-    }
+	@Override
+	public org.bukkit.inventory.InventoryHolder getOwner() {
+		return null; // Result slots don't get an owner
+	}
 
-    // Don't need a transaction; the InventoryCrafting keeps track of it for us
-    public void onOpen(CraftHumanEntity who) {}
-    public void onClose(CraftHumanEntity who) {}
-    public java.util.List<HumanEntity> getViewers() {
-        return new java.util.ArrayList<HumanEntity>();
-    }
+	// Don't need a transaction; the InventoryCrafting keeps track of it for us
+	@Override
+	public void onOpen(CraftHumanEntity who) {
+	}
 
-    public void setMaxStackSize(int size) {
-        maxStack = size;
-    }
-    // CraftBukkit end
+	@Override
+	public void onClose(CraftHumanEntity who) {
+	}
 
-    public InventoryCraftResult() {}
+	@Override
+	public java.util.List<HumanEntity> getViewers() {
+		return new java.util.ArrayList<HumanEntity>();
+	}
 
-    public int getSize() {
-        return 1;
-    }
+	@Override
+	public void setMaxStackSize(int size) {
+		maxStack = size;
+	}
+	// CraftBukkit end
 
-    public ItemStack getItem(int i) {
-        return this.items[0];
-    }
+	public InventoryCraftResult() {
+	}
 
-    public String getName() {
-        return "Result";
-    }
+	@Override
+	public int getSize() {
+		return 1;
+	}
 
-    public boolean hasCustomName() {
-        return false;
-    }
+	@Override
+	public ItemStack getItem(int i) {
+		return this.items[0];
+	}
 
-    public IChatBaseComponent getScoreboardDisplayName() {
-        return (IChatBaseComponent) (this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatMessage(this.getName(), new Object[0]));
-    }
+	@Override
+	public String getName() {
+		return "Result";
+	}
 
-    public ItemStack splitStack(int i, int j) {
-        if (this.items[0] != null) {
-            ItemStack itemstack = this.items[0];
+	@Override
+	public boolean hasCustomName() {
+		return false;
+	}
 
-            this.items[0] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-    }
+	@Override
+	public IChatBaseComponent getScoreboardDisplayName() {
+		return this.hasCustomName() ? new ChatComponentText(this.getName())
+				: new ChatMessage(this.getName(), new Object[0]);
+	}
 
-    public ItemStack splitWithoutUpdate(int i) {
-        if (this.items[0] != null) {
-            ItemStack itemstack = this.items[0];
+	@Override
+	public ItemStack splitStack(int i, int j) {
+		if (this.items[0] != null) {
+			ItemStack itemstack = this.items[0];
 
-            this.items[0] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-    }
+			this.items[0] = null;
+			return itemstack;
+		} else {
+			return null;
+		}
+	}
 
-    public void setItem(int i, ItemStack itemstack) {
-        this.items[0] = itemstack;
-    }
+	@Override
+	public ItemStack splitWithoutUpdate(int i) {
+		if (this.items[0] != null) {
+			ItemStack itemstack = this.items[0];
 
-    public int getMaxStackSize() {
-        return maxStack; // CraftBukkit
-    }
+			this.items[0] = null;
+			return itemstack;
+		} else {
+			return null;
+		}
+	}
 
-    public void update() {}
+	@Override
+	public void setItem(int i, ItemStack itemstack) {
+		this.items[0] = itemstack;
+	}
 
-    public boolean a(EntityHuman entityhuman) {
-        return true;
-    }
+	@Override
+	public int getMaxStackSize() {
+		return maxStack; // CraftBukkit
+	}
 
-    public void startOpen(EntityHuman entityhuman) {}
+	@Override
+	public void update() {
+	}
 
-    public void closeContainer(EntityHuman entityhuman) {}
+	@Override
+	public boolean a(EntityHuman entityhuman) {
+		return true;
+	}
 
-    public boolean b(int i, ItemStack itemstack) {
-        return true;
-    }
+	@Override
+	public void startOpen(EntityHuman entityhuman) {
+	}
 
-    public int getProperty(int i) {
-        return 0;
-    }
+	@Override
+	public void closeContainer(EntityHuman entityhuman) {
+	}
 
-    public void b(int i, int j) {}
+	@Override
+	public boolean b(int i, ItemStack itemstack) {
+		return true;
+	}
 
-    public int g() {
-        return 0;
-    }
+	@Override
+	public int getProperty(int i) {
+		return 0;
+	}
 
-    public void l() {
-        for (int i = 0; i < this.items.length; ++i) {
-            this.items[i] = null;
-        }
+	@Override
+	public void b(int i, int j) {
+	}
 
-    }
+	@Override
+	public int g() {
+		return 0;
+	}
+
+	@Override
+	public void l() {
+		for (int i = 0; i < this.items.length; ++i) {
+			this.items[i] = null;
+		}
+
+	}
 }

@@ -23,11 +23,11 @@
  */
 package co.aikar.timings;
 
-import com.google.common.base.Function;
+import static co.aikar.util.JSONUtil.toArrayMapper;
 
 import java.util.List;
 
-import static co.aikar.util.JSONUtil.toArrayMapper;
+import com.google.common.base.Function;
 
 class TimingHistoryEntry {
     final TimingData data;

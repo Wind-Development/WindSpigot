@@ -1,5 +1,6 @@
 package org.bukkit.event;
 
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 /**

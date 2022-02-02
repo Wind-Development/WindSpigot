@@ -8,29 +8,30 @@ import net.techcable.tacospigot.Indexer;
 
 public interface IBlockState<T extends Comparable<T>> {
 
-    String a();
+	String a();
 
-    Collection<T> c();
+	Collection<T> c();
 
-    Class<T> b();
+	Class<T> b();
 
-    String a(T t0);
+	String a(T t0);
 
-    // TacoSpigot start
-    @SuppressWarnings("Convert2Lambda") // We have to use anon for performance reasons :/
-    public static final Indexer<IBlockState> INDEXER = new Indexer<IBlockState>() {
-        @Override
-        public int getId(IBlockState state) {
-            return state.getId();
-        }
-    };
+	// TacoSpigot start
+	@SuppressWarnings("Convert2Lambda") // We have to use anon for performance reasons :/
+	public static final Indexer<IBlockState> INDEXER = new Indexer<IBlockState>() {
+		@Override
+		public int getId(IBlockState state) {
+			return state.getId();
+		}
+	};
 
-    public default void tryInitId() {}
+	public default void tryInitId() {
+	}
 
-    public int getId();
+	public int getId();
 
-    public int getValueId(T value);
+	public int getValueId(T value);
 
-    public T getByValueId(int id);
-    // TacoSpigot end
+	public T getByValueId(int id);
+	// TacoSpigot end
 }

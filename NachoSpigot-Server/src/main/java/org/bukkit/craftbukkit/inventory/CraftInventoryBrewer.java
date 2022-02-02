@@ -7,20 +7,22 @@ import org.bukkit.inventory.ItemStack;
 import net.minecraft.server.IInventory;
 
 public class CraftInventoryBrewer extends CraftInventory implements BrewerInventory {
-    public CraftInventoryBrewer(IInventory inventory) {
-        super(inventory);
-    }
+	public CraftInventoryBrewer(IInventory inventory) {
+		super(inventory);
+	}
 
-    public ItemStack getIngredient() {
-        return getItem(3);
-    }
+	@Override
+	public ItemStack getIngredient() {
+		return getItem(3);
+	}
 
-    public void setIngredient(ItemStack ingredient) {
-        setItem(3, ingredient);
-    }
+	@Override
+	public void setIngredient(ItemStack ingredient) {
+		setItem(3, ingredient);
+	}
 
-    @Override
-    public BrewingStand getHolder() {
-        return (BrewingStand) inventory.getOwner();
-    }
+	@Override
+	public BrewingStand getHolder() {
+		return (BrewingStand) inventory.getOwner();
+	}
 }

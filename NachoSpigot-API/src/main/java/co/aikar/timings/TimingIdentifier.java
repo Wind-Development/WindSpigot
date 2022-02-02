@@ -23,12 +23,13 @@
  */
 package co.aikar.timings;
 
-import com.google.common.base.Function;
-import co.aikar.util.LoadingMap;
-import co.aikar.util.MRUMapCache;
-
 import java.util.ArrayDeque;
 import java.util.Map;
+
+import com.google.common.base.Function;
+
+import co.aikar.util.LoadingMap;
+import co.aikar.util.MRUMapCache;
 
 /**
  * <p>Used as a basis for fast HashMap key comparisons for the Timing Map.</p>

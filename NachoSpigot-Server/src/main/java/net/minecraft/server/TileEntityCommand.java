@@ -2,64 +2,78 @@ package net.minecraft.server;
 
 public class TileEntityCommand extends TileEntity {
 
-    private final CommandBlockListenerAbstract a = new CommandBlockListenerAbstract() {
-        {
-            sender = new org.bukkit.craftbukkit.command.CraftBlockCommandSender(this); // CraftBukkit - add sender
-        }
-        public BlockPosition getChunkCoordinates() {
-            return TileEntityCommand.this.position;
-        }
+	private final CommandBlockListenerAbstract a = new CommandBlockListenerAbstract() {
+		{
+			sender = new org.bukkit.craftbukkit.command.CraftBlockCommandSender(this); // CraftBukkit - add sender
+		}
 
-        public Vec3D d() {
-            return new Vec3D((double) TileEntityCommand.this.position.getX() + 0.5D, (double) TileEntityCommand.this.position.getY() + 0.5D, (double) TileEntityCommand.this.position.getZ() + 0.5D);
-        }
+		@Override
+		public BlockPosition getChunkCoordinates() {
+			return TileEntityCommand.this.position;
+		}
 
-        public World getWorld() {
-            return TileEntityCommand.this.getWorld();
-        }
+		@Override
+		public Vec3D d() {
+			return new Vec3D(TileEntityCommand.this.position.getX() + 0.5D,
+					TileEntityCommand.this.position.getY() + 0.5D,
+					TileEntityCommand.this.position.getZ() + 0.5D);
+		}
 
-        public void setCommand(String s) {
-            super.setCommand(s);
-            TileEntityCommand.this.update();
-        }
+		@Override
+		public World getWorld() {
+			return TileEntityCommand.this.getWorld();
+		}
 
-        public void h() {
-            TileEntityCommand.this.getWorld().notify(TileEntityCommand.this.position);
-        }
+		@Override
+		public void setCommand(String s) {
+			super.setCommand(s);
+			TileEntityCommand.this.update();
+		}
 
-        public Entity f() {
-            return null;
-        }
-    };
+		@Override
+		public void h() {
+			TileEntityCommand.this.getWorld().notify(TileEntityCommand.this.position);
+		}
 
-    public TileEntityCommand() {}
+		@Override
+		public Entity f() {
+			return null;
+		}
+	};
 
-    public void b(NBTTagCompound nbttagcompound) {
-        super.b(nbttagcompound);
-        this.a.a(nbttagcompound);
-    }
+	public TileEntityCommand() {
+	}
 
-    public void a(NBTTagCompound nbttagcompound) {
-        super.a(nbttagcompound);
-        this.a.b(nbttagcompound);
-    }
+	@Override
+	public void b(NBTTagCompound nbttagcompound) {
+		super.b(nbttagcompound);
+		this.a.a(nbttagcompound);
+	}
 
-    public Packet getUpdatePacket() {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
+	@Override
+	public void a(NBTTagCompound nbttagcompound) {
+		super.a(nbttagcompound);
+		this.a.b(nbttagcompound);
+	}
 
-        this.b(nbttagcompound);
-        return new PacketPlayOutTileEntityData(this.position, 2, nbttagcompound);
-    }
+	@Override
+	public Packet getUpdatePacket() {
+		NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-    public boolean F() {
-        return true;
-    }
+		this.b(nbttagcompound);
+		return new PacketPlayOutTileEntityData(this.position, 2, nbttagcompound);
+	}
 
-    public CommandBlockListenerAbstract getCommandBlock() {
-        return this.a;
-    }
+	@Override
+	public boolean F() {
+		return true;
+	}
 
-    public CommandObjectiveExecutor c() {
-        return this.a.n();
-    }
+	public CommandBlockListenerAbstract getCommandBlock() {
+		return this.a;
+	}
+
+	public CommandObjectiveExecutor c() {
+		return this.a.n();
+	}
 }

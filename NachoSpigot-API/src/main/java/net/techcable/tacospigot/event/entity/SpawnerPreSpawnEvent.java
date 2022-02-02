@@ -1,14 +1,12 @@
 package net.techcable.tacospigot.event.entity;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import static com.google.common.base.Preconditions.*;
 
 /**
  * Fired before a mob spawns and entity data as calculated.

@@ -8,47 +8,49 @@ import org.bukkit.command.MultipleCommandAlias;
 import org.bukkit.help.HelpTopic;
 
 /**
- * This is a help topic implementation for {@link MultipleCommandAlias} commands.
+ * This is a help topic implementation for {@link MultipleCommandAlias}
+ * commands.
  */
 public class MultipleCommandAliasHelpTopic extends HelpTopic {
 
-    private final MultipleCommandAlias alias;
+	private final MultipleCommandAlias alias;
 
-    public MultipleCommandAliasHelpTopic(MultipleCommandAlias alias) {
-        this.alias = alias;
+	public MultipleCommandAliasHelpTopic(MultipleCommandAlias alias) {
+		this.alias = alias;
 
-        name = "/" + alias.getLabel();
+		name = "/" + alias.getLabel();
 
-        // Build short text
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < alias.getCommands().length; i++) {
-            if (i != 0) {
-                sb.append(ChatColor.GOLD + " > " + ChatColor.WHITE);
-            }
-            sb.append("/");
-            sb.append(alias.getCommands()[i].getLabel());
-        }
-        shortText = sb.toString();
+		// Build short text
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < alias.getCommands().length; i++) {
+			if (i != 0) {
+				sb.append(ChatColor.GOLD + " > " + ChatColor.WHITE);
+			}
+			sb.append("/");
+			sb.append(alias.getCommands()[i].getLabel());
+		}
+		shortText = sb.toString();
 
-        // Build full text
-        fullText = ChatColor.GOLD + "Alias for: " + ChatColor.WHITE + getShortText();
-    }
+		// Build full text
+		fullText = ChatColor.GOLD + "Alias for: " + ChatColor.WHITE + getShortText();
+	}
 
-    public boolean canSee(CommandSender sender) {
-        if (amendedPermission == null) {
-            if (sender instanceof ConsoleCommandSender) {
-                return true;
-            }
+	@Override
+	public boolean canSee(CommandSender sender) {
+		if (amendedPermission == null) {
+			if (sender instanceof ConsoleCommandSender) {
+				return true;
+			}
 
-            for (Command command : alias.getCommands()) {
-                if (!command.testPermissionSilent(sender)) {
-                    return false;
-                }
-            }
+			for (Command command : alias.getCommands()) {
+				if (!command.testPermissionSilent(sender)) {
+					return false;
+				}
+			}
 
-            return true;
-        } else {
-            return sender.hasPermission(amendedPermission);
-        }
-    }
+			return true;
+		} else {
+			return sender.hasPermission(amendedPermission);
+		}
+	}
 }

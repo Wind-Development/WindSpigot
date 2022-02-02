@@ -1,8 +1,5 @@
 package org.bukkit.command.defaults;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -15,6 +12,10 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 @Deprecated
 public class SpreadPlayersCommand extends VanillaCommand {
