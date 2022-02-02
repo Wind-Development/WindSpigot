@@ -372,7 +372,7 @@ public class NachoConfig {
 	public static boolean enableFastMath;
 
 	private static void enableFastMath() {
-		enableFastMath = getBoolean("settings.enable-fastmath", false);
+		enableFastMath = getBoolean("settings.enable-fastmath", true);
 		c.addComment("settings.enable-fastmath", "Enable Fast Math usage.");
 	}
 
