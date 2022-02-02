@@ -6,29 +6,7 @@ NachoSpigot offers a number of enhancements to performance as well as bug fixes 
 ## Current State
 Java 15 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2/ProtocolLib), [ViaVersion](https://github.com/ViaVersion/ViaVersion), and [Citizens2](https://github.com/CitizensDev/Citizens2) are patched at runtime to work with Nacho's modifications.
 
-Nacho can now be used in production environments with some degree of stability.
-
-If you find any bugs, please [create an issue](../../issues/new) or contact us in the [Discord server](https://discord.gg/ewcYeERKJw)!
-
-**NachoSpigot supports Java 8 to Java 17!**
-
-## Download
-You can download the CI build for the latest commit [here](https://nightly.link/CobbleSword/NachoSpigot/workflows/build-nachospigot/master/NachoSpigot-server.zip).
-
-## If you run into a lot of plugin issues
-[Try out the more stable BurritoSpigot](https://github.com/CobbleSword/BurritoSpigot/)
-
-## API Download
-[JitPack](https://jitpack.io/#CobbleSword/NachoSpigot/master-SNAPSHOT)
-
-### Building / Compiling
-> To build, clone the repo, and run `mvn clean install` in the NachoSpigot directory.
-
-### Discord
-[Join the Discord server!](https://discord.gg/SBTEbSx)
-
-### Supporters / Contributors
-See: [Contributors Page](https://github.com/CobbleSword/NachoSpigot/graphs/contributors)
+**WindSpigot supports Java 8 to Java 17!**
 
 ## Patches
 **All credit goes to the people that made these patches.**<br>
