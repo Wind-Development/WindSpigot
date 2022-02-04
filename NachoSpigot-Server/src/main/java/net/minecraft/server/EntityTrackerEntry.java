@@ -9,6 +9,8 @@ import java.util.function.Consumer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.CraftServer;
 // CraftBukkit start
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerVelocityEvent;
@@ -118,8 +120,9 @@ public class EntityTrackerEntry {
 	// WindSpigot - readd removed method used by Citizens
 	public EntityTrackerEntry(Entity entity, int b, int c, boolean flag) {
 		
-		// WindSpigot Start - get the entity's tracker from it's world
-		WorldServer worldServer = (WorldServer) entity.getWorld();
+		// WindSpigot Start - get the entity's tracker from it's dimension
+		CraftServer server = (CraftServer) Bukkit.getServer();
+		WorldServer worldServer = server.getServer().getWorldServer(entity.dimension);
 		EntityTracker entityTracker = worldServer.getTracker();
 		// WindSpigot End
 		
