@@ -23,6 +23,7 @@ import co.aikar.timings.SpigotTimings; // Spigot
 import dev.cobblesword.nachospigot.Nacho;
 import dev.cobblesword.nachospigot.commons.IPUtils;
 import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
+import ga.windpvp.wspigot.WindSpigot;
 import me.elier.nachospigot.config.NachoConfig;
 
 public class DedicatedServer extends MinecraftServer implements IMinecraftServer {
@@ -365,6 +366,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 				 */
 
 				Nacho.get().applyPatches(); // Nacho
+				new WindSpigot(); // WindSpigot 
 
 				return true;
 			}

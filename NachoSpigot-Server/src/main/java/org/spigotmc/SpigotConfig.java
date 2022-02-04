@@ -211,7 +211,7 @@ public class SpigotConfig {
 	}
 
 	private static void timings() {
-		boolean timings = getBoolean("timings.enabled", true);
+		boolean timings = getBoolean("timings.enabled", false); // WindSpigot - disable timings by default
 		boolean verboseTimings = getBoolean("timings.verbose", true);
 		TimingsManager.privacy = getBoolean("timings.server-name-privacy", false);
 		TimingsManager.hiddenConfigs = getList("timings.hidden-config-entries",

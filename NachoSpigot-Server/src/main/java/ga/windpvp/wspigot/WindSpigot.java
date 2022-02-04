@@ -6,6 +6,11 @@ public class WindSpigot {
 		init();
 	}
 	
+	private void notifications()
+	{
+		
+	}
+	
 	private void init()
 	{
 		
