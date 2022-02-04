@@ -127,6 +127,7 @@ Java 15 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 [InsanePaper-390] Heavily optimize Tuinity controlled flush patch
 
 [Akarin-0001] Avoid double I/O operation on load player file by tsao chi
+[Akarin-0010] Save Json list asynchronously
 
 [Tuinity-????] Skip updating entity tracker without players
 [Tuinity-0017] Allow controlled flushing for network manager by Spottedleaf
