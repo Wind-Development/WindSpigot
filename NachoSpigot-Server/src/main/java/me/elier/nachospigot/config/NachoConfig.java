@@ -182,7 +182,7 @@ public class NachoConfig {
 		c.addComment("settings.commands.enable-version-command", "Toggles the /version command");
 		enablePluginsCommand = getBoolean("settings.commands.enable-plugins-command", true);
 		c.addComment("settings.commands.enable-plugins-command", "Toggles the /plugins command");
-		enableReloadCommand = getBoolean("settings.commands.enable-reload-command", true);
+		enableReloadCommand = getBoolean("settings.commands.enable-reload-command", false);
 		c.addComment("settings.commands.enable-reload-command", "Toggles the /reload command");
 	}
 
@@ -212,7 +212,7 @@ public class NachoConfig {
 	public static boolean checkForMalware;
 
 	private static void antiMalware() {
-		checkForMalware = getBoolean("settings.anti-malware", false);
+		checkForMalware = getBoolean("settings.anti-malware", true);
 		c.addComment("settings.anti-malware", "Enables the built-in anti malware feature");
 	}
 
@@ -336,21 +336,21 @@ public class NachoConfig {
 	public static boolean lagCompensatedPotions;
 
 	private static void lagCompensatedPotions() {
-		lagCompensatedPotions = getBoolean("settings.lag-compensated-potions", false);
+		lagCompensatedPotions = getBoolean("settings.lag-compensated-potions", true);
 		c.addComment("settings.lag-compensated-potions", "Enables lag compesation throwing potions");
 	}
 
 	public static boolean smoothPotting;
 
 	private static void smoothPotting() {
-		smoothPotting = getBoolean("settings.smooth-potting", false);
+		smoothPotting = getBoolean("settings.smooth-potting", true);
 		c.addComment("settings.smooth-potting", "Make potion throwing smoother");
 	}
 
 	public static boolean antiEnderPearlGlitch;
 
 	private static void antiEnderPearlGlitch() {
-		antiEnderPearlGlitch = getBoolean("settings.anti-enderpearl-glitch", false);
+		antiEnderPearlGlitch = getBoolean("settings.anti-enderpearl-glitch", true);
 		c.addComment("settings.anti-enderpearl-glitch", "Enables anti enderpearl glitch");
 	}
 

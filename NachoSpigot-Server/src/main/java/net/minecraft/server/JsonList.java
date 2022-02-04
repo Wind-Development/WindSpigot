@@ -31,6 +31,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import ga.windpvp.wspigot.async.AsyncUtil;
+
 public class JsonList<K, V extends JsonListEntry<K>> {
 
 	protected static final Logger a = LogManager.getLogger();
@@ -155,16 +157,26 @@ public class JsonList<K, V extends JsonListEntry<K>> {
 	}
 
 	public void save() throws IOException {
-		Collection collection = this.d.values();
-		String s = this.b.toJson(collection);
-		BufferedWriter bufferedwriter = null;
+		Runnable runnable = () -> { // Akarin - Save json list async
+			Collection collection = this.d.values();
+			String s = this.b.toJson(collection);
+			BufferedWriter bufferedwriter = null;
 
-		try {
-			bufferedwriter = Files.newWriter(this.c, Charsets.UTF_8);
-			bufferedwriter.write(s);
-		} finally {
-			IOUtils.closeQuietly(bufferedwriter);
-		}
+			try {
+				bufferedwriter = Files.newWriter(this.c, Charsets.UTF_8);
+				try {
+					bufferedwriter.write(s);
+				} catch (IOException e) {
+					System.out.println("Failed to save " + this.c); // Akarin - Save json list async
+				}
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} finally {
+				IOUtils.closeQuietly(bufferedwriter);
+			}
+
+		}; // Akarin - Save json list async
+		AsyncUtil.run(runnable);
 
 	}
 
