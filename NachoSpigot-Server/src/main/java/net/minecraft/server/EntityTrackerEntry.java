@@ -86,7 +86,45 @@ public class EntityTrackerEntry {
 	private int addRemoveCooldown;
 	private boolean withinNoTrack = false;
 
+	// Method is used internally (Incompatible with NMS plugins)
 	public EntityTrackerEntry(EntityTracker entityTracker, Entity entity, int b, int c, boolean flag) {
+		this.entityTracker = entityTracker;
+		this.tracker = entity;
+		this.b = b;
+		this.c = c;
+		this.u = flag;
+		this.xLoc = MathHelper.floor(entity.locX * 32.0D);
+		this.yLoc = MathHelper.floor(entity.locY * 32.0D);
+		this.zLoc = MathHelper.floor(entity.locZ * 32.0D);
+		this.yRot = MathHelper.d(entity.yaw * 256.0F / 360.0F);
+		this.xRot = MathHelper.d(entity.pitch * 256.0F / 360.0F);
+		this.lastHeadYaw = MathHelper.d(entity.getHeadRotation() * 256.0F / 360.0F);
+		this.lastOnGround = entity.onGround;
+
+		if (NachoConfig.disableTracking) {
+			this.addRemoveRate = 100;
+		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
+			this.addRemoveRate = 5; // projectile things
+		} else if (this.tracker instanceof EntityPlayer) {
+			this.addRemoveRate = 5; // players
+		} else {
+			this.addRemoveRate = 10; // default
+		}
+		this.addRemoveCooldown = this.tracker.getId() % addRemoveRate;
+	}
+	
+	
+	// Method used by plugins via NMS
+	// WindSpigot - readd removed method used by Citizens
+	public EntityTrackerEntry(Entity entity, int b, int c, boolean flag) {
+		
+		// WindSpigot Start - get the entity's tracker from it's world
+		WorldServer worldServer = (WorldServer) entity.getWorld();
+		EntityTracker entityTracker = worldServer.getTracker();
+		// WindSpigot End
+		
+		// Code from above constructor 
+		
 		this.entityTracker = entityTracker;
 		this.tracker = entity;
 		this.b = b;
