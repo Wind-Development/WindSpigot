@@ -78,7 +78,6 @@ public class NachoConfig {
 		set("world-settings.default.explosions.explode-protected-regions", nachoJson.explosionProtectedRegions);
 		set("settings.event.fire-entity-explode-event", nachoJson.fireEntityExplodeEvent);
 		set("world-settings.default.explosions.reduced-density-rays", nachoJson.reducedDensityRays);
-		set("settings.player-time-statistics-interval", nachoJson.playerTimeStatisticsInterval);
 		set("settings.brand-name", nachoJson.serverBrandName);
 		set("settings.stop-decoding-itemstack-on-place", nachoJson.stopDecodingItemStackOnPlace);
 		set("settings.anti-crash", nachoJson.enableAntiCrash);
@@ -242,14 +241,6 @@ public class NachoConfig {
 		c.addComment("settings.event.fire-player-move-event", "Toggles the player move event");
 		leavesDecayEvent = getBoolean("settings.event.fire-leaf-decay-event", true);
 		c.addComment("settings.event.fire-leaf-decay-event", "Toggles the leaf decay event");
-	}
-
-	public static int playerTimeStatisticsInterval;
-
-	private static void playerTimeStatisticsInterval() {
-		playerTimeStatisticsInterval = getInt("settings.player-time-statistics-interval", 20);
-		c.addComment("settings.player-time-statistics-interval",
-				"Changes when statistics are ticked (e.g. 20 would be every 20th tick)");
 	}
 
 	public static String serverBrandName;
