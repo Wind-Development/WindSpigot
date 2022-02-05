@@ -12,33 +12,40 @@ import net.minecraft.server.PacketPlayOutSetSlot;
 import net.minecraft.server.PlayerInventory;
 
 public class CraftInventoryPlayer extends CraftInventory
-		implements org.bukkit.inventory.PlayerInventory, EntityEquipment {
-	public CraftInventoryPlayer(net.minecraft.server.PlayerInventory inventory) {
+		implements org.bukkit.inventory.PlayerInventory, EntityEquipment
+{
+	public CraftInventoryPlayer(net.minecraft.server.PlayerInventory inventory)
+	{
 		super(inventory);
 	}
 
 	@Override
-	public PlayerInventory getInventory() {
+	public PlayerInventory getInventory()
+	{
 		return (PlayerInventory) inventory;
 	}
 
 	@Override
-	public int getSize() {
+	public int getSize()
+	{
 		return super.getSize() - 4;
 	}
 
 	@Override
-	public ItemStack getItemInHand() {
+	public ItemStack getItemInHand()
+	{
 		return CraftItemStack.asCraftMirror(getInventory().getItemInHand());
 	}
 
 	@Override
-	public void setItemInHand(ItemStack stack) {
+	public void setItemInHand(ItemStack stack)
+	{
 		setItem(getHeldItemSlot(), stack);
 	}
 
 	@Override
-	public void setItem(int index, ItemStack item) {
+	public void setItem(int index, ItemStack item)
+	{
 		super.setItem(index, item);
 		if (this.getHolder() == null)
 			return;
@@ -100,92 +107,111 @@ public class CraftInventoryPlayer extends CraftInventory
 	}
 
 	@Override
-	public int getHeldItemSlot() {
+	public int getHeldItemSlot()
+	{
 		return getInventory().itemInHandIndex;
 	}
 
 	@Override
-	public void setHeldItemSlot(int slot) {
+	public void setHeldItemSlot(int slot)
+	{
 		Validate.isTrue(slot >= 0 && slot < PlayerInventory.getHotbarSize(), "Slot is not between 0 and 8 inclusive");
 		this.getInventory().itemInHandIndex = slot;
 		((CraftPlayer) this.getHolder()).getHandle().playerConnection.sendPacket(new PacketPlayOutHeldItemSlot(slot));
 	}
 
 	@Override
-	public ItemStack getHelmet() {
+	public ItemStack getHelmet()
+	{
 		return getItem(getSize() + 3);
 	}
 
 	@Override
-	public ItemStack getChestplate() {
+	public ItemStack getChestplate()
+	{
 		return getItem(getSize() + 2);
 	}
 
 	@Override
-	public ItemStack getLeggings() {
+	public ItemStack getLeggings()
+	{
 		return getItem(getSize() + 1);
 	}
 
 	@Override
-	public ItemStack getBoots() {
+	public ItemStack getBoots()
+	{
 		return getItem(getSize() + 0);
 	}
 
 	@Override
-	public void setHelmet(ItemStack helmet) {
+	public void setHelmet(ItemStack helmet)
+	{
 		setItem(getSize() + 3, helmet);
 	}
 
 	@Override
-	public void setChestplate(ItemStack chestplate) {
+	public void setChestplate(ItemStack chestplate)
+	{
 		setItem(getSize() + 2, chestplate);
 	}
 
 	@Override
-	public void setLeggings(ItemStack leggings) {
+	public void setLeggings(ItemStack leggings)
+	{
 		setItem(getSize() + 1, leggings);
 	}
 
 	@Override
-	public void setBoots(ItemStack boots) {
+	public void setBoots(ItemStack boots)
+	{
 		setItem(getSize() + 0, boots);
 	}
 
 	@Override
-	public ItemStack[] getArmorContents() {
+	public ItemStack[] getArmorContents()
+	{
 		net.minecraft.server.ItemStack[] mcItems = getInventory().getArmorContents();
 		ItemStack[] ret = new ItemStack[mcItems.length];
 
-		for (int i = 0; i < mcItems.length; i++) {
+		for (int i = 0; i < mcItems.length; i++)
+		{
 			ret[i] = CraftItemStack.asCraftMirror(mcItems[i]);
 		}
 		return ret;
 	}
 
 	@Override
-	public void setArmorContents(ItemStack[] items) {
+	public void setArmorContents(ItemStack[] items)
+	{
 		int cnt = getSize();
 
-		if (items == null) {
+		if (items == null)
+		{
 			items = new ItemStack[4];
 		}
-		for (ItemStack item : items) {
-			if (item == null || item.getTypeId() == 0) {
+		for (ItemStack item : items)
+		{
+			if (item == null || item.getTypeId() == 0)
+			{
 				clear(cnt++);
-			} else {
+			} else
+			{
 				setItem(cnt++, item);
 			}
 		}
 	}
 
 	@Override
-	public int clear(int id, int data) {
+	public int clear(int id, int data)
+	{
 		int count = 0;
 		ItemStack[] items = getContents();
 		ItemStack[] armor = getArmorContents();
 		int armorSlot = getSize();
 
-		for (int i = 0; i < items.length; i++) {
+		for (int i = 0; i < items.length; i++)
+		{
 			ItemStack item = items[i];
 			if (item == null)
 				continue;
@@ -198,7 +224,8 @@ public class CraftInventoryPlayer extends CraftInventory
 			setItem(i, null);
 		}
 
-		for (ItemStack item : armor) {
+		for (ItemStack item : armor)
+		{
 			if (item == null)
 				continue;
 			if (id > -1 && item.getTypeId() != id)
@@ -213,57 +240,68 @@ public class CraftInventoryPlayer extends CraftInventory
 	}
 
 	@Override
-	public HumanEntity getHolder() {
+	public HumanEntity getHolder()
+	{
 		return (HumanEntity) inventory.getOwner();
 	}
 
 	@Override
-	public float getItemInHandDropChance() {
+	public float getItemInHandDropChance()
+	{
 		return 1;
 	}
 
 	@Override
-	public void setItemInHandDropChance(float chance) {
+	public void setItemInHandDropChance(float chance)
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public float getHelmetDropChance() {
+	public float getHelmetDropChance()
+	{
 		return 1;
 	}
 
 	@Override
-	public void setHelmetDropChance(float chance) {
+	public void setHelmetDropChance(float chance)
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public float getChestplateDropChance() {
+	public float getChestplateDropChance()
+	{
 		return 1;
 	}
 
 	@Override
-	public void setChestplateDropChance(float chance) {
+	public void setChestplateDropChance(float chance)
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public float getLeggingsDropChance() {
+	public float getLeggingsDropChance()
+	{
 		return 1;
 	}
 
 	@Override
-	public void setLeggingsDropChance(float chance) {
+	public void setLeggingsDropChance(float chance)
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public float getBootsDropChance() {
+	public float getBootsDropChance()
+	{
 		return 1;
 	}
 
 	@Override
-	public void setBootsDropChance(float chance) {
+	public void setBootsDropChance(float chance)
+	{
 		throw new UnsupportedOperationException();
 	}
 }

@@ -6,52 +6,63 @@ import java.util.LinkedList;
 
 import com.google.common.collect.Lists;
 
-public class BlockSponge extends Block {
+public class BlockSponge extends Block
+{
 
 	public static final BlockStateBoolean WET = BlockStateBoolean.of("wet");
 
-	protected BlockSponge() {
+	protected BlockSponge()
+	{
 		super(Material.SPONGE);
 		this.j(this.blockStateList.getBlockData().set(BlockSponge.WET, false));
 		this.a(CreativeModeTab.b);
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return LocaleI18n.get(this.a() + ".dry.name");
 	}
 
 	@Override
-	public int getDropData(IBlockData iblockdata) {
+	public int getDropData(IBlockData iblockdata)
+	{
 		return iblockdata.get(BlockSponge.WET) ? 1 : 0;
 	}
 
 	@Override
-	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		if (!world.nachoSpigotConfig.disableSpongeAbsorption) {
+	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
+		if (!world.nachoSpigotConfig.disableSpongeAbsorption)
+		{
 			this.e(world, blockposition, iblockdata);
 		}
 	}
 
 	@Override
-	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
-		if (!world.nachoSpigotConfig.disableSpongeAbsorption) {
+	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block)
+	{
+		if (!world.nachoSpigotConfig.disableSpongeAbsorption)
+		{
 			this.e(world, blockposition, iblockdata);
 			super.doPhysics(world, blockposition, iblockdata, block);
 		}
 
 	}
 
-	protected void e(World world, BlockPosition blockposition, IBlockData iblockdata) {
+	protected void e(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
 		if (!world.nachoSpigotConfig.disableSpongeAbsorption && !(Boolean) iblockdata.get(BlockSponge.WET)
-				&& this.e(world, blockposition)) {
+				&& this.e(world, blockposition))
+		{
 			world.setTypeAndData(blockposition, iblockdata.set(BlockSponge.WET, true), 2);
 			world.triggerEffect(2001, blockposition, Block.getId(Blocks.WATER));
 		}
 
 	}
 
-	private boolean e(World world, BlockPosition blockposition) {
+	private boolean e(World world, BlockPosition blockposition)
+	{
 		LinkedList linkedlist = Lists.newLinkedList();
 		ArrayList arraylist = Lists.newArrayList();
 
@@ -60,7 +71,8 @@ public class BlockSponge extends Block {
 
 		BlockPosition blockposition1;
 
-		while (!linkedlist.isEmpty()) {
+		while (!linkedlist.isEmpty())
+		{
 			Tuple tuple = (Tuple) linkedlist.poll();
 
 			blockposition1 = (BlockPosition) tuple.a();
@@ -68,28 +80,33 @@ public class BlockSponge extends Block {
 			EnumDirection[] aenumdirection = EnumDirection.values();
 			int k = aenumdirection.length;
 
-			for (int l = 0; l < k; ++l) {
+			for (int l = 0; l < k; ++l)
+			{
 				EnumDirection enumdirection = aenumdirection[l];
 				BlockPosition blockposition2 = blockposition1.shift(enumdirection);
 
-				if (world.getType(blockposition2).getBlock().getMaterial() == Material.WATER) {
+				if (world.getType(blockposition2).getBlock().getMaterial() == Material.WATER)
+				{
 					world.setTypeAndData(blockposition2, Blocks.AIR.getBlockData(), 2);
 					arraylist.add(blockposition2);
 					++i;
-					if (j < 6) {
+					if (j < 6)
+					{
 						linkedlist.add(new Tuple(blockposition2, Integer.valueOf(j + 1)));
 					}
 				}
 			}
 
-			if (i > 64) {
+			if (i > 64)
+			{
 				break;
 			}
 		}
 
 		Iterator iterator = arraylist.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			blockposition1 = (BlockPosition) iterator.next();
 			world.applyPhysics(blockposition1, Blocks.AIR);
 		}
@@ -98,17 +115,20 @@ public class BlockSponge extends Block {
 	}
 
 	@Override
-	public IBlockData fromLegacyData(int i) {
+	public IBlockData fromLegacyData(int i)
+	{
 		return this.getBlockData().set(BlockSponge.WET, Boolean.valueOf((i & 1) == 1));
 	}
 
 	@Override
-	public int toLegacyData(IBlockData iblockdata) {
+	public int toLegacyData(IBlockData iblockdata)
+	{
 		return iblockdata.get(BlockSponge.WET).booleanValue() ? 1 : 0;
 	}
 
 	@Override
-	protected BlockStateList getStateList() {
+	protected BlockStateList getStateList()
+	{
 		return new BlockStateList(this, BlockSponge.WET);
 	}
 }

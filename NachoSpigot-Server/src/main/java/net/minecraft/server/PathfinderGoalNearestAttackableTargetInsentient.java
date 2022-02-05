@@ -8,7 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Predicate;
 
-public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderGoal {
+public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderGoal
+{
 
 	private static final Logger a = LogManager.getLogger();
 	private EntityInsentient b;
@@ -18,19 +19,24 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
 	private Class<? extends EntityLiving> f;
 
 	public PathfinderGoalNearestAttackableTargetInsentient(EntityInsentient entityinsentient,
-			Class<? extends EntityLiving> oclass) {
+			Class<? extends EntityLiving> oclass)
+	{
 		this.b = entityinsentient;
 		this.f = oclass;
-		if (entityinsentient instanceof EntityCreature) {
+		if (entityinsentient instanceof EntityCreature)
+		{
 			PathfinderGoalNearestAttackableTargetInsentient.a
 					.warn("Use NearestAttackableTargetGoal.class for PathfinerMob mobs!");
 		}
 
-		this.c = new Predicate() {
-			public boolean a(EntityLiving entityliving) {
+		this.c = new Predicate()
+		{
+			public boolean a(EntityLiving entityliving)
+			{
 				double d0 = PathfinderGoalNearestAttackableTargetInsentient.this.f();
 
-				if (entityliving.isSneaking()) {
+				if (entityliving.isSneaking())
+				{
 					d0 *= 0.800000011920929D;
 				}
 
@@ -41,7 +47,8 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
 			}
 
 			@Override
-			public boolean apply(Object object) {
+			public boolean apply(Object object)
+			{
 				return this.a((EntityLiving) object);
 			}
 		};
@@ -49,28 +56,35 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
 	}
 
 	@Override
-	public boolean a() {
+	public boolean a()
+	{
 		double d0 = this.f();
 		List list = this.b.world.a(this.f, this.b.getBoundingBox().grow(d0, 4.0D, d0), this.c);
 
 		Collections.sort(list, this.d);
-		if (list.isEmpty()) {
+		if (list.isEmpty())
+		{
 			return false;
-		} else {
+		} else
+		{
 			this.e = (EntityLiving) list.get(0);
 			return true;
 		}
 	}
 
 	@Override
-	public boolean b() {
+	public boolean b()
+	{
 		EntityLiving entityliving = this.b.getGoalTarget();
 
-		if (entityliving == null) {
+		if (entityliving == null)
+		{
 			return false;
-		} else if (!entityliving.isAlive()) {
+		} else if (!entityliving.isAlive())
+		{
 			return false;
-		} else {
+		} else
+		{
 			double d0 = this.f();
 
 			return this.b.h(entityliving) > d0 * d0 ? false
@@ -80,7 +94,8 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
 	}
 
 	@Override
-	public void c() {
+	public void c()
+	{
 		this.b.setGoalTarget(this.e, org.bukkit.event.entity.EntityTargetEvent.TargetReason.CLOSEST_ENTITY, true); // CraftBukkit
 																													// -
 																													// reason
@@ -88,12 +103,14 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
 	}
 
 	@Override
-	public void d() {
+	public void d()
+	{
 		this.b.setGoalTarget((EntityLiving) null);
 		super.c();
 	}
 
-	protected double f() {
+	protected double f()
+	{
 		AttributeInstance attributeinstance = this.b.getAttributeInstance(GenericAttributes.FOLLOW_RANGE);
 
 		return attributeinstance == null ? 16.0D : attributeinstance.getValue();

@@ -3,7 +3,8 @@ package net.minecraft.server;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class NavigationAbstract {
+public abstract class NavigationAbstract
+{
 
 	protected EntityInsentient b;
 	protected World c;
@@ -16,7 +17,8 @@ public abstract class NavigationAbstract {
 	private float i = 1.0F;
 	private final Pathfinder j;
 
-	public NavigationAbstract(EntityInsentient entityinsentient, World world) {
+	public NavigationAbstract(EntityInsentient entityinsentient, World world)
+	{
 		this.b = entityinsentient;
 		this.c = world;
 		this.a = entityinsentient.getAttributeInstance(GenericAttributes.FOLLOW_RANGE);
@@ -25,22 +27,28 @@ public abstract class NavigationAbstract {
 
 	protected abstract Pathfinder a();
 
-	public void a(double d0) {
+	public void a(double d0)
+	{
 		this.e = d0;
 	}
 
-	public float i() {
+	public float i()
+	{
 		return (float) this.a.getValue();
 	}
 
-	public final PathEntity a(double d0, double d1, double d2) {
+	public final PathEntity a(double d0, double d1, double d2)
+	{
 		return this.a(new BlockPosition(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2)));
 	}
 
-	public PathEntity a(BlockPosition blockposition) {
-		if (!this.b()) {
+	public PathEntity a(BlockPosition blockposition)
+	{
+		if (!this.b())
+		{
 			return null;
-		} else {
+		} else
+		{
 			float f = this.i();
 
 			this.c.methodProfiler.a("pathfind");
@@ -54,21 +62,25 @@ public abstract class NavigationAbstract {
 		}
 	}
 
-	public boolean a(double d0, double d1, double d2, double d3) {
-		PathEntity pathentity = this.a(MathHelper.floor(d0), ((int) d1),
-				MathHelper.floor(d2));
+	public boolean a(double d0, double d1, double d2, double d3)
+	{
+		PathEntity pathentity = this.a(MathHelper.floor(d0), ((int) d1), MathHelper.floor(d2));
 
 		return this.a(pathentity, d3);
 	}
 
-	public void a(float f) {
+	public void a(float f)
+	{
 		this.i = f;
 	}
 
-	public PathEntity a(Entity entity) {
-		if (!this.b()) {
+	public PathEntity a(Entity entity)
+	{
+		if (!this.b())
+		{
 			return null;
-		} else {
+		} else
+		{
 			float f = this.i();
 
 			this.c.methodProfiler.a("pathfind");
@@ -82,18 +94,22 @@ public abstract class NavigationAbstract {
 		}
 	}
 
-	public boolean a(Entity entity, double d0) {
+	public boolean a(Entity entity, double d0)
+	{
 		// PaperSpigot start - Pathfinding optimizations
-		if (this.pathfindFailures > 10 && this.d == null && MinecraftServer.currentTick < this.lastFailure + 40) {
+		if (this.pathfindFailures > 10 && this.d == null && MinecraftServer.currentTick < this.lastFailure + 40)
+		{
 			return false;
 		}
 		PathEntity pathentity = this.a(entity);
 
-		if (pathentity != null && this.a(pathentity, d0)) {
+		if (pathentity != null && this.a(pathentity, d0))
+		{
 			this.lastFailure = 0;
 			this.pathfindFailures = 0;
 			return true;
-		} else {
+		} else
+		{
 			this.pathfindFailures++;
 			this.lastFailure = MinecraftServer.currentTick;
 			return false;
@@ -104,19 +120,25 @@ public abstract class NavigationAbstract {
 	private int pathfindFailures = 0;
 	// PaperSpigot end
 
-	public boolean a(PathEntity pathentity, double d0) {
-		if (pathentity == null) {
+	public boolean a(PathEntity pathentity, double d0)
+	{
+		if (pathentity == null)
+		{
 			this.d = null;
 			return false;
-		} else {
-			if (!pathentity.a(this.d)) {
+		} else
+		{
+			if (!pathentity.a(this.d))
+			{
 				this.d = pathentity;
 			}
 
 			this.d();
-			if (this.d.d() == 0) {
+			if (this.d.d() == 0)
+			{
 				return false;
-			} else {
+			} else
+			{
 				this.e = d0;
 				Vec3D vec3d = this.c();
 
@@ -127,30 +149,38 @@ public abstract class NavigationAbstract {
 		}
 	}
 
-	public PathEntity j() {
+	public PathEntity j()
+	{
 		return this.d;
 	}
 
-	public void k() {
+	public void k()
+	{
 		++this.f;
-		if (!this.m()) {
+		if (!this.m())
+		{
 			Vec3D vec3d;
 
-			if (this.b()) {
+			if (this.b())
+			{
 				this.l();
-			} else if (this.d != null && this.d.e() < this.d.d()) {
+			} else if (this.d != null && this.d.e() < this.d.d())
+			{
 				vec3d = this.c();
 				Vec3D vec3d1 = this.d.a(this.b, this.d.e());
 
 				if (vec3d.b > vec3d1.b && !this.b.onGround && MathHelper.floor(vec3d.a) == MathHelper.floor(vec3d1.a)
-						&& MathHelper.floor(vec3d.c) == MathHelper.floor(vec3d1.c)) {
+						&& MathHelper.floor(vec3d.c) == MathHelper.floor(vec3d1.c))
+				{
 					this.d.c(this.d.e() + 1);
 				}
 			}
 
-			if (!this.m()) {
+			if (!this.m())
+			{
 				vec3d = this.d.a(this.b);
-				if (vec3d != null) {
+				if (vec3d != null)
+				{
 					AxisAlignedBB axisalignedbb = (new AxisAlignedBB(vec3d.a, vec3d.b, vec3d.c, vec3d.a, vec3d.b,
 							vec3d.c)).grow(0.5D, 0.5D, 0.5D);
 					List list = this.c.getCubes(this.b, axisalignedbb.a(0.0D, -1.0D, 0.0D));
@@ -161,7 +191,8 @@ public abstract class NavigationAbstract {
 					AxisAlignedBB axisalignedbb1;
 
 					for (Iterator iterator = list.iterator(); iterator
-							.hasNext(); d0 = axisalignedbb1.b(axisalignedbb, d0)) {
+							.hasNext(); d0 = axisalignedbb1.b(axisalignedbb, d0))
+					{
 						axisalignedbb1 = (AxisAlignedBB) iterator.next();
 					}
 
@@ -171,12 +202,15 @@ public abstract class NavigationAbstract {
 		}
 	}
 
-	protected void l() {
+	protected void l()
+	{
 		Vec3D vec3d = this.c();
 		int i = this.d.d();
 
-		for (int j = this.d.e(); j < this.d.d(); ++j) {
-			if (this.d.a(j).b != (int) vec3d.b) {
+		for (int j = this.d.e(); j < this.d.d(); ++j)
+		{
+			if (this.d.a(j).b != (int) vec3d.b)
+			{
 				i = j;
 				break;
 			}
@@ -186,10 +220,12 @@ public abstract class NavigationAbstract {
 
 		int k;
 
-		for (k = this.d.e(); k < i; ++k) {
+		for (k = this.d.e(); k < i; ++k)
+		{
 			Vec3D vec3d1 = this.d.a(this.b, k);
 
-			if (vec3d.distanceSquared(vec3d1) < f) {
+			if (vec3d.distanceSquared(vec3d1) < f)
+			{
 				this.d.c(k + 1);
 			}
 		}
@@ -198,8 +234,10 @@ public abstract class NavigationAbstract {
 		int l = (int) this.b.length + 1;
 		int i1 = k;
 
-		for (int j1 = i - 1; j1 >= this.d.e(); --j1) {
-			if (this.a(vec3d, this.d.a(this.b, j1), k, l, i1)) {
+		for (int j1 = i - 1; j1 >= this.d.e(); --j1)
+		{
+			if (this.a(vec3d, this.d.a(this.b, j1), k, l, i1))
+			{
 				this.d.c(j1);
 				break;
 			}
@@ -208,9 +246,12 @@ public abstract class NavigationAbstract {
 		this.a(vec3d);
 	}
 
-	protected void a(Vec3D vec3d) {
-		if (this.f - this.g > 100) {
-			if (vec3d.distanceSquared(this.h) < 2.25D) {
+	protected void a(Vec3D vec3d)
+	{
+		if (this.f - this.g > 100)
+		{
+			if (vec3d.distanceSquared(this.h) < 2.25D)
+			{
 				this.n();
 			}
 
@@ -220,11 +261,13 @@ public abstract class NavigationAbstract {
 
 	}
 
-	public boolean m() {
+	public boolean m()
+	{
 		return this.d == null || this.d.b();
 	}
 
-	public void n() {
+	public void n()
+	{
 		this.pathfindFailures = 0;
 		this.lastFailure = 0; // PaperSpigot - Pathfinding optimizations
 		this.d = null;
@@ -234,11 +277,13 @@ public abstract class NavigationAbstract {
 
 	protected abstract boolean b();
 
-	protected boolean o() {
+	protected boolean o()
+	{
 		return this.b.V() || this.b.ab();
 	}
 
-	protected void d() {
+	protected void d()
+	{
 	}
 
 	protected abstract boolean a(Vec3D vec3d, Vec3D vec3d1, int i, int j, int k);

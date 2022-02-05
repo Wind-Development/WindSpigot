@@ -2,22 +2,27 @@ package net.minecraft.server;
 
 import org.bukkit.event.player.PlayerFishEvent; // CraftBukkit
 
-public class ItemFishingRod extends Item {
+public class ItemFishingRod extends Item
+{
 
-	public ItemFishingRod() {
+	public ItemFishingRod()
+	{
 		this.setMaxDurability(64);
 		this.c(1);
 		this.a(CreativeModeTab.i);
 	}
 
 	@Override
-	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman) {
-		if (entityhuman.hookedFish != null) {
+	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman)
+	{
+		if (entityhuman.hookedFish != null)
+		{
 			int i = entityhuman.hookedFish.l();
 
 			itemstack.damage(i, entityhuman);
 			entityhuman.bw();
-		} else {
+		} else
+		{
 			// CraftBukkit start
 			EntityFishingHook hook = new EntityFishingHook(world, entityhuman);
 			PlayerFishEvent playerFishEvent = new PlayerFishEvent(
@@ -25,13 +30,15 @@ public class ItemFishingRod extends Item {
 					(org.bukkit.entity.Fish) hook.getBukkitEntity(), PlayerFishEvent.State.FISHING);
 			world.getServer().getPluginManager().callEvent(playerFishEvent);
 
-			if (playerFishEvent.isCancelled()) {
+			if (playerFishEvent.isCancelled())
+			{
 				entityhuman.hookedFish = null;
 				return itemstack;
 			}
 			// CraftBukkit end
 			world.makeSound(entityhuman, "random.bow", 0.5F, 0.4F / (Item.g.nextFloat() * 0.4F + 0.8F));
-			if (!world.isClientSide) {
+			if (!world.isClientSide)
+			{
 				world.addEntity(hook); // CraftBukkit - moved creation up
 			}
 
@@ -43,12 +50,14 @@ public class ItemFishingRod extends Item {
 	}
 
 	@Override
-	public boolean f_(ItemStack itemstack) {
+	public boolean f_(ItemStack itemstack)
+	{
 		return super.f_(itemstack);
 	}
 
 	@Override
-	public int b() {
+	public int b()
+	{
 		return 1;
 	}
 }

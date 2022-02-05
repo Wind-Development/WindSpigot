@@ -11,7 +11,8 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.server.GameProfileBanEntry;
 import net.minecraft.server.GameProfileBanList;
 
-public final class CraftProfileBanEntry implements org.bukkit.BanEntry {
+public final class CraftProfileBanEntry implements org.bukkit.BanEntry
+{
 	private final GameProfileBanList list;
 	private final GameProfile profile;
 	private Date created;
@@ -19,7 +20,8 @@ public final class CraftProfileBanEntry implements org.bukkit.BanEntry {
 	private Date expiration;
 	private String reason;
 
-	public CraftProfileBanEntry(GameProfile profile, GameProfileBanEntry entry, GameProfileBanList list) {
+	public CraftProfileBanEntry(GameProfile profile, GameProfileBanEntry entry, GameProfileBanList list)
+	{
 		this.list = list;
 		this.profile = profile;
 		this.created = entry.getCreated() != null ? new Date(entry.getCreated().getTime()) : null;
@@ -29,38 +31,46 @@ public final class CraftProfileBanEntry implements org.bukkit.BanEntry {
 	}
 
 	@Override
-	public String getTarget() {
+	public String getTarget()
+	{
 		return this.profile.getName();
 	}
 
 	@Override
-	public Date getCreated() {
+	public Date getCreated()
+	{
 		return this.created == null ? null : (Date) this.created.clone();
 	}
 
 	@Override
-	public void setCreated(Date created) {
+	public void setCreated(Date created)
+	{
 		this.created = created;
 	}
 
 	@Override
-	public String getSource() {
+	public String getSource()
+	{
 		return this.source;
 	}
 
 	@Override
-	public void setSource(String source) {
+	public void setSource(String source)
+	{
 		this.source = source;
 	}
 
 	@Override
-	public Date getExpiration() {
+	public Date getExpiration()
+	{
 		return this.expiration == null ? null : (Date) this.expiration.clone();
 	}
 
 	@Override
-	public void setExpiration(Date expiration) {
-		if (expiration != null && expiration.getTime() == new Date(0, 0, 0, 0, 0, 0).getTime()) {
+	public void setExpiration(Date expiration)
+	{
+		if (expiration != null && expiration.getTime() == new Date(0, 0, 0, 0, 0, 0).getTime())
+		{
 			expiration = null; // Forces "forever"
 		}
 
@@ -68,23 +78,28 @@ public final class CraftProfileBanEntry implements org.bukkit.BanEntry {
 	}
 
 	@Override
-	public String getReason() {
+	public String getReason()
+	{
 		return this.reason;
 	}
 
 	@Override
-	public void setReason(String reason) {
+	public void setReason(String reason)
+	{
 		this.reason = reason;
 	}
 
 	@Override
-	public void save() {
+	public void save()
+	{
 		GameProfileBanEntry entry = new GameProfileBanEntry(profile, this.created, this.source, this.expiration,
 				this.reason);
 		this.list.add(entry);
-		try {
+		try
+		{
 			this.list.save();
-		} catch (IOException ex) {
+		} catch (IOException ex)
+		{
 			Bukkit.getLogger().log(Level.SEVERE, "Failed to save banned-players.json, {0}", ex.getMessage());
 		}
 	}

@@ -12,19 +12,23 @@ import com.mojang.authlib.properties.Property;
 import net.minecraft.server.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.WorldSettings.EnumGamemode;
 
-public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
+public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut>
+{
 	private PacketPlayOutPlayerInfo.EnumPlayerInfoAction a;
 	private final List<PacketPlayOutPlayerInfo.PlayerInfoData> b = Lists.newArrayList();
 
-	public PacketPlayOutPlayerInfo() {
+	public PacketPlayOutPlayerInfo()
+	{
 	}
 
-	public PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction var1, EntityPlayer... var2) {
+	public PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction var1, EntityPlayer... var2)
+	{
 		this.a = var1;
 		EntityPlayer[] var3 = var2;
 		int var4 = var2.length;
 
-		for (int var5 = 0; var5 < var4; ++var5) {
+		for (int var5 = 0; var5 < var4; ++var5)
+		{
 			EntityPlayer var6 = var3[var5];
 			this.b.add(new PacketPlayOutPlayerInfo.PlayerInfoData(var6.getProfile(), var6.ping,
 					var6.playerInteractManager.getGameMode(), var6.getPlayerListName()));
@@ -32,11 +36,13 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 
 	}
 
-	public PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction var1, Iterable<EntityPlayer> var2) {
+	public PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction var1, Iterable<EntityPlayer> var2)
+	{
 		this.a = var1;
 		Iterator var3 = var2.iterator();
 
-		while (var3.hasNext()) {
+		while (var3.hasNext())
+		{
 			EntityPlayer var4 = (EntityPlayer) var3.next();
 			this.b.add(new PacketPlayOutPlayerInfo.PlayerInfoData(var4.getProfile(), var4.ping,
 					var4.playerInteractManager.getGameMode(), var4.getPlayerListName()));
@@ -44,48 +50,57 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 
 	}
 
-	public PacketPlayOutPlayerInfo.EnumPlayerInfoAction getPlayerInfoAction() {
+	public PacketPlayOutPlayerInfo.EnumPlayerInfoAction getPlayerInfoAction()
+	{
 		return this.a;
 	}
 
-	public void setPlayerInfoAction(PacketPlayOutPlayerInfo.EnumPlayerInfoAction action) {
+	public void setPlayerInfoAction(PacketPlayOutPlayerInfo.EnumPlayerInfoAction action)
+	{
 		this.a = action;
 	}
 
-	public List<PlayerInfoData> getPlayersInfo() {
+	public List<PlayerInfoData> getPlayersInfo()
+	{
 		return b;
 	}
 
 	@Override
-	public void a(PacketDataSerializer var1) throws IOException {
-		this.a = var1
-				.a(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.class);
+	public void a(PacketDataSerializer var1) throws IOException
+	{
+		this.a = var1.a(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.class);
 		int var2 = var1.readVarInt();
 
-		for (int var3 = 0; var3 < var2; ++var3) {
+		for (int var3 = 0; var3 < var2; ++var3)
+		{
 			GameProfile var4 = null;
 			int var5 = 0;
 			EnumGamemode var6 = null;
 			IChatBaseComponent var7 = null;
-			switch (this.a) {
+			switch (this.a)
+			{
 			case ADD_PLAYER:
 				var4 = new GameProfile(var1.g(), var1.c(16));
 				int var8 = var1.readVarInt();
 				int var9 = 0;
 
-				for (; var9 < var8; ++var9) {
+				for (; var9 < var8; ++var9)
+				{
 					String var10 = var1.c(32767);
 					String var11 = var1.c(32767);
-					if (var1.readBoolean()) {
+					if (var1.readBoolean())
+					{
 						var4.getProperties().put(var10, new Property(var10, var11, var1.c(32767)));
-					} else {
+					} else
+					{
 						var4.getProperties().put(var10, new Property(var10, var11));
 					}
 				}
 
 				var6 = EnumGamemode.getById(var1.readVarInt());
 				var5 = var1.readVarInt();
-				if (var1.readBoolean()) {
+				if (var1.readBoolean())
+				{
 					var7 = var1.d();
 				}
 				break;
@@ -99,7 +114,8 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 				break;
 			case UPDATE_DISPLAY_NAME:
 				var4 = new GameProfile(var1.g(), (String) null);
-				if (var1.readBoolean()) {
+				if (var1.readBoolean())
+				{
 					var7 = var1.d();
 				}
 				break;
@@ -113,38 +129,47 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 	}
 
 	@Override
-	public void b(PacketDataSerializer var1) throws IOException {
+	public void b(PacketDataSerializer var1) throws IOException
+	{
 		var1.a(this.a);
 		var1.b(this.b.size());
 		Iterator var2 = this.b.iterator();
 
-		while (true) {
-			while (var2.hasNext()) {
+		while (true)
+		{
+			while (var2.hasNext())
+			{
 				PacketPlayOutPlayerInfo.PlayerInfoData var3 = (PacketPlayOutPlayerInfo.PlayerInfoData) var2.next();
-				switch (this.a) {
+				switch (this.a)
+				{
 				case ADD_PLAYER:
 					var1.a(var3.a().getId());
 					var1.a(var3.a().getName());
 					var1.b(var3.a().getProperties().size());
 					Iterator var4 = var3.a().getProperties().values().iterator();
 
-					while (var4.hasNext()) {
+					while (var4.hasNext())
+					{
 						Property var5 = (Property) var4.next();
 						var1.a(var5.getName());
 						var1.a(var5.getValue());
-						if (var5.hasSignature()) {
+						if (var5.hasSignature())
+						{
 							var1.writeBoolean(true);
 							var1.a(var5.getSignature());
-						} else {
+						} else
+						{
 							var1.writeBoolean(false);
 						}
 					}
 
 					var1.b(var3.c().getId());
 					var1.b(var3.b());
-					if (var3.d() == null) {
+					if (var3.d() == null)
+					{
 						var1.writeBoolean(false);
-					} else {
+					} else
+					{
 						var1.writeBoolean(true);
 						var1.a(var3.d());
 					}
@@ -159,9 +184,11 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 					break;
 				case UPDATE_DISPLAY_NAME:
 					var1.a(var3.a().getId());
-					if (var3.d() == null) {
+					if (var3.d() == null)
+					{
 						var1.writeBoolean(false);
-					} else {
+					} else
+					{
 						var1.writeBoolean(true);
 						var1.a(var3.d());
 					}
@@ -176,55 +203,66 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 	}
 
 	@Override
-	public void a(PacketListenerPlayOut var1) {
+	public void a(PacketListenerPlayOut var1)
+	{
 		var1.a(this);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return Objects.toStringHelper(this).add("action", this.a).add("entries", this.b).toString();
 	}
 
-	public class PlayerInfoData {
+	public class PlayerInfoData
+	{
 		private final int b;
 		private final EnumGamemode c;
 		private final GameProfile d;
 		private final IChatBaseComponent e;
 
-		public PlayerInfoData(GameProfile var2, int var3, EnumGamemode var4, IChatBaseComponent var5) {
+		public PlayerInfoData(GameProfile var2, int var3, EnumGamemode var4, IChatBaseComponent var5)
+		{
 			this.d = var2;
 			this.b = var3;
 			this.c = var4;
 			this.e = var5;
 		}
 
-		public GameProfile a() {
+		public GameProfile a()
+		{
 			return this.d;
 		}
 
-		public int b() {
+		public int b()
+		{
 			return this.b;
 		}
 
-		public EnumGamemode c() {
+		public EnumGamemode c()
+		{
 			return this.c;
 		}
 
-		public IChatBaseComponent d() {
+		public IChatBaseComponent d()
+		{
 			return this.e;
 		}
 
 		@Override
-		public String toString() {
+		public String toString()
+		{
 			return Objects.toStringHelper(this).add("latency", this.b).add("gameMode", this.c).add("profile", this.d)
 					.add("displayName", this.e == null ? null : ChatSerializer.a(this.e)).toString();
 		}
 	}
 
-	public static enum EnumPlayerInfoAction {
+	public static enum EnumPlayerInfoAction
+	{
 		ADD_PLAYER, UPDATE_GAME_MODE, UPDATE_LATENCY, UPDATE_DISPLAY_NAME, REMOVE_PLAYER;
 
-		private EnumPlayerInfoAction() {
+		private EnumPlayerInfoAction()
+		{
 		}
 	}
 }

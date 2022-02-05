@@ -5,7 +5,8 @@ import net.minecraft.server.ChunkRegionLoader;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.World;
 
-class QueuedChunk {
+class QueuedChunk
+{
 	final int x;
 	final int z;
 	final ChunkRegionLoader loader;
@@ -13,7 +14,8 @@ class QueuedChunk {
 	final ChunkProviderServer provider;
 	NBTTagCompound compound;
 
-	public QueuedChunk(int x, int z, ChunkRegionLoader loader, World world, ChunkProviderServer provider) {
+	public QueuedChunk(int x, int z, ChunkRegionLoader loader, World world, ChunkProviderServer provider)
+	{
 		this.x = x;
 		this.z = z;
 		this.loader = loader;
@@ -22,13 +24,16 @@ class QueuedChunk {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return (x * 31 + z * 29) ^ world.hashCode();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (object instanceof QueuedChunk) {
+	public boolean equals(Object object)
+	{
+		if (object instanceof QueuedChunk)
+		{
 			QueuedChunk other = (QueuedChunk) object;
 			return x == other.x && z == other.z && world == other.world;
 		}

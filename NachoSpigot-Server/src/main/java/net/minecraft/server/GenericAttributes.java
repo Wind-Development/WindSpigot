@@ -7,7 +7,8 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class GenericAttributes {
+public class GenericAttributes
+{
 
 	private static final Logger f = LogManager.getLogger();
 	// Spigot start
@@ -23,11 +24,13 @@ public class GenericAttributes {
 			0.0D, org.spigotmc.SpigotConfig.attackDamage);
 	// Spigot end
 
-	public static NBTTagList a(AttributeMapBase attributemapbase) {
+	public static NBTTagList a(AttributeMapBase attributemapbase)
+	{
 		NBTTagList nbttaglist = new NBTTagList();
 		Iterator iterator = attributemapbase.a().iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			AttributeInstance attributeinstance = (AttributeInstance) iterator.next();
 
 			nbttaglist.add(a(attributeinstance));
@@ -36,7 +39,8 @@ public class GenericAttributes {
 		return nbttaglist;
 	}
 
-	private static NBTTagCompound a(AttributeInstance attributeinstance) {
+	private static NBTTagCompound a(AttributeInstance attributeinstance)
+	{
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		IAttribute iattribute = attributeinstance.getAttribute();
 
@@ -44,14 +48,17 @@ public class GenericAttributes {
 		nbttagcompound.setDouble("Base", attributeinstance.b());
 		Collection collection = attributeinstance.c();
 
-		if (collection != null && !collection.isEmpty()) {
+		if (collection != null && !collection.isEmpty())
+		{
 			NBTTagList nbttaglist = new NBTTagList();
 			Iterator iterator = collection.iterator();
 
-			while (iterator.hasNext()) {
+			while (iterator.hasNext())
+			{
 				AttributeModifier attributemodifier = (AttributeModifier) iterator.next();
 
-				if (attributemodifier.e()) {
+				if (attributemodifier.e())
+				{
 					nbttaglist.add(a(attributemodifier));
 				}
 			}
@@ -62,7 +69,8 @@ public class GenericAttributes {
 		return nbttagcompound;
 	}
 
-	private static NBTTagCompound a(AttributeModifier attributemodifier) {
+	private static NBTTagCompound a(AttributeModifier attributemodifier)
+	{
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 
 		nbttagcompound.setString("Name", attributemodifier.b());
@@ -73,32 +81,41 @@ public class GenericAttributes {
 		return nbttagcompound;
 	}
 
-	public static void a(AttributeMapBase attributemapbase, NBTTagList nbttaglist) {
-		for (int i = 0; i < nbttaglist.size(); ++i) {
+	public static void a(AttributeMapBase attributemapbase, NBTTagList nbttaglist)
+	{
+		for (int i = 0; i < nbttaglist.size(); ++i)
+		{
 			NBTTagCompound nbttagcompound = nbttaglist.get(i);
 			AttributeInstance attributeinstance = attributemapbase.a(nbttagcompound.getString("Name"));
 
-			if (attributeinstance != null) {
+			if (attributeinstance != null)
+			{
 				a(attributeinstance, nbttagcompound);
-			} else {
+			} else
+			{
 				GenericAttributes.f.warn("Ignoring unknown attribute \'" + nbttagcompound.getString("Name") + "\'");
 			}
 		}
 
 	}
 
-	private static void a(AttributeInstance attributeinstance, NBTTagCompound nbttagcompound) {
+	private static void a(AttributeInstance attributeinstance, NBTTagCompound nbttagcompound)
+	{
 		attributeinstance.setValue(nbttagcompound.getDouble("Base"));
-		if (nbttagcompound.hasKeyOfType("Modifiers", 9)) {
+		if (nbttagcompound.hasKeyOfType("Modifiers", 9))
+		{
 			NBTTagList nbttaglist = nbttagcompound.getList("Modifiers", 10);
 
-			for (int i = 0; i < nbttaglist.size(); ++i) {
+			for (int i = 0; i < nbttaglist.size(); ++i)
+			{
 				AttributeModifier attributemodifier = a(nbttaglist.get(i));
 
-				if (attributemodifier != null) {
+				if (attributemodifier != null)
+				{
 					AttributeModifier attributemodifier1 = attributeinstance.a(attributemodifier.a());
 
-					if (attributemodifier1 != null) {
+					if (attributemodifier1 != null)
+					{
 						attributeinstance.c(attributemodifier1);
 					}
 
@@ -109,13 +126,16 @@ public class GenericAttributes {
 
 	}
 
-	public static AttributeModifier a(NBTTagCompound nbttagcompound) {
+	public static AttributeModifier a(NBTTagCompound nbttagcompound)
+	{
 		UUID uuid = new UUID(nbttagcompound.getLong("UUIDMost"), nbttagcompound.getLong("UUIDLeast"));
 
-		try {
+		try
+		{
 			return new AttributeModifier(uuid, nbttagcompound.getString("Name"), nbttagcompound.getDouble("Amount"),
 					nbttagcompound.getInt("Operation"));
-		} catch (Exception exception) {
+		} catch (Exception exception)
+		{
 			GenericAttributes.f.warn("Unable to create attribute: " + exception.getMessage());
 			return null;
 		}

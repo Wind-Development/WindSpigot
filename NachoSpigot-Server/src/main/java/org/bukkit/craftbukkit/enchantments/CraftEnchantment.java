@@ -6,27 +6,33 @@ import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 
-public class CraftEnchantment extends Enchantment {
+public class CraftEnchantment extends Enchantment
+{
 	private final net.minecraft.server.Enchantment target;
 
-	public CraftEnchantment(net.minecraft.server.Enchantment target) {
+	public CraftEnchantment(net.minecraft.server.Enchantment target)
+	{
 		super(target.id);
 		this.target = target;
 	}
 
 	@Override
-	public int getMaxLevel() {
+	public int getMaxLevel()
+	{
 		return target.getMaxLevel();
 	}
 
 	@Override
-	public int getStartLevel() {
+	public int getStartLevel()
+	{
 		return target.getStartLevel();
 	}
 
 	@Override
-	public EnchantmentTarget getItemTarget() {
-		switch (target.slot) {
+	public EnchantmentTarget getItemTarget()
+	{
+		switch (target.slot)
+		{
 		case ALL:
 			return EnchantmentTarget.ALL;
 		case ARMOR:
@@ -53,13 +59,16 @@ public class CraftEnchantment extends Enchantment {
 	}
 
 	@Override
-	public boolean canEnchantItem(ItemStack item) {
+	public boolean canEnchantItem(ItemStack item)
+	{
 		return target.canEnchant(CraftItemStack.asNMSCopy(item));
 	}
 
 	@Override
-	public String getName() {
-		switch (target.id) {
+	public String getName()
+	{
+		switch (target.id)
+		{
 		case 0:
 			return "PROTECTION_ENVIRONMENTAL";
 		case 1:
@@ -115,12 +124,15 @@ public class CraftEnchantment extends Enchantment {
 		}
 	}
 
-	public static net.minecraft.server.Enchantment getRaw(Enchantment enchantment) {
-		if (enchantment instanceof EnchantmentWrapper) {
+	public static net.minecraft.server.Enchantment getRaw(Enchantment enchantment)
+	{
+		if (enchantment instanceof EnchantmentWrapper)
+		{
 			enchantment = ((EnchantmentWrapper) enchantment).getEnchantment();
 		}
 
-		if (enchantment instanceof CraftEnchantment) {
+		if (enchantment instanceof CraftEnchantment)
+		{
 			return ((CraftEnchantment) enchantment).target;
 		}
 
@@ -128,11 +140,14 @@ public class CraftEnchantment extends Enchantment {
 	}
 
 	@Override
-	public boolean conflictsWith(Enchantment other) {
-		if (other instanceof EnchantmentWrapper) {
+	public boolean conflictsWith(Enchantment other)
+	{
+		if (other instanceof EnchantmentWrapper)
+		{
 			other = ((EnchantmentWrapper) other).getEnchantment();
 		}
-		if (!(other instanceof CraftEnchantment)) {
+		if (!(other instanceof CraftEnchantment))
+		{
 			return false;
 		}
 		CraftEnchantment ench = (CraftEnchantment) other;

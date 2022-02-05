@@ -16,7 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
+public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver
+{
 
 	private static final Logger a = LogManager.getLogger();
 	// FlamePaper - Make b and c public
@@ -25,15 +26,19 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 	private final File d;
 	private boolean e = false;
 
-	public ChunkRegionLoader(File file) {
+	public ChunkRegionLoader(File file)
+	{
 		this.d = file;
 	}
 
 	// CraftBukkit start
-	public boolean chunkExists(World world, int i, int j) {
+	public boolean chunkExists(World world, int i, int j)
+	{
 		ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(i, j);
-		if (this.c.contains(chunkcoordintpair)) {
-			if (this.b.containsKey(chunkcoordintpair)) {
+		if (this.c.contains(chunkcoordintpair))
+		{
+			if (this.b.containsKey(chunkcoordintpair))
+			{
 				return true;
 			}
 		}
@@ -45,11 +50,13 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 
 	// CraftBukkit start - Add async variant, provide compatibility
 	@Override
-	public Chunk a(World world, int i, int j) throws IOException {
+	public Chunk a(World world, int i, int j) throws IOException
+	{
 		world.timings.syncChunkLoadDataTimer.startTiming(); // Spigot
 		Object[] data = loadChunk(world, i, j);
 		world.timings.syncChunkLoadDataTimer.stopTiming(); // Spigot
-		if (data != null) {
+		if (data != null)
+		{
 			Chunk chunk = (Chunk) data[0];
 			NBTTagCompound nbttagcompound = (NBTTagCompound) data[1];
 			loadEntities(chunk, nbttagcompound.getCompound("Level"), world);
@@ -59,15 +66,18 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		return null;
 	}
 
-	public Object[] loadChunk(World world, int i, int j) throws IOException {
+	public Object[] loadChunk(World world, int i, int j) throws IOException
+	{
 		// CraftBukkit end
 		ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(i, j);
 		NBTTagCompound nbttagcompound = this.b.get(chunkcoordintpair);
 
-		if (nbttagcompound == null) {
+		if (nbttagcompound == null)
+		{
 			DataInputStream datainputstream = RegionFileCache.c(this.d, i, j);
 
-			if (datainputstream == null) {
+			if (datainputstream == null)
+			{
 				return null;
 			}
 
@@ -77,21 +87,27 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		return this.a(world, i, j, nbttagcompound);
 	}
 
-	protected Object[] a(World world, int i, int j, NBTTagCompound nbttagcompound) { // CraftBukkit - return Chunk ->
-																						// Object[]
-		if (!nbttagcompound.hasKeyOfType("Level", 10)) {
+	protected Object[] a(World world, int i, int j, NBTTagCompound nbttagcompound)
+	{ // CraftBukkit - return Chunk ->
+		// Object[]
+		if (!nbttagcompound.hasKeyOfType("Level", 10))
+		{
 			ChunkRegionLoader.a.error("Chunk file at " + i + "," + j + " is missing level data, skipping");
 			return null;
-		} else {
+		} else
+		{
 			NBTTagCompound nbttagcompound1 = nbttagcompound.getCompound("Level");
 
-			if (!nbttagcompound1.hasKeyOfType("Sections", 9)) {
+			if (!nbttagcompound1.hasKeyOfType("Sections", 9))
+			{
 				ChunkRegionLoader.a.error("Chunk file at " + i + "," + j + " is missing block data, skipping");
 				return null;
-			} else {
+			} else
+			{
 				Chunk chunk = this.a(world, nbttagcompound1);
 
-				if (!chunk.a(i, j)) {
+				if (!chunk.a(i, j))
+				{
 					ChunkRegionLoader.a
 							.error("Chunk file at " + i + "," + j + " is in the wrong location; relocating. (Expected "
 									+ i + ", " + j + ", got " + chunk.locX + ", " + chunk.locZ + ")");
@@ -101,8 +117,10 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 					// CraftBukkit start - Have to move tile entities since we don't load them at
 					// this stage
 					NBTTagList tileEntities = nbttagcompound.getCompound("Level").getList("TileEntities", 10);
-					if (tileEntities != null) {
-						for (int te = 0; te < tileEntities.size(); te++) {
+					if (tileEntities != null)
+					{
+						for (int te = 0; te < tileEntities.size(); te++)
+						{
 							NBTTagCompound tileEntity = tileEntities.get(te);
 							int x = tileEntity.getInt("x") - chunk.locX * 16;
 							int z = tileEntity.getInt("z") - chunk.locZ * 16;
@@ -125,24 +143,29 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 	}
 
 	@Override
-	public void a(World world, Chunk chunk) throws IOException, ExceptionWorldConflict {
+	public void a(World world, Chunk chunk) throws IOException, ExceptionWorldConflict
+	{
 		world.checkSession();
 
-		try {
+		try
+		{
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
 			nbttagcompound.set("Level", nbttagcompound1);
 			this.a(chunk, world, nbttagcompound1);
 			this.a(chunk.j(), nbttagcompound);
-		} catch (Exception exception) {
+		} catch (Exception exception)
+		{
 			ChunkRegionLoader.a.error("Failed to save chunk", exception);
 		}
 
 	}
 
-	protected void a(ChunkCoordIntPair chunkcoordintpair, NBTTagCompound nbttagcompound) {
-		if (!this.c.contains(chunkcoordintpair)) {
+	protected void a(ChunkCoordIntPair chunkcoordintpair, NBTTagCompound nbttagcompound)
+	{
+		if (!this.c.contains(chunkcoordintpair))
+		{
 			this.b.put(chunkcoordintpair, nbttagcompound);
 		}
 
@@ -150,33 +173,42 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 	}
 
 	@Override
-	public boolean c() {
-		if (this.b.isEmpty()) {
-			if (this.e) {
-				ChunkRegionLoader.a.info("ThreadedAnvilChunkStorage ({}): All chunks are saved",
-						new Object[] { this.d.getName() });
+	public boolean c()
+	{
+		if (this.b.isEmpty())
+		{
+			if (this.e)
+			{
+				ChunkRegionLoader.a.info("ThreadedAnvilChunkStorage ({}): All chunks are saved", new Object[]
+				{ this.d.getName() });
 			}
 
 			return false;
-		} else {
+		} else
+		{
 			ChunkCoordIntPair chunkcoordintpair = this.b.keySet().iterator().next();
 
 			boolean flag;
 
-			try {
+			try
+			{
 				this.c.add(chunkcoordintpair);
 				NBTTagCompound nbttagcompound = this.b.remove(chunkcoordintpair);
 
-				if (nbttagcompound != null) {
-					try {
+				if (nbttagcompound != null)
+				{
+					try
+					{
 						this.b(chunkcoordintpair, nbttagcompound);
-					} catch (Exception exception) {
+					} catch (Exception exception)
+					{
 						ChunkRegionLoader.a.error("Failed to save chunk", exception);
 					}
 				}
 
 				flag = true;
-			} finally {
+			} finally
+			{
 				this.c.remove(chunkcoordintpair);
 			}
 
@@ -184,7 +216,8 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		}
 	}
 
-	private void b(ChunkCoordIntPair chunkcoordintpair, NBTTagCompound nbttagcompound) throws IOException {
+	private void b(ChunkCoordIntPair chunkcoordintpair, NBTTagCompound nbttagcompound) throws IOException
+	{
 		DataOutputStream dataoutputstream = RegionFileCache.d(this.d, chunkcoordintpair.x, chunkcoordintpair.z);
 
 		NBTCompressedStreamTools.a(nbttagcompound, (DataOutput) dataoutputstream);
@@ -192,30 +225,38 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 	}
 
 	@Override
-	public void b(World world, Chunk chunk) throws IOException {
+	public void b(World world, Chunk chunk) throws IOException
+	{
 	}
 
 	@Override
-	public void a() {
+	public void a()
+	{
 	}
 
 	@Override
-	public void b() {
-		try {
+	public void b()
+	{
+		try
+		{
 			this.e = true;
 
-			while (true) {
-				if (this.c()) {
+			while (true)
+			{
+				if (this.c())
+				{
 					continue;
 				}
 			}
-		} finally {
+		} finally
+		{
 			this.e = false;
 		}
 
 	}
 
-	private void a(Chunk chunk, World world, NBTTagCompound nbttagcompound) {
+	private void a(Chunk chunk, World world, NBTTagCompound nbttagcompound)
+	{
 		nbttagcompound.setByte("V", (byte) 1);
 		nbttagcompound.setInt("xPos", chunk.locX);
 		nbttagcompound.setInt("zPos", chunk.locZ);
@@ -232,24 +273,29 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 
 		NBTTagCompound nbttagcompound1;
 
-		for (int j = 0; j < i; ++j) {
+		for (int j = 0; j < i; ++j)
+		{
 			ChunkSection chunksection = achunksection1[j];
 
-			if (chunksection != null) {
+			if (chunksection != null)
+			{
 				nbttagcompound1 = new NBTTagCompound();
 				nbttagcompound1.setByte("Y", (byte) (chunksection.getYPosition() >> 4 & 255));
 				byte[] abyte = new byte[chunksection.getIdArray().length];
 				NibbleArray nibblearray = new NibbleArray();
 				NibbleArray nibblearray1 = null;
 
-				for (int k = 0; k < chunksection.getIdArray().length; ++k) {
+				for (int k = 0; k < chunksection.getIdArray().length; ++k)
+				{
 					char c0 = chunksection.getIdArray()[k];
 					int l = k & 15;
 					int i1 = k >> 8 & 15;
 					int j1 = k >> 4 & 15;
 
-					if (c0 >> 12 != 0) {
-						if (nibblearray1 == null) {
+					if (c0 >> 12 != 0)
+					{
+						if (nibblearray1 == null)
+						{
 							nibblearray1 = new NibbleArray();
 						}
 
@@ -262,14 +308,17 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 
 				nbttagcompound1.setByteArray("Blocks", abyte);
 				nbttagcompound1.setByteArray("Data", nibblearray.a());
-				if (nibblearray1 != null) {
+				if (nibblearray1 != null)
+				{
 					nbttagcompound1.setByteArray("Add", nibblearray1.a());
 				}
 
 				nbttagcompound1.setByteArray("BlockLight", chunksection.getEmittedLightArray().a());
-				if (flag) {
+				if (flag)
+				{
 					nbttagcompound1.setByteArray("SkyLight", chunksection.getSkyLightArray().a());
-				} else {
+				} else
+				{
 					nbttagcompound1.setByteArray("SkyLight", new byte[chunksection.getEmittedLightArray().a().length]);
 				}
 
@@ -284,14 +333,17 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 
 		Iterator iterator;
 
-		for (i = 0; i < chunk.getEntitySlices().length; ++i) {
+		for (i = 0; i < chunk.getEntitySlices().length; ++i)
+		{
 			iterator = chunk.getEntitySlices()[i].iterator();
 
-			while (iterator.hasNext()) {
+			while (iterator.hasNext())
+			{
 				Entity entity = (Entity) iterator.next();
 
 				nbttagcompound1 = new NBTTagCompound();
-				if (entity.d(nbttagcompound1)) {
+				if (entity.d(nbttagcompound1))
+				{
 					chunk.g(true);
 					nbttaglist1.add(nbttagcompound1);
 				}
@@ -303,14 +355,16 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 
 		iterator = chunk.getTileEntities().values().iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			TileEntity tileentity = (TileEntity) iterator.next();
 
 			nbttagcompound1 = new NBTTagCompound();
 			tileentity.b(nbttagcompound1);
 			nbttaglist2.add(nbttagcompound1);
 
-			if (tileentity instanceof TileEntityHopper) {
+			if (tileentity instanceof TileEntityHopper)
+			{
 				Arrays.fill(((TileEntityHopper) tileentity).items, null);
 			}
 		}
@@ -318,12 +372,14 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		nbttagcompound.set("TileEntities", nbttaglist2);
 		List list = world.a(chunk, false);
 
-		if (list != null) {
+		if (list != null)
+		{
 			long k1 = world.getTime();
 			NBTTagList nbttaglist3 = new NBTTagList();
 			Iterator iterator1 = list.iterator();
 
-			while (iterator1.hasNext()) {
+			while (iterator1.hasNext())
+			{
 				NextTickListEntry nextticklistentry = (NextTickListEntry) iterator1.next();
 				NBTTagCompound nbttagcompound2 = new NBTTagCompound();
 				MinecraftKey minecraftkey = Block.REGISTRY.c(nextticklistentry.a());
@@ -342,7 +398,8 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 
 	}
 
-	private Chunk a(World world, NBTTagCompound nbttagcompound) {
+	private Chunk a(World world, NBTTagCompound nbttagcompound)
+	{
 		int i = nbttagcompound.getInt("xPos");
 		int j = nbttagcompound.getInt("zPos");
 		Chunk chunk = new Chunk(world, i, j);
@@ -356,7 +413,8 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		ChunkSection[] achunksection = new ChunkSection[b0];
 		boolean flag = !world.worldProvider.o();
 
-		for (int k = 0; k < nbttaglist.size(); ++k) {
+		for (int k = 0; k < nbttaglist.size(); ++k)
+		{
 			NBTTagCompound nbttagcompound1 = nbttaglist.get(k);
 			byte b1 = nbttagcompound1.getByte("Y");
 			ChunkSection chunksection = new ChunkSection(b1 << 4, flag);
@@ -367,7 +425,8 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 					: null;
 			char[] achar = new char[abyte.length];
 
-			for (int l = 0; l < achar.length; ++l) {
+			for (int l = 0; l < achar.length; ++l)
+			{
 				int i1 = l & 15;
 				int j1 = l >> 8 & 15;
 				int k1 = l >> 4 & 15;
@@ -381,12 +440,16 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 				int id = (abyte[l] & 255);
 				int data = nibblearray.a(i1, j1, k1);
 				int packed = ex << 12 | id << 4 | data;
-				if (Block.d.a(packed) == null) {
+				if (Block.d.a(packed) == null)
+				{
 					Block block = Block.getById(ex << 8 | id);
-					if (block != null) {
-						try {
+					if (block != null)
+					{
+						try
+						{
 							data = block.toLegacyData(block.fromLegacyData(data));
-						} catch (Exception ignored) {
+						} catch (Exception ignored)
+						{
 							data = block.toLegacyData(block.getBlockData());
 						}
 						packed = ex << 12 | id << 4 | data;
@@ -398,7 +461,8 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 
 			chunksection.a(achar);
 			chunksection.a(new NibbleArray(nbttagcompound1.getByteArray("BlockLight")));
-			if (flag) {
+			if (flag)
+			{
 				chunksection.b(new NibbleArray(nbttagcompound1.getByteArray("SkyLight")));
 			}
 
@@ -407,7 +471,8 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		}
 
 		chunk.a(achunksection);
-		if (nbttagcompound.hasKeyOfType("Biomes", 7)) {
+		if (nbttagcompound.hasKeyOfType("Biomes", 7))
+		{
 			chunk.a(nbttagcompound.getByteArray("Biomes"));
 		}
 
@@ -416,26 +481,32 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		return chunk;
 	}
 
-	public void loadEntities(Chunk chunk, NBTTagCompound nbttagcompound, World world) {
+	public void loadEntities(Chunk chunk, NBTTagCompound nbttagcompound, World world)
+	{
 		// CraftBukkit end
 		world.timings.syncChunkLoadEntitiesTimer.startTiming(); // Spigot
 		NBTTagList nbttaglist1 = nbttagcompound.getList("Entities", 10);
 
-		if (nbttaglist1 != null) {
-			for (int i2 = 0; i2 < nbttaglist1.size(); ++i2) {
+		if (nbttaglist1 != null)
+		{
+			for (int i2 = 0; i2 < nbttaglist1.size(); ++i2)
+			{
 				NBTTagCompound nbttagcompound2 = nbttaglist1.get(i2);
 				Entity entity = EntityTypes.a(nbttagcompound2, world);
 
 				chunk.g(true);
-				if (entity != null) {
+				if (entity != null)
+				{
 					chunk.a(entity);
 					Entity entity1 = entity;
 
 					for (NBTTagCompound nbttagcompound3 = nbttagcompound2; nbttagcompound3.hasKeyOfType("Riding",
-							10); nbttagcompound3 = nbttagcompound3.getCompound("Riding")) {
+							10); nbttagcompound3 = nbttagcompound3.getCompound("Riding"))
+					{
 						Entity entity2 = EntityTypes.a(nbttagcompound3.getCompound("Riding"), world);
 
-						if (entity2 != null) {
+						if (entity2 != null)
+						{
 							chunk.a(entity2);
 							entity1.mount(entity2);
 						}
@@ -449,12 +520,15 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		world.timings.syncChunkLoadTileEntitiesTimer.startTiming(); // Spigot
 		NBTTagList nbttaglist2 = nbttagcompound.getList("TileEntities", 10);
 
-		if (nbttaglist2 != null) {
-			for (int j2 = 0; j2 < nbttaglist2.size(); ++j2) {
+		if (nbttaglist2 != null)
+		{
+			for (int j2 = 0; j2 < nbttaglist2.size(); ++j2)
+			{
 				NBTTagCompound nbttagcompound4 = nbttaglist2.get(j2);
 				TileEntity tileentity = TileEntity.c(nbttagcompound4);
 
-				if (tileentity != null) {
+				if (tileentity != null)
+				{
 					chunk.a(tileentity);
 				}
 			}
@@ -462,17 +536,22 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		world.timings.syncChunkLoadTileEntitiesTimer.stopTiming(); // Spigot
 		world.timings.syncChunkLoadTileTicksTimer.startTiming(); // Spigot
 
-		if (nbttagcompound.hasKeyOfType("TileTicks", 9)) {
+		if (nbttagcompound.hasKeyOfType("TileTicks", 9))
+		{
 			NBTTagList nbttaglist3 = nbttagcompound.getList("TileTicks", 10);
 
-			if (nbttaglist3 != null) {
-				for (int k2 = 0; k2 < nbttaglist3.size(); ++k2) {
+			if (nbttaglist3 != null)
+			{
+				for (int k2 = 0; k2 < nbttaglist3.size(); ++k2)
+				{
 					NBTTagCompound nbttagcompound5 = nbttaglist3.get(k2);
 					Block block;
 
-					if (nbttagcompound5.hasKeyOfType("i", 8)) {
+					if (nbttagcompound5.hasKeyOfType("i", 8))
+					{
 						block = Block.getByName(nbttagcompound5.getString("i"));
-					} else {
+					} else
+					{
 						block = Block.getById(nbttagcompound5.getInt("i"));
 					}
 

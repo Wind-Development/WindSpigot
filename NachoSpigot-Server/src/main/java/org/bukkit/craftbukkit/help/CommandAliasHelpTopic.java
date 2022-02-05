@@ -6,12 +6,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.help.HelpMap;
 import org.bukkit.help.HelpTopic;
 
-public class CommandAliasHelpTopic extends HelpTopic {
+public class CommandAliasHelpTopic extends HelpTopic
+{
 
 	private final String aliasFor;
 	private final HelpMap helpMap;
 
-	public CommandAliasHelpTopic(String alias, String aliasFor, HelpMap helpMap) {
+	public CommandAliasHelpTopic(String alias, String aliasFor, HelpMap helpMap)
+	{
 		this.aliasFor = aliasFor.startsWith("/") ? aliasFor : "/" + aliasFor;
 		this.helpMap = helpMap;
 		this.name = alias.startsWith("/") ? alias : "/" + alias;
@@ -20,10 +22,12 @@ public class CommandAliasHelpTopic extends HelpTopic {
 	}
 
 	@Override
-	public String getFullText(CommandSender forWho) {
+	public String getFullText(CommandSender forWho)
+	{
 		StringBuilder sb = new StringBuilder(shortText);
 		HelpTopic aliasForTopic = helpMap.getHelpTopic(aliasFor);
-		if (aliasForTopic != null) {
+		if (aliasForTopic != null)
+		{
 			sb.append("\n");
 			sb.append(aliasForTopic.getFullText(forWho));
 		}
@@ -31,15 +35,20 @@ public class CommandAliasHelpTopic extends HelpTopic {
 	}
 
 	@Override
-	public boolean canSee(CommandSender commandSender) {
-		if (amendedPermission == null) {
+	public boolean canSee(CommandSender commandSender)
+	{
+		if (amendedPermission == null)
+		{
 			HelpTopic aliasForTopic = helpMap.getHelpTopic(aliasFor);
-			if (aliasForTopic != null) {
+			if (aliasForTopic != null)
+			{
 				return aliasForTopic.canSee(commandSender);
-			} else {
+			} else
+			{
 				return false;
 			}
-		} else {
+		} else
+		{
 			return commandSender.hasPermission(amendedPermission);
 		}
 	}

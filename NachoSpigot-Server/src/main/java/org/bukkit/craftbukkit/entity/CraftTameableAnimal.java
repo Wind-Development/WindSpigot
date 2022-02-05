@@ -11,40 +11,52 @@ import com.eatthepath.uuid.FastUUID;
 
 import net.minecraft.server.EntityTameableAnimal;
 
-public class CraftTameableAnimal extends CraftAnimals implements Tameable, Creature {
-	public CraftTameableAnimal(CraftServer server, EntityTameableAnimal entity) {
+public class CraftTameableAnimal extends CraftAnimals implements Tameable, Creature
+{
+	public CraftTameableAnimal(CraftServer server, EntityTameableAnimal entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EntityTameableAnimal getHandle() {
+	public EntityTameableAnimal getHandle()
+	{
 		return (EntityTameableAnimal) super.getHandle();
 	}
 
-	public UUID getOwnerUUID() {
-		try {
+	public UUID getOwnerUUID()
+	{
+		try
+		{
 			return FastUUID.parseUUID(getHandle().getOwnerUUID());
-		} catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex)
+		{
 			return null;
 		}
 	}
 
-	public void setOwnerUUID(UUID uuid) {
-		if (uuid == null) {
+	public void setOwnerUUID(UUID uuid)
+	{
+		if (uuid == null)
+		{
 			getHandle().setOwnerUUID("");
-		} else {
+		} else
+		{
 			getHandle().setOwnerUUID(FastUUID.toString(uuid));
 		}
 	}
 
 	@Override
-	public AnimalTamer getOwner() {
-		if (getOwnerUUID() == null) {
+	public AnimalTamer getOwner()
+	{
+		if (getOwnerUUID() == null)
+		{
 			return null;
 		}
 
 		AnimalTamer owner = getServer().getPlayer(getOwnerUUID());
-		if (owner == null) {
+		if (owner == null)
+		{
 			owner = getServer().getOfflinePlayer(getOwnerUUID());
 		}
 
@@ -52,40 +64,49 @@ public class CraftTameableAnimal extends CraftAnimals implements Tameable, Creat
 	}
 
 	@Override
-	public boolean isTamed() {
+	public boolean isTamed()
+	{
 		return getHandle().isTamed();
 	}
 
 	@Override
-	public void setOwner(AnimalTamer tamer) {
-		if (tamer != null) {
+	public void setOwner(AnimalTamer tamer)
+	{
+		if (tamer != null)
+		{
 			setTamed(true);
 			getHandle().setGoalTarget(null, null, false);
 			setOwnerUUID(tamer.getUniqueId());
-		} else {
+		} else
+		{
 			setTamed(false);
 			setOwnerUUID(null);
 		}
 	}
 
 	@Override
-	public void setTamed(boolean tame) {
+	public void setTamed(boolean tame)
+	{
 		getHandle().setTamed(tame);
-		if (!tame) {
+		if (!tame)
+		{
 			setOwnerUUID(null);
 		}
 	}
 
-	public boolean isSitting() {
+	public boolean isSitting()
+	{
 		return getHandle().isSitting();
 	}
 
-	public void setSitting(boolean sitting) {
+	public void setSitting(boolean sitting)
+	{
 		getHandle().getGoalSit().setSitting(sitting);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return getClass().getSimpleName() + "{owner=" + getOwner() + ",tamed=" + isTamed() + "}";
 	}
 }

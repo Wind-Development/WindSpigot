@@ -10,28 +10,36 @@ import joptsimple.OptionException;
 import joptsimple.OptionSet;
 import net.minecraft.server.MinecraftServer;
 
-public class ShortConsoleLogFormatter extends Formatter {
+public class ShortConsoleLogFormatter extends Formatter
+{
 	private final SimpleDateFormat date;
 
-	public ShortConsoleLogFormatter(MinecraftServer server) {
+	public ShortConsoleLogFormatter(MinecraftServer server)
+	{
 		OptionSet options = server.options;
 		SimpleDateFormat date = null;
 
-		if (options.has("date-format")) {
-			try {
+		if (options.has("date-format"))
+		{
+			try
+			{
 				Object object = options.valueOf("date-format");
 
-				if ((object != null) && (object instanceof SimpleDateFormat)) {
+				if ((object != null) && (object instanceof SimpleDateFormat))
+				{
 					date = (SimpleDateFormat) object;
 				}
-			} catch (OptionException ex) {
+			} catch (OptionException ex)
+			{
 				System.err.println("Given date format is not valid. Falling back to default.");
 			}
-		} else if (options.has("nojline")) {
+		} else if (options.has("nojline"))
+		{
 			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		}
 
-		if (date == null) {
+		if (date == null)
+		{
 			date = new SimpleDateFormat("HH:mm:ss");
 		}
 
@@ -39,7 +47,8 @@ public class ShortConsoleLogFormatter extends Formatter {
 	}
 
 	@Override
-	public String format(LogRecord record) {
+	public String format(LogRecord record)
+	{
 		StringBuilder builder = new StringBuilder();
 		Throwable ex = record.getThrown();
 
@@ -50,7 +59,8 @@ public class ShortConsoleLogFormatter extends Formatter {
 		builder.append(formatMessage(record));
 		builder.append('\n');
 
-		if (ex != null) {
+		if (ex != null)
+		{
 			StringWriter writer = new StringWriter();
 			ex.printStackTrace(new PrintWriter(writer));
 			builder.append(writer);

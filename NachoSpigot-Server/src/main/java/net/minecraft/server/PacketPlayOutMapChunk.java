@@ -6,26 +6,31 @@ import java.util.Iterator;
 
 import com.google.common.collect.Lists;
 
-public class PacketPlayOutMapChunk implements Packet<PacketListenerPlayOut> {
+public class PacketPlayOutMapChunk implements Packet<PacketListenerPlayOut>
+{
 	private int a;
 
-	public int getChunkX() {
+	public int getChunkX()
+	{
 		return this.a;
 	}
 
 	private int b;
 
-	public int getChunkZ() {
+	public int getChunkZ()
+	{
 		return this.b;
 	}
 
 	private PacketPlayOutMapChunk.ChunkMap c;
 	private boolean d;
 
-	public PacketPlayOutMapChunk() {
+	public PacketPlayOutMapChunk()
+	{
 	}
 
-	public PacketPlayOutMapChunk(Chunk chunk, boolean flag, int i) {
+	public PacketPlayOutMapChunk(Chunk chunk, boolean flag, int i)
+	{
 		this.a = chunk.locX;
 		this.b = chunk.locZ;
 		this.d = flag;
@@ -38,7 +43,8 @@ public class PacketPlayOutMapChunk implements Packet<PacketListenerPlayOut> {
 	}
 
 	@Override
-	public void a(PacketDataSerializer serializer) throws IOException {
+	public void a(PacketDataSerializer serializer) throws IOException
+	{
 		this.a = serializer.readInt();
 		this.b = serializer.readInt();
 		this.d = serializer.readBoolean();
@@ -48,7 +54,8 @@ public class PacketPlayOutMapChunk implements Packet<PacketListenerPlayOut> {
 	}
 
 	@Override
-	public void b(PacketDataSerializer serializer) throws IOException {
+	public void b(PacketDataSerializer serializer) throws IOException
+	{
 		serializer.writeInt(this.a);
 		serializer.writeInt(this.b);
 		serializer.writeBoolean(this.d);
@@ -57,11 +64,13 @@ public class PacketPlayOutMapChunk implements Packet<PacketListenerPlayOut> {
 	}
 
 	@Override
-	public void a(PacketListenerPlayOut packetlistenerplayout) {
+	public void a(PacketListenerPlayOut packetlistenerplayout)
+	{
 		packetlistenerplayout.a(this);
 	}
 
-	protected static int a(int i, boolean flag, boolean flag1) {
+	protected static int a(int i, boolean flag, boolean flag1)
+	{
 		int j = i * 2 * 16 * 16 * 16;
 		int k = i * 16 * 16 * 16 / 2;
 		int l = flag ? i * 16 * 16 * 16 / 2 : 0;
@@ -70,17 +79,20 @@ public class PacketPlayOutMapChunk implements Packet<PacketListenerPlayOut> {
 		return j + k + l + i1;
 	}
 
-	public static PacketPlayOutMapChunk.ChunkMap a(Chunk chunk, boolean flag, boolean flag1, int i) {
+	public static PacketPlayOutMapChunk.ChunkMap a(Chunk chunk, boolean flag, boolean flag1, int i)
+	{
 		ChunkSection[] achunksection = chunk.getSections();
 		PacketPlayOutMapChunk.ChunkMap packetplayoutmapchunk_chunkmap = new PacketPlayOutMapChunk.ChunkMap();
 		ArrayList arraylist = Lists.newArrayList();
 
 		int j;
 
-		for (j = 0; j < achunksection.length; ++j) {
+		for (j = 0; j < achunksection.length; ++j)
+		{
 			ChunkSection chunksection = achunksection[j];
 
-			if (chunksection != null && (!flag || !chunksection.a()) && (i & 1 << j) != 0) {
+			if (chunksection != null && (!flag || !chunksection.a()) && (i & 1 << j) != 0)
+			{
 				packetplayoutmapchunk_chunkmap.b |= 1 << j;
 				arraylist.add(chunksection);
 			}
@@ -92,13 +104,15 @@ public class PacketPlayOutMapChunk implements Packet<PacketListenerPlayOut> {
 
 		ChunkSection chunksection1;
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			chunksection1 = (ChunkSection) iterator.next();
 			char[] achar = chunksection1.getIdArray();
 			char[] achar1 = achar;
 			int k = achar.length;
 
-			for (int l = 0; l < k; ++l) {
+			for (int l = 0; l < k; ++l)
+			{
 				char c0 = achar1[l];
 
 				packetplayoutmapchunk_chunkmap.a[j++] = (byte) (c0 & 255);
@@ -107,35 +121,42 @@ public class PacketPlayOutMapChunk implements Packet<PacketListenerPlayOut> {
 		}
 
 		for (iterator = arraylist.iterator(); iterator
-				.hasNext(); j = a(chunksection1.getEmittedLightArray().a(), packetplayoutmapchunk_chunkmap.a, j)) {
+				.hasNext(); j = a(chunksection1.getEmittedLightArray().a(), packetplayoutmapchunk_chunkmap.a, j))
+		{
 			chunksection1 = (ChunkSection) iterator.next();
 		}
 
-		if (flag1) {
+		if (flag1)
+		{
 			for (iterator = arraylist.iterator(); iterator
-					.hasNext(); j = a(chunksection1.getSkyLightArray().a(), packetplayoutmapchunk_chunkmap.a, j)) {
+					.hasNext(); j = a(chunksection1.getSkyLightArray().a(), packetplayoutmapchunk_chunkmap.a, j))
+			{
 				chunksection1 = (ChunkSection) iterator.next();
 			}
 		}
 
-		if (flag) {
+		if (flag)
+		{
 			a(chunk.getBiomeIndex(), packetplayoutmapchunk_chunkmap.a, j);
 		}
 
 		return packetplayoutmapchunk_chunkmap;
 	}
 
-	private static int a(byte[] abyte, byte[] abyte1, int i) {
+	private static int a(byte[] abyte, byte[] abyte1, int i)
+	{
 		System.arraycopy(abyte, 0, abyte1, i, abyte.length);
 		return i + abyte.length;
 	}
 
-	public static class ChunkMap {
+	public static class ChunkMap
+	{
 
 		public byte[] a;
 		public int b;
 
-		public ChunkMap() {
+		public ChunkMap()
+		{
 		}
 	}
 }

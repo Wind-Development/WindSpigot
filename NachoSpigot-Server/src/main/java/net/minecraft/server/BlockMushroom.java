@@ -8,9 +8,11 @@ import org.bukkit.block.BlockState;
 import org.bukkit.event.block.BlockSpreadEvent;
 // CraftBukkit end
 
-public class BlockMushroom extends BlockPlant implements IBlockFragilePlantElement {
+public class BlockMushroom extends BlockPlant implements IBlockFragilePlantElement
+{
 
-	protected BlockMushroom() {
+	protected BlockMushroom()
+	{
 		float f = 0.2F;
 
 		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
@@ -18,20 +20,25 @@ public class BlockMushroom extends BlockPlant implements IBlockFragilePlantEleme
 	}
 
 	@Override
-	public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
+	public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random)
+	{
 		final int sourceX = blockposition.getX(), sourceY = blockposition.getY(), sourceZ = blockposition.getZ(); // CraftBukkit
-		if (random.nextInt(Math.max(1, (int) world.growthOdds / world.spigotConfig.mushroomModifier * 25)) == 0) { // Spigot
-																													// int
-																													// i
-																													// =
-																													// 5;
+		if (random.nextInt(Math.max(1, (int) world.growthOdds / world.spigotConfig.mushroomModifier * 25)) == 0)
+		{ // Spigot
+			// int
+			// i
+			// =
+			// 5;
 			int i = 5;
 
 			for (BlockPosition.MutableBlockPosition mutableBlockPosition : BlockPosition.b(blockposition.a(-4, -1, -4),
-					blockposition.a(4, 1, 4))) {
-				if (world.getType(mutableBlockPosition).getBlock() == this) {
+					blockposition.a(4, 1, 4)))
+			{
+				if (world.getType(mutableBlockPosition).getBlock() == this)
+				{
 					--i;
-					if (i <= 0) {
+					if (i <= 0)
+					{
 						return;
 					}
 				}
@@ -40,8 +47,10 @@ public class BlockMushroom extends BlockPlant implements IBlockFragilePlantEleme
 			BlockPosition blockposition2 = blockposition.a(random.nextInt(3) - 1, random.nextInt(2) - random.nextInt(2),
 					random.nextInt(3) - 1);
 
-			for (int j = 0; j < 4; ++j) {
-				if (world.isEmpty(blockposition2) && this.f(world, blockposition2, this.getBlockData())) {
+			for (int j = 0; j < 4; ++j)
+			{
+				if (world.isEmpty(blockposition2) && this.f(world, blockposition2, this.getBlockData()))
+				{
 					blockposition = blockposition2;
 				}
 
@@ -49,7 +58,8 @@ public class BlockMushroom extends BlockPlant implements IBlockFragilePlantEleme
 						random.nextInt(3) - 1);
 			}
 
-			if (world.isEmpty(blockposition2) && this.f(world, blockposition2, this.getBlockData())) {
+			if (world.isEmpty(blockposition2) && this.f(world, blockposition2, this.getBlockData()))
+			{
 				// CraftBukkit start
 				// world.setTypeAndData(blockposition2, this.getBlockData(), 2);
 				org.bukkit.World bworld = world.getWorld();
@@ -62,7 +72,8 @@ public class BlockMushroom extends BlockPlant implements IBlockFragilePlantEleme
 						bworld.getBlockAt(sourceX, sourceY, sourceZ), blockState);
 				world.getServer().getPluginManager().callEvent(event);
 
-				if (!event.isCancelled()) {
+				if (!event.isCancelled())
+				{
 					blockState.update(true);
 				}
 				// CraftBukkit end
@@ -72,61 +83,74 @@ public class BlockMushroom extends BlockPlant implements IBlockFragilePlantEleme
 	}
 
 	@Override
-	public boolean canPlace(World world, BlockPosition blockposition) {
+	public boolean canPlace(World world, BlockPosition blockposition)
+	{
 		return super.canPlace(world, blockposition) && this.f(world, blockposition, this.getBlockData());
 	}
 
 	@Override
-	protected boolean c(Block block) {
+	protected boolean c(Block block)
+	{
 		return block.o();
 	}
 
 	@Override
-	public boolean f(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		if (blockposition.getY() >= 0 && blockposition.getY() < 256) {
+	public boolean f(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
+		if (blockposition.getY() >= 0 && blockposition.getY() < 256)
+		{
 			IBlockData iblockdata1 = world.getType(blockposition.down());
 
 			return iblockdata1.getBlock() == Blocks.MYCELIUM ? true
 					: (iblockdata1.getBlock() == Blocks.DIRT
 							&& iblockdata1.get(BlockDirt.VARIANT) == BlockDirt.EnumDirtVariant.PODZOL ? true
 									: world.k(blockposition) < 13 && this.c(iblockdata1.getBlock()));
-		} else {
+		} else
+		{
 			return false;
 		}
 	}
 
-	public boolean d(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
+	public boolean d(World world, BlockPosition blockposition, IBlockData iblockdata, Random random)
+	{
 		world.setAir(blockposition);
 		WorldGenHugeMushroom worldgenhugemushroom = null;
 
-		if (this == Blocks.BROWN_MUSHROOM) {
+		if (this == Blocks.BROWN_MUSHROOM)
+		{
 			BlockSapling.treeType = TreeType.BROWN_MUSHROOM; // CraftBukkit
 			worldgenhugemushroom = new WorldGenHugeMushroom(Blocks.BROWN_MUSHROOM_BLOCK);
-		} else if (this == Blocks.RED_MUSHROOM) {
+		} else if (this == Blocks.RED_MUSHROOM)
+		{
 			BlockSapling.treeType = TreeType.RED_MUSHROOM; // CraftBukkit
 			worldgenhugemushroom = new WorldGenHugeMushroom(Blocks.RED_MUSHROOM_BLOCK);
 		}
 
-		if (worldgenhugemushroom != null && worldgenhugemushroom.generate(world, random, blockposition)) {
+		if (worldgenhugemushroom != null && worldgenhugemushroom.generate(world, random, blockposition))
+		{
 			return true;
-		} else {
+		} else
+		{
 			world.setTypeAndData(blockposition, iblockdata, 3);
 			return false;
 		}
 	}
 
 	@Override
-	public boolean a(World world, BlockPosition blockposition, IBlockData iblockdata, boolean flag) {
+	public boolean a(World world, BlockPosition blockposition, IBlockData iblockdata, boolean flag)
+	{
 		return true;
 	}
 
 	@Override
-	public boolean a(World world, Random random, BlockPosition blockposition, IBlockData iblockdata) {
+	public boolean a(World world, Random random, BlockPosition blockposition, IBlockData iblockdata)
+	{
 		return random.nextFloat() < 0.4D;
 	}
 
 	@Override
-	public void b(World world, Random random, BlockPosition blockposition, IBlockData iblockdata) {
+	public void b(World world, Random random, BlockPosition blockposition, IBlockData iblockdata)
+	{
 		this.d(world, blockposition, iblockdata, random);
 	}
 }

@@ -12,12 +12,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.google.common.collect.ImmutableSet;
 
-public final class CraftItemFactory implements ItemFactory {
+public final class CraftItemFactory implements ItemFactory
+{
 	static final Color DEFAULT_LEATHER_COLOR = Color.fromRGB(0xA06540);
 	static final Collection<String> KNOWN_NBT_ATTRIBUTE_NAMES;
 	private static final CraftItemFactory instance;
 
-	static {
+	static
+	{
 		instance = new CraftItemFactory();
 		ConfigurationSerialization.registerClass(CraftMetaItem.SerializableMeta.class);
 		KNOWN_NBT_ATTRIBUTE_NAMES = ImmutableSet.<String>builder().add("generic.attackDamage")
@@ -25,23 +27,29 @@ public final class CraftItemFactory implements ItemFactory {
 				.add("generic.movementSpeed").add("horse.jumpStrength").add("zombie.spawnReinforcements").build();
 	}
 
-	private CraftItemFactory() {
+	private CraftItemFactory()
+	{
 	}
 
 	@Override
-	public boolean isApplicable(ItemMeta meta, ItemStack itemstack) {
-		if (itemstack == null) {
+	public boolean isApplicable(ItemMeta meta, ItemStack itemstack)
+	{
+		if (itemstack == null)
+		{
 			return false;
 		}
 		return isApplicable(meta, itemstack.getType());
 	}
 
 	@Override
-	public boolean isApplicable(ItemMeta meta, Material type) {
-		if (type == null || meta == null) {
+	public boolean isApplicable(ItemMeta meta, Material type)
+	{
+		if (type == null || meta == null)
+		{
 			return false;
 		}
-		if (!(meta instanceof CraftMetaItem)) {
+		if (!(meta instanceof CraftMetaItem))
+		{
 			throw new IllegalArgumentException(
 					"Meta of " + meta.getClass().toString() + " not created by " + CraftItemFactory.class.getName());
 		}
@@ -50,13 +58,16 @@ public final class CraftItemFactory implements ItemFactory {
 	}
 
 	@Override
-	public ItemMeta getItemMeta(Material material) {
+	public ItemMeta getItemMeta(Material material)
+	{
 		Validate.notNull(material, "Material cannot be null");
 		return getItemMeta(material, null);
 	}
 
-	private ItemMeta getItemMeta(Material material, CraftMetaItem meta) {
-		switch (material) {
+	private ItemMeta getItemMeta(Material material, CraftMetaItem meta)
+	{
+		switch (material)
+		{
 		case AIR:
 			return null;
 		case WRITTEN_BOOK:
@@ -108,29 +119,36 @@ public final class CraftItemFactory implements ItemFactory {
 	}
 
 	@Override
-	public boolean equals(ItemMeta meta1, ItemMeta meta2) {
-		if (meta1 == meta2) {
+	public boolean equals(ItemMeta meta1, ItemMeta meta2)
+	{
+		if (meta1 == meta2)
+		{
 			return true;
 		}
-		if (meta1 != null && !(meta1 instanceof CraftMetaItem)) {
+		if (meta1 != null && !(meta1 instanceof CraftMetaItem))
+		{
 			throw new IllegalArgumentException("First meta of " + meta1.getClass().getName() + " does not belong to "
 					+ CraftItemFactory.class.getName());
 		}
-		if (meta2 != null && !(meta2 instanceof CraftMetaItem)) {
+		if (meta2 != null && !(meta2 instanceof CraftMetaItem))
+		{
 			throw new IllegalArgumentException("Second meta " + meta2.getClass().getName() + " does not belong to "
 					+ CraftItemFactory.class.getName());
 		}
-		if (meta1 == null) {
+		if (meta1 == null)
+		{
 			return ((CraftMetaItem) meta2).isEmpty();
 		}
-		if (meta2 == null) {
+		if (meta2 == null)
+		{
 			return ((CraftMetaItem) meta1).isEmpty();
 		}
 
 		return equals((CraftMetaItem) meta1, (CraftMetaItem) meta2);
 	}
 
-	boolean equals(CraftMetaItem meta1, CraftMetaItem meta2) {
+	boolean equals(CraftMetaItem meta1, CraftMetaItem meta2)
+	{
 		/*
 		 * This couldn't be done inside of the objects themselves, else force recursion.
 		 * This is a fairly clean way of implementing it, by dividing the methods into
@@ -146,20 +164,24 @@ public final class CraftItemFactory implements ItemFactory {
 		return meta1.equalsCommon(meta2) && meta1.notUncommon(meta2) && meta2.notUncommon(meta1);
 	}
 
-	public static CraftItemFactory instance() {
+	public static CraftItemFactory instance()
+	{
 		return instance;
 	}
 
 	@Override
-	public ItemMeta asMetaFor(ItemMeta meta, ItemStack stack) {
+	public ItemMeta asMetaFor(ItemMeta meta, ItemStack stack)
+	{
 		Validate.notNull(stack, "Stack cannot be null");
 		return asMetaFor(meta, stack.getType());
 	}
 
 	@Override
-	public ItemMeta asMetaFor(ItemMeta meta, Material material) {
+	public ItemMeta asMetaFor(ItemMeta meta, Material material)
+	{
 		Validate.notNull(material, "Material cannot be null");
-		if (!(meta instanceof CraftMetaItem)) {
+		if (!(meta instanceof CraftMetaItem))
+		{
 			throw new IllegalArgumentException("Meta of " + (meta != null ? meta.getClass().toString() : "null")
 					+ " not created by " + CraftItemFactory.class.getName());
 		}
@@ -167,7 +189,8 @@ public final class CraftItemFactory implements ItemFactory {
 	}
 
 	@Override
-	public Color getDefaultLeatherColor() {
+	public Color getDefaultLeatherColor()
+	{
 		return DEFAULT_LEATHER_COLOR;
 	}
 }

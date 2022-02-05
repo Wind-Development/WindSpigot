@@ -9,11 +9,13 @@ import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 // CraftBukkit end
 
-public class BlockMycel extends Block {
+public class BlockMycel extends Block
+{
 
 	public static final BlockStateBoolean SNOWY = BlockStateBoolean.of("snowy");
 
-	protected BlockMycel() {
+	protected BlockMycel()
+	{
 		super(Material.GRASS, MaterialMapColor.z);
 		this.j(this.blockStateList.getBlockData().set(BlockMycel.SNOWY, Boolean.valueOf(false)));
 		this.a(true);
@@ -21,16 +23,20 @@ public class BlockMycel extends Block {
 	}
 
 	@Override
-	public IBlockData updateState(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition) {
+	public IBlockData updateState(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition)
+	{
 		Block block = iblockaccess.getType(blockposition.up()).getBlock();
 
 		return iblockdata.set(BlockMycel.SNOWY, Boolean.valueOf(block == Blocks.SNOW || block == Blocks.SNOW_LAYER));
 	}
 
 	@Override
-	public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
-		if (!world.isClientSide) {
-			if (world.getLightLevel(blockposition.up()) < 4 && world.getType(blockposition.up()).getBlock().p() > 2) {
+	public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random)
+	{
+		if (!world.isClientSide)
+		{
+			if (world.getLightLevel(blockposition.up()) < 4 && world.getType(blockposition.up()).getBlock().p() > 2)
+			{
 				// CraftBukkit start
 				// world.setTypeUpdate(blockposition,
 				// Blocks.DIRT.getBlockData().set(BlockDirt.VARIANT, EnumDirtVariant.DIRT));
@@ -42,13 +48,17 @@ public class BlockMycel extends Block {
 				BlockFadeEvent event = new BlockFadeEvent(blockState.getBlock(), blockState);
 				world.getServer().getPluginManager().callEvent(event);
 
-				if (!event.isCancelled()) {
+				if (!event.isCancelled())
+				{
 					blockState.update(true);
 				}
 				// CraftBukkit end
-			} else {
-				if (world.getLightLevel(blockposition.up()) >= 9) {
-					for (int i = 0; i < Math.min(4, Math.max(20, (int) (4 * 100F / world.growthOdds))); ++i) { // Spigot
+			} else
+			{
+				if (world.getLightLevel(blockposition.up()) >= 9)
+				{
+					for (int i = 0; i < Math.min(4, Math.max(20, (int) (4 * 100F / world.growthOdds))); ++i)
+					{ // Spigot
 						BlockPosition blockposition1 = blockposition.a(random.nextInt(3) - 1, random.nextInt(5) - 3,
 								random.nextInt(3) - 1);
 						IBlockData iblockdata1 = world.getType(blockposition1);
@@ -56,7 +66,8 @@ public class BlockMycel extends Block {
 
 						if (iblockdata1.getBlock() == Blocks.DIRT
 								&& iblockdata1.get(BlockDirt.VARIANT) == BlockDirt.EnumDirtVariant.DIRT
-								&& world.getLightLevel(blockposition1.up()) >= 4 && block.p() <= 2) {
+								&& world.getLightLevel(blockposition1.up()) >= 4 && block.p() <= 2)
+						{
 							// CraftBukkit start
 							// world.setTypeUpdate(blockposition1, this.getBlockData());
 							org.bukkit.World bworld = world.getWorld();
@@ -70,7 +81,8 @@ public class BlockMycel extends Block {
 									blockState);
 							world.getServer().getPluginManager().callEvent(event);
 
-							if (!event.isCancelled()) {
+							if (!event.isCancelled())
+							{
 								blockState.update(true);
 							}
 							// CraftBukkit end
@@ -83,18 +95,22 @@ public class BlockMycel extends Block {
 	}
 
 	@Override
-	public Item getDropType(IBlockData iblockdata, Random random, int i) {
+	public Item getDropType(IBlockData iblockdata, Random random, int i)
+	{
 		return Blocks.DIRT.getDropType(
 				Blocks.DIRT.getBlockData().set(BlockDirt.VARIANT, BlockDirt.EnumDirtVariant.DIRT), random, i);
 	}
 
 	@Override
-	public int toLegacyData(IBlockData iblockdata) {
+	public int toLegacyData(IBlockData iblockdata)
+	{
 		return 0;
 	}
 
 	@Override
-	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockMycel.SNOWY });
+	protected BlockStateList getStateList()
+	{
+		return new BlockStateList(this, new IBlockState[]
+		{ BlockMycel.SNOWY });
 	}
 }

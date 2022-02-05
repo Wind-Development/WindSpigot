@@ -15,113 +15,136 @@ import org.bukkit.plugin.Plugin;
 
 import net.minecraft.server.EntityMinecartCommandBlock;
 
-public class CraftMinecartCommand extends CraftMinecart implements CommandMinecart {
+public class CraftMinecartCommand extends CraftMinecart implements CommandMinecart
+{
 	private final PermissibleBase perm = new PermissibleBase(this);
 
-	public CraftMinecartCommand(CraftServer server, EntityMinecartCommandBlock entity) {
+	public CraftMinecartCommand(CraftServer server, EntityMinecartCommandBlock entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public String getCommand() {
+	public String getCommand()
+	{
 		return ((EntityMinecartCommandBlock) getHandle()).getCommandBlock().getCommand();
 	}
 
 	@Override
-	public void setCommand(String command) {
+	public void setCommand(String command)
+	{
 		((EntityMinecartCommandBlock) getHandle()).getCommandBlock().setCommand(command != null ? command : "");
 	}
 
 	@Override
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		((EntityMinecartCommandBlock) getHandle()).getCommandBlock().setName(name != null ? name : "@");
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.MINECART_COMMAND;
 	}
 
 	@Override
-	public void sendMessage(String message) {
+	public void sendMessage(String message)
+	{
 	}
 
 	@Override
-	public void sendMessage(String[] messages) {
+	public void sendMessage(String[] messages)
+	{
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return ((EntityMinecartCommandBlock) getHandle()).getCommandBlock().getName();
 	}
 
 	@Override
-	public boolean isOp() {
+	public boolean isOp()
+	{
 		return true;
 	}
 
 	@Override
-	public void setOp(boolean value) {
+	public void setOp(boolean value)
+	{
 		throw new UnsupportedOperationException("Cannot change operator status of a minecart");
 	}
 
 	@Override
-	public boolean isPermissionSet(String name) {
+	public boolean isPermissionSet(String name)
+	{
 		return perm.isPermissionSet(name);
 	}
 
 	@Override
-	public boolean isPermissionSet(Permission perm) {
+	public boolean isPermissionSet(Permission perm)
+	{
 		return this.perm.isPermissionSet(perm);
 	}
 
 	@Override
-	public boolean hasPermission(String name) {
+	public boolean hasPermission(String name)
+	{
 		return perm.hasPermission(name);
 	}
 
 	@Override
-	public boolean hasPermission(Permission perm) {
+	public boolean hasPermission(Permission perm)
+	{
 		return this.perm.hasPermission(perm);
 	}
 
 	@Override
-	public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value) {
+	public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value)
+	{
 		return perm.addAttachment(plugin, name, value);
 	}
 
 	@Override
-	public PermissionAttachment addAttachment(Plugin plugin) {
+	public PermissionAttachment addAttachment(Plugin plugin)
+	{
 		return perm.addAttachment(plugin);
 	}
 
 	@Override
-	public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks) {
+	public PermissionAttachment addAttachment(Plugin plugin, String name, boolean value, int ticks)
+	{
 		return perm.addAttachment(plugin, name, value, ticks);
 	}
 
 	@Override
-	public PermissionAttachment addAttachment(Plugin plugin, int ticks) {
+	public PermissionAttachment addAttachment(Plugin plugin, int ticks)
+	{
 		return perm.addAttachment(plugin, ticks);
 	}
 
 	@Override
-	public void removeAttachment(PermissionAttachment attachment) {
+	public void removeAttachment(PermissionAttachment attachment)
+	{
 		perm.removeAttachment(attachment);
 	}
 
 	@Override
-	public void recalculatePermissions() {
+	public void recalculatePermissions()
+	{
 		perm.recalculatePermissions();
 	}
 
 	@Override
-	public Set<PermissionAttachmentInfo> getEffectivePermissions() {
+	public Set<PermissionAttachmentInfo> getEffectivePermissions()
+	{
 		return perm.getEffectivePermissions();
 	}
 
 	@Override
-	public Server getServer() {
+	public Server getServer()
+	{
 		return Bukkit.getServer();
 	}
 }

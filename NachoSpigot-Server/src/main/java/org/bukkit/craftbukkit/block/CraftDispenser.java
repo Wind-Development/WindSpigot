@@ -14,33 +14,39 @@ import net.minecraft.server.BlockPosition;
 import net.minecraft.server.Blocks;
 import net.minecraft.server.TileEntityDispenser;
 
-public class CraftDispenser extends CraftBlockState implements Dispenser {
+public class CraftDispenser extends CraftBlockState implements Dispenser
+{
 	private final CraftWorld world;
 	private final TileEntityDispenser dispenser;
 
-	public CraftDispenser(final Block block) {
+	public CraftDispenser(final Block block)
+	{
 		super(block);
 
 		world = (CraftWorld) block.getWorld();
 		dispenser = (TileEntityDispenser) world.getTileEntityAt(getX(), getY(), getZ());
 	}
 
-	public CraftDispenser(final Material material, final TileEntityDispenser te) {
+	public CraftDispenser(final Material material, final TileEntityDispenser te)
+	{
 		super(material);
 		world = null;
 		dispenser = te;
 	}
 
 	@Override
-	public Inventory getInventory() {
+	public Inventory getInventory()
+	{
 		return new CraftInventory(dispenser);
 	}
 
 	@Override
-	public BlockProjectileSource getBlockProjectileSource() {
+	public BlockProjectileSource getBlockProjectileSource()
+	{
 		Block block = getBlock();
 
-		if (block.getType() != Material.DISPENSER) {
+		if (block.getType() != Material.DISPENSER)
+		{
 			return null;
 		}
 
@@ -48,24 +54,29 @@ public class CraftDispenser extends CraftBlockState implements Dispenser {
 	}
 
 	@Override
-	public boolean dispense() {
+	public boolean dispense()
+	{
 		Block block = getBlock();
 
-		if (block.getType() == Material.DISPENSER) {
+		if (block.getType() == Material.DISPENSER)
+		{
 			BlockDispenser dispense = (BlockDispenser) Blocks.DISPENSER;
 
 			dispense.dispense(world.getHandle(), new BlockPosition(getX(), getY(), getZ()));
 			return true;
-		} else {
+		} else
+		{
 			return false;
 		}
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics) {
+	public boolean update(boolean force, boolean applyPhysics)
+	{
 		boolean result = super.update(force, applyPhysics);
 
-		if (result) {
+		if (result)
+		{
 			dispenser.update();
 		}
 
@@ -73,7 +84,8 @@ public class CraftDispenser extends CraftBlockState implements Dispenser {
 	}
 
 	@Override
-	public TileEntityDispenser getTileEntity() {
+	public TileEntityDispenser getTileEntity()
+	{
 		return dispenser;
 	}
 }

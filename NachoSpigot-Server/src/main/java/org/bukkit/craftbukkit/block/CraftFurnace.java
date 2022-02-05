@@ -9,30 +9,36 @@ import org.bukkit.inventory.FurnaceInventory;
 
 import net.minecraft.server.TileEntityFurnace;
 
-public class CraftFurnace extends CraftBlockState implements Furnace {
+public class CraftFurnace extends CraftBlockState implements Furnace
+{
 	private final TileEntityFurnace furnace;
 
-	public CraftFurnace(final Block block) {
+	public CraftFurnace(final Block block)
+	{
 		super(block);
 
 		furnace = (TileEntityFurnace) ((CraftWorld) block.getWorld()).getTileEntityAt(getX(), getY(), getZ());
 	}
 
-	public CraftFurnace(final Material material, final TileEntityFurnace te) {
+	public CraftFurnace(final Material material, final TileEntityFurnace te)
+	{
 		super(material);
 		furnace = te;
 	}
 
 	@Override
-	public FurnaceInventory getInventory() {
+	public FurnaceInventory getInventory()
+	{
 		return new CraftInventoryFurnace(furnace);
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics) {
+	public boolean update(boolean force, boolean applyPhysics)
+	{
 		boolean result = super.update(force, applyPhysics);
 
-		if (result) {
+		if (result)
+		{
 			furnace.update();
 		}
 
@@ -40,27 +46,32 @@ public class CraftFurnace extends CraftBlockState implements Furnace {
 	}
 
 	@Override
-	public short getBurnTime() {
+	public short getBurnTime()
+	{
 		return (short) furnace.burnTime;
 	}
 
 	@Override
-	public void setBurnTime(short burnTime) {
+	public void setBurnTime(short burnTime)
+	{
 		furnace.burnTime = burnTime;
 	}
 
 	@Override
-	public short getCookTime() {
+	public short getCookTime()
+	{
 		return (short) furnace.cookTime;
 	}
 
 	@Override
-	public void setCookTime(short cookTime) {
+	public void setCookTime(short cookTime)
+	{
 		furnace.cookTime = cookTime;
 	}
 
 	@Override
-	public TileEntityFurnace getTileEntity() {
+	public TileEntityFurnace getTileEntity()
+	{
 		return furnace;
 	}
 }

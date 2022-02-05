@@ -5,7 +5,8 @@ import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.craftbukkit.inventory.CraftInventoryView;
 // CraftBukkit end
 
-public class ContainerDispenser extends Container {
+public class ContainerDispenser extends Container
+{
 
 	public IInventory items;
 	// CraftBukkit start
@@ -13,7 +14,8 @@ public class ContainerDispenser extends Container {
 	private PlayerInventory player;
 	// CraftBukkit end
 
-	public ContainerDispenser(IInventory iinventory, IInventory iinventory1) {
+	public ContainerDispenser(IInventory iinventory, IInventory iinventory1)
+	{
 		this.items = iinventory1;
 		// CraftBukkit start - Save player
 		// TODO: Should we check to make sure it really is an InventoryPlayer?
@@ -23,55 +25,69 @@ public class ContainerDispenser extends Container {
 		int i;
 		int j;
 
-		for (i = 0; i < 3; ++i) {
-			for (j = 0; j < 3; ++j) {
+		for (i = 0; i < 3; ++i)
+		{
+			for (j = 0; j < 3; ++j)
+			{
 				this.a(new Slot(iinventory1, j + i * 3, 62 + j * 18, 17 + i * 18));
 			}
 		}
 
-		for (i = 0; i < 3; ++i) {
-			for (j = 0; j < 9; ++j) {
+		for (i = 0; i < 3; ++i)
+		{
+			for (j = 0; j < 9; ++j)
+			{
 				this.a(new Slot(iinventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
-		for (i = 0; i < 9; ++i) {
+		for (i = 0; i < 9; ++i)
+		{
 			this.a(new Slot(iinventory, i, 8 + i * 18, 142));
 		}
 
 	}
 
 	@Override
-	public boolean a(EntityHuman entityhuman) {
+	public boolean a(EntityHuman entityhuman)
+	{
 		if (!this.checkReachable)
 			return true; // CraftBukkit
 		return this.items.a(entityhuman);
 	}
 
 	@Override
-	public ItemStack b(EntityHuman entityhuman, int i) {
+	public ItemStack b(EntityHuman entityhuman, int i)
+	{
 		ItemStack itemstack = null;
 		Slot slot = this.c.get(i);
 
-		if (slot != null && slot.hasItem()) {
+		if (slot != null && slot.hasItem())
+		{
 			ItemStack itemstack1 = slot.getItem();
 
 			itemstack = itemstack1.cloneItemStack();
-			if (i < 9) {
-				if (!this.a(itemstack1, 9, 45, true)) {
+			if (i < 9)
+			{
+				if (!this.a(itemstack1, 9, 45, true))
+				{
 					return null;
 				}
-			} else if (!this.a(itemstack1, 0, 9, false)) {
+			} else if (!this.a(itemstack1, 0, 9, false))
+			{
 				return null;
 			}
 
-			if (itemstack1.count == 0) {
+			if (itemstack1.count == 0)
+			{
 				slot.set((ItemStack) null);
-			} else {
+			} else
+			{
 				slot.f();
 			}
 
-			if (itemstack1.count == itemstack.count) {
+			if (itemstack1.count == itemstack.count)
+			{
 				return null;
 			}
 
@@ -83,8 +99,10 @@ public class ContainerDispenser extends Container {
 
 	// CraftBukkit start
 	@Override
-	public CraftInventoryView getBukkitView() {
-		if (bukkitEntity != null) {
+	public CraftInventoryView getBukkitView()
+	{
+		if (bukkitEntity != null)
+		{
 			return bukkitEntity;
 		}
 

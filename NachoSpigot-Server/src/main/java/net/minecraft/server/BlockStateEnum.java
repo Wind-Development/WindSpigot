@@ -11,21 +11,25 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public class BlockStateEnum<T extends Enum<T> & INamable> extends BlockState<T> {
+public class BlockStateEnum<T extends Enum<T> & INamable> extends BlockState<T>
+{
 
 	private final ImmutableSet<T> a;
 	private final Map<String, T> b = Maps.newHashMap();
 
-	protected BlockStateEnum(String s, Class<T> oclass, Collection<T> collection) {
+	protected BlockStateEnum(String s, Class<T> oclass, Collection<T> collection)
+	{
 		super(s, oclass);
 		this.a = ImmutableSet.copyOf(collection);
 		Iterator<T> iterator = collection.iterator(); // TacoSpigot - generic iterator
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			T oenum = iterator.next(); // TacoSpigot - generics
 			String s1 = ((INamable) oenum).getName();
 
-			if (this.b.containsKey(s1)) {
+			if (this.b.containsKey(s1))
+			{
 				throw new IllegalArgumentException("Multiple values have the same name \'" + s1 + "\'");
 			}
 
@@ -35,47 +39,56 @@ public class BlockStateEnum<T extends Enum<T> & INamable> extends BlockState<T> 
 	}
 
 	@Override
-	public Collection<T> c() {
+	public Collection<T> c()
+	{
 		return this.a;
 	}
 
 	@Override
-	public String a(T t0) {
+	public String a(T t0)
+	{
 		return ((INamable) t0).getName();
 	}
 
 	// TacoSpigot start
 	@Override
-	public int getValueId(T value) {
+	public int getValueId(T value)
+	{
 		return value.ordinal();
 	}
 
 	@Override
-	public T getByValueId(int id) {
+	public T getByValueId(int id)
+	{
 		T[] values = this.b().getEnumConstants();
-		if (id >= 0 && id < values.length) {
+		if (id >= 0 && id < values.length)
+		{
 			return values[id];
-		} else {
+		} else
+		{
 			throw new IllegalArgumentException("Invalid id: " + id);
 		}
 	}
 	// TacoSpigot end
 
-	public static <T extends Enum<T> & INamable> BlockStateEnum<T> of(String s, Class<T> oclass) {
+	public static <T extends Enum<T> & INamable> BlockStateEnum<T> of(String s, Class<T> oclass)
+	{
 		return a(s, oclass, Predicates.alwaysTrue());
 	}
 
-	public static <T extends Enum<T> & INamable> BlockStateEnum<T> a(String s, Class<T> oclass,
-			Predicate<T> predicate) {
+	public static <T extends Enum<T> & INamable> BlockStateEnum<T> a(String s, Class<T> oclass, Predicate<T> predicate)
+	{
 		return a(s, oclass, Collections2.filter(Lists.newArrayList(oclass.getEnumConstants()), predicate));
 	}
 
-	public static <T extends Enum<T> & INamable> BlockStateEnum<T> of(String s, Class<T> oclass, T... at) {
+	public static <T extends Enum<T> & INamable> BlockStateEnum<T> of(String s, Class<T> oclass, T... at)
+	{
 		return a(s, oclass, (Collection) Lists.newArrayList(at));
 	}
 
 	public static <T extends Enum<T> & INamable> BlockStateEnum<T> a(String s, Class<T> oclass,
-			Collection<T> collection) {
+			Collection<T> collection)
+	{
 		return new BlockStateEnum(s, oclass, collection);
 	}
 

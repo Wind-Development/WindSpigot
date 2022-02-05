@@ -7,9 +7,11 @@ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 // CraftBukkit end
 
-public class InventoryHorseChest extends InventorySubcontainer {
+public class InventoryHorseChest extends InventorySubcontainer
+{
 
-	public InventoryHorseChest(String s, int i) {
+	public InventoryHorseChest(String s, int i)
+	{
 		super(s, false, i);
 	}
 
@@ -18,43 +20,51 @@ public class InventoryHorseChest extends InventorySubcontainer {
 	private EntityHorse horse;
 	private int maxStack = MAX_STACK;
 
-	public InventoryHorseChest(String s, int i, EntityHorse horse) {
+	public InventoryHorseChest(String s, int i, EntityHorse horse)
+	{
 		super(s, false, i, (org.bukkit.craftbukkit.entity.CraftHorse) horse.getBukkitEntity());
 		this.horse = horse;
 	}
 
 	@Override
-	public ItemStack[] getContents() {
+	public ItemStack[] getContents()
+	{
 		return this.items;
 	}
 
 	@Override
-	public void onOpen(CraftHumanEntity who) {
+	public void onOpen(CraftHumanEntity who)
+	{
 		transaction.add(who);
 	}
 
 	@Override
-	public void onClose(CraftHumanEntity who) {
+	public void onClose(CraftHumanEntity who)
+	{
 		transaction.remove(who);
 	}
 
 	@Override
-	public List<HumanEntity> getViewers() {
+	public List<HumanEntity> getViewers()
+	{
 		return transaction;
 	}
 
 	@Override
-	public org.bukkit.inventory.InventoryHolder getOwner() {
+	public org.bukkit.inventory.InventoryHolder getOwner()
+	{
 		return (org.bukkit.entity.Horse) this.horse.getBukkitEntity();
 	}
 
 	@Override
-	public void setMaxStackSize(int size) {
+	public void setMaxStackSize(int size)
+	{
 		maxStack = size;
 	}
 
 	@Override
-	public int getMaxStackSize() {
+	public int getMaxStackSize()
+	{
 		return maxStack;
 	}
 	// CraftBukkit end

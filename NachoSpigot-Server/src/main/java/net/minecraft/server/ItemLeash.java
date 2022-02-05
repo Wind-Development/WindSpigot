@@ -5,45 +5,55 @@ import java.util.List;
 
 import org.bukkit.event.hanging.HangingPlaceEvent; // CraftBukkit
 
-public class ItemLeash extends Item {
+public class ItemLeash extends Item
+{
 
-	public ItemLeash() {
+	public ItemLeash()
+	{
 		this.a(CreativeModeTab.i);
 	}
 
 	@Override
 	public boolean interactWith(ItemStack itemstack, EntityHuman entityhuman, World world, BlockPosition blockposition,
-			EnumDirection enumdirection, float f, float f1, float f2) {
+			EnumDirection enumdirection, float f, float f1, float f2)
+	{
 		Block block = world.getType(blockposition).getBlock();
 
-		if (block instanceof BlockFence) {
-			if (world.isClientSide) {
+		if (block instanceof BlockFence)
+		{
+			if (world.isClientSide)
+			{
 				return true;
-			} else {
+			} else
+			{
 				a(entityhuman, world, blockposition);
 				return true;
 			}
-		} else {
+		} else
+		{
 			return false;
 		}
 	}
 
-	public static boolean a(EntityHuman entityhuman, World world, BlockPosition blockposition) {
+	public static boolean a(EntityHuman entityhuman, World world, BlockPosition blockposition)
+	{
 		EntityLeash entityleash = EntityLeash.b(world, blockposition);
 		boolean flag = false;
 		double d0 = 7.0D;
 		int i = blockposition.getX();
 		int j = blockposition.getY();
 		int k = blockposition.getZ();
-		List list = world.a(EntityInsentient.class, new AxisAlignedBB(i - d0, j - d0, k - d0,
-				i + d0, j + d0, k + d0));
+		List list = world.a(EntityInsentient.class, new AxisAlignedBB(i - d0, j - d0, k - d0, i + d0, j + d0, k + d0));
 		Iterator iterator = list.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			EntityInsentient entityinsentient = (EntityInsentient) iterator.next();
 
-			if (entityinsentient.cc() && entityinsentient.getLeashHolder() == entityhuman) {
-				if (entityleash == null) {
+			if (entityinsentient.cc() && entityinsentient.getLeashHolder() == entityhuman)
+			{
+				if (entityleash == null)
+				{
 					entityleash = EntityLeash.a(world, blockposition);
 
 					// CraftBukkit start - fire HangingPlaceEvent
@@ -53,7 +63,8 @@ public class ItemLeash extends Item {
 							world.getWorld().getBlockAt(i, j, k), org.bukkit.block.BlockFace.SELF);
 					world.getServer().getPluginManager().callEvent(event);
 
-					if (event.isCancelled()) {
+					if (event.isCancelled())
+					{
 						entityleash.die();
 						return false;
 					}
@@ -62,7 +73,8 @@ public class ItemLeash extends Item {
 
 				// CraftBukkit start
 				if (org.bukkit.craftbukkit.event.CraftEventFactory
-						.callPlayerLeashEntityEvent(entityinsentient, entityleash, entityhuman).isCancelled()) {
+						.callPlayerLeashEntityEvent(entityinsentient, entityleash, entityhuman).isCancelled())
+				{
 					continue;
 				}
 				// CraftBukkit end

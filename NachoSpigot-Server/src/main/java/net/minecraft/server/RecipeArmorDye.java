@@ -4,33 +4,42 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
-public class RecipeArmorDye extends ShapelessRecipes implements IRecipe { // CraftBukkit - added extends
+public class RecipeArmorDye extends ShapelessRecipes implements IRecipe
+{ // CraftBukkit - added extends
 
 	// CraftBukkit start - Delegate to new parent class with bogus info
-	public RecipeArmorDye() {
+	public RecipeArmorDye()
+	{
 		super(new ItemStack(Items.LEATHER_HELMET, 0, 0), java.util.Arrays.asList(new ItemStack(Items.DYE, 0, 5)));
 	}
 	// CraftBukkit end
 
 	@Override
-	public boolean a(InventoryCrafting inventorycrafting, World world) {
+	public boolean a(InventoryCrafting inventorycrafting, World world)
+	{
 		ItemStack itemstack = null;
 		ArrayList arraylist = Lists.newArrayList();
 
-		for (int i = 0; i < inventorycrafting.getSize(); ++i) {
+		for (int i = 0; i < inventorycrafting.getSize(); ++i)
+		{
 			ItemStack itemstack1 = inventorycrafting.getItem(i);
 
-			if (itemstack1 != null) {
-				if (itemstack1.getItem() instanceof ItemArmor) {
+			if (itemstack1 != null)
+			{
+				if (itemstack1.getItem() instanceof ItemArmor)
+				{
 					ItemArmor itemarmor = (ItemArmor) itemstack1.getItem();
 
-					if (itemarmor.x_() != ItemArmor.EnumArmorMaterial.LEATHER || itemstack != null) {
+					if (itemarmor.x_() != ItemArmor.EnumArmorMaterial.LEATHER || itemstack != null)
+					{
 						return false;
 					}
 
 					itemstack = itemstack1;
-				} else {
-					if (itemstack1.getItem() != Items.DYE) {
+				} else
+				{
+					if (itemstack1.getItem() != Items.DYE)
+					{
 						return false;
 					}
 
@@ -43,7 +52,8 @@ public class RecipeArmorDye extends ShapelessRecipes implements IRecipe { // Cra
 	}
 
 	@Override
-	public ItemStack craftItem(InventoryCrafting inventorycrafting) {
+	public ItemStack craftItem(InventoryCrafting inventorycrafting)
+	{
 		ItemStack itemstack = null;
 		int[] aint = new int[3];
 		int i = 0;
@@ -56,19 +66,24 @@ public class RecipeArmorDye extends ShapelessRecipes implements IRecipe { // Cra
 		float f1;
 		int i1;
 
-		for (k = 0; k < inventorycrafting.getSize(); ++k) {
+		for (k = 0; k < inventorycrafting.getSize(); ++k)
+		{
 			ItemStack itemstack1 = inventorycrafting.getItem(k);
 
-			if (itemstack1 != null) {
-				if (itemstack1.getItem() instanceof ItemArmor) {
+			if (itemstack1 != null)
+			{
+				if (itemstack1.getItem() instanceof ItemArmor)
+				{
 					itemarmor = (ItemArmor) itemstack1.getItem();
-					if (itemarmor.x_() != ItemArmor.EnumArmorMaterial.LEATHER || itemstack != null) {
+					if (itemarmor.x_() != ItemArmor.EnumArmorMaterial.LEATHER || itemstack != null)
+					{
 						return null;
 					}
 
 					itemstack = itemstack1.cloneItemStack();
 					itemstack.count = 1;
-					if (itemarmor.d_(itemstack1)) {
+					if (itemarmor.d_(itemstack1))
+					{
 						l = itemarmor.b(itemstack);
 						f = (l >> 16 & 255) / 255.0F;
 						f1 = (l >> 8 & 255) / 255.0F;
@@ -80,8 +95,10 @@ public class RecipeArmorDye extends ShapelessRecipes implements IRecipe { // Cra
 						aint[2] = (int) (aint[2] + f2 * 255.0F);
 						++j;
 					}
-				} else {
-					if (itemstack1.getItem() != Items.DYE) {
+				} else
+				{
+					if (itemstack1.getItem() != Items.DYE)
+					{
 						return null;
 					}
 
@@ -99,9 +116,11 @@ public class RecipeArmorDye extends ShapelessRecipes implements IRecipe { // Cra
 			}
 		}
 
-		if (itemarmor == null) {
+		if (itemarmor == null)
+		{
 			return null;
-		} else {
+		} else
+		{
 			k = aint[0] / j;
 			int l1 = aint[1] / j;
 
@@ -119,23 +138,28 @@ public class RecipeArmorDye extends ShapelessRecipes implements IRecipe { // Cra
 	}
 
 	@Override
-	public int a() {
+	public int a()
+	{
 		return 10;
 	}
 
 	@Override
-	public ItemStack b() {
+	public ItemStack b()
+	{
 		return null;
 	}
 
 	@Override
-	public ItemStack[] b(InventoryCrafting inventorycrafting) {
+	public ItemStack[] b(InventoryCrafting inventorycrafting)
+	{
 		ItemStack[] aitemstack = new ItemStack[inventorycrafting.getSize()];
 
-		for (int i = 0; i < aitemstack.length; ++i) {
+		for (int i = 0; i < aitemstack.length; ++i)
+		{
 			ItemStack itemstack = inventorycrafting.getItem(i);
 
-			if (itemstack != null && itemstack.getItem().r()) {
+			if (itemstack != null && itemstack.getItem().r())
+			{
 				aitemstack[i] = new ItemStack(itemstack.getItem().q());
 			}
 		}

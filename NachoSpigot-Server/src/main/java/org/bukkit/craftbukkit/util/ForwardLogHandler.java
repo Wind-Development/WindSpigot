@@ -9,12 +9,15 @@ import java.util.logging.LogRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ForwardLogHandler extends ConsoleHandler {
+public class ForwardLogHandler extends ConsoleHandler
+{
 	private Map<String, Logger> cachedLoggers = new ConcurrentHashMap<String, Logger>();
 
-	private Logger getLogger(String name) {
+	private Logger getLogger(String name)
+	{
 		Logger logger = cachedLoggers.get(name);
-		if (logger == null) {
+		if (logger == null)
+		{
 			logger = LogManager.getLogger(name);
 			cachedLoggers.put(name, logger);
 		}
@@ -23,30 +26,38 @@ public class ForwardLogHandler extends ConsoleHandler {
 	}
 
 	@Override
-	public void publish(LogRecord record) {
+	public void publish(LogRecord record)
+	{
 		Logger logger = getLogger(String.valueOf(record.getLoggerName())); // See SPIGOT-1230
 		Throwable exception = record.getThrown();
 		Level level = record.getLevel();
 		String message = getFormatter().formatMessage(record);
 
-		if (level == Level.SEVERE) {
+		if (level == Level.SEVERE)
+		{
 			logger.error(message, exception);
-		} else if (level == Level.WARNING) {
+		} else if (level == Level.WARNING)
+		{
 			logger.warn(message, exception);
-		} else if (level == Level.INFO) {
+		} else if (level == Level.INFO)
+		{
 			logger.info(message, exception);
-		} else if (level == Level.CONFIG) {
+		} else if (level == Level.CONFIG)
+		{
 			logger.debug(message, exception);
-		} else {
+		} else
+		{
 			logger.trace(message, exception);
 		}
 	}
 
 	@Override
-	public void flush() {
+	public void flush()
+	{
 	}
 
 	@Override
-	public void close() throws SecurityException {
+	public void close() throws SecurityException
+	{
 	}
 }

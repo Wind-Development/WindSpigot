@@ -12,20 +12,24 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 // CraftBukkit start
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 
-public final class SpawnerCreature {
+public final class SpawnerCreature
+{
 
 	private static final int a = (int) Math.pow(17.0D, 2.0D);
 	private final LongHashSet b = new LongHashSet(); // CraftBukkit
 
-	public SpawnerCreature() {
+	public SpawnerCreature()
+	{
 	}
 
 	// Spigot start - get entity count only from chunks being processed in b
-	private int getEntityCount(WorldServer server, Class oClass) {
+	private int getEntityCount(WorldServer server, Class oClass)
+	{
 		// NachoSpigot start - remove Steam
 		int sum = 0;
 		for (ObjectIterator<Chunk> objectIterator = (server.chunkProviderServer).chunks.values()
-				.iterator(); objectIterator.hasNext();) {
+				.iterator(); objectIterator.hasNext();)
+		{
 			Chunk c = objectIterator.next();
 			sum += c.entityCount.get(oClass);
 		}
@@ -60,10 +64,13 @@ public final class SpawnerCreature {
 	}
 	// Spigot end
 
-	public int a(WorldServer worldserver, boolean flag, boolean flag1, boolean flag2) {
-		if (!flag && !flag1) {
+	public int a(WorldServer worldserver, boolean flag, boolean flag1, boolean flag2)
+	{
+		if (!flag && !flag1)
+		{
 			return 0;
-		} else {
+		} else
+		{
 			this.b.clear();
 			int i = 0;
 			Iterator<EntityHuman> iterator = worldserver.players.iterator();
@@ -71,10 +78,12 @@ public final class SpawnerCreature {
 			int j;
 			int k;
 
-			while (iterator.hasNext()) {
+			while (iterator.hasNext())
+			{
 				EntityHuman entityhuman = iterator.next();
 
-				if (!entityhuman.isSpectator() || !entityhuman.affectsSpawning) { // PaperSpigot
+				if (!entityhuman.isSpectator() || !entityhuman.affectsSpawning)
+				{ // PaperSpigot
 					int l = MathHelper.floor(entityhuman.locX / 16.0D);
 
 					j = MathHelper.floor(entityhuman.locZ / 16.0D);
@@ -86,17 +95,21 @@ public final class SpawnerCreature {
 					b0 = (b0 > 8) ? 8 : b0;
 					// Spigot End
 
-					for (int i1 = -b0; i1 <= b0; ++i1) {
-						for (k = -b0; k <= b0; ++k) {
+					for (int i1 = -b0; i1 <= b0; ++i1)
+					{
+						for (k = -b0; k <= b0; ++k)
+						{
 							boolean flag3 = i1 == -b0 || i1 == b0 || k == -b0 || k == b0;
 							// CraftBukkit start - use LongHash and LongHashSet
 							// ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(i1 + l, k + j);
 
 							long chunkCoords = LongHash.toLong(i1 + l, k + j);
-							if (!this.b.contains(chunkCoords)) {
+							if (!this.b.contains(chunkCoords))
+							{
 								++i;
 								if (!flag3 && worldserver.isChunkLoaded(i1 + l, k + j, true)
-										&& worldserver.getWorldBorder().isInBounds(i1 + l, k + j)) { // Migot
+										&& worldserver.getWorldBorder().isInBounds(i1 + l, k + j))
+								{ // Migot
 									this.b.add(chunkCoords);
 								}
 							}
@@ -112,12 +125,14 @@ public final class SpawnerCreature {
 
 			j = aenumcreaturetype.length;
 
-			for (int k1 = 0; k1 < j; ++k1) {
+			for (int k1 = 0; k1 < j; ++k1)
+			{
 				EnumCreatureType enumcreaturetype = aenumcreaturetype[k1];
 
 				// CraftBukkit start - Use per-world spawn limits
 				int limit = enumcreaturetype.b();
-				switch (enumcreaturetype) {
+				switch (enumcreaturetype)
+				{
 				case MONSTER:
 					limit = worldserver.getWorld().getMonsterSpawnLimit();
 					break;
@@ -132,30 +147,34 @@ public final class SpawnerCreature {
 					break;
 				}
 
-				if (limit == 0) {
+				if (limit == 0)
+				{
 					continue;
 				}
 				int mobcnt = 0; // Spigot
 				// CraftBukkit end
 
 				if ((!enumcreaturetype.d() || flag1) && (enumcreaturetype.d() || flag)
-						&& (!enumcreaturetype.e() || flag2)) {
+						&& (!enumcreaturetype.e() || flag2))
+				{
 					/*
 					 * k = worldserver.a(enumcreaturetype.a()); int l1 = limit * i / a; //
 					 * CraftBukkit - use per-world limits
 					 */
 
-					if ((mobcnt = getEntityCount(worldserver, enumcreaturetype.a())) <= limit * i / 289) { // TacoSpigot
-																											// - use
-																											// 17x17
-																											// like
-																											// vanilla
-																											// (a at top
-																											// of file)
+					if ((mobcnt = getEntityCount(worldserver, enumcreaturetype.a())) <= limit * i / 289)
+					{ // TacoSpigot
+						// - use
+						// 17x17
+						// like
+						// vanilla
+						// (a at top
+						// of file)
 						Iterator iterator1 = this.b.iterator();
 
 						int moblimit = (limit * i / 256) - mobcnt + 1; // Spigot - up to 1 more than limit
-						label115: while (iterator1.hasNext() && (moblimit > 0)) { // Spigot - while more allowed
+						label115: while (iterator1.hasNext() && (moblimit > 0))
+						{ // Spigot - while more allowed
 							// CraftBukkit start = use LongHash and LongObjectHashMap
 							long key = ((Long) iterator1.next()).longValue();
 							BlockPosition blockposition1 = getRandomPosition(worldserver, LongHash.msw(key),
@@ -166,11 +185,13 @@ public final class SpawnerCreature {
 							int k2 = blockposition1.getZ();
 							Block block = worldserver.getType(blockposition1).getBlock();
 
-							if (!block.isOccluding()) {
+							if (!block.isOccluding())
+							{
 								int l2 = 0;
 								int i3 = 0;
 
-								while (i3 < 3) {
+								while (i3 < 3)
+								{
 									int j3 = i2;
 									int k3 = j2;
 									int l3 = k2;
@@ -179,9 +200,12 @@ public final class SpawnerCreature {
 									GroupDataEntity groupdataentity = null;
 									int i4 = 0;
 
-									while (true) {
-										if (i4 < 4) {
-											label108: {
+									while (true)
+									{
+										if (i4 < 4)
+										{
+											label108:
+											{
 												j3 += worldserver.random.nextInt(b1) - worldserver.random.nextInt(b1);
 												k3 += worldserver.random.nextInt(1) - worldserver.random.nextInt(1);
 												l3 += worldserver.random.nextInt(b1) - worldserver.random.nextInt(b1);
@@ -189,15 +213,16 @@ public final class SpawnerCreature {
 												float f = j3 + 0.5F;
 												float f1 = l3 + 0.5F;
 
-												if (!worldserver.isPlayerNearbyWhoAffectsSpawning(f,
-														k3, f1, 24.0D)
-														&& blockposition.c(f, k3,
-																f1) >= 576.0D) { // PaperSpigot - Affects
-																							// Spawning API
-													if (biomebase_biomemeta == null) {
+												if (!worldserver.isPlayerNearbyWhoAffectsSpawning(f, k3, f1, 24.0D)
+														&& blockposition.c(f, k3, f1) >= 576.0D)
+												{ // PaperSpigot - Affects
+													// Spawning API
+													if (biomebase_biomemeta == null)
+													{
 														biomebase_biomemeta = worldserver.a(enumcreaturetype,
 																blockposition2);
-														if (biomebase_biomemeta == null) {
+														if (biomebase_biomemeta == null)
+														{
 															break label108;
 														}
 													}
@@ -205,26 +230,31 @@ public final class SpawnerCreature {
 													if (worldserver.a(enumcreaturetype, biomebase_biomemeta,
 															blockposition2)
 															&& a(EntityPositionTypes.a(biomebase_biomemeta.b),
-																	worldserver, blockposition2)) {
+																	worldserver, blockposition2))
+													{
 														EntityInsentient entityinsentient;
 
-														try {
+														try
+														{
 															entityinsentient = biomebase_biomemeta.b
-																	.getConstructor(new Class[] { World.class })
-																	.newInstance(new Object[] { worldserver });
-														} catch (Exception exception) {
+																	.getConstructor(new Class[]
+																	{ World.class }).newInstance(new Object[]
+																	{ worldserver });
+														} catch (Exception exception)
+														{
 															exception.printStackTrace();
 															return j1;
 														}
 
-														entityinsentient.setPositionRotation(f, k3,
-																f1, worldserver.random.nextFloat() * 360.0F,
-																0.0F);
-														if (entityinsentient.bR() && entityinsentient.canSpawn()) {
+														entityinsentient.setPositionRotation(f, k3, f1,
+																worldserver.random.nextFloat() * 360.0F, 0.0F);
+														if (entityinsentient.bR() && entityinsentient.canSpawn())
+														{
 															groupdataentity = entityinsentient.prepare(
 																	worldserver.E(new BlockPosition(entityinsentient)),
 																	groupdataentity);
-															if (entityinsentient.canSpawn()) {
+															if (entityinsentient.canSpawn())
+															{
 																++l2;
 																worldserver.addEntity(entityinsentient,
 																		SpawnReason.NATURAL); // CraftBukkit - Added a
@@ -233,12 +263,14 @@ public final class SpawnerCreature {
 															}
 
 															// Spigot start
-															if (--moblimit <= 0) {
+															if (--moblimit <= 0)
+															{
 																// If we're past limit, stop spawn
 																continue label115;
 															}
 															// Spigot end
-															if (l2 >= entityinsentient.bV()) {
+															if (l2 >= entityinsentient.bV())
+															{
 																continue label115;
 															}
 														}
@@ -266,7 +298,8 @@ public final class SpawnerCreature {
 		}
 	}
 
-	protected static BlockPosition getRandomPosition(World world, int i, int j) {
+	protected static BlockPosition getRandomPosition(World world, int i, int j)
+	{
 		Chunk chunk = world.getChunkAt(i, j);
 		int k = i * 16 + world.random.nextInt(16);
 		int l = j * 16 + world.random.nextInt(16);
@@ -277,22 +310,29 @@ public final class SpawnerCreature {
 	}
 
 	public static boolean a(EntityInsentient.EnumEntityPositionType entityinsentient_enumentitypositiontype,
-			World world, BlockPosition blockposition) {
-		if (!world.getWorldBorder().a(blockposition)) {
+			World world, BlockPosition blockposition)
+	{
+		if (!world.getWorldBorder().a(blockposition))
+		{
 			return false;
-		} else {
+		} else
+		{
 			Block block = world.getType(blockposition).getBlock();
 
-			if (entityinsentient_enumentitypositiontype == EntityInsentient.EnumEntityPositionType.IN_WATER) {
+			if (entityinsentient_enumentitypositiontype == EntityInsentient.EnumEntityPositionType.IN_WATER)
+			{
 				return block.getMaterial().isLiquid()
 						&& world.getType(blockposition.down()).getBlock().getMaterial().isLiquid()
 						&& !world.getType(blockposition.up()).getBlock().isOccluding();
-			} else {
+			} else
+			{
 				BlockPosition blockposition1 = blockposition.down();
 
-				if (!World.a(world, blockposition1)) {
+				if (!World.a(world, blockposition1))
+				{
 					return false;
-				} else {
+				} else
+				{
 					Block block1 = world.getType(blockposition1).getBlock();
 					boolean flag = block1 != Blocks.BEDROCK && block1 != Blocks.BARRIER;
 
@@ -303,11 +343,14 @@ public final class SpawnerCreature {
 		}
 	}
 
-	public static void a(World world, BiomeBase biomebase, int i, int j, int k, int l, Random random) {
+	public static void a(World world, BiomeBase biomebase, int i, int j, int k, int l, Random random)
+	{
 		List list = biomebase.getMobs(EnumCreatureType.CREATURE);
 
-		if (!list.isEmpty()) {
-			while (random.nextFloat() < biomebase.g()) {
+		if (!list.isEmpty())
+		{
+			while (random.nextFloat() < biomebase.g())
+			{
 				BiomeBase.BiomeMeta biomebase_biomemeta = (BiomeBase.BiomeMeta) WeightedRandom.a(world.random, list);
 				int i1 = biomebase_biomemeta.c + random.nextInt(1 + biomebase_biomemeta.d - biomebase_biomemeta.c);
 				GroupDataEntity groupdataentity = null;
@@ -316,26 +359,30 @@ public final class SpawnerCreature {
 				int l1 = j1;
 				int i2 = k1;
 
-				for (int j2 = 0; j2 < i1; ++j2) {
+				for (int j2 = 0; j2 < i1; ++j2)
+				{
 					boolean flag = false;
 
-					for (int k2 = 0; !flag && k2 < 4; ++k2) {
+					for (int k2 = 0; !flag && k2 < 4; ++k2)
+					{
 						BlockPosition blockposition = world.r(new BlockPosition(j1, 0, k1));
 
-						if (a(EntityInsentient.EnumEntityPositionType.ON_GROUND, world, blockposition)) {
+						if (a(EntityInsentient.EnumEntityPositionType.ON_GROUND, world, blockposition))
+						{
 							EntityInsentient entityinsentient;
 
-							try {
-								entityinsentient = biomebase_biomemeta.b
-										.getConstructor(new Class[] { World.class })
-										.newInstance(new Object[] { world });
-							} catch (Exception exception) {
+							try
+							{
+								entityinsentient = biomebase_biomemeta.b.getConstructor(new Class[]
+								{ World.class }).newInstance(new Object[]
+								{ world });
+							} catch (Exception exception)
+							{
 								exception.printStackTrace();
 								continue;
 							}
 
-							entityinsentient.setPositionRotation(j1 + 0.5F,
-									blockposition.getY(), k1 + 0.5F,
+							entityinsentient.setPositionRotation(j1 + 0.5F, blockposition.getY(), k1 + 0.5F,
 									random.nextFloat() * 360.0F, 0.0F);
 							// CraftBukkit start - Added a reason for spawning this creature, moved
 							// entityinsentient.prepare(groupdataentity) up
@@ -349,7 +396,8 @@ public final class SpawnerCreature {
 						j1 += random.nextInt(5) - random.nextInt(5);
 
 						for (k1 += random.nextInt(5) - random.nextInt(5); j1 < i || j1 >= i + k || k1 < j
-								|| k1 >= j + k; k1 = i2 + random.nextInt(5) - random.nextInt(5)) {
+								|| k1 >= j + k; k1 = i2 + random.nextInt(5) - random.nextInt(5))
+						{
 							j1 = l1 + random.nextInt(5) - random.nextInt(5);
 						}
 					}

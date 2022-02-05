@@ -17,11 +17,13 @@ import net.minecraft.server.Item;
 import net.minecraft.server.MinecraftKey;
 import net.minecraft.server.StatisticList;
 
-public class CraftStatistic {
+public class CraftStatistic
+{
 	private static final BiMap<String, org.bukkit.Statistic> statistics;
 	private static final BiMap<String, org.bukkit.Achievement> achievements;
 
-	static {
+	static
+	{
 		ImmutableMap<String, org.bukkit.Achievement> specialCases = ImmutableMap.<String, org.bukkit.Achievement>builder()
 				.put("achievement.buildWorkBench", Achievement.BUILD_WORKBENCH)
 				.put("achievement.diamonds", Achievement.GET_DIAMONDS)
@@ -31,16 +33,21 @@ public class CraftStatistic {
 				.put("achievement.potion", Achievement.BREW_POTION).build();
 		ImmutableBiMap.Builder<String, org.bukkit.Statistic> statisticBuilder = ImmutableBiMap.<String, org.bukkit.Statistic>builder();
 		ImmutableBiMap.Builder<String, org.bukkit.Achievement> achievementBuilder = ImmutableBiMap.<String, org.bukkit.Achievement>builder();
-		for (Statistic statistic : Statistic.values()) {
-			if (statistic == Statistic.PLAY_ONE_TICK) {
+		for (Statistic statistic : Statistic.values())
+		{
+			if (statistic == Statistic.PLAY_ONE_TICK)
+			{
 				statisticBuilder.put("stat.playOneMinute", statistic);
-			} else {
+			} else
+			{
 				statisticBuilder.put("stat." + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, statistic.name()),
 						statistic);
 			}
 		}
-		for (Achievement achievement : Achievement.values()) {
-			if (specialCases.values().contains(achievement)) {
+		for (Achievement achievement : Achievement.values())
+		{
+			if (specialCases.values().contains(achievement))
+			{
 				continue;
 			}
 			achievementBuilder.put(
@@ -54,99 +61,127 @@ public class CraftStatistic {
 		achievements = achievementBuilder.build();
 	}
 
-	private CraftStatistic() {
+	private CraftStatistic()
+	{
 	}
 
-	public static org.bukkit.Achievement getBukkitAchievement(net.minecraft.server.Achievement achievement) {
+	public static org.bukkit.Achievement getBukkitAchievement(net.minecraft.server.Achievement achievement)
+	{
 		return getBukkitAchievementByName(achievement.name);
 	}
 
-	public static org.bukkit.Achievement getBukkitAchievementByName(String name) {
+	public static org.bukkit.Achievement getBukkitAchievementByName(String name)
+	{
 		return achievements.get(name);
 	}
 
-	public static org.bukkit.Statistic getBukkitStatistic(net.minecraft.server.Statistic statistic) {
+	public static org.bukkit.Statistic getBukkitStatistic(net.minecraft.server.Statistic statistic)
+	{
 		return getBukkitStatisticByName(statistic.name);
 	}
 
-	public static org.bukkit.Statistic getBukkitStatisticByName(String name) {
-		if (name.startsWith("stat.killEntity")) {
+	public static org.bukkit.Statistic getBukkitStatisticByName(String name)
+	{
+		if (name.startsWith("stat.killEntity"))
+		{
 			name = "stat.killEntity";
 		}
-		if (name.startsWith("stat.entityKilledBy")) {
+		if (name.startsWith("stat.entityKilledBy"))
+		{
 			name = "stat.entityKilledBy";
 		}
-		if (name.startsWith("stat.breakItem")) {
+		if (name.startsWith("stat.breakItem"))
+		{
 			name = "stat.breakItem";
 		}
-		if (name.startsWith("stat.useItem")) {
+		if (name.startsWith("stat.useItem"))
+		{
 			name = "stat.useItem";
 		}
-		if (name.startsWith("stat.mineBlock")) {
+		if (name.startsWith("stat.mineBlock"))
+		{
 			name = "stat.mineBlock";
 		}
-		if (name.startsWith("stat.craftItem")) {
+		if (name.startsWith("stat.craftItem"))
+		{
 			name = "stat.craftItem";
 		}
 		return statistics.get(name);
 	}
 
-	public static net.minecraft.server.Statistic getNMSStatistic(org.bukkit.Statistic statistic) {
+	public static net.minecraft.server.Statistic getNMSStatistic(org.bukkit.Statistic statistic)
+	{
 		return StatisticList.getStatistic(statistics.inverse().get(statistic));
 	}
 
-	public static net.minecraft.server.Achievement getNMSAchievement(org.bukkit.Achievement achievement) {
+	public static net.minecraft.server.Achievement getNMSAchievement(org.bukkit.Achievement achievement)
+	{
 		return (net.minecraft.server.Achievement) StatisticList.getStatistic(achievements.inverse().get(achievement));
 	}
 
-	public static net.minecraft.server.Statistic getMaterialStatistic(org.bukkit.Statistic stat, Material material) {
-		try {
-			if (stat == Statistic.MINE_BLOCK) {
+	public static net.minecraft.server.Statistic getMaterialStatistic(org.bukkit.Statistic stat, Material material)
+	{
+		try
+		{
+			if (stat == Statistic.MINE_BLOCK)
+			{
 				return StatisticList.MINE_BLOCK_COUNT[material.getId()];
 			}
-			if (stat == Statistic.CRAFT_ITEM) {
+			if (stat == Statistic.CRAFT_ITEM)
+			{
 				return StatisticList.CRAFT_BLOCK_COUNT[material.getId()];
 			}
-			if (stat == Statistic.USE_ITEM) {
+			if (stat == Statistic.USE_ITEM)
+			{
 				return StatisticList.USE_ITEM_COUNT[material.getId()];
 			}
-			if (stat == Statistic.BREAK_ITEM) {
+			if (stat == Statistic.BREAK_ITEM)
+			{
 				return StatisticList.BREAK_ITEM_COUNT[material.getId()];
 			}
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (ArrayIndexOutOfBoundsException e)
+		{
 			return null;
 		}
 		return null;
 	}
 
-	public static net.minecraft.server.Statistic getEntityStatistic(org.bukkit.Statistic stat, EntityType entity) {
+	public static net.minecraft.server.Statistic getEntityStatistic(org.bukkit.Statistic stat, EntityType entity)
+	{
 		MonsterEggInfo monsteregginfo = EntityTypes.eggInfo.get(Integer.valueOf(entity.getTypeId()));
 
-		if (monsteregginfo != null) {
+		if (monsteregginfo != null)
+		{
 			return monsteregginfo.killEntityStatistic;
 		}
 		return null;
 	}
 
-	public static EntityType getEntityTypeFromStatistic(net.minecraft.server.Statistic statistic) {
+	public static EntityType getEntityTypeFromStatistic(net.minecraft.server.Statistic statistic)
+	{
 		String statisticString = statistic.name;
 		return EntityType.fromName(statisticString.substring(statisticString.lastIndexOf(".") + 1));
 	}
 
-	public static Material getMaterialFromStatistic(net.minecraft.server.Statistic statistic) {
+	public static Material getMaterialFromStatistic(net.minecraft.server.Statistic statistic)
+	{
 		String statisticString = statistic.name;
 		String val = statisticString.substring(statisticString.lastIndexOf(".") + 1);
 		Item item = Item.REGISTRY.get(new MinecraftKey(val));
-		if (item != null) {
+		if (item != null)
+		{
 			return Material.getMaterial(Item.getId(item));
 		}
 		Block block = Block.REGISTRY.get(new MinecraftKey(val));
-		if (block != null) {
+		if (block != null)
+		{
 			return Material.getMaterial(Block.getId(block));
 		}
-		try {
+		try
+		{
 			return Material.getMaterial(Integer.parseInt(val));
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException e)
+		{
 			return null;
 		}
 	}

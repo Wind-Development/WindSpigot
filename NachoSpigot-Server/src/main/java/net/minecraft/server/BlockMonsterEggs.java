@@ -4,12 +4,14 @@ import java.util.Random;
 
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason; // CraftBukkit
 
-public class BlockMonsterEggs extends Block {
+public class BlockMonsterEggs extends Block
+{
 
 	public static final BlockStateEnum<BlockMonsterEggs.EnumMonsterEggVarient> VARIANT = BlockStateEnum.of("variant",
 			BlockMonsterEggs.EnumMonsterEggVarient.class);
 
-	public BlockMonsterEggs() {
+	public BlockMonsterEggs()
+	{
 		super(Material.CLAY);
 		this.j(this.blockStateList.getBlockData().set(BlockMonsterEggs.VARIANT,
 				BlockMonsterEggs.EnumMonsterEggVarient.STONE));
@@ -18,11 +20,13 @@ public class BlockMonsterEggs extends Block {
 	}
 
 	@Override
-	public int a(Random random) {
+	public int a(Random random)
+	{
 		return 0;
 	}
 
-	public static boolean d(IBlockData iblockdata) {
+	public static boolean d(IBlockData iblockdata)
+	{
 		Block block = iblockdata.getBlock();
 
 		return iblockdata == Blocks.STONE.getBlockData().set(BlockStone.VARIANT, BlockStone.EnumStoneVariant.STONE)
@@ -30,9 +34,10 @@ public class BlockMonsterEggs extends Block {
 	}
 
 	@Override
-	protected ItemStack i(IBlockData iblockdata) {
-		switch (BlockMonsterEggs.SyntheticClass_1.a[iblockdata
-				.get(BlockMonsterEggs.VARIANT).ordinal()]) {
+	protected ItemStack i(IBlockData iblockdata)
+	{
+		switch (BlockMonsterEggs.SyntheticClass_1.a[iblockdata.get(BlockMonsterEggs.VARIANT).ordinal()])
+		{
 		case 1:
 			return new ItemStack(Blocks.COBBLESTONE);
 
@@ -54,8 +59,10 @@ public class BlockMonsterEggs extends Block {
 	}
 
 	@Override
-	public void dropNaturally(World world, BlockPosition blockposition, IBlockData iblockdata, float f, int i) {
-		if (!world.isClientSide && world.getGameRules().getBoolean("doTileDrops")) {
+	public void dropNaturally(World world, BlockPosition blockposition, IBlockData iblockdata, float f, int i)
+	{
+		if (!world.isClientSide && world.getGameRules().getBoolean("doTileDrops"))
+		{
 			EntitySilverfish entitysilverfish = new EntitySilverfish(world);
 
 			entitysilverfish.setPositionRotation(blockposition.getX() + 0.5D, blockposition.getY(),
@@ -67,112 +74,142 @@ public class BlockMonsterEggs extends Block {
 	}
 
 	@Override
-	public int getDropData(World world, BlockPosition blockposition) {
+	public int getDropData(World world, BlockPosition blockposition)
+	{
 		IBlockData iblockdata = world.getType(blockposition);
 
 		return iblockdata.getBlock().toLegacyData(iblockdata);
 	}
 
 	@Override
-	public IBlockData fromLegacyData(int i) {
+	public IBlockData fromLegacyData(int i)
+	{
 		return this.getBlockData().set(BlockMonsterEggs.VARIANT, BlockMonsterEggs.EnumMonsterEggVarient.a(i));
 	}
 
 	@Override
-	public int toLegacyData(IBlockData iblockdata) {
+	public int toLegacyData(IBlockData iblockdata)
+	{
 		return iblockdata.get(BlockMonsterEggs.VARIANT).a();
 	}
 
 	@Override
-	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockMonsterEggs.VARIANT });
+	protected BlockStateList getStateList()
+	{
+		return new BlockStateList(this, new IBlockState[]
+		{ BlockMonsterEggs.VARIANT });
 	}
 
-	static class SyntheticClass_1 {
+	static class SyntheticClass_1
+	{
 
 		static final int[] a = new int[BlockMonsterEggs.EnumMonsterEggVarient.values().length];
 
-		static {
-			try {
+		static
+		{
+			try
+			{
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.COBBLESTONE.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
+			} catch (NoSuchFieldError nosuchfielderror)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.STONEBRICK.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
+			} catch (NoSuchFieldError nosuchfielderror1)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.MOSSY_STONEBRICK
 						.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
+			} catch (NoSuchFieldError nosuchfielderror2)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.CRACKED_STONEBRICK
 						.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
+			} catch (NoSuchFieldError nosuchfielderror3)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.CHISELED_STONEBRICK
 						.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4) {
+			} catch (NoSuchFieldError nosuchfielderror4)
+			{
 				;
 			}
 
 		}
 	}
 
-	public static enum EnumMonsterEggVarient implements INamable {
+	public static enum EnumMonsterEggVarient implements INamable
+	{
 
-		STONE(0, "stone") {
+		STONE(0, "stone")
+		{
 			;
 			@Override
-			public IBlockData d() {
+			public IBlockData d()
+			{
 				return Blocks.STONE.getBlockData().set(BlockStone.VARIANT, BlockStone.EnumStoneVariant.STONE);
 			}
 		},
-		COBBLESTONE(1, "cobblestone", "cobble") {
+		COBBLESTONE(1, "cobblestone", "cobble")
+		{
 			;
 			@Override
-			public IBlockData d() {
+			public IBlockData d()
+			{
 				return Blocks.COBBLESTONE.getBlockData();
 			}
 		},
-		STONEBRICK(2, "stone_brick", "brick") {
+		STONEBRICK(2, "stone_brick", "brick")
+		{
 			;
 			@Override
-			public IBlockData d() {
+			public IBlockData d()
+			{
 				return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT,
 						BlockSmoothBrick.EnumStonebrickType.DEFAULT);
 			}
 		},
-		MOSSY_STONEBRICK(3, "mossy_brick", "mossybrick") {
+		MOSSY_STONEBRICK(3, "mossy_brick", "mossybrick")
+		{
 			;
 			@Override
-			public IBlockData d() {
+			public IBlockData d()
+			{
 				return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT,
 						BlockSmoothBrick.EnumStonebrickType.MOSSY);
 			}
 		},
-		CRACKED_STONEBRICK(4, "cracked_brick", "crackedbrick") {
+		CRACKED_STONEBRICK(4, "cracked_brick", "crackedbrick")
+		{
 			;
 			@Override
-			public IBlockData d() {
+			public IBlockData d()
+			{
 				return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT,
 						BlockSmoothBrick.EnumStonebrickType.CRACKED);
 			}
 		},
-		CHISELED_STONEBRICK(5, "chiseled_brick", "chiseledbrick") {
+		CHISELED_STONEBRICK(5, "chiseled_brick", "chiseledbrick")
+		{
 			;
 			@Override
-			public IBlockData d() {
+			public IBlockData d()
+			{
 				return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT,
 						BlockSmoothBrick.EnumStonebrickType.CHISELED);
 			}
@@ -183,27 +220,33 @@ public class BlockMonsterEggs extends Block {
 		private final String i;
 		private final String j;
 
-		private EnumMonsterEggVarient(int i, String s) {
+		private EnumMonsterEggVarient(int i, String s)
+		{
 			this(i, s, s);
 		}
 
-		private EnumMonsterEggVarient(int i, String s, String s1) {
+		private EnumMonsterEggVarient(int i, String s, String s1)
+		{
 			this.h = i;
 			this.i = s;
 			this.j = s1;
 		}
 
-		public int a() {
+		public int a()
+		{
 			return this.h;
 		}
 
 		@Override
-		public String toString() {
+		public String toString()
+		{
 			return this.i;
 		}
 
-		public static BlockMonsterEggs.EnumMonsterEggVarient a(int i) {
-			if (i < 0 || i >= BlockMonsterEggs.EnumMonsterEggVarient.g.length) {
+		public static BlockMonsterEggs.EnumMonsterEggVarient a(int i)
+		{
+			if (i < 0 || i >= BlockMonsterEggs.EnumMonsterEggVarient.g.length)
+			{
 				i = 0;
 			}
 
@@ -211,24 +254,29 @@ public class BlockMonsterEggs extends Block {
 		}
 
 		@Override
-		public String getName() {
+		public String getName()
+		{
 			return this.i;
 		}
 
-		public String c() {
+		public String c()
+		{
 			return this.j;
 		}
 
 		public abstract IBlockData d();
 
-		public static BlockMonsterEggs.EnumMonsterEggVarient a(IBlockData iblockdata) {
+		public static BlockMonsterEggs.EnumMonsterEggVarient a(IBlockData iblockdata)
+		{
 			BlockMonsterEggs.EnumMonsterEggVarient[] ablockmonstereggs_enummonstereggvarient = values();
 			int i = ablockmonstereggs_enummonstereggvarient.length;
 
-			for (int j = 0; j < i; ++j) {
+			for (int j = 0; j < i; ++j)
+			{
 				BlockMonsterEggs.EnumMonsterEggVarient blockmonstereggs_enummonstereggvarient = ablockmonstereggs_enummonstereggvarient[j];
 
-				if (iblockdata == blockmonstereggs_enummonstereggvarient.d()) {
+				if (iblockdata == blockmonstereggs_enummonstereggvarient.d())
+				{
 					return blockmonstereggs_enummonstereggvarient;
 				}
 			}
@@ -236,20 +284,24 @@ public class BlockMonsterEggs extends Block {
 			return BlockMonsterEggs.EnumMonsterEggVarient.STONE;
 		}
 
-		EnumMonsterEggVarient(int i, String s, BlockMonsterEggs.SyntheticClass_1 blockmonstereggs_syntheticclass_1) {
+		EnumMonsterEggVarient(int i, String s, BlockMonsterEggs.SyntheticClass_1 blockmonstereggs_syntheticclass_1)
+		{
 			this(i, s);
 		}
 
 		EnumMonsterEggVarient(int i, String s, String s1,
-				BlockMonsterEggs.SyntheticClass_1 blockmonstereggs_syntheticclass_1) {
+				BlockMonsterEggs.SyntheticClass_1 blockmonstereggs_syntheticclass_1)
+		{
 			this(i, s, s1);
 		}
 
-		static {
+		static
+		{
 			BlockMonsterEggs.EnumMonsterEggVarient[] ablockmonstereggs_enummonstereggvarient = values();
 			int i = ablockmonstereggs_enummonstereggvarient.length;
 
-			for (int j = 0; j < i; ++j) {
+			for (int j = 0; j < i; ++j)
+			{
 				BlockMonsterEggs.EnumMonsterEggVarient blockmonstereggs_enummonstereggvarient = ablockmonstereggs_enummonstereggvarient[j];
 
 				BlockMonsterEggs.EnumMonsterEggVarient.g[blockmonstereggs_enummonstereggvarient

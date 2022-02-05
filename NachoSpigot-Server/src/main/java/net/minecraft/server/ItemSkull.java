@@ -4,11 +4,14 @@ import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
 
-public class ItemSkull extends Item {
+public class ItemSkull extends Item
+{
 
-	private static final String[] a = new String[] { "skeleton", "wither", "zombie", "char", "creeper" };
+	private static final String[] a = new String[]
+	{ "skeleton", "wither", "zombie", "char", "creeper" };
 
-	public ItemSkull() {
+	public ItemSkull()
+	{
 		this.a(CreativeModeTab.c);
 		this.setMaxDurability(0);
 		this.a(true);
@@ -16,30 +19,40 @@ public class ItemSkull extends Item {
 
 	@Override
 	public boolean interactWith(ItemStack itemstack, EntityHuman entityhuman, World world, BlockPosition blockposition,
-			EnumDirection enumdirection, float f, float f1, float f2) {
-		if (enumdirection == EnumDirection.DOWN) {
+			EnumDirection enumdirection, float f, float f1, float f2)
+	{
+		if (enumdirection == EnumDirection.DOWN)
+		{
 			return false;
-		} else {
+		} else
+		{
 			IBlockData iblockdata = world.getType(blockposition);
 			Block block = iblockdata.getBlock();
 			boolean flag = block.a(world, blockposition);
 
-			if (!flag) {
-				if (!world.getType(blockposition).getBlock().getMaterial().isBuildable()) {
+			if (!flag)
+			{
+				if (!world.getType(blockposition).getBlock().getMaterial().isBuildable())
+				{
 					return false;
 				}
 
 				blockposition = blockposition.shift(enumdirection);
 			}
 
-			if (!entityhuman.a(blockposition, enumdirection, itemstack)) {
+			if (!entityhuman.a(blockposition, enumdirection, itemstack))
+			{
 				return false;
-			} else if (!Blocks.SKULL.canPlace(world, blockposition)) {
+			} else if (!Blocks.SKULL.canPlace(world, blockposition))
+			{
 				return false;
-			} else {
-				if (!world.isClientSide) {
+			} else
+			{
+				if (!world.isClientSide)
+				{
 					// Spigot Start
-					if (!Blocks.SKULL.canPlace(world, blockposition)) {
+					if (!Blocks.SKULL.canPlace(world, blockposition))
+					{
 						return false;
 					}
 					// Spigot End
@@ -47,32 +60,39 @@ public class ItemSkull extends Item {
 							Blocks.SKULL.getBlockData().set(BlockSkull.FACING, enumdirection), 3);
 					int i = 0;
 
-					if (enumdirection == EnumDirection.UP) {
+					if (enumdirection == EnumDirection.UP)
+					{
 						i = MathHelper.floor(entityhuman.yaw * 16.0F / 360.0F + 0.5D) & 15;
 					}
 
 					TileEntity tileentity = world.getTileEntity(blockposition);
 
-					if (tileentity instanceof TileEntitySkull) {
+					if (tileentity instanceof TileEntitySkull)
+					{
 						TileEntitySkull tileentityskull = (TileEntitySkull) tileentity;
 
-						if (itemstack.getData() == 3) {
+						if (itemstack.getData() == 3)
+						{
 							GameProfile gameprofile = null;
 
-							if (itemstack.hasTag()) {
+							if (itemstack.hasTag())
+							{
 								NBTTagCompound nbttagcompound = itemstack.getTag();
 
-								if (nbttagcompound.hasKeyOfType("SkullOwner", 10)) {
+								if (nbttagcompound.hasKeyOfType("SkullOwner", 10))
+								{
 									gameprofile = GameProfileSerializer
 											.deserialize(nbttagcompound.getCompound("SkullOwner"));
 								} else if (nbttagcompound.hasKeyOfType("SkullOwner", 8)
-										&& nbttagcompound.getString("SkullOwner").length() > 0) {
+										&& nbttagcompound.getString("SkullOwner").length() > 0)
+								{
 									gameprofile = new GameProfile((UUID) null, nbttagcompound.getString("SkullOwner"));
 								}
 							}
 
 							tileentityskull.setGameProfile(gameprofile);
-						} else {
+						} else
+						{
 							tileentityskull.setSkullType(itemstack.getData());
 						}
 
@@ -89,15 +109,18 @@ public class ItemSkull extends Item {
 	}
 
 	@Override
-	public int filterData(int i) {
+	public int filterData(int i)
+	{
 		return i;
 	}
 
 	@Override
-	public String e_(ItemStack itemstack) {
+	public String e_(ItemStack itemstack)
+	{
 		int i = itemstack.getData();
 
-		if (i < 0 || i >= ItemSkull.a.length) {
+		if (i < 0 || i >= ItemSkull.a.length)
+		{
 			i = 0;
 		}
 
@@ -105,18 +128,24 @@ public class ItemSkull extends Item {
 	}
 
 	@Override
-	public String a(ItemStack itemstack) {
-		if (itemstack.getData() == 3 && itemstack.hasTag()) {
-			if (itemstack.getTag().hasKeyOfType("SkullOwner", 8)) {
-				return LocaleI18n.a("item.skull.player.name",
-						new Object[] { itemstack.getTag().getString("SkullOwner") });
+	public String a(ItemStack itemstack)
+	{
+		if (itemstack.getData() == 3 && itemstack.hasTag())
+		{
+			if (itemstack.getTag().hasKeyOfType("SkullOwner", 8))
+			{
+				return LocaleI18n.a("item.skull.player.name", new Object[]
+				{ itemstack.getTag().getString("SkullOwner") });
 			}
 
-			if (itemstack.getTag().hasKeyOfType("SkullOwner", 10)) {
+			if (itemstack.getTag().hasKeyOfType("SkullOwner", 10))
+			{
 				NBTTagCompound nbttagcompound = itemstack.getTag().getCompound("SkullOwner");
 
-				if (nbttagcompound.hasKeyOfType("Name", 8)) {
-					return LocaleI18n.a("item.skull.player.name", new Object[] { nbttagcompound.getString("Name") });
+				if (nbttagcompound.hasKeyOfType("Name", 8))
+				{
+					return LocaleI18n.a("item.skull.player.name", new Object[]
+					{ nbttagcompound.getString("Name") });
 				}
 			}
 		}
@@ -125,16 +154,20 @@ public class ItemSkull extends Item {
 	}
 
 	@Override
-	public boolean a(final NBTTagCompound nbttagcompound) { // Spigot - make final
+	public boolean a(final NBTTagCompound nbttagcompound)
+	{ // Spigot - make final
 		super.a(nbttagcompound);
-		if (nbttagcompound.hasKeyOfType("SkullOwner", 8) && nbttagcompound.getString("SkullOwner").length() > 0) {
+		if (nbttagcompound.hasKeyOfType("SkullOwner", 8) && nbttagcompound.getString("SkullOwner").length() > 0)
+		{
 			GameProfile gameprofile = new GameProfile((UUID) null, nbttagcompound.getString("SkullOwner"));
 
 			// Spigot start
-			TileEntitySkull.b(gameprofile, new com.google.common.base.Predicate<GameProfile>() {
+			TileEntitySkull.b(gameprofile, new com.google.common.base.Predicate<GameProfile>()
+			{
 
 				@Override
-				public boolean apply(GameProfile gameprofile) {
+				public boolean apply(GameProfile gameprofile)
+				{
 					nbttagcompound.set("SkullOwner",
 							GameProfileSerializer.serialize(new NBTTagCompound(), gameprofile));
 					return false;
@@ -142,7 +175,8 @@ public class ItemSkull extends Item {
 			});
 			// Spigot end
 			return true;
-		} else {
+		} else
+		{
 			return false;
 		}
 	}

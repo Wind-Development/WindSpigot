@@ -2,18 +2,21 @@ package net.minecraft.server;
 
 import java.io.IOException;
 
-public class PacketHandshakingInSetProtocol implements Packet<PacketHandshakingInListener> {
+public class PacketHandshakingInSetProtocol implements Packet<PacketHandshakingInListener>
+{
 
 	private int a;
 	public String hostname;
 	public int port;
 	private EnumProtocol d;
 
-	public PacketHandshakingInSetProtocol() {
+	public PacketHandshakingInSetProtocol()
+	{
 	}
 
 	@Override
-	public void a(PacketDataSerializer serializer) throws IOException {
+	public void a(PacketDataSerializer serializer) throws IOException
+	{
 		this.a = serializer.readVarInt();
 		this.hostname = serializer.c(Short.MAX_VALUE); // Spigot
 		this.port = serializer.readUnsignedShort();
@@ -21,7 +24,8 @@ public class PacketHandshakingInSetProtocol implements Packet<PacketHandshakingI
 	}
 
 	@Override
-	public void b(PacketDataSerializer serializer) throws IOException {
+	public void b(PacketDataSerializer serializer) throws IOException
+	{
 		serializer.b(this.a);
 		serializer.a(this.hostname);
 		serializer.writeShort(this.port);
@@ -29,15 +33,18 @@ public class PacketHandshakingInSetProtocol implements Packet<PacketHandshakingI
 	}
 
 	@Override
-	public void a(PacketHandshakingInListener packethandshakinginlistener) {
+	public void a(PacketHandshakingInListener packethandshakinginlistener)
+	{
 		packethandshakinginlistener.a(this);
 	}
 
-	public EnumProtocol a() {
+	public EnumProtocol a()
+	{
 		return this.d;
 	}
 
-	public int b() {
+	public int b()
+	{
 		return this.a;
 	}
 }

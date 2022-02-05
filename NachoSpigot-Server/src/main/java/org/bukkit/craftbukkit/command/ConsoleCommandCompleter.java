@@ -9,38 +9,49 @@ import org.bukkit.craftbukkit.util.Waitable;
 
 import jline.console.completer.Completer;
 
-public class ConsoleCommandCompleter implements Completer {
+public class ConsoleCommandCompleter implements Completer
+{
 	private final CraftServer server;
 
-	public ConsoleCommandCompleter(CraftServer server) {
+	public ConsoleCommandCompleter(CraftServer server)
+	{
 		this.server = server;
 	}
 
 	@Override
-	public int complete(final String buffer, final int cursor, final List<CharSequence> candidates) {
-		Waitable<List<String>> waitable = new Waitable<List<String>>() {
+	public int complete(final String buffer, final int cursor, final List<CharSequence> candidates)
+	{
+		Waitable<List<String>> waitable = new Waitable<List<String>>()
+		{
 			@Override
-			protected List<String> evaluate() {
+			protected List<String> evaluate()
+			{
 				return server.getCommandMap().tabComplete(server.getConsoleSender(), buffer);
 			}
 		};
 		this.server.getServer().processQueue.add(waitable);
-		try {
+		try
+		{
 			List<String> offers = waitable.get();
-			if (offers == null) {
+			if (offers == null)
+			{
 				return cursor;
 			}
 			candidates.addAll(offers);
 
 			final int lastSpace = buffer.lastIndexOf(' ');
-			if (lastSpace == -1) {
+			if (lastSpace == -1)
+			{
 				return cursor - buffer.length();
-			} else {
+			} else
+			{
 				return cursor - (buffer.length() - lastSpace - 1);
 			}
-		} catch (ExecutionException e) {
+		} catch (ExecutionException e)
+		{
 			this.server.getLogger().log(Level.WARNING, "Unhandled exception when tab completing", e);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException e)
+		{
 			Thread.currentThread().interrupt();
 		}
 		return cursor;

@@ -6,18 +6,22 @@ import org.bukkit.entity.minecart.ExplosiveMinecart;
 
 import net.minecraft.server.EntityMinecartTNT;
 
-final class CraftMinecartTNT extends CraftMinecart implements ExplosiveMinecart {
-	CraftMinecartTNT(CraftServer server, EntityMinecartTNT entity) {
+final class CraftMinecartTNT extends CraftMinecart implements ExplosiveMinecart
+{
+	CraftMinecartTNT(CraftServer server, EntityMinecartTNT entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftMinecartTNT";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.MINECART_TNT;
 	}
 }

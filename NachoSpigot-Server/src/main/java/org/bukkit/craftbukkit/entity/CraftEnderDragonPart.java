@@ -8,94 +8,112 @@ import org.bukkit.util.NumberConversions;
 
 import net.minecraft.server.EntityComplexPart;
 
-public class CraftEnderDragonPart extends CraftComplexPart implements EnderDragonPart {
-	public CraftEnderDragonPart(CraftServer server, EntityComplexPart entity) {
+public class CraftEnderDragonPart extends CraftComplexPart implements EnderDragonPart
+{
+	public CraftEnderDragonPart(CraftServer server, EntityComplexPart entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EnderDragon getParent() {
+	public EnderDragon getParent()
+	{
 		return (EnderDragon) super.getParent();
 	}
 
 	@Override
-	public EntityComplexPart getHandle() {
+	public EntityComplexPart getHandle()
+	{
 		return (EntityComplexPart) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftEnderDragonPart";
 	}
 
 	@Override
-	public void damage(double amount) {
+	public void damage(double amount)
+	{
 		getParent().damage(amount);
 	}
 
 	@Override
-	public void damage(double amount, Entity source) {
+	public void damage(double amount, Entity source)
+	{
 		getParent().damage(amount, source);
 	}
 
 	@Override
-	public double getHealth() {
+	public double getHealth()
+	{
 		return getParent().getHealth();
 	}
 
 	@Override
-	public void setHealth(double health) {
+	public void setHealth(double health)
+	{
 		getParent().setHealth(health);
 	}
 
 	@Override
-	public double getMaxHealth() {
+	public double getMaxHealth()
+	{
 		return getParent().getMaxHealth();
 	}
 
 	@Override
-	public void setMaxHealth(double health) {
+	public void setMaxHealth(double health)
+	{
 		getParent().setMaxHealth(health);
 	}
 
 	@Override
-	public void resetMaxHealth() {
+	public void resetMaxHealth()
+	{
 		getParent().resetMaxHealth();
 	}
 
 	@Override
 	@Deprecated
-	public void _INVALID_damage(int amount) {
+	public void _INVALID_damage(int amount)
+	{
 		damage(amount);
 	}
 
 	@Override
 	@Deprecated
-	public void _INVALID_damage(int amount, Entity source) {
+	public void _INVALID_damage(int amount, Entity source)
+	{
 		damage(amount, source);
 	}
 
 	@Override
 	@Deprecated
-	public int _INVALID_getHealth() {
+	public int _INVALID_getHealth()
+	{
 		return NumberConversions.ceil(getHealth());
 	}
 
 	@Override
 	@Deprecated
-	public void _INVALID_setHealth(int health) {
+	public void _INVALID_setHealth(int health)
+	{
 		setHealth(health);
 	}
 
 	@Override
 	@Deprecated
-	public int _INVALID_getMaxHealth() {
+	public int _INVALID_getMaxHealth()
+	{
 		return NumberConversions.ceil(getMaxHealth());
 	}
 
 	@Override
 	@Deprecated
-	public void _INVALID_setMaxHealth(int health) {
+	public void _INVALID_setMaxHealth(int health)
+	{
 		setMaxHealth(health);
 	}
 }

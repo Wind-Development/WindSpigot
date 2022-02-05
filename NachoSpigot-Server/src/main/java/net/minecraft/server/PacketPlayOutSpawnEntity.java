@@ -2,32 +2,38 @@ package net.minecraft.server;
 
 import java.io.IOException;
 
-public class PacketPlayOutSpawnEntity implements Packet<PacketListenerPlayOut> {
+public class PacketPlayOutSpawnEntity implements Packet<PacketListenerPlayOut>
+{
 	private int a;
 
-	public int getEntityId() {
+	public int getEntityId()
+	{
 		return a;
 	}
 
-	public void setEntityId(int id) {
+	public void setEntityId(int id)
+	{
 		this.a = id;
 	}
 
 	private int b;
 
-	public int getRawX() {
+	public int getRawX()
+	{
 		return b;
 	}
 
 	private int c;
 
-	public int getRawY() {
+	public int getRawY()
+	{
 		return c;
 	}
 
 	private int d;
 
-	public int getRawZ() {
+	public int getRawZ()
+	{
 		return d;
 	}
 
@@ -39,22 +45,27 @@ public class PacketPlayOutSpawnEntity implements Packet<PacketListenerPlayOut> {
 	private int j;
 	private int k;
 
-	public int getMetaData() {
+	public int getMetaData()
+	{
 		return this.k;
 	}
 
-	public void setMetaData(int meta) {
+	public void setMetaData(int meta)
+	{
 		this.k = meta;
 	}
 
-	public PacketPlayOutSpawnEntity() {
+	public PacketPlayOutSpawnEntity()
+	{
 	}
 
-	public PacketPlayOutSpawnEntity(Entity var1, int var2) {
+	public PacketPlayOutSpawnEntity(Entity var1, int var2)
+	{
 		this(var1, var2, 0);
 	}
 
-	public PacketPlayOutSpawnEntity(Entity var1, int var2, int var3) {
+	public PacketPlayOutSpawnEntity(Entity var1, int var2, int var3)
+	{
 		this.a = var1.getId();
 		this.b = MathHelper.floor(var1.locX * 32.0D);
 		this.c = MathHelper.floor(var1.locY * 32.0D);
@@ -63,32 +74,39 @@ public class PacketPlayOutSpawnEntity implements Packet<PacketListenerPlayOut> {
 		this.i = MathHelper.d(var1.yaw * 256.0F / 360.0F);
 		this.j = var2;
 		this.k = var3;
-		if (var3 > 0) {
+		if (var3 > 0)
+		{
 			double var4 = var1.motX;
 			double var6 = var1.motY;
 			double var8 = var1.motZ;
 			double var10 = 3.9D;
-			if (var4 < -var10) {
+			if (var4 < -var10)
+			{
 				var4 = -var10;
 			}
 
-			if (var6 < -var10) {
+			if (var6 < -var10)
+			{
 				var6 = -var10;
 			}
 
-			if (var8 < -var10) {
+			if (var8 < -var10)
+			{
 				var8 = -var10;
 			}
 
-			if (var4 > var10) {
+			if (var4 > var10)
+			{
 				var4 = var10;
 			}
 
-			if (var6 > var10) {
+			if (var6 > var10)
+			{
 				var6 = var10;
 			}
 
-			if (var8 > var10) {
+			if (var8 > var10)
+			{
 				var8 = var10;
 			}
 
@@ -100,7 +118,8 @@ public class PacketPlayOutSpawnEntity implements Packet<PacketListenerPlayOut> {
 	}
 
 	@Override
-	public void a(PacketDataSerializer var1) throws IOException {
+	public void a(PacketDataSerializer var1) throws IOException
+	{
 		this.a = var1.readVarInt();
 		this.j = var1.readByte();
 		this.b = var1.readInt();
@@ -109,7 +128,8 @@ public class PacketPlayOutSpawnEntity implements Packet<PacketListenerPlayOut> {
 		this.h = var1.readByte();
 		this.i = var1.readByte();
 		this.k = var1.readInt();
-		if (this.k > 0) {
+		if (this.k > 0)
+		{
 			this.e = var1.readShort();
 			this.f = var1.readShort();
 			this.g = var1.readShort();
@@ -118,7 +138,8 @@ public class PacketPlayOutSpawnEntity implements Packet<PacketListenerPlayOut> {
 	}
 
 	@Override
-	public void b(PacketDataSerializer var1) throws IOException {
+	public void b(PacketDataSerializer var1) throws IOException
+	{
 		var1.b(this.a);
 		var1.writeByte(this.j);
 		var1.writeInt(this.b);
@@ -127,7 +148,8 @@ public class PacketPlayOutSpawnEntity implements Packet<PacketListenerPlayOut> {
 		var1.writeByte(this.h);
 		var1.writeByte(this.i);
 		var1.writeInt(this.k);
-		if (this.k > 0) {
+		if (this.k > 0)
+		{
 			var1.writeShort(this.e);
 			var1.writeShort(this.f);
 			var1.writeShort(this.g);
@@ -136,31 +158,38 @@ public class PacketPlayOutSpawnEntity implements Packet<PacketListenerPlayOut> {
 	}
 
 	@Override
-	public void a(PacketListenerPlayOut var1) {
+	public void a(PacketListenerPlayOut var1)
+	{
 		var1.a(this);
 	}
 
-	public void a(int var1) {
+	public void a(int var1)
+	{
 		this.b = var1;
 	}
 
-	public void b(int var1) {
+	public void b(int var1)
+	{
 		this.c = var1;
 	}
 
-	public void c(int var1) {
+	public void c(int var1)
+	{
 		this.d = var1;
 	}
 
-	public void d(int var1) {
+	public void d(int var1)
+	{
 		this.e = var1;
 	}
 
-	public void e(int var1) {
+	public void e(int var1)
+	{
 		this.f = var1;
 	}
 
-	public void f(int var1) {
+	public void f(int var1)
+	{
 		this.g = var1;
 	}
 }

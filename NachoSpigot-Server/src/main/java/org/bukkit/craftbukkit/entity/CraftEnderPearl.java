@@ -6,23 +6,28 @@ import org.bukkit.entity.EntityType;
 
 import net.minecraft.server.EntityEnderPearl;
 
-public class CraftEnderPearl extends CraftProjectile implements EnderPearl {
-	public CraftEnderPearl(CraftServer server, EntityEnderPearl entity) {
+public class CraftEnderPearl extends CraftProjectile implements EnderPearl
+{
+	public CraftEnderPearl(CraftServer server, EntityEnderPearl entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EntityEnderPearl getHandle() {
+	public EntityEnderPearl getHandle()
+	{
 		return (EntityEnderPearl) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftEnderPearl";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.ENDER_PEARL;
 	}
 }

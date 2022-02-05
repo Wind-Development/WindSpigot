@@ -4,12 +4,14 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-public class ItemRecord extends Item {
+public class ItemRecord extends Item
+{
 
 	private static final Map<String, ItemRecord> b = Maps.newHashMap();
 	public final String a;
 
-	protected ItemRecord(String s) {
+	protected ItemRecord(String s)
+	{
 		this.a = s;
 		this.maxStackSize = 1;
 		this.a(CreativeModeTab.f);
@@ -18,14 +20,17 @@ public class ItemRecord extends Item {
 
 	@Override
 	public boolean interactWith(ItemStack itemstack, EntityHuman entityhuman, World world, BlockPosition blockposition,
-			EnumDirection enumdirection, float f, float f1, float f2) {
+			EnumDirection enumdirection, float f, float f1, float f2)
+	{
 		IBlockData iblockdata = world.getType(blockposition);
 
-		if (iblockdata.getBlock() == Blocks.JUKEBOX
-				&& !iblockdata.get(BlockJukeBox.HAS_RECORD).booleanValue()) {
-			if (world.isClientSide) {
+		if (iblockdata.getBlock() == Blocks.JUKEBOX && !iblockdata.get(BlockJukeBox.HAS_RECORD).booleanValue())
+		{
+			if (world.isClientSide)
+			{
 				return true;
-			} else {
+			} else
+			{
 				// CraftBukkit Start
 				/*
 				 * ((BlockJukeBox) Blocks.JUKEBOX).a(world, blockposition, iblockdata,
@@ -35,13 +40,15 @@ public class ItemRecord extends Item {
 				// CraftBukkit End
 				return true;
 			}
-		} else {
+		} else
+		{
 			return false;
 		}
 	}
 
 	@Override
-	public EnumItemRarity g(ItemStack itemstack) {
+	public EnumItemRarity g(ItemStack itemstack)
+	{
 		return EnumItemRarity.RARE;
 	}
 }

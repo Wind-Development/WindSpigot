@@ -45,7 +45,8 @@ import net.minecraft.server.TileEntitySign;
 import net.minecraft.server.TileEntitySkull;
 
 @DelegateDeserialization(CraftMetaItem.SerializableMeta.class)
-public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta {
+public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
+{
 
 	@ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
 	static final ItemMetaKey BLOCK_ENTITY_TAG = new ItemMetaKey("BlockEntityTag");
@@ -53,12 +54,14 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
 	final Material material;
 	NBTTagCompound blockEntityTag;
 
-	CraftMetaBlockState(CraftMetaItem meta, Material material) {
+	CraftMetaBlockState(CraftMetaItem meta, Material material)
+	{
 		super(meta);
 		this.material = material;
 
 		if (!(meta instanceof CraftMetaBlockState) || ((CraftMetaBlockState) meta).material != material
-				|| material == Material.SIGN || material == Material.COMMAND) {
+				|| material == Material.SIGN || material == Material.COMMAND)
+		{
 			blockEntityTag = null;
 			return;
 		}
@@ -67,74 +70,92 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
 		this.blockEntityTag = te.blockEntityTag;
 	}
 
-	CraftMetaBlockState(NBTTagCompound tag, Material material) {
+	CraftMetaBlockState(NBTTagCompound tag, Material material)
+	{
 		super(tag);
 		this.material = material;
 
-		if (tag.hasKeyOfType(BLOCK_ENTITY_TAG.NBT, 10)) {
+		if (tag.hasKeyOfType(BLOCK_ENTITY_TAG.NBT, 10))
+		{
 			blockEntityTag = tag.getCompound(BLOCK_ENTITY_TAG.NBT);
-		} else {
+		} else
+		{
 			blockEntityTag = null;
 		}
 	}
 
-	CraftMetaBlockState(Map<String, Object> map) {
+	CraftMetaBlockState(Map<String, Object> map)
+	{
 		super(map);
 		String matName = SerializableMeta.getString(map, "blockMaterial", true);
 		Material m = Material.getMaterial(matName);
-		if (m != null) {
+		if (m != null)
+		{
 			material = m;
-		} else {
+		} else
+		{
 			material = Material.AIR;
 		}
 	}
 
 	@Override
-	void applyToItem(NBTTagCompound tag) {
+	void applyToItem(NBTTagCompound tag)
+	{
 		super.applyToItem(tag);
 
-		if (blockEntityTag != null) {
+		if (blockEntityTag != null)
+		{
 			tag.set(BLOCK_ENTITY_TAG.NBT, blockEntityTag);
 		}
 	}
 
 	@Override
-	void deserializeInternal(NBTTagCompound tag) {
-		if (tag.hasKeyOfType(BLOCK_ENTITY_TAG.NBT, 10)) {
+	void deserializeInternal(NBTTagCompound tag)
+	{
+		if (tag.hasKeyOfType(BLOCK_ENTITY_TAG.NBT, 10))
+		{
 			blockEntityTag = tag.getCompound(BLOCK_ENTITY_TAG.NBT);
 		}
 	}
 
 	@Override
-	void serializeInternal(final Map<String, NBTBase> internalTags) {
-		if (blockEntityTag != null) {
+	void serializeInternal(final Map<String, NBTBase> internalTags)
+	{
+		if (blockEntityTag != null)
+		{
 			internalTags.put(BLOCK_ENTITY_TAG.NBT, blockEntityTag);
 		}
 	}
 
 	@Override
-	ImmutableMap.Builder<String, Object> serialize(ImmutableMap.Builder<String, Object> builder) {
+	ImmutableMap.Builder<String, Object> serialize(ImmutableMap.Builder<String, Object> builder)
+	{
 		super.serialize(builder);
 		builder.put("blockMaterial", material.name());
 		return builder;
 	}
 
 	@Override
-	int applyHash() {
+	int applyHash()
+	{
 		final int original;
 		int hash = original = super.applyHash();
-		if (blockEntityTag != null) {
+		if (blockEntityTag != null)
+		{
 			hash = 61 * hash + this.blockEntityTag.hashCode();
 		}
 		return original != hash ? CraftMetaBlockState.class.hashCode() ^ hash : hash;
 	}
 
 	@Override
-	public boolean equalsCommon(CraftMetaItem meta) {
-		if (!super.equalsCommon(meta)) {
+	public boolean equalsCommon(CraftMetaItem meta)
+	{
+		if (!super.equalsCommon(meta))
+		{
 			return false;
 		}
-		if (meta instanceof CraftMetaBlockState) {
+		if (meta instanceof CraftMetaBlockState)
+		{
 			CraftMetaBlockState that = (CraftMetaBlockState) meta;
 
 			return Objects.equal(this.blockEntityTag, that.blockEntityTag);
@@ -143,18 +164,22 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
 	}
 
 	@Override
-	boolean notUncommon(CraftMetaItem meta) {
+	boolean notUncommon(CraftMetaItem meta)
+	{
 		return super.notUncommon(meta) && (meta instanceof CraftMetaBlockState || blockEntityTag == null);
 	}
 
 	@Override
-	boolean isEmpty() {
+	boolean isEmpty()
+	{
 		return super.isEmpty() && blockEntityTag == null;
 	}
 
 	@Override
-	boolean applicableTo(Material type) {
-		switch (type) {
+	boolean applicableTo(Material type)
+	{
+		switch (type)
+		{
 		case FURNACE:
 		case CHEST:
 		case TRAPPED_CHEST:
@@ -180,88 +205,105 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
 	}
 
 	@Override
-	public boolean hasBlockState() {
+	public boolean hasBlockState()
+	{
 		return blockEntityTag != null;
 	}
 
 	@Override
-	public BlockState getBlockState() {
+	public BlockState getBlockState()
+	{
 		TileEntity te = blockEntityTag == null ? null : TileEntity.c(blockEntityTag);
 
-		switch (material) {
+		switch (material)
+		{
 		case SIGN:
 		case SIGN_POST:
 		case WALL_SIGN:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntitySign();
 			}
 			return new CraftSign(material, (TileEntitySign) te);
 		case CHEST:
 		case TRAPPED_CHEST:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityChest();
 			}
 			return new CraftChest(material, (TileEntityChest) te);
 		case BURNING_FURNACE:
 		case FURNACE:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityFurnace();
 			}
 			return new CraftFurnace(material, (TileEntityFurnace) te);
 		case DISPENSER:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityDispenser();
 			}
 			return new CraftDispenser(material, (TileEntityDispenser) te);
 		case DROPPER:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityDispenser();
 			}
 			return new CraftDropper(material, (TileEntityDropper) te);
 		case HOPPER:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityHopper();
 			}
 			return new CraftHopper(material, (TileEntityHopper) te);
 		case MOB_SPAWNER:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityMobSpawner();
 			}
 			return new CraftCreatureSpawner(material, (TileEntityMobSpawner) te);
 		case NOTE_BLOCK:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityNote();
 			}
 			return new CraftNoteBlock(material, (TileEntityNote) te);
 		case JUKEBOX:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new BlockJukeBox.TileEntityRecordPlayer();
 			}
 			return new CraftJukebox(material, (BlockJukeBox.TileEntityRecordPlayer) te);
 		case BREWING_STAND:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityBrewingStand();
 			}
 			return new CraftBrewingStand(material, (TileEntityBrewingStand) te);
 		case SKULL:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntitySkull();
 			}
 			return new CraftSkull(material, (TileEntitySkull) te);
 		case COMMAND:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityCommand();
 			}
 			return new CraftCommandBlock(material, (TileEntityCommand) te);
 		case BEACON:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityBeacon();
 			}
 			return new CraftBeacon(material, (TileEntityBeacon) te);
 		case BANNER:
 		case WALL_BANNER:
 		case STANDING_BANNER:
-			if (te == null) {
+			if (te == null)
+			{
 				te = new TileEntityBanner();
 			}
 			return new CraftBanner(material, (TileEntityBanner) te);
@@ -271,13 +313,15 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
 	}
 
 	@Override
-	public void setBlockState(BlockState blockState) {
+	public void setBlockState(BlockState blockState)
+	{
 		Validate.notNull(blockState, "blockState must not be null");
 		TileEntity te = ((CraftBlockState) blockState).getTileEntity();
 		Validate.notNull(te, "Invalid blockState");
 
 		boolean valid;
-		switch (material) {
+		switch (material)
+		{
 		case SIGN:
 		case SIGN_POST:
 		case WALL_SIGN:

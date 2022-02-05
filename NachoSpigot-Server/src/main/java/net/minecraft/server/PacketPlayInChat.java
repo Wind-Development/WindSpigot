@@ -2,23 +2,29 @@ package net.minecraft.server;
 
 import java.io.IOException;
 
-public class PacketPlayInChat implements Packet<PacketListenerPlayIn> {
+public class PacketPlayInChat implements Packet<PacketListenerPlayIn>
+{
 
 	private String a;
 
-	public String getMessage() {
+	public String getMessage()
+	{
 		return this.a;
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(String message)
+	{
 		this.a = message;
 	}
 
-	public PacketPlayInChat() {
+	public PacketPlayInChat()
+	{
 	}
 
-	public PacketPlayInChat(String s) {
-		if (s.length() > 100) {
+	public PacketPlayInChat(String s)
+	{
+		if (s.length() > 100)
+		{
 			s = s.substring(0, 100);
 		}
 
@@ -26,12 +32,14 @@ public class PacketPlayInChat implements Packet<PacketListenerPlayIn> {
 	}
 
 	@Override
-	public void a(PacketDataSerializer serializer) throws IOException {
+	public void a(PacketDataSerializer serializer) throws IOException
+	{
 		this.a = serializer.c(100);
 	}
 
 	@Override
-	public void b(PacketDataSerializer serializer) throws IOException {
+	public void b(PacketDataSerializer serializer) throws IOException
+	{
 		serializer.a(this.a);
 	}
 
@@ -41,12 +49,16 @@ public class PacketPlayInChat implements Packet<PacketListenerPlayIn> {
 					.setNameFormat("Async Chat Thread - #%d").build());
 
 	@Override
-	public void a(final PacketListenerPlayIn packetlistenerplayin) {
-		if (!a.startsWith("/")) {
-			executors.submit(new Runnable() {
+	public void a(final PacketListenerPlayIn packetlistenerplayin)
+	{
+		if (!a.startsWith("/"))
+		{
+			executors.submit(new Runnable()
+			{
 
 				@Override
-				public void run() {
+				public void run()
+				{
 					packetlistenerplayin.a(PacketPlayInChat.this);
 				}
 			});
@@ -56,7 +68,8 @@ public class PacketPlayInChat implements Packet<PacketListenerPlayIn> {
 		packetlistenerplayin.a(this);
 	}
 
-	public String a() {
+	public String a()
+	{
 		return this.a;
 	}
 }

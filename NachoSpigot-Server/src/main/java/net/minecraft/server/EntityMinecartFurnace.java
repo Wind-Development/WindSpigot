@@ -2,44 +2,53 @@ package net.minecraft.server;
 
 import dev.cobblesword.nachospigot.commons.Constants;
 
-public class EntityMinecartFurnace extends EntityMinecartAbstract {
+public class EntityMinecartFurnace extends EntityMinecartAbstract
+{
 
 	private int c;
 	public double a;
 	public double b;
 
-	public EntityMinecartFurnace(World world) {
+	public EntityMinecartFurnace(World world)
+	{
 		super(world);
 	}
 
-	public EntityMinecartFurnace(World world, double d0, double d1, double d2) {
+	public EntityMinecartFurnace(World world, double d0, double d1, double d2)
+	{
 		super(world, d0, d1, d2);
 	}
 
 	@Override
-	public EnumMinecartType s() {
+	public EnumMinecartType s()
+	{
 		return EnumMinecartType.FURNACE;
 	}
 
 	@Override
-	protected void h() {
+	protected void h()
+	{
 		super.h();
 		this.datawatcher.a(16, new Byte((byte) 0));
 	}
 
 	@Override
-	public void t_() {
+	public void t_()
+	{
 		super.t_();
-		if (this.c > 0) {
+		if (this.c > 0)
+		{
 			--this.c;
 		}
 
-		if (this.c <= 0) {
+		if (this.c <= 0)
+		{
 			this.a = this.b = 0.0D;
 		}
 
 		this.i(this.c > 0);
-		if (this.j() && this.random.nextInt(4) == 0) {
+		if (this.j() && this.random.nextInt(4) == 0)
+		{
 			this.world.addParticle(EnumParticle.SMOKE_LARGE, this.locX, this.locY + 0.8D, this.locZ, 0.0D, 0.0D, 0.0D,
 					Constants.EMPTY_ARRAY);
 		}
@@ -47,25 +56,30 @@ public class EntityMinecartFurnace extends EntityMinecartAbstract {
 	}
 
 	@Override
-	protected double m() {
+	protected double m()
+	{
 		return 0.2D;
 	}
 
 	@Override
-	public void a(DamageSource damagesource) {
+	public void a(DamageSource damagesource)
+	{
 		super.a(damagesource);
-		if (!damagesource.isExplosion() && this.world.getGameRules().getBoolean("doEntityDrops")) {
+		if (!damagesource.isExplosion() && this.world.getGameRules().getBoolean("doEntityDrops"))
+		{
 			this.a(new ItemStack(Blocks.FURNACE, 1), 0.0F);
 		}
 
 	}
 
 	@Override
-	protected void a(BlockPosition blockposition, IBlockData iblockdata) {
+	protected void a(BlockPosition blockposition, IBlockData iblockdata)
+	{
 		super.a(blockposition, iblockdata);
 		double d0 = this.a * this.a + this.b * this.b;
 
-		if (d0 > 1.0E-4D && this.motX * this.motX + this.motZ * this.motZ > 0.001D) {
+		if (d0 > 1.0E-4D && this.motX * this.motX + this.motZ * this.motZ > 0.001D)
+		{
 			d0 = MathHelper.sqrt(d0);
 			// PaperSpigot - Don't lose all your velocity on corners
 			// https://bugs.mojang.com/browse/MC-51053?focusedCommentId=223854
@@ -78,10 +92,12 @@ public class EntityMinecartFurnace extends EntityMinecartAbstract {
 	}
 
 	@Override
-	protected void o() {
+	protected void o()
+	{
 		double d0 = this.a * this.a + this.b * this.b;
 
-		if (d0 > 1.0E-4D) {
+		if (d0 > 1.0E-4D)
+		{
 			d0 = MathHelper.sqrt(d0);
 			this.a /= d0;
 			this.b /= d0;
@@ -92,7 +108,8 @@ public class EntityMinecartFurnace extends EntityMinecartAbstract {
 			this.motZ *= 0.800000011920929D;
 			this.motX += this.a * d1;
 			this.motZ += this.b * d1;
-		} else {
+		} else
+		{
 			this.motX *= 0.9800000190734863D;
 			this.motY *= 0.0D;
 			this.motZ *= 0.9800000190734863D;
@@ -102,11 +119,14 @@ public class EntityMinecartFurnace extends EntityMinecartAbstract {
 	}
 
 	@Override
-	public boolean e(EntityHuman entityhuman) {
+	public boolean e(EntityHuman entityhuman)
+	{
 		ItemStack itemstack = entityhuman.inventory.getItemInHand();
 
-		if (itemstack != null && itemstack.getItem() == Items.COAL) {
-			if (!entityhuman.abilities.canInstantlyBuild && --itemstack.count == 0) {
+		if (itemstack != null && itemstack.getItem() == Items.COAL)
+		{
+			if (!entityhuman.abilities.canInstantlyBuild && --itemstack.count == 0)
+			{
 				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
 			}
 
@@ -119,7 +139,8 @@ public class EntityMinecartFurnace extends EntityMinecartAbstract {
 	}
 
 	@Override
-	protected void b(NBTTagCompound nbttagcompound) {
+	protected void b(NBTTagCompound nbttagcompound)
+	{
 		super.b(nbttagcompound);
 		nbttagcompound.setDouble("PushX", this.a);
 		nbttagcompound.setDouble("PushZ", this.b);
@@ -127,28 +148,34 @@ public class EntityMinecartFurnace extends EntityMinecartAbstract {
 	}
 
 	@Override
-	protected void a(NBTTagCompound nbttagcompound) {
+	protected void a(NBTTagCompound nbttagcompound)
+	{
 		super.a(nbttagcompound);
 		this.a = nbttagcompound.getDouble("PushX");
 		this.b = nbttagcompound.getDouble("PushZ");
 		this.c = nbttagcompound.getShort("Fuel");
 	}
 
-	protected boolean j() {
+	protected boolean j()
+	{
 		return (this.datawatcher.getByte(16) & 1) != 0;
 	}
 
-	protected void i(boolean flag) {
-		if (flag) {
+	protected void i(boolean flag)
+	{
+		if (flag)
+		{
 			this.datawatcher.watch(16, Byte.valueOf((byte) (this.datawatcher.getByte(16) | 1)));
-		} else {
+		} else
+		{
 			this.datawatcher.watch(16, Byte.valueOf((byte) (this.datawatcher.getByte(16) & -2)));
 		}
 
 	}
 
 	@Override
-	public IBlockData u() {
+	public IBlockData u()
+	{
 		return (this.j() ? Blocks.LIT_FURNACE : Blocks.FURNACE).getBlockData().set(BlockFurnace.FACING,
 				EnumDirection.NORTH);
 	}

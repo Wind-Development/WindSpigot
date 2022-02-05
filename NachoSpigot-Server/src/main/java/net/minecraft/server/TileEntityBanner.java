@@ -2,7 +2,8 @@ package net.minecraft.server;
 
 import java.util.List;
 
-public class TileEntityBanner extends TileEntity {
+public class TileEntityBanner extends TileEntity
+{
 
 	public int color;
 	public NBTTagList patterns;
@@ -11,29 +12,37 @@ public class TileEntityBanner extends TileEntity {
 	private List<EnumColor> i;
 	private String j;
 
-	public TileEntityBanner() {
+	public TileEntityBanner()
+	{
 	}
 
-	public void a(ItemStack itemstack) {
+	public void a(ItemStack itemstack)
+	{
 		this.patterns = null;
-		if (itemstack.hasTag() && itemstack.getTag().hasKeyOfType("BlockEntityTag", 10)) {
+		if (itemstack.hasTag() && itemstack.getTag().hasKeyOfType("BlockEntityTag", 10))
+		{
 			NBTTagCompound nbttagcompound = itemstack.getTag().getCompound("BlockEntityTag");
 
-			if (nbttagcompound.hasKey("Patterns")) {
+			if (nbttagcompound.hasKey("Patterns"))
+			{
 				this.patterns = (NBTTagList) nbttagcompound.getList("Patterns", 10).clone();
 				// CraftBukkit start
-				while (this.patterns.size() > 20) {
+				while (this.patterns.size() > 20)
+				{
 					this.patterns.a(20); // PAIL Rename remove
 				}
 				// CraftBukkit end
 			}
 
-			if (nbttagcompound.hasKeyOfType("Base", 99)) {
+			if (nbttagcompound.hasKeyOfType("Base", 99))
+			{
 				this.color = nbttagcompound.getInt("Base");
-			} else {
+			} else
+			{
 				this.color = itemstack.getData() & 15;
 			}
-		} else {
+		} else
+		{
 			this.color = itemstack.getData() & 15;
 		}
 
@@ -44,26 +53,31 @@ public class TileEntityBanner extends TileEntity {
 	}
 
 	@Override
-	public void b(NBTTagCompound nbttagcompound) {
+	public void b(NBTTagCompound nbttagcompound)
+	{
 		super.b(nbttagcompound);
 		a(nbttagcompound, this.color, this.patterns);
 	}
 
-	public static void a(NBTTagCompound nbttagcompound, int i, NBTTagList nbttaglist) {
+	public static void a(NBTTagCompound nbttagcompound, int i, NBTTagList nbttaglist)
+	{
 		nbttagcompound.setInt("Base", i);
-		if (nbttaglist != null) {
+		if (nbttaglist != null)
+		{
 			nbttagcompound.set("Patterns", nbttaglist);
 		}
 
 	}
 
 	@Override
-	public void a(NBTTagCompound nbttagcompound) {
+	public void a(NBTTagCompound nbttagcompound)
+	{
 		super.a(nbttagcompound);
 		this.color = nbttagcompound.getInt("Base");
 		this.patterns = nbttagcompound.getList("Patterns", 10);
 		// CraftBukkit start
-		while (this.patterns.size() > 20) {
+		while (this.patterns.size() > 20)
+		{
 			this.patterns.a(20); // PAIL Rename remove
 		}
 		// CraftBukkit end
@@ -74,25 +88,29 @@ public class TileEntityBanner extends TileEntity {
 	}
 
 	@Override
-	public Packet getUpdatePacket() {
+	public Packet getUpdatePacket()
+	{
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 
 		this.b(nbttagcompound);
 		return new PacketPlayOutTileEntityData(this.position, 6, nbttagcompound);
 	}
 
-	public int b() {
+	public int b()
+	{
 		return this.color;
 	}
 
-	public static int b(ItemStack itemstack) {
+	public static int b(ItemStack itemstack)
+	{
 		NBTTagCompound nbttagcompound = itemstack.a("BlockEntityTag", false);
 
 		return nbttagcompound != null && nbttagcompound.hasKey("Base") ? nbttagcompound.getInt("Base")
 				: itemstack.getData();
 	}
 
-	public static int c(ItemStack itemstack) {
+	public static int c(ItemStack itemstack)
+	{
 		NBTTagCompound nbttagcompound = itemstack.a("BlockEntityTag", false);
 
 		return nbttagcompound != null && nbttagcompound.hasKey("Patterns")
@@ -100,21 +118,27 @@ public class TileEntityBanner extends TileEntity {
 				: 0;
 	}
 
-	public NBTTagList d() {
+	public NBTTagList d()
+	{
 		return this.patterns;
 	}
 
-	public static void e(ItemStack itemstack) {
+	public static void e(ItemStack itemstack)
+	{
 		NBTTagCompound nbttagcompound = itemstack.a("BlockEntityTag", false);
 
-		if (nbttagcompound != null && nbttagcompound.hasKeyOfType("Patterns", 9)) {
+		if (nbttagcompound != null && nbttagcompound.hasKeyOfType("Patterns", 9))
+		{
 			NBTTagList nbttaglist = nbttagcompound.getList("Patterns", 10);
 
-			if (nbttaglist.size() > 0) {
+			if (nbttaglist.size() > 0)
+			{
 				nbttaglist.a(nbttaglist.size() - 1);
-				if (nbttaglist.isEmpty()) {
+				if (nbttaglist.isEmpty())
+				{
 					itemstack.getTag().remove("BlockEntityTag");
-					if (itemstack.getTag().isEmpty()) {
+					if (itemstack.getTag().isEmpty())
+					{
 						itemstack.setTag((NBTTagCompound) null);
 					}
 				}
@@ -123,7 +147,8 @@ public class TileEntityBanner extends TileEntity {
 		}
 	}
 
-	public static enum EnumBannerPatternType {
+	public static enum EnumBannerPatternType
+	{
 
 		BASE("base", "b"), SQUARE_BOTTOM_LEFT("square_bottom_left", "bl", "   ", "   ", "#  "),
 		SQUARE_BOTTOM_RIGHT("square_bottom_right", "br", "   ", "   ", "  #"),
@@ -163,41 +188,49 @@ public class TileEntityBanner extends TileEntity {
 		private String[] P;
 		private ItemStack Q;
 
-		private EnumBannerPatternType(String s, String s1) {
+		private EnumBannerPatternType(String s, String s1)
+		{
 			this.P = new String[3];
 			this.N = s;
 			this.O = s1;
 		}
 
-		private EnumBannerPatternType(String s, String s1, ItemStack itemstack) {
+		private EnumBannerPatternType(String s, String s1, ItemStack itemstack)
+		{
 			this(s, s1);
 			this.Q = itemstack;
 		}
 
-		private EnumBannerPatternType(String s, String s1, String s2, String s3, String s4) {
+		private EnumBannerPatternType(String s, String s1, String s2, String s3, String s4)
+		{
 			this(s, s1);
 			this.P[0] = s2;
 			this.P[1] = s3;
 			this.P[2] = s4;
 		}
 
-		public String b() {
+		public String b()
+		{
 			return this.O;
 		}
 
-		public String[] c() {
+		public String[] c()
+		{
 			return this.P;
 		}
 
-		public boolean d() {
+		public boolean d()
+		{
 			return this.Q != null || this.P[0] != null;
 		}
 
-		public boolean e() {
+		public boolean e()
+		{
 			return this.Q != null;
 		}
 
-		public ItemStack f() {
+		public ItemStack f()
+		{
 			return this.Q;
 		}
 	}

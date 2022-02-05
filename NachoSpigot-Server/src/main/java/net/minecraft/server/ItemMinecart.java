@@ -5,13 +5,16 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.event.block.BlockDispenseEvent;
 // CraftBukkit end
 
-public class ItemMinecart extends Item {
+public class ItemMinecart extends Item
+{
 
-	private static final IDispenseBehavior a = new DispenseBehaviorItem() {
+	private static final IDispenseBehavior a = new DispenseBehaviorItem()
+	{
 		private final DispenseBehaviorItem b = new DispenseBehaviorItem();
 
 		@Override
-		public ItemStack b(ISourceBlock isourceblock, ItemStack itemstack) {
+		public ItemStack b(ISourceBlock isourceblock, ItemStack itemstack)
+		{
 			EnumDirection enumdirection = BlockDispenser.b(isourceblock.f());
 			World world = isourceblock.getWorld();
 			double d0 = isourceblock.getX() + enumdirection.getAdjacentX() * 1.125D;
@@ -26,15 +29,20 @@ public class ItemMinecart extends Item {
 							: BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH;
 			double d3;
 
-			if (BlockMinecartTrackAbstract.d(iblockdata)) {
-				if (blockminecarttrackabstract_enumtrackposition.c()) {
+			if (BlockMinecartTrackAbstract.d(iblockdata))
+			{
+				if (blockminecarttrackabstract_enumtrackposition.c())
+				{
 					d3 = 0.6D;
-				} else {
+				} else
+				{
 					d3 = 0.1D;
 				}
-			} else {
+			} else
+			{
 				if (iblockdata.getBlock().getMaterial() != Material.AIR
-						|| !BlockMinecartTrackAbstract.d(world.getType(blockposition.down()))) {
+						|| !BlockMinecartTrackAbstract.d(world.getType(blockposition.down())))
+				{
 					return this.b.a(isourceblock, itemstack);
 				}
 
@@ -45,9 +53,11 @@ public class ItemMinecart extends Item {
 										.get(((BlockMinecartTrackAbstract) iblockdata1.getBlock()).n())
 								: BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH;
 
-				if (enumdirection != EnumDirection.DOWN && blockminecarttrackabstract_enumtrackposition1.c()) {
+				if (enumdirection != EnumDirection.DOWN && blockminecarttrackabstract_enumtrackposition1.c())
+				{
 					d3 = -0.4D;
-				} else {
+				} else
+				{
 					d3 = -0.9D;
 				}
 			}
@@ -63,22 +73,25 @@ public class ItemMinecart extends Item {
 
 			BlockDispenseEvent event = new BlockDispenseEvent(block2, craftItem.clone(),
 					new org.bukkit.util.Vector(d0, d1 + d3, d2));
-			if (!BlockDispenser.eventFired) {
+			if (!BlockDispenser.eventFired)
+			{
 				world.getServer().getPluginManager().callEvent(event);
 			}
 
-			if (event.isCancelled()) {
+			if (event.isCancelled())
+			{
 				itemstack.count++;
 				return itemstack;
 			}
 
-			if (!event.getItem().equals(craftItem)) {
+			if (!event.getItem().equals(craftItem))
+			{
 				itemstack.count++;
 				// Chain to handler for new item
 				ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
-				IDispenseBehavior idispensebehavior = BlockDispenser.REGISTRY
-						.get(eventStack.getItem());
-				if (idispensebehavior != IDispenseBehavior.NONE && idispensebehavior != this) {
+				IDispenseBehavior idispensebehavior = BlockDispenser.REGISTRY.get(eventStack.getItem());
+				if (idispensebehavior != IDispenseBehavior.NONE && idispensebehavior != this)
+				{
 					idispensebehavior.a(isourceblock, eventStack);
 					return itemstack;
 				}
@@ -88,7 +101,8 @@ public class ItemMinecart extends Item {
 			EntityMinecartAbstract entityminecartabstract = EntityMinecartAbstract.a(world, event.getVelocity().getX(),
 					event.getVelocity().getY(), event.getVelocity().getZ(), ((ItemMinecart) itemstack1.getItem()).b);
 
-			if (itemstack.hasName()) {
+			if (itemstack.hasName())
+			{
 				entityminecartabstract.setCustomName(itemstack.getName());
 			}
 
@@ -99,13 +113,15 @@ public class ItemMinecart extends Item {
 		}
 
 		@Override
-		protected void a(ISourceBlock isourceblock) {
+		protected void a(ISourceBlock isourceblock)
+		{
 			isourceblock.getWorld().triggerEffect(1000, isourceblock.getBlockPosition(), 0);
 		}
 	};
 	private final EntityMinecartAbstract.EnumMinecartType b;
 
-	public ItemMinecart(EntityMinecartAbstract.EnumMinecartType entityminecartabstract_enumminecarttype) {
+	public ItemMinecart(EntityMinecartAbstract.EnumMinecartType entityminecartabstract_enumminecarttype)
+	{
 		this.maxStackSize = 1;
 		this.b = entityminecartabstract_enumminecarttype;
 		this.a(CreativeModeTab.e);
@@ -114,11 +130,14 @@ public class ItemMinecart extends Item {
 
 	@Override
 	public boolean interactWith(ItemStack itemstack, EntityHuman entityhuman, World world, BlockPosition blockposition,
-			EnumDirection enumdirection, float f, float f1, float f2) {
+			EnumDirection enumdirection, float f, float f1, float f2)
+	{
 		IBlockData iblockdata = world.getType(blockposition);
 
-		if (BlockMinecartTrackAbstract.d(iblockdata)) {
-			if (!world.isClientSide) {
+		if (BlockMinecartTrackAbstract.d(iblockdata))
+		{
+			if (!world.isClientSide)
+			{
 				BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = iblockdata
 						.getBlock() instanceof BlockMinecartTrackAbstract
 								? (BlockMinecartTrackAbstract.EnumTrackPosition) iblockdata
@@ -126,7 +145,8 @@ public class ItemMinecart extends Item {
 								: BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH;
 				double d0 = 0.0D;
 
-				if (blockminecarttrackabstract_enumtrackposition.c()) {
+				if (blockminecarttrackabstract_enumtrackposition.c())
+				{
 					d0 = 0.5D;
 				}
 
@@ -135,16 +155,18 @@ public class ItemMinecart extends Item {
 						.callPlayerInteractEvent(entityhuman, org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK,
 								blockposition, enumdirection, itemstack);
 
-				if (event.isCancelled()) {
+				if (event.isCancelled())
+				{
 					return false;
 				}
 				// CraftBukkit end
 
 				EntityMinecartAbstract entityminecartabstract = EntityMinecartAbstract.a(world,
-						blockposition.getX() + 0.5D, blockposition.getY() + 0.0625D + d0,
-						blockposition.getZ() + 0.5D, this.b);
+						blockposition.getX() + 0.5D, blockposition.getY() + 0.0625D + d0, blockposition.getZ() + 0.5D,
+						this.b);
 
-				if (itemstack.hasName()) {
+				if (itemstack.hasName())
+				{
 					entityminecartabstract.setCustomName(itemstack.getName());
 				}
 
@@ -153,7 +175,8 @@ public class ItemMinecart extends Item {
 
 			--itemstack.count;
 			return true;
-		} else {
+		} else
+		{
 			return false;
 		}
 	}

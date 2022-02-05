@@ -7,8 +7,9 @@ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 // CraftBukkit end
 
-public class TileEntityChest extends TileEntityContainer implements IInventory { // PaperSpigot - remove
-																					// IUpdatePlayerListBox
+public class TileEntityChest extends TileEntityContainer implements IInventory
+{ // PaperSpigot - remove
+	// IUpdatePlayerListBox
 
 	private ItemStack[] items = new ItemStack[27];
 	public boolean a;
@@ -23,7 +24,8 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	private int o = -1;
 	private String p;
 
-	public TileEntityChest() {
+	public TileEntityChest()
+	{
 	}
 
 	// CraftBukkit start - add fields and methods
@@ -31,81 +33,99 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	private int maxStack = MAX_STACK;
 
 	@Override
-	public ItemStack[] getContents() {
+	public ItemStack[] getContents()
+	{
 		return this.items;
 	}
 
 	@Override
-	public void onOpen(CraftHumanEntity who) {
+	public void onOpen(CraftHumanEntity who)
+	{
 		transaction.add(who);
 	}
 
 	@Override
-	public void onClose(CraftHumanEntity who) {
+	public void onClose(CraftHumanEntity who)
+	{
 		transaction.remove(who);
 	}
 
 	@Override
-	public List<HumanEntity> getViewers() {
+	public List<HumanEntity> getViewers()
+	{
 		return transaction;
 	}
 
 	@Override
-	public void setMaxStackSize(int size) {
+	public void setMaxStackSize(int size)
+	{
 		maxStack = size;
 	}
 	// CraftBukkit end
 
 	@Override
-	public int getSize() {
+	public int getSize()
+	{
 		return 27;
 	}
 
 	@Override
-	public ItemStack getItem(int i) {
+	public ItemStack getItem(int i)
+	{
 		return this.items[i];
 	}
 
 	@Override
-	public ItemStack splitStack(int i, int j) {
-		if (this.items[i] != null) {
+	public ItemStack splitStack(int i, int j)
+	{
+		if (this.items[i] != null)
+		{
 			ItemStack itemstack;
 
-			if (this.items[i].count <= j) {
+			if (this.items[i].count <= j)
+			{
 				itemstack = this.items[i];
 				this.items[i] = null;
 				this.update();
 				return itemstack;
-			} else {
+			} else
+			{
 				itemstack = this.items[i].cloneAndSubtract(j);
-				if (this.items[i].count == 0) {
+				if (this.items[i].count == 0)
+				{
 					this.items[i] = null;
 				}
 
 				this.update();
 				return itemstack;
 			}
-		} else {
+		} else
+		{
 			return null;
 		}
 	}
 
 	@Override
-	public ItemStack splitWithoutUpdate(int i) {
-		if (this.items[i] != null) {
+	public ItemStack splitWithoutUpdate(int i)
+	{
+		if (this.items[i] != null)
+		{
 			ItemStack itemstack = this.items[i];
 
 			this.items[i] = null;
 			return itemstack;
-		} else {
+		} else
+		{
 			return null;
 		}
 	}
 
 	@Override
-	public void setItem(int i, ItemStack itemstack) {
+	public void setItem(int i, ItemStack itemstack)
+	{
 		this.items[i] = itemstack;
-		if (itemstack != null && itemstack.count > this.getMaxStackSize()) {
+		if (itemstack != null && itemstack.count > this.getMaxStackSize())
+		{
 			itemstack.count = this.getMaxStackSize();
 		}
 
@@ -113,34 +133,41 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return this.hasCustomName() ? this.p : "container.chest";
 	}
 
 	@Override
-	public boolean hasCustomName() {
+	public boolean hasCustomName()
+	{
 		return this.p != null && this.p.length() > 0;
 	}
 
-	public void a(String s) {
+	public void a(String s)
+	{
 		this.p = s;
 	}
 
 	@Override
-	public void a(NBTTagCompound nbttagcompound) {
+	public void a(NBTTagCompound nbttagcompound)
+	{
 		super.a(nbttagcompound);
 		NBTTagList nbttaglist = nbttagcompound.getList("Items", 10);
 
 		this.items = new ItemStack[this.getSize()];
-		if (nbttagcompound.hasKeyOfType("CustomName", 8)) {
+		if (nbttagcompound.hasKeyOfType("CustomName", 8))
+		{
 			this.p = nbttagcompound.getString("CustomName");
 		}
 
-		for (int i = 0; i < nbttaglist.size(); ++i) {
+		for (int i = 0; i < nbttaglist.size(); ++i)
+		{
 			NBTTagCompound nbttagcompound1 = nbttaglist.get(i);
 			int j = nbttagcompound1.getByte("Slot") & 255;
 
-			if (j >= 0 && j < this.items.length) {
+			if (j >= 0 && j < this.items.length)
+			{
 				this.items[j] = ItemStack.createStack(nbttagcompound1);
 			}
 		}
@@ -148,12 +175,15 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	}
 
 	@Override
-	public void b(NBTTagCompound nbttagcompound) {
+	public void b(NBTTagCompound nbttagcompound)
+	{
 		super.b(nbttagcompound);
 		NBTTagList nbttaglist = new NBTTagList();
 
-		for (int i = 0; i < this.items.length; ++i) {
-			if (this.items[i] != null) {
+		for (int i = 0; i < this.items.length; ++i)
+		{
+			if (this.items[i] != null)
+			{
 				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
 				nbttagcompound1.setByte("Slot", (byte) i);
@@ -163,19 +193,22 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 		}
 
 		nbttagcompound.set("Items", nbttaglist);
-		if (this.hasCustomName()) {
+		if (this.hasCustomName())
+		{
 			nbttagcompound.setString("CustomName", this.p);
 		}
 
 	}
 
 	@Override
-	public int getMaxStackSize() {
+	public int getMaxStackSize()
+	{
 		return maxStack; // CraftBukkit
 	}
 
 	@Override
-	public boolean a(EntityHuman entityhuman) {
+	public boolean a(EntityHuman entityhuman)
+	{
 		if (this.world == null)
 			return true; // CraftBukkit
 		return this.world.getTileEntity(this.position) != this ? false
@@ -184,36 +217,45 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	}
 
 	@Override
-	public void E() {
+	public void E()
+	{
 		super.E();
 		this.a = false;
 	}
 
-	private void a(TileEntityChest tileentitychest, EnumDirection enumdirection) {
-		if (tileentitychest.x()) {
+	private void a(TileEntityChest tileentitychest, EnumDirection enumdirection)
+	{
+		if (tileentitychest.x())
+		{
 			this.a = false;
-		} else if (this.a) {
-			switch (TileEntityChest.SyntheticClass_1.a[enumdirection.ordinal()]) {
+		} else if (this.a)
+		{
+			switch (TileEntityChest.SyntheticClass_1.a[enumdirection.ordinal()])
+			{
 			case 1:
-				if (this.f != tileentitychest) {
+				if (this.f != tileentitychest)
+				{
 					this.a = false;
 				}
 				break;
 
 			case 2:
-				if (this.i != tileentitychest) {
+				if (this.i != tileentitychest)
+				{
 					this.a = false;
 				}
 				break;
 
 			case 3:
-				if (this.g != tileentitychest) {
+				if (this.g != tileentitychest)
+				{
 					this.a = false;
 				}
 				break;
 
 			case 4:
-				if (this.h != tileentitychest) {
+				if (this.h != tileentitychest)
+				{
 					this.a = false;
 				}
 			}
@@ -221,8 +263,10 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 
 	}
 
-	public void m() {
-		if (!this.a) {
+	public void m()
+	{
+		if (!this.a)
+		{
 			this.a = true;
 			this.h = this.a(EnumDirection.WEST);
 			this.g = this.a(EnumDirection.EAST);
@@ -231,13 +275,16 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 		}
 	}
 
-	protected TileEntityChest a(EnumDirection enumdirection) {
+	protected TileEntityChest a(EnumDirection enumdirection)
+	{
 		BlockPosition blockposition = this.position.shift(enumdirection);
 
-		if (this.b(blockposition)) {
+		if (this.b(blockposition))
+		{
 			TileEntity tileentity = this.world.getTileEntity(blockposition);
 
-			if (tileentity instanceof TileEntityChest) {
+			if (tileentity instanceof TileEntityChest)
+			{
 				TileEntityChest tileentitychest = (TileEntityChest) tileentity;
 
 				tileentitychest.a(this, enumdirection.opposite());
@@ -248,17 +295,21 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 		return null;
 	}
 
-	private boolean b(BlockPosition blockposition) {
-		if (this.world == null) {
+	private boolean b(BlockPosition blockposition)
+	{
+		if (this.world == null)
+		{
 			return false;
-		} else {
+		} else
+		{
 			Block block = this.world.getType(blockposition).getBlock();
 
 			return block instanceof BlockChest && ((BlockChest) block).b == this.n();
 		}
 	}
 
-	public void c() {
+	public void c()
+	{
 		// PaperSpigot - Move chest sounds out of the tick loop
 		/*
 		 * this.m(); int i = this.position.getX(); int j = this.position.getY(); int k =
@@ -318,19 +369,25 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	}
 
 	@Override
-	public boolean c(int i, int j) {
-		if (i == 1) {
+	public boolean c(int i, int j)
+	{
+		if (i == 1)
+		{
 			this.l = j;
 			return true;
-		} else {
+		} else
+		{
 			return super.c(i, j);
 		}
 	}
 
 	@Override
-	public void startOpen(EntityHuman entityhuman) {
-		if (!entityhuman.isSpectator()) {
-			if (this.l < 0) {
+	public void startOpen(EntityHuman entityhuman)
+	{
+		if (!entityhuman.isSpectator())
+		{
+			if (this.l < 0)
+			{
 				this.l = 0;
 			}
 			int oldPower = Math.max(0, Math.min(15, this.l)); // CraftBukkit - Get power before new viewer is added
@@ -342,17 +399,20 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 			// PaperSpigot start - Move chest open sound out of the tick loop
 			this.m();
 
-			if (this.l > 0 && this.j == 0.0F && this.f == null && this.h == null) {
+			if (this.l > 0 && this.j == 0.0F && this.f == null && this.h == null)
+			{
 				this.j = 0.7F;
 
 				double d0 = this.position.getZ() + 0.5D;
 				double d1 = this.position.getX() + 0.5D;
 
-				if (this.i != null) {
+				if (this.i != null)
+				{
 					d0 += 0.5D;
 				}
 
-				if (this.g != null) {
+				if (this.g != null)
+				{
 					d1 += 0.5D;
 				}
 
@@ -364,10 +424,12 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 			this.world.playBlockAction(this.position, this.w(), 1, this.l);
 
 			// CraftBukkit start - Call redstone event
-			if (this.w() == Blocks.TRAPPED_CHEST) {
+			if (this.w() == Blocks.TRAPPED_CHEST)
+			{
 				int newPower = Math.max(0, Math.min(15, this.l));
 
-				if (oldPower != newPower) {
+				if (oldPower != newPower)
+				{
 					org.bukkit.craftbukkit.event.CraftEventFactory.callRedstoneChange(world, position.getX(),
 							position.getY(), position.getZ(), oldPower, newPower);
 				}
@@ -380,31 +442,38 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	}
 
 	@Override
-	public void closeContainer(EntityHuman entityhuman) {
-		if (!entityhuman.isSpectator() && this.w() instanceof BlockChest) {
+	public void closeContainer(EntityHuman entityhuman)
+	{
+		if (!entityhuman.isSpectator() && this.w() instanceof BlockChest)
+		{
 			int oldPower = Math.max(0, Math.min(15, this.l)); // CraftBukkit - Get power before new viewer is added
 			--this.l;
 			if (this.world == null)
 				return; // CraftBukkit
 
 			// PaperSpigot start - Move chest close sound handling out of the tick loop
-			if (this.l == 0 && this.j > 0.0F || this.l > 0 && this.j < 1.0F) {
+			if (this.l == 0 && this.j > 0.0F || this.l > 0 && this.j < 1.0F)
+			{
 				float f = 0.1F;
 
-				if (this.l > 0) {
+				if (this.l > 0)
+				{
 					this.j += f;
-				} else {
+				} else
+				{
 					this.j -= f;
 				}
 
 				double d0 = this.getPosition().getX() + 0.5D;
 				double d2 = this.getPosition().getZ() + 0.5D;
 
-				if (this.i != null) {
+				if (this.i != null)
+				{
 					d2 += 0.5D;
 				}
 
-				if (this.g != null) {
+				if (this.g != null)
+				{
 					d0 += 0.5D;
 				}
 
@@ -417,10 +486,12 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 			this.world.playBlockAction(this.position, this.w(), 1, this.l);
 
 			// CraftBukkit start - Call redstone event
-			if (this.w() == Blocks.TRAPPED_CHEST) {
+			if (this.w() == Blocks.TRAPPED_CHEST)
+			{
 				int newPower = Math.max(0, Math.min(15, this.l));
 
-				if (oldPower != newPower) {
+				if (oldPower != newPower)
+				{
 					org.bukkit.craftbukkit.event.CraftEventFactory.callRedstoneChange(world, position.getX(),
 							position.getY(), position.getZ(), oldPower, newPower);
 				}
@@ -433,20 +504,25 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	}
 
 	@Override
-	public boolean b(int i, ItemStack itemstack) {
+	public boolean b(int i, ItemStack itemstack)
+	{
 		return true;
 	}
 
 	@Override
-	public void y() {
+	public void y()
+	{
 		super.y();
 		this.E();
 		this.m();
 	}
 
-	public int n() {
-		if (this.o == -1) {
-			if (this.world == null || !(this.w() instanceof BlockChest)) {
+	public int n()
+	{
+		if (this.o == -1)
+		{
+			if (this.world == null || !(this.w() instanceof BlockChest))
+			{
 				return 0;
 			}
 
@@ -457,32 +533,39 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	}
 
 	@Override
-	public String getContainerName() {
+	public String getContainerName()
+	{
 		return "minecraft:chest";
 	}
 
 	@Override
-	public Container createContainer(PlayerInventory playerinventory, EntityHuman entityhuman) {
+	public Container createContainer(PlayerInventory playerinventory, EntityHuman entityhuman)
+	{
 		return new ContainerChest(playerinventory, this, entityhuman);
 	}
 
 	@Override
-	public int getProperty(int i) {
+	public int getProperty(int i)
+	{
 		return 0;
 	}
 
 	@Override
-	public void b(int i, int j) {
+	public void b(int i, int j)
+	{
 	}
 
 	@Override
-	public int g() {
+	public int g()
+	{
 		return 0;
 	}
 
 	@Override
-	public void l() {
-		for (int i = 0; i < this.items.length; ++i) {
+	public void l()
+	{
+		for (int i = 0; i < this.items.length; ++i)
+		{
 			this.items[i] = null;
 		}
 
@@ -491,37 +574,48 @@ public class TileEntityChest extends TileEntityContainer implements IInventory {
 	// CraftBukkit start
 	// PAIL
 	@Override
-	public boolean F() {
+	public boolean F()
+	{
 		return true;
 	}
 	// CraftBukkit end
 
-	static class SyntheticClass_1 {
+	static class SyntheticClass_1
+	{
 
 		static final int[] a = new int[EnumDirection.values().length];
 
-		static {
-			try {
+		static
+		{
+			try
+			{
 				TileEntityChest.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
+			} catch (NoSuchFieldError nosuchfielderror)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				TileEntityChest.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
+			} catch (NoSuchFieldError nosuchfielderror1)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				TileEntityChest.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
+			} catch (NoSuchFieldError nosuchfielderror2)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				TileEntityChest.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
+			} catch (NoSuchFieldError nosuchfielderror3)
+			{
 				;
 			}
 

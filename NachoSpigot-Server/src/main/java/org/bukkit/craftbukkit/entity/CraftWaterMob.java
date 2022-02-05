@@ -5,19 +5,23 @@ import org.bukkit.entity.WaterMob;
 
 import net.minecraft.server.EntityWaterAnimal;
 
-public class CraftWaterMob extends CraftLivingEntity implements WaterMob {
+public class CraftWaterMob extends CraftLivingEntity implements WaterMob
+{
 
-	public CraftWaterMob(CraftServer server, EntityWaterAnimal entity) {
+	public CraftWaterMob(CraftServer server, EntityWaterAnimal entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EntityWaterAnimal getHandle() {
+	public EntityWaterAnimal getHandle()
+	{
 		return (EntityWaterAnimal) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftWaterMob";
 	}
 }

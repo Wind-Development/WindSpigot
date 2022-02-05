@@ -1,6 +1,7 @@
 package net.minecraft.server;
 
-public class EntityChicken extends EntityAnimal {
+public class EntityChicken extends EntityAnimal
+{
 
 	public float bm;
 	public float bo;
@@ -10,7 +11,8 @@ public class EntityChicken extends EntityAnimal {
 	public int bs;
 	public boolean bt;
 
-	public EntityChicken(World world) {
+	public EntityChicken(World world)
+	{
 		super(world);
 		this.setSize(0.4F, 0.7F);
 		this.bs = this.random.nextInt(6000) + 6000;
@@ -25,21 +27,25 @@ public class EntityChicken extends EntityAnimal {
 	}
 
 	@Override
-	public float getHeadHeight() {
+	public float getHeadHeight()
+	{
 		return this.length;
 	}
 
 	@Override
-	protected void initAttributes() {
+	protected void initAttributes()
+	{
 		super.initAttributes();
 		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(4.0D);
 		this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.25D);
 	}
 
 	@Override
-	public void m() {
+	public void m()
+	{
 		// CraftBukkit start
-		if (this.isChickenJockey()) {
+		if (this.isChickenJockey())
+		{
 			this.persistent = !this.isTypeNotPersistent();
 		}
 		// CraftBukkit end
@@ -48,17 +54,20 @@ public class EntityChicken extends EntityAnimal {
 		this.bp = this.bo;
 		this.bo = (float) (this.bo + (this.onGround ? -1 : 4) * 0.3D);
 		this.bo = MathHelper.a(this.bo, 0.0F, 1.0F);
-		if (!this.onGround && this.br < 1.0F) {
+		if (!this.onGround && this.br < 1.0F)
+		{
 			this.br = 1.0F;
 		}
 
 		this.br = (float) (this.br * 0.9D);
-		if (!this.onGround && this.motY < 0.0D) {
+		if (!this.onGround && this.motY < 0.0D)
+		{
 			this.motY *= 0.6D;
 		}
 
 		this.bm += this.br * 2.0F;
-		if (!this.world.isClientSide && !this.isBaby() && !this.isChickenJockey() && --this.bs <= 0) {
+		if (!this.world.isClientSide && !this.isBaby() && !this.isChickenJockey() && --this.bs <= 0)
+		{
 			this.makeSound("mob.chicken.plop", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
 			this.a(Items.EGG, 1);
 			this.bs = this.random.nextInt(6000) + 6000;
@@ -67,113 +76,134 @@ public class EntityChicken extends EntityAnimal {
 	}
 
 	@Override
-	public void e(float f, float f1) {
+	public void e(float f, float f1)
+	{
 	}
 
 	@Override
-	protected String z() {
+	protected String z()
+	{
 		return "mob.chicken.say";
 	}
 
 	@Override
-	protected String bo() {
+	protected String bo()
+	{
 		return "mob.chicken.hurt";
 	}
 
 	@Override
-	protected String bp() {
+	protected String bp()
+	{
 		return "mob.chicken.hurt";
 	}
 
 	@Override
-	protected void a(BlockPosition blockposition, Block block) {
+	protected void a(BlockPosition blockposition, Block block)
+	{
 		this.makeSound("mob.chicken.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected Item getLoot() {
+	protected Item getLoot()
+	{
 		return Items.FEATHER;
 	}
 
 	@Override
-	protected void dropDeathLoot(boolean flag, int i) {
+	protected void dropDeathLoot(boolean flag, int i)
+	{
 		int j = this.random.nextInt(3) + this.random.nextInt(1 + i);
 
-		for (int k = 0; k < j; ++k) {
+		for (int k = 0; k < j; ++k)
+		{
 			this.a(Items.FEATHER, 1);
 		}
 
-		if (this.isBurning()) {
+		if (this.isBurning())
+		{
 			this.a(Items.COOKED_CHICKEN, 1);
-		} else {
+		} else
+		{
 			this.a(Items.CHICKEN, 1);
 		}
 
 	}
 
-	public EntityChicken b(EntityAgeable entityageable) {
+	public EntityChicken b(EntityAgeable entityageable)
+	{
 		return new EntityChicken(this.world);
 	}
 
 	@Override
-	public boolean d(ItemStack itemstack) {
+	public boolean d(ItemStack itemstack)
+	{
 		return itemstack != null && itemstack.getItem() == Items.WHEAT_SEEDS;
 	}
 
 	@Override
-	public void a(NBTTagCompound nbttagcompound) {
+	public void a(NBTTagCompound nbttagcompound)
+	{
 		super.a(nbttagcompound);
 		this.bt = nbttagcompound.getBoolean("IsChickenJockey");
-		if (nbttagcompound.hasKey("EggLayTime")) {
+		if (nbttagcompound.hasKey("EggLayTime"))
+		{
 			this.bs = nbttagcompound.getInt("EggLayTime");
 		}
 
 	}
 
 	@Override
-	protected int getExpValue(EntityHuman entityhuman) {
+	protected int getExpValue(EntityHuman entityhuman)
+	{
 		return this.isChickenJockey() ? 10 : super.getExpValue(entityhuman);
 	}
 
 	@Override
-	public void b(NBTTagCompound nbttagcompound) {
+	public void b(NBTTagCompound nbttagcompound)
+	{
 		super.b(nbttagcompound);
 		nbttagcompound.setBoolean("IsChickenJockey", this.bt);
 		nbttagcompound.setInt("EggLayTime", this.bs);
 	}
 
 	@Override
-	protected boolean isTypeNotPersistent() {
+	protected boolean isTypeNotPersistent()
+	{
 		return this.isChickenJockey() && this.passenger == null;
 	}
 
 	@Override
-	public void al() {
+	public void al()
+	{
 		super.al();
 		float f = MathHelper.sin(this.aI * 3.1415927F / 180.0F);
 		float f1 = MathHelper.cos(this.aI * 3.1415927F / 180.0F);
 		float f2 = 0.1F;
 		float f3 = 0.0F;
 
-		this.passenger.setPosition(this.locX + f2 * f,
-				this.locY + this.length * 0.5F + this.passenger.am() + f3,
+		this.passenger.setPosition(this.locX + f2 * f, this.locY + this.length * 0.5F + this.passenger.am() + f3,
 				this.locZ - f2 * f1);
-		if (this.passenger instanceof EntityLiving) {
+		if (this.passenger instanceof EntityLiving)
+		{
 			((EntityLiving) this.passenger).aI = this.aI;
 		}
 
 	}
 
-	public boolean isChickenJockey() {
+	public boolean isChickenJockey()
+	{
 		return this.bt;
 	}
 
-	public void l(boolean flag) {
+	public void l(boolean flag)
+	{
 		this.bt = flag;
 	}
 
 	@Override
-	public EntityAgeable createChild(EntityAgeable entityageable) {
+	public EntityAgeable createChild(EntityAgeable entityageable)
+	{
 		return this.b(entityageable);
 	}
 }

@@ -35,10 +35,12 @@ import net.minecraft.server.TileEntitySkull;
  * entities that need to be ticked based on the world time to reduce needed
  * iteration/checks.
  */
-public final class OptimizedWorldTileEntitySet extends AbstractSet<TileEntity> {
+public final class OptimizedWorldTileEntitySet extends AbstractSet<TileEntity>
+{
 
 	/** Map of tile classes with modified tick intervals. */
-	private static final Object2LongMap<Class<? extends TileEntity>> CUSTOM_TICK_INTERVALS = new Object2LongOpenHashMap<Class<? extends TileEntity>>() {
+	private static final Object2LongMap<Class<? extends TileEntity>> CUSTOM_TICK_INTERVALS = new Object2LongOpenHashMap<Class<? extends TileEntity>>()
+	{
 		{
 			// Entities with empty tick# methods.
 			this.put(TileEntityCommand.class, -1L);
@@ -71,17 +73,21 @@ public final class OptimizedWorldTileEntitySet extends AbstractSet<TileEntity> {
 	private final Multimap<Class<? extends TileEntity>, TileEntity> registeredTiles = HashMultimap.create();
 
 	@Override
-	public int size() {
+	public int size()
+	{
 		return this.registeredTiles.size();
 	}
 
 	@Override
-	public boolean add(TileEntity tile) {
-		if (tile == null) {
+	public boolean add(TileEntity tile)
+	{
+		if (tile == null)
+		{
 			return false;
 		}
 
-		if (this.registeredTiles.containsValue(tile)) {
+		if (this.registeredTiles.containsValue(tile))
+		{
 			return false;
 		}
 
@@ -89,8 +95,10 @@ public final class OptimizedWorldTileEntitySet extends AbstractSet<TileEntity> {
 	}
 
 	@Override
-	public boolean remove(Object object) {
-		if (object == null) {
+	public boolean remove(Object object)
+	{
+		if (object == null)
+		{
 			return false;
 		}
 
@@ -98,8 +106,10 @@ public final class OptimizedWorldTileEntitySet extends AbstractSet<TileEntity> {
 	}
 
 	@Override
-	public boolean contains(Object object) {
-		if (object == null) {
+	public boolean contains(Object object)
+	{
+		if (object == null)
+		{
 			return false;
 		}
 
@@ -107,20 +117,25 @@ public final class OptimizedWorldTileEntitySet extends AbstractSet<TileEntity> {
 	}
 
 	@Override
-	public void clear() {
+	public void clear()
+	{
 		this.registeredTiles.clear();
 	}
 
 	@Override
-	public Iterator<TileEntity> iterator() {
+	public Iterator<TileEntity> iterator()
+	{
 		return this.registeredTiles.values().iterator();
 	}
 
-	public Iterator<TileEntity> tickIterator(long worldTime) {
+	public Iterator<TileEntity> tickIterator(long worldTime)
+	{
 		LinkedList<Iterator<TileEntity>> tileIterators = new LinkedList<>();
-		for (Class<? extends TileEntity> tileClassToTick : this.getTileClassesToTick(worldTime)) {
+		for (Class<? extends TileEntity> tileClassToTick : this.getTileClassesToTick(worldTime))
+		{
 			Collection<TileEntity> tileBucket = this.registeredTiles.get(tileClassToTick);
-			if (tileBucket != null) {
+			if (tileBucket != null)
+			{
 				tileIterators.add(tileBucket.iterator());
 			}
 		}
@@ -128,12 +143,16 @@ public final class OptimizedWorldTileEntitySet extends AbstractSet<TileEntity> {
 		return Iterators.concat(tileIterators.iterator());
 	}
 
-	private List<Class<? extends TileEntity>> getTileClassesToTick(long worldTime) {
+	private List<Class<? extends TileEntity>> getTileClassesToTick(long worldTime)
+	{
 		List<Class<? extends TileEntity>> tilesToTick = new LinkedList<>();
-		for (Class<? extends TileEntity> registeredTileClass : this.registeredTiles.keySet()) {
+		for (Class<? extends TileEntity> registeredTileClass : this.registeredTiles.keySet())
+		{
 			long customTickInterval = OptimizedWorldTileEntitySet.CUSTOM_TICK_INTERVALS.getLong(registeredTileClass);
-			if (customTickInterval != 0) { // Troves non-existent value is 0.
-				if (customTickInterval > 0 && (worldTime == 0 || worldTime % customTickInterval == 0)) {
+			if (customTickInterval != 0)
+			{ // Troves non-existent value is 0.
+				if (customTickInterval > 0 && (worldTime == 0 || worldTime % customTickInterval == 0))
+				{
 					tilesToTick.add(registeredTileClass);
 				}
 				continue;

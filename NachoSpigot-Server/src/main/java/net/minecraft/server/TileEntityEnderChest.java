@@ -1,16 +1,19 @@
 package net.minecraft.server;
 
-public class TileEntityEnderChest extends TileEntity { // PaperSpigot - remove IUpdatePlayerListBox
+public class TileEntityEnderChest extends TileEntity
+{ // PaperSpigot - remove IUpdatePlayerListBox
 
 	public float a; // PaperSpigot - lidAngle
 	public float f;
 	public int g; // PaperSpigot - numPlayersUsing
 	private int h;
 
-	public TileEntityEnderChest() {
+	public TileEntityEnderChest()
+	{
 	}
 
-	public void c() {
+	public void c()
+	{
 		// PaperSpigot start - Move enderchest sound handling out of the tick loop
 		/*
 		 * if (++this.h % 20 * 4 == 0) { this.world.playBlockAction(this.position,
@@ -45,26 +48,32 @@ public class TileEntityEnderChest extends TileEntity { // PaperSpigot - remove I
 	}
 
 	@Override
-	public boolean c(int i, int j) {
-		if (i == 1) {
+	public boolean c(int i, int j)
+	{
+		if (i == 1)
+		{
 			this.g = j;
 			return true;
-		} else {
+		} else
+		{
 			return super.c(i, j);
 		}
 	}
 
 	@Override
-	public void y() {
+	public void y()
+	{
 		this.E();
 		super.y();
 	}
 
-	public void b() {
+	public void b()
+	{
 		++this.g;
 
 		// PaperSpigot start - Move enderchest open sounds out of the tick loop
-		if (this.g > 0 && this.a == 0.0F) {
+		if (this.g > 0 && this.a == 0.0F)
+		{
 			this.a = 0.7F;
 
 			double d1 = this.getPosition().getX() + 0.5D;
@@ -78,11 +87,13 @@ public class TileEntityEnderChest extends TileEntity { // PaperSpigot - remove I
 		this.world.playBlockAction(this.position, Blocks.ENDER_CHEST, 1, this.g);
 	}
 
-	public void d() {
+	public void d()
+	{
 		--this.g;
 
 		// PaperSpigot start - Move enderchest close sounds out of the tick loop
-		if (this.g == 0 && this.a > 0.0F || this.g > 0 && this.a < 1.0F) {
+		if (this.g == 0 && this.a > 0.0F || this.g > 0 && this.a < 1.0F)
+		{
 			double d0 = this.getPosition().getX() + 0.5D;
 			double d2 = this.getPosition().getZ() + 0.5D;
 
@@ -95,7 +106,8 @@ public class TileEntityEnderChest extends TileEntity { // PaperSpigot - remove I
 		this.world.playBlockAction(this.position, Blocks.ENDER_CHEST, 1, this.g);
 	}
 
-	public boolean a(EntityHuman entityhuman) {
+	public boolean a(EntityHuman entityhuman)
+	{
 		return this.world.getTileEntity(this.position) != this ? false
 				: entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
 						this.position.getZ() + 0.5D) <= 64.0D;

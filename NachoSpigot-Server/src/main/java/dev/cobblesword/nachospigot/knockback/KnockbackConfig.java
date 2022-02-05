@@ -15,7 +15,8 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
-public class KnockbackConfig {
+public class KnockbackConfig
+{
 	private static final Logger LOGGER = LogManager.getLogger(KnockbackConfig.class);
 	private static File CONFIG_FILE;
 	protected static final YamlCommenter c = new YamlCommenter();
@@ -25,14 +26,18 @@ public class KnockbackConfig {
 	private static KnockbackProfile currentKb;
 	private static Set<KnockbackProfile> kbProfiles = new HashSet<>();
 
-	public static void init(File configFile) {
+	public static void init(File configFile)
+	{
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
-		try {
+		try
+		{
 			System.out.println("Loading NachoSpigot knockback config from " + configFile.getName());
 			config.load(CONFIG_FILE);
-		} catch (IOException ignored) {
-		} catch (InvalidConfigurationException ex) {
+		} catch (IOException ignored)
+		{
+		} catch (InvalidConfigurationException ex)
+		{
 			LOGGER.log(Level.ERROR, "Could not load knockback.yml, please correct your syntax errors", ex);
 			throw Throwables.propagate(ex);
 		}
@@ -46,10 +51,12 @@ public class KnockbackConfig {
 		kbProfiles = new HashSet<>();
 		kbProfiles.add(defaultProfile);
 
-		for (String key : getKeys("knockback.profiles")) {
+		for (String key : getKeys("knockback.profiles"))
+		{
 			final String path = "knockback.profiles." + key;
 			CraftKnockbackProfile profile = (CraftKnockbackProfile) getKbProfileByName(key);
-			if (profile == null) {
+			if (profile == null)
+			{
 				profile = new CraftKnockbackProfile(key);
 				kbProfiles.add(profile);
 			}
@@ -75,48 +82,61 @@ public class KnockbackConfig {
 			profile.setEggHorizontal(getDouble(path + ".projectiles.egg.vertical", 0.4D));
 		}
 		currentKb = getKbProfileByName(getString("knockback.current", "default"));
-		if (currentKb == null) {
+		if (currentKb == null)
+		{
 			currentKb = defaultProfile;
 		}
 	}
 
-	public static KnockbackProfile getCurrentKb() {
+	public static KnockbackProfile getCurrentKb()
+	{
 		return currentKb;
 	}
 
-	public static void setCurrentKb(KnockbackProfile kb) {
+	public static void setCurrentKb(KnockbackProfile kb)
+	{
 		currentKb = kb;
 	}
 
-	public static KnockbackProfile getKbProfileByName(String name) {
-		for (KnockbackProfile profile : kbProfiles) {
-			if (profile.getName().equalsIgnoreCase(name)) {
+	public static KnockbackProfile getKbProfileByName(String name)
+	{
+		for (KnockbackProfile profile : kbProfiles)
+		{
+			if (profile.getName().equalsIgnoreCase(name))
+			{
 				return profile;
 			}
 		}
 		return null;
 	}
 
-	public static Set<KnockbackProfile> getKbProfiles() {
+	public static Set<KnockbackProfile> getKbProfiles()
+	{
 		return kbProfiles;
 	}
 
-	public static void save() {
-		try {
+	public static void save()
+	{
+		try
+		{
 			config.save(CONFIG_FILE);
-		} catch (IOException ex) {
+		} catch (IOException ex)
+		{
 			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
 		}
 	}
 
-	public static void set(String path, Object val) {
+	public static void set(String path, Object val)
+	{
 		config.set(path, val);
 
 		save();
 	}
 
-	public static Set<String> getKeys(String path) {
-		if (!config.isConfigurationSection(path)) {
+	public static Set<String> getKeys(String path)
+	{
+		if (!config.isConfigurationSection(path))
+		{
 			config.createSection(path);
 			return new HashSet<>();
 		}
@@ -124,32 +144,38 @@ public class KnockbackConfig {
 		return config.getConfigurationSection(path).getKeys(false);
 	}
 
-	private static boolean getBoolean(String path, boolean def) {
+	private static boolean getBoolean(String path, boolean def)
+	{
 		config.addDefault(path, def);
 		return config.getBoolean(path, config.getBoolean(path));
 	}
 
-	private static double getDouble(String path, double def) {
+	private static double getDouble(String path, double def)
+	{
 		config.addDefault(path, def);
 		return config.getDouble(path, config.getDouble(path));
 	}
 
-	private static float getFloat(String path, float def) {
+	private static float getFloat(String path, float def)
+	{
 		config.addDefault(path, def);
 		return config.getFloat(path, config.getFloat(path));
 	}
 
-	private static int getInt(String path, int def) {
+	private static int getInt(String path, int def)
+	{
 		config.addDefault(path, def);
 		return config.getInt(path, config.getInt(path));
 	}
 
-	private static <T> List getList(String path, T def) {
+	private static <T> List getList(String path, T def)
+	{
 		config.addDefault(path, def);
 		return config.getList(path, config.getList(path));
 	}
 
-	private static String getString(String path, String def) {
+	private static String getString(String path, String def)
+	{
 		config.addDefault(path, def);
 		return config.getString(path, config.getString(path));
 	}

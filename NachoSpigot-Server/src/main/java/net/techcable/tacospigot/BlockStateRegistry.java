@@ -7,19 +7,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import net.minecraft.server.IBlockState;
 
-public class BlockStateRegistry {
-	private BlockStateRegistry() {
+public class BlockStateRegistry
+{
+	private BlockStateRegistry()
+	{
 	} // Utility class
 
 	private static final ConcurrentMap<IBlockState<?>, Integer> idsByObj = new ConcurrentHashMap<>();
 	private static volatile IBlockState[] byId = new IBlockState[0];
 	private static final AtomicInteger nextId = new AtomicInteger();
 
-	public static int getId(IBlockState s) {
-		return idsByObj.computeIfAbsent(s, (state) -> {
+	public static int getId(IBlockState s)
+	{
+		return idsByObj.computeIfAbsent(s, (state) ->
+		{
 			int id = nextId.getAndIncrement();
-			synchronized (BlockStateRegistry.class) {
-				if (id >= byId.length) {
+			synchronized (BlockStateRegistry.class)
+			{
+				if (id >= byId.length)
+				{
 					byId = Arrays.copyOf(byId, id + 1);
 				}
 				byId[id] = state;
@@ -28,12 +34,16 @@ public class BlockStateRegistry {
 		});
 	}
 
-	public static IBlockState getById(int id) {
-		if (id < 0) {
+	public static IBlockState getById(int id)
+	{
+		if (id < 0)
+		{
 			throw new IllegalArgumentException("Negative id: " + id);
-		} else if (id < byId.length) {
+		} else if (id < byId.length)
+		{
 			return byId[id];
-		} else {
+		} else
+		{
 			return null;
 		}
 	}

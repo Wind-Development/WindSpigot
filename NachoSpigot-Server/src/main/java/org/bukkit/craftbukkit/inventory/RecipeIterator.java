@@ -8,34 +8,42 @@ import net.minecraft.server.CraftingManager;
 import net.minecraft.server.IRecipe;
 import net.minecraft.server.RecipesFurnace;
 
-public class RecipeIterator implements Iterator<Recipe> {
+public class RecipeIterator implements Iterator<Recipe>
+{
 	private final Iterator<IRecipe> recipes;
 	private final Iterator<net.minecraft.server.ItemStack> smeltingCustom;
 	private final Iterator<net.minecraft.server.ItemStack> smeltingVanilla;
 	private Iterator<?> removeFrom = null;
 
-	public RecipeIterator() {
+	public RecipeIterator()
+	{
 		this.recipes = CraftingManager.getInstance().getRecipes().iterator();
 		this.smeltingCustom = RecipesFurnace.getInstance().customRecipes.keySet().iterator();
 		this.smeltingVanilla = RecipesFurnace.getInstance().recipes.keySet().iterator();
 	}
 
 	@Override
-	public boolean hasNext() {
+	public boolean hasNext()
+	{
 		return recipes.hasNext() || smeltingCustom.hasNext() || smeltingVanilla.hasNext();
 	}
 
 	@Override
-	public Recipe next() {
-		if (recipes.hasNext()) {
+	public Recipe next()
+	{
+		if (recipes.hasNext())
+		{
 			removeFrom = recipes;
 			return recipes.next().toBukkitRecipe();
-		} else {
+		} else
+		{
 			net.minecraft.server.ItemStack item;
-			if (smeltingCustom.hasNext()) {
+			if (smeltingCustom.hasNext())
+			{
 				removeFrom = smeltingCustom;
 				item = smeltingCustom.next();
-			} else {
+			} else
+			{
 				removeFrom = smeltingVanilla;
 				item = smeltingVanilla.next();
 			}
@@ -47,8 +55,10 @@ public class RecipeIterator implements Iterator<Recipe> {
 	}
 
 	@Override
-	public void remove() {
-		if (removeFrom == null) {
+	public void remove()
+	{
+		if (removeFrom == null)
+		{
 			throw new IllegalStateException();
 		}
 		removeFrom.remove();

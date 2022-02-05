@@ -7,13 +7,17 @@ import net.minecraft.server.MathHelper;
 import net.minecraft.server.TileEntityHopper;
 import net.minecraft.server.World;
 
-public interface HopperPusher {
+public interface HopperPusher
+{
 
-	public default TileEntityHopper findHopper() {
+	public default TileEntityHopper findHopper()
+	{
 		int y1 = MathHelper.floor(getY());
-		for (int y = y1; y > y1 - 2; y--) {
+		for (int y = y1; y > y1 - 2; y--)
+		{
 			TileEntityHopper hopper = HopperHelper.getHopper(getWorld(), new BlockPosition(getX(), y, getZ()));
-			if (hopper != null && y1 - y < 2) {
+			if (hopper != null && y1 - y < 2)
+			{
 				return hopper;
 			}
 		}
@@ -22,7 +26,8 @@ public interface HopperPusher {
 
 	public boolean acceptItem(TileEntityHopper hopper);
 
-	public default boolean tryPutInHopper() {
+	public default boolean tryPutInHopper()
+	{
 		if (!getWorld().tacoSpigotConfig.isHopperPushBased)
 			return false;
 		TileEntityHopper hopper = findHopper();
@@ -35,15 +40,18 @@ public interface HopperPusher {
 
 	// Default implementations for entities
 
-	public default double getX() {
+	public default double getX()
+	{
 		return ((Entity) this).locX;
 	}
 
-	public default double getY() {
+	public default double getY()
+	{
 		return ((Entity) this).locY;
 	}
 
-	public default double getZ() {
+	public default double getZ()
+	{
 		return ((Entity) this).locZ;
 	}
 

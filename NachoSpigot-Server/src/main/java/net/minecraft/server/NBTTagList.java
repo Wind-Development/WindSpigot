@@ -13,49 +13,61 @@ import com.google.common.collect.Lists;
 
 import dev.cobblesword.nachospigot.commons.Constants;
 
-public class NBTTagList extends NBTBase {
+public class NBTTagList extends NBTBase
+{
 
 	private static final Logger b = LogManager.getLogger();
 	private List<NBTBase> list = Lists.newArrayList();
 	private byte type = 0;
 
-	public NBTTagList() {
+	public NBTTagList()
+	{
 	}
 
 	@Override
-	void write(DataOutput dataoutput) throws IOException {
-		if (!this.list.isEmpty()) {
+	void write(DataOutput dataoutput) throws IOException
+	{
+		if (!this.list.isEmpty())
+		{
 			this.type = this.list.get(0).getTypeId();
-		} else {
+		} else
+		{
 			this.type = 0;
 		}
 
 		dataoutput.writeByte(this.type);
 		dataoutput.writeInt(this.list.size());
 
-		for (int i = 0; i < this.list.size(); ++i) {
+		for (int i = 0; i < this.list.size(); ++i)
+		{
 			this.list.get(i).write(dataoutput);
 		}
 
 	}
 
 	@Override
-	void load(DataInput datainput, int i, NBTReadLimiter nbtreadlimiter) throws IOException {
+	void load(DataInput datainput, int i, NBTReadLimiter nbtreadlimiter) throws IOException
+	{
 		nbtreadlimiter.a(296L);
-		if (i > 512) {
+		if (i > 512)
+		{
 			throw new RuntimeException("Tried to read NBT tag with too high complexity, depth > 512");
-		} else {
+		} else
+		{
 			this.type = datainput.readByte();
 			int j = datainput.readInt();
 			nbtreadlimiter.a(j * 8); // CraftBukkit
 
-			if (this.type == 0 && j > 0) {
+			if (this.type == 0 && j > 0)
+			{
 				throw new RuntimeException("Missing type on ListTag");
-			} else {
+			} else
+			{
 				nbtreadlimiter.a(32L * j);
 				this.list = Lists.newArrayListWithCapacity(j);
 
-				for (int k = 0; k < j; ++k) {
+				for (int k = 0; k < j; ++k)
+				{
 					NBTBase nbtbase = NBTBase.createTag(this.type);
 
 					nbtbase.load(datainput, i + 1, nbtreadlimiter);
@@ -67,16 +79,20 @@ public class NBTTagList extends NBTBase {
 	}
 
 	@Override
-	public byte getTypeId() {
+	public byte getTypeId()
+	{
 		return (byte) 9;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		StringBuilder stringbuilder = new StringBuilder("[");
 
-		for (int i = 0; i < this.list.size(); ++i) {
-			if (i != 0) {
+		for (int i = 0; i < this.list.size(); ++i)
+		{
+			if (i != 0)
+			{
 				stringbuilder.append(',');
 			}
 
@@ -86,13 +102,18 @@ public class NBTTagList extends NBTBase {
 		return stringbuilder.append(']').toString();
 	}
 
-	public void add(NBTBase nbtbase) {
-		if (nbtbase.getTypeId() == 0) {
+	public void add(NBTBase nbtbase)
+	{
+		if (nbtbase.getTypeId() == 0)
+		{
 			NBTTagList.b.warn("Invalid TagEnd added to ListTag");
-		} else {
-			if (this.type == 0) {
+		} else
+		{
+			if (this.type == 0)
+			{
 				this.type = nbtbase.getTypeId();
-			} else if (this.type != nbtbase.getTypeId()) {
+			} else if (this.type != nbtbase.getTypeId())
+			{
 				NBTTagList.b.warn("Adding mismatching tag types to tag list");
 				return;
 			}
@@ -101,98 +122,125 @@ public class NBTTagList extends NBTBase {
 		}
 	}
 
-	public void a(int i, NBTBase nbtbase) {
-		if (nbtbase.getTypeId() == 0) {
+	public void a(int i, NBTBase nbtbase)
+	{
+		if (nbtbase.getTypeId() == 0)
+		{
 			NBTTagList.b.warn("Invalid TagEnd added to ListTag");
-		} else if (i >= 0 && i < this.list.size()) {
-			if (this.type == 0) {
+		} else if (i >= 0 && i < this.list.size())
+		{
+			if (this.type == 0)
+			{
 				this.type = nbtbase.getTypeId();
-			} else if (this.type != nbtbase.getTypeId()) {
+			} else if (this.type != nbtbase.getTypeId())
+			{
 				NBTTagList.b.warn("Adding mismatching tag types to tag list");
 				return;
 			}
 
 			this.list.set(i, nbtbase);
-		} else {
+		} else
+		{
 			NBTTagList.b.warn("index out of bounds to set tag in tag list");
 		}
 	}
 
-	public NBTBase a(int i) {
+	public NBTBase a(int i)
+	{
 		return this.list.remove(i);
 	}
 
 	@Override
-	public boolean isEmpty() {
+	public boolean isEmpty()
+	{
 		return this.list.isEmpty();
 	}
 
-	public NBTTagCompound get(int i) {
-		if (i >= 0 && i < this.list.size()) {
+	public NBTTagCompound get(int i)
+	{
+		if (i >= 0 && i < this.list.size())
+		{
 			NBTBase nbtbase = this.list.get(i);
 
 			return nbtbase.getTypeId() == 10 ? (NBTTagCompound) nbtbase : new NBTTagCompound();
-		} else {
+		} else
+		{
 			return new NBTTagCompound();
 		}
 	}
 
-	public int[] c(int i) {
-		if (i >= 0 && i < this.list.size()) {
+	public int[] c(int i)
+	{
+		if (i >= 0 && i < this.list.size())
+		{
 			NBTBase nbtbase = this.list.get(i);
 
 			return nbtbase.getTypeId() == 11 ? ((NBTTagIntArray) nbtbase).c() : Constants.EMPTY_ARRAY;
-		} else {
+		} else
+		{
 			return Constants.EMPTY_ARRAY;
 		}
 	}
 
-	public double d(int i) {
-		if (i >= 0 && i < this.list.size()) {
+	public double d(int i)
+	{
+		if (i >= 0 && i < this.list.size())
+		{
 			NBTBase nbtbase = this.list.get(i);
 
 			return nbtbase.getTypeId() == 6 ? ((NBTTagDouble) nbtbase).g() : 0.0D;
-		} else {
+		} else
+		{
 			return 0.0D;
 		}
 	}
 
-	public float e(int i) {
-		if (i >= 0 && i < this.list.size()) {
+	public float e(int i)
+	{
+		if (i >= 0 && i < this.list.size())
+		{
 			NBTBase nbtbase = this.list.get(i);
 
 			return nbtbase.getTypeId() == 5 ? ((NBTTagFloat) nbtbase).h() : 0.0F;
-		} else {
+		} else
+		{
 			return 0.0F;
 		}
 	}
 
-	public String getString(int i) {
-		if (i >= 0 && i < this.list.size()) {
+	public String getString(int i)
+	{
+		if (i >= 0 && i < this.list.size())
+		{
 			NBTBase nbtbase = this.list.get(i);
 
 			return nbtbase.getTypeId() == 8 ? nbtbase.a_() : nbtbase.toString();
-		} else {
+		} else
+		{
 			return "";
 		}
 	}
 
-	public NBTBase g(int i) {
+	public NBTBase g(int i)
+	{
 		return i >= 0 && i < this.list.size() ? (NBTBase) this.list.get(i) : new NBTTagEnd();
 	}
 
-	public int size() {
+	public int size()
+	{
 		return this.list.size();
 	}
 
 	@Override
-	public NBTBase clone() {
+	public NBTBase clone()
+	{
 		NBTTagList nbttaglist = new NBTTagList();
 
 		nbttaglist.type = this.type;
 		Iterator iterator = this.list.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			NBTBase nbtbase = (NBTBase) iterator.next();
 			NBTBase nbtbase1 = nbtbase.clone();
 
@@ -203,11 +251,14 @@ public class NBTTagList extends NBTBase {
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (super.equals(object)) {
+	public boolean equals(Object object)
+	{
+		if (super.equals(object))
+		{
 			NBTTagList nbttaglist = (NBTTagList) object;
 
-			if (this.type == nbttaglist.type) {
+			if (this.type == nbttaglist.type)
+			{
 				return this.list.equals(nbttaglist.list);
 			}
 		}
@@ -216,11 +267,13 @@ public class NBTTagList extends NBTBase {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return super.hashCode() ^ this.list.hashCode();
 	}
 
-	public int f() {
+	public int f()
+	{
 		return this.type;
 	}
 }

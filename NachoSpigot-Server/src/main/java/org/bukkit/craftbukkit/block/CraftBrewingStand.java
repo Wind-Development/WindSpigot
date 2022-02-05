@@ -9,30 +9,36 @@ import org.bukkit.inventory.BrewerInventory;
 
 import net.minecraft.server.TileEntityBrewingStand;
 
-public class CraftBrewingStand extends CraftBlockState implements BrewingStand {
+public class CraftBrewingStand extends CraftBlockState implements BrewingStand
+{
 	private final TileEntityBrewingStand brewingStand;
 
-	public CraftBrewingStand(Block block) {
+	public CraftBrewingStand(Block block)
+	{
 		super(block);
 
 		brewingStand = (TileEntityBrewingStand) ((CraftWorld) block.getWorld()).getTileEntityAt(getX(), getY(), getZ());
 	}
 
-	public CraftBrewingStand(final Material material, final TileEntityBrewingStand te) {
+	public CraftBrewingStand(final Material material, final TileEntityBrewingStand te)
+	{
 		super(material);
 		brewingStand = te;
 	}
 
 	@Override
-	public BrewerInventory getInventory() {
+	public BrewerInventory getInventory()
+	{
 		return new CraftInventoryBrewer(brewingStand);
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics) {
+	public boolean update(boolean force, boolean applyPhysics)
+	{
 		boolean result = super.update(force, applyPhysics);
 
-		if (result) {
+		if (result)
+		{
 			brewingStand.update();
 		}
 
@@ -40,17 +46,20 @@ public class CraftBrewingStand extends CraftBlockState implements BrewingStand {
 	}
 
 	@Override
-	public int getBrewingTime() {
+	public int getBrewingTime()
+	{
 		return brewingStand.brewTime;
 	}
 
 	@Override
-	public void setBrewingTime(int brewTime) {
+	public void setBrewingTime(int brewTime)
+	{
 		brewingStand.brewTime = brewTime;
 	}
 
 	@Override
-	public TileEntityBrewingStand getTileEntity() {
+	public TileEntityBrewingStand getTileEntity()
+	{
 		return brewingStand;
 	}
 }

@@ -1,8 +1,10 @@
 package net.minecraft.server;
 
-public class CommandDispatcher extends CommandHandler implements ICommandDispatcher {
+public class CommandDispatcher extends CommandHandler implements ICommandDispatcher
+{
 
-	public CommandDispatcher() {
+	public CommandDispatcher()
+	{
 		this.a(new CommandTime());
 		this.a(new CommandGamemode());
 		this.a(new CommandDifficulty());
@@ -46,7 +48,8 @@ public class CommandDispatcher extends CommandHandler implements ICommandDispatc
 		this.a(new CommandWorldBorder());
 		this.a(new CommandTitle());
 		this.a(new CommandEntityData());
-		if (MinecraftServer.getServer().ae()) {
+		if (MinecraftServer.getServer().ae())
+		{
 			this.a(new CommandOp());
 			this.a(new CommandDeop());
 			this.a(new CommandStop());
@@ -62,7 +65,8 @@ public class CommandDispatcher extends CommandHandler implements ICommandDispatc
 			this.a(new CommandList());
 			this.a(new CommandWhitelist());
 			this.a(new CommandIdleTimeout());
-		} else {
+		} else
+		{
 			this.a(new CommandPublish());
 		}
 
@@ -70,11 +74,13 @@ public class CommandDispatcher extends CommandHandler implements ICommandDispatc
 	}
 
 	@Override
-	public void a(ICommandListener icommandlistener, ICommand icommand, int i, String s, Object... aobject) {
+	public void a(ICommandListener icommandlistener, ICommand icommand, int i, String s, Object... aobject)
+	{
 		boolean flag = true;
 		MinecraftServer minecraftserver = MinecraftServer.getServer();
 
-		if (!icommandlistener.getSendCommandFeedback()) {
+		if (!icommandlistener.getSendCommandFeedback())
+		{
 			flag = false;
 		}
 
@@ -83,17 +89,21 @@ public class CommandDispatcher extends CommandHandler implements ICommandDispatc
 
 		chatmessage.getChatModifier().setColor(EnumChatFormat.GRAY);
 		chatmessage.getChatModifier().setItalic(Boolean.TRUE);
-		if (flag) {
-			for (EntityPlayer entityPlayer : minecraftserver.getPlayerList().v()) {
+		if (flag)
+		{
+			for (EntityPlayer entityPlayer : minecraftserver.getPlayerList().v())
+			{
 				EntityHuman entityhuman = entityPlayer;
 				if (entityhuman != icommandlistener && minecraftserver.getPlayerList().isOp(entityhuman.getProfile())
-						&& icommand.canUse(icommandlistener)) {
+						&& icommand.canUse(icommandlistener))
+				{
 					boolean flag1 = icommandlistener instanceof MinecraftServer && MinecraftServer.getServer().r();
 					boolean flag2 = icommandlistener instanceof RemoteControlCommandListener
 							&& MinecraftServer.getServer().q();
 
 					if (flag1 || flag2 || !(icommandlistener instanceof RemoteControlCommandListener)
-							&& !(icommandlistener instanceof MinecraftServer)) {
+							&& !(icommandlistener instanceof MinecraftServer))
+					{
 						entityhuman.sendMessage(chatmessage);
 					}
 				}
@@ -102,17 +112,20 @@ public class CommandDispatcher extends CommandHandler implements ICommandDispatc
 
 		if (icommandlistener != minecraftserver
 				&& minecraftserver.worldServer[0].getGameRules().getBoolean("logAdminCommands")
-				&& !org.spigotmc.SpigotConfig.silentCommandBlocks) { // Spigot
+				&& !org.spigotmc.SpigotConfig.silentCommandBlocks)
+		{ // Spigot
 			minecraftserver.sendMessage(chatmessage);
 		}
 
 		boolean flag3 = minecraftserver.worldServer[0].getGameRules().getBoolean("sendCommandFeedback");
 
-		if (icommandlistener instanceof CommandBlockListenerAbstract) {
+		if (icommandlistener instanceof CommandBlockListenerAbstract)
+		{
 			flag3 = ((CommandBlockListenerAbstract) icommandlistener).m();
 		}
 
-		if ((i & 1) != 1 && flag3 || icommandlistener instanceof MinecraftServer) {
+		if ((i & 1) != 1 && flag3 || icommandlistener instanceof MinecraftServer)
+		{
 			icommandlistener.sendMessage(new ChatMessage(s, aobject));
 		}
 

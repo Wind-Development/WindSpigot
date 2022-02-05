@@ -6,33 +6,40 @@ import org.bukkit.entity.IronGolem;
 
 import net.minecraft.server.EntityIronGolem;
 
-public class CraftIronGolem extends CraftGolem implements IronGolem {
-	public CraftIronGolem(CraftServer server, EntityIronGolem entity) {
+public class CraftIronGolem extends CraftGolem implements IronGolem
+{
+	public CraftIronGolem(CraftServer server, EntityIronGolem entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EntityIronGolem getHandle() {
+	public EntityIronGolem getHandle()
+	{
 		return (EntityIronGolem) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftIronGolem";
 	}
 
 	@Override
-	public boolean isPlayerCreated() {
+	public boolean isPlayerCreated()
+	{
 		return getHandle().isPlayerCreated();
 	}
 
 	@Override
-	public void setPlayerCreated(boolean playerCreated) {
+	public void setPlayerCreated(boolean playerCreated)
+	{
 		getHandle().setPlayerCreated(playerCreated);
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.IRON_GOLEM;
 	}
 }

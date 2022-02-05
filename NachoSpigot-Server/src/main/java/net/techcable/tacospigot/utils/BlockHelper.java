@@ -7,24 +7,30 @@ import net.minecraft.server.Block;
 import net.minecraft.server.BlockPosition;
 import net.minecraft.server.World;
 
-public class BlockHelper {
-	private BlockHelper() {
+public class BlockHelper
+{
+	private BlockHelper()
+	{
 	}
 
 	public static void forEachAdjacentBlock(World w, BlockPosition position, int radius,
-			BiConsumer<World, BlockPosition> action) {
-		isAllAdjacentBlocksFillPredicate(w, position, radius, (world, adjacentPos) -> {
+			BiConsumer<World, BlockPosition> action)
+	{
+		isAllAdjacentBlocksFillPredicate(w, position, radius, (world, adjacentPos) ->
+		{
 			action.accept(world, adjacentPos);
 			return true;
 		});
 	}
 
-	public static boolean isAllAdjacentBlocksLoaded(World world, BlockPosition pos, int radius) {
+	public static boolean isAllAdjacentBlocksLoaded(World world, BlockPosition pos, int radius)
+	{
 		return isAllAdjacentBlocksFillPredicate(world, pos, radius, World::isLoaded);
 	}
 
 	public static boolean isAllAdjacentBlocksFillPredicate(World world, BlockPosition pos, int radius,
-			BiPredicate<World, BlockPosition> predicate) {
+			BiPredicate<World, BlockPosition> predicate)
+	{
 		// Make sure to keep this below the inline threshold!!!
 		int startX = pos.getX() - radius;
 		int endX = pos.getX() + radius;
@@ -33,9 +39,12 @@ public class BlockHelper {
 		int startZ = pos.getZ() - radius;
 		int endZ = pos.getZ() + radius;
 		BlockPosition.MutableBlockPosition adjacent = new BlockPosition.MutableBlockPosition();
-		for (int x = startX; x <= endX; x++) {
-			for (int y = startY; y <= endY; y++) {
-				for (int z = startZ; z <= endZ; z++) {
+		for (int x = startX; x <= endX; x++)
+		{
+			for (int y = startY; y <= endY; y++)
+			{
+				for (int z = startZ; z <= endZ; z++)
+				{
 					adjacent.setValues(x, y, z);
 					if (!predicate.test(world, adjacent))
 						return false;
@@ -47,13 +56,16 @@ public class BlockHelper {
 
 	private static final Block[] blockById = new Block[256];
 
-	static {
-		for (int i = 0; i < blockById.length; i++) {
+	static
+	{
+		for (int i = 0; i < blockById.length; i++)
+		{
 			blockById[i] = Block.getById(i);
 		}
 	}
 
-	public static Block getBlock(int id) {
+	public static Block getBlock(int id)
+	{
 		return id < 256 ? blockById[id] : Block.getById(id);
 	}
 }

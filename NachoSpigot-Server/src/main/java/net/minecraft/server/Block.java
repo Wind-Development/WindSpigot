@@ -7,7 +7,8 @@ import java.util.Random;
 import me.elier.nachospigot.config.NachoConfig;
 import me.suicidalkids.ion.blocks.redstone.PandaRedstoneWire;
 
-public class Block {
+public class Block
+{
 
 	private static final MinecraftKey a = new MinecraftKey("air");
 	public static final RegistryBlocks<MinecraftKey, Block> REGISTRY = new RegistryBlocks(Block.a);
@@ -19,50 +20,62 @@ public class Block {
 	public static final Block.StepSound h = new Block.StepSound("grass", 1.0F, 1.0F);
 	public static final Block.StepSound i = new Block.StepSound("stone", 1.0F, 1.0F);
 	public static final Block.StepSound j = new Block.StepSound("stone", 1.0F, 1.5F);
-	public static final Block.StepSound k = new Block.StepSound("stone", 1.0F, 1.0F) {
+	public static final Block.StepSound k = new Block.StepSound("stone", 1.0F, 1.0F)
+	{
 		@Override
-		public String getBreakSound() {
+		public String getBreakSound()
+		{
 			return "dig.glass";
 		}
 
 		@Override
-		public String getPlaceSound() {
+		public String getPlaceSound()
+		{
 			return "step.stone";
 		}
 	};
 	public static final Block.StepSound l = new Block.StepSound("cloth", 1.0F, 1.0F);
 	public static final Block.StepSound m = new Block.StepSound("sand", 1.0F, 1.0F);
 	public static final Block.StepSound n = new Block.StepSound("snow", 1.0F, 1.0F);
-	public static final Block.StepSound o = new Block.StepSound("ladder", 1.0F, 1.0F) {
+	public static final Block.StepSound o = new Block.StepSound("ladder", 1.0F, 1.0F)
+	{
 		@Override
-		public String getBreakSound() {
+		public String getBreakSound()
+		{
 			return "dig.wood";
 		}
 	};
-	public static final Block.StepSound p = new Block.StepSound("anvil", 0.3F, 1.0F) {
+	public static final Block.StepSound p = new Block.StepSound("anvil", 0.3F, 1.0F)
+	{
 		@Override
-		public String getBreakSound() {
+		public String getBreakSound()
+		{
 			return "dig.stone";
 		}
 
 		@Override
-		public String getPlaceSound() {
+		public String getPlaceSound()
+		{
 			return "random.anvil_land";
 		}
 	};
-	public static final Block.StepSound q = new Block.StepSound("slime", 1.0F, 1.0F) {
+	public static final Block.StepSound q = new Block.StepSound("slime", 1.0F, 1.0F)
+	{
 		@Override
-		public String getBreakSound() {
+		public String getBreakSound()
+		{
 			return "mob.slime.big";
 		}
 
 		@Override
-		public String getPlaceSound() {
+		public String getPlaceSound()
+		{
 			return "mob.slime.big";
 		}
 
 		@Override
-		public String getStepSound() {
+		public String getStepSound()
+		{
 			return "mob.slime.small";
 		}
 	};
@@ -79,8 +92,10 @@ public class Block {
 	// Spigot start
 	public co.aikar.timings.Timing timing;
 
-	public co.aikar.timings.Timing getTiming() {
-		if (timing == null) {
+	public co.aikar.timings.Timing getTiming()
+	{
+		if (timing == null)
+		{
 			timing = co.aikar.timings.SpigotTimings.getBlockTiming(this);
 		}
 		return timing;
@@ -102,86 +117,108 @@ public class Block {
 	private IBlockData blockData;
 	private String name;
 
-	public static int getId(Block block) {
+	public static int getId(Block block)
+	{
 		return Block.REGISTRY.b(block);
 	}
 
-	public static int getCombinedId(IBlockData iblockdata) {
+	public static int getCombinedId(IBlockData iblockdata)
+	{
 		Block block = iblockdata.getBlock();
 
 		return getId(block) + (block.toLegacyData(iblockdata) << 12);
 	}
 
-	public static Block getById(int i) {
+	public static Block getById(int i)
+	{
 		return Block.REGISTRY.a(i);
 	}
 
-	public static IBlockData getByCombinedId(int i) {
+	public static IBlockData getByCombinedId(int i)
+	{
 		int j = i & 4095;
 		int k = i >> 12 & 15;
 
 		return getById(j).fromLegacyData(k);
 	}
 
-	public static Block asBlock(Item item) {
+	public static Block asBlock(Item item)
+	{
 		return item instanceof ItemBlock ? ((ItemBlock) item).d() : null;
 	}
 
-	public static Block getByName(String s) {
+	public static Block getByName(String s)
+	{
 		MinecraftKey minecraftkey = new MinecraftKey(s);
 
-		if (Block.REGISTRY.d(minecraftkey)) {
+		if (Block.REGISTRY.d(minecraftkey))
+		{
 			return Block.REGISTRY.get(minecraftkey);
-		} else {
-			try {
+		} else
+		{
+			try
+			{
 				return Block.REGISTRY.a(Integer.parseInt(s));
-			} catch (NumberFormatException numberformatexception) {
+			} catch (NumberFormatException numberformatexception)
+			{
 				return null;
 			}
 		}
 	}
 
-	public boolean o() {
+	public boolean o()
+	{
 		return this.r;
 	}
 
-	public int p() {
+	public int p()
+	{
 		return this.s;
 	}
 
-	public int r() {
+	public int r()
+	{
 		return this.u;
 	}
 
-	public boolean s() {
+	public boolean s()
+	{
 		return this.v;
 	}
 
-	public Material getMaterial() {
+	public Material getMaterial()
+	{
 		return this.material;
 	}
 
-	public MaterialMapColor g(IBlockData iblockdata) {
+	public MaterialMapColor g(IBlockData iblockdata)
+	{
 		return this.K;
 	}
 
-	public IBlockData fromLegacyData(int i) {
+	public IBlockData fromLegacyData(int i)
+	{
 		return this.getBlockData();
 	}
 
-	public int toLegacyData(IBlockData iblockdata) {
-		if (iblockdata != null && !iblockdata.a().isEmpty()) {
+	public int toLegacyData(IBlockData iblockdata)
+	{
+		if (iblockdata != null && !iblockdata.a().isEmpty())
+		{
 			throw new IllegalArgumentException("Don\'t know how to convert " + iblockdata + " back into data...");
-		} else {
+		} else
+		{
 			return 0;
 		}
 	}
 
-	public IBlockData updateState(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition) {
+	public IBlockData updateState(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition)
+	{
 		return iblockdata;
 	}
 
-	public Block(Material material, MaterialMapColor materialmapcolor) {
+	public Block(Material material, MaterialMapColor materialmapcolor)
+	{
 		this.y = true;
 		this.stepSound = Block.e;
 		this.I = 1.0F;
@@ -196,90 +233,110 @@ public class Block {
 		this.j(this.blockStateList.getBlockData());
 	}
 
-	protected Block(Material material) {
+	protected Block(Material material)
+	{
 		this(material, material.r());
 	}
 
-	protected Block a(Block.StepSound block_stepsound) {
+	protected Block a(Block.StepSound block_stepsound)
+	{
 		this.stepSound = block_stepsound;
 		return this;
 	}
 
-	protected Block e(int i) {
+	protected Block e(int i)
+	{
 		this.s = i;
 		return this;
 	}
 
-	protected Block a(float f) {
+	protected Block a(float f)
+	{
 		this.u = (int) (15.0F * f);
 		return this;
 	}
 
-	protected Block b(float f) {
+	protected Block b(float f)
+	{
 		this.durability = f * 3.0F;
 		return this;
 	}
 
-	public boolean u() {
+	public boolean u()
+	{
 		return this.material.isSolid() && this.d();
 	}
 
-	public boolean isOccluding() {
+	public boolean isOccluding()
+	{
 		return this.material.k() && this.d() && !this.isPowerSource();
 	}
 
-	public boolean w() {
+	public boolean w()
+	{
 		return this.material.isSolid() && this.d();
 	}
 
-	public boolean d() {
+	public boolean d()
+	{
 		return true;
 	}
 
-	public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition) {
+	public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition)
+	{
 		return !this.material.isSolid();
 	}
 
-	public int b() {
+	public int b()
+	{
 		return 3;
 	}
 
-	public boolean a(World world, BlockPosition blockposition) {
+	public boolean a(World world, BlockPosition blockposition)
+	{
 		return false;
 	}
 
-	protected Block c(float f) {
+	protected Block c(float f)
+	{
 		this.strength = f;
-		if (this.durability < f * 5.0F) {
+		if (this.durability < f * 5.0F)
+		{
 			this.durability = f * 5.0F;
 		}
 
 		return this;
 	}
 
-	protected Block x() {
+	protected Block x()
+	{
 		this.c(-1.0F);
 		return this;
 	}
 
-	public float g(World world, BlockPosition blockposition) {
+	public float g(World world, BlockPosition blockposition)
+	{
 		return this.strength;
 	}
 
-	protected Block a(boolean flag) {
+	protected Block a(boolean flag)
+	{
 		this.z = flag;
 		return this;
 	}
 
-	public boolean isTicking() {
+	public boolean isTicking()
+	{
 		return this.z;
 	}
 
-	public boolean isTileEntity() {
+	public boolean isTileEntity()
+	{
 		return this.isTileEntity;
 	}
 
-	protected final void a(float f, float f1, float f2, float f3, float f4, float f5) {
+	protected final void a(float f, float f1, float f2, float f3, float f4, float f5)
+	{
 		this.minX = f;
 		this.minY = f1;
 		this.minZ = f2;
@@ -288,108 +345,132 @@ public class Block {
 		this.maxZ = f5;
 	}
 
-	public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition, EnumDirection enumdirection) {
+	public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition, EnumDirection enumdirection)
+	{
 		return iblockaccess.getType(blockposition).getBlock().getMaterial().isBuildable();
 	}
 
 	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, AxisAlignedBB axisalignedbb,
-			List<AxisAlignedBB> list, Entity entity) {
+			List<AxisAlignedBB> list, Entity entity)
+	{
 		AxisAlignedBB axisalignedbb1 = this.a(world, blockposition, iblockdata);
 
-		if (axisalignedbb1 != null && axisalignedbb.b(axisalignedbb1)) {
+		if (axisalignedbb1 != null && axisalignedbb.b(axisalignedbb1))
+		{
 			list.add(axisalignedbb1);
 		}
 
 	}
 
 	public void a(World world, int blockposition_x, int blockposition_y, int blockposition_z, IBlockData iblockdata,
-			AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, Entity entity) {
+			AxisAlignedBB axisalignedbb, List<AxisAlignedBB> list, Entity entity)
+	{
 		AxisAlignedBB axisalignedbb1 = this.a(world, blockposition_x, blockposition_y, blockposition_z, iblockdata);
 
 		if (axisalignedbb1 != null && axisalignedbb.b(axisalignedbb1))
 			list.add(axisalignedbb1);
 	}
 
-	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata) {
+	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
 		return new AxisAlignedBB(blockposition.getX() + this.minX, blockposition.getY() + this.minY,
-				blockposition.getZ() + this.minZ, blockposition.getX() + this.maxX,
-				blockposition.getY() + this.maxY, blockposition.getZ() + this.maxZ);
+				blockposition.getZ() + this.minZ, blockposition.getX() + this.maxX, blockposition.getY() + this.maxY,
+				blockposition.getZ() + this.maxZ);
 	}
 
 	public AxisAlignedBB a(World world, int blockposition_x, int blockposition_y, int blockposition_z,
-			IBlockData iblockdata) {
-		return new AxisAlignedBB(blockposition_x + this.minX, blockposition_y + this.minY,
-				blockposition_z + this.minZ, blockposition_x + this.maxX,
-				blockposition_y + this.maxY, blockposition_z + this.maxZ);
+			IBlockData iblockdata)
+	{
+		return new AxisAlignedBB(blockposition_x + this.minX, blockposition_y + this.minY, blockposition_z + this.minZ,
+				blockposition_x + this.maxX, blockposition_y + this.maxY, blockposition_z + this.maxZ);
 	}
 
-	public boolean c() {
+	public boolean c()
+	{
 		return true;
 	}
 
-	public boolean a(IBlockData iblockdata, boolean flag) {
+	public boolean a(IBlockData iblockdata, boolean flag)
+	{
 		return this.A();
 	}
 
-	public boolean A() {
+	public boolean A()
+	{
 		return true;
 	}
 
-	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
+	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, Random random)
+	{
 		this.b(world, blockposition, iblockdata, random);
 	}
 
-	public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
+	public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random)
+	{
 	}
 
-	public void postBreak(World world, BlockPosition blockposition, IBlockData iblockdata) {
+	public void postBreak(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
 	}
 
-	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
+	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block)
+	{
 	}
 
-	public int a(World world) {
+	public int a(World world)
+	{
 		return 10;
 	}
 
-	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata) {
+	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
 		org.spigotmc.AsyncCatcher.catchOp("block onPlace"); // Spigot
 	}
 
-	public void remove(World world, BlockPosition blockposition, IBlockData iblockdata) {
+	public void remove(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
 		org.spigotmc.AsyncCatcher.catchOp("block remove"); // Spigot
 	}
 
-	public int a(Random random) {
+	public int a(Random random)
+	{
 		return 1;
 	}
 
-	public Item getDropType(IBlockData iblockdata, Random random, int i) {
+	public Item getDropType(IBlockData iblockdata, Random random, int i)
+	{
 		return Item.getItemOf(this);
 	}
 
-	public float getDamage(EntityHuman entityhuman, World world, BlockPosition blockposition) {
+	public float getDamage(EntityHuman entityhuman, World world, BlockPosition blockposition)
+	{
 		float f = this.g(world, blockposition);
 
 		return f < 0.0F ? 0.0F
 				: (!entityhuman.b(this) ? entityhuman.a(this) / f / 100.0F : entityhuman.a(this) / f / 30.0F);
 	}
 
-	public final void b(World world, BlockPosition blockposition, IBlockData iblockdata, int i) {
+	public final void b(World world, BlockPosition blockposition, IBlockData iblockdata, int i)
+	{
 		this.dropNaturally(world, blockposition, iblockdata, 1.0F, i);
 	}
 
-	public void dropNaturally(World world, BlockPosition blockposition, IBlockData iblockdata, float f, int i) {
-		if (!world.isClientSide) {
+	public void dropNaturally(World world, BlockPosition blockposition, IBlockData iblockdata, float f, int i)
+	{
+		if (!world.isClientSide)
+		{
 			int j = this.getDropCount(i, world.random);
 
-			for (int k = 0; k < j; ++k) {
+			for (int k = 0; k < j; ++k)
+			{
 				// CraftBukkit - <= to < to allow for plugins to completely disable block drops
 				// from explosions
-				if (world.random.nextFloat() < f) {
+				if (world.random.nextFloat() < f)
+				{
 					Item item = this.getDropType(iblockdata, world.random, i);
 
-					if (item != null) {
+					if (item != null)
+					{
 						a(world, blockposition, new ItemStack(item, 1, this.getDropData(iblockdata)));
 					}
 				}
@@ -398,47 +479,53 @@ public class Block {
 		}
 	}
 
-	public static void a(World world, BlockPosition blockposition, ItemStack itemstack) {
-		if (!world.isClientSide && world.getGameRules().getBoolean("doTileDrops")) {
+	public static void a(World world, BlockPosition blockposition, ItemStack itemstack)
+	{
+		if (!world.isClientSide && world.getGameRules().getBoolean("doTileDrops"))
+		{
 			float f = 0.5F;
 			double d0 = world.random.nextFloat() * f + (1.0F - f) * 0.5D;
 			double d1 = world.random.nextFloat() * f + (1.0F - f) * 0.5D;
 			double d2 = world.random.nextFloat() * f + (1.0F - f) * 0.5D;
-			EntityItem entityitem = new EntityItem(world, blockposition.getX() + d0,
-					blockposition.getY() + d1, blockposition.getZ() + d2, itemstack);
+			EntityItem entityitem = new EntityItem(world, blockposition.getX() + d0, blockposition.getY() + d1,
+					blockposition.getZ() + d2, itemstack);
 
 			entityitem.p();
 			world.addEntity(entityitem);
 		}
 	}
 
-	protected void dropExperience(World world, BlockPosition blockposition, int i) {
-		if (!world.isClientSide) {
-			while (i > 0) {
+	protected void dropExperience(World world, BlockPosition blockposition, int i)
+	{
+		if (!world.isClientSide)
+		{
+			while (i > 0)
+			{
 				int j = EntityExperienceOrb.getOrbValue(i);
 
 				i -= j;
-				world.addEntity(new EntityExperienceOrb(world, blockposition.getX() + 0.5D,
-						blockposition.getY() + 0.5D, blockposition.getZ() + 0.5D, j));
+				world.addEntity(new EntityExperienceOrb(world, blockposition.getX() + 0.5D, blockposition.getY() + 0.5D,
+						blockposition.getZ() + 0.5D, j));
 			}
 		}
 
 	}
 
-	public int getDropData(IBlockData iblockdata) {
+	public int getDropData(IBlockData iblockdata)
+	{
 		return 0;
 	}
 
-	public float a(Entity entity) {
+	public float a(Entity entity)
+	{
 		return this.durability / 5.0F;
 	}
 
-	public MovingObjectPosition a(World world, BlockPosition blockposition, Vec3D vec3d, Vec3D vec3d1) {
+	public MovingObjectPosition a(World world, BlockPosition blockposition, Vec3D vec3d, Vec3D vec3d1)
+	{
 		this.updateShape(world, blockposition);
-		vec3d = vec3d.add((-blockposition.getX()), (-blockposition.getY()),
-				(-blockposition.getZ()));
-		vec3d1 = vec3d1.add((-blockposition.getX()), (-blockposition.getY()),
-				(-blockposition.getZ()));
+		vec3d = vec3d.add((-blockposition.getX()), (-blockposition.getY()), (-blockposition.getZ()));
+		vec3d1 = vec3d1.add((-blockposition.getX()), (-blockposition.getY()), (-blockposition.getZ()));
 		Vec3D vec3d2 = vec3d.a(vec3d1, this.minX);
 		Vec3D vec3d3 = vec3d.a(vec3d1, this.maxX);
 		Vec3D vec3d4 = vec3d.b(vec3d1, this.minY);
@@ -446,204 +533,253 @@ public class Block {
 		Vec3D vec3d6 = vec3d.c(vec3d1, this.minZ);
 		Vec3D vec3d7 = vec3d.c(vec3d1, this.maxZ);
 
-		if (!this.a(vec3d2)) {
+		if (!this.a(vec3d2))
+		{
 			vec3d2 = null;
 		}
 
-		if (!this.a(vec3d3)) {
+		if (!this.a(vec3d3))
+		{
 			vec3d3 = null;
 		}
 
-		if (!this.b(vec3d4)) {
+		if (!this.b(vec3d4))
+		{
 			vec3d4 = null;
 		}
 
-		if (!this.b(vec3d5)) {
+		if (!this.b(vec3d5))
+		{
 			vec3d5 = null;
 		}
 
-		if (!this.c(vec3d6)) {
+		if (!this.c(vec3d6))
+		{
 			vec3d6 = null;
 		}
 
-		if (!this.c(vec3d7)) {
+		if (!this.c(vec3d7))
+		{
 			vec3d7 = null;
 		}
 
 		Vec3D vec3d8 = null;
 
-		if (vec3d2 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d2) < vec3d.distanceSquared(vec3d8))) {
+		if (vec3d2 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d2) < vec3d.distanceSquared(vec3d8)))
+		{
 			vec3d8 = vec3d2;
 		}
 
-		if (vec3d3 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d3) < vec3d.distanceSquared(vec3d8))) {
+		if (vec3d3 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d3) < vec3d.distanceSquared(vec3d8)))
+		{
 			vec3d8 = vec3d3;
 		}
 
-		if (vec3d4 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d4) < vec3d.distanceSquared(vec3d8))) {
+		if (vec3d4 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d4) < vec3d.distanceSquared(vec3d8)))
+		{
 			vec3d8 = vec3d4;
 		}
 
-		if (vec3d5 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d5) < vec3d.distanceSquared(vec3d8))) {
+		if (vec3d5 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d5) < vec3d.distanceSquared(vec3d8)))
+		{
 			vec3d8 = vec3d5;
 		}
 
-		if (vec3d6 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d6) < vec3d.distanceSquared(vec3d8))) {
+		if (vec3d6 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d6) < vec3d.distanceSquared(vec3d8)))
+		{
 			vec3d8 = vec3d6;
 		}
 
-		if (vec3d7 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d7) < vec3d.distanceSquared(vec3d8))) {
+		if (vec3d7 != null && (vec3d8 == null || vec3d.distanceSquared(vec3d7) < vec3d.distanceSquared(vec3d8)))
+		{
 			vec3d8 = vec3d7;
 		}
 
-		if (vec3d8 == null) {
+		if (vec3d8 == null)
+		{
 			return null;
-		} else {
+		} else
+		{
 			EnumDirection enumdirection = null;
 
-			if (vec3d8 == vec3d2) {
+			if (vec3d8 == vec3d2)
+			{
 				enumdirection = EnumDirection.WEST;
 			}
 
-			if (vec3d8 == vec3d3) {
+			if (vec3d8 == vec3d3)
+			{
 				enumdirection = EnumDirection.EAST;
 			}
 
-			if (vec3d8 == vec3d4) {
+			if (vec3d8 == vec3d4)
+			{
 				enumdirection = EnumDirection.DOWN;
 			}
 
-			if (vec3d8 == vec3d5) {
+			if (vec3d8 == vec3d5)
+			{
 				enumdirection = EnumDirection.UP;
 			}
 
-			if (vec3d8 == vec3d6) {
+			if (vec3d8 == vec3d6)
+			{
 				enumdirection = EnumDirection.NORTH;
 			}
 
-			if (vec3d8 == vec3d7) {
+			if (vec3d8 == vec3d7)
+			{
 				enumdirection = EnumDirection.SOUTH;
 			}
 
-			return new MovingObjectPosition(vec3d8.add(blockposition.getX(), blockposition.getY(),
-					blockposition.getZ()), enumdirection, blockposition);
+			return new MovingObjectPosition(
+					vec3d8.add(blockposition.getX(), blockposition.getY(), blockposition.getZ()), enumdirection,
+					blockposition);
 		}
 	}
 
-	private boolean a(Vec3D vec3d) {
+	private boolean a(Vec3D vec3d)
+	{
 		return vec3d == null ? false
 				: vec3d.b >= this.minY && vec3d.b <= this.maxY && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
 	}
 
-	private boolean b(Vec3D vec3d) {
+	private boolean b(Vec3D vec3d)
+	{
 		return vec3d == null ? false
 				: vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
 	}
 
-	private boolean c(Vec3D vec3d) {
+	private boolean c(Vec3D vec3d)
+	{
 		return vec3d == null ? false
 				: vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.b >= this.minY && vec3d.b <= this.maxY;
 	}
 
-	public void wasExploded(World world, BlockPosition blockposition, Explosion explosion) {
+	public void wasExploded(World world, BlockPosition blockposition, Explosion explosion)
+	{
 	}
 
-	public boolean canPlace(World world, BlockPosition blockposition, EnumDirection enumdirection,
-			ItemStack itemstack) {
+	public boolean canPlace(World world, BlockPosition blockposition, EnumDirection enumdirection, ItemStack itemstack)
+	{
 		return this.canPlace(world, blockposition, enumdirection);
 	}
 
-	public boolean canPlace(World world, BlockPosition blockposition, EnumDirection enumdirection) {
+	public boolean canPlace(World world, BlockPosition blockposition, EnumDirection enumdirection)
+	{
 		return this.canPlace(world, blockposition);
 	}
 
-	public boolean canPlace(World world, BlockPosition blockposition) {
+	public boolean canPlace(World world, BlockPosition blockposition)
+	{
 		return world.getType(blockposition).getBlock().material.isReplaceable();
 	}
 
-	public boolean canPlace(World world, int blockposition_x, int blockposition_y, int blockposition_z) {
+	public boolean canPlace(World world, int blockposition_x, int blockposition_y, int blockposition_z)
+	{
 		return world.getType(blockposition_x, blockposition_y, blockposition_z).getBlock().material.isReplaceable();
 	}
 
 	public boolean interact(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman,
-			EnumDirection enumdirection, float f, float f1, float f2) {
+			EnumDirection enumdirection, float f, float f1, float f2)
+	{
 		return false;
 	}
 
-	public void a(World world, BlockPosition blockposition, Entity entity) {
+	public void a(World world, BlockPosition blockposition, Entity entity)
+	{
 	}
 
 	public IBlockData getPlacedState(World world, BlockPosition blockposition, EnumDirection enumdirection, float f,
-			float f1, float f2, int i, EntityLiving entityliving) {
+			float f1, float f2, int i, EntityLiving entityliving)
+	{
 		return this.fromLegacyData(i);
 	}
 
-	public void attack(World world, BlockPosition blockposition, EntityHuman entityhuman) {
+	public void attack(World world, BlockPosition blockposition, EntityHuman entityhuman)
+	{
 	}
 
-	public Vec3D a(World world, BlockPosition blockposition, Entity entity, Vec3D vec3d) {
+	public Vec3D a(World world, BlockPosition blockposition, Entity entity, Vec3D vec3d)
+	{
 		return vec3d;
 	}
 
-	public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition) {
+	public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition)
+	{
 	}
 
-	public final double B() {
+	public final double B()
+	{
 		return this.minX;
 	}
 
-	public final double C() {
+	public final double C()
+	{
 		return this.maxX;
 	}
 
-	public final double D() {
+	public final double D()
+	{
 		return this.minY;
 	}
 
-	public final double E() {
+	public final double E()
+	{
 		return this.maxY;
 	}
 
-	public final double F() {
+	public final double F()
+	{
 		return this.minZ;
 	}
 
-	public final double G() {
+	public final double G()
+	{
 		return this.maxZ;
 	}
 
 	public int a(IBlockAccess iblockaccess, BlockPosition blockposition, IBlockData iblockdata,
-			EnumDirection enumdirection) {
+			EnumDirection enumdirection)
+	{
 		return 0;
 	}
 
-	public boolean isPowerSource() {
+	public boolean isPowerSource()
+	{
 		return false;
 	}
 
-	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, Entity entity) {
+	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, Entity entity)
+	{
 	}
 
 	public int b(IBlockAccess iblockaccess, BlockPosition blockposition, IBlockData iblockdata,
-			EnumDirection enumdirection) {
+			EnumDirection enumdirection)
+	{
 		return 0;
 	}
 
-	public void j() {
+	public void j()
+	{
 	}
 
 	public void a(World world, EntityHuman entityhuman, BlockPosition blockposition, IBlockData iblockdata,
-			TileEntity tileentity) {
+			TileEntity tileentity)
+	{
 		entityhuman.b(StatisticList.MINE_BLOCK_COUNT[getId(this)]);
 		entityhuman.applyExhaustion(world.paperSpigotConfig.blockBreakExhaustion); // PaperSpigot - Configurable block
 																					// break exhaustion
-		if (this.I() && EnchantmentManager.hasSilkTouchEnchantment(entityhuman)) {
+		if (this.I() && EnchantmentManager.hasSilkTouchEnchantment(entityhuman))
+		{
 			ItemStack itemstack = this.i(iblockdata);
 
-			if (itemstack != null) {
+			if (itemstack != null)
+			{
 				a(world, blockposition, itemstack);
 			}
-		} else {
+		} else
+		{
 			int i = EnchantmentManager.getBonusBlockLootEnchantmentLevel(entityhuman);
 
 			this.b(world, blockposition, iblockdata, i);
@@ -651,132 +787,163 @@ public class Block {
 
 	}
 
-	protected boolean I() {
+	protected boolean I()
+	{
 		return this.d() && !this.isTileEntity;
 	}
 
-	protected ItemStack i(IBlockData iblockdata) {
+	protected ItemStack i(IBlockData iblockdata)
+	{
 		int i = 0;
 		Item item = Item.getItemOf(this);
 
-		if (item != null && item.k()) {
+		if (item != null && item.k())
+		{
 			i = this.toLegacyData(iblockdata);
 		}
 
 		return new ItemStack(item, 1, i);
 	}
 
-	public int getDropCount(int i, Random random) {
+	public int getDropCount(int i, Random random)
+	{
 		return this.a(random);
 	}
 
 	public void postPlace(World world, BlockPosition blockposition, IBlockData iblockdata, EntityLiving entityliving,
-			ItemStack itemstack) {
+			ItemStack itemstack)
+	{
 	}
 
-	public boolean g() {
+	public boolean g()
+	{
 		return !this.material.isBuildable() && !this.material.isLiquid();
 	}
 
-	public Block c(String s) {
+	public Block c(String s)
+	{
 		this.name = s;
 		return this;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return LocaleI18n.get(this.a() + ".name");
 	}
 
-	public String a() {
+	public String a()
+	{
 		return "tile." + this.name;
 	}
 
-	public boolean a(World world, BlockPosition blockposition, IBlockData iblockdata, int i, int j) {
+	public boolean a(World world, BlockPosition blockposition, IBlockData iblockdata, int i, int j)
+	{
 		return false;
 	}
 
-	public boolean J() {
+	public boolean J()
+	{
 		return this.y;
 	}
 
-	protected Block K() {
+	protected Block K()
+	{
 		this.y = false;
 		return this;
 	}
 
-	public int k() {
+	public int k()
+	{
 		return this.material.getPushReaction();
 	}
 
-	public void fallOn(World world, BlockPosition blockposition, Entity entity, float f) {
+	public void fallOn(World world, BlockPosition blockposition, Entity entity, float f)
+	{
 		entity.e(f, 1.0F);
 	}
 
-	public void a(World world, Entity entity) {
+	public void a(World world, Entity entity)
+	{
 		entity.motY = 0.0D;
 	}
 
-	public int getDropData(World world, BlockPosition blockposition) {
+	public int getDropData(World world, BlockPosition blockposition)
+	{
 		return this.getDropData(world.getType(blockposition));
 	}
 
-	public Block a(CreativeModeTab creativemodetab) {
+	public Block a(CreativeModeTab creativemodetab)
+	{
 		this.creativeTab = creativemodetab;
 		return this;
 	}
 
-	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman) {
+	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman)
+	{
 	}
 
-	public void k(World world, BlockPosition blockposition) {
+	public void k(World world, BlockPosition blockposition)
+	{
 	}
 
-	public boolean N() {
+	public boolean N()
+	{
 		return true;
 	}
 
-	public boolean a(Explosion explosion) {
+	public boolean a(Explosion explosion)
+	{
 		return true;
 	}
 
-	public boolean b(Block block) {
+	public boolean b(Block block)
+	{
 		return this == block;
 	}
 
-	public static boolean a(Block block, Block block1) {
+	public static boolean a(Block block, Block block1)
+	{
 		return block != null && block1 != null ? (block == block1 ? true : block.b(block1)) : false;
 	}
 
-	public boolean isComplexRedstone() {
+	public boolean isComplexRedstone()
+	{
 		return false;
 	}
 
-	public int l(World world, BlockPosition blockposition) {
+	public int l(World world, BlockPosition blockposition)
+	{
 		return 0;
 	}
 
-	protected BlockStateList getStateList() {
+	protected BlockStateList getStateList()
+	{
 		return new BlockStateList(this, new IBlockState[0]);
 	}
 
-	public BlockStateList P() {
+	public BlockStateList P()
+	{
 		return this.blockStateList;
 	}
 
-	protected final void j(IBlockData iblockdata) {
+	protected final void j(IBlockData iblockdata)
+	{
 		this.blockData = iblockdata;
 	}
 
-	public final IBlockData getBlockData() {
+	public final IBlockData getBlockData()
+	{
 		return this.blockData;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Block{" + Block.REGISTRY.c(this) + "}";
 	}
 
-	public static void S() {
+	public static void S()
+	{
 		a(0, Block.a, (new BlockAir()).c("air"));
 		a(1, "stone", (new BlockStone()).c(1.5F).b(10.0F).a(Block.i).c("stone"));
 		a(2, "grass", (new BlockGrass()).c(0.6F).a(Block.h).c("grass"));
@@ -1066,11 +1233,14 @@ public class Block {
 
 		Block block13;
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			block13 = (Block) iterator.next();
-			if (block13.material == Material.AIR) {
+			if (block13.material == Material.AIR)
+			{
 				block13.v = false;
-			} else {
+			} else
+			{
 				boolean flag = false;
 				boolean flag1 = block13 instanceof BlockStairs;
 				boolean flag2 = block13 instanceof BlockStepAbstract;
@@ -1078,7 +1248,8 @@ public class Block {
 				boolean flag4 = block13.t;
 				boolean flag5 = block13.s == 0;
 
-				if (flag1 || flag2 || flag3 || flag4 || flag5) {
+				if (flag1 || flag2 || flag3 || flag4 || flag5)
+				{
 					flag = true;
 				}
 
@@ -1088,11 +1259,13 @@ public class Block {
 
 		iterator = Block.REGISTRY.iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			block13 = (Block) iterator.next();
 			Iterator iterator1 = block13.P().a().iterator();
 
-			while (iterator1.hasNext()) {
+			while (iterator1.hasNext())
+			{
 				IBlockData iblockdata = (IBlockData) iterator1.next();
 				int i = Block.REGISTRY.b(block13) << 4 | block13.toLegacyData(iblockdata);
 				// TacoSpigot start
@@ -1103,59 +1276,72 @@ public class Block {
 
 	}
 
-	private static void a(int i, MinecraftKey minecraftkey, Block block) {
+	private static void a(int i, MinecraftKey minecraftkey, Block block)
+	{
 		Block.REGISTRY.a(i, minecraftkey, block);
 	}
 
-	private static void a(int i, String s, Block block) {
+	private static void a(int i, String s, Block block)
+	{
 		a(i, new MinecraftKey(s), block);
 	}
 
-	public static class StepSound {
+	public static class StepSound
+	{
 
 		public final String a;
 		public final float b;
 		public final float c;
 
-		public StepSound(String s, float f, float f1) {
+		public StepSound(String s, float f, float f1)
+		{
 			this.a = s;
 			this.b = f;
 			this.c = f1;
 		}
 
-		public float getVolume1() {
+		public float getVolume1()
+		{
 			return this.b;
 		}
 
-		public float getVolume2() {
+		public float getVolume2()
+		{
 			return this.c;
 		}
 
-		public String getBreakSound() {
+		public String getBreakSound()
+		{
 			return "dig." + this.a;
 		}
 
-		public String getStepSound() {
+		public String getStepSound()
+		{
 			return "step." + this.a;
 		}
 
-		public String getPlaceSound() {
+		public String getPlaceSound()
+		{
 			return this.getBreakSound();
 		}
 	}
 
 	// CraftBukkit start
-	public int getExpDrop(World world, IBlockData data, int enchantmentLevel) {
+	public int getExpDrop(World world, IBlockData data, int enchantmentLevel)
+	{
 		return 0;
 	}
 	// CraftBukkit end
 
 	// Spigot start
-	public static float range(float min, float value, float max) {
-		if (value < min) {
+	public static float range(float min, float value, float max)
+	{
+		if (value < min)
+		{
 			return min;
 		}
-		if (value > max) {
+		if (value > max)
+		{
 			return max;
 		}
 		return value;

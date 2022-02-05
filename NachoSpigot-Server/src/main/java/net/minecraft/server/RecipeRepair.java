@@ -4,28 +4,35 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
-public class RecipeRepair extends ShapelessRecipes implements IRecipe { // CraftBukkit - added extends
+public class RecipeRepair extends ShapelessRecipes implements IRecipe
+{ // CraftBukkit - added extends
 
 	// CraftBukkit start - Delegate to new parent class
-	public RecipeRepair() {
+	public RecipeRepair()
+	{
 		super(new ItemStack(Items.LEATHER_HELMET), java.util.Arrays.asList(new ItemStack(Items.LEATHER_HELMET)));
 	}
 	// CraftBukkit end
 
 	@Override
-	public boolean a(InventoryCrafting inventorycrafting, World world) {
+	public boolean a(InventoryCrafting inventorycrafting, World world)
+	{
 		ArrayList arraylist = Lists.newArrayList();
 
-		for (int i = 0; i < inventorycrafting.getSize(); ++i) {
+		for (int i = 0; i < inventorycrafting.getSize(); ++i)
+		{
 			ItemStack itemstack = inventorycrafting.getItem(i);
 
-			if (itemstack != null) {
+			if (itemstack != null)
+			{
 				arraylist.add(itemstack);
-				if (arraylist.size() > 1) {
+				if (arraylist.size() > 1)
+				{
 					ItemStack itemstack1 = (ItemStack) arraylist.get(0);
 
 					if (itemstack.getItem() != itemstack1.getItem() || itemstack1.count != 1 || itemstack.count != 1
-							|| !itemstack1.getItem().usesDurability()) {
+							|| !itemstack1.getItem().usesDurability())
+					{
 						return false;
 					}
 				}
@@ -36,39 +43,47 @@ public class RecipeRepair extends ShapelessRecipes implements IRecipe { // Craft
 	}
 
 	@Override
-	public ItemStack craftItem(InventoryCrafting inventorycrafting) {
+	public ItemStack craftItem(InventoryCrafting inventorycrafting)
+	{
 		ArrayList arraylist = Lists.newArrayList();
 
 		ItemStack itemstack;
 
-		for (int i = 0; i < inventorycrafting.getSize(); ++i) {
+		for (int i = 0; i < inventorycrafting.getSize(); ++i)
+		{
 			itemstack = inventorycrafting.getItem(i);
-			if (itemstack != null) {
+			if (itemstack != null)
+			{
 				arraylist.add(itemstack);
-				if (arraylist.size() > 1) {
+				if (arraylist.size() > 1)
+				{
 					ItemStack itemstack1 = (ItemStack) arraylist.get(0);
 
 					if (itemstack.getItem() != itemstack1.getItem() || itemstack1.count != 1 || itemstack.count != 1
-							|| !itemstack1.getItem().usesDurability()) {
+							|| !itemstack1.getItem().usesDurability())
+					{
 						return null;
 					}
 				}
 			}
 		}
 
-		if (arraylist.size() == 2) {
+		if (arraylist.size() == 2)
+		{
 			ItemStack itemstack2 = (ItemStack) arraylist.get(0);
 
 			itemstack = (ItemStack) arraylist.get(1);
 			if (itemstack2.getItem() == itemstack.getItem() && itemstack2.count == 1 && itemstack.count == 1
-					&& itemstack2.getItem().usesDurability()) {
+					&& itemstack2.getItem().usesDurability())
+			{
 				Item item = itemstack2.getItem();
 				int j = item.getMaxDurability() - itemstack2.h();
 				int k = item.getMaxDurability() - itemstack.h();
 				int l = j + k + item.getMaxDurability() * 5 / 100;
 				int i1 = item.getMaxDurability() - l;
 
-				if (i1 < 0) {
+				if (i1 < 0)
+				{
 					i1 = 0;
 				}
 
@@ -91,23 +106,28 @@ public class RecipeRepair extends ShapelessRecipes implements IRecipe { // Craft
 	}
 
 	@Override
-	public int a() {
+	public int a()
+	{
 		return 4;
 	}
 
 	@Override
-	public ItemStack b() {
+	public ItemStack b()
+	{
 		return null;
 	}
 
 	@Override
-	public ItemStack[] b(InventoryCrafting inventorycrafting) {
+	public ItemStack[] b(InventoryCrafting inventorycrafting)
+	{
 		ItemStack[] aitemstack = new ItemStack[inventorycrafting.getSize()];
 
-		for (int i = 0; i < aitemstack.length; ++i) {
+		for (int i = 0; i < aitemstack.length; ++i)
+		{
 			ItemStack itemstack = inventorycrafting.getItem(i);
 
-			if (itemstack != null && itemstack.getItem().r()) {
+			if (itemstack != null && itemstack.getItem().r())
+			{
 				aitemstack[i] = new ItemStack(itemstack.getItem().q());
 			}
 		}

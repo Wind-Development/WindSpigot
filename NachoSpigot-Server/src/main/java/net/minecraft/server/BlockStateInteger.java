@@ -6,7 +6,8 @@ import java.util.HashSet;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
-public class BlockStateInteger extends BlockState<Integer> {
+public class BlockStateInteger extends BlockState<Integer>
+{
 
 	private final ImmutableSet<Integer> a;
 	// TacoSpigot start
@@ -14,29 +15,38 @@ public class BlockStateInteger extends BlockState<Integer> {
 	private final int range;
 
 	@Override
-	public int getValueId(Integer value) {
-		if (value < min) {
+	public int getValueId(Integer value)
+	{
+		if (value < min)
+		{
 			throw new IllegalArgumentException("Too small: " + value);
-		} else if (value > max) {
+		} else if (value > max)
+		{
 			throw new IllegalArgumentException("Too large: " + value);
-		} else {
+		} else
+		{
 			return value - min;
 		}
 	}
 
 	@Override
-	public Integer getByValueId(int id) {
-		if (id < 0) {
+	public Integer getByValueId(int id)
+	{
+		if (id < 0)
+		{
 			throw new IllegalArgumentException("Negative id: " + id);
-		} else if (id > range) {
+		} else if (id > range)
+		{
 			throw new IllegalArgumentException("Id is out of range: " + id);
-		} else {
+		} else
+		{
 			return id;
 		}
 	}
 	// TacoSpigot end
 
-	protected BlockStateInteger(String s, int i, int j) {
+	protected BlockStateInteger(String s, int i, int j)
+	{
 		super(s, Integer.class);
 		// TacoSpigot start
 		this.min = i;
@@ -44,14 +54,18 @@ public class BlockStateInteger extends BlockState<Integer> {
 		this.range = (max - min); // min and max are _both_ inclusive (there's a reason you're not supposed to do
 									// this :p)
 		// TacoSpigot end
-		if (i < 0) {
+		if (i < 0)
+		{
 			throw new IllegalArgumentException("Min value of " + s + " must be 0 or greater");
-		} else if (j <= i) {
+		} else if (j <= i)
+		{
 			throw new IllegalArgumentException("Max value of " + s + " must be greater than min (" + i + ")");
-		} else {
+		} else
+		{
 			HashSet hashset = Sets.newHashSet();
 
-			for (int k = i; k <= j; ++k) {
+			for (int k = i; k <= j; ++k)
+			{
 				hashset.add(Integer.valueOf(k));
 			}
 
@@ -60,41 +74,51 @@ public class BlockStateInteger extends BlockState<Integer> {
 	}
 
 	@Override
-	public Collection<Integer> c() {
+	public Collection<Integer> c()
+	{
 		return this.a;
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
+	public boolean equals(Object object)
+	{
+		if (this == object)
+		{
 			return true;
-		} else if (object != null && this.getClass() == object.getClass()) {
-			if (!super.equals(object)) {
+		} else if (object != null && this.getClass() == object.getClass())
+		{
+			if (!super.equals(object))
+			{
 				return false;
-			} else {
+			} else
+			{
 				BlockStateInteger blockstateinteger = (BlockStateInteger) object;
 
 				return this.a.equals(blockstateinteger.a);
 			}
-		} else {
+		} else
+		{
 			return false;
 		}
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		int i = super.hashCode();
 
 		i = 31 * i + this.a.hashCode();
 		return i;
 	}
 
-	public static BlockStateInteger of(String s, int i, int j) {
+	public static BlockStateInteger of(String s, int i, int j)
+	{
 		return new BlockStateInteger(s, i, j);
 	}
 
 	@Override
-	public String a(Integer integer) {
+	public String a(Integer integer)
+	{
 		return integer.toString();
 	}
 

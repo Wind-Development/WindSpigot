@@ -12,17 +12,21 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import net.minecraft.server.MinecraftServer;
 
-public class CraftCrashReport implements Callable<Object> {
+public class CraftCrashReport implements Callable<Object>
+{
 
 	@Override
-	public Object call() throws Exception {
+	public Object call() throws Exception
+	{
 		StringWriter value = new StringWriter();
-		try {
+		try
+		{
 			value.append("\n   Running: ").append(Bukkit.getName()).append(" version ").append(Bukkit.getVersion())
 					.append(" (Implementing API version ").append(Bukkit.getBukkitVersion()).append(") ")
 					.append(String.valueOf(MinecraftServer.getServer().getOnlineMode()));
 			value.append("\n   Plugins: {");
-			for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+			for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
+			{
 				PluginDescriptionFile description = plugin.getDescription();
 				value.append(' ').append(description.getFullName()).append(' ').append(description.getMain())
 						.append(' ').append(Arrays.toString(description.getAuthors().toArray())).append(',');
@@ -30,12 +34,14 @@ public class CraftCrashReport implements Callable<Object> {
 			value.append("}\n   Warnings: ").append(Bukkit.getWarningState().name());
 			value.append("\n   Reload Count: ").append(String.valueOf(MinecraftServer.getServer().server.reloadCount));
 			value.append("\n   Threads: {");
-			for (Map.Entry<Thread, ? extends Object[]> entry : Thread.getAllStackTraces().entrySet()) {
+			for (Map.Entry<Thread, ? extends Object[]> entry : Thread.getAllStackTraces().entrySet())
+			{
 				value.append(' ').append(entry.getKey().getState().name()).append(' ').append(entry.getKey().getName())
 						.append(": ").append(Arrays.toString(entry.getValue())).append(',');
 			}
 			value.append("}\n   ").append(Bukkit.getScheduler().toString());
-		} catch (Throwable t) {
+		} catch (Throwable t)
+		{
 			value.append("\n   Failed to handle CraftCrashReport:\n");
 			PrintWriter writer = new PrintWriter(value);
 			t.printStackTrace(writer);

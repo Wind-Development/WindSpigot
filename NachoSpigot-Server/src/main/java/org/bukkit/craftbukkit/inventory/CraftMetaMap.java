@@ -12,7 +12,8 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.NBTTagCompound;
 
 @DelegateDeserialization(SerializableMeta.class)
-class CraftMetaMap extends CraftMetaItem implements MapMeta {
+class CraftMetaMap extends CraftMetaItem implements MapMeta
+{
 	static final ItemMetaKey MAP_SCALING = new ItemMetaKey("map_is_scaling", "scaling");
 	static final byte SCALING_EMPTY = (byte) 0;
 	static final byte SCALING_TRUE = (byte) 1;
@@ -20,10 +21,12 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
 
 	private byte scaling = SCALING_EMPTY;
 
-	CraftMetaMap(CraftMetaItem meta) {
+	CraftMetaMap(CraftMetaItem meta)
+	{
 		super(meta);
 
-		if (!(meta instanceof CraftMetaMap)) {
+		if (!(meta instanceof CraftMetaMap))
+		{
 			return;
 		}
 
@@ -31,35 +34,43 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
 		this.scaling = map.scaling;
 	}
 
-	CraftMetaMap(NBTTagCompound tag) {
+	CraftMetaMap(NBTTagCompound tag)
+	{
 		super(tag);
 
-		if (tag.hasKey(MAP_SCALING.NBT)) {
+		if (tag.hasKey(MAP_SCALING.NBT))
+		{
 			this.scaling = tag.getBoolean(MAP_SCALING.NBT) ? SCALING_TRUE : SCALING_FALSE;
 		}
 	}
 
-	CraftMetaMap(Map<String, Object> map) {
+	CraftMetaMap(Map<String, Object> map)
+	{
 		super(map);
 
 		Boolean scaling = SerializableMeta.getObject(Boolean.class, map, MAP_SCALING.BUKKIT, true);
-		if (scaling != null) {
+		if (scaling != null)
+		{
 			setScaling(scaling);
 		}
 	}
 
 	@Override
-	void applyToItem(NBTTagCompound tag) {
+	void applyToItem(NBTTagCompound tag)
+	{
 		super.applyToItem(tag);
 
-		if (hasScaling()) {
+		if (hasScaling())
+		{
 			tag.setBoolean(MAP_SCALING.NBT, isScaling());
 		}
 	}
 
 	@Override
-	boolean applicableTo(Material type) {
-		switch (type) {
+	boolean applicableTo(Material type)
+	{
+		switch (type)
+		{
 		case MAP:
 			return true;
 		default:
@@ -68,34 +79,42 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
 	}
 
 	@Override
-	boolean isEmpty() {
+	boolean isEmpty()
+	{
 		return super.isEmpty() && isMapEmpty();
 	}
 
-	boolean isMapEmpty() {
+	boolean isMapEmpty()
+	{
 		return !hasScaling();
 	}
 
-	boolean hasScaling() {
+	boolean hasScaling()
+	{
 		return scaling != SCALING_EMPTY;
 	}
 
 	@Override
-	public boolean isScaling() {
+	public boolean isScaling()
+	{
 		return scaling == SCALING_TRUE;
 	}
 
 	@Override
-	public void setScaling(boolean scaling) {
+	public void setScaling(boolean scaling)
+	{
 		this.scaling = scaling ? SCALING_TRUE : SCALING_FALSE;
 	}
 
 	@Override
-	boolean equalsCommon(CraftMetaItem meta) {
-		if (!super.equalsCommon(meta)) {
+	boolean equalsCommon(CraftMetaItem meta)
+	{
+		if (!super.equalsCommon(meta))
+		{
 			return false;
 		}
-		if (meta instanceof CraftMetaMap) {
+		if (meta instanceof CraftMetaMap)
+		{
 			CraftMetaMap that = (CraftMetaMap) meta;
 
 			return (this.scaling == that.scaling);
@@ -104,16 +123,19 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
 	}
 
 	@Override
-	boolean notUncommon(CraftMetaItem meta) {
+	boolean notUncommon(CraftMetaItem meta)
+	{
 		return super.notUncommon(meta) && (meta instanceof CraftMetaMap || isMapEmpty());
 	}
 
 	@Override
-	int applyHash() {
+	int applyHash()
+	{
 		final int original;
 		int hash = original = super.applyHash();
 
-		if (hasScaling()) {
+		if (hasScaling())
+		{
 			hash ^= 0x22222222 << (isScaling() ? 1 : -1);
 		}
 
@@ -121,15 +143,18 @@ class CraftMetaMap extends CraftMetaItem implements MapMeta {
 	}
 
 	@Override
-	public CraftMetaMap clone() {
+	public CraftMetaMap clone()
+	{
 		return (CraftMetaMap) super.clone();
 	}
 
 	@Override
-	ImmutableMap.Builder<String, Object> serialize(ImmutableMap.Builder<String, Object> builder) {
+	ImmutableMap.Builder<String, Object> serialize(ImmutableMap.Builder<String, Object> builder)
+	{
 		super.serialize(builder);
 
-		if (hasScaling()) {
+		if (hasScaling())
+		{
 			builder.put(MAP_SCALING.BUKKIT, isScaling());
 		}
 

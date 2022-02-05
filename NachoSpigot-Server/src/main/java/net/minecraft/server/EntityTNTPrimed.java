@@ -4,7 +4,8 @@ import org.bukkit.event.entity.ExplosionPrimeEvent; // CraftBukkit
 
 import dev.cobblesword.nachospigot.commons.Constants;
 
-public class EntityTNTPrimed extends Entity {
+public class EntityTNTPrimed extends Entity
+{
 
 	public int fuseTicks;
 	private EntityLiving source;
@@ -13,11 +14,13 @@ public class EntityTNTPrimed extends Entity {
 	public org.bukkit.Location sourceLoc; // PaperSpigot
 
 	// PaperSpigot start - TNT source location API
-	public EntityTNTPrimed(World world) {
+	public EntityTNTPrimed(World world)
+	{
 		this(null, world);
 	}
 
-	public EntityTNTPrimed(org.bukkit.Location loc, World world) {
+	public EntityTNTPrimed(org.bukkit.Location loc, World world)
+	{
 		super(world);
 		sourceLoc = loc;
 		// PaperSpigot end
@@ -27,7 +30,8 @@ public class EntityTNTPrimed extends Entity {
 	}
 
 	public EntityTNTPrimed(org.bukkit.Location loc, World world, double d0, double d1, double d2,
-			EntityLiving entityliving) {
+			EntityLiving entityliving)
+	{
 		this(loc, world);
 		this.setPosition(d0, d1, d2);
 		float f = (float) (Math.random() * 3.1415927410125732D * 2.0D);
@@ -45,23 +49,28 @@ public class EntityTNTPrimed extends Entity {
 	}
 
 	@Override
-	protected void h() {
+	protected void h()
+	{
 	}
 
 	@Override
-	protected boolean s_() {
+	protected boolean s_()
+	{
 		return false;
 	}
 
 	@Override
-	public boolean ad() {
+	public boolean ad()
+	{
 		return !this.dead;
 	}
 
 	@Override
-	public void t_() {
+	public void t_()
+	{
 		if (world.spigotConfig.maxTntTicksPerTick > -1
-				&& world.spigotConfig.currentPrimedTnt++ > world.spigotConfig.maxTntTicksPerTick) {
+				&& world.spigotConfig.currentPrimedTnt++ > world.spigotConfig.maxTntTicksPerTick)
+		{
 			return;
 		} // Spigot
 		this.lastX = this.locX;
@@ -72,13 +81,15 @@ public class EntityTNTPrimed extends Entity {
 
 		// PaperSpigot start - Drop TNT entities above the specified height
 		if (this.world.paperSpigotConfig.tntEntityHeightNerf != 0
-				&& this.locY > this.world.paperSpigotConfig.tntEntityHeightNerf) {
+				&& this.locY > this.world.paperSpigotConfig.tntEntityHeightNerf)
+		{
 			this.die();
 		}
 		// PaperSpigot end
 
 		// PaperSpigot start - Remove entities in unloaded chunks
-		if (this.inUnloadedChunk && world.paperSpigotConfig.removeUnloadedTNTEntities) {
+		if (this.inUnloadedChunk && world.paperSpigotConfig.removeUnloadedTNTEntities)
+		{
 			this.die();
 			this.fuseTicks = 2;
 		}
@@ -87,22 +98,26 @@ public class EntityTNTPrimed extends Entity {
 		this.motX *= 0.9800000190734863D;
 		this.motY *= 0.9800000190734863D;
 		this.motZ *= 0.9800000190734863D;
-		if (this.onGround) {
+		if (this.onGround)
+		{
 			this.motX *= 0.699999988079071D;
 			this.motZ *= 0.699999988079071D;
 			this.motY *= -0.5D;
 		}
 
-		if (this.fuseTicks-- <= 0) {
+		if (this.fuseTicks-- <= 0)
+		{
 			// CraftBukkit start - Need to reverse the order of the explosion and the entity
 			// death so we have a location for the event
 			// this.die();
-			if (!this.world.isClientSide) {
+			if (!this.world.isClientSide)
+			{
 				this.explode();
 			}
 			this.die();
 			// CraftBukkit end
-		} else {
+		} else
+		{
 			this.W();
 			this.world.addParticle(EnumParticle.SMOKE_NORMAL, this.locX, this.locY + 0.5D, this.locZ, 0.0D, 0.0D, 0.0D,
 					Constants.EMPTY_ARRAY);
@@ -110,14 +125,16 @@ public class EntityTNTPrimed extends Entity {
 
 	}
 
-	private void explode() {
+	private void explode()
+	{
 		// CraftBukkit start
 		// float f = 4.0F;
 
 		// PaperSpigot start - Force load chunks during TNT explosions
 		ChunkProviderServer chunkProviderServer = ((ChunkProviderServer) world.chunkProvider);
 		boolean forceChunkLoad = chunkProviderServer.forceChunkLoad;
-		if (world.paperSpigotConfig.loadUnloadedTNTEntities) {
+		if (world.paperSpigotConfig.loadUnloadedTNTEntities)
+		{
 			chunkProviderServer.forceChunkLoad = true;
 		}
 		// PaperSpigot end
@@ -128,24 +145,28 @@ public class EntityTNTPrimed extends Entity {
 				(org.bukkit.entity.Explosive) org.bukkit.craftbukkit.entity.CraftEntity.getEntity(server, this));
 		server.getPluginManager().callEvent(event);
 
-		if (!event.isCancelled()) {
-			this.world.createExplosion(this, this.locX, this.locY + this.length / 2.0F, this.locZ,
-					event.getRadius(), event.getFire(), true);
+		if (!event.isCancelled())
+		{
+			this.world.createExplosion(this, this.locX, this.locY + this.length / 2.0F, this.locZ, event.getRadius(),
+					event.getFire(), true);
 		}
 		// CraftBukkit end
 
 		// PaperSpigot start - Force load chunks during TNT explosions
-		if (world.paperSpigotConfig.loadUnloadedTNTEntities) {
+		if (world.paperSpigotConfig.loadUnloadedTNTEntities)
+		{
 			chunkProviderServer.forceChunkLoad = forceChunkLoad;
 		}
 		// PaperSpigot end
 	}
 
 	@Override
-	protected void b(NBTTagCompound nbttagcompound) {
+	protected void b(NBTTagCompound nbttagcompound)
+	{
 		nbttagcompound.setByte("Fuse", (byte) this.fuseTicks);
 		// PaperSpigot start - TNT source location API
-		if (sourceLoc != null) {
+		if (sourceLoc != null)
+		{
 			nbttagcompound.setInt("SourceLoc_x", sourceLoc.getBlockX());
 			nbttagcompound.setInt("SourceLoc_y", sourceLoc.getBlockY());
 			nbttagcompound.setInt("SourceLoc_z", sourceLoc.getBlockZ());
@@ -154,10 +175,12 @@ public class EntityTNTPrimed extends Entity {
 	}
 
 	@Override
-	protected void a(NBTTagCompound nbttagcompound) {
+	protected void a(NBTTagCompound nbttagcompound)
+	{
 		this.fuseTicks = nbttagcompound.getByte("Fuse");
 		// PaperSpigot start - TNT source location API
-		if (nbttagcompound.hasKey("SourceLoc_x")) {
+		if (nbttagcompound.hasKey("SourceLoc_x"))
+		{
 			int srcX = nbttagcompound.getInt("SourceLoc_x");
 			int srcY = nbttagcompound.getInt("SourceLoc_y");
 			int srcZ = nbttagcompound.getInt("SourceLoc_z");
@@ -166,13 +189,15 @@ public class EntityTNTPrimed extends Entity {
 		// PaperSpigot end
 	}
 
-	public EntityLiving getSource() {
+	public EntityLiving getSource()
+	{
 		return this.source;
 	}
 
 	// PaperSpigot start - Fix cannons
 	@Override
-	public double f(double d0, double d1, double d2) {
+	public double f(double d0, double d1, double d2)
+	{
 		if (!world.paperSpigotConfig.fixCannons)
 			return super.f(d0, d1, d2);
 
@@ -184,12 +209,14 @@ public class EntityTNTPrimed extends Entity {
 	}
 
 	@Override
-	public boolean aL() {
+	public boolean aL()
+	{
 		return !world.paperSpigotConfig.fixCannons && super.aL();
 	}
 
 	@Override
-	public float getHeadHeight() {
+	public float getHeadHeight()
+	{
 		return world.paperSpigotConfig.fixCannons ? this.length / 2 : 0.0F;
 	}
 
@@ -197,7 +224,8 @@ public class EntityTNTPrimed extends Entity {
 	 * Author: Jedediah Smith <jedediah@silencegreys.com>
 	 */
 	@Override
-	public boolean W() {
+	public boolean W()
+	{
 		if (!world.paperSpigotConfig.fixCannons)
 			return super.W();
 

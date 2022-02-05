@@ -2,30 +2,35 @@ package net.minecraft.server;
 
 import com.google.gson.JsonParseException;
 
-public class TileEntitySign extends TileEntity {
+public class TileEntitySign extends TileEntity
+{
 
-	public final IChatBaseComponent[] lines = new IChatBaseComponent[] { new ChatComponentText(""),
-			new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText("") };
+	public final IChatBaseComponent[] lines = new IChatBaseComponent[]
+	{ new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText(""), new ChatComponentText("") };
 	public int f = -1;
 	public boolean isEditable = true;
 	private EntityHuman h;
 	private final CommandObjectiveExecutor i = new CommandObjectiveExecutor();
 
-	public TileEntitySign() {
+	public TileEntitySign()
+	{
 	}
 
 	@Override
-	public void b(NBTTagCompound nbttagcompound) {
+	public void b(NBTTagCompound nbttagcompound)
+	{
 		super.b(nbttagcompound);
 
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 4; ++i)
+		{
 			String s = IChatBaseComponent.ChatSerializer.a(this.lines[i]);
 
 			nbttagcompound.setString("Text" + (i + 1), s);
 		}
 
 		// CraftBukkit start
-		if (Boolean.getBoolean("convertLegacySigns")) {
+		if (Boolean.getBoolean("convertLegacySigns"))
+		{
 			nbttagcompound.setBoolean("Bukkit.isConverted", true);
 		}
 		// CraftBukkit end
@@ -34,59 +39,69 @@ public class TileEntitySign extends TileEntity {
 	}
 
 	@Override
-	public void a(NBTTagCompound nbttagcompound) {
+	public void a(NBTTagCompound nbttagcompound)
+	{
 		this.isEditable = false;
 		super.a(nbttagcompound);
-		ICommandListener icommandlistener = new ICommandListener() {
+		ICommandListener icommandlistener = new ICommandListener()
+		{
 			@Override
-			public String getName() {
+			public String getName()
+			{
 				return "Sign";
 			}
 
 			@Override
-			public IChatBaseComponent getScoreboardDisplayName() {
+			public IChatBaseComponent getScoreboardDisplayName()
+			{
 				return new ChatComponentText(this.getName());
 			}
 
 			@Override
-			public void sendMessage(IChatBaseComponent ichatbasecomponent) {
+			public void sendMessage(IChatBaseComponent ichatbasecomponent)
+			{
 			}
 
 			@Override
-			public boolean a(int i, String s) {
+			public boolean a(int i, String s)
+			{
 				return true;
 			}
 
 			@Override
-			public BlockPosition getChunkCoordinates() {
+			public BlockPosition getChunkCoordinates()
+			{
 				return TileEntitySign.this.position;
 			}
 
 			@Override
-			public Vec3D d() {
-				return new Vec3D(TileEntitySign.this.position.getX() + 0.5D,
-						TileEntitySign.this.position.getY() + 0.5D,
+			public Vec3D d()
+			{
+				return new Vec3D(TileEntitySign.this.position.getX() + 0.5D, TileEntitySign.this.position.getY() + 0.5D,
 						TileEntitySign.this.position.getZ() + 0.5D);
 			}
 
 			@Override
-			public World getWorld() {
+			public World getWorld()
+			{
 				return TileEntitySign.this.world;
 			}
 
 			@Override
-			public Entity f() {
+			public Entity f()
+			{
 				return null;
 			}
 
 			@Override
-			public boolean getSendCommandFeedback() {
+			public boolean getSendCommandFeedback()
+			{
 				return false;
 			}
 
 			@Override
-			public void a(CommandObjectiveExecutor.EnumCommandResult commandobjectiveexecutor_enumcommandresult,
-					int i) {
+			public void a(CommandObjectiveExecutor.EnumCommandResult commandobjectiveexecutor_enumcommandresult, int i)
+			{
 			}
 		};
 
@@ -96,28 +111,35 @@ public class TileEntitySign extends TileEntity {
 
 		boolean oldSign = Boolean.getBoolean("convertLegacySigns") && !nbttagcompound.getBoolean("Bukkit.isConverted");
 
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 4; ++i)
+		{
 			String s = nbttagcompound.getString("Text" + (i + 1));
-			if (s != null && s.length() > 2048) {
+			if (s != null && s.length() > 2048)
+			{
 				s = "\"\"";
 			}
 
-			try {
+			try
+			{
 				IChatBaseComponent ichatbasecomponent = IChatBaseComponent.ChatSerializer.a(s);
 
-				if (oldSign) {
+				if (oldSign)
+				{
 					lines[i] = org.bukkit.craftbukkit.util.CraftChatMessage.fromString(s)[0];
 					continue;
 				}
 				// CraftBukkit end
 
-				try {
+				try
+				{
 					this.lines[i] = ChatComponentUtils.filterForDisplay(icommandlistener, ichatbasecomponent,
 							(Entity) null);
-				} catch (CommandException commandexception) {
+				} catch (CommandException commandexception)
+				{
 					this.lines[i] = ichatbasecomponent;
 				}
-			} catch (JsonParseException jsonparseexception) {
+			} catch (JsonParseException jsonparseexception)
+			{
 				this.lines[i] = new ChatComponentText(s);
 			}
 		}
@@ -126,7 +148,8 @@ public class TileEntitySign extends TileEntity {
 	}
 
 	@Override
-	public Packet getUpdatePacket() {
+	public Packet getUpdatePacket()
+	{
 		IChatBaseComponent[] aichatbasecomponent = new IChatBaseComponent[4];
 
 		System.arraycopy(this.lines, 0, aichatbasecomponent, 0, 4);
@@ -134,89 +157,106 @@ public class TileEntitySign extends TileEntity {
 	}
 
 	@Override
-	public boolean F() {
+	public boolean F()
+	{
 		return true;
 	}
 
-	public boolean b() {
+	public boolean b()
+	{
 		return this.isEditable;
 	}
 
-	public void a(EntityHuman entityhuman) {
+	public void a(EntityHuman entityhuman)
+	{
 		this.h = entityhuman;
 	}
 
-	public EntityHuman c() {
+	public EntityHuman c()
+	{
 		return this.h;
 	}
 
-	public boolean b(final EntityHuman entityhuman) {
-		ICommandListener icommandlistener = new ICommandListener() {
+	public boolean b(final EntityHuman entityhuman)
+	{
+		ICommandListener icommandlistener = new ICommandListener()
+		{
 			@Override
-			public String getName() {
+			public String getName()
+			{
 				return entityhuman.getName();
 			}
 
 			@Override
-			public IChatBaseComponent getScoreboardDisplayName() {
+			public IChatBaseComponent getScoreboardDisplayName()
+			{
 				return entityhuman.getScoreboardDisplayName();
 			}
 
 			@Override
-			public void sendMessage(IChatBaseComponent ichatbasecomponent) {
+			public void sendMessage(IChatBaseComponent ichatbasecomponent)
+			{
 			}
 
 			@Override
-			public boolean a(int i, String s) {
+			public boolean a(int i, String s)
+			{
 				return i <= 2;
 			}
 
 			@Override
-			public BlockPosition getChunkCoordinates() {
+			public BlockPosition getChunkCoordinates()
+			{
 				return TileEntitySign.this.position;
 			}
 
 			@Override
-			public Vec3D d() {
-				return new Vec3D(TileEntitySign.this.position.getX() + 0.5D,
-						TileEntitySign.this.position.getY() + 0.5D,
+			public Vec3D d()
+			{
+				return new Vec3D(TileEntitySign.this.position.getX() + 0.5D, TileEntitySign.this.position.getY() + 0.5D,
 						TileEntitySign.this.position.getZ() + 0.5D);
 			}
 
 			@Override
-			public World getWorld() {
+			public World getWorld()
+			{
 				return entityhuman.getWorld();
 			}
 
 			@Override
-			public Entity f() {
+			public Entity f()
+			{
 				return entityhuman;
 			}
 
 			@Override
-			public boolean getSendCommandFeedback() {
+			public boolean getSendCommandFeedback()
+			{
 				return false;
 			}
 
 			@Override
-			public void a(CommandObjectiveExecutor.EnumCommandResult commandobjectiveexecutor_enumcommandresult,
-					int i) {
+			public void a(CommandObjectiveExecutor.EnumCommandResult commandobjectiveexecutor_enumcommandresult, int i)
+			{
 				TileEntitySign.this.i.a(this, commandobjectiveexecutor_enumcommandresult, i);
 			}
 		};
 
-		for (int i = 0; i < this.lines.length; ++i) {
+		for (int i = 0; i < this.lines.length; ++i)
+		{
 			ChatModifier chatmodifier = this.lines[i] == null ? null : this.lines[i].getChatModifier();
 
-			if (chatmodifier != null && chatmodifier.h() != null) {
+			if (chatmodifier != null && chatmodifier.h() != null)
+			{
 				ChatClickable chatclickable = chatmodifier.h();
 
-				if (chatclickable.a() == ChatClickable.EnumClickAction.RUN_COMMAND) {
+				if (chatclickable.a() == ChatClickable.EnumClickAction.RUN_COMMAND)
+				{
 					// CraftBukkit start
 					// MinecraftServer.getServer().getCommandHandler().a(tileentitysignplayerwrapper,
 					// chatclickable.b());
-					CommandBlockListenerAbstract.executeCommand(entityhuman,
-							entityhuman.getBukkitEntity(), chatclickable.b());
+					CommandBlockListenerAbstract.executeCommand(entityhuman, entityhuman.getBukkitEntity(),
+							chatclickable.b());
 					// CraftBukkit end
 				}
 			}
@@ -225,7 +265,8 @@ public class TileEntitySign extends TileEntity {
 		return true;
 	}
 
-	public CommandObjectiveExecutor d() {
+	public CommandObjectiveExecutor d()
+	{
 		return this.i;
 	}
 }

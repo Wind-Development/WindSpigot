@@ -11,22 +11,27 @@ import java.util.concurrent.Callable;
 
 import dev.cobblesword.nachospigot.commons.Constants;
 
-public class NBTTagCompound extends NBTBase {
+public class NBTTagCompound extends NBTBase
+{
 	private it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<String, NBTBase> map = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>(
 			8, 0.8f); // Paper - reduce memory footprint of NBTTagCompound
 
-	public NBTTagCompound() {
+	public NBTTagCompound()
+	{
 	}
 
-	public NBTTagCompound(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<String, NBTBase> map) {
+	public NBTTagCompound(it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<String, NBTBase> map)
+	{
 		this.map = map;
 	}
 
 	@Override
-	void write(DataOutput var1) throws IOException {
+	void write(DataOutput var1) throws IOException
+	{
 		Iterator var2 = this.map.keySet().iterator();
 
-		while (var2.hasNext()) {
+		while (var2.hasNext())
+		{
 			String var3 = (String) var2.next();
 			NBTBase var4 = this.map.get(var3);
 			a(var3, var4, var1);
@@ -36,19 +41,24 @@ public class NBTTagCompound extends NBTBase {
 	}
 
 	@Override
-	void load(DataInput var1, int var2, NBTReadLimiter var3) throws IOException {
+	void load(DataInput var1, int var2, NBTReadLimiter var3) throws IOException
+	{
 		var3.a(384L);
-		if (var2 > 512) {
+		if (var2 > 512)
+		{
 			throw new RuntimeException("Tried to read NBT tag with too high complexity, depth > 512");
-		} else {
+		} else
+		{
 			this.map.clear();
 
 			byte var4;
-			while ((var4 = a(var1, var3)) != 0) {
+			while ((var4 = a(var1, var3)) != 0)
+			{
 				String var5 = b(var1, var3);
 				var3.a(224 + 16 * var5.length());
 				NBTBase var6 = a(var4, var5, var1, var2 + 1, var3);
-				if (this.map.put(var5, var6) != null) {
+				if (this.map.put(var5, var6) != null)
+				{
 					var3.a(288L);
 				}
 			}
@@ -56,196 +66,257 @@ public class NBTTagCompound extends NBTBase {
 		}
 	}
 
-	public Set<String> c() {
+	public Set<String> c()
+	{
 		return this.map.keySet();
 	}
 
 	@Override
-	public byte getTypeId() {
+	public byte getTypeId()
+	{
 		return 10;
 	}
 
-	public void set(String var1, NBTBase var2) {
+	public void set(String var1, NBTBase var2)
+	{
 		this.map.put(var1, var2);
 	}
 
-	public void setByte(String var1, byte var2) {
+	public void setByte(String var1, byte var2)
+	{
 		this.map.put(var1, new NBTTagByte(var2));
 	}
 
-	public void setShort(String var1, short var2) {
+	public void setShort(String var1, short var2)
+	{
 		this.map.put(var1, new NBTTagShort(var2));
 	}
 
-	public void setInt(String var1, int var2) {
+	public void setInt(String var1, int var2)
+	{
 		this.map.put(var1, new NBTTagInt(var2));
 	}
 
-	public void setLong(String var1, long var2) {
+	public void setLong(String var1, long var2)
+	{
 		this.map.put(var1, new NBTTagLong(var2));
 	}
 
-	public void setFloat(String var1, float var2) {
+	public void setFloat(String var1, float var2)
+	{
 		this.map.put(var1, new NBTTagFloat(var2));
 	}
 
-	public void setDouble(String var1, double var2) {
+	public void setDouble(String var1, double var2)
+	{
 		this.map.put(var1, new NBTTagDouble(var2));
 	}
 
-	public void setString(String var1, String var2) {
+	public void setString(String var1, String var2)
+	{
 		this.map.put(var1, new NBTTagString(var2));
 	}
 
-	public void setByteArray(String var1, byte[] var2) {
+	public void setByteArray(String var1, byte[] var2)
+	{
 		this.map.put(var1, new NBTTagByteArray(var2));
 	}
 
-	public void setIntArray(String var1, int[] var2) {
+	public void setIntArray(String var1, int[] var2)
+	{
 		this.map.put(var1, new NBTTagIntArray(var2));
 	}
 
-	public void setBoolean(String var1, boolean var2) {
+	public void setBoolean(String var1, boolean var2)
+	{
 		this.setByte(var1, (byte) (var2 ? 1 : 0));
 	}
 
-	public NBTBase get(String var1) {
+	public NBTBase get(String var1)
+	{
 		return this.map.get(var1);
 	}
 
-	public byte b(String var1) {
+	public byte b(String var1)
+	{
 		NBTBase var2 = this.map.get(var1);
 		return var2 != null ? var2.getTypeId() : 0;
 	}
 
-	public boolean hasKey(String var1) {
+	public boolean hasKey(String var1)
+	{
 		return this.map.containsKey(var1);
 	}
 
-	public boolean hasKeyOfType(String var1, int var2) {
+	public boolean hasKeyOfType(String var1, int var2)
+	{
 		byte var3 = this.b(var1);
-		if (var3 == var2) {
+		if (var3 == var2)
+		{
 			return true;
-		} else if (var2 != 99) {
-			if (var3 > 0) {
+		} else if (var2 != 99)
+		{
+			if (var3 > 0)
+			{
 			}
 
 			return false;
-		} else {
+		} else
+		{
 			return var3 == 1 || var3 == 2 || var3 == 3 || var3 == 4 || var3 == 5 || var3 == 6;
 		}
 	}
 
-	public byte getByte(String var1) {
-		try {
+	public byte getByte(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 99) ? 0 : ((NBTNumber) this.map.get(var1)).f();
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			return 0;
 		}
 	}
 
-	public short getShort(String var1) {
-		try {
+	public short getShort(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 99) ? 0 : ((NBTNumber) this.map.get(var1)).e();
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			return 0;
 		}
 	}
 
-	public int getInt(String var1) {
-		try {
+	public int getInt(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 99) ? 0 : ((NBTNumber) this.map.get(var1)).d();
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			return 0;
 		}
 	}
 
-	public long getLong(String var1) {
-		try {
+	public long getLong(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 99) ? 0L : ((NBTNumber) this.map.get(var1)).c();
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			return 0L;
 		}
 	}
 
-	public float getFloat(String var1) {
-		try {
+	public float getFloat(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 99) ? 0.0F : ((NBTNumber) this.map.get(var1)).h();
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			return 0.0F;
 		}
 	}
 
-	public double getDouble(String var1) {
-		try {
+	public double getDouble(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 99) ? 0.0D : ((NBTNumber) this.map.get(var1)).g();
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			return 0.0D;
 		}
 	}
 
-	public String getString(String var1) {
-		try {
+	public String getString(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 8) ? "" : this.map.get(var1).a_();
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			return "";
 		}
 	}
 
-	public byte[] getByteArray(String var1) {
-		try {
+	public byte[] getByteArray(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 7) ? new byte[0] : ((NBTTagByteArray) this.map.get(var1)).c();
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			throw new ReportedException(this.a(var1, 7, var3));
 		}
 	}
 
-	public int[] getIntArray(String var1) {
-		try {
+	public int[] getIntArray(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 11) ? Constants.EMPTY_ARRAY : ((NBTTagIntArray) this.map.get(var1)).c();
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			throw new ReportedException(this.a(var1, 11, var3));
 		}
 	}
 
-	public NBTTagCompound getCompound(String var1) {
-		try {
+	public NBTTagCompound getCompound(String var1)
+	{
+		try
+		{
 			return !this.hasKeyOfType(var1, 10) ? new NBTTagCompound() : (NBTTagCompound) this.map.get(var1);
-		} catch (ClassCastException var3) {
+		} catch (ClassCastException var3)
+		{
 			throw new ReportedException(this.a(var1, 10, var3));
 		}
 	}
 
-	public NBTTagList getList(String var1, int var2) {
-		try {
-			if (this.b(var1) != 9) {
+	public NBTTagList getList(String var1, int var2)
+	{
+		try
+		{
+			if (this.b(var1) != 9)
+			{
 				return new NBTTagList();
-			} else {
+			} else
+			{
 				NBTTagList var3 = (NBTTagList) this.map.get(var1);
 				return var3.size() > 0 && var3.f() != var2 ? new NBTTagList() : var3;
 			}
-		} catch (ClassCastException var4) {
+		} catch (ClassCastException var4)
+		{
 			throw new ReportedException(this.a(var1, 9, var4));
 		}
 	}
 
-	public boolean getBoolean(String var1) {
+	public boolean getBoolean(String var1)
+	{
 		return this.getByte(var1) != 0;
 	}
 
-	public void remove(String var1) {
+	public void remove(String var1)
+	{
 		this.map.remove(var1);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		StringBuilder var1 = new StringBuilder("{");
 
 		Entry var3;
 		for (Iterator var2 = this.map.entrySet().iterator(); var2.hasNext(); var1.append((String) var3.getKey())
-				.append(':').append(var3.getValue())) {
+				.append(':').append(var3.getValue()))
+		{
 			var3 = (Entry) var2.next();
-			if (var1.length() != 1) {
+			if (var1.length() != 1)
+			{
 				var1.append(',');
 			}
 		}
@@ -254,22 +325,28 @@ public class NBTTagCompound extends NBTBase {
 	}
 
 	@Override
-	public boolean isEmpty() {
+	public boolean isEmpty()
+	{
 		return this.map.isEmpty();
 	}
 
-	private CrashReport a(final String var1, final int var2, ClassCastException var3) {
+	private CrashReport a(final String var1, final int var2, ClassCastException var3)
+	{
 		CrashReport var4 = CrashReport.a(var3, "Reading NBT data");
 		CrashReportSystemDetails var5 = var4.a("Corrupt NBT tag", 1);
-		var5.a("Tag type found", new Callable<String>() {
+		var5.a("Tag type found", new Callable<String>()
+		{
 			@Override
-			public String call() throws Exception {
+			public String call() throws Exception
+			{
 				return NBTBase.a[NBTTagCompound.this.map.get(var1).getTypeId()];
 			}
 		});
-		var5.a("Tag type expected", new Callable<String>() {
+		var5.a("Tag type expected", new Callable<String>()
+		{
 			@Override
-			public String call() throws Exception {
+			public String call() throws Exception
+			{
 				return NBTBase.a[var2];
 			}
 		});
@@ -278,14 +355,16 @@ public class NBTTagCompound extends NBTBase {
 	}
 
 	@Override
-	public NBTBase clone() {
+	public NBTBase clone()
+	{
 		it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<String, NBTBase> ret = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>(
 				this.map.size(), 0.8f);
 		Iterator<Map.Entry<String, NBTBase>> iterator = (this.map instanceof it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap)
 				? ((it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap) this.map).object2ObjectEntrySet()
 						.fastIterator()
 				: this.map.entrySet().iterator();
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			Map.Entry<String, NBTBase> entry = iterator.next();
 			ret.put(entry.getKey(), entry.getValue().clone());
 		}
@@ -293,43 +372,54 @@ public class NBTTagCompound extends NBTBase {
 	}
 
 	@Override
-	public boolean equals(Object var1) {
-		if (super.equals(var1)) {
+	public boolean equals(Object var1)
+	{
+		if (super.equals(var1))
+		{
 			NBTTagCompound var2 = (NBTTagCompound) var1;
 			return this.map.entrySet().equals(var2.map.entrySet());
-		} else {
+		} else
+		{
 			return false;
 		}
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return super.hashCode() ^ this.map.hashCode();
 	}
 
-	private static void a(String var0, NBTBase var1, DataOutput var2) throws IOException {
+	private static void a(String var0, NBTBase var1, DataOutput var2) throws IOException
+	{
 		var2.writeByte(var1.getTypeId());
-		if (var1.getTypeId() != 0) {
+		if (var1.getTypeId() != 0)
+		{
 			var2.writeUTF(var0);
 			var1.write(var2);
 		}
 	}
 
-	private static byte a(DataInput var0, NBTReadLimiter var1) throws IOException {
+	private static byte a(DataInput var0, NBTReadLimiter var1) throws IOException
+	{
 		return var0.readByte();
 	}
 
-	private static String b(DataInput var0, NBTReadLimiter var1) throws IOException {
+	private static String b(DataInput var0, NBTReadLimiter var1) throws IOException
+	{
 		return var0.readUTF();
 	}
 
-	static NBTBase a(byte var0, String var1, DataInput var2, int var3, NBTReadLimiter var4) throws IOException {
+	static NBTBase a(byte var0, String var1, DataInput var2, int var3, NBTReadLimiter var4) throws IOException
+	{
 		NBTBase var5 = NBTBase.createTag(var0);
 
-		try {
+		try
+		{
 			var5.load(var2, var3, var4);
 			return var5;
-		} catch (IOException var9) {
+		} catch (IOException var9)
+		{
 			CrashReport var7 = CrashReport.a(var9, "Loading NBT data");
 			CrashReportSystemDetails var8 = var7.a("NBT Tag");
 			var8.a("Tag name", var1);
@@ -338,20 +428,26 @@ public class NBTTagCompound extends NBTBase {
 		}
 	}
 
-	public void a(NBTTagCompound var1) {
+	public void a(NBTTagCompound var1)
+	{
 		Iterator var2 = var1.map.keySet().iterator();
 
-		while (var2.hasNext()) {
+		while (var2.hasNext())
+		{
 			String var3 = (String) var2.next();
 			NBTBase var4 = var1.map.get(var3);
-			if (var4.getTypeId() == 10) {
-				if (this.hasKeyOfType(var3, 10)) {
+			if (var4.getTypeId() == 10)
+			{
+				if (this.hasKeyOfType(var3, 10))
+				{
 					NBTTagCompound var5 = this.getCompound(var3);
 					var5.a((NBTTagCompound) var4);
-				} else {
+				} else
+				{
 					this.set(var3, var4.clone());
 				}
-			} else {
+			} else
+			{
 				this.set(var3, var4.clone());
 			}
 		}

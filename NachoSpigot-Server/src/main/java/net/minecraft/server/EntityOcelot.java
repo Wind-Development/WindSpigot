@@ -2,13 +2,15 @@ package net.minecraft.server;
 
 import com.google.common.base.Predicate;
 
-public class EntityOcelot extends EntityTameableAnimal {
+public class EntityOcelot extends EntityTameableAnimal
+{
 
 	private PathfinderGoalAvoidTarget<EntityHuman> bo;
 	private PathfinderGoalTempt bp;
 	public boolean spawnBonus = true; // Spigot
 
-	public EntityOcelot(World world) {
+	public EntityOcelot(World world)
+	{
 		super(world);
 		this.setSize(0.6F, 0.7F);
 		((Navigation) this.getNavigation()).a(true);
@@ -27,27 +29,34 @@ public class EntityOcelot extends EntityTameableAnimal {
 	}
 
 	@Override
-	protected void h() {
+	protected void h()
+	{
 		super.h();
 		this.datawatcher.a(18, Byte.valueOf((byte) 0));
 	}
 
 	@Override
-	public void E() {
-		if (this.getControllerMove().a()) {
+	public void E()
+	{
+		if (this.getControllerMove().a())
+		{
 			double d0 = this.getControllerMove().b();
 
-			if (d0 == 0.6D) {
+			if (d0 == 0.6D)
+			{
 				this.setSneaking(true);
 				this.setSprinting(false);
-			} else if (d0 == 1.33D) {
+			} else if (d0 == 1.33D)
+			{
 				this.setSneaking(false);
 				this.setSprinting(true);
-			} else {
+			} else
+			{
 				this.setSneaking(false);
 				this.setSprinting(false);
 			}
-		} else {
+		} else
+		{
 			this.setSneaking(false);
 			this.setSprinting(false);
 		}
@@ -55,61 +64,72 @@ public class EntityOcelot extends EntityTameableAnimal {
 	}
 
 	@Override
-	protected boolean isTypeNotPersistent() {
+	protected boolean isTypeNotPersistent()
+	{
 		return !this.isTamed() /* && this.ticksLived > 2400 */; // CraftBukkit
 	}
 
 	@Override
-	protected void initAttributes() {
+	protected void initAttributes()
+	{
 		super.initAttributes();
 		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(10.0D);
 		this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.30000001192092896D);
 	}
 
 	@Override
-	public void e(float f, float f1) {
+	public void e(float f, float f1)
+	{
 	}
 
 	@Override
-	public void b(NBTTagCompound nbttagcompound) {
+	public void b(NBTTagCompound nbttagcompound)
+	{
 		super.b(nbttagcompound);
 		nbttagcompound.setInt("CatType", this.getCatType());
 	}
 
 	@Override
-	public void a(NBTTagCompound nbttagcompound) {
+	public void a(NBTTagCompound nbttagcompound)
+	{
 		super.a(nbttagcompound);
 		this.setCatType(nbttagcompound.getInt("CatType"));
 	}
 
 	@Override
-	protected String z() {
+	protected String z()
+	{
 		return this.isTamed() ? (this.isInLove() ? "mob.cat.purr"
 				: (this.random.nextInt(4) == 0 ? "mob.cat.purreow" : "mob.cat.meow")) : "";
 	}
 
 	@Override
-	protected String bo() {
+	protected String bo()
+	{
 		return "mob.cat.hitt";
 	}
 
 	@Override
-	protected String bp() {
+	protected String bp()
+	{
 		return "mob.cat.hitt";
 	}
 
 	@Override
-	protected float bB() {
+	protected float bB()
+	{
 		return 0.4F;
 	}
 
 	@Override
-	protected Item getLoot() {
+	protected Item getLoot()
+	{
 		return Items.LEATHER;
 	}
 
 	@Override
-	public boolean r(Entity entity) {
+	public boolean r(Entity entity)
+	{
 		return entity.damageEntity(DamageSource.mobAttack(this), 3.0F);
 	}
 
@@ -122,38 +142,47 @@ public class EntityOcelot extends EntityTameableAnimal {
 	 */
 
 	@Override
-	protected void dropDeathLoot(boolean flag, int i) {
+	protected void dropDeathLoot(boolean flag, int i)
+	{
 	}
 
 	@Override
-	public boolean a(EntityHuman entityhuman) {
+	public boolean a(EntityHuman entityhuman)
+	{
 		ItemStack itemstack = entityhuman.inventory.getItemInHand();
 
-		if (this.isTamed()) {
-			if (this.e((EntityLiving) entityhuman) && !this.world.isClientSide && !this.d(itemstack)) {
+		if (this.isTamed())
+		{
+			if (this.e((EntityLiving) entityhuman) && !this.world.isClientSide && !this.d(itemstack))
+			{
 				this.bm.setSitting(!this.isSitting());
 			}
-		} else if (this.bp.f() && itemstack != null && itemstack.getItem() == Items.FISH
-				&& entityhuman.h(this) < 9.0D) {
-			if (!entityhuman.abilities.canInstantlyBuild) {
+		} else if (this.bp.f() && itemstack != null && itemstack.getItem() == Items.FISH && entityhuman.h(this) < 9.0D)
+		{
+			if (!entityhuman.abilities.canInstantlyBuild)
+			{
 				--itemstack.count;
 			}
 
-			if (itemstack.count <= 0) {
+			if (itemstack.count <= 0)
+			{
 				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
 			}
 
-			if (!this.world.isClientSide) {
+			if (!this.world.isClientSide)
+			{
 				// CraftBukkit - added event call and isCancelled check
 				if (this.random.nextInt(3) == 0 && !org.bukkit.craftbukkit.event.CraftEventFactory
-						.callEntityTameEvent(this, entityhuman).isCancelled()) {
+						.callEntityTameEvent(this, entityhuman).isCancelled())
+				{
 					this.setTamed(true);
 					this.setCatType(1 + this.world.random.nextInt(3));
 					this.setOwnerUUID(entityhuman.getUniqueID().toString());
 					this.l(true);
 					this.bm.setSitting(true);
 					this.world.broadcastEntityEffect(this, (byte) 7);
-				} else {
+				} else
+				{
 					this.l(false);
 					this.world.broadcastEntityEffect(this, (byte) 6);
 				}
@@ -165,10 +194,12 @@ public class EntityOcelot extends EntityTameableAnimal {
 		return super.a(entityhuman);
 	}
 
-	public EntityOcelot b(EntityAgeable entityageable) {
+	public EntityOcelot b(EntityAgeable entityageable)
+	{
 		EntityOcelot entityocelot = new EntityOcelot(this.world);
 
-		if (this.isTamed()) {
+		if (this.isTamed())
+		{
 			entityocelot.setOwnerUUID(this.getOwnerUUID());
 			entityocelot.setTamed(true);
 			entityocelot.setCatType(this.getCatType());
@@ -178,52 +209,64 @@ public class EntityOcelot extends EntityTameableAnimal {
 	}
 
 	@Override
-	public boolean d(ItemStack itemstack) {
+	public boolean d(ItemStack itemstack)
+	{
 		return itemstack != null && itemstack.getItem() == Items.FISH;
 	}
 
 	@Override
-	public boolean mate(EntityAnimal entityanimal) {
-		if (entityanimal == this) {
+	public boolean mate(EntityAnimal entityanimal)
+	{
+		if (entityanimal == this)
+		{
 			return false;
-		} else if (!this.isTamed()) {
+		} else if (!this.isTamed())
+		{
 			return false;
-		} else if (!(entityanimal instanceof EntityOcelot)) {
+		} else if (!(entityanimal instanceof EntityOcelot))
+		{
 			return false;
-		} else {
+		} else
+		{
 			EntityOcelot entityocelot = (EntityOcelot) entityanimal;
 
 			return !entityocelot.isTamed() ? false : this.isInLove() && entityocelot.isInLove();
 		}
 	}
 
-	public int getCatType() {
+	public int getCatType()
+	{
 		return this.datawatcher.getByte(18);
 	}
 
-	public void setCatType(int i) {
+	public void setCatType(int i)
+	{
 		this.datawatcher.watch(18, Byte.valueOf((byte) i));
 	}
 
 	@Override
-	public boolean bR() {
+	public boolean bR()
+	{
 		return this.world.random.nextInt(3) != 0;
 	}
 
 	@Override
-	public boolean canSpawn() {
-		if (this.world.a(this.getBoundingBox(), this)
-				&& this.world.getCubes(this, this.getBoundingBox()).isEmpty()
-				&& !this.world.containsLiquid(this.getBoundingBox())) {
+	public boolean canSpawn()
+	{
+		if (this.world.a(this.getBoundingBox(), this) && this.world.getCubes(this, this.getBoundingBox()).isEmpty()
+				&& !this.world.containsLiquid(this.getBoundingBox()))
+		{
 			BlockPosition blockposition = new BlockPosition(this.locX, this.getBoundingBox().b, this.locZ);
 
-			if (blockposition.getY() < this.world.F()) {
+			if (blockposition.getY() < this.world.F())
+			{
 				return false;
 			}
 
 			Block block = this.world.getType(blockposition.down()).getBlock();
 
-			if (block == Blocks.GRASS || block.getMaterial() == Material.LEAVES) {
+			if (block == Blocks.GRASS || block.getMaterial() == Material.LEAVES)
+			{
 				return true;
 			}
 		}
@@ -232,34 +275,42 @@ public class EntityOcelot extends EntityTameableAnimal {
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return this.hasCustomName() ? this.getCustomName()
 				: (this.isTamed() ? LocaleI18n.get("entity.Cat.name") : super.getName());
 	}
 
 	@Override
-	public void setTamed(boolean flag) {
+	public void setTamed(boolean flag)
+	{
 		super.setTamed(flag);
 	}
 
 	@Override
-	protected void cm() {
-		if (this.bo == null) {
+	protected void cm()
+	{
+		if (this.bo == null)
+		{
 			this.bo = new PathfinderGoalAvoidTarget(this, EntityHuman.class, 16.0F, 0.8D, 1.33D);
 		}
 
 		this.goalSelector.a(this.bo);
-		if (!this.isTamed()) {
+		if (!this.isTamed())
+		{
 			this.goalSelector.a(4, this.bo);
 		}
 
 	}
 
 	@Override
-	public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
+	public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity)
+	{
 		groupdataentity = super.prepare(difficultydamagescaler, groupdataentity);
-		if (spawnBonus && this.world.random.nextInt(7) == 0) { // Spigot
-			for (int i = 0; i < 2; ++i) {
+		if (spawnBonus && this.world.random.nextInt(7) == 0)
+		{ // Spigot
+			for (int i = 0; i < 2; ++i)
+			{
 				EntityOcelot entityocelot = new EntityOcelot(this.world);
 
 				entityocelot.setPositionRotation(this.locX, this.locY, this.locZ, this.yaw, 0.0F);
@@ -275,7 +326,8 @@ public class EntityOcelot extends EntityTameableAnimal {
 	}
 
 	@Override
-	public EntityAgeable createChild(EntityAgeable entityageable) {
+	public EntityAgeable createChild(EntityAgeable entityageable)
+	{
 		return this.b(entityageable);
 	}
 }

@@ -39,7 +39,8 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import me.elier.minecraft.util.CryptException;
 
-public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
+public class NetworkManager extends SimpleChannelInboundHandler<Packet>
+{
 
 	private static final Logger LOGGER = LogManager.getLogger();
 	public static final Marker ROOT_MARKER = MarkerManager.getMarker("NETWORK");
@@ -72,17 +73,20 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private IChatBaseComponent n;
 	private boolean o;
 
-	public boolean isEncrypted() {
+	public boolean isEncrypted()
+	{
 		return this.o;
 	} // Nacho - OBFHELPER
 
 	private boolean p;
 
-	public boolean isDisconnectionHandled() {
+	public boolean isDisconnectionHandled()
+	{
 		return this.p;
 	} // Nacho - OBFHELPER
 
-	public void setDisconnectionHandled(boolean handled) {
+	public void setDisconnectionHandled(boolean handled)
+	{
 		this.p = handled;
 	} // Nacho - OBFHELPER
 
@@ -92,36 +96,45 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private int flushPacketsStart;
 	private final Object flushLock = new Object();
 
-	void disableAutomaticFlush() {
-		synchronized (this.flushLock) {
+	void disableAutomaticFlush()
+	{
+		synchronized (this.flushLock)
+		{
 			this.flushPacketsStart = this.packetWrites.get(); // must be volatile and before canFlush = false
 			this.canFlush = false;
 		}
 	}
 
-	void enableAutomaticFlush() {
-		synchronized (this.flushLock) {
+	void enableAutomaticFlush()
+	{
+		synchronized (this.flushLock)
+		{
 			this.canFlush = true;
-			if (this.packetWrites.get() != this.flushPacketsStart) { // must be after canFlush = true
+			if (this.packetWrites.get() != this.flushPacketsStart)
+			{ // must be after canFlush = true
 				this.flush(); // only make the flush call if we need to
 			}
 		}
 	}
 
-	private void flush() {
-		if (this.channel.eventLoop().inEventLoop()) {
+	private void flush()
+	{
+		if (this.channel.eventLoop().inEventLoop())
+		{
 			this.channel.flush();
 		} // [Nacho-Spigot] Fixed RejectedExecutionException: event executor terminated by
 			// BeyazPolis
 	}
 	// Tuinity end - allow controlled flushing
 
-	public NetworkManager(EnumProtocolDirection enumprotocoldirection) {
+	public NetworkManager(EnumProtocolDirection enumprotocoldirection)
+	{
 		this.h = enumprotocoldirection;
 	}
 
 	@Override
-	public void channelActive(ChannelHandlerContext channelhandlercontext) throws Exception {
+	public void channelActive(ChannelHandlerContext channelhandlercontext) throws Exception
+	{
 		super.channelActive(channelhandlercontext);
 		this.channel = channelhandlercontext.channel();
 		this.l = this.channel.remoteAddress();
@@ -129,40 +142,50 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		this.preparing = false;
 		// Spigot End
 
-		try {
+		try
+		{
 			this.setProtocol(EnumProtocol.HANDSHAKING);
-		} catch (Throwable throwable) {
+		} catch (Throwable throwable)
+		{
 			NetworkManager.LOGGER.fatal(throwable);
 		}
 
 	}
 
-	public void setProtocol(EnumProtocol protocol) {
+	public void setProtocol(EnumProtocol protocol)
+	{
 		a(protocol);
 	}
 
-	public void a(EnumProtocol protocol) {
+	public void a(EnumProtocol protocol)
+	{
 		this.channel.attr(NetworkManager.ATTRIBUTE_PROTOCOL).set(protocol);
 		this.channel.config().setAutoRead(true);
 	}
 
 	@Override
-	public void channelInactive(ChannelHandlerContext channelhandlercontext) throws Exception {
+	public void channelInactive(ChannelHandlerContext channelhandlercontext) throws Exception
+	{
 		this.close(new ChatMessage("disconnect.endOfStream"));
 	}
 
 	@Override
-	public void exceptionCaught(ChannelHandlerContext channelhandlercontext, Throwable throwable) throws Exception {
+	public void exceptionCaught(ChannelHandlerContext channelhandlercontext, Throwable throwable) throws Exception
+	{
 		ChatMessage chatmessage;
 
-		if (throwable instanceof DecoderException) {
+		if (throwable instanceof DecoderException)
+		{
 			DecoderException decoderException = ((DecoderException) throwable);
-			if (decoderException.getCause() instanceof ExploitException) {
+			if (decoderException.getCause() instanceof ExploitException)
+			{
 				Bukkit.getLogger().warning("Server crash detected...");
-				if (this.getPacketListener() != null && this.getPacketListener() instanceof PlayerConnection) {
+				if (this.getPacketListener() != null && this.getPacketListener() instanceof PlayerConnection)
+				{
 					PlayerConnection playerConnection = (PlayerConnection) this.getPacketListener();
 					CraftPlayer player = playerConnection.getPlayer();
-					if (player != null) {
+					if (player != null)
+					{
 						Bukkit.getLogger().warning(
 								player.getName() + " has tried to crash the server... " + decoderException.getCause());
 					}
@@ -170,9 +193,11 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			}
 		}
 
-		if (throwable instanceof TimeoutException) {
+		if (throwable instanceof TimeoutException)
+		{
 			chatmessage = new ChatMessage("disconnect.timeout");
-		} else {
+		} else
+		{
 			chatmessage = new ChatMessage("disconnect.genericReason", "Internal Exception: " + throwable);
 		}
 
@@ -180,44 +205,58 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 //        if (MinecraftServer.getServer().isDebugging()) throwable.printStackTrace(); // Spigot
 	}
 
-	protected void a(ChannelHandlerContext ctx, Packet packet) throws Exception {
-		if (this.channel.isOpen()) {
-			if (this.m instanceof PlayerConnection) {
-				try {
+	protected void a(ChannelHandlerContext ctx, Packet packet) throws Exception
+	{
+		if (this.channel.isOpen())
+		{
+			if (this.m instanceof PlayerConnection)
+			{
+				try
+				{
 					for (dev.cobblesword.nachospigot.protocol.PacketListener packetListener : Nacho.get()
-							.getPacketListeners()) {
+							.getPacketListeners())
+					{
 						if (!packetListener.onReceivedPacket((PlayerConnection) this.m, packet))
 							return;
 					}
-				} catch (Exception e) {
+				} catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
-			try {
+			try
+			{
 				packet.a(this.m);// packet.handle(PlayerConnection)
-			} catch (CancelledPacketHandleException cancelledpackethandleexception) {
+			} catch (CancelledPacketHandleException cancelledpackethandleexception)
+			{
 				;
 			}
 		}
 	}
 
-	public void a(PacketListener packetlistener) {
+	public void a(PacketListener packetlistener)
+	{
 		Validate.notNull(packetlistener, "packetListener");
 //        NetworkManager.g.debug("Set listener of {} to {}", new Object[] { this, packetlistener});
 		this.m = packetlistener;
 	}
 
 	// sendPacket
-	public void handle(Packet packet) {
-		if (this.isConnected()) {
+	public void handle(Packet packet)
+	{
+		if (this.isConnected())
+		{
 			this.sendPacketQueue();
 			this.dispatchPacket(packet, null, Boolean.TRUE);
-		} else {
+		} else
+		{
 			this.j.writeLock().lock();
 
-			try {
+			try
+			{
 				this.i.add(new NetworkManager.QueuedPacket(packet));
-			} finally {
+			} finally
+			{
 				this.j.writeLock().unlock();
 			}
 		}
@@ -226,16 +265,21 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 	// sendPacket
 	public void a(Packet packet, GenericFutureListener<? extends Future<? super Void>> listener,
-			GenericFutureListener<? extends Future<? super Void>>... listeners) {
-		if (this.isConnected()) {
+			GenericFutureListener<? extends Future<? super Void>>... listeners)
+	{
+		if (this.isConnected())
+		{
 			this.sendPacketQueue();
 			this.dispatchPacket(packet, ArrayUtils.insert(0, listeners, listener), Boolean.TRUE);
-		} else {
+		} else
+		{
 			this.j.writeLock().lock();
 
-			try {
+			try
+			{
 				this.i.add(new NetworkManager.QueuedPacket(packet, ArrayUtils.insert(0, listeners, listener)));
-			} finally {
+			} finally
+			{
 				this.j.writeLock().unlock();
 			}
 		}
@@ -243,36 +287,45 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	// Paper / Nacho start
-	public EntityPlayer getPlayer() {
-		if (getPacketListener() instanceof PlayerConnection) {
+	public EntityPlayer getPlayer()
+	{
+		if (getPacketListener() instanceof PlayerConnection)
+		{
 			return ((PlayerConnection) getPacketListener()).player;
-		} else {
+		} else
+		{
 			return null;
 		}
 	}
 	// Paper / Nacho end
 
 	public void dispatchPacket(final Packet<?> packet,
-			final GenericFutureListener<? extends Future<? super Void>>[] listeners, Boolean flushConditional) {
+			final GenericFutureListener<? extends Future<? super Void>>[] listeners, Boolean flushConditional)
+	{
 		this.packetWrites.getAndIncrement(); // must be before using canFlush
 		boolean effectiveFlush = flushConditional == null ? this.canFlush : flushConditional;
 		final boolean flush = effectiveFlush || packet instanceof PacketPlayOutKeepAlive
 				|| packet instanceof PacketPlayOutKickDisconnect; // no delay for certain packets
 		final EnumProtocol enumprotocol = EnumProtocol.getProtocolForPacket(packet);
 		final EnumProtocol enumprotocol1 = this.channel.attr(NetworkManager.ATTRIBUTE_PROTOCOL).get();
-		if (enumprotocol1 != enumprotocol) {
+		if (enumprotocol1 != enumprotocol)
+		{
 			this.channel.config().setAutoRead(false);
 		}
-		if (this.channel.eventLoop().inEventLoop()) {
-			if (enumprotocol != enumprotocol1) {
+		if (this.channel.eventLoop().inEventLoop())
+		{
+			if (enumprotocol != enumprotocol1)
+			{
 				this.setProtocol(enumprotocol);
 			}
 			ChannelFuture channelfuture = flush ? this.channel.writeAndFlush(packet) : this.channel.write(packet);
-			if (listeners != null) {
+			if (listeners != null)
+			{
 				channelfuture.addListeners(listeners);
 			}
 			channelfuture.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-		} else {
+		} else
+		{
 			// Tuinity start - optimise packets that are not flushed
 			Runnable choice1 = null;
 			AbstractEventExecutor.LazyRunnable choice2 = null;
@@ -280,41 +333,53 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			// executor code
 			// into two branches. On conflict, just re-copy - no changes were made inside
 			// the executor code.
-			if (flush) {
-				choice1 = () -> {
-					if (enumprotocol != enumprotocol1) {
+			if (flush)
+			{
+				choice1 = () ->
+				{
+					if (enumprotocol != enumprotocol1)
+					{
 						this.setProtocol(enumprotocol);
 					}
-					try {
+					try
+					{
 						ChannelFuture channelfuture1 = (flush) ? this.channel.writeAndFlush(packet)
 								: this.channel.write(packet); // Tuinity - add flush parameter
-						if (listeners != null) {
+						if (listeners != null)
+						{
 							channelfuture1.addListeners(listeners);
 						}
 						channelfuture1.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-					} catch (Exception e) {
+					} catch (Exception e)
+					{
 						LOGGER.error("NetworkException: " + getPlayer(), e);
 						close(new ChatMessage("disconnect.genericReason", "Internal Exception: " + e.getMessage()));
 						;
 					}
 				};
-			} else {
+			} else
+			{
 				// explicitly declare a variable to make the lambda use the type
-				choice2 = () -> {
-					if (enumprotocol != enumprotocol1) {
+				choice2 = () ->
+				{
+					if (enumprotocol != enumprotocol1)
+					{
 						this.setProtocol(enumprotocol);
 					}
-					try {
+					try
+					{
 						// Nacho - why not remove the check below if the check is done above? just code
 						// duplication...
 						// even IntelliJ screamed at me for doing leaving it like that :shrug:
 						ChannelFuture channelfuture1 = /* (flush) ? this.channel.writeAndFlush(packet) : */this.channel
 								.write(packet); // Nacho - see above // Tuinity - add flush parameter
-						if (listeners != null) {
+						if (listeners != null)
+						{
 							channelfuture1.addListeners(listeners);
 						}
 						channelfuture1.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-					} catch (Exception e) {
+					} catch (Exception e)
+					{
 						LOGGER.error("NetworkException: " + getPlayer(), e);
 						close(new ChatMessage("disconnect.genericReason", "Internal Exception: " + e.getMessage()));
 						;
@@ -327,20 +392,25 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	private void a(final Packet packet,
-			final GenericFutureListener<? extends Future<? super Void>>[] agenericfuturelistener) {
+			final GenericFutureListener<? extends Future<? super Void>>[] agenericfuturelistener)
+	{
 		this.dispatchPacket(packet, agenericfuturelistener, Boolean.TRUE);
 	}
 
-	private void sendPacketQueue() {
+	private void sendPacketQueue()
+	{
 		if (this.i.isEmpty())
 			return; // [Nacho-0019] :: Avoid lock every packet send
-		if (this.channel != null && this.channel.isOpen()) {
+		if (this.channel != null && this.channel.isOpen())
+		{
 			this.j.readLock().lock();
 			boolean needsFlush = this.canFlush;
 			boolean hasWrotePacket = false;
-			try {
+			try
+			{
 				Iterator<QueuedPacket> iterator = this.i.iterator();
-				while (iterator.hasNext()) {
+				while (iterator.hasNext())
+				{
 					QueuedPacket queued = iterator.next();
 					Packet packet = queued.a;
 					if (hasWrotePacket && (needsFlush || this.canFlush))
@@ -350,45 +420,54 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 							(!iterator.hasNext() && (needsFlush || this.canFlush)) ? Boolean.TRUE : Boolean.FALSE);
 					hasWrotePacket = true;
 				}
-			} finally {
+			} finally
+			{
 				this.j.readLock().unlock();
 			}
 		}
 	}
 
-	private void m() {
+	private void m()
+	{
 		this.sendPacketQueue();
 	}
 
-	public void tick() {
+	public void tick()
+	{
 		this.sendPacketQueue();
-		if (this.m instanceof IUpdatePlayerListBox) {
+		if (this.m instanceof IUpdatePlayerListBox)
+		{
 			((IUpdatePlayerListBox) this.m).c();
 		}
 
 		this.channel.flush();
 	}
 
-	public void a() {
+	public void a()
+	{
 		this.tick();
 	}
 
-	public SocketAddress getSocketAddress() {
+	public SocketAddress getSocketAddress()
+	{
 		return this.l;
 	}
 
-	public void close(IChatBaseComponent ichatbasecomponent) {
+	public void close(IChatBaseComponent ichatbasecomponent)
+	{
 		this.i.clear(); // FlamePaper - Minetick fix memory leaks
 		// Spigot Start
 		this.preparing = false;
 		// Spigot End
-		if (this.channel.isOpen()) {
+		if (this.channel.isOpen())
+		{
 			this.channel.close(); // We can't wait as this may be called from an event loop.
 			this.n = ichatbasecomponent;
 		}
 	}
 
-	public boolean c() {
+	public boolean c()
+	{
 		return this.channel instanceof LocalChannel || this.channel instanceof LocalServerChannel;
 	}
 
@@ -402,9 +481,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	 * PacketEncrypter(MinecraftEncryption.a(1, secretkey))); }
 	 */
 
-	public void setupEncryption(javax.crypto.SecretKey key) throws CryptException {
-		if (!this.o) {
-			try {
+	public void setupEncryption(javax.crypto.SecretKey key) throws CryptException
+	{
+		if (!this.o)
+		{
+			try
+			{
 				com.velocitypowered.natives.encryption.VelocityCipher decryption = com.velocitypowered.natives.util.Natives.cipher
 						.get().forDecryption(key);
 				com.velocitypowered.natives.encryption.VelocityCipher encryption = com.velocitypowered.natives.util.Natives.cipher
@@ -413,116 +495,145 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 				this.o = true;
 				this.channel.pipeline().addBefore("splitter", "decrypt", new PacketDecrypter(decryption));
 				this.channel.pipeline().addBefore("prepender", "encrypt", new PacketEncrypter(encryption));
-			} catch (java.security.GeneralSecurityException e) {
+			} catch (java.security.GeneralSecurityException e)
+			{
 				throw new CryptException(e);
 			}
 		}
 	}
 	// Paper end
 
-	public boolean isConnected() {
+	public boolean isConnected()
+	{
 		return this.channel != null && this.channel.isOpen();
 	}
 
-	public boolean g() {
+	public boolean g()
+	{
 		return this.isConnected();
 	}
 
-	public boolean h() {
+	public boolean h()
+	{
 		return this.channel == null;
 	}
 
-	public PacketListener getPacketListener() {
+	public PacketListener getPacketListener()
+	{
 		return this.m;
 	}
 
-	public IChatBaseComponent j() {
+	public IChatBaseComponent j()
+	{
 		return this.n;
 	}
 
-	public void k() {
+	public void k()
+	{
 		this.channel.config().setAutoRead(false);
 	}
 
-	public void a(int i) {
+	public void a(int i)
+	{
 		// Nacho start - OBFHELPER
 		this.setupCompression(i);
 	}
 
-	public void setupCompression(int compressionThreshold) {
+	public void setupCompression(int compressionThreshold)
+	{
 		// Nacho end
-		if (compressionThreshold >= 0) {
+		if (compressionThreshold >= 0)
+		{
 			VelocityCompressor compressor = Natives.compress.get().create(-1); // Paper
-			if (this.channel.pipeline().get("decompress") instanceof PacketDecompressor) {
+			if (this.channel.pipeline().get("decompress") instanceof PacketDecompressor)
+			{
 				((PacketDecompressor) this.channel.pipeline().get("decompress")).a(compressionThreshold);
-			} else {
+			} else
+			{
 				this.channel.pipeline().addBefore("decoder", "decompress",
 						new PacketDecompressor(compressor, compressionThreshold)); // Paper
 			}
 
-			if (this.channel.pipeline().get("compress") instanceof PacketCompressor) {
+			if (this.channel.pipeline().get("compress") instanceof PacketCompressor)
+			{
 				((PacketCompressor) this.channel.pipeline().get("decompress")).a(compressionThreshold);
-			} else {
+			} else
+			{
 				this.channel.pipeline().addBefore("encoder", "compress",
 						new PacketCompressor(compressor, compressionThreshold)); // Paper
 			}
-		} else {
-			if (this.channel.pipeline().get("decompress") instanceof PacketDecompressor) {
+		} else
+		{
+			if (this.channel.pipeline().get("decompress") instanceof PacketDecompressor)
+			{
 				this.channel.pipeline().remove("decompress");
 			}
 
-			if (this.channel.pipeline().get("compress") instanceof PacketCompressor) {
+			if (this.channel.pipeline().get("compress") instanceof PacketCompressor)
+			{
 				this.channel.pipeline().remove("compress");
 			}
 		}
 	}
 
-	public void handleDisconnection() {
-		if (this.channel != null && !this.channel.isOpen()) {
-			if (!this.isDisconnectionHandled()) {
+	public void handleDisconnection()
+	{
+		if (this.channel != null && !this.channel.isOpen())
+		{
+			if (!this.isDisconnectionHandled())
+			{
 				this.setDisconnectionHandled(true);
-				if (this.j() != null) {
+				if (this.j() != null)
+				{
 					this.getPacketListener().a(this.j());
-				} else if (this.getPacketListener() != null) {
+				} else if (this.getPacketListener() != null)
+				{
 					this.getPacketListener().a(new ChatComponentText("Disconnected"));
 				}
 				this.i.clear(); // Free up packet queue.
-			} else {
+			} else
+			{
 				NetworkManager.LOGGER.warn("handleDisconnection() called twice");
 			}
 
 		}
 	}
 
-	public void l() {
+	public void l()
+	{
 		this.handleDisconnection();
 	}
 
 	@Override
-	protected void channelRead0(ChannelHandlerContext channelhandlercontext, Packet object) throws Exception { // CraftBukkit
-																												// - fix
-																												// decompile
-																												// error
+	protected void channelRead0(ChannelHandlerContext channelhandlercontext, Packet object) throws Exception
+	{ // CraftBukkit
+		// - fix
+		// decompile
+		// error
 		// this.a(channelhandlercontext, object);
 		// FlamePaper - Check if channel is opened before reading packet
-		if (g()) {
+		if (g())
+		{
 			this.a(channelhandlercontext, object);
 		}
 	}
 
-	static class QueuedPacket {
+	static class QueuedPacket
+	{
 		private final Packet a; // packet
 		private final GenericFutureListener<? extends Future<? super Void>>[] b; // listener
 
 		@SafeVarargs
-		public QueuedPacket(Packet packet, GenericFutureListener<? extends Future<? super Void>>... listeners) {
+		public QueuedPacket(Packet packet, GenericFutureListener<? extends Future<? super Void>>... listeners)
+		{
 			this.a = packet;
 			this.b = listeners;
 		}
 	}
 
 	// Spigot Start
-	public SocketAddress getRawAddress() {
+	public SocketAddress getRawAddress()
+	{
 		return this.channel.remoteAddress();
 	}
 	// Spigot End

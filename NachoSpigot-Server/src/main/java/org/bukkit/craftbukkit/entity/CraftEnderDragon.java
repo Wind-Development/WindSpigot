@@ -13,16 +13,20 @@ import com.google.common.collect.ImmutableSet.Builder;
 import net.minecraft.server.EntityComplexPart;
 import net.minecraft.server.EntityEnderDragon;
 
-public class CraftEnderDragon extends CraftComplexLivingEntity implements EnderDragon {
-	public CraftEnderDragon(CraftServer server, EntityEnderDragon entity) {
+public class CraftEnderDragon extends CraftComplexLivingEntity implements EnderDragon
+{
+	public CraftEnderDragon(CraftServer server, EntityEnderDragon entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public Set<ComplexEntityPart> getParts() {
+	public Set<ComplexEntityPart> getParts()
+	{
 		Builder<ComplexEntityPart> builder = ImmutableSet.builder();
 
-		for (EntityComplexPart part : getHandle().children) {
+		for (EntityComplexPart part : getHandle().children)
+		{
 			builder.add((ComplexEntityPart) part.getBukkitEntity());
 		}
 
@@ -30,17 +34,20 @@ public class CraftEnderDragon extends CraftComplexLivingEntity implements EnderD
 	}
 
 	@Override
-	public EntityEnderDragon getHandle() {
+	public EntityEnderDragon getHandle()
+	{
 		return (EntityEnderDragon) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftEnderDragon";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.ENDER_DRAGON;
 	}
 }

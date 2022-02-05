@@ -13,7 +13,8 @@ import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import com.eatthepath.uuid.FastUUID;
 import com.google.common.collect.Maps;
 
-public class MobEffectList {
+public class MobEffectList
+{
 
 	public static final MobEffectList[] byId = new MobEffectList[32];
 	private static final Map<MinecraftKey, MobEffectList> I = Maps.newHashMap();
@@ -86,14 +87,17 @@ public class MobEffectList {
 	private double O;
 	private boolean P;
 
-	protected MobEffectList(int i, MinecraftKey minecraftkey, boolean flag, int j) {
+	protected MobEffectList(int i, MinecraftKey minecraftkey, boolean flag, int j)
+	{
 		this.id = i;
 		MobEffectList.byId[i] = this;
 		MobEffectList.I.put(minecraftkey, this);
 		this.K = flag;
-		if (flag) {
+		if (flag)
+		{
 			this.O = 0.5D;
-		} else {
+		} else
+		{
 			this.O = 1.0D;
 		}
 
@@ -102,39 +106,52 @@ public class MobEffectList {
 				.registerPotionEffectType(new org.bukkit.craftbukkit.potion.CraftPotionEffectType(this)); // CraftBukkit
 	}
 
-	public static MobEffectList b(String s) {
+	public static MobEffectList b(String s)
+	{
 		return MobEffectList.I.get(new MinecraftKey(s));
 	}
 
-	public static Set<MinecraftKey> c() {
+	public static Set<MinecraftKey> c()
+	{
 		return MobEffectList.I.keySet();
 	}
 
-	protected MobEffectList b(int i, int j) {
+	protected MobEffectList b(int i, int j)
+	{
 		this.N = i + j * 8;
 		return this;
 	}
 
-	public int getId() {
+	public int getId()
+	{
 		return this.id;
 	}
 
-	public void tick(EntityLiving entityliving, int i) {
-		if (this.id == MobEffectList.REGENERATION.id) {
-			if (entityliving.getHealth() < entityliving.getMaxHealth()) {
+	public void tick(EntityLiving entityliving, int i)
+	{
+		if (this.id == MobEffectList.REGENERATION.id)
+		{
+			if (entityliving.getHealth() < entityliving.getMaxHealth())
+			{
 				entityliving.heal(1.0F, RegainReason.MAGIC_REGEN); // CraftBukkit
 			}
-		} else if (this.id == MobEffectList.POISON.id) {
-			if (entityliving.getHealth() > 1.0F) {
+		} else if (this.id == MobEffectList.POISON.id)
+		{
+			if (entityliving.getHealth() > 1.0F)
+			{
 				entityliving.damageEntity(CraftEventFactory.POISON, 1.0F); // CraftBukkit - DamageSource.MAGIC ->
 																			// CraftEventFactory.POISON
 			}
-		} else if (this.id == MobEffectList.WITHER.id) {
+		} else if (this.id == MobEffectList.WITHER.id)
+		{
 			entityliving.damageEntity(DamageSource.WITHER, 1.0F);
-		} else if (this.id == MobEffectList.HUNGER.id && entityliving instanceof EntityHuman) {
+		} else if (this.id == MobEffectList.HUNGER.id && entityliving instanceof EntityHuman)
+		{
 			((EntityHuman) entityliving).applyExhaustion(0.025F * (i + 1));
-		} else if (this.id == MobEffectList.SATURATION.id && entityliving instanceof EntityHuman) {
-			if (!entityliving.world.isClientSide) {
+		} else if (this.id == MobEffectList.SATURATION.id && entityliving instanceof EntityHuman)
+		{
+			if (!entityliving.world.isClientSide)
+			{
 				// CraftBukkit start
 				EntityHuman entityhuman = (EntityHuman) entityliving;
 				int oldFoodLevel = entityhuman.getFoodData().foodLevel;
@@ -142,7 +159,8 @@ public class MobEffectList {
 				org.bukkit.event.entity.FoodLevelChangeEvent event = CraftEventFactory
 						.callFoodLevelChangeEvent(entityhuman, i + 1 + oldFoodLevel);
 
-				if (!event.isCancelled()) {
+				if (!event.isCancelled())
+				{
 					entityhuman.getFoodData().eat(event.getFoodLevel() - oldFoodLevel, 1.0F);
 				}
 
@@ -152,114 +170,142 @@ public class MobEffectList {
 				// CraftBukkit end
 			}
 		} else if ((this.id != MobEffectList.HEAL.id || entityliving.bm())
-				&& (this.id != MobEffectList.HARM.id || !entityliving.bm())) {
+				&& (this.id != MobEffectList.HARM.id || !entityliving.bm()))
+		{
 			if (this.id == MobEffectList.HARM.id && !entityliving.bm()
-					|| this.id == MobEffectList.HEAL.id && entityliving.bm()) {
+					|| this.id == MobEffectList.HEAL.id && entityliving.bm())
+			{
 				entityliving.damageEntity(DamageSource.MAGIC, 6 << i);
 			}
-		} else {
+		} else
+		{
 			entityliving.heal(Math.max(4 << i, 0), RegainReason.MAGIC); // CraftBukkit
 		}
 
 	}
 
-	public void applyInstantEffect(Entity entity, Entity entity1, EntityLiving entityliving, int i, double d0) {
+	public void applyInstantEffect(Entity entity, Entity entity1, EntityLiving entityliving, int i, double d0)
+	{
 		int j;
 
 		if ((this.id != MobEffectList.HEAL.id || entityliving.bm())
-				&& (this.id != MobEffectList.HARM.id || !entityliving.bm())) {
+				&& (this.id != MobEffectList.HARM.id || !entityliving.bm()))
+		{
 			if (this.id == MobEffectList.HARM.id && !entityliving.bm()
-					|| this.id == MobEffectList.HEAL.id && entityliving.bm()) {
+					|| this.id == MobEffectList.HEAL.id && entityliving.bm())
+			{
 				j = (int) (d0 * (6 << i) + 0.5D);
-				if (entity == null) {
+				if (entity == null)
+				{
 					entityliving.damageEntity(DamageSource.MAGIC, j);
-				} else {
+				} else
+				{
 					entityliving.damageEntity(DamageSource.b(entity, entity1), j);
 				}
 			}
-		} else {
+		} else
+		{
 			j = (int) (d0 * (4 << i) + 0.5D);
 			entityliving.heal(j, RegainReason.MAGIC); // CraftBukkit
 		}
 
 	}
 
-	public boolean isInstant() {
+	public boolean isInstant()
+	{
 		return false;
 	}
 
-	public boolean a(int i, int j) {
+	public boolean a(int i, int j)
+	{
 		int k;
 
-		if (this.id == MobEffectList.REGENERATION.id) {
+		if (this.id == MobEffectList.REGENERATION.id)
+		{
 			k = 50 >> j;
 			return k > 0 ? i % k == 0 : true;
-		} else if (this.id == MobEffectList.POISON.id) {
+		} else if (this.id == MobEffectList.POISON.id)
+		{
 			k = 25 >> j;
 			return k > 0 ? i % k == 0 : true;
-		} else if (this.id == MobEffectList.WITHER.id) {
+		} else if (this.id == MobEffectList.WITHER.id)
+		{
 			k = 40 >> j;
 			return k > 0 ? i % k == 0 : true;
-		} else {
+		} else
+		{
 			return this.id == MobEffectList.HUNGER.id;
 		}
 	}
 
-	public MobEffectList c(String s) {
+	public MobEffectList c(String s)
+	{
 		this.M = s;
 		return this;
 	}
 
-	public String a() {
+	public String a()
+	{
 		return this.M;
 	}
 
-	protected MobEffectList a(double d0) {
+	protected MobEffectList a(double d0)
+	{
 		this.O = d0;
 		return this;
 	}
 
-	public double getDurationModifier() {
+	public double getDurationModifier()
+	{
 		return this.O;
 	}
 
-	public boolean j() {
+	public boolean j()
+	{
 		return this.P;
 	}
 
-	public int k() {
+	public int k()
+	{
 		return this.L;
 	}
 
-	public MobEffectList a(IAttribute iattribute, String s, double d0, int i) {
+	public MobEffectList a(IAttribute iattribute, String s, double d0, int i)
+	{
 		AttributeModifier attributemodifier = new AttributeModifier(FastUUID.parseUUID(s), this.a(), d0, i);
 
 		this.J.put(iattribute, attributemodifier);
 		return this;
 	}
 
-	public void a(EntityLiving entityliving, AttributeMapBase attributemapbase, int i) {
+	public void a(EntityLiving entityliving, AttributeMapBase attributemapbase, int i)
+	{
 		Iterator iterator = this.J.entrySet().iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			Entry entry = (Entry) iterator.next();
 			AttributeInstance attributeinstance = attributemapbase.a((IAttribute) entry.getKey());
 
-			if (attributeinstance != null) {
+			if (attributeinstance != null)
+			{
 				attributeinstance.c((AttributeModifier) entry.getValue());
 			}
 		}
 
 	}
 
-	public void b(EntityLiving entityliving, AttributeMapBase attributemapbase, int i) {
+	public void b(EntityLiving entityliving, AttributeMapBase attributemapbase, int i)
+	{
 		Iterator iterator = this.J.entrySet().iterator();
 
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			Entry entry = (Entry) iterator.next();
 			AttributeInstance attributeinstance = attributemapbase.a((IAttribute) entry.getKey());
 
-			if (attributeinstance != null) {
+			if (attributeinstance != null)
+			{
 				AttributeModifier attributemodifier = (AttributeModifier) entry.getValue();
 
 				attributeinstance.c(attributemodifier);
@@ -270,7 +316,8 @@ public class MobEffectList {
 
 	}
 
-	public double a(int i, AttributeModifier attributemodifier) {
+	public double a(int i, AttributeModifier attributemodifier)
+	{
 		return attributemodifier.d() * (i + 1);
 	}
 }

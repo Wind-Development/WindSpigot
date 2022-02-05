@@ -34,7 +34,8 @@ import net.minecraft.server.AttributeRanged;
 import net.minecraft.server.GenericAttributes;
 import net.minecraft.server.MinecraftServer;
 
-public class SpigotConfig {
+public class SpigotConfig
+{
 
 	private static File CONFIG_FILE;
 	private static final String HEADER = "This is the main configuration file for Spigot.\n"
@@ -53,14 +54,18 @@ public class SpigotConfig {
 	/* ======================================================================== */
 	private static Metrics metrics;
 
-	public static void init(File configFile) {
+	public static void init(File configFile)
+	{
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
-		try {
+		try
+		{
 			config.load(CONFIG_FILE);
-		} catch (IOException ignored) {
+		} catch (IOException ignored)
+		{
 			// ignored..
-		} catch (InvalidConfigurationException ex) {
+		} catch (InvalidConfigurationException ex)
+		{
 			Bukkit.getLogger().log(Level.SEVERE, "Could not load spigot.yml, please correct your syntax errors", ex);
 			throw Throwables.propagate(ex);
 		}
@@ -75,87 +80,112 @@ public class SpigotConfig {
 		readConfig(SpigotConfig.class, null);
 	}
 
-	public static void registerCommands() {
-		for (Map.Entry<String, Command> entry : commands.entrySet()) {
+	public static void registerCommands()
+	{
+		for (Map.Entry<String, Command> entry : commands.entrySet())
+		{
 			MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "Spigot", entry.getValue());
 		}
 
-		if (metrics == null) {
-			try {
+		if (metrics == null)
+		{
+			try
+			{
 				metrics = new Metrics();
 				metrics.start();
-			} catch (IOException ex) {
+			} catch (IOException ex)
+			{
 				Bukkit.getServer().getLogger().log(Level.SEVERE, "Could not start metrics service", ex);
 			}
 		}
 	}
 
-	static void readConfig(Class<?> clazz, Object instance) {
-		for (Method method : clazz.getDeclaredMethods()) {
-			if (Modifier.isPrivate(method.getModifiers())) {
-				if (method.getParameterTypes().length == 0 && method.getReturnType() == Void.TYPE) {
-					try {
+	static void readConfig(Class<?> clazz, Object instance)
+	{
+		for (Method method : clazz.getDeclaredMethods())
+		{
+			if (Modifier.isPrivate(method.getModifiers()))
+			{
+				if (method.getParameterTypes().length == 0 && method.getReturnType() == Void.TYPE)
+				{
+					try
+					{
 						method.setAccessible(true);
 						method.invoke(instance);
-					} catch (InvocationTargetException ex) {
+					} catch (InvocationTargetException ex)
+					{
 						throw Throwables.propagate(ex.getCause());
-					} catch (Exception ex) {
+					} catch (Exception ex)
+					{
 						Bukkit.getLogger().log(Level.SEVERE, "Error invoking " + method, ex);
 					}
 				}
 			}
 		}
 
-		try {
+		try
+		{
 			config.save(CONFIG_FILE);
-		} catch (IOException ex) {
+		} catch (IOException ex)
+		{
 			Bukkit.getLogger().log(Level.SEVERE, "Could not save " + CONFIG_FILE, ex);
 		}
 	}
 
-	private static void set(String path, Object val) {
+	private static void set(String path, Object val)
+	{
 		config.set(path, val);
 	}
 
-	private static boolean getBoolean(String path, boolean def) {
+	private static boolean getBoolean(String path, boolean def)
+	{
 		config.addDefault(path, def);
 		return config.getBoolean(path, config.getBoolean(path));
 	}
 
-	private static int getInt(String path, int def) {
+	private static int getInt(String path, int def)
+	{
 		config.addDefault(path, def);
 		return config.getInt(path, config.getInt(path));
 	}
 
-	private static <T> List getList(String path, T def) {
+	private static <T> List getList(String path, T def)
+	{
 		config.addDefault(path, def);
 		return config.getList(path, config.getList(path));
 	}
 
-	private static String getString(String path, String def) {
+	private static String getString(String path, String def)
+	{
 		config.addDefault(path, def);
 		return config.getString(path, config.getString(path));
 	}
 
-	private static double getDouble(String path, double def) {
+	private static double getDouble(String path, double def)
+	{
 		config.addDefault(path, def);
 		return config.getDouble(path, config.getDouble(path));
 	}
 
 	public static boolean logCommands;
 
-	private static void logCommands() {
+	private static void logCommands()
+	{
 		logCommands = getBoolean("commands.log", true);
 	}
 
 	public static int tabComplete;
 
-	private static void tabComplete() {
-		if (version < 6) {
+	private static void tabComplete()
+	{
+		if (version < 6)
+		{
 			boolean oldValue = getBoolean("commands.tab-complete", true);
-			if (oldValue) {
+			if (oldValue)
+			{
 				set("commands.tab-complete", 0);
-			} else {
+			} else
+			{
 				set("commands.tab-complete", -1);
 			}
 		}
@@ -168,12 +198,15 @@ public class SpigotConfig {
 	public static String outdatedClientMessage = "Outdated client! Please use {0}";
 	public static String outdatedServerMessage = "Outdated server! I\'m still on {0}";
 
-	private static String transform(String s) {
+	private static String transform(String s)
+	{
 		return ChatColor.translateAlternateColorCodes('&', s).replaceAll("\\n", "\n");
 	}
 
-	private static void messages() {
-		if (version < 8) {
+	private static void messages()
+	{
+		if (version < 8)
+		{
 			set("messages.outdated-client", outdatedClientMessage);
 			set("messages.outdated-server", outdatedServerMessage);
 		}
@@ -191,7 +224,8 @@ public class SpigotConfig {
 	public static String restartScript = "./start.sh";
 	public static String restartMessage;
 
-	private static void watchdog() {
+	private static void watchdog()
+	{
 		timeoutTime = getInt("settings.timeout-time", timeoutTime);
 		restartOnCrash = getBoolean("settings.restart-on-crash", restartOnCrash);
 		restartScript = getString("settings.restart-script", restartScript);
@@ -202,15 +236,18 @@ public class SpigotConfig {
 
 	public static boolean bungee;
 
-	private static void bungee() {
-		if (version < 4) {
+	private static void bungee()
+	{
+		if (version < 4)
+		{
 			set("settings.bungeecord", false);
 			System.out.println("Oudated config, disabling BungeeCord support!");
 		}
 		bungee = getBoolean("settings.bungeecord", false);
 	}
 
-	private static void timings() {
+	private static void timings()
+	{
 		boolean timings = getBoolean("timings.enabled", false); // WindSpigot - disable timings by default
 		boolean verboseTimings = getBoolean("timings.verbose", true);
 		TimingsManager.privacy = getBoolean("timings.server-name-privacy", false);
@@ -230,20 +267,24 @@ public class SpigotConfig {
 						+ timeSummary(Timings.getHistoryLength() / 20));
 	}
 
-	protected static String timeSummary(int seconds) {
+	protected static String timeSummary(int seconds)
+	{
 		String time = "";
-		if (seconds > 60 * 60) {
+		if (seconds > 60 * 60)
+		{
 			time += TimeUnit.SECONDS.toHours(seconds) + "h";
 			seconds /= 60;
 		}
 
-		if (seconds > 0) {
+		if (seconds > 0)
+		{
 			time += TimeUnit.SECONDS.toMinutes(seconds) + "m";
 		}
 		return time;
 	}
 
-	private static void nettyThreads() {
+	private static void nettyThreads()
+	{
 		int count = getInt("settings.netty-threads", 4);
 		System.setProperty("io.netty.eventLoopThreads", Integer.toString(count));
 		Bukkit.getLogger().log(Level.INFO, "Using {0} threads for Netty based IO", count);
@@ -251,28 +292,34 @@ public class SpigotConfig {
 
 	public static boolean lateBind;
 
-	private static void lateBind() {
+	private static void lateBind()
+	{
 		lateBind = getBoolean("settings.late-bind", false);
 	}
 
 	public static boolean disableStatSaving;
 	public static TObjectIntHashMap<String> forcedStats = new TObjectIntHashMap<String>();
 
-	private static void stats() {
+	private static void stats()
+	{
 		disableStatSaving = getBoolean("stats.disable-saving", false);
 
-		if (!config.contains("stats.forced-stats")) {
+		if (!config.contains("stats.forced-stats"))
+		{
 			config.createSection("stats.forced-stats");
 		}
 
 		ConfigurationSection section = config.getConfigurationSection("stats.forced-stats");
-		for (String name : section.getKeys(true)) {
-			if (section.isInt(name)) {
+		for (String name : section.getKeys(true))
+		{
+			if (section.isInt(name))
+			{
 				forcedStats.put(name, section.getInt(name));
 			}
 		}
 
-		if (disableStatSaving && section.getInt("achievement.openInventory", 0) < 1) {
+		if (disableStatSaving && section.getInt("achievement.openInventory", 0) < 1)
+		{
 			Bukkit.getLogger().warning(
 					"*** WARNING *** stats.disable-saving is true but stats.forced-stats.achievement.openInventory"
 							+ " isn't set to 1. Disabling stat saving without forcing the achievement may cause it to get stuck on the player's "
@@ -280,79 +327,93 @@ public class SpigotConfig {
 		}
 	}
 
-	private static void tpsCommand() {
+	private static void tpsCommand()
+	{
 		commands.put("tps", new TicksPerSecondCommand("tps"));
 	}
 
 	public static int playerSample;
 
-	private static void playerSample() {
+	private static void playerSample()
+	{
 		playerSample = getInt("settings.sample-count", 12);
 		System.out.println("Server Ping Player Sample Count: " + playerSample);
 	}
 
 	public static int playerShuffle;
 
-	private static void playerShuffle() {
+	private static void playerShuffle()
+	{
 		playerShuffle = getInt("settings.player-shuffle", 0);
 	}
 
 	public static List<String> spamExclusions;
 
-	private static void spamExclusions() {
-		spamExclusions = getList("commands.spam-exclusions", Arrays.asList(new String[] { "/skill" }));
+	private static void spamExclusions()
+	{
+		spamExclusions = getList("commands.spam-exclusions", Arrays.asList(new String[]
+		{ "/skill" }));
 	}
 
 	public static boolean silentCommandBlocks;
 
-	private static void silentCommandBlocks() {
+	private static void silentCommandBlocks()
+	{
 		silentCommandBlocks = getBoolean("commands.silent-commandblock-console", false);
 	}
 
 	public static boolean filterCreativeItems;
 
-	private static void filterCreativeItems() {
+	private static void filterCreativeItems()
+	{
 		filterCreativeItems = getBoolean("settings.filter-creative-items", true);
 	}
 
 	public static Set<String> replaceCommands;
 
-	private static void replaceCommands() {
-		if (config.contains("replace-commands")) {
+	private static void replaceCommands()
+	{
+		if (config.contains("replace-commands"))
+		{
 			set("commands.replace-commands", config.getStringList("replace-commands"));
 			config.set("replace-commands", null);
 		}
-		replaceCommands = new HashSet<String>(getList("commands.replace-commands",
-				Arrays.asList("setblock", "summon", "testforblock", "tellraw")));
+		replaceCommands = new HashSet<String>(
+				getList("commands.replace-commands", Arrays.asList("setblock", "summon", "testforblock", "tellraw")));
 	}
 
 	public static int userCacheCap;
 
-	private static void userCacheCap() {
+	private static void userCacheCap()
+	{
 		userCacheCap = getInt("settings.user-cache-size", 1000);
 	}
 
 	public static boolean saveUserCacheOnStopOnly;
 
-	private static void saveUserCacheOnStopOnly() {
+	private static void saveUserCacheOnStopOnly()
+	{
 		saveUserCacheOnStopOnly = getBoolean("settings.save-user-cache-on-stop-only", false);
 	}
 
 	public static int intCacheLimit;
 
-	private static void intCacheLimit() {
+	private static void intCacheLimit()
+	{
 		intCacheLimit = getInt("settings.int-cache-limit", 1024);
 	}
 
 	public static double movedWronglyThreshold;
 
-	private static void movedWronglyThreshold() {
+	private static void movedWronglyThreshold()
+	{
 		movedWronglyThreshold = getDouble("settings.moved-wrongly-threshold", 0.0625D);
 	}
 
 	public static double movedTooQuicklyThreshold;
 
-	private static void movedTooQuicklyThreshold() {
+	private static void movedTooQuicklyThreshold()
+	{
 		movedTooQuicklyThreshold = getDouble("settings.moved-too-quickly-threshold", 100.0D);
 	}
 
@@ -360,7 +421,8 @@ public class SpigotConfig {
 	public static double movementSpeed = 2048;
 	public static double attackDamage = 2048;
 
-	private static void attributeMaxes() {
+	private static void attributeMaxes()
+	{
 		maxHealth = getDouble("settings.attribute.maxHealth.max", maxHealth);
 		((AttributeRanged) GenericAttributes.maxHealth).b = maxHealth;
 		movementSpeed = getDouble("settings.attribute.movementSpeed.max", movementSpeed);
@@ -371,10 +433,12 @@ public class SpigotConfig {
 
 	public static boolean debug;
 
-	private static void debug() {
+	private static void debug()
+	{
 		debug = getBoolean("settings.debug", false);
 
-		if (debug && !LogManager.getRootLogger().isTraceEnabled()) {
+		if (debug && !LogManager.getRootLogger().isTraceEnabled())
+		{
 			// Enable debug logging
 			LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
 			Configuration conf = ctx.getConfiguration();
@@ -382,9 +446,11 @@ public class SpigotConfig {
 			ctx.updateLoggers(conf);
 		}
 
-		if (LogManager.getRootLogger().isTraceEnabled()) {
+		if (LogManager.getRootLogger().isTraceEnabled())
+		{
 			Bukkit.getLogger().info("Debug logging is enabled");
-		} else {
+		} else
+		{
 			Bukkit.getLogger().info("Debug logging is disabled");
 		}
 	}

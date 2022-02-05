@@ -13,17 +13,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 
-public class ContainerEnchantTable extends Container {
+public class ContainerEnchantTable extends Container
+{
 
 	// CraftBukkit - make type specific (changed from IInventory)
-	public InventorySubcontainer enchantSlots = new InventorySubcontainer("Enchant", true, 2) {
+	public InventorySubcontainer enchantSlots = new InventorySubcontainer("Enchant", true, 2)
+	{
 		@Override
-		public int getMaxStackSize() {
+		public int getMaxStackSize()
+		{
 			return 64;
 		}
 
 		@Override
-		public void update() {
+		public void update()
+		{
 			super.update();
 			ContainerEnchantTable.this.a(this);
 		}
@@ -33,30 +37,37 @@ public class ContainerEnchantTable extends Container {
 	private Random k = new Random();
 	public int f;
 	public int[] costs = new int[3];
-	public int[] h = new int[] { -1, -1, -1 };
+	public int[] h = new int[]
+	{ -1, -1, -1 };
 	// CraftBukkit start
 	private CraftInventoryView bukkitEntity = null;
 	private Player player;
 	// CraftBukkit end
 
-	public ContainerEnchantTable(PlayerInventory playerinventory, World world, BlockPosition blockposition) {
+	public ContainerEnchantTable(PlayerInventory playerinventory, World world, BlockPosition blockposition)
+	{
 		this.world = world;
 		this.position = blockposition;
 		this.f = playerinventory.player.cj();
-		this.a(new Slot(this.enchantSlots, 0, 15, 47) {
+		this.a(new Slot(this.enchantSlots, 0, 15, 47)
+		{
 			@Override
-			public boolean isAllowed(ItemStack itemstack) {
+			public boolean isAllowed(ItemStack itemstack)
+			{
 				return true;
 			}
 
 			@Override
-			public int getMaxStackSize() {
+			public int getMaxStackSize()
+			{
 				return 1;
 			}
 		});
-		this.a(new Slot(this.enchantSlots, 1, 35, 47) {
+		this.a(new Slot(this.enchantSlots, 1, 35, 47)
+		{
 			@Override
-			public boolean isAllowed(ItemStack itemstack) {
+			public boolean isAllowed(ItemStack itemstack)
+			{
 				return itemstack.getItem() == Items.DYE
 						&& EnumColor.fromInvColorIndex(itemstack.getData()) == EnumColor.BLUE;
 			}
@@ -64,13 +75,16 @@ public class ContainerEnchantTable extends Container {
 
 		int i;
 
-		for (i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
+		for (i = 0; i < 3; ++i)
+		{
+			for (int j = 0; j < 9; ++j)
+			{
 				this.a(new Slot(playerinventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
-		for (i = 0; i < 9; ++i) {
+		for (i = 0; i < 9; ++i)
+		{
 			this.a(new Slot(playerinventory, i, 8 + i * 18, 142));
 		}
 
@@ -80,7 +94,8 @@ public class ContainerEnchantTable extends Container {
 	}
 
 	@Override
-	public void addSlotListener(ICrafting icrafting) {
+	public void addSlotListener(ICrafting icrafting)
+	{
 		super.addSlotListener(icrafting);
 		icrafting.setContainerData(this, 0, this.costs[0]);
 		icrafting.setContainerData(this, 1, this.costs[1]);
@@ -92,10 +107,12 @@ public class ContainerEnchantTable extends Container {
 	}
 
 	@Override
-	public void b() {
+	public void b()
+	{
 		super.b();
 
-		for (int i = 0; i < this.listeners.size(); ++i) {
+		for (int i = 0; i < this.listeners.size(); ++i)
+		{
 			ICrafting icrafting = this.listeners.get(i);
 
 			icrafting.setContainerData(this, 0, this.costs[0]);
@@ -110,49 +127,57 @@ public class ContainerEnchantTable extends Container {
 	}
 
 	@Override
-	public void a(IInventory iinventory) {
-		if (iinventory == this.enchantSlots) {
+	public void a(IInventory iinventory)
+	{
+		if (iinventory == this.enchantSlots)
+		{
 			ItemStack itemstack = iinventory.getItem(0);
 			int i;
 
-			if (itemstack != null) { // CraftBukkit - relax condition
-				if (!this.world.isClientSide) {
+			if (itemstack != null)
+			{ // CraftBukkit - relax condition
+				if (!this.world.isClientSide)
+				{
 					i = 0;
 
 					int j;
 
-					for (j = -1; j <= 1; ++j) {
-						for (int k = -1; k <= 1; ++k) {
+					for (j = -1; j <= 1; ++j)
+					{
+						for (int k = -1; k <= 1; ++k)
+						{
 							if ((j != 0 || k != 0) && this.world.isEmpty(this.position.a(k, 0, j))
-									&& this.world.isEmpty(this.position.a(k, 1, j))) {
-								if (this.world.getType(this.position.a(k * 2, 0, j * 2))
-										.getBlock() == Blocks.BOOKSHELF) {
+									&& this.world.isEmpty(this.position.a(k, 1, j)))
+							{
+								if (this.world.getType(this.position.a(k * 2, 0, j * 2)).getBlock() == Blocks.BOOKSHELF)
+								{
 									++i;
 								}
 
-								if (this.world.getType(this.position.a(k * 2, 1, j * 2))
-										.getBlock() == Blocks.BOOKSHELF) {
+								if (this.world.getType(this.position.a(k * 2, 1, j * 2)).getBlock() == Blocks.BOOKSHELF)
+								{
 									++i;
 								}
 
-								if (k != 0 && j != 0) {
-									if (this.world.getType(this.position.a(k * 2, 0, j))
-											.getBlock() == Blocks.BOOKSHELF) {
+								if (k != 0 && j != 0)
+								{
+									if (this.world.getType(this.position.a(k * 2, 0, j)).getBlock() == Blocks.BOOKSHELF)
+									{
 										++i;
 									}
 
-									if (this.world.getType(this.position.a(k * 2, 1, j))
-											.getBlock() == Blocks.BOOKSHELF) {
+									if (this.world.getType(this.position.a(k * 2, 1, j)).getBlock() == Blocks.BOOKSHELF)
+									{
 										++i;
 									}
 
-									if (this.world.getType(this.position.a(k, 0, j * 2))
-											.getBlock() == Blocks.BOOKSHELF) {
+									if (this.world.getType(this.position.a(k, 0, j * 2)).getBlock() == Blocks.BOOKSHELF)
+									{
 										++i;
 									}
 
-									if (this.world.getType(this.position.a(k, 1, j * 2))
-											.getBlock() == Blocks.BOOKSHELF) {
+									if (this.world.getType(this.position.a(k, 1, j * 2)).getBlock() == Blocks.BOOKSHELF)
+									{
 										++i;
 									}
 								}
@@ -162,10 +187,12 @@ public class ContainerEnchantTable extends Container {
 
 					this.k.setSeed(this.f);
 
-					for (j = 0; j < 3; ++j) {
+					for (j = 0; j < 3; ++j)
+					{
 						this.costs[j] = EnchantmentManager.a(this.k, j, i, itemstack);
 						this.h[j] = -1;
-						if (this.costs[j] < j + 1) {
+						if (this.costs[j] < j + 1)
+						{
 							this.costs[j] = 0;
 						}
 					}
@@ -178,19 +205,24 @@ public class ContainerEnchantTable extends Container {
 					event.setCancelled(!itemstack.v());
 					this.world.getServer().getPluginManager().callEvent(event);
 
-					if (event.isCancelled()) {
-						for (i = 0; i < 3; ++i) {
+					if (event.isCancelled())
+					{
+						for (i = 0; i < 3; ++i)
+						{
 							this.costs[i] = 0;
 						}
 						return;
 					}
 					// CraftBukkit end
 
-					for (j = 0; j < 3; ++j) {
-						if (this.costs[j] > 0) {
+					for (j = 0; j < 3; ++j)
+					{
+						if (this.costs[j] > 0)
+						{
 							List list = this.a(itemstack, j, this.costs[j]);
 
-							if (list != null && !list.isEmpty()) {
+							if (list != null && !list.isEmpty())
+							{
 								WeightedRandomEnchant weightedrandomenchant = (WeightedRandomEnchant) list
 										.get(this.k.nextInt(list.size()));
 
@@ -201,8 +233,10 @@ public class ContainerEnchantTable extends Container {
 
 					this.b();
 				}
-			} else {
-				for (i = 0; i < 3; ++i) {
+			} else
+			{
+				for (i = 0; i < 3; ++i)
+				{
 					this.costs[i] = 0;
 					this.h[i] = -1;
 				}
@@ -212,29 +246,36 @@ public class ContainerEnchantTable extends Container {
 	}
 
 	@Override
-	public boolean a(EntityHuman entityhuman, int i) {
+	public boolean a(EntityHuman entityhuman, int i)
+	{
 		ItemStack itemstack = this.enchantSlots.getItem(0);
 		ItemStack itemstack1 = this.enchantSlots.getItem(1);
 		int j = i + 1;
 
-		if ((itemstack1 == null || itemstack1.count < j) && !entityhuman.abilities.canInstantlyBuild) {
+		if ((itemstack1 == null || itemstack1.count < j) && !entityhuman.abilities.canInstantlyBuild)
+		{
 			return false;
 		} else if (this.costs[i] > 0 && itemstack != null
 				&& (entityhuman.expLevel >= j && entityhuman.expLevel >= this.costs[i]
-						|| entityhuman.abilities.canInstantlyBuild)) {
-			if (!this.world.isClientSide) {
+						|| entityhuman.abilities.canInstantlyBuild))
+		{
+			if (!this.world.isClientSide)
+			{
 				List list = this.a(itemstack, i, this.costs[i]);
 				// CraftBukkit start - Provide an empty enchantment list
-				if (list == null) {
+				if (list == null)
+				{
 					list = new java.util.ArrayList<WeightedRandomEnchant>();
 				}
 				// CraftBukkit end
 				boolean flag = itemstack.getItem() == Items.BOOK;
 
-				if (list != null) {
+				if (list != null)
+				{
 					// CraftBukkit start
 					Map<org.bukkit.enchantments.Enchantment, Integer> enchants = new java.util.HashMap<org.bukkit.enchantments.Enchantment, Integer>();
-					for (Object obj : list) {
+					for (Object obj : list)
+					{
 						WeightedRandomEnchant instance = (WeightedRandomEnchant) obj;
 						enchants.put(org.bukkit.enchantments.Enchantment.getById(instance.enchantment.id),
 								instance.level);
@@ -250,29 +291,37 @@ public class ContainerEnchantTable extends Container {
 					int level = event.getExpLevelCost();
 					if (event.isCancelled()
 							|| (level > entityhuman.expLevel && !entityhuman.abilities.canInstantlyBuild)
-							|| event.getEnchantsToAdd().isEmpty()) {
+							|| event.getEnchantsToAdd().isEmpty())
+					{
 						return false;
 					}
-					if (flag) {
+					if (flag)
+					{
 						itemstack.setItem(Items.ENCHANTED_BOOK);
 					}
 
 					for (Map.Entry<org.bukkit.enchantments.Enchantment, Integer> entry : event.getEnchantsToAdd()
-							.entrySet()) {
-						try {
-							if (flag) {
+							.entrySet())
+					{
+						try
+						{
+							if (flag)
+							{
 								int enchantId = entry.getKey().getId();
-								if (Enchantment.getById(enchantId) == null) {
+								if (Enchantment.getById(enchantId) == null)
+								{
 									continue;
 								}
 
 								WeightedRandomEnchant enchantment = new WeightedRandomEnchant(
 										Enchantment.getById(enchantId), entry.getValue());
 								Items.ENCHANTED_BOOK.a(itemstack, enchantment);
-							} else {
+							} else
+							{
 								item.addUnsafeEnchantment(entry.getKey(), entry.getValue());
 							}
-						} catch (IllegalArgumentException e) {
+						} catch (IllegalArgumentException e)
+						{
 							/* Just swallow invalid enchantments */
 						}
 					}
@@ -281,9 +330,11 @@ public class ContainerEnchantTable extends Container {
 					// CraftBukkit end
 
 					// CraftBukkit - TODO: let plugins change this
-					if (!entityhuman.abilities.canInstantlyBuild) {
+					if (!entityhuman.abilities.canInstantlyBuild)
+					{
 						itemstack1.count -= j;
-						if (itemstack1.count <= 0) {
+						if (itemstack1.count <= 0)
+						{
 							this.enchantSlots.setItem(1, (ItemStack) null);
 						}
 					}
@@ -296,16 +347,19 @@ public class ContainerEnchantTable extends Container {
 			}
 
 			return true;
-		} else {
+		} else
+		{
 			return false;
 		}
 	}
 
-	private List<WeightedRandomEnchant> a(ItemStack itemstack, int i, int j) {
+	private List<WeightedRandomEnchant> a(ItemStack itemstack, int i, int j)
+	{
 		this.k.setSeed(this.f + i);
 		List list = EnchantmentManager.b(this.k, itemstack, j);
 
-		if (itemstack.getItem() == Items.BOOK && list != null && list.size() > 1) {
+		if (itemstack.getItem() == Items.BOOK && list != null && list.size() > 1)
+		{
 			list.remove(this.k.nextInt(list.size()));
 		}
 
@@ -313,19 +367,24 @@ public class ContainerEnchantTable extends Container {
 	}
 
 	@Override
-	public void b(EntityHuman entityhuman) {
+	public void b(EntityHuman entityhuman)
+	{
 		super.b(entityhuman);
 		// CraftBukkit Start - If an enchantable was opened from a null location, set
 		// the world to the player's world, preventing a crash
-		if (this.world == null) {
+		if (this.world == null)
+		{
 			this.world = entityhuman.getWorld();
 		}
 		// CraftBukkit end
-		if (!this.world.isClientSide) {
-			for (int i = 0; i < this.enchantSlots.getSize(); ++i) {
+		if (!this.world.isClientSide)
+		{
+			for (int i = 0; i < this.enchantSlots.getSize(); ++i)
+			{
 				ItemStack itemstack = this.enchantSlots.splitWithoutUpdate(i);
 
-				if (itemstack != null) {
+				if (itemstack != null)
+				{
 					entityhuman.drop(itemstack, false);
 				}
 			}
@@ -334,7 +393,8 @@ public class ContainerEnchantTable extends Container {
 	}
 
 	@Override
-	public boolean a(EntityHuman entityhuman) {
+	public boolean a(EntityHuman entityhuman)
+	{
 		if (!this.checkReachable)
 			return true; // CraftBukkit
 		return this.world.getType(this.position).getBlock() != Blocks.ENCHANTING_TABLE ? false
@@ -343,36 +403,48 @@ public class ContainerEnchantTable extends Container {
 	}
 
 	@Override
-	public ItemStack b(EntityHuman entityhuman, int i) {
+	public ItemStack b(EntityHuman entityhuman, int i)
+	{
 		ItemStack itemstack = null;
 		Slot slot = this.c.get(i);
 
-		if (slot != null && slot.hasItem()) {
+		if (slot != null && slot.hasItem())
+		{
 			ItemStack itemstack1 = slot.getItem();
 
 			itemstack = itemstack1.cloneItemStack();
-			if (i == 0) {
-				if (!this.a(itemstack1, 2, 38, true)) {
+			if (i == 0)
+			{
+				if (!this.a(itemstack1, 2, 38, true))
+				{
 					return null;
 				}
-			} else if (i == 1) {
-				if (!this.a(itemstack1, 2, 38, true)) {
+			} else if (i == 1)
+			{
+				if (!this.a(itemstack1, 2, 38, true))
+				{
 					return null;
 				}
 			} else if (itemstack1.getItem() == Items.DYE
-					&& EnumColor.fromInvColorIndex(itemstack1.getData()) == EnumColor.BLUE) {
-				if (!this.a(itemstack1, 1, 2, true)) {
+					&& EnumColor.fromInvColorIndex(itemstack1.getData()) == EnumColor.BLUE)
+			{
+				if (!this.a(itemstack1, 1, 2, true))
+				{
 					return null;
 				}
-			} else {
-				if (this.c.get(0).hasItem() || !this.c.get(0).isAllowed(itemstack1)) {
+			} else
+			{
+				if (this.c.get(0).hasItem() || !this.c.get(0).isAllowed(itemstack1))
+				{
 					return null;
 				}
 
-				if (itemstack1.hasTag() && itemstack1.count == 1) {
+				if (itemstack1.hasTag() && itemstack1.count == 1)
+				{
 					this.c.get(0).set(itemstack1.cloneItemStack());
 					itemstack1.count = 0;
-				} else if (itemstack1.count >= 1) {
+				} else if (itemstack1.count >= 1)
+				{
 					// Spigot start
 					ItemStack clone = itemstack1.cloneItemStack();
 					clone.count = 1;
@@ -382,13 +454,16 @@ public class ContainerEnchantTable extends Container {
 				}
 			}
 
-			if (itemstack1.count == 0) {
+			if (itemstack1.count == 0)
+			{
 				slot.set((ItemStack) null);
-			} else {
+			} else
+			{
 				slot.f();
 			}
 
-			if (itemstack1.count == itemstack.count) {
+			if (itemstack1.count == itemstack.count)
+			{
 				return null;
 			}
 
@@ -400,8 +475,10 @@ public class ContainerEnchantTable extends Container {
 
 	// CraftBukkit start
 	@Override
-	public CraftInventoryView getBukkitView() {
-		if (bukkitEntity != null) {
+	public CraftInventoryView getBukkitView()
+	{
+		if (bukkitEntity != null)
+		{
 			return bukkitEntity;
 		}
 

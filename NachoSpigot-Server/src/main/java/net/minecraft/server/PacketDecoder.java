@@ -12,17 +12,20 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
-public class PacketDecoder extends ByteToMessageDecoder {
+public class PacketDecoder extends ByteToMessageDecoder
+{
 	private static final Logger a = LogManager.getLogger();
 	private static final Marker b;
 	private final EnumProtocolDirection c;
 
-	public PacketDecoder(EnumProtocolDirection var1) {
+	public PacketDecoder(EnumProtocolDirection var1)
+	{
 		this.c = var1;
 	}
 
 	@Override
-	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception
+	{
 		if (!in.isReadable())
 			return;
 
@@ -41,7 +44,8 @@ public class PacketDecoder extends ByteToMessageDecoder {
 		out.add(packet);
 	}
 
-	static {
+	static
+	{
 		b = MarkerManager.getMarker("PACKET_RECEIVED", NetworkManager.PACKET_MARKER);
 	}
 }

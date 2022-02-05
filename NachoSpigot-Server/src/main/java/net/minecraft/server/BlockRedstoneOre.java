@@ -9,13 +9,16 @@ import org.bukkit.event.entity.EntityInteractEvent;
 // CraftBukkit start
 import dev.cobblesword.nachospigot.commons.Constants;
 
-public class BlockRedstoneOre extends Block {
+public class BlockRedstoneOre extends Block
+{
 
 	private final boolean a;
 
-	public BlockRedstoneOre(boolean flag) {
+	public BlockRedstoneOre(boolean flag)
+	{
 		super(Material.STONE);
-		if (flag) {
+		if (flag)
+		{
 			this.a(true);
 		}
 
@@ -23,34 +26,41 @@ public class BlockRedstoneOre extends Block {
 	}
 
 	@Override
-	public int a(World world) {
+	public int a(World world)
+	{
 		return 30;
 	}
 
 	@Override
-	public void attack(World world, BlockPosition blockposition, EntityHuman entityhuman) {
+	public void attack(World world, BlockPosition blockposition, EntityHuman entityhuman)
+	{
 		this.e(world, blockposition, entityhuman); // CraftBukkit - add entityhuman
 		super.attack(world, blockposition, entityhuman);
 	}
 
 	@Override
-	public void a(World world, BlockPosition blockposition, Entity entity) {
+	public void a(World world, BlockPosition blockposition, Entity entity)
+	{
 		// CraftBukkit start
 		// this.e(world, blockposition);
 		// super.a(world, blockposition, entity);
-		if (entity instanceof EntityHuman) {
+		if (entity instanceof EntityHuman)
+		{
 			org.bukkit.event.player.PlayerInteractEvent event = org.bukkit.craftbukkit.event.CraftEventFactory
 					.callPlayerInteractEvent((EntityHuman) entity, org.bukkit.event.block.Action.PHYSICAL,
 							blockposition, null, null);
-			if (!event.isCancelled()) {
+			if (!event.isCancelled())
+			{
 				this.e(world, blockposition, entity); // add entity
 				super.a(world, blockposition, entity);
 			}
-		} else {
+		} else
+		{
 			EntityInteractEvent event = new EntityInteractEvent(entity.getBukkitEntity(),
 					world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()));
 			world.getServer().getPluginManager().callEvent(event);
-			if (!event.isCancelled()) {
+			if (!event.isCancelled())
+			{
 				this.e(world, blockposition, entity); // add entity
 				super.a(world, blockposition, entity);
 			}
@@ -60,17 +70,21 @@ public class BlockRedstoneOre extends Block {
 
 	@Override
 	public boolean interact(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman,
-			EnumDirection enumdirection, float f, float f1, float f2) {
+			EnumDirection enumdirection, float f, float f1, float f2)
+	{
 		this.e(world, blockposition, entityhuman); // CraftBukkit - add entityhuman
 		return super.interact(world, blockposition, iblockdata, entityhuman, enumdirection, f, f1, f2);
 	}
 
-	private void e(World world, BlockPosition blockposition, Entity entity) { // CraftBukkit - add Entity
+	private void e(World world, BlockPosition blockposition, Entity entity)
+	{ // CraftBukkit - add Entity
 		this.f(world, blockposition);
-		if (this == Blocks.REDSTONE_ORE) {
+		if (this == Blocks.REDSTONE_ORE)
+		{
 			// CraftBukkit start
 			if (CraftEventFactory.callEntityChangeBlockEvent(entity, blockposition.getX(), blockposition.getY(),
-					blockposition.getZ(), Blocks.LIT_REDSTONE_ORE, 0).isCancelled()) {
+					blockposition.getZ(), Blocks.LIT_REDSTONE_ORE, 0).isCancelled())
+			{
 				return;
 			}
 			// CraftBukkit end
@@ -80,12 +94,15 @@ public class BlockRedstoneOre extends Block {
 	}
 
 	@Override
-	public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
-		if (this == Blocks.LIT_REDSTONE_ORE) {
+	public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random)
+	{
+		if (this == Blocks.LIT_REDSTONE_ORE)
+		{
 			// CraftBukkit start
 			if (CraftEventFactory.callBlockFadeEvent(
 					world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()),
-					Blocks.REDSTONE_ORE).isCancelled()) {
+					Blocks.REDSTONE_ORE).isCancelled())
+			{
 				return;
 			}
 			// CraftBukkit end
@@ -95,22 +112,26 @@ public class BlockRedstoneOre extends Block {
 	}
 
 	@Override
-	public Item getDropType(IBlockData iblockdata, Random random, int i) {
+	public Item getDropType(IBlockData iblockdata, Random random, int i)
+	{
 		return Items.REDSTONE;
 	}
 
 	@Override
-	public int getDropCount(int i, Random random) {
+	public int getDropCount(int i, Random random)
+	{
 		return this.a(random) + random.nextInt(i + 1);
 	}
 
 	@Override
-	public int a(Random random) {
+	public int a(Random random)
+	{
 		return 4 + random.nextInt(2);
 	}
 
 	@Override
-	public void dropNaturally(World world, BlockPosition blockposition, IBlockData iblockdata, float f, int i) {
+	public void dropNaturally(World world, BlockPosition blockposition, IBlockData iblockdata, float f, int i)
+	{
 		super.dropNaturally(world, blockposition, iblockdata, f, i);
 		/*
 		 * CraftBukkit start - Delegated to getExpDrop if (this.getDropType(iblockdata,
@@ -122,8 +143,10 @@ public class BlockRedstoneOre extends Block {
 	}
 
 	@Override
-	public int getExpDrop(World world, IBlockData data, int i) {
-		if (this.getDropType(data, world.random, i) != Item.getItemOf(this)) {
+	public int getExpDrop(World world, IBlockData data, int i)
+	{
+		if (this.getDropType(data, world.random, i) != Item.getItemOf(this))
+		{
 			int j = 1 + world.random.nextInt(5);
 
 			return j;
@@ -132,42 +155,50 @@ public class BlockRedstoneOre extends Block {
 		// CraftBukkit end
 	}
 
-	private void f(World world, BlockPosition blockposition) {
+	private void f(World world, BlockPosition blockposition)
+	{
 		Random random = world.random;
 		double d0 = 0.0625D;
 
-		for (int i = 0; i < 6; ++i) {
+		for (int i = 0; i < 6; ++i)
+		{
 			double d1 = blockposition.getX() + random.nextFloat();
 			double d2 = blockposition.getY() + random.nextFloat();
 			double d3 = blockposition.getZ() + random.nextFloat();
 
-			if (i == 0 && !world.getType(blockposition.up()).getBlock().c()) {
+			if (i == 0 && !world.getType(blockposition.up()).getBlock().c())
+			{
 				d2 = blockposition.getY() + d0 + 1.0D;
 			}
 
-			if (i == 1 && !world.getType(blockposition.down()).getBlock().c()) {
+			if (i == 1 && !world.getType(blockposition.down()).getBlock().c())
+			{
 				d2 = blockposition.getY() - d0;
 			}
 
-			if (i == 2 && !world.getType(blockposition.south()).getBlock().c()) {
+			if (i == 2 && !world.getType(blockposition.south()).getBlock().c())
+			{
 				d3 = blockposition.getZ() + d0 + 1.0D;
 			}
 
-			if (i == 3 && !world.getType(blockposition.north()).getBlock().c()) {
+			if (i == 3 && !world.getType(blockposition.north()).getBlock().c())
+			{
 				d3 = blockposition.getZ() - d0;
 			}
 
-			if (i == 4 && !world.getType(blockposition.east()).getBlock().c()) {
+			if (i == 4 && !world.getType(blockposition.east()).getBlock().c())
+			{
 				d1 = blockposition.getX() + d0 + 1.0D;
 			}
 
-			if (i == 5 && !world.getType(blockposition.west()).getBlock().c()) {
+			if (i == 5 && !world.getType(blockposition.west()).getBlock().c())
+			{
 				d1 = blockposition.getX() - d0;
 			}
 
-			if (d1 < blockposition.getX() || d1 > blockposition.getX() + 1 || d2 < 0.0D
-					|| d2 > blockposition.getY() + 1 || d3 < blockposition.getZ()
-					|| d3 > blockposition.getZ() + 1) {
+			if (d1 < blockposition.getX() || d1 > blockposition.getX() + 1 || d2 < 0.0D || d2 > blockposition.getY() + 1
+					|| d3 < blockposition.getZ() || d3 > blockposition.getZ() + 1)
+			{
 				world.addParticle(EnumParticle.REDSTONE, d1, d2, d3, 0.0D, 0.0D, 0.0D, Constants.EMPTY_ARRAY);
 			}
 		}
@@ -175,7 +206,8 @@ public class BlockRedstoneOre extends Block {
 	}
 
 	@Override
-	protected ItemStack i(IBlockData iblockdata) {
+	protected ItemStack i(IBlockData iblockdata)
+	{
 		return new ItemStack(Blocks.REDSTONE_ORE);
 	}
 }

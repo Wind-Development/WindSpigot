@@ -6,62 +6,78 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-public class WorldGenRegistration {
+public class WorldGenRegistration
+{
 
-	public static void a() {
+	public static void a()
+	{
 		WorldGenFactory.a(WorldGenRegistration.WorldGenPyramidPiece.class, "TeDP");
 		WorldGenFactory.a(WorldGenRegistration.WorldGenJungleTemple.class, "TeJP");
 		WorldGenFactory.a(WorldGenRegistration.WorldGenWitchHut.class, "TeSH");
 	}
 
-	static class SyntheticClass_1 {
+	static class SyntheticClass_1
+	{
 
 		static final int[] a = new int[EnumDirection.values().length];
 
-		static {
-			try {
+		static
+		{
+			try
+			{
 				WorldGenRegistration.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
+			} catch (NoSuchFieldError nosuchfielderror)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				WorldGenRegistration.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
+			} catch (NoSuchFieldError nosuchfielderror1)
+			{
 				;
 			}
 
 		}
 	}
 
-	public static class WorldGenWitchHut extends WorldGenRegistration.WorldGenScatteredPiece {
+	public static class WorldGenWitchHut extends WorldGenRegistration.WorldGenScatteredPiece
+	{
 
 		private boolean e;
 
-		public WorldGenWitchHut() {
+		public WorldGenWitchHut()
+		{
 		}
 
-		public WorldGenWitchHut(Random random, int i, int j) {
+		public WorldGenWitchHut(Random random, int i, int j)
+		{
 			super(random, i, 64, j, 7, 7, 9);
 		}
 
 		@Override
-		protected void a(NBTTagCompound nbttagcompound) {
+		protected void a(NBTTagCompound nbttagcompound)
+		{
 			super.a(nbttagcompound);
 			nbttagcompound.setBoolean("Witch", this.e);
 		}
 
 		@Override
-		protected void b(NBTTagCompound nbttagcompound) {
+		protected void b(NBTTagCompound nbttagcompound)
+		{
 			super.b(nbttagcompound);
 			this.e = nbttagcompound.getBoolean("Witch");
 		}
 
 		@Override
-		public boolean a(World world, Random random, StructureBoundingBox structureboundingbox) {
-			if (!this.a(world, structureboundingbox, 0)) {
+		public boolean a(World world, Random random, StructureBoundingBox structureboundingbox)
+		{
+			if (!this.a(world, structureboundingbox, 0))
+			{
 				return false;
-			} else {
+			} else
+			{
 				this.a(world, structureboundingbox, 1, 1, 1, 5, 1, 7,
 						Blocks.PLANKS.fromLegacyData(BlockWood.EnumLogVariant.SPRUCE.a()),
 						Blocks.PLANKS.fromLegacyData(BlockWood.EnumLogVariant.SPRUCE.a()), false);
@@ -119,23 +135,26 @@ public class WorldGenRegistration {
 				int i1;
 				int j1;
 
-				for (i1 = 2; i1 <= 7; i1 += 5) {
-					for (j1 = 1; j1 <= 5; j1 += 4) {
+				for (i1 = 2; i1 <= 7; i1 += 5)
+				{
+					for (j1 = 1; j1 <= 5; j1 += 4)
+					{
 						this.b(world, Blocks.LOG.getBlockData(), j1, -1, i1, structureboundingbox);
 					}
 				}
 
-				if (!this.e) {
+				if (!this.e)
+				{
 					i1 = this.a(2, 5);
 					j1 = this.d(2);
 					int k1 = this.b(2, 5);
 
-					if (structureboundingbox.b((new BlockPosition(i1, j1, k1)))) {
+					if (structureboundingbox.b((new BlockPosition(i1, j1, k1))))
+					{
 						this.e = true;
 						EntityWitch entitywitch = new EntityWitch(world);
 
-						entitywitch.setPositionRotation(i1 + 0.5D, j1, k1 + 0.5D, 0.0F,
-								0.0F);
+						entitywitch.setPositionRotation(i1 + 0.5D, j1, k1 + 0.5D, 0.0F, 0.0F);
 						entitywitch.prepare(world.E(new BlockPosition(i1, j1, k1)), (GroupDataEntity) null);
 						world.addEntity(entitywitch, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.CHUNK_GEN); // CraftBukkit
 																														// -
@@ -149,37 +168,41 @@ public class WorldGenRegistration {
 		}
 	}
 
-	public static class WorldGenJungleTemple extends WorldGenRegistration.WorldGenScatteredPiece {
+	public static class WorldGenJungleTemple extends WorldGenRegistration.WorldGenScatteredPiece
+	{
 
 		private boolean e;
 		private boolean f;
 		private boolean g;
 		private boolean h;
-		private static final List<StructurePieceTreasure> i = Lists
-				.newArrayList(new StructurePieceTreasure[] { new StructurePieceTreasure(Items.DIAMOND, 0, 1, 3, 3),
-						new StructurePieceTreasure(Items.IRON_INGOT, 0, 1, 5, 10),
-						new StructurePieceTreasure(Items.GOLD_INGOT, 0, 2, 7, 15),
-						new StructurePieceTreasure(Items.EMERALD, 0, 1, 3, 2),
-						new StructurePieceTreasure(Items.BONE, 0, 4, 6, 20),
-						new StructurePieceTreasure(Items.ROTTEN_FLESH, 0, 3, 7, 16),
-						new StructurePieceTreasure(Items.SADDLE, 0, 1, 1, 3),
-						new StructurePieceTreasure(Items.IRON_HORSE_ARMOR, 0, 1, 1, 1),
-						new StructurePieceTreasure(Items.GOLDEN_HORSE_ARMOR, 0, 1, 1, 1),
-						new StructurePieceTreasure(Items.DIAMOND_HORSE_ARMOR, 0, 1, 1, 1) });
-		private static final List<StructurePieceTreasure> j = Lists
-				.newArrayList(new StructurePieceTreasure[] { new StructurePieceTreasure(Items.ARROW, 0, 2, 7, 30) });
+		private static final List<StructurePieceTreasure> i = Lists.newArrayList(new StructurePieceTreasure[]
+		{ new StructurePieceTreasure(Items.DIAMOND, 0, 1, 3, 3),
+				new StructurePieceTreasure(Items.IRON_INGOT, 0, 1, 5, 10),
+				new StructurePieceTreasure(Items.GOLD_INGOT, 0, 2, 7, 15),
+				new StructurePieceTreasure(Items.EMERALD, 0, 1, 3, 2),
+				new StructurePieceTreasure(Items.BONE, 0, 4, 6, 20),
+				new StructurePieceTreasure(Items.ROTTEN_FLESH, 0, 3, 7, 16),
+				new StructurePieceTreasure(Items.SADDLE, 0, 1, 1, 3),
+				new StructurePieceTreasure(Items.IRON_HORSE_ARMOR, 0, 1, 1, 1),
+				new StructurePieceTreasure(Items.GOLDEN_HORSE_ARMOR, 0, 1, 1, 1),
+				new StructurePieceTreasure(Items.DIAMOND_HORSE_ARMOR, 0, 1, 1, 1) });
+		private static final List<StructurePieceTreasure> j = Lists.newArrayList(new StructurePieceTreasure[]
+		{ new StructurePieceTreasure(Items.ARROW, 0, 2, 7, 30) });
 		private static WorldGenRegistration.WorldGenJungleTemple.WorldGenJungleTemple$WorldGenJungleTemplePiece k = new WorldGenRegistration.WorldGenJungleTemple.WorldGenJungleTemple$WorldGenJungleTemplePiece(
 				(WorldGenRegistration.SyntheticClass_1) null);
 
-		public WorldGenJungleTemple() {
+		public WorldGenJungleTemple()
+		{
 		}
 
-		public WorldGenJungleTemple(Random random, int i, int j) {
+		public WorldGenJungleTemple(Random random, int i, int j)
+		{
 			super(random, i, 64, j, 12, 10, 15);
 		}
 
 		@Override
-		protected void a(NBTTagCompound nbttagcompound) {
+		protected void a(NBTTagCompound nbttagcompound)
+		{
 			super.a(nbttagcompound);
 			nbttagcompound.setBoolean("placedMainChest", this.e);
 			nbttagcompound.setBoolean("placedHiddenChest", this.f);
@@ -188,7 +211,8 @@ public class WorldGenRegistration {
 		}
 
 		@Override
-		protected void b(NBTTagCompound nbttagcompound) {
+		protected void b(NBTTagCompound nbttagcompound)
+		{
 			super.b(nbttagcompound);
 			this.e = nbttagcompound.getBoolean("placedMainChest");
 			this.f = nbttagcompound.getBoolean("placedHiddenChest");
@@ -197,10 +221,13 @@ public class WorldGenRegistration {
 		}
 
 		@Override
-		public boolean a(World world, Random random, StructureBoundingBox structureboundingbox) {
-			if (!this.a(world, structureboundingbox, 0)) {
+		public boolean a(World world, Random random, StructureBoundingBox structureboundingbox)
+		{
+			if (!this.a(world, structureboundingbox, 0))
+			{
 				return false;
-			} else {
+			} else
+			{
 				int i = this.a(Blocks.STONE_STAIRS, 3);
 				int j = this.a(Blocks.STONE_STAIRS, 2);
 				int k = this.a(Blocks.STONE_STAIRS, 0);
@@ -248,7 +275,8 @@ public class WorldGenRegistration {
 
 				int i1;
 
-				for (i1 = 0; i1 <= 14; i1 += 14) {
+				for (i1 = 0; i1 <= 14; i1 += 14)
+				{
 					this.a(world, structureboundingbox, 2, 4, i1, 2, 5, i1, false, random,
 							WorldGenRegistration.WorldGenJungleTemple.k);
 					this.a(world, structureboundingbox, 4, 4, i1, 4, 5, i1, false, random,
@@ -262,8 +290,10 @@ public class WorldGenRegistration {
 				this.a(world, structureboundingbox, 5, 6, 0, 6, 6, 0, false, random,
 						WorldGenRegistration.WorldGenJungleTemple.k);
 
-				for (i1 = 0; i1 <= 11; i1 += 11) {
-					for (int j1 = 2; j1 <= 12; j1 += 2) {
+				for (i1 = 0; i1 <= 11; i1 += 11)
+				{
+					for (int j1 = 2; j1 <= 12; j1 += 2)
+					{
 						this.a(world, structureboundingbox, i1, 4, j1, i1, 5, j1, false, random,
 								WorldGenRegistration.WorldGenJungleTemple.k);
 					}
@@ -317,7 +347,8 @@ public class WorldGenRegistration {
 				this.a(world, Blocks.STONE_STAIRS.fromLegacyData(k), 4, 4, 5, structureboundingbox);
 				this.a(world, Blocks.STONE_STAIRS.fromLegacyData(l), 7, 4, 5, structureboundingbox);
 
-				for (i1 = 0; i1 < 4; ++i1) {
+				for (i1 = 0; i1 < 4; ++i1)
+				{
 					this.a(world, Blocks.STONE_STAIRS.fromLegacyData(j), 5, 0 - i1, 6 + i1, structureboundingbox);
 					this.a(world, Blocks.STONE_STAIRS.fromLegacyData(j), 6, 0 - i1, 6 + i1, structureboundingbox);
 					this.a(world, structureboundingbox, 5, 0 - i1, 7 + i1, 6, 0 - i1, 9 + i1);
@@ -327,12 +358,14 @@ public class WorldGenRegistration {
 				this.a(world, structureboundingbox, 1, -3, 1, 3, -1, 13);
 				this.a(world, structureboundingbox, 1, -3, 1, 9, -1, 5);
 
-				for (i1 = 1; i1 <= 13; i1 += 2) {
+				for (i1 = 1; i1 <= 13; i1 += 2)
+				{
 					this.a(world, structureboundingbox, 1, -3, i1, 1, -2, i1, false, random,
 							WorldGenRegistration.WorldGenJungleTemple.k);
 				}
 
-				for (i1 = 2; i1 <= 12; i1 += 2) {
+				for (i1 = 2; i1 <= 12; i1 += 2)
+				{
 					this.a(world, structureboundingbox, 1, -1, i1, 3, -1, i1, false, random,
 							WorldGenRegistration.WorldGenJungleTemple.k);
 				}
@@ -362,7 +395,8 @@ public class WorldGenRegistration {
 				this.a(world, Blocks.REDSTONE_WIRE.getBlockData(), 5, -3, 1, structureboundingbox);
 				this.a(world, Blocks.REDSTONE_WIRE.getBlockData(), 4, -3, 1, structureboundingbox);
 				this.a(world, Blocks.MOSSY_COBBLESTONE.getBlockData(), 3, -3, 1, structureboundingbox);
-				if (!this.g) {
+				if (!this.g)
+				{
 					this.g = this.a(world, structureboundingbox, random, 3, -2, 1, EnumDirection.NORTH.a(),
 							WorldGenRegistration.WorldGenJungleTemple.j, 2);
 				}
@@ -383,18 +417,19 @@ public class WorldGenRegistration {
 				this.a(world, Blocks.REDSTONE_WIRE.getBlockData(), 9, -3, 5, structureboundingbox);
 				this.a(world, Blocks.MOSSY_COBBLESTONE.getBlockData(), 9, -3, 4, structureboundingbox);
 				this.a(world, Blocks.REDSTONE_WIRE.getBlockData(), 9, -2, 4, structureboundingbox);
-				if (!this.h) {
+				if (!this.h)
+				{
 					this.h = this.a(world, structureboundingbox, random, 9, -2, 3, EnumDirection.WEST.a(),
 							WorldGenRegistration.WorldGenJungleTemple.j, 2);
 				}
 
 				this.a(world, Blocks.VINE.fromLegacyData(15), 8, -1, 3, structureboundingbox);
 				this.a(world, Blocks.VINE.fromLegacyData(15), 8, -2, 3, structureboundingbox);
-				if (!this.e) {
-					this.e = this.a(world, structureboundingbox, random, 8, -3, 3,
-							StructurePieceTreasure.a(WorldGenRegistration.WorldGenJungleTemple.i,
-									new StructurePieceTreasure[] { Items.ENCHANTED_BOOK.b(random) }),
-							2 + random.nextInt(5));
+				if (!this.e)
+				{
+					this.e = this.a(world, structureboundingbox, random, 8, -3, 3, StructurePieceTreasure
+							.a(WorldGenRegistration.WorldGenJungleTemple.i, new StructurePieceTreasure[]
+							{ Items.ENCHANTED_BOOK.b(random) }), 2 + random.nextInt(5));
 				}
 
 				this.a(world, Blocks.MOSSY_COBBLESTONE.getBlockData(), 9, -3, 2, structureboundingbox);
@@ -442,63 +477,73 @@ public class WorldGenRegistration {
 						Blocks.UNPOWERED_REPEATER
 								.fromLegacyData(this.a(Blocks.UNPOWERED_REPEATER, EnumDirection.NORTH.b())),
 						10, -2, 10, structureboundingbox);
-				if (!this.f) {
-					this.f = this.a(world, structureboundingbox, random, 9, -3, 10,
-							StructurePieceTreasure.a(WorldGenRegistration.WorldGenJungleTemple.i,
-									new StructurePieceTreasure[] { Items.ENCHANTED_BOOK.b(random) }),
-							2 + random.nextInt(5));
+				if (!this.f)
+				{
+					this.f = this.a(world, structureboundingbox, random, 9, -3, 10, StructurePieceTreasure
+							.a(WorldGenRegistration.WorldGenJungleTemple.i, new StructurePieceTreasure[]
+							{ Items.ENCHANTED_BOOK.b(random) }), 2 + random.nextInt(5));
 				}
 
 				return true;
 			}
 		}
 
-		static class WorldGenJungleTemple$WorldGenJungleTemplePiece extends StructurePiece.StructurePieceBlockSelector {
+		static class WorldGenJungleTemple$WorldGenJungleTemplePiece extends StructurePiece.StructurePieceBlockSelector
+		{
 
-			private WorldGenJungleTemple$WorldGenJungleTemplePiece() {
+			private WorldGenJungleTemple$WorldGenJungleTemplePiece()
+			{
 			}
 
 			@Override
-			public void a(Random random, int i, int j, int k, boolean flag) {
-				if (random.nextFloat() < 0.4F) {
+			public void a(Random random, int i, int j, int k, boolean flag)
+			{
+				if (random.nextFloat() < 0.4F)
+				{
 					this.a = Blocks.COBBLESTONE.getBlockData();
-				} else {
+				} else
+				{
 					this.a = Blocks.MOSSY_COBBLESTONE.getBlockData();
 				}
 
 			}
 
 			WorldGenJungleTemple$WorldGenJungleTemplePiece(
-					WorldGenRegistration.SyntheticClass_1 worldgenregistration_syntheticclass_1) {
+					WorldGenRegistration.SyntheticClass_1 worldgenregistration_syntheticclass_1)
+			{
 				this();
 			}
 		}
 	}
 
-	public static class WorldGenPyramidPiece extends WorldGenRegistration.WorldGenScatteredPiece {
+	public static class WorldGenPyramidPiece extends WorldGenRegistration.WorldGenScatteredPiece
+	{
 
 		private boolean[] e = new boolean[4];
-		private static final List<StructurePieceTreasure> f = Lists
-				.newArrayList(new StructurePieceTreasure[] { new StructurePieceTreasure(Items.DIAMOND, 0, 1, 3, 3),
-						new StructurePieceTreasure(Items.IRON_INGOT, 0, 1, 5, 10),
-						new StructurePieceTreasure(Items.GOLD_INGOT, 0, 2, 7, 15),
-						new StructurePieceTreasure(Items.EMERALD, 0, 1, 3, 2),
-						new StructurePieceTreasure(Items.BONE, 0, 4, 6, 20),
-						new StructurePieceTreasure(Items.ROTTEN_FLESH, 0, 3, 7, 16),
-						new StructurePieceTreasure(Items.SADDLE, 0, 1, 1, 3),
-						new StructurePieceTreasure(Items.IRON_HORSE_ARMOR, 0, 1, 1, 1),
-						new StructurePieceTreasure(Items.GOLDEN_HORSE_ARMOR, 0, 1, 1, 1),
-						new StructurePieceTreasure(Items.DIAMOND_HORSE_ARMOR, 0, 1, 1, 1) });
+		private static final List<StructurePieceTreasure> f = Lists.newArrayList(new StructurePieceTreasure[]
+		{ new StructurePieceTreasure(Items.DIAMOND, 0, 1, 3, 3),
+				new StructurePieceTreasure(Items.IRON_INGOT, 0, 1, 5, 10),
+				new StructurePieceTreasure(Items.GOLD_INGOT, 0, 2, 7, 15),
+				new StructurePieceTreasure(Items.EMERALD, 0, 1, 3, 2),
+				new StructurePieceTreasure(Items.BONE, 0, 4, 6, 20),
+				new StructurePieceTreasure(Items.ROTTEN_FLESH, 0, 3, 7, 16),
+				new StructurePieceTreasure(Items.SADDLE, 0, 1, 1, 3),
+				new StructurePieceTreasure(Items.IRON_HORSE_ARMOR, 0, 1, 1, 1),
+				new StructurePieceTreasure(Items.GOLDEN_HORSE_ARMOR, 0, 1, 1, 1),
+				new StructurePieceTreasure(Items.DIAMOND_HORSE_ARMOR, 0, 1, 1, 1) });
 
-		public WorldGenPyramidPiece() {
+		public WorldGenPyramidPiece()
+		{
 		}
 
-		public WorldGenPyramidPiece(Random random, int i, int j) {
+		public WorldGenPyramidPiece(Random random, int i, int j)
+		{
 			super(random, i, 64, j, 21, 15, 21);
 		}
 
 		@Override
-		protected void a(NBTTagCompound nbttagcompound) {
+		protected void a(NBTTagCompound nbttagcompound)
+		{
 			super.a(nbttagcompound);
 			nbttagcompound.setBoolean("hasPlacedChest0", this.e[0]);
 			nbttagcompound.setBoolean("hasPlacedChest1", this.e[1]);
@@ -507,7 +552,8 @@ public class WorldGenRegistration {
 		}
 
 		@Override
-		protected void b(NBTTagCompound nbttagcompound) {
+		protected void b(NBTTagCompound nbttagcompound)
+		{
 			super.b(nbttagcompound);
 			this.e[0] = nbttagcompound.getBoolean("hasPlacedChest0");
 			this.e[1] = nbttagcompound.getBoolean("hasPlacedChest1");
@@ -516,13 +562,15 @@ public class WorldGenRegistration {
 		}
 
 		@Override
-		public boolean a(World world, Random random, StructureBoundingBox structureboundingbox) {
+		public boolean a(World world, Random random, StructureBoundingBox structureboundingbox)
+		{
 			this.a(world, structureboundingbox, 0, -4, 0, this.a - 1, 0, this.c - 1, Blocks.SANDSTONE.getBlockData(),
 					Blocks.SANDSTONE.getBlockData(), false);
 
 			int i;
 
-			for (i = 1; i <= 9; ++i) {
+			for (i = 1; i <= 9; ++i)
+			{
 				this.a(world, structureboundingbox, i, i, i, this.a - 1 - i, i, this.c - 1 - i,
 						Blocks.SANDSTONE.getBlockData(), Blocks.SANDSTONE.getBlockData(), false);
 				this.a(world, structureboundingbox, i + 1, i, i + 1, this.a - 2 - i, i, this.c - 2 - i,
@@ -531,8 +579,10 @@ public class WorldGenRegistration {
 
 			int j;
 
-			for (i = 0; i < this.a; ++i) {
-				for (j = 0; j < this.c; ++j) {
+			for (i = 0; i < this.a; ++i)
+			{
+				for (j = 0; j < this.c; ++j)
+				{
 					byte b0 = -5;
 
 					this.b(world, Blocks.SANDSTONE.getBlockData(), i, b0, j, structureboundingbox);
@@ -655,7 +705,8 @@ public class WorldGenRegistration {
 
 			int k1;
 
-			for (k1 = 5; k1 <= 17; k1 += 2) {
+			for (k1 = 5; k1 <= 17; k1 += 2)
+			{
 				this.a(world, Blocks.SANDSTONE.fromLegacyData(BlockSandStone.EnumSandstoneVariant.SMOOTH.a()), 4, 1, k1,
 						structureboundingbox);
 				this.a(world, Blocks.SANDSTONE.fromLegacyData(BlockSandStone.EnumSandstoneVariant.CHISELED.a()), 4, 2,
@@ -680,7 +731,8 @@ public class WorldGenRegistration {
 			this.a(world, Blocks.STAINED_HARDENED_CLAY.fromLegacyData(i1), 10, 0, 13, structureboundingbox);
 			this.a(world, Blocks.STAINED_HARDENED_CLAY.fromLegacyData(j1), 10, 0, 10, structureboundingbox);
 
-			for (k1 = 0; k1 <= this.a - 1; k1 += this.a - 1) {
+			for (k1 = 0; k1 <= this.a - 1; k1 += this.a - 1)
+			{
 				this.a(world, Blocks.SANDSTONE.fromLegacyData(BlockSandStone.EnumSandstoneVariant.SMOOTH.a()), k1, 2, 1,
 						structureboundingbox);
 				this.a(world, Blocks.STAINED_HARDENED_CLAY.fromLegacyData(i1), k1, 2, 2, structureboundingbox);
@@ -715,7 +767,8 @@ public class WorldGenRegistration {
 						structureboundingbox);
 			}
 
-			for (k1 = 2; k1 <= this.a - 3; k1 += this.a - 3 - 2) {
+			for (k1 = 2; k1 <= this.a - 3; k1 += this.a - 3 - 2)
+			{
 				this.a(world, Blocks.SANDSTONE.fromLegacyData(BlockSandStone.EnumSandstoneVariant.SMOOTH.a()), k1 - 1,
 						2, 0, structureboundingbox);
 				this.a(world, Blocks.STAINED_HARDENED_CLAY.fromLegacyData(i1), k1, 2, 0, structureboundingbox);
@@ -801,17 +854,19 @@ public class WorldGenRegistration {
 					structureboundingbox);
 			Iterator iterator = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
 
-			while (iterator.hasNext()) {
+			while (iterator.hasNext())
+			{
 				EnumDirection enumdirection = (EnumDirection) iterator.next();
 
-				if (!this.e[enumdirection.b()]) {
+				if (!this.e[enumdirection.b()])
+				{
 					int l1 = enumdirection.getAdjacentX() * 2;
 					int i2 = enumdirection.getAdjacentZ() * 2;
 
 					this.e[enumdirection.b()] = this.a(world, structureboundingbox, random, 10 + l1, -11, 10 + i2,
 							StructurePieceTreasure.a(WorldGenRegistration.WorldGenPyramidPiece.f,
-									new StructurePieceTreasure[] { Items.ENCHANTED_BOOK.b(random) }),
-							2 + random.nextInt(5));
+									new StructurePieceTreasure[]
+									{ Items.ENCHANTED_BOOK.b(random) }), 2 + random.nextInt(5));
 				}
 			}
 
@@ -819,23 +874,27 @@ public class WorldGenRegistration {
 		}
 	}
 
-	abstract static class WorldGenScatteredPiece extends StructurePiece {
+	abstract static class WorldGenScatteredPiece extends StructurePiece
+	{
 
 		protected int a;
 		protected int b;
 		protected int c;
 		protected int d = -1;
 
-		public WorldGenScatteredPiece() {
+		public WorldGenScatteredPiece()
+		{
 		}
 
-		protected WorldGenScatteredPiece(Random random, int i, int j, int k, int l, int i1, int j1) {
+		protected WorldGenScatteredPiece(Random random, int i, int j, int k, int l, int i1, int j1)
+		{
 			super(0);
 			this.a = l;
 			this.b = i1;
 			this.c = j1;
 			this.m = EnumDirection.EnumDirectionLimit.HORIZONTAL.a(random);
-			switch (WorldGenRegistration.SyntheticClass_1.a[this.m.ordinal()]) {
+			switch (WorldGenRegistration.SyntheticClass_1.a[this.m.ordinal()])
+			{
 			case 1:
 			case 2:
 				this.l = new StructureBoundingBox(i, j, k, i + l - 1, j + i1 - 1, k + j1 - 1);
@@ -848,7 +907,8 @@ public class WorldGenRegistration {
 		}
 
 		@Override
-		protected void a(NBTTagCompound nbttagcompound) {
+		protected void a(NBTTagCompound nbttagcompound)
+		{
 			nbttagcompound.setInt("Width", this.a);
 			nbttagcompound.setInt("Height", this.b);
 			nbttagcompound.setInt("Depth", this.c);
@@ -856,25 +916,32 @@ public class WorldGenRegistration {
 		}
 
 		@Override
-		protected void b(NBTTagCompound nbttagcompound) {
+		protected void b(NBTTagCompound nbttagcompound)
+		{
 			this.a = nbttagcompound.getInt("Width");
 			this.b = nbttagcompound.getInt("Height");
 			this.c = nbttagcompound.getInt("Depth");
 			this.d = nbttagcompound.getInt("HPos");
 		}
 
-		protected boolean a(World world, StructureBoundingBox structureboundingbox, int i) {
-			if (this.d >= 0) {
+		protected boolean a(World world, StructureBoundingBox structureboundingbox, int i)
+		{
+			if (this.d >= 0)
+			{
 				return true;
-			} else {
+			} else
+			{
 				int j = 0;
 				int k = 0;
 				BlockPosition.MutableBlockPosition blockposition_mutableblockposition = new BlockPosition.MutableBlockPosition();
 
-				for (int l = this.l.c; l <= this.l.f; ++l) {
-					for (int i1 = this.l.a; i1 <= this.l.d; ++i1) {
+				for (int l = this.l.c; l <= this.l.f; ++l)
+				{
+					for (int i1 = this.l.a; i1 <= this.l.d; ++i1)
+					{
 						blockposition_mutableblockposition.c(i1, 64, l);
-						if (structureboundingbox.b(blockposition_mutableblockposition)) {
+						if (structureboundingbox.b(blockposition_mutableblockposition))
+						{
 							j += Math.max(world.r(blockposition_mutableblockposition).getY(),
 									world.worldProvider.getSeaLevel());
 							++k;
@@ -882,9 +949,11 @@ public class WorldGenRegistration {
 					}
 				}
 
-				if (k == 0) {
+				if (k == 0)
+				{
 					return false;
-				} else {
+				} else
+				{
 					this.d = j / k;
 					this.l.a(0, this.d - this.l.b + i, 0);
 					return true;

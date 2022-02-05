@@ -6,70 +6,83 @@ import java.util.UUID;
 
 import net.minecraft.server.DataWatcher.WatchableObject;
 
-public class PacketPlayOutNamedEntitySpawn implements Packet<PacketListenerPlayOut> {
+public class PacketPlayOutNamedEntitySpawn implements Packet<PacketListenerPlayOut>
+{
 	private int a;
 
-	public int getEntityId() {
+	public int getEntityId()
+	{
 		return this.a;
 	}
 
-	public void setEntityId(int id) {
+	public void setEntityId(int id)
+	{
 		this.a = id;
 	}
 
 	private UUID b;
 
-	public UUID getUUID() {
+	public UUID getUUID()
+	{
 		return this.b;
 	}
 
-	public void setUUID(UUID uuid) {
+	public void setUUID(UUID uuid)
+	{
 		this.b = uuid;
 	}
 
 	private int c;
 
-	public int getRawX() {
+	public int getRawX()
+	{
 		return this.c;
 	}
 
 	private int d;
 
-	public int getRawY() {
+	public int getRawY()
+	{
 		return this.d;
 	}
 
 	private int e;
 
-	public int getRawZ() {
+	public int getRawZ()
+	{
 		return this.e;
 	}
 
 	private byte f;
 
-	public byte getRawPitch() {
+	public byte getRawPitch()
+	{
 		return this.f;
 	}
 
 	private byte g;
 
-	public byte getRawYaw() {
+	public byte getRawYaw()
+	{
 		return this.g;
 	}
 
 	private int h;
 
-	public int getData() {
+	public int getData()
+	{
 		return this.h;
 	}
 
 	private DataWatcher i;
 	private List<WatchableObject> j;
 
-	public PacketPlayOutNamedEntitySpawn() {
+	public PacketPlayOutNamedEntitySpawn()
+	{
 	}
 
-	public PacketPlayOutNamedEntitySpawn(EntityHuman var1) {
+	public PacketPlayOutNamedEntitySpawn(EntityHuman var1)
+	{
 		this.a = var1.getId();
 		this.b = var1.getProfile().getId();
 		this.c = MathHelper.floor(var1.locX * 32.0D);
@@ -82,23 +95,27 @@ public class PacketPlayOutNamedEntitySpawn implements Packet<PacketListenerPlayO
 		this.i = var1.getDataWatcher();
 	}
 
-	public void setX(double x) {
+	public void setX(double x)
+	{
 		this.c = MathHelper.floor(x * 32.0D);
 		;
 	}
 
-	public void setY(double y) {
+	public void setY(double y)
+	{
 		this.d = MathHelper.floor(y * 32.0D);
 		;
 	}
 
-	public void setZ(double z) {
+	public void setZ(double z)
+	{
 		this.e = MathHelper.floor(z * 32.0D);
 		;
 	}
 
 	@Override
-	public void a(PacketDataSerializer var1) throws IOException {
+	public void a(PacketDataSerializer var1) throws IOException
+	{
 		this.a = var1.readVarInt();
 		this.b = var1.g();
 		this.c = var1.readInt();
@@ -111,7 +128,8 @@ public class PacketPlayOutNamedEntitySpawn implements Packet<PacketListenerPlayO
 	}
 
 	@Override
-	public void b(PacketDataSerializer var1) throws IOException {
+	public void b(PacketDataSerializer var1) throws IOException
+	{
 		var1.b(this.a);
 		var1.a(this.b);
 		var1.writeInt(this.c);
@@ -124,7 +142,8 @@ public class PacketPlayOutNamedEntitySpawn implements Packet<PacketListenerPlayO
 	}
 
 	@Override
-	public void a(PacketListenerPlayOut var1) {
+	public void a(PacketListenerPlayOut var1)
+	{
 		var1.a(this);
 	}
 }

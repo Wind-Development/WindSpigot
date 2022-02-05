@@ -2,7 +2,8 @@ package net.minecraft.server;
 
 import java.util.Random;
 
-public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerListBox, ITileEntityContainer {
+public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerListBox, ITileEntityContainer
+{
 	public int a;
 	public float f;
 	public float g;
@@ -16,76 +17,93 @@ public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerL
 	private static Random o = new Random();
 	private String p;
 
-	public TileEntityEnchantTable() {
+	public TileEntityEnchantTable()
+	{
 	}
 
 	@Override
-	public void b(NBTTagCompound var1) {
+	public void b(NBTTagCompound var1)
+	{
 		super.b(var1);
-		if (this.hasCustomName()) {
+		if (this.hasCustomName())
+		{
 			var1.setString("CustomName", this.p);
 		}
 
 	}
 
 	@Override
-	public void a(NBTTagCompound var1) {
+	public void a(NBTTagCompound var1)
+	{
 		super.a(var1);
-		if (var1.hasKeyOfType("CustomName", 8)) {
+		if (var1.hasKeyOfType("CustomName", 8))
+		{
 			this.p = var1.getString("CustomName");
 		}
 
 	}
 
 	@Override
-	public void c() {
+	public void c()
+	{
 		// Nacho-0050 - Don't tick Enchantment tables
-		if (!world.nachoSpigotConfig.shouldTickEnchantmentTables) {
+		if (!world.nachoSpigotConfig.shouldTickEnchantmentTables)
+		{
 			return;
 		}
 		// Nacho-0050 End
 		this.k = this.j;
 		this.m = this.l;
-		EntityHuman var1 = this.world.findNearbyPlayer(this.position.getX() + 0.5F,
-				this.position.getY() + 0.5F, this.position.getZ() + 0.5F, 3.0D);
-		if (var1 != null) {
+		EntityHuman var1 = this.world.findNearbyPlayer(this.position.getX() + 0.5F, this.position.getY() + 0.5F,
+				this.position.getZ() + 0.5F, 3.0D);
+		if (var1 != null)
+		{
 			double var2 = var1.locX - (this.position.getX() + 0.5F);
 			double var4 = var1.locZ - (this.position.getZ() + 0.5F);
 			this.n = (float) MathHelper.b(var4, var2);
 			this.j += 0.1F;
-			if (this.j < 0.5F || o.nextInt(40) == 0) {
+			if (this.j < 0.5F || o.nextInt(40) == 0)
+			{
 				float var6 = this.h;
 
-				do {
+				do
+				{
 					this.h += o.nextInt(4) - o.nextInt(4);
 				} while (var6 == this.h);
 			}
-		} else {
+		} else
+		{
 			this.n += 0.02F;
 			this.j -= 0.1F;
 		}
 
-		while (this.l >= 3.1415927F) {
+		while (this.l >= 3.1415927F)
+		{
 			this.l -= 6.2831855F;
 		}
 
-		while (this.l < -3.1415927F) {
+		while (this.l < -3.1415927F)
+		{
 			this.l += 6.2831855F;
 		}
 
-		while (this.n >= 3.1415927F) {
+		while (this.n >= 3.1415927F)
+		{
 			this.n -= 6.2831855F;
 		}
 
-		while (this.n < -3.1415927F) {
+		while (this.n < -3.1415927F)
+		{
 			this.n += 6.2831855F;
 		}
 
 		float var7;
-		for (var7 = this.n - this.l; var7 >= 3.1415927F; var7 -= 6.2831855F) {
+		for (var7 = this.n - this.l; var7 >= 3.1415927F; var7 -= 6.2831855F)
+		{
 		}
 
-		while (var7 < -3.1415927F) {
+		while (var7 < -3.1415927F)
+		{
 			var7 += 6.2831855F;
 		}
 
@@ -101,32 +119,38 @@ public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerL
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return this.hasCustomName() ? this.p : "container.enchant";
 	}
 
 	@Override
-	public boolean hasCustomName() {
+	public boolean hasCustomName()
+	{
 		return this.p != null && this.p.length() > 0;
 	}
 
-	public void a(String var1) {
+	public void a(String var1)
+	{
 		this.p = var1;
 	}
 
 	@Override
-	public IChatBaseComponent getScoreboardDisplayName() {
+	public IChatBaseComponent getScoreboardDisplayName()
+	{
 		return this.hasCustomName() ? new ChatComponentText(this.getName())
 				: new ChatMessage(this.getName(), new Object[0]);
 	}
 
 	@Override
-	public Container createContainer(PlayerInventory var1, EntityHuman var2) {
+	public Container createContainer(PlayerInventory var1, EntityHuman var2)
+	{
 		return new ContainerEnchantTable(var1, this.world, this.position);
 	}
 
 	@Override
-	public String getContainerName() {
+	public String getContainerName()
+	{
 		return "minecraft:enchanting_table";
 	}
 }

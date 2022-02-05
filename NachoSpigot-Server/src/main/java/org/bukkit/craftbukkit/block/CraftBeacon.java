@@ -9,33 +9,39 @@ import org.bukkit.inventory.Inventory;
 
 import net.minecraft.server.TileEntityBeacon;
 
-public class CraftBeacon extends CraftBlockState implements Beacon {
+public class CraftBeacon extends CraftBlockState implements Beacon
+{
 	private final CraftWorld world;
 	private final TileEntityBeacon beacon;
 
-	public CraftBeacon(final Block block) {
+	public CraftBeacon(final Block block)
+	{
 		super(block);
 
 		world = (CraftWorld) block.getWorld();
 		beacon = (TileEntityBeacon) world.getTileEntityAt(getX(), getY(), getZ());
 	}
 
-	public CraftBeacon(final Material material, final TileEntityBeacon te) {
+	public CraftBeacon(final Material material, final TileEntityBeacon te)
+	{
 		super(material);
 		world = null;
 		beacon = te;
 	}
 
 	@Override
-	public Inventory getInventory() {
+	public Inventory getInventory()
+	{
 		return new CraftInventoryBeacon(beacon);
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics) {
+	public boolean update(boolean force, boolean applyPhysics)
+	{
 		boolean result = super.update(force, applyPhysics);
 
-		if (result) {
+		if (result)
+		{
 			beacon.update();
 		}
 
@@ -43,7 +49,8 @@ public class CraftBeacon extends CraftBlockState implements Beacon {
 	}
 
 	@Override
-	public TileEntityBeacon getTileEntity() {
+	public TileEntityBeacon getTileEntity()
+	{
 		return beacon;
 	}
 }

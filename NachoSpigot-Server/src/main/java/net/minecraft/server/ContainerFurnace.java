@@ -5,7 +5,8 @@ import org.bukkit.craftbukkit.inventory.CraftInventoryFurnace;
 import org.bukkit.craftbukkit.inventory.CraftInventoryView;
 // CraftBukkit end
 
-public class ContainerFurnace extends Container {
+public class ContainerFurnace extends Container
+{
 
 	private final IInventory furnace;
 	private int f;
@@ -18,8 +19,10 @@ public class ContainerFurnace extends Container {
 	private PlayerInventory player;
 
 	@Override
-	public CraftInventoryView getBukkitView() {
-		if (bukkitEntity != null) {
+	public CraftInventoryView getBukkitView()
+	{
+		if (bukkitEntity != null)
+		{
 			return bukkitEntity;
 		}
 
@@ -29,7 +32,8 @@ public class ContainerFurnace extends Container {
 	}
 	// CraftBukkit end
 
-	public ContainerFurnace(PlayerInventory playerinventory, IInventory iinventory) {
+	public ContainerFurnace(PlayerInventory playerinventory, IInventory iinventory)
+	{
 		this.furnace = iinventory;
 		this.a(new Slot(iinventory, 0, 56, 17));
 		this.a((new SlotFurnaceFuel(iinventory, 1, 56, 53)));
@@ -38,44 +42,54 @@ public class ContainerFurnace extends Container {
 
 		int i;
 
-		for (i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
+		for (i = 0; i < 3; ++i)
+		{
+			for (int j = 0; j < 9; ++j)
+			{
 				this.a(new Slot(playerinventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
 			}
 		}
 
-		for (i = 0; i < 9; ++i) {
+		for (i = 0; i < 9; ++i)
+		{
 			this.a(new Slot(playerinventory, i, 8 + i * 18, 142));
 		}
 
 	}
 
 	@Override
-	public void addSlotListener(ICrafting icrafting) {
+	public void addSlotListener(ICrafting icrafting)
+	{
 		super.addSlotListener(icrafting);
 		icrafting.setContainerData(this, this.furnace);
 	}
 
 	@Override
-	public void b() {
+	public void b()
+	{
 		super.b();
 
-		for (int i = 0; i < this.listeners.size(); ++i) {
+		for (int i = 0; i < this.listeners.size(); ++i)
+		{
 			ICrafting icrafting = this.listeners.get(i);
 
-			if (this.f != this.furnace.getProperty(2)) {
+			if (this.f != this.furnace.getProperty(2))
+			{
 				icrafting.setContainerData(this, 2, this.furnace.getProperty(2));
 			}
 
-			if (this.h != this.furnace.getProperty(0)) {
+			if (this.h != this.furnace.getProperty(0))
+			{
 				icrafting.setContainerData(this, 0, this.furnace.getProperty(0));
 			}
 
-			if (this.i != this.furnace.getProperty(1)) {
+			if (this.i != this.furnace.getProperty(1))
+			{
 				icrafting.setContainerData(this, 1, this.furnace.getProperty(1));
 			}
 
-			if (this.g != this.furnace.getProperty(3)) {
+			if (this.g != this.furnace.getProperty(3))
+			{
 				icrafting.setContainerData(this, 3, this.furnace.getProperty(3));
 			}
 		}
@@ -87,54 +101,71 @@ public class ContainerFurnace extends Container {
 	}
 
 	@Override
-	public boolean a(EntityHuman entityhuman) {
+	public boolean a(EntityHuman entityhuman)
+	{
 		if (!this.checkReachable)
 			return true; // CraftBukkit
 		return this.furnace.a(entityhuman);
 	}
 
 	@Override
-	public ItemStack b(EntityHuman entityhuman, int i) {
+	public ItemStack b(EntityHuman entityhuman, int i)
+	{
 		ItemStack itemstack = null;
 		Slot slot = this.c.get(i);
 
-		if (slot != null && slot.hasItem()) {
+		if (slot != null && slot.hasItem())
+		{
 			ItemStack itemstack1 = slot.getItem();
 
 			itemstack = itemstack1.cloneItemStack();
-			if (i == 2) {
-				if (!this.a(itemstack1, 3, 39, true)) {
+			if (i == 2)
+			{
+				if (!this.a(itemstack1, 3, 39, true))
+				{
 					return null;
 				}
 
 				slot.a(itemstack1, itemstack);
-			} else if (i != 1 && i != 0) {
-				if (RecipesFurnace.getInstance().getResult(itemstack1) != null) {
-					if (!this.a(itemstack1, 0, 1, false)) {
+			} else if (i != 1 && i != 0)
+			{
+				if (RecipesFurnace.getInstance().getResult(itemstack1) != null)
+				{
+					if (!this.a(itemstack1, 0, 1, false))
+					{
 						return null;
 					}
-				} else if (TileEntityFurnace.isFuel(itemstack1)) {
-					if (!this.a(itemstack1, 1, 2, false)) {
+				} else if (TileEntityFurnace.isFuel(itemstack1))
+				{
+					if (!this.a(itemstack1, 1, 2, false))
+					{
 						return null;
 					}
-				} else if (i >= 3 && i < 30) {
-					if (!this.a(itemstack1, 30, 39, false)) {
+				} else if (i >= 3 && i < 30)
+				{
+					if (!this.a(itemstack1, 30, 39, false))
+					{
 						return null;
 					}
-				} else if (i >= 30 && i < 39 && !this.a(itemstack1, 3, 30, false)) {
+				} else if (i >= 30 && i < 39 && !this.a(itemstack1, 3, 30, false))
+				{
 					return null;
 				}
-			} else if (!this.a(itemstack1, 3, 39, false)) {
+			} else if (!this.a(itemstack1, 3, 39, false))
+			{
 				return null;
 			}
 
-			if (itemstack1.count == 0) {
+			if (itemstack1.count == 0)
+			{
 				slot.set((ItemStack) null);
-			} else {
+			} else
+			{
 				slot.f();
 			}
 
-			if (itemstack1.count == itemstack.count) {
+			if (itemstack1.count == itemstack.count)
+			{
 				return null;
 			}
 

@@ -1,13 +1,16 @@
 package net.minecraft.server;
 
-public class ItemMapEmpty extends ItemWorldMapBase {
+public class ItemMapEmpty extends ItemWorldMapBase
+{
 
-	protected ItemMapEmpty() {
+	protected ItemMapEmpty()
+	{
 		this.a(CreativeModeTab.f);
 	}
 
 	@Override
-	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman) {
+	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman)
+	{
 		World worldMain = world.getServer().getServer().worlds.get(0); // CraftBukkit - store reference to primary world
 		ItemStack itemstack1 = new ItemStack(Items.FILLED_MAP, 1, worldMain.b("map")); // CraftBukkit - use primary
 																						// world for maps
@@ -24,10 +27,13 @@ public class ItemMapEmpty extends ItemWorldMapBase {
 				.callEvent(new org.bukkit.event.server.MapInitializeEvent(worldmap.mapView)); // CraftBukkit
 
 		--itemstack.count;
-		if (itemstack.count <= 0) {
+		if (itemstack.count <= 0)
+		{
 			return itemstack1;
-		} else {
-			if (!entityhuman.inventory.pickup(itemstack1.cloneItemStack())) {
+		} else
+		{
+			if (!entityhuman.inventory.pickup(itemstack1.cloneItemStack()))
+			{
 				entityhuman.drop(itemstack1, false);
 			}
 

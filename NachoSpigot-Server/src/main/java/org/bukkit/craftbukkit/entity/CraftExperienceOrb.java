@@ -6,33 +6,40 @@ import org.bukkit.entity.ExperienceOrb;
 
 import net.minecraft.server.EntityExperienceOrb;
 
-public class CraftExperienceOrb extends CraftEntity implements ExperienceOrb {
-	public CraftExperienceOrb(CraftServer server, EntityExperienceOrb entity) {
+public class CraftExperienceOrb extends CraftEntity implements ExperienceOrb
+{
+	public CraftExperienceOrb(CraftServer server, EntityExperienceOrb entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public int getExperience() {
+	public int getExperience()
+	{
 		return getHandle().value;
 	}
 
 	@Override
-	public void setExperience(int value) {
+	public void setExperience(int value)
+	{
 		getHandle().value = value;
 	}
 
 	@Override
-	public EntityExperienceOrb getHandle() {
+	public EntityExperienceOrb getHandle()
+	{
 		return (EntityExperienceOrb) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftExperienceOrb";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.EXPERIENCE_ORB;
 	}
 }

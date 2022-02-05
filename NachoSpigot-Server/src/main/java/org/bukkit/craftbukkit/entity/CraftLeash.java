@@ -6,23 +6,28 @@ import org.bukkit.entity.LeashHitch;
 
 import net.minecraft.server.EntityLeash;
 
-public class CraftLeash extends CraftHanging implements LeashHitch {
-	public CraftLeash(CraftServer server, EntityLeash entity) {
+public class CraftLeash extends CraftHanging implements LeashHitch
+{
+	public CraftLeash(CraftServer server, EntityLeash entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EntityLeash getHandle() {
+	public EntityLeash getHandle()
+	{
 		return (EntityLeash) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftLeash";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.LEASH_HITCH;
 	}
 }

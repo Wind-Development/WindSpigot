@@ -1,8 +1,10 @@
 package net.minecraft.server;
 
-public class OldChunkLoader {
+public class OldChunkLoader
+{
 
-	public static OldChunkLoader.OldChunk a(NBTTagCompound nbttagcompound) {
+	public static OldChunkLoader.OldChunk a(NBTTagCompound nbttagcompound)
+	{
 		int i = nbttagcompound.getInt("xPos");
 		int j = nbttagcompound.getInt("zPos");
 		OldChunkLoader.OldChunk oldchunkloader_oldchunk = new OldChunkLoader.OldChunk(i, j);
@@ -17,9 +19,11 @@ public class OldChunkLoader {
 		oldchunkloader_oldchunk.i = nbttagcompound.getList("TileEntities", 10);
 		oldchunkloader_oldchunk.j = nbttagcompound.getList("TileTicks", 10);
 
-		try {
+		try
+		{
 			oldchunkloader_oldchunk.a = nbttagcompound.getLong("LastUpdate");
-		} catch (ClassCastException classcastexception) {
+		} catch (ClassCastException classcastexception)
+		{
 			oldchunkloader_oldchunk.a = nbttagcompound.getInt("LastUpdate");
 		}
 
@@ -27,13 +31,15 @@ public class OldChunkLoader {
 	}
 
 	public static void a(OldChunkLoader.OldChunk oldchunkloader_oldchunk, NBTTagCompound nbttagcompound,
-			WorldChunkManager worldchunkmanager) {
+			WorldChunkManager worldchunkmanager)
+	{
 		nbttagcompound.setInt("xPos", oldchunkloader_oldchunk.k);
 		nbttagcompound.setInt("zPos", oldchunkloader_oldchunk.l);
 		nbttagcompound.setLong("LastUpdate", oldchunkloader_oldchunk.a);
 		int[] aint = new int[oldchunkloader_oldchunk.c.length];
 
-		for (int i = 0; i < oldchunkloader_oldchunk.c.length; ++i) {
+		for (int i = 0; i < oldchunkloader_oldchunk.c.length; ++i)
+		{
 			aint[i] = oldchunkloader_oldchunk.c[i];
 		}
 
@@ -44,21 +50,27 @@ public class OldChunkLoader {
 		int j;
 		int k;
 
-		for (int l = 0; l < 8; ++l) {
+		for (int l = 0; l < 8; ++l)
+		{
 			boolean flag = true;
 
-			for (j = 0; j < 16 && flag; ++j) {
+			for (j = 0; j < 16 && flag; ++j)
+			{
 				k = 0;
 
-				while (k < 16 && flag) {
+				while (k < 16 && flag)
+				{
 					int i1 = 0;
 
-					while (true) {
-						if (i1 < 16) {
+					while (true)
+					{
+						if (i1 < 16)
+						{
 							int j1 = j << 11 | i1 << 7 | k + (l << 4);
 							byte b0 = oldchunkloader_oldchunk.g[j1];
 
-							if (b0 == 0) {
+							if (b0 == 0)
+							{
 								++i1;
 								continue;
 							}
@@ -72,15 +84,19 @@ public class OldChunkLoader {
 				}
 			}
 
-			if (!flag) {
+			if (!flag)
+			{
 				byte[] abyte = new byte[4096];
 				NibbleArray nibblearray = new NibbleArray();
 				NibbleArray nibblearray1 = new NibbleArray();
 				NibbleArray nibblearray2 = new NibbleArray();
 
-				for (int k1 = 0; k1 < 16; ++k1) {
-					for (int l1 = 0; l1 < 16; ++l1) {
-						for (int i2 = 0; i2 < 16; ++i2) {
+				for (int k1 = 0; k1 < 16; ++k1)
+				{
+					for (int l1 = 0; l1 < 16; ++l1)
+					{
+						for (int i2 = 0; i2 < 16; ++i2)
+						{
 							int j2 = k1 << 11 | i2 << 7 | l1 + (l << 4);
 							byte b1 = oldchunkloader_oldchunk.g[j2];
 
@@ -107,8 +123,10 @@ public class OldChunkLoader {
 		byte[] abyte1 = new byte[256];
 		BlockPosition.MutableBlockPosition blockposition_mutableblockposition = new BlockPosition.MutableBlockPosition();
 
-		for (j = 0; j < 16; ++j) {
-			for (k = 0; k < 16; ++k) {
+		for (j = 0; j < 16; ++j)
+		{
+			for (k = 0; k < 16; ++k)
+			{
 				blockposition_mutableblockposition.c(oldchunkloader_oldchunk.k << 4 | j, 0,
 						oldchunkloader_oldchunk.l << 4 | k);
 				abyte1[k << 4
@@ -120,13 +138,15 @@ public class OldChunkLoader {
 		nbttagcompound.setByteArray("Biomes", abyte1);
 		nbttagcompound.set("Entities", oldchunkloader_oldchunk.h);
 		nbttagcompound.set("TileEntities", oldchunkloader_oldchunk.i);
-		if (oldchunkloader_oldchunk.j != null) {
+		if (oldchunkloader_oldchunk.j != null)
+		{
 			nbttagcompound.set("TileTicks", oldchunkloader_oldchunk.j);
 		}
 
 	}
 
-	public static class OldChunk {
+	public static class OldChunk
+	{
 
 		public long a;
 		public boolean b;
@@ -141,7 +161,8 @@ public class OldChunkLoader {
 		public final int k;
 		public final int l;
 
-		public OldChunk(int i, int j) {
+		public OldChunk(int i, int j)
+		{
 			this.k = i;
 			this.l = j;
 		}

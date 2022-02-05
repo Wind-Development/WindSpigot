@@ -9,22 +9,27 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder; // Paper
 
-public class PacketEncrypter extends MessageToMessageEncoder<ByteBuf> { // Paper - change superclass
+public class PacketEncrypter extends MessageToMessageEncoder<ByteBuf>
+{ // Paper - change superclass
 	private final VelocityCipher cipher; // Paper
 
-	public PacketEncrypter(VelocityCipher ciper) { // Paper
+	public PacketEncrypter(VelocityCipher ciper)
+	{ // Paper
 		this.cipher = ciper; // Paper
 	}
 
 	@Override
 	protected void encode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list)
-			throws Exception { // Paper
+			throws Exception
+	{ // Paper
 		// Paper start
 		ByteBuf compatible = MoreByteBufUtils.ensureCompatible(channelHandlerContext.alloc(), cipher, byteBuf);
-		try {
+		try
+		{
 			cipher.process(compatible);
 			list.add(compatible);
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			compatible.release(); // compatible will never be used if we throw an exception
 			throw e;
 		}
@@ -33,7 +38,8 @@ public class PacketEncrypter extends MessageToMessageEncoder<ByteBuf> { // Paper
 
 	// Paper start
 	@Override
-	public void handlerRemoved(ChannelHandlerContext ctx) {
+	public void handlerRemoved(ChannelHandlerContext ctx)
+	{
 		cipher.close();
 	}
 	// Paper end

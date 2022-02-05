@@ -10,57 +10,74 @@ import dev.cobblesword.nachospigot.commons.ClickableBuilder;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-public class KnockbackCommand extends Command {
+public class KnockbackCommand extends Command
+{
 
 	private final String separator = "§8§m-=-------------------------=-";
 
-	public KnockbackCommand(String name) {
+	public KnockbackCommand(String name)
+	{
 		super(name);
 	}
 
 	@Override
-	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		if (!sender.isOp() || !(sender instanceof Player)) {
+	public boolean execute(CommandSender sender, String commandLabel, String[] args)
+	{
+		if (!sender.isOp() || !(sender instanceof Player))
+		{
 			return false;
 		}
 		Player player = (Player) sender;
 
-		switch (args.length) {
-		case 2: {
-			switch (args[0].toLowerCase()) {
-			case "create": {
-				if (!isProfileName(args[1])) {
+		switch (args.length)
+		{
+		case 2:
+		{
+			switch (args[0].toLowerCase())
+			{
+			case "create":
+			{
+				if (!isProfileName(args[1]))
+				{
 					CraftKnockbackProfile profile = new CraftKnockbackProfile(args[1]);
 					KnockbackConfig.getKbProfiles().add(profile);
 					profile.save();
 					knockbackCommandMain(player);
 					player.sendMessage("§aThe profile §e" + args[1] + " §ahas been created.");
 					return true;
-				} else {
+				} else
+				{
 					player.sendMessage("§cA knockback profile with that name already exists.");
 				}
 				break;
 			}
-			case "delete": {
-				if (KnockbackConfig.getCurrentKb().getName().equalsIgnoreCase(args[1])) {
+			case "delete":
+			{
+				if (KnockbackConfig.getCurrentKb().getName().equalsIgnoreCase(args[1]))
+				{
 					knockbackCommandMain(player);
 					player.sendMessage("§cYou cannot delete the profile that is being used.");
 					return false;
 				}
-				if (KnockbackConfig.getKbProfiles().removeIf(profile -> profile.getName().equalsIgnoreCase(args[1]))) {
+				if (KnockbackConfig.getKbProfiles().removeIf(profile -> profile.getName().equalsIgnoreCase(args[1])))
+				{
 					KnockbackConfig.set("knockback.profiles." + args[1], null);
 					knockbackCommandMain(player);
 					player.sendMessage("§aThe profile §e" + args[1] + " §ahas been removed.");
 					return true;
-				} else {
+				} else
+				{
 					player.sendMessage("§cThis profile doesn't exist.");
 				}
 				break;
 			}
-			case "load": {
+			case "load":
+			{
 				KnockbackProfile profile = KnockbackConfig.getKbProfileByName(args[1]);
-				if (profile != null) {
-					if (KnockbackConfig.getCurrentKb().getName().equalsIgnoreCase(args[1])) {
+				if (profile != null)
+				{
+					if (KnockbackConfig.getCurrentKb().getName().equalsIgnoreCase(args[1]))
+					{
 						player.sendMessage("§cThis profile is loaded.");
 						return false;
 					}
@@ -70,45 +87,56 @@ public class KnockbackCommand extends Command {
 					knockbackCommandMain(player);
 					player.sendMessage("§aThe profile §e" + args[1] + " §ahas been loaded.");
 					return true;
-				} else {
+				} else
+				{
 					player.sendMessage("§cThis profile doesn't exist.");
 				}
 				break;
 			}
-			case "view": {
+			case "view":
+			{
 				KnockbackProfile profile = KnockbackConfig.getKbProfileByName(args[1]);
-				if (profile != null) {
+				if (profile != null)
+				{
 					knockbackCommandView(player, profile);
 					return true;
 				}
 				player.sendMessage("§cThis profile doesn't exist.");
 				break;
 			}
-			case "projectile": {
+			case "projectile":
+			{
 				KnockbackProfile profile = KnockbackConfig.getKbProfileByName(args[1]);
-				if (profile != null) {
+				if (profile != null)
+				{
 					knockbackCommandViewProjectiles(player, profile);
 					return true;
 				}
 				player.sendMessage("§cThis profile doesn't exist.");
 				break;
 			}
-			default: {
+			default:
+			{
 				knockbackCommandMain(player);
 			}
 			}
 			break;
 		}
-		case 3: {
-			switch (args[0].toLowerCase()) {
-			case "set": {
+		case 3:
+		{
+			switch (args[0].toLowerCase())
+			{
+			case "set":
+			{
 				KnockbackProfile profile = KnockbackConfig.getKbProfileByName(args[1]);
-				if (profile == null) {
+				if (profile == null)
+				{
 					sender.sendMessage("§cA profile with that name could not be found.");
 					return false;
 				}
 				Player target = Bukkit.getPlayer(args[2]);
-				if (target == null) {
+				if (target == null)
+				{
 					sender.sendMessage("§cThat player is not online.");
 					return false;
 				}
@@ -118,16 +146,22 @@ public class KnockbackCommand extends Command {
 			}
 			break;
 		}
-		case 4: {
-			if (args[0].equalsIgnoreCase("edit")) {
+		case 4:
+		{
+			if (args[0].equalsIgnoreCase("edit"))
+			{
 				KnockbackProfile profile = KnockbackConfig.getKbProfileByName(args[1].toLowerCase());
-				if (profile == null) {
+				if (profile == null)
+				{
 					player.sendMessage("§cThis profile doesn't exist.");
 					return false;
 				}
-				switch (args[2].toLowerCase()) {
-				case "friction-horizontal": {
-					if (!NumberUtils.isNumber(args[3])) {
+				switch (args[2].toLowerCase())
+				{
+				case "friction-horizontal":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -138,8 +172,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "friction-vertical": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "friction-vertical":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -150,8 +186,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "horizontal": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "horizontal":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -162,8 +200,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "vertical": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "vertical":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -174,8 +214,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "extra-horizontal": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "extra-horizontal":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						sender.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -186,8 +228,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "extra-vertical": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "extra-vertical":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -198,8 +242,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "vertical-max": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "vertical-max":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -210,8 +256,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "vertical-min": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "vertical-min":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -222,20 +270,25 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "stop-sprint": {
-					if ((args[3]).equalsIgnoreCase("true") || (args[3]).equalsIgnoreCase("false")) {
+				case "stop-sprint":
+				{
+					if ((args[3]).equalsIgnoreCase("true") || (args[3]).equalsIgnoreCase("false"))
+					{
 						profile.setStopSprint(Boolean.parseBoolean(args[3]));
 						profile.save();
 						knockbackCommandView(player, profile);
 						player.sendMessage("§aValue edited and saved.");
 						return true;
-					} else {
+					} else
+					{
 						player.sendMessage("§4" + args[3] + " §cis not a boolean.");
 					}
 					break;
 				}
-				case "rod-horizontal": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "rod-horizontal":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -246,8 +299,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "rod-vertical": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "rod-vertical":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -258,8 +313,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "arrow-horizontal": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "arrow-horizontal":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -270,8 +327,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "arrow-vertical": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "arrow-vertical":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -282,8 +341,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "pearl-horizontal": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "pearl-horizontal":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -294,8 +355,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "pearl-vertical": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "pearl-vertical":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -306,8 +369,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "snowball-horizontal": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "snowball-horizontal":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -318,8 +383,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "snowball-vertical": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "snowball-vertical":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -330,8 +397,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "egg-horizontal": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "egg-horizontal":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -342,8 +411,10 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "egg-vertical": {
-					if (!NumberUtils.isNumber(args[3])) {
+				case "egg-vertical":
+				{
+					if (!NumberUtils.isNumber(args[3]))
+					{
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
@@ -358,17 +429,20 @@ public class KnockbackCommand extends Command {
 			}
 			break;
 		}
-		default: {
+		default:
+		{
 			knockbackCommandMain(player);
 		}
 		}
 		return false;
 	}
 
-	private void knockbackCommandMain(Player player) {
+	private void knockbackCommandMain(Player player)
+	{
 		player.sendMessage(separator + "\n" + "§a§lKnockback profile list:\n");
 
-		for (KnockbackProfile profile : KnockbackConfig.getKbProfiles()) {
+		for (KnockbackProfile profile : KnockbackConfig.getKbProfiles())
+		{
 			boolean current = KnockbackConfig.getCurrentKb().getName().equals(profile.getName());
 
 			TextComponent line = new ClickableBuilder("§8§l(§e§l➜§8§l) ")
@@ -393,9 +467,11 @@ public class KnockbackCommand extends Command {
 		player.sendMessage(separator);
 	}
 
-	private void knockbackCommandView(Player player, KnockbackProfile profile) {
+	private void knockbackCommandView(Player player, KnockbackProfile profile)
+	{
 		player.sendMessage(separator + "\n" + "§a§lKnockback values:\n");
-		for (String values : profile.getKnockbackValues()) {
+		for (String values : profile.getKnockbackValues())
+		{
 			TextComponent value = new TextComponent("§6» §e" + values);
 			TextComponent edit = new ClickableBuilder(" §8§l[§e§l✎§8§l]")
 					.setHover("§e[Click to edit " + values + " value]")
@@ -413,9 +489,11 @@ public class KnockbackCommand extends Command {
 		player.sendMessage(separator);
 	}
 
-	private void knockbackCommandViewProjectiles(Player player, KnockbackProfile profile) {
+	private void knockbackCommandViewProjectiles(Player player, KnockbackProfile profile)
+	{
 		player.sendMessage(separator + "\n§a§lProjectiles values: \n");
-		for (String values : profile.getProjectilesValues()) {
+		for (String values : profile.getProjectilesValues())
+		{
 			TextComponent value = new TextComponent("§6» §e" + values);
 			TextComponent edit = new ClickableBuilder(" §8§l[§e§l✎§8§l]")
 					.setHover("§e[Click here to edit " + values + " value]")
@@ -434,9 +512,12 @@ public class KnockbackCommand extends Command {
 
 	}
 
-	private boolean isProfileName(String name) {
-		for (KnockbackProfile profile : KnockbackConfig.getKbProfiles()) {
-			if (profile.getName().equalsIgnoreCase(name)) {
+	private boolean isProfileName(String name)
+	{
+		for (KnockbackProfile profile : KnockbackConfig.getKbProfiles())
+		{
+			if (profile.getName().equalsIgnoreCase(name))
+			{
 				return true;
 			}
 		}

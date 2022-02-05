@@ -7,7 +7,8 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public abstract class Enchantment {
+public abstract class Enchantment
+{
 
 	// CraftBukkit - update CraftEnchant.getName(i) if this changes
 	private static final Enchantment[] byId = new Enchantment[256];
@@ -54,17 +55,21 @@ public abstract class Enchantment {
 	public EnchantmentSlotType slot;
 	protected String name;
 
-	public static Enchantment getById(int i) {
+	public static Enchantment getById(int i)
+	{
 		return i >= 0 && i < Enchantment.byId.length ? Enchantment.byId[i] : null;
 	}
 
-	protected Enchantment(int i, MinecraftKey minecraftkey, int j, EnchantmentSlotType enchantmentslottype) {
+	protected Enchantment(int i, MinecraftKey minecraftkey, int j, EnchantmentSlotType enchantmentslottype)
+	{
 		this.id = i;
 		this.weight = j;
 		this.slot = enchantmentslottype;
-		if (Enchantment.byId[i] != null) {
+		if (Enchantment.byId[i] != null)
+		{
 			throw new IllegalArgumentException("Duplicate enchantment id!");
-		} else {
+		} else
+		{
 			Enchantment.byId[i] = this;
 			Enchantment.E.put(minecraftkey, this);
 		}
@@ -73,80 +78,99 @@ public abstract class Enchantment {
 				.registerEnchantment(new org.bukkit.craftbukkit.enchantments.CraftEnchantment(this)); // CraftBukkit
 	}
 
-	public static Enchantment getByName(String s) {
+	public static Enchantment getByName(String s)
+	{
 		return Enchantment.E.get(new MinecraftKey(s));
 	}
 
-	public static Set<MinecraftKey> getEffects() {
+	public static Set<MinecraftKey> getEffects()
+	{
 		return Enchantment.E.keySet();
 	}
 
-	public int getRandomWeight() {
+	public int getRandomWeight()
+	{
 		return this.weight;
 	}
 
-	public int getStartLevel() {
+	public int getStartLevel()
+	{
 		return 1;
 	}
 
-	public int getMaxLevel() {
+	public int getMaxLevel()
+	{
 		return 1;
 	}
 
-	public int a(int i) {
+	public int a(int i)
+	{
 		return 1 + i * 10;
 	}
 
-	public int b(int i) {
+	public int b(int i)
+	{
 		return this.a(i) + 5;
 	}
 
-	public int a(int i, DamageSource damagesource) {
+	public int a(int i, DamageSource damagesource)
+	{
 		return 0;
 	}
 
-	public float a(int i, EnumMonsterType enummonstertype) {
+	public float a(int i, EnumMonsterType enummonstertype)
+	{
 		return 0.0F;
 	}
 
-	public boolean a(Enchantment enchantment) {
+	public boolean a(Enchantment enchantment)
+	{
 		return this != enchantment;
 	}
 
-	public Enchantment c(String s) {
+	public Enchantment c(String s)
+	{
 		this.name = s;
 		return this;
 	}
 
-	public String a() {
+	public String a()
+	{
 		return "enchantment." + this.name;
 	}
 
-	public String d(int i) {
+	public String d(int i)
+	{
 		String s = LocaleI18n.get(this.a());
 
 		return s + " " + LocaleI18n.get("enchantment.level." + i);
 	}
 
-	public boolean canEnchant(ItemStack itemstack) {
+	public boolean canEnchant(ItemStack itemstack)
+	{
 		return this.slot.canEnchant(itemstack.getItem());
 	}
 
-	public void a(EntityLiving entityliving, Entity entity, int i) {
+	public void a(EntityLiving entityliving, Entity entity, int i)
+	{
 	}
 
-	public void b(EntityLiving entityliving, Entity entity, int i) {
+	public void b(EntityLiving entityliving, Entity entity, int i)
+	{
 	}
 
-	static {
+	static
+	{
 		ArrayList arraylist = Lists.newArrayList();
 		Enchantment[] aenchantment = Enchantment.byId;
 		int i = aenchantment.length;
 
-		for (int j = 0; j < i; ++j) {
+		for (int j = 0; j < i; ++j)
+		{
 			Enchantment enchantment = aenchantment[j];
 
-			if (enchantment != null) {
+			if (enchantment != null)
+			{
 				arraylist.add(enchantment);
 			}
 		}

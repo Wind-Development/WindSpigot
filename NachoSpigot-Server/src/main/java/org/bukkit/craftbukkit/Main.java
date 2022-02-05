@@ -16,21 +16,27 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.minecraft.server.MinecraftServer;
 
-public class Main {
+public class Main
+{
 	public static boolean useJline = true;
 	public static boolean useConsole = true;
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		System.setProperty("log4j2.formatMsgNoLookups", "true");
-		try {
-			if (!SystemUtils.isJavaVersionAtLeast(JavaVersion.JAVA_17)) {
+		try
+		{
+			if (!SystemUtils.isJavaVersionAtLeast(JavaVersion.JAVA_17))
+			{
 				System.err.println("It seems like you are not using Java 17!");
 				System.out.println("The use of Java 17 is strongly recommended.");
 			}
-		} catch (Exception ignored) {
+		} catch (Exception ignored)
+		{
 			System.err.println("Failed to get Java version! Continuing either way..");
 		}
-		OptionParser parser = new OptionParser() {
+		OptionParser parser = new OptionParser()
+		{
 			{
 				acceptsAll(asList("?", "help"), "Show the help");
 
@@ -115,60 +121,76 @@ public class Main {
 
 		OptionSet options = null;
 
-		try {
+		try
+		{
 			options = parser.parse(args);
-		} catch (joptsimple.OptionException ex) {
+		} catch (joptsimple.OptionException ex)
+		{
 			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage());
 		}
 
-		if ((options == null) || (options.has("?"))) {
-			try {
+		if ((options == null) || (options.has("?")))
+		{
+			try
+			{
 				parser.printHelpOn(System.out);
-			} catch (IOException ex) {
+			} catch (IOException ex)
+			{
 				Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 			}
-		} else if (options.has("v")) {
+		} else if (options.has("v"))
+		{
 			System.out.println(CraftServer.class.getPackage().getImplementationVersion());
-		} else {
+		} else
+		{
 			// Do you love Java using + and ! as string based identifiers? I sure do!
 			String path = new File(".").getAbsolutePath();
-			if (path.contains("!") || path.contains("+")) {
+			if (path.contains("!") || path.contains("+"))
+			{
 				System.err.println(
 						"Cannot run server in a directory with ! or + in the pathname. Please rename the affected folders and try again.");
 				return;
 			}
 
-			try {
+			try
+			{
 				// This trick bypasses Maven Shade's clever rewriting of our getProperty call
 				// when using String literals
-				String jline_UnsupportedTerminal = new String(new char[] { 'j', 'l', 'i', 'n', 'e', '.', 'U', 'n', 's',
-						'u', 'p', 'p', 'o', 'r', 't', 'e', 'd', 'T', 'e', 'r', 'm', 'i', 'n', 'a', 'l' });
-				String jline_terminal = new String(
-						new char[] { 'j', 'l', 'i', 'n', 'e', '.', 't', 'e', 'r', 'm', 'i', 'n', 'a', 'l' });
+				String jline_UnsupportedTerminal = new String(new char[]
+				{ 'j', 'l', 'i', 'n', 'e', '.', 'U', 'n', 's', 'u', 'p', 'p', 'o', 'r', 't', 'e', 'd', 'T', 'e', 'r',
+						'm', 'i', 'n', 'a', 'l' });
+				String jline_terminal = new String(new char[]
+				{ 'j', 'l', 'i', 'n', 'e', '.', 't', 'e', 'r', 'm', 'i', 'n', 'a', 'l' });
 
 				useJline = !(jline_UnsupportedTerminal).equals(System.getProperty(jline_terminal));
 
-				if (options.has("nojline")) {
+				if (options.has("nojline"))
+				{
 					System.setProperty("user.language", "en");
 					useJline = false;
 				}
 
-				if (useJline) {
+				if (useJline)
+				{
 					System.setProperty("library.jansi.version", "NachoSpigot");
 					AnsiConsole.systemInstall();
-				} else {
+				} else
+				{
 					// This ensures the terminal literal will always match the jline implementation
 					System.setProperty(jline.TerminalFactory.JLINE_TERMINAL, jline.UnsupportedTerminal.class.getName());
 				}
 
-				if (options.has("noconsole")) {
+				if (options.has("noconsole"))
+				{
 					useConsole = false;
 				}
 
 				// Spigot Start
 				int maxPermGen = 0; // In kb
-				for (String s : java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments()) {
-					if (s.startsWith("-XX:MaxPermSize")) {
+				for (String s : java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments())
+				{
+					if (s.startsWith("-XX:MaxPermSize"))
+					{
 						maxPermGen = Integer.parseInt(s.replaceAll("[^\\d]", ""));
 						maxPermGen <<= 10 * ("kmg".indexOf(Character.toLowerCase(s.charAt(s.length() - 1))));
 					}
@@ -193,13 +215,15 @@ public class Main {
 																											// loading
 				System.out.println("Loading libraries, please wait...");
 				MinecraftServer.main(options);
-			} catch (Throwable t) {
+			} catch (Throwable t)
+			{
 				t.printStackTrace();
 			}
 		}
 	}
 
-	private static List<String> asList(String... params) {
+	private static List<String> asList(String... params)
+	{
 		return Arrays.asList(params);
 	}
 }

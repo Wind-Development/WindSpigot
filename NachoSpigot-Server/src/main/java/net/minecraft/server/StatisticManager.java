@@ -4,27 +4,34 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-public class StatisticManager {
+public class StatisticManager
+{
 
 	protected final Map<Statistic, StatisticWrapper> a = Maps.newConcurrentMap();
 
-	public StatisticManager() {
+	public StatisticManager()
+	{
 	}
 
-	public boolean hasAchievement(Achievement achievement) {
+	public boolean hasAchievement(Achievement achievement)
+	{
 		return this.getStatisticValue(achievement) > 0;
 	}
 
-	public boolean b(Achievement achievement) {
+	public boolean b(Achievement achievement)
+	{
 		return achievement.c == null || this.hasAchievement(achievement.c);
 	}
 
-	public void b(EntityHuman entityhuman, Statistic statistic, int i) {
-		if (!statistic.d() || this.b((Achievement) statistic)) {
+	public void b(EntityHuman entityhuman, Statistic statistic, int i)
+	{
+		if (!statistic.d() || this.b((Achievement) statistic))
+		{
 			// CraftBukkit start - fire Statistic events
 			org.bukkit.event.Cancellable cancellable = org.bukkit.craftbukkit.event.CraftEventFactory
 					.handleStatisticsIncrease(entityhuman, statistic, this.getStatisticValue(statistic), i);
-			if (cancellable != null && cancellable.isCancelled()) {
+			if (cancellable != null && cancellable.isCancelled())
+			{
 				return;
 			}
 			// CraftBukkit end
@@ -32,10 +39,12 @@ public class StatisticManager {
 		}
 	}
 
-	public void setStatistic(EntityHuman entityhuman, Statistic statistic, int i) {
+	public void setStatistic(EntityHuman entityhuman, Statistic statistic, int i)
+	{
 		StatisticWrapper statisticwrapper = this.a.get(statistic);
 
-		if (statisticwrapper == null) {
+		if (statisticwrapper == null)
+		{
 			statisticwrapper = new StatisticWrapper();
 			this.a.put(statistic, statisticwrapper);
 		}
@@ -43,22 +52,26 @@ public class StatisticManager {
 		statisticwrapper.a(i);
 	}
 
-	public int getStatisticValue(Statistic statistic) {
+	public int getStatisticValue(Statistic statistic)
+	{
 		StatisticWrapper statisticwrapper = this.a.get(statistic);
 
 		return statisticwrapper == null ? 0 : statisticwrapper.a();
 	}
 
-	public <T extends IJsonStatistic> T b(Statistic statistic) {
+	public <T extends IJsonStatistic> T b(Statistic statistic)
+	{
 		StatisticWrapper statisticwrapper = this.a.get(statistic);
 
 		return statisticwrapper != null ? (T) statisticwrapper.b() : null; // CraftBukkit - fix decompile error
 	}
 
-	public <T extends IJsonStatistic> T a(Statistic statistic, T t0) {
+	public <T extends IJsonStatistic> T a(Statistic statistic, T t0)
+	{
 		StatisticWrapper statisticwrapper = this.a.get(statistic);
 
-		if (statisticwrapper == null) {
+		if (statisticwrapper == null)
+		{
 			statisticwrapper = new StatisticWrapper();
 			this.a.put(statistic, statisticwrapper);
 		}

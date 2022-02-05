@@ -1,6 +1,7 @@
 package dev.cobblesword.nachospigot.knockback;
 
-public class CraftKnockbackProfile implements KnockbackProfile {
+public class CraftKnockbackProfile implements KnockbackProfile
+{
 
 	private String name;
 
@@ -26,17 +27,20 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 	private double eggHorizontal = 0.4D;
 	private double eggVertical = 0.4D;
 
-	public CraftKnockbackProfile(String name) {
+	public CraftKnockbackProfile(String name)
+	{
 		this.name = name;
 	}
 
 	@Override
-	public void save() {
+	public void save()
+	{
 		save(false);
 	}
 
 	@Override
-	public void save(boolean projectiles) {
+	public void save(boolean projectiles)
+	{
 		final String path = "knockback.profiles." + this.name;
 
 		KnockbackConfig.set(path + ".stop-sprint", this.stopSprint);
@@ -49,7 +53,8 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 		KnockbackConfig.set(path + ".extra-horizontal", this.extraHorizontal);
 		KnockbackConfig.set(path + ".extra-vertical", this.extraVertical);
 
-		if (projectiles) {
+		if (projectiles)
+		{
 			KnockbackConfig.set(path + ".projectiles.rod.horizontal", this.rodHorizontal);
 			KnockbackConfig.set(path + ".projectiles.rod.vertical", this.rodVertical);
 			KnockbackConfig.set(path + ".projectiles.arrow.horizontal", this.arrowHorizontal);
@@ -66,217 +71,260 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
 	@Override
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
 	}
 
 	@Override
-	public double getHorizontal() {
+	public double getHorizontal()
+	{
 		return horizontal;
 	}
 
 	@Override
-	public void setHorizontal(double horizontal) {
+	public void setHorizontal(double horizontal)
+	{
 		this.horizontal = horizontal;
 	}
 
 	@Override
-	public double getVertical() {
+	public double getVertical()
+	{
 		return vertical;
 	}
 
 	@Override
-	public void setVertical(double vertical) {
+	public void setVertical(double vertical)
+	{
 		this.vertical = vertical;
 	}
 
 	@Override
-	public double getVerticalMin() {
+	public double getVerticalMin()
+	{
 		return verticalMin;
 	}
 
 	@Override
-	public void setVerticalMin(double verticalMin) {
+	public void setVerticalMin(double verticalMin)
+	{
 		this.verticalMin = verticalMin;
 	}
 
 	@Override
-	public double getVerticalMax() {
+	public double getVerticalMax()
+	{
 		return verticalMax;
 	}
 
 	@Override
-	public void setVerticalMax(double verticalMax) {
+	public void setVerticalMax(double verticalMax)
+	{
 		this.verticalMax = verticalMax;
 	}
 
 	@Override
-	public double getExtraHorizontal() {
+	public double getExtraHorizontal()
+	{
 		return extraHorizontal;
 	}
 
 	@Override
-	public void setExtraHorizontal(double extraHorizontal) {
+	public void setExtraHorizontal(double extraHorizontal)
+	{
 		this.extraHorizontal = extraHorizontal;
 	}
 
 	@Override
-	public double getExtraVertical() {
+	public double getExtraVertical()
+	{
 		return extraVertical;
 	}
 
 	@Override
-	public void setExtraVertical(double extraVertical) {
+	public void setExtraVertical(double extraVertical)
+	{
 		this.extraVertical = extraVertical;
 	}
 
 	@Override
-	public double getFrictionHorizontal() {
+	public double getFrictionHorizontal()
+	{
 		return frictionHorizontal;
 	}
 
 	@Override
-	public void setFrictionHorizontal(double frictionHorizontal) {
+	public void setFrictionHorizontal(double frictionHorizontal)
+	{
 		this.frictionHorizontal = frictionHorizontal;
 	}
 
 	@Override
-	public double getFrictionVertical() {
+	public double getFrictionVertical()
+	{
 		return frictionVertical;
 	}
 
 	@Override
-	public void setFrictionVertical(double frictionVertical) {
+	public void setFrictionVertical(double frictionVertical)
+	{
 		this.frictionVertical = frictionVertical;
 	}
 
 	@Override
-	public boolean isStopSprint() {
+	public boolean isStopSprint()
+	{
 		return stopSprint;
 	}
 
 	@Override
-	public void setStopSprint(boolean stopSprint) {
+	public void setStopSprint(boolean stopSprint)
+	{
 		this.stopSprint = stopSprint;
 	}
 
 	@Override
-	public double getRodHorizontal() {
+	public double getRodHorizontal()
+	{
 		return rodHorizontal;
 	}
 
 	@Override
-	public void setRodHorizontal(double rodHorizontal) {
+	public void setRodHorizontal(double rodHorizontal)
+	{
 		this.rodHorizontal = rodHorizontal;
 	}
 
 	@Override
-	public double getRodVertical() {
+	public double getRodVertical()
+	{
 		return rodVertical;
 	}
 
 	@Override
-	public void setRodVertical(double rodVertical) {
+	public void setRodVertical(double rodVertical)
+	{
 		this.rodVertical = rodVertical;
 	}
 
 	@Override
-	public double getArrowHorizontal() {
+	public double getArrowHorizontal()
+	{
 		return arrowHorizontal;
 	}
 
 	@Override
-	public void setArrowHorizontal(double arrowHorizontal) {
+	public void setArrowHorizontal(double arrowHorizontal)
+	{
 		this.arrowHorizontal = arrowHorizontal;
 	}
 
 	@Override
-	public double getArrowVertical() {
+	public double getArrowVertical()
+	{
 		return arrowVertical;
 	}
 
 	@Override
-	public void setArrowVertical(double arrowVertical) {
+	public void setArrowVertical(double arrowVertical)
+	{
 		this.arrowVertical = arrowVertical;
 	}
 
 	@Override
-	public double getPearlHorizontal() {
+	public double getPearlHorizontal()
+	{
 		return pearlHorizontal;
 	}
 
 	@Override
-	public void setPearlHorizontal(double pearlHorizontal) {
+	public void setPearlHorizontal(double pearlHorizontal)
+	{
 		this.pearlHorizontal = pearlHorizontal;
 	}
 
 	@Override
-	public double getPearlVertical() {
+	public double getPearlVertical()
+	{
 		return pearlVertical;
 	}
 
 	@Override
-	public void setPearlVertical(double pearlVertical) {
+	public void setPearlVertical(double pearlVertical)
+	{
 		this.pearlVertical = pearlVertical;
 	}
 
 	@Override
-	public double getSnowballHorizontal() {
+	public double getSnowballHorizontal()
+	{
 		return snowballHorizontal;
 	}
 
 	@Override
-	public void setSnowballHorizontal(double snowballHorizontal) {
+	public void setSnowballHorizontal(double snowballHorizontal)
+	{
 		this.snowballHorizontal = snowballHorizontal;
 	}
 
 	@Override
-	public double getSnowballVertical() {
+	public double getSnowballVertical()
+	{
 		return snowballVertical;
 	}
 
 	@Override
-	public void setSnowballVertical(double snowballVertical) {
+	public void setSnowballVertical(double snowballVertical)
+	{
 		this.snowballVertical = snowballVertical;
 	}
 
 	@Override
-	public double getEggHorizontal() {
+	public double getEggHorizontal()
+	{
 		return eggHorizontal;
 	}
 
 	@Override
-	public void setEggHorizontal(double eggHorizontal) {
+	public void setEggHorizontal(double eggHorizontal)
+	{
 		this.eggHorizontal = eggHorizontal;
 	}
 
 	@Override
-	public double getEggVertical() {
+	public double getEggVertical()
+	{
 		return eggVertical;
 	}
 
 	@Override
-	public void setEggVertical(double eggVertical) {
+	public void setEggVertical(double eggVertical)
+	{
 		this.eggVertical = eggVertical;
 	}
 
 	@Override
-	public String[] getKnockbackValues() {
-		return new String[] { "Horizontal§7: " + this.horizontal, "Vertical§7: " + this.vertical,
-				"Vertical-Max§7: " + this.verticalMax, "Vertical-Min§7: " + this.verticalMin,
-				"Extra-Horizontal§7: " + this.extraHorizontal, "Extra-Vertical§7: " + this.extraVertical,
-				"Friction-Horizontal§7: " + this.frictionHorizontal, "Friction-Vertical§7: " + this.frictionVertical,
-				"Stop-Sprint§7: " + this.stopSprint, };
+	public String[] getKnockbackValues()
+	{
+		return new String[]
+		{ "Horizontal§7: " + this.horizontal, "Vertical§7: " + this.vertical, "Vertical-Max§7: " + this.verticalMax,
+				"Vertical-Min§7: " + this.verticalMin, "Extra-Horizontal§7: " + this.extraHorizontal,
+				"Extra-Vertical§7: " + this.extraVertical, "Friction-Horizontal§7: " + this.frictionHorizontal,
+				"Friction-Vertical§7: " + this.frictionVertical, "Stop-Sprint§7: " + this.stopSprint, };
 	}
 
 	@Override
-	public String[] getProjectilesValues() {
-		return new String[] { "Rod-Horizontal§7: " + this.rodHorizontal, "Rod-Vertical§7: " + this.rodVertical,
+	public String[] getProjectilesValues()
+	{
+		return new String[]
+		{ "Rod-Horizontal§7: " + this.rodHorizontal, "Rod-Vertical§7: " + this.rodVertical,
 				"Arrow-Horizontal§7: " + this.arrowHorizontal, "Arrow-Vertical§7: " + this.arrowVertical,
 				"Pearl-Horizontal§7: " + this.pearlHorizontal, "Pearl-Vertical§7: " + this.pearlVertical,
 				"Snowball-Horizontal§7: " + this.snowballHorizontal, "Snowball-Vertical§7: " + this.snowballVertical,

@@ -7,34 +7,42 @@ import org.bukkit.entity.Guardian;
 import net.minecraft.server.EntityGuardian;
 import net.minecraft.server.GenericAttributes;
 
-public class CraftGuardian extends CraftMonster implements Guardian {
+public class CraftGuardian extends CraftMonster implements Guardian
+{
 
-	public CraftGuardian(CraftServer server, EntityGuardian entity) {
+	public CraftGuardian(CraftServer server, EntityGuardian entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftGuardian";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.GUARDIAN;
 	}
 
 	@Override
-	public boolean isElder() {
+	public boolean isElder()
+	{
 		return ((EntityGuardian) entity).isElder();
 	}
 
 	@Override
-	public void setElder(boolean shouldBeElder) {
+	public void setElder(boolean shouldBeElder)
+	{
 		EntityGuardian entityGuardian = (EntityGuardian) entity;
 
-		if (!isElder() && shouldBeElder) {
+		if (!isElder() && shouldBeElder)
+		{
 			entityGuardian.setElder(true);
-		} else if (isElder() && !shouldBeElder) {
+		} else if (isElder() && !shouldBeElder)
+		{
 			entityGuardian.setElder(false);
 
 			// Since minecraft does not reset the elder Guardian to a guardian we have to do

@@ -21,7 +21,8 @@ import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.TileEntitySkull;
 
 @DelegateDeserialization(SerializableMeta.class)
-class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
+class CraftMetaSkull extends CraftMetaItem implements SkullMeta
+{
 
 	@ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
 	static final ItemMetaKey SKULL_PROFILE = new ItemMetaKey("SkullProfile");
@@ -31,42 +32,53 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 
 	private GameProfile profile;
 
-	CraftMetaSkull(CraftMetaItem meta) {
+	CraftMetaSkull(CraftMetaItem meta)
+	{
 		super(meta);
-		if (!(meta instanceof CraftMetaSkull)) {
+		if (!(meta instanceof CraftMetaSkull))
+		{
 			return;
 		}
 		CraftMetaSkull skullMeta = (CraftMetaSkull) meta;
 		this.profile = skullMeta.profile;
 	}
 
-	CraftMetaSkull(NBTTagCompound tag) {
+	CraftMetaSkull(NBTTagCompound tag)
+	{
 		super(tag);
 
-		if (tag.hasKeyOfType(SKULL_OWNER.NBT, 10)) {
+		if (tag.hasKeyOfType(SKULL_OWNER.NBT, 10))
+		{
 			profile = GameProfileSerializer.deserialize(tag.getCompound(SKULL_OWNER.NBT));
-		} else if (tag.hasKeyOfType(SKULL_OWNER.NBT, 8) && !tag.getString(SKULL_OWNER.NBT).isEmpty()) {
+		} else if (tag.hasKeyOfType(SKULL_OWNER.NBT, 8) && !tag.getString(SKULL_OWNER.NBT).isEmpty())
+		{
 			profile = new GameProfile(null, tag.getString(SKULL_OWNER.NBT));
 		}
 	}
 
-	CraftMetaSkull(Map<String, Object> map) {
+	CraftMetaSkull(Map<String, Object> map)
+	{
 		super(map);
-		if (profile == null) {
+		if (profile == null)
+		{
 			setOwner(SerializableMeta.getString(map, SKULL_OWNER.BUKKIT, true));
 		}
 	}
 
 	@Override
-	void deserializeInternal(NBTTagCompound tag) {
-		if (tag.hasKeyOfType(SKULL_PROFILE.NBT, 10)) {
+	void deserializeInternal(NBTTagCompound tag)
+	{
+		if (tag.hasKeyOfType(SKULL_PROFILE.NBT, 10))
+		{
 			profile = GameProfileSerializer.deserialize(tag.getCompound(SKULL_PROFILE.NBT));
 		}
 	}
 
 	@Override
-	void serializeInternal(final Map<String, NBTBase> internalTags) {
-		if (profile != null) {
+	void serializeInternal(final Map<String, NBTBase> internalTags)
+	{
+		if (profile != null)
+		{
 			NBTTagCompound nbtData = new NBTTagCompound();
 			GameProfileSerializer.serialize(nbtData, profile);
 			internalTags.put(SKULL_PROFILE.NBT, nbtData);
@@ -74,17 +86,20 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 	}
 
 	@Override
-	void applyToItem(final NBTTagCompound tag) { // Spigot - make final
+	void applyToItem(final NBTTagCompound tag)
+	{ // Spigot - make final
 		super.applyToItem(tag);
 
-		if (profile != null) {
+		if (profile != null)
+		{
 			NBTTagCompound owner = new NBTTagCompound();
 			GameProfileSerializer.serialize(owner, profile);
 			tag.set(SKULL_OWNER.NBT, owner);
 			// Spigot start - do an async lookup of the profile.
 			// Unfortunately there is not way to refresh the holding
 			// inventory, so that responsibility is left to the user.
-			net.minecraft.server.TileEntitySkull.b(profile, input -> {
+			net.minecraft.server.TileEntitySkull.b(profile, input ->
+			{
 				NBTTagCompound owner1 = new NBTTagCompound();
 				GameProfileSerializer.serialize(owner1, input);
 				tag.set(SKULL_OWNER.NBT, owner1);
@@ -95,17 +110,21 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 	}
 
 	@Override
-	boolean isEmpty() {
+	boolean isEmpty()
+	{
 		return super.isEmpty() && isSkullEmpty();
 	}
 
-	boolean isSkullEmpty() {
+	boolean isSkullEmpty()
+	{
 		return profile == null;
 	}
 
 	@Override
-	boolean applicableTo(Material type) {
-		switch (type) {
+	boolean applicableTo(Material type)
+	{
+		switch (type)
+		{
 		case SKULL_ITEM:
 			return true;
 		default:
@@ -114,24 +133,29 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 	}
 
 	@Override
-	public CraftMetaSkull clone() {
+	public CraftMetaSkull clone()
+	{
 		return (CraftMetaSkull) super.clone();
 	}
 
 	@Override
-	public boolean hasOwner() {
+	public boolean hasOwner()
+	{
 		return profile != null && profile.getName() != null;
 	}
 
 	@Override
-	public String getOwner() {
+	public String getOwner()
+	{
 		return hasOwner() ? profile.getName() : null;
 	}
 
 	@Override
-	public boolean setOwner(String name) {
+	public boolean setOwner(String name)
+	{
 		// Feather - Null name would break everything and makes no sense and causes NPE
-		if (name == null || name.length() > MAX_OWNER_LENGTH) {
+		if (name == null || name.length() > MAX_OWNER_LENGTH)
+		{
 			return false;
 		}
 
@@ -141,7 +165,8 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 			profile = player.getProfile();
 		// PaperSpigot end
 
-		if (profile == null) {
+		if (profile == null)
+		{
 			// name.toLowerCase(java.util.Locale.ROOT) causes the NPE
 			profile = TileEntitySkull.skinCache.getIfPresent(name.toLowerCase(java.util.Locale.ROOT)); // Paper // tries
 																										// to get from
@@ -154,21 +179,26 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 	}
 
 	@Override
-	int applyHash() {
+	int applyHash()
+	{
 		final int original;
 		int hash = original = super.applyHash();
-		if (hasOwner()) {
+		if (hasOwner())
+		{
 			hash = 61 * hash + profile.hashCode();
 		}
 		return original != hash ? CraftMetaSkull.class.hashCode() ^ hash : hash;
 	}
 
 	@Override
-	boolean equalsCommon(CraftMetaItem meta) {
-		if (!super.equalsCommon(meta)) {
+	boolean equalsCommon(CraftMetaItem meta)
+	{
+		if (!super.equalsCommon(meta))
+		{
 			return false;
 		}
-		if (meta instanceof CraftMetaSkull) {
+		if (meta instanceof CraftMetaSkull)
+		{
 			CraftMetaSkull that = (CraftMetaSkull) meta;
 
 			return (this.hasOwner() ? that.hasOwner() && profile.equals(that.profile) : !that.hasOwner());
@@ -177,14 +207,17 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta {
 	}
 
 	@Override
-	boolean notUncommon(CraftMetaItem meta) {
+	boolean notUncommon(CraftMetaItem meta)
+	{
 		return super.notUncommon(meta) && (meta instanceof CraftMetaSkull || isSkullEmpty());
 	}
 
 	@Override
-	Builder<String, Object> serialize(Builder<String, Object> builder) {
+	Builder<String, Object> serialize(Builder<String, Object> builder)
+	{
 		super.serialize(builder);
-		if (hasOwner()) {
+		if (hasOwner())
+		{
 			return builder.put(SKULL_OWNER.BUKKIT, profile.getName());
 		}
 		return builder;

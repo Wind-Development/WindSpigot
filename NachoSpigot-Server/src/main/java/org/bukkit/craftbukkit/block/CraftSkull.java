@@ -12,14 +12,16 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.TileEntitySkull;
 
-public class CraftSkull extends CraftBlockState implements Skull {
+public class CraftSkull extends CraftBlockState implements Skull
+{
 	private static final int MAX_OWNER_LENGTH = 16;
 	private final TileEntitySkull skull;
 	private GameProfile profile;
 	private SkullType skullType;
 	private byte rotation;
 
-	public CraftSkull(final Block block) {
+	public CraftSkull(final Block block)
+	{
 		super(block);
 
 		CraftWorld world = (CraftWorld) block.getWorld();
@@ -29,7 +31,8 @@ public class CraftSkull extends CraftBlockState implements Skull {
 		rotation = (byte) skull.getRotation();
 	}
 
-	public CraftSkull(final Material material, final TileEntitySkull te) {
+	public CraftSkull(final Material material, final TileEntitySkull te)
+	{
 		super(material);
 		skull = te;
 		profile = skull.getGameProfile();
@@ -37,8 +40,10 @@ public class CraftSkull extends CraftBlockState implements Skull {
 		rotation = (byte) skull.getRotation();
 	}
 
-	static SkullType getSkullType(int id) {
-		switch (id) {
+	static SkullType getSkullType(int id)
+	{
+		switch (id)
+		{
 		default:
 		case 0:
 			return SkullType.SKELETON;
@@ -53,8 +58,10 @@ public class CraftSkull extends CraftBlockState implements Skull {
 		}
 	}
 
-	static int getSkullType(SkullType type) {
-		switch (type) {
+	static int getSkullType(SkullType type)
+	{
+		switch (type)
+		{
 		default:
 		case SKELETON:
 			return 0;
@@ -69,8 +76,10 @@ public class CraftSkull extends CraftBlockState implements Skull {
 		}
 	}
 
-	static byte getBlockFace(BlockFace rotation) {
-		switch (rotation) {
+	static byte getBlockFace(BlockFace rotation)
+	{
+		switch (rotation)
+		{
 		case NORTH:
 			return 0;
 		case NORTH_NORTH_EAST:
@@ -108,8 +117,10 @@ public class CraftSkull extends CraftBlockState implements Skull {
 		}
 	}
 
-	static BlockFace getBlockFace(byte rotation) {
-		switch (rotation) {
+	static BlockFace getBlockFace(byte rotation)
+	{
+		switch (rotation)
+		{
 		case 0:
 			return BlockFace.NORTH;
 		case 1:
@@ -148,27 +159,33 @@ public class CraftSkull extends CraftBlockState implements Skull {
 	}
 
 	@Override
-	public boolean hasOwner() {
+	public boolean hasOwner()
+	{
 		return profile != null;
 	}
 
 	@Override
-	public String getOwner() {
+	public String getOwner()
+	{
 		return hasOwner() ? profile.getName() : null;
 	}
 
 	@Override
-	public boolean setOwner(String name) {
-		if (name == null || name.length() > MAX_OWNER_LENGTH) {
+	public boolean setOwner(String name)
+	{
+		if (name == null || name.length() > MAX_OWNER_LENGTH)
+		{
 			return false;
 		}
 
 		GameProfile profile = MinecraftServer.getServer().getUserCache().getProfile(name);
-		if (profile == null) {
+		if (profile == null)
+		{
 			return false;
 		}
 
-		if (skullType != SkullType.PLAYER) {
+		if (skullType != SkullType.PLAYER)
+		{
 			skullType = SkullType.PLAYER;
 		}
 
@@ -177,37 +194,46 @@ public class CraftSkull extends CraftBlockState implements Skull {
 	}
 
 	@Override
-	public BlockFace getRotation() {
+	public BlockFace getRotation()
+	{
 		return getBlockFace(rotation);
 	}
 
 	@Override
-	public void setRotation(BlockFace rotation) {
+	public void setRotation(BlockFace rotation)
+	{
 		this.rotation = getBlockFace(rotation);
 	}
 
 	@Override
-	public SkullType getSkullType() {
+	public SkullType getSkullType()
+	{
 		return skullType;
 	}
 
 	@Override
-	public void setSkullType(SkullType skullType) {
+	public void setSkullType(SkullType skullType)
+	{
 		this.skullType = skullType;
 
-		if (skullType != SkullType.PLAYER) {
+		if (skullType != SkullType.PLAYER)
+		{
 			profile = null;
 		}
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics) {
+	public boolean update(boolean force, boolean applyPhysics)
+	{
 		boolean result = super.update(force, applyPhysics);
 
-		if (result) {
-			if (skullType == SkullType.PLAYER) {
+		if (result)
+		{
+			if (skullType == SkullType.PLAYER)
+			{
 				skull.setGameProfile(profile);
-			} else {
+			} else
+			{
 				skull.setSkullType(getSkullType(skullType));
 			}
 
@@ -219,7 +245,8 @@ public class CraftSkull extends CraftBlockState implements Skull {
 	}
 
 	@Override
-	public TileEntitySkull getTileEntity() {
+	public TileEntitySkull getTileEntity()
+	{
 		return skull;
 	}
 }

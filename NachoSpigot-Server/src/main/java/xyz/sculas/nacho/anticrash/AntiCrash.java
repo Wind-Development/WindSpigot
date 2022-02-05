@@ -7,16 +7,21 @@ import net.minecraft.server.PacketDataSerializer;
 import net.minecraft.server.PacketPlayInCustomPayload;
 import net.minecraft.server.PlayerConnection;
 
-public class AntiCrash implements PacketListener {
+public class AntiCrash implements PacketListener
+{
 	@Override
-	public boolean onReceivedPacket(PlayerConnection playerConnection, Packet packet) {
-		if (packet instanceof PacketPlayInCustomPayload) {
+	public boolean onReceivedPacket(PlayerConnection playerConnection, Packet packet)
+	{
+		if (packet instanceof PacketPlayInCustomPayload)
+		{
 			PacketDataSerializer ab = ((PacketPlayInCustomPayload) packet).b();
-			if (ab.refCnt() < 1) {
+			if (ab.refCnt() < 1)
+			{
 				playerConnection.getNetworkManager().close(new ChatMessage("Wrong ref count!"));
 				return false;
 			}
-			if (ab.readableBytes() > 25780) {
+			if (ab.readableBytes() > 25780)
+			{
 				playerConnection.getNetworkManager().close(new ChatMessage("Readable bytes exceeds limit!"));
 				return false;
 			}

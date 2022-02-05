@@ -13,15 +13,18 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.elier.nachospigot.config.NachoConfig;
 
-public enum EnumProtocol {
+public enum EnumProtocol
+{
 
-	HANDSHAKING(-1) {
+	HANDSHAKING(-1)
+	{
 		{
 			this.registerPacket(EnumProtocolDirection.SERVERBOUND, PacketHandshakingInSetProtocol.class,
 					PacketHandshakingInSetProtocol::new);
 		}
 	},
-	PLAY(0) {
+	PLAY(0)
+	{
 		{
 			this.registerPacket(EnumProtocolDirection.CLIENTBOUND, PacketPlayOutKeepAlive.class,
 					PacketPlayOutKeepAlive::new);
@@ -217,7 +220,8 @@ public enum EnumProtocol {
 					PacketPlayInResourcePackStatus::new);
 		}
 	},
-	STATUS(1) {
+	STATUS(1)
+	{
 		{
 			this.registerPacket(EnumProtocolDirection.SERVERBOUND, PacketStatusInStart.class, PacketStatusInStart::new);
 			this.registerPacket(EnumProtocolDirection.CLIENTBOUND, PacketStatusOutServerInfo.class,
@@ -226,7 +230,8 @@ public enum EnumProtocol {
 			this.registerPacket(EnumProtocolDirection.CLIENTBOUND, PacketStatusOutPong.class, PacketStatusOutPong::new);
 		}
 	},
-	LOGIN(2) {
+	LOGIN(2)
+	{
 		{
 			this.registerPacket(EnumProtocolDirection.CLIENTBOUND, PacketLoginOutDisconnect.class,
 					PacketLoginOutDisconnect::new);
@@ -258,43 +263,51 @@ public enum EnumProtocol {
 
 	private final int stateId;
 
-	EnumProtocol(int stateId) {
+	EnumProtocol(int stateId)
+	{
 		this.stateId = stateId;
 	}
 
-	public int getStateId() {
+	public int getStateId()
+	{
 		return this.stateId;
 	}
 
 	protected void registerPacket(EnumProtocolDirection dir, Class<? extends Packet<?>> clazz,
-			Supplier<Packet<?>> packet) {
+			Supplier<Packet<?>> packet)
+	{
 		IntObjectMap<Supplier<Packet<?>>> map = this.packetMap.computeIfAbsent(dir,
 				k -> new IntObjectHashMap<>(16, 0.5f));
 		int packetId = map.size(); // think of this as an incrementing integer
 		this.packetClassToId.put(clazz, packetId);
 		map.put(packetId, packet);
 
-		if (NachoConfig.enableProtocolLibShim) {
+		if (NachoConfig.enableProtocolLibShim)
+		{
 			this._protocolLibRegisterShim(dir, clazz);
 		}
 	}
 
-	private void _protocolLibRegisterShim(EnumProtocolDirection dir, Class<? extends Packet<?>> clazz) {
+	private void _protocolLibRegisterShim(EnumProtocolDirection dir, Class<? extends Packet<?>> clazz)
+	{
 		BiMap<Integer, Class<? extends Packet<?>>> map = this._protocolLibPacketShim.computeIfAbsent(dir,
 				k -> HashBiMap.create());
 		map.put(map.size(), clazz);
 	}
 
-	public Packet<?> createPacket(EnumProtocolDirection direction, int packetId) {
+	public Packet<?> createPacket(EnumProtocolDirection direction, int packetId)
+	{
 		Supplier<Packet<?>> packet = this.packetMap.get(direction).get(packetId);
 		return packet == null ? null : packet.get();
 	}
 
-	public Integer getPacketIdForPacket(Packet<?> packet) {
+	public Integer getPacketIdForPacket(Packet<?> packet)
+	{
 		return this.packetClassToId.getInt(packet.getClass());
 	}
 
-	public static EnumProtocol getProtocolForPacket(Packet<?> packet) {
+	public static EnumProtocol getProtocolForPacket(Packet<?> packet)
+	{
 		return packetClass2State.get(packet.getClass());
 	}
 
@@ -302,18 +315,23 @@ public enum EnumProtocol {
 	 * @param state the intention from the packet
 	 * @return the packets for the intention if valid, else null
 	 */
-	public static EnumProtocol isValidIntention(int state) {
+	public static EnumProtocol isValidIntention(int state)
+	{
 		return state >= handshakeId && state <= loginId ? STATES[state - handshakeId] : null;
 	}
 
-	static {
-		for (EnumProtocol state : values()) {
+	static
+	{
+		for (EnumProtocol state : values())
+		{
 			int id = state.getStateId();
-			if (id < handshakeId || id > loginId) {
+			if (id < handshakeId || id > loginId)
+			{
 				throw new Error("Invalid protocol ID " + id);
 			}
 			STATES[id - handshakeId] = state;
-			for (Class<? extends Packet<?>> packetClass : state.packetClassToId.keySet()) {
+			for (Class<? extends Packet<?>> packetClass : state.packetClassToId.keySet())
+			{
 				packetClass2State.put(packetClass, state);
 			}
 		}
@@ -322,12 +340,14 @@ public enum EnumProtocol {
 	// --- OBFHELPER Methods
 
 	// createPacket
-	public Packet<?> a(EnumProtocolDirection direction, int packetId) {
+	public Packet<?> a(EnumProtocolDirection direction, int packetId)
+	{
 		return createPacket(direction, packetId);
 	}
 
 	// getPacketIdForPacket
-	public Integer a(Packet<?> packet) {
+	public Integer a(Packet<?> packet)
+	{
 		return getPacketIdForPacket(packet);
 	}
 

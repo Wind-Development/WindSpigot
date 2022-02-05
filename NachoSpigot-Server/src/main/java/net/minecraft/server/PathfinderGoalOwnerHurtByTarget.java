@@ -1,27 +1,34 @@
 package net.minecraft.server;
 
-public class PathfinderGoalOwnerHurtByTarget extends PathfinderGoalTarget {
+public class PathfinderGoalOwnerHurtByTarget extends PathfinderGoalTarget
+{
 
 	EntityTameableAnimal a;
 	EntityLiving b;
 	private int c;
 
-	public PathfinderGoalOwnerHurtByTarget(EntityTameableAnimal entitytameableanimal) {
+	public PathfinderGoalOwnerHurtByTarget(EntityTameableAnimal entitytameableanimal)
+	{
 		super(entitytameableanimal, false);
 		this.a = entitytameableanimal;
 		this.a(1);
 	}
 
 	@Override
-	public boolean a() {
-		if (!this.a.isTamed()) {
+	public boolean a()
+	{
+		if (!this.a.isTamed())
+		{
 			return false;
-		} else {
+		} else
+		{
 			EntityLiving entityliving = this.a.getOwner();
 
-			if (entityliving == null) {
+			if (entityliving == null)
+			{
 				return false;
-			} else {
+			} else
+			{
 				this.b = entityliving.getLastDamager();
 				int i = entityliving.be();
 
@@ -31,12 +38,14 @@ public class PathfinderGoalOwnerHurtByTarget extends PathfinderGoalTarget {
 	}
 
 	@Override
-	public void c() {
+	public void c()
+	{
 		this.e.setGoalTarget(this.b, org.bukkit.event.entity.EntityTargetEvent.TargetReason.TARGET_ATTACKED_OWNER,
 				true); // CraftBukkit - reason
 		EntityLiving entityliving = this.a.getOwner();
 
-		if (entityliving != null) {
+		if (entityliving != null)
+		{
 			this.c = entityliving.be();
 		}
 

@@ -6,23 +6,28 @@ import org.bukkit.entity.EntityType;
 
 import net.minecraft.server.EntityBlaze;
 
-public class CraftBlaze extends CraftMonster implements Blaze {
-	public CraftBlaze(CraftServer server, EntityBlaze entity) {
+public class CraftBlaze extends CraftMonster implements Blaze
+{
+	public CraftBlaze(CraftServer server, EntityBlaze entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EntityBlaze getHandle() {
+	public EntityBlaze getHandle()
+	{
 		return (EntityBlaze) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftBlaze";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.BLAZE;
 	}
 }

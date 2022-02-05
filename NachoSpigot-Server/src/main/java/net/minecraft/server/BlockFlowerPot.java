@@ -2,13 +2,15 @@ package net.minecraft.server;
 
 import java.util.Random;
 
-public class BlockFlowerPot extends BlockContainer {
+public class BlockFlowerPot extends BlockContainer
+{
 
 	public static final BlockStateInteger LEGACY_DATA = BlockStateInteger.of("legacy_data", 0, 15);
 	public static final BlockStateEnum<BlockFlowerPot.EnumFlowerPotContents> CONTENTS = BlockStateEnum.of("contents",
 			BlockFlowerPot.EnumFlowerPotContents.class);
 
-	public BlockFlowerPot() {
+	public BlockFlowerPot()
+	{
 		super(Material.ORIENTABLE);
 		this.j(this.blockStateList.getBlockData()
 				.set(BlockFlowerPot.CONTENTS, BlockFlowerPot.EnumFlowerPotContents.EMPTY)
@@ -17,12 +19,14 @@ public class BlockFlowerPot extends BlockContainer {
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return LocaleI18n.get("item.flowerPot.name");
 	}
 
 	@Override
-	public void j() {
+	public void j()
+	{
 		float f = 0.375F;
 		float f1 = f / 2.0F;
 
@@ -30,55 +34,68 @@ public class BlockFlowerPot extends BlockContainer {
 	}
 
 	@Override
-	public boolean c() {
+	public boolean c()
+	{
 		return false;
 	}
 
 	@Override
-	public int b() {
+	public int b()
+	{
 		return 3;
 	}
 
 	@Override
-	public boolean d() {
+	public boolean d()
+	{
 		return false;
 	}
 
 	@Override
 	public boolean interact(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman,
-			EnumDirection enumdirection, float f, float f1, float f2) {
+			EnumDirection enumdirection, float f, float f1, float f2)
+	{
 		ItemStack itemstack = entityhuman.inventory.getItemInHand();
 
-		if (itemstack != null && itemstack.getItem() instanceof ItemBlock) {
+		if (itemstack != null && itemstack.getItem() instanceof ItemBlock)
+		{
 			TileEntityFlowerPot tileentityflowerpot = this.f(world, blockposition);
 
-			if (tileentityflowerpot == null) {
+			if (tileentityflowerpot == null)
+			{
 				return false;
-			} else if (tileentityflowerpot.b() != null) {
+			} else if (tileentityflowerpot.b() != null)
+			{
 				return false;
-			} else {
+			} else
+			{
 				Block block = Block.asBlock(itemstack.getItem());
 
-				if (!this.a(block, itemstack.getData())) {
+				if (!this.a(block, itemstack.getData()))
+				{
 					return false;
-				} else {
+				} else
+				{
 					tileentityflowerpot.a(itemstack.getItem(), itemstack.getData());
 					tileentityflowerpot.update();
 					world.notify(blockposition);
 					entityhuman.b(StatisticList.T);
-					if (!entityhuman.abilities.canInstantlyBuild && --itemstack.count <= 0) {
+					if (!entityhuman.abilities.canInstantlyBuild && --itemstack.count <= 0)
+					{
 						entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
 					}
 
 					return true;
 				}
 			}
-		} else {
+		} else
+		{
 			return false;
 		}
 	}
 
-	private boolean a(Block block, int i) {
+	private boolean a(Block block, int i)
+	{
 		return block != Blocks.YELLOW_FLOWER && block != Blocks.RED_FLOWER && block != Blocks.CACTUS
 				&& block != Blocks.BROWN_MUSHROOM && block != Blocks.RED_MUSHROOM && block != Blocks.SAPLING
 				&& block != Blocks.DEADBUSH
@@ -87,20 +104,24 @@ public class BlockFlowerPot extends BlockContainer {
 	}
 
 	@Override
-	public int getDropData(World world, BlockPosition blockposition) {
+	public int getDropData(World world, BlockPosition blockposition)
+	{
 		TileEntityFlowerPot tileentityflowerpot = this.f(world, blockposition);
 
 		return tileentityflowerpot != null && tileentityflowerpot.b() != null ? tileentityflowerpot.c() : 0;
 	}
 
 	@Override
-	public boolean canPlace(World world, BlockPosition blockposition) {
+	public boolean canPlace(World world, BlockPosition blockposition)
+	{
 		return super.canPlace(world, blockposition) && World.a(world, blockposition.down());
 	}
 
 	@Override
-	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
-		if (!World.a(world, blockposition.down())) {
+	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block)
+	{
+		if (!World.a(world, blockposition.down()))
+		{
 			this.b(world, blockposition, iblockdata, 0);
 			world.setAir(blockposition);
 		}
@@ -108,10 +129,12 @@ public class BlockFlowerPot extends BlockContainer {
 	}
 
 	@Override
-	public void remove(World world, BlockPosition blockposition, IBlockData iblockdata) {
+	public void remove(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
 		TileEntityFlowerPot tileentityflowerpot = this.f(world, blockposition);
 
-		if (tileentityflowerpot != null && tileentityflowerpot.b() != null) {
+		if (tileentityflowerpot != null && tileentityflowerpot.b() != null)
+		{
 			a(world, blockposition, new ItemStack(tileentityflowerpot.b(), 1, tileentityflowerpot.c()));
 			tileentityflowerpot.a(null, 0); // Spigot
 		}
@@ -120,12 +143,15 @@ public class BlockFlowerPot extends BlockContainer {
 	}
 
 	@Override
-	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman) {
+	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman)
+	{
 		super.a(world, blockposition, iblockdata, entityhuman);
-		if (entityhuman.abilities.canInstantlyBuild) {
+		if (entityhuman.abilities.canInstantlyBuild)
+		{
 			TileEntityFlowerPot tileentityflowerpot = this.f(world, blockposition);
 
-			if (tileentityflowerpot != null) {
+			if (tileentityflowerpot != null)
+			{
 				tileentityflowerpot.a((Item) null, 0);
 			}
 		}
@@ -133,22 +159,26 @@ public class BlockFlowerPot extends BlockContainer {
 	}
 
 	@Override
-	public Item getDropType(IBlockData iblockdata, Random random, int i) {
+	public Item getDropType(IBlockData iblockdata, Random random, int i)
+	{
 		return Items.FLOWER_POT;
 	}
 
-	private TileEntityFlowerPot f(World world, BlockPosition blockposition) {
+	private TileEntityFlowerPot f(World world, BlockPosition blockposition)
+	{
 		TileEntity tileentity = world.getTileEntity(blockposition);
 
 		return tileentity instanceof TileEntityFlowerPot ? (TileEntityFlowerPot) tileentity : null;
 	}
 
 	@Override
-	public TileEntity a(World world, int i) {
+	public TileEntity a(World world, int i)
+	{
 		Object object = null;
 		int j = 0;
 
-		switch (i) {
+		switch (i)
+		{
 		case 1:
 			object = Blocks.RED_FLOWER;
 			j = BlockFlowers.EnumFlowerVarient.POPPY.b();
@@ -213,30 +243,38 @@ public class BlockFlowerPot extends BlockContainer {
 	}
 
 	@Override
-	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockFlowerPot.CONTENTS, BlockFlowerPot.LEGACY_DATA });
+	protected BlockStateList getStateList()
+	{
+		return new BlockStateList(this, new IBlockState[]
+		{ BlockFlowerPot.CONTENTS, BlockFlowerPot.LEGACY_DATA });
 	}
 
 	@Override
-	public int toLegacyData(IBlockData iblockdata) {
+	public int toLegacyData(IBlockData iblockdata)
+	{
 		return iblockdata.get(BlockFlowerPot.LEGACY_DATA).intValue();
 	}
 
 	@Override
-	public IBlockData updateState(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition) {
+	public IBlockData updateState(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition)
+	{
 		BlockFlowerPot.EnumFlowerPotContents blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.EMPTY;
 		TileEntity tileentity = iblockaccess.getTileEntity(blockposition);
 
-		if (tileentity instanceof TileEntityFlowerPot) {
+		if (tileentity instanceof TileEntityFlowerPot)
+		{
 			TileEntityFlowerPot tileentityflowerpot = (TileEntityFlowerPot) tileentity;
 			Item item = tileentityflowerpot.b();
 
-			if (item instanceof ItemBlock) {
+			if (item instanceof ItemBlock)
+			{
 				int i = tileentityflowerpot.c();
 				Block block = Block.asBlock(item);
 
-				if (block == Blocks.SAPLING) {
-					switch (BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.a(i).ordinal()]) {
+				if (block == Blocks.SAPLING)
+				{
+					switch (BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.a(i).ordinal()])
+					{
 					case 1:
 						blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.OAK_SAPLING;
 						break;
@@ -264,8 +302,10 @@ public class BlockFlowerPot extends BlockContainer {
 					default:
 						blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.EMPTY;
 					}
-				} else if (block == Blocks.TALLGRASS) {
-					switch (i) {
+				} else if (block == Blocks.TALLGRASS)
+				{
+					switch (i)
+					{
 					case 0:
 						blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.DEAD_BUSH;
 						break;
@@ -277,11 +317,14 @@ public class BlockFlowerPot extends BlockContainer {
 					default:
 						blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.EMPTY;
 					}
-				} else if (block == Blocks.YELLOW_FLOWER) {
+				} else if (block == Blocks.YELLOW_FLOWER)
+				{
 					blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.DANDELION;
-				} else if (block == Blocks.RED_FLOWER) {
+				} else if (block == Blocks.RED_FLOWER)
+				{
 					switch (BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient
-							.a(BlockFlowers.EnumFlowerType.RED, i).ordinal()]) {
+							.a(BlockFlowers.EnumFlowerType.RED, i).ordinal()])
+					{
 					case 1:
 						blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.POPPY;
 						break;
@@ -321,13 +364,17 @@ public class BlockFlowerPot extends BlockContainer {
 					default:
 						blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.EMPTY;
 					}
-				} else if (block == Blocks.RED_MUSHROOM) {
+				} else if (block == Blocks.RED_MUSHROOM)
+				{
 					blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.MUSHROOM_RED;
-				} else if (block == Blocks.BROWN_MUSHROOM) {
+				} else if (block == Blocks.BROWN_MUSHROOM)
+				{
 					blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.MUSHROOM_BROWN;
-				} else if (block == Blocks.DEADBUSH) {
+				} else if (block == Blocks.DEADBUSH)
+				{
 					blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.DEAD_BUSH;
-				} else if (block == Blocks.CACTUS) {
+				} else if (block == Blocks.CACTUS)
+				{
 					blockflowerpot_enumflowerpotcontents = BlockFlowerPot.EnumFlowerPotContents.CACTUS;
 				}
 			}
@@ -336,108 +383,141 @@ public class BlockFlowerPot extends BlockContainer {
 		return iblockdata.set(BlockFlowerPot.CONTENTS, blockflowerpot_enumflowerpotcontents);
 	}
 
-	static class SyntheticClass_1 {
+	static class SyntheticClass_1
+	{
 
 		static final int[] a;
 		static final int[] b = new int[BlockFlowers.EnumFlowerVarient.values().length];
 
-		static {
-			try {
+		static
+		{
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.POPPY.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
+			} catch (NoSuchFieldError nosuchfielderror)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.BLUE_ORCHID.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
+			} catch (NoSuchFieldError nosuchfielderror1)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.ALLIUM.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
+			} catch (NoSuchFieldError nosuchfielderror2)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.HOUSTONIA.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
+			} catch (NoSuchFieldError nosuchfielderror3)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.RED_TULIP.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4) {
+			} catch (NoSuchFieldError nosuchfielderror4)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.ORANGE_TULIP.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror5) {
+			} catch (NoSuchFieldError nosuchfielderror5)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.WHITE_TULIP.ordinal()] = 7;
-			} catch (NoSuchFieldError nosuchfielderror6) {
+			} catch (NoSuchFieldError nosuchfielderror6)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.PINK_TULIP.ordinal()] = 8;
-			} catch (NoSuchFieldError nosuchfielderror7) {
+			} catch (NoSuchFieldError nosuchfielderror7)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.OXEYE_DAISY.ordinal()] = 9;
-			} catch (NoSuchFieldError nosuchfielderror8) {
+			} catch (NoSuchFieldError nosuchfielderror8)
+			{
 				;
 			}
 
 			a = new int[BlockWood.EnumLogVariant.values().length];
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.OAK.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror9) {
+			} catch (NoSuchFieldError nosuchfielderror9)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.SPRUCE.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror10) {
+			} catch (NoSuchFieldError nosuchfielderror10)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.BIRCH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror11) {
+			} catch (NoSuchFieldError nosuchfielderror11)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.JUNGLE.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror12) {
+			} catch (NoSuchFieldError nosuchfielderror12)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.ACACIA.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror13) {
+			} catch (NoSuchFieldError nosuchfielderror13)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.DARK_OAK.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror14) {
+			} catch (NoSuchFieldError nosuchfielderror14)
+			{
 				;
 			}
 
 		}
 	}
 
-	public static enum EnumFlowerPotContents implements INamable {
+	public static enum EnumFlowerPotContents implements INamable
+	{
 
 		EMPTY("empty"), POPPY("rose"), BLUE_ORCHID("blue_orchid"), ALLIUM("allium"), HOUSTONIA("houstonia"),
 		RED_TULIP("red_tulip"), ORANGE_TULIP("orange_tulip"), WHITE_TULIP("white_tulip"), PINK_TULIP("pink_tulip"),
@@ -448,17 +528,20 @@ public class BlockFlowerPot extends BlockContainer {
 
 		private final String w;
 
-		private EnumFlowerPotContents(String s) {
+		private EnumFlowerPotContents(String s)
+		{
 			this.w = s;
 		}
 
 		@Override
-		public String toString() {
+		public String toString()
+		{
 			return this.w;
 		}
 
 		@Override
-		public String getName() {
+		public String getName()
+		{
 			return this.w;
 		}
 	}

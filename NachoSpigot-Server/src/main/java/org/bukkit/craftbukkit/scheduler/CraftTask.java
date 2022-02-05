@@ -7,7 +7,8 @@ import org.bukkit.scheduler.BukkitTask;
 import co.aikar.timings.SpigotTimings; // Spigot
 import co.aikar.timings.Timing; // Spigot
 
-public class CraftTask implements BukkitTask, Runnable { // Spigot
+public class CraftTask implements BukkitTask, Runnable
+{ // Spigot
 
 	private volatile CraftTask next = null;
 	/**
@@ -25,16 +26,19 @@ public class CraftTask implements BukkitTask, Runnable { // Spigot
 	private final Plugin plugin;
 	private final int id;
 
-	CraftTask() {
+	CraftTask()
+	{
 		this(null, null, -1, -1);
 	}
 
-	CraftTask(final Runnable task) {
+	CraftTask(final Runnable task)
+	{
 		this(null, task, -1, -1);
 	}
 
 	// Spigot start
-	CraftTask(final Plugin plugin, final Runnable task, final int id, final long period) {
+	CraftTask(final Plugin plugin, final Runnable task, final int id, final long period)
+	{
 		this.plugin = plugin;
 		this.task = task;
 		this.id = id;
@@ -43,22 +47,26 @@ public class CraftTask implements BukkitTask, Runnable { // Spigot
 	}
 
 	@Override
-	public final int getTaskId() {
+	public final int getTaskId()
+	{
 		return id;
 	}
 
 	@Override
-	public final Plugin getOwner() {
+	public final Plugin getOwner()
+	{
 		return plugin;
 	}
 
 	@Override
-	public boolean isSync() {
+	public boolean isSync()
+	{
 		return true;
 	}
 
 	@Override
-	public void run() {
+	public void run()
+	{
 		if (timings != null && isSync())
 			timings.startTiming(); // Spigot
 		task.run();
@@ -66,36 +74,44 @@ public class CraftTask implements BukkitTask, Runnable { // Spigot
 			timings.stopTiming(); // Spigot
 	}
 
-	long getPeriod() {
+	long getPeriod()
+	{
 		return period;
 	}
 
-	void setPeriod(long period) {
+	void setPeriod(long period)
+	{
 		this.period = period;
 	}
 
-	long getNextRun() {
+	long getNextRun()
+	{
 		return nextRun;
 	}
 
-	void setNextRun(long nextRun) {
+	void setNextRun(long nextRun)
+	{
 		this.nextRun = nextRun;
 	}
 
-	CraftTask getNext() {
+	CraftTask getNext()
+	{
 		return next;
 	}
 
-	void setNext(CraftTask next) {
+	void setNext(CraftTask next)
+	{
 		this.next = next;
 	}
 
-	Class<? extends Runnable> getTaskClass() {
+	Class<? extends Runnable> getTaskClass()
+	{
 		return task.getClass();
 	}
 
 	@Override
-	public void cancel() {
+	public void cancel()
+	{
 		Bukkit.getScheduler().cancelTask(id);
 	}
 
@@ -106,7 +122,8 @@ public class CraftTask implements BukkitTask, Runnable { // Spigot
 	 * @return false if it is a craft future task that has already begun execution,
 	 *         true otherwise
 	 */
-	boolean cancel0() {
+	boolean cancel0()
+	{
 		setPeriod(-2l);
 		return true;
 	}

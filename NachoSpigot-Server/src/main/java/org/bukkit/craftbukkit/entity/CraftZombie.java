@@ -6,44 +6,53 @@ import org.bukkit.entity.Zombie;
 
 import net.minecraft.server.EntityZombie;
 
-public class CraftZombie extends CraftMonster implements Zombie {
+public class CraftZombie extends CraftMonster implements Zombie
+{
 
-	public CraftZombie(CraftServer server, EntityZombie entity) {
+	public CraftZombie(CraftServer server, EntityZombie entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EntityZombie getHandle() {
+	public EntityZombie getHandle()
+	{
 		return (EntityZombie) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftZombie";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.ZOMBIE;
 	}
 
 	@Override
-	public boolean isBaby() {
+	public boolean isBaby()
+	{
 		return getHandle().isBaby();
 	}
 
 	@Override
-	public void setBaby(boolean flag) {
+	public void setBaby(boolean flag)
+	{
 		getHandle().setBaby(flag);
 	}
 
 	@Override
-	public boolean isVillager() {
+	public boolean isVillager()
+	{
 		return getHandle().isVillager();
 	}
 
 	@Override
-	public void setVillager(boolean flag) {
+	public void setVillager(boolean flag)
+	{
 		getHandle().setVillager(flag);
 	}
 }

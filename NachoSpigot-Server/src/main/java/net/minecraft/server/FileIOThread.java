@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public class FileIOThread implements Runnable {
+public class FileIOThread implements Runnable
+{
 
 	private static final FileIOThread a = new FileIOThread();
 	private List<IAsyncChunkSaver> b = Collections.synchronizedList(Lists.<IAsyncChunkSaver>newArrayList());
@@ -13,30 +14,37 @@ public class FileIOThread implements Runnable {
 	private volatile long d;
 	private volatile boolean e;
 
-	private FileIOThread() {
+	private FileIOThread()
+	{
 		Thread thread = new Thread(this, "File IO Thread");
 
 		thread.setPriority(1);
 		thread.start();
 	}
 
-	public static FileIOThread a() {
+	public static FileIOThread a()
+	{
 		return FileIOThread.a;
 	}
 
 	@Override
-	public void run() {
-		while (true) {
+	public void run()
+	{
+		while (true)
+		{
 			this.c();
 		}
 	}
 
-	private void c() {
-		for (int i = 0; i < this.b.size(); ++i) {
+	private void c()
+	{
+		for (int i = 0; i < this.b.size(); ++i)
+		{
 			IAsyncChunkSaver iasyncchunksaver = this.b.get(i);
 			boolean flag = iasyncchunksaver.c();
 
-			if (!flag) {
+			if (!flag)
+			{
 				this.b.remove(i--);
 				++this.d;
 			}
@@ -48,27 +56,34 @@ public class FileIOThread implements Runnable {
 			 */ // Spigot end
 		}
 
-		if (this.b.isEmpty()) {
-			try {
+		if (this.b.isEmpty())
+		{
+			try
+			{
 				Thread.sleep(25L);
-			} catch (InterruptedException interruptedexception1) {
+			} catch (InterruptedException interruptedexception1)
+			{
 				interruptedexception1.printStackTrace();
 			}
 		}
 
 	}
 
-	public void a(IAsyncChunkSaver iasyncchunksaver) {
-		if (!this.b.contains(iasyncchunksaver)) {
+	public void a(IAsyncChunkSaver iasyncchunksaver)
+	{
+		if (!this.b.contains(iasyncchunksaver))
+		{
 			++this.c;
 			this.b.add(iasyncchunksaver);
 		}
 	}
 
-	public void b() throws InterruptedException {
+	public void b() throws InterruptedException
+	{
 		this.e = true;
 
-		while (this.c != this.d) {
+		while (this.c != this.d)
+		{
 			Thread.sleep(10L);
 		}
 

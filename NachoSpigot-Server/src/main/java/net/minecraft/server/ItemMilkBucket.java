@@ -2,29 +2,37 @@ package net.minecraft.server;
 
 import org.github.paperspigot.PaperSpigotConfig; // PaperSpigot
 
-public class ItemMilkBucket extends Item {
+public class ItemMilkBucket extends Item
+{
 
-	public ItemMilkBucket() {
+	public ItemMilkBucket()
+	{
 		this.c(1);
 		this.a(CreativeModeTab.f);
 	}
 
 	@Override
-	public ItemStack b(ItemStack itemstack, World world, EntityHuman entityhuman) {
-		if (!entityhuman.abilities.canInstantlyBuild) {
+	public ItemStack b(ItemStack itemstack, World world, EntityHuman entityhuman)
+	{
+		if (!entityhuman.abilities.canInstantlyBuild)
+		{
 			--itemstack.count;
 		}
 
-		if (!world.isClientSide) {
+		if (!world.isClientSide)
+		{
 			entityhuman.removeAllEffects();
 		}
 
 		entityhuman.b(StatisticList.USE_ITEM_COUNT[Item.getId(this)]);
 		// PaperSpigot start - Stackable Buckets
-		if (PaperSpigotConfig.stackableMilkBuckets) {
-			if (itemstack.count <= 0) {
+		if (PaperSpigotConfig.stackableMilkBuckets)
+		{
+			if (itemstack.count <= 0)
+			{
 				return new ItemStack(Items.BUCKET);
-			} else if (!entityhuman.inventory.pickup(new ItemStack(Items.BUCKET))) {
+			} else if (!entityhuman.inventory.pickup(new ItemStack(Items.BUCKET)))
+			{
 				entityhuman.drop(new ItemStack(Items.BUCKET), false);
 			}
 		}
@@ -33,17 +41,20 @@ public class ItemMilkBucket extends Item {
 	}
 
 	@Override
-	public int d(ItemStack itemstack) {
+	public int d(ItemStack itemstack)
+	{
 		return 32;
 	}
 
 	@Override
-	public EnumAnimation e(ItemStack itemstack) {
+	public EnumAnimation e(ItemStack itemstack)
+	{
 		return EnumAnimation.DRINK;
 	}
 
 	@Override
-	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman) {
+	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman)
+	{
 		entityhuman.a(itemstack, this.d(itemstack));
 		return itemstack;
 	}

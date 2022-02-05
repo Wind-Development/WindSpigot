@@ -6,43 +6,52 @@ import org.bukkit.inventory.ItemStack;
 
 import net.minecraft.server.TileEntityFurnace;
 
-public class CraftInventoryFurnace extends CraftInventory implements FurnaceInventory {
-	public CraftInventoryFurnace(TileEntityFurnace inventory) {
+public class CraftInventoryFurnace extends CraftInventory implements FurnaceInventory
+{
+	public CraftInventoryFurnace(TileEntityFurnace inventory)
+	{
 		super(inventory);
 	}
 
 	@Override
-	public ItemStack getResult() {
+	public ItemStack getResult()
+	{
 		return getItem(2);
 	}
 
 	@Override
-	public ItemStack getFuel() {
+	public ItemStack getFuel()
+	{
 		return getItem(1);
 	}
 
 	@Override
-	public ItemStack getSmelting() {
+	public ItemStack getSmelting()
+	{
 		return getItem(0);
 	}
 
 	@Override
-	public void setFuel(ItemStack stack) {
+	public void setFuel(ItemStack stack)
+	{
 		setItem(1, stack);
 	}
 
 	@Override
-	public void setResult(ItemStack stack) {
+	public void setResult(ItemStack stack)
+	{
 		setItem(2, stack);
 	}
 
 	@Override
-	public void setSmelting(ItemStack stack) {
+	public void setSmelting(ItemStack stack)
+	{
 		setItem(0, stack);
 	}
 
 	@Override
-	public Furnace getHolder() {
+	public Furnace getHolder()
+	{
 		return (Furnace) inventory.getOwner();
 	}
 }

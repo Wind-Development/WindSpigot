@@ -6,24 +6,29 @@ import org.bukkit.entity.Squid;
 
 import net.minecraft.server.EntitySquid;
 
-public class CraftSquid extends CraftWaterMob implements Squid {
+public class CraftSquid extends CraftWaterMob implements Squid
+{
 
-	public CraftSquid(CraftServer server, EntitySquid entity) {
+	public CraftSquid(CraftServer server, EntitySquid entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EntitySquid getHandle() {
+	public EntitySquid getHandle()
+	{
 		return (EntitySquid) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftSquid";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.SQUID;
 	}
 }

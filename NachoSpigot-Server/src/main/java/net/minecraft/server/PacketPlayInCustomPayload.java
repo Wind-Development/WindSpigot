@@ -2,13 +2,15 @@ package net.minecraft.server;
 
 import java.io.IOException;
 
-public class PacketPlayInCustomPayload implements Packet<PacketListenerPlayIn> {
+public class PacketPlayInCustomPayload implements Packet<PacketListenerPlayIn>
+{
 	private String a;
 
 	private PacketDataSerializer b;
 
 	@Override
-	public void a(PacketDataSerializer paramPacketDataSerializer) throws IOException {
+	public void a(PacketDataSerializer paramPacketDataSerializer) throws IOException
+	{
 		this.a = paramPacketDataSerializer.c(20);
 		int i = paramPacketDataSerializer.readableBytes();
 		if (i < 0 || i > 32767)
@@ -17,21 +19,25 @@ public class PacketPlayInCustomPayload implements Packet<PacketListenerPlayIn> {
 	}
 
 	@Override
-	public void b(PacketDataSerializer paramPacketDataSerializer) throws IOException {
+	public void b(PacketDataSerializer paramPacketDataSerializer) throws IOException
+	{
 		paramPacketDataSerializer.a(this.a);
 		paramPacketDataSerializer.writeBytes(this.b);
 	}
 
 	@Override
-	public void a(PacketListenerPlayIn paramPacketListenerPlayIn) {
+	public void a(PacketListenerPlayIn paramPacketListenerPlayIn)
+	{
 		paramPacketListenerPlayIn.a(this);
 	}
 
-	public String a() {
+	public String a()
+	{
 		return this.a;
 	}
 
-	public PacketDataSerializer b() {
+	public PacketDataSerializer b()
+	{
 		return this.b;
 	}
 }

@@ -7,12 +7,14 @@ import org.bukkit.craftbukkit.CraftWorld;
 
 import net.minecraft.server.TileEntityCommand;
 
-public class CraftCommandBlock extends CraftBlockState implements CommandBlock {
+public class CraftCommandBlock extends CraftBlockState implements CommandBlock
+{
 	private final TileEntityCommand commandBlock;
 	private String command;
 	private String name;
 
-	public CraftCommandBlock(Block block) {
+	public CraftCommandBlock(Block block)
+	{
 		super(block);
 
 		CraftWorld world = (CraftWorld) block.getWorld();
@@ -21,7 +23,8 @@ public class CraftCommandBlock extends CraftBlockState implements CommandBlock {
 		name = commandBlock.getCommandBlock().getName();
 	}
 
-	public CraftCommandBlock(final Material material, final TileEntityCommand te) {
+	public CraftCommandBlock(final Material material, final TileEntityCommand te)
+	{
 		super(material);
 		commandBlock = te;
 		command = commandBlock.getCommandBlock().getCommand();
@@ -29,30 +32,36 @@ public class CraftCommandBlock extends CraftBlockState implements CommandBlock {
 	}
 
 	@Override
-	public String getCommand() {
+	public String getCommand()
+	{
 		return command;
 	}
 
 	@Override
-	public void setCommand(String command) {
+	public void setCommand(String command)
+	{
 		this.command = command != null ? command : "";
 	}
 
 	@Override
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
 	@Override
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name != null ? name : "@";
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics) {
+	public boolean update(boolean force, boolean applyPhysics)
+	{
 		boolean result = super.update(force, applyPhysics);
 
-		if (result) {
+		if (result)
+		{
 			commandBlock.getCommandBlock().setCommand(command);
 			commandBlock.getCommandBlock().setName(name);
 		}
@@ -61,7 +70,8 @@ public class CraftCommandBlock extends CraftBlockState implements CommandBlock {
 	}
 
 	@Override
-	public TileEntityCommand getTileEntity() {
+	public TileEntityCommand getTileEntity()
+	{
 		return commandBlock;
 	}
 }

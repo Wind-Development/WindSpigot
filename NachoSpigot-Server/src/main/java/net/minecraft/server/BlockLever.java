@@ -4,13 +4,15 @@ import java.util.Iterator;
 
 import org.bukkit.event.block.BlockRedstoneEvent; // CraftBukkit
 
-public class BlockLever extends Block {
+public class BlockLever extends Block
+{
 
 	public static final BlockStateEnum<BlockLever.EnumLeverPosition> FACING = BlockStateEnum.of("facing",
 			BlockLever.EnumLeverPosition.class);
 	public static final BlockStateBoolean POWERED = BlockStateBoolean.of("powered");
 
-	protected BlockLever() {
+	protected BlockLever()
+	{
 		super(Material.ORIENTABLE);
 		this.j(this.blockStateList.getBlockData().set(BlockLever.FACING, BlockLever.EnumLeverPosition.NORTH)
 				.set(BlockLever.POWERED, Boolean.valueOf(false)));
@@ -18,34 +20,41 @@ public class BlockLever extends Block {
 	}
 
 	@Override
-	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata) {
+	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
 		return null;
 	}
 
 	@Override
-	public boolean c() {
+	public boolean c()
+	{
 		return false;
 	}
 
 	@Override
-	public boolean d() {
+	public boolean d()
+	{
 		return false;
 	}
 
 	@Override
-	public boolean canPlace(World world, BlockPosition blockposition, EnumDirection enumdirection) {
+	public boolean canPlace(World world, BlockPosition blockposition, EnumDirection enumdirection)
+	{
 		return a(world, blockposition, enumdirection.opposite());
 	}
 
 	@Override
-	public boolean canPlace(World world, BlockPosition blockposition) {
+	public boolean canPlace(World world, BlockPosition blockposition)
+	{
 		EnumDirection[] aenumdirection = EnumDirection.values();
 		int i = aenumdirection.length;
 
-		for (int j = 0; j < i; ++j) {
+		for (int j = 0; j < i; ++j)
+		{
 			EnumDirection enumdirection = aenumdirection[j];
 
-			if (a(world, blockposition, enumdirection)) {
+			if (a(world, blockposition, enumdirection))
+			{
 				return true;
 			}
 		}
@@ -53,26 +62,33 @@ public class BlockLever extends Block {
 		return false;
 	}
 
-	protected static boolean a(World world, BlockPosition blockposition, EnumDirection enumdirection) {
+	protected static boolean a(World world, BlockPosition blockposition, EnumDirection enumdirection)
+	{
 		return BlockButtonAbstract.a(world, blockposition, enumdirection);
 	}
 
 	@Override
 	public IBlockData getPlacedState(World world, BlockPosition blockposition, EnumDirection enumdirection, float f,
-			float f1, float f2, int i, EntityLiving entityliving) {
+			float f1, float f2, int i, EntityLiving entityliving)
+	{
 		IBlockData iblockdata = this.getBlockData().set(BlockLever.POWERED, Boolean.valueOf(false));
 
-		if (a(world, blockposition, enumdirection.opposite())) {
+		if (a(world, blockposition, enumdirection.opposite()))
+		{
 			return iblockdata.set(BlockLever.FACING,
 					BlockLever.EnumLeverPosition.a(enumdirection, entityliving.getDirection()));
-		} else {
+		} else
+		{
 			Iterator iterator = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
 
 			EnumDirection enumdirection1;
 
-			do {
-				if (!iterator.hasNext()) {
-					if (World.a(world, blockposition.down())) {
+			do
+			{
+				if (!iterator.hasNext())
+				{
+					if (World.a(world, blockposition.down()))
+					{
 						return iblockdata.set(BlockLever.FACING,
 								BlockLever.EnumLeverPosition.a(EnumDirection.UP, entityliving.getDirection()));
 					}
@@ -88,8 +104,10 @@ public class BlockLever extends Block {
 		}
 	}
 
-	public static int a(EnumDirection enumdirection) {
-		switch (BlockLever.SyntheticClass_1.a[enumdirection.ordinal()]) {
+	public static int a(EnumDirection enumdirection)
+	{
+		switch (BlockLever.SyntheticClass_1.a[enumdirection.ordinal()])
+		{
 		case 1:
 			return 0;
 
@@ -114,19 +132,24 @@ public class BlockLever extends Block {
 	}
 
 	@Override
-	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
-		if (this.e(world, blockposition, iblockdata) && !a(world, blockposition,
-				iblockdata.get(BlockLever.FACING).c().opposite())) {
+	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block)
+	{
+		if (this.e(world, blockposition, iblockdata)
+				&& !a(world, blockposition, iblockdata.get(BlockLever.FACING).c().opposite()))
+		{
 			this.b(world, blockposition, iblockdata, 0);
 			world.setAir(blockposition);
 		}
 
 	}
 
-	private boolean e(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		if (this.canPlace(world, blockposition)) {
+	private boolean e(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
+		if (this.canPlace(world, blockposition))
+		{
 			return true;
-		} else {
+		} else
+		{
 			this.b(world, blockposition, iblockdata, 0);
 			world.setAir(blockposition);
 			return false;
@@ -134,11 +157,12 @@ public class BlockLever extends Block {
 	}
 
 	@Override
-	public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition) {
+	public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition)
+	{
 		float f = 0.1875F;
 
-		switch (BlockLever.SyntheticClass_1.b[iblockaccess.getType(blockposition)
-				.get(BlockLever.FACING).ordinal()]) {
+		switch (BlockLever.SyntheticClass_1.b[iblockaccess.getType(blockposition).get(BlockLever.FACING).ordinal()])
+		{
 		case 1:
 			this.a(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
 			break;
@@ -171,10 +195,13 @@ public class BlockLever extends Block {
 
 	@Override
 	public boolean interact(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman,
-			EnumDirection enumdirection, float f, float f1, float f2) {
-		if (world.isClientSide) {
+			EnumDirection enumdirection, float f, float f1, float f2)
+	{
+		if (world.isClientSide)
+		{
 			return true;
-		} else {
+		} else
+		{
 			// CraftBukkit start - Interact Lever
 			boolean powered = iblockdata.get(POWERED);
 			org.bukkit.block.Block block = world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(),
@@ -185,16 +212,16 @@ public class BlockLever extends Block {
 			BlockRedstoneEvent eventRedstone = new BlockRedstoneEvent(block, old, current);
 			world.getServer().getPluginManager().callEvent(eventRedstone);
 
-			if ((eventRedstone.getNewCurrent() > 0) != (!powered)) {
+			if ((eventRedstone.getNewCurrent() > 0) != (!powered))
+			{
 				return true;
 			}
 			// CraftBukkit end
 
 			iblockdata = iblockdata.a(BlockLever.POWERED);
 			world.setTypeAndData(blockposition, iblockdata, 3);
-			world.makeSound(blockposition.getX() + 0.5D, blockposition.getY() + 0.5D,
-					blockposition.getZ() + 0.5D, "random.click", 0.3F,
-					iblockdata.get(BlockLever.POWERED).booleanValue() ? 0.6F : 0.5F);
+			world.makeSound(blockposition.getX() + 0.5D, blockposition.getY() + 0.5D, blockposition.getZ() + 0.5D,
+					"random.click", 0.3F, iblockdata.get(BlockLever.POWERED).booleanValue() ? 0.6F : 0.5F);
 			world.applyPhysics(blockposition, this);
 			EnumDirection enumdirection1 = iblockdata.get(BlockLever.FACING).c();
 
@@ -204,8 +231,10 @@ public class BlockLever extends Block {
 	}
 
 	@Override
-	public void remove(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		if (iblockdata.get(BlockLever.POWERED).booleanValue()) {
+	public void remove(World world, BlockPosition blockposition, IBlockData iblockdata)
+	{
+		if (iblockdata.get(BlockLever.POWERED).booleanValue())
+		{
 			world.applyPhysics(blockposition, this);
 			EnumDirection enumdirection = iblockdata.get(BlockLever.FACING).c();
 
@@ -217,34 +246,40 @@ public class BlockLever extends Block {
 
 	@Override
 	public int a(IBlockAccess iblockaccess, BlockPosition blockposition, IBlockData iblockdata,
-			EnumDirection enumdirection) {
+			EnumDirection enumdirection)
+	{
 		return iblockdata.get(BlockLever.POWERED).booleanValue() ? 15 : 0;
 	}
 
 	@Override
 	public int b(IBlockAccess iblockaccess, BlockPosition blockposition, IBlockData iblockdata,
-			EnumDirection enumdirection) {
+			EnumDirection enumdirection)
+	{
 		return !iblockdata.get(BlockLever.POWERED).booleanValue() ? 0
 				: (iblockdata.get(BlockLever.FACING).c() == enumdirection ? 15 : 0);
 	}
 
 	@Override
-	public boolean isPowerSource() {
+	public boolean isPowerSource()
+	{
 		return true;
 	}
 
 	@Override
-	public IBlockData fromLegacyData(int i) {
+	public IBlockData fromLegacyData(int i)
+	{
 		return this.getBlockData().set(BlockLever.FACING, BlockLever.EnumLeverPosition.a(i & 7)).set(BlockLever.POWERED,
 				Boolean.valueOf((i & 8) > 0));
 	}
 
 	@Override
-	public int toLegacyData(IBlockData iblockdata) {
+	public int toLegacyData(IBlockData iblockdata)
+	{
 		byte b0 = 0;
 		int i = b0 | iblockdata.get(BlockLever.FACING).a();
 
-		if (iblockdata.get(BlockLever.POWERED).booleanValue()) {
+		if (iblockdata.get(BlockLever.POWERED).booleanValue())
+		{
 			i |= 8;
 		}
 
@@ -252,121 +287,158 @@ public class BlockLever extends Block {
 	}
 
 	@Override
-	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockLever.FACING, BlockLever.POWERED });
+	protected BlockStateList getStateList()
+	{
+		return new BlockStateList(this, new IBlockState[]
+		{ BlockLever.FACING, BlockLever.POWERED });
 	}
 
-	static class SyntheticClass_1 {
+	static class SyntheticClass_1
+	{
 
 		static final int[] a;
 		static final int[] b;
 		static final int[] c = new int[EnumDirection.EnumAxis.values().length];
 
-		static {
-			try {
+		static
+		{
+			try
+			{
 				BlockLever.SyntheticClass_1.c[EnumDirection.EnumAxis.X.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
+			} catch (NoSuchFieldError nosuchfielderror)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.c[EnumDirection.EnumAxis.Z.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
+			} catch (NoSuchFieldError nosuchfielderror1)
+			{
 				;
 			}
 
 			b = new int[BlockLever.EnumLeverPosition.values().length];
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.EAST.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror2) {
+			} catch (NoSuchFieldError nosuchfielderror2)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.WEST.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror3) {
+			} catch (NoSuchFieldError nosuchfielderror3)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.SOUTH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror4) {
+			} catch (NoSuchFieldError nosuchfielderror4)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.NORTH.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror5) {
+			} catch (NoSuchFieldError nosuchfielderror5)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.UP_Z.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror6) {
+			} catch (NoSuchFieldError nosuchfielderror6)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.UP_X.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror7) {
+			} catch (NoSuchFieldError nosuchfielderror7)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.DOWN_X.ordinal()] = 7;
-			} catch (NoSuchFieldError nosuchfielderror8) {
+			} catch (NoSuchFieldError nosuchfielderror8)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.DOWN_Z.ordinal()] = 8;
-			} catch (NoSuchFieldError nosuchfielderror9) {
+			} catch (NoSuchFieldError nosuchfielderror9)
+			{
 				;
 			}
 
 			a = new int[EnumDirection.values().length];
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.a[EnumDirection.DOWN.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror10) {
+			} catch (NoSuchFieldError nosuchfielderror10)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.a[EnumDirection.UP.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror11) {
+			} catch (NoSuchFieldError nosuchfielderror11)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror12) {
+			} catch (NoSuchFieldError nosuchfielderror12)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror13) {
+			} catch (NoSuchFieldError nosuchfielderror13)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror14) {
+			} catch (NoSuchFieldError nosuchfielderror14)
+			{
 				;
 			}
 
-			try {
+			try
+			{
 				BlockLever.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror15) {
+			} catch (NoSuchFieldError nosuchfielderror15)
+			{
 				;
 			}
 
 		}
 	}
 
-	public static enum EnumLeverPosition implements INamable {
+	public static enum EnumLeverPosition implements INamable
+	{
 
 		DOWN_X(0, "down_x", EnumDirection.DOWN), EAST(1, "east", EnumDirection.EAST),
 		WEST(2, "west", EnumDirection.WEST), SOUTH(3, "south", EnumDirection.SOUTH),
@@ -378,37 +450,46 @@ public class BlockLever extends Block {
 		private final String k;
 		private final EnumDirection l;
 
-		private EnumLeverPosition(int i, String s, EnumDirection enumdirection) {
+		private EnumLeverPosition(int i, String s, EnumDirection enumdirection)
+		{
 			this.j = i;
 			this.k = s;
 			this.l = enumdirection;
 		}
 
-		public int a() {
+		public int a()
+		{
 			return this.j;
 		}
 
-		public EnumDirection c() {
+		public EnumDirection c()
+		{
 			return this.l;
 		}
 
 		@Override
-		public String toString() {
+		public String toString()
+		{
 			return this.k;
 		}
 
-		public static BlockLever.EnumLeverPosition a(int i) {
-			if (i < 0 || i >= BlockLever.EnumLeverPosition.i.length) {
+		public static BlockLever.EnumLeverPosition a(int i)
+		{
+			if (i < 0 || i >= BlockLever.EnumLeverPosition.i.length)
+			{
 				i = 0;
 			}
 
 			return BlockLever.EnumLeverPosition.i[i];
 		}
 
-		public static BlockLever.EnumLeverPosition a(EnumDirection enumdirection, EnumDirection enumdirection1) {
-			switch (BlockLever.SyntheticClass_1.a[enumdirection.ordinal()]) {
+		public static BlockLever.EnumLeverPosition a(EnumDirection enumdirection, EnumDirection enumdirection1)
+		{
+			switch (BlockLever.SyntheticClass_1.a[enumdirection.ordinal()])
+			{
 			case 1:
-				switch (BlockLever.SyntheticClass_1.c[enumdirection1.k().ordinal()]) {
+				switch (BlockLever.SyntheticClass_1.c[enumdirection1.k().ordinal()])
+				{
 				case 1:
 					return BlockLever.EnumLeverPosition.DOWN_X;
 
@@ -421,7 +502,8 @@ public class BlockLever extends Block {
 				}
 
 			case 2:
-				switch (BlockLever.SyntheticClass_1.c[enumdirection1.k().ordinal()]) {
+				switch (BlockLever.SyntheticClass_1.c[enumdirection1.k().ordinal()])
+				{
 				case 1:
 					return BlockLever.EnumLeverPosition.UP_X;
 
@@ -451,15 +533,18 @@ public class BlockLever extends Block {
 		}
 
 		@Override
-		public String getName() {
+		public String getName()
+		{
 			return this.k;
 		}
 
-		static {
+		static
+		{
 			BlockLever.EnumLeverPosition[] ablocklever_enumleverposition = values();
 			int i = ablocklever_enumleverposition.length;
 
-			for (int j = 0; j < i; ++j) {
+			for (int j = 0; j < i; ++j)
+			{
 				BlockLever.EnumLeverPosition blocklever_enumleverposition = ablocklever_enumleverposition[j];
 
 				BlockLever.EnumLeverPosition.i[blocklever_enumleverposition.a()] = blocklever_enumleverposition;

@@ -18,38 +18,46 @@ import net.minecraft.server.ScoreboardScore;
  * Also, as an added perk, a CraftScore will (intentionally) stay a valid
  * reference so long as objective is valid.
  */
-final class CraftScore implements Score {
+final class CraftScore implements Score
+{
 	private final String entry;
 	private final CraftObjective objective;
 
-	CraftScore(CraftObjective objective, String entry) {
+	CraftScore(CraftObjective objective, String entry)
+	{
 		this.objective = objective;
 		this.entry = entry;
 	}
 
 	@Override
-	public OfflinePlayer getPlayer() {
+	public OfflinePlayer getPlayer()
+	{
 		return Bukkit.getOfflinePlayer(entry);
 	}
 
 	@Override
-	public String getEntry() {
+	public String getEntry()
+	{
 		return entry;
 	}
 
 	@Override
-	public Objective getObjective() {
+	public Objective getObjective()
+	{
 		return objective;
 	}
 
 	@Override
-	public int getScore() throws IllegalStateException {
+	public int getScore() throws IllegalStateException
+	{
 		Scoreboard board = objective.checkState().board;
 
-		if (board.getPlayers().contains(entry)) { // Lazy
+		if (board.getPlayers().contains(entry))
+		{ // Lazy
 			Map<ScoreboardObjective, ScoreboardScore> scores = board.getPlayerObjectives(entry);
 			ScoreboardScore score = scores.get(objective.getHandle());
-			if (score != null) { // Lazy
+			if (score != null)
+			{ // Lazy
 				return score.getScore();
 			}
 		}
@@ -58,18 +66,21 @@ final class CraftScore implements Score {
 	}
 
 	@Override
-	public void setScore(int score) throws IllegalStateException {
+	public void setScore(int score) throws IllegalStateException
+	{
 		objective.checkState().board.getPlayerScoreForObjective(entry, objective.getHandle()).setScore(score);
 	}
 
 	@Override
-	public CraftScoreboard getScoreboard() {
+	public CraftScoreboard getScoreboard()
+	{
 		return objective.getScoreboard();
 	}
 
 	// Spigot start
 	@Override
-	public boolean isScoreSet() throws IllegalStateException {
+	public boolean isScoreSet() throws IllegalStateException
+	{
 		Scoreboard board = objective.checkState().board;
 
 		return board.getPlayers().contains(entry)

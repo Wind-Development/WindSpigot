@@ -8,24 +8,31 @@ import org.bukkit.projectiles.ProjectileSource;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityProjectile;
 
-public abstract class CraftProjectile extends AbstractProjectile implements Projectile {
-	public CraftProjectile(CraftServer server, net.minecraft.server.Entity entity) {
+public abstract class CraftProjectile extends AbstractProjectile implements Projectile
+{
+	public CraftProjectile(CraftServer server, net.minecraft.server.Entity entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public ProjectileSource getShooter() {
+	public ProjectileSource getShooter()
+	{
 		return getHandle().projectileSource;
 	}
 
 	@Override
-	public void setShooter(ProjectileSource shooter) {
-		if (shooter instanceof CraftLivingEntity) {
+	public void setShooter(ProjectileSource shooter)
+	{
+		if (shooter instanceof CraftLivingEntity)
+		{
 			getHandle().shooter = (EntityLiving) ((CraftLivingEntity) shooter).entity;
-			if (shooter instanceof CraftHumanEntity) {
+			if (shooter instanceof CraftHumanEntity)
+			{
 				getHandle().shooterName = ((CraftHumanEntity) shooter).getName();
 			}
-		} else {
+		} else
+		{
 			getHandle().shooter = null;
 			getHandle().shooterName = null;
 		}
@@ -33,19 +40,23 @@ public abstract class CraftProjectile extends AbstractProjectile implements Proj
 	}
 
 	@Override
-	public EntityProjectile getHandle() {
+	public EntityProjectile getHandle()
+	{
 		return (EntityProjectile) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftProjectile";
 	}
 
 	@Override
 	@Deprecated
-	public LivingEntity _INVALID_getShooter() {
-		if (getHandle().shooter == null) {
+	public LivingEntity _INVALID_getShooter()
+	{
+		if (getHandle().shooter == null)
+		{
 			return null;
 		}
 		return (LivingEntity) getHandle().shooter.getBukkitEntity();
@@ -53,12 +64,15 @@ public abstract class CraftProjectile extends AbstractProjectile implements Proj
 
 	@Override
 	@Deprecated
-	public void _INVALID_setShooter(LivingEntity shooter) {
-		if (shooter == null) {
+	public void _INVALID_setShooter(LivingEntity shooter)
+	{
+		if (shooter == null)
+		{
 			return;
 		}
 		getHandle().shooter = ((CraftLivingEntity) shooter).getHandle();
-		if (shooter instanceof CraftHumanEntity) {
+		if (shooter instanceof CraftHumanEntity)
+		{
 			getHandle().shooterName = ((CraftHumanEntity) shooter).getName();
 		}
 	}

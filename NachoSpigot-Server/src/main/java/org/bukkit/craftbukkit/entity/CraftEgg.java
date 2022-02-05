@@ -6,23 +6,28 @@ import org.bukkit.entity.EntityType;
 
 import net.minecraft.server.EntityEgg;
 
-public class CraftEgg extends CraftProjectile implements Egg {
-	public CraftEgg(CraftServer server, EntityEgg entity) {
+public class CraftEgg extends CraftProjectile implements Egg
+{
+	public CraftEgg(CraftServer server, EntityEgg entity)
+	{
 		super(server, entity);
 	}
 
 	@Override
-	public EntityEgg getHandle() {
+	public EntityEgg getHandle()
+	{
 		return (EntityEgg) entity;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "CraftEgg";
 	}
 
 	@Override
-	public EntityType getType() {
+	public EntityType getType()
+	{
 		return EntityType.EGG;
 	}
 }

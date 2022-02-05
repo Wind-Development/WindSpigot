@@ -11,7 +11,8 @@ import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
-public class CraftingManager {
+public class CraftingManager
+{
 
 	private static final CraftingManager a = new CraftingManager();
 
@@ -22,11 +23,13 @@ public class CraftingManager {
 	public org.bukkit.inventory.InventoryView lastCraftView;
 	// CraftBukkit end
 
-	public static CraftingManager getInstance() {
+	public static CraftingManager getInstance()
+	{
 		return CraftingManager.a;
 	}
 
-	public CraftingManager() {
+	public CraftingManager()
+	{
 		(new RecipesTools()).a(this);
 		(new RecipesWeapons()).a(this);
 		(new RecipeIngots()).a(this);
@@ -289,28 +292,34 @@ public class CraftingManager {
 	}
 
 	// CraftBukkit start
-	public void sort() {
+	public void sort()
+	{
 		this.recipes.sort((r1, r2) -> r1 instanceof ShapelessRecipes && r2 instanceof ShapedRecipes ? 1
 				: (r2 instanceof ShapelessRecipes && r1 instanceof ShapedRecipes ? -1
 						: (Integer.compare(r2.a(), r1.a()))));
 	}
 
-	public ShapedRecipes registerShapedRecipe(ItemStack itemstack, Object... aobject) {
+	public ShapedRecipes registerShapedRecipe(ItemStack itemstack, Object... aobject)
+	{
 		StringBuilder s = new StringBuilder();
 		int i = 0;
 		int j = 0;
 		int k = 0;
 
-		if (aobject[i] instanceof String[]) {
+		if (aobject[i] instanceof String[])
+		{
 			String[] astring = (String[]) aobject[i++];
 
-			for (String s1 : astring) {
+			for (String s1 : astring)
+			{
 				++k;
 				j = s1.length();
 				s.append(s1);
 			}
-		} else {
-			while (aobject[i] instanceof String) {
+		} else
+		{
+			while (aobject[i] instanceof String)
+			{
 				String s2 = (String) aobject[i++];
 
 				++k;
@@ -321,15 +330,19 @@ public class CraftingManager {
 
 		HashMap<Character, ItemStack> hashmap = Maps.newHashMap();
 
-		for (; i < aobject.length; i += 2) {
+		for (; i < aobject.length; i += 2)
+		{
 			Character character = (Character) aobject[i];
 			ItemStack itemstack1 = null;
 
-			if (aobject[i + 1] instanceof Item) {
+			if (aobject[i + 1] instanceof Item)
+			{
 				itemstack1 = new ItemStack((Item) aobject[i + 1]);
-			} else if (aobject[i + 1] instanceof Block) {
+			} else if (aobject[i + 1] instanceof Block)
+			{
 				itemstack1 = new ItemStack((Block) aobject[i + 1], 1, 32767);
-			} else if (aobject[i + 1] instanceof ItemStack) {
+			} else if (aobject[i + 1] instanceof ItemStack)
+			{
 				itemstack1 = (ItemStack) aobject[i + 1];
 			}
 
@@ -338,12 +351,15 @@ public class CraftingManager {
 
 		ItemStack[] aitemstack = new ItemStack[j * k];
 
-		for (int i1 = 0; i1 < j * k; ++i1) {
+		for (int i1 = 0; i1 < j * k; ++i1)
+		{
 			char c0 = s.charAt(i1);
 
-			if (hashmap.containsKey(c0)) {
+			if (hashmap.containsKey(c0))
+			{
 				aitemstack[i1] = hashmap.get(c0).cloneItemStack();
-			} else {
+			} else
+			{
 				aitemstack[i1] = null;
 			}
 		}
@@ -354,17 +370,23 @@ public class CraftingManager {
 		return shapedrecipes;
 	}
 
-	public void registerShapelessRecipe(ItemStack itemstack, Object... aobject) {
+	public void registerShapelessRecipe(ItemStack itemstack, Object... aobject)
+	{
 		ArrayList<ItemStack> arraylist = Lists.newArrayList();
 		int i = aobject.length;
 
-		for (Object object : aobject) {
-			if (object instanceof ItemStack) {
+		for (Object object : aobject)
+		{
+			if (object instanceof ItemStack)
+			{
 				arraylist.add(((ItemStack) object).cloneItemStack());
-			} else if (object instanceof Item) {
+			} else if (object instanceof Item)
+			{
 				arraylist.add(new ItemStack((Item) object));
-			} else {
-				if (!(object instanceof Block)) {
+			} else
+			{
+				if (!(object instanceof Block))
+				{
 					throw new IllegalArgumentException(
 							"Invalid shapeless recipe: unknown type " + object.getClass().getName() + "!");
 				}
@@ -376,11 +398,13 @@ public class CraftingManager {
 		this.recipes.add(new ShapelessRecipes(itemstack, arraylist));
 	}
 
-	public void a(IRecipe irecipe) {
+	public void a(IRecipe irecipe)
+	{
 		this.recipes.add(irecipe);
 	}
 
-	public ItemStack craft(InventoryCrafting inventorycrafting, World world) {
+	public ItemStack craft(InventoryCrafting inventorycrafting, World world)
+	{
 
 		/*
 		 * Iterator<IRecipe> iterator = this.recipes.iterator(); IRecipe irecipe; do {
@@ -393,8 +417,10 @@ public class CraftingManager {
 		// Yatopia start
 		IRecipe recipe = null;
 
-		for (IRecipe possible : this.getRecipes()) {
-			if (possible.a(inventorycrafting, world)) {
+		for (IRecipe possible : this.getRecipes())
+		{
+			if (possible.a(inventorycrafting, world))
+			{
 				recipe = possible;
 				break;
 			}
@@ -404,7 +430,8 @@ public class CraftingManager {
 		// CraftBukkit start - INVENTORY_PRE_CRAFT event
 		inventorycrafting.currentRecipe = recipe;
 
-		if (recipe == null) {
+		if (recipe == null)
+		{
 			return null; // CraftBukkit - Clear recipe when no recipe is found
 		}
 
@@ -414,23 +441,28 @@ public class CraftingManager {
 		// CraftBukkit end
 	}
 
-	public ItemStack[] b(InventoryCrafting inventorycrafting, World world) {
-		for (IRecipe irecipe : this.recipes) {
-			if (irecipe.a(inventorycrafting, world)) {
+	public ItemStack[] b(InventoryCrafting inventorycrafting, World world)
+	{
+		for (IRecipe irecipe : this.recipes)
+		{
+			if (irecipe.a(inventorycrafting, world))
+			{
 				return irecipe.b(inventorycrafting);
 			}
 		}
 
 		ItemStack[] aitemstack = new ItemStack[inventorycrafting.getSize()];
 
-		for (int i = 0; i < aitemstack.length; ++i) {
+		for (int i = 0; i < aitemstack.length; ++i)
+		{
 			aitemstack[i] = inventorycrafting.getItem(i);
 		}
 
 		return aitemstack;
 	}
 
-	public List<IRecipe> getRecipes() {
+	public List<IRecipe> getRecipes()
+	{
 		return this.recipes;
 	}
 }

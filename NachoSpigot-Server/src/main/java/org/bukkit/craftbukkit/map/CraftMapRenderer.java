@@ -12,34 +12,42 @@ import org.bukkit.map.MapView;
 import net.minecraft.server.MapIcon;
 import net.minecraft.server.WorldMap;
 
-public class CraftMapRenderer extends MapRenderer {
+public class CraftMapRenderer extends MapRenderer
+{
 
 	private final WorldMap worldMap;
 
-	public CraftMapRenderer(CraftMapView mapView, WorldMap worldMap) {
+	public CraftMapRenderer(CraftMapView mapView, WorldMap worldMap)
+	{
 		super(false);
 		this.worldMap = worldMap;
 	}
 
 	@Override
-	public void render(MapView map, MapCanvas canvas, Player player) {
+	public void render(MapView map, MapCanvas canvas, Player player)
+	{
 		// Map
-		for (int x = 0; x < 128; ++x) {
-			for (int y = 0; y < 128; ++y) {
+		for (int x = 0; x < 128; ++x)
+		{
+			for (int y = 0; y < 128; ++y)
+			{
 				canvas.setPixel(x, y, worldMap.colors[y * 128 + x]);
 			}
 		}
 
 		// Cursors
 		MapCursorCollection cursors = canvas.getCursors();
-		while (cursors.size() > 0) {
+		while (cursors.size() > 0)
+		{
 			cursors.removeCursor(cursors.getCursor(0));
 		}
 
-		for (UUID key : worldMap.decorations.keySet()) { // Spigot string -> uuid.
+		for (UUID key : worldMap.decorations.keySet())
+		{ // Spigot string -> uuid.
 			// If this cursor is for a player check visibility with vanish system
 			Player other = Bukkit.getPlayer(key); // Spigot
-			if (other != null && !player.canSee(other)) {
+			if (other != null && !player.canSee(other))
+			{
 				continue;
 			}
 

@@ -5,7 +5,8 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.inventory.CraftShapedRecipe;
 // CraftBukkit end
 
-public class ShapedRecipes implements IRecipe {
+public class ShapedRecipes implements IRecipe
+{
 
 	private final int width;
 	private final int height;
@@ -13,7 +14,8 @@ public class ShapedRecipes implements IRecipe {
 	public ItemStack result; // Spigot
 	private boolean e;
 
-	public ShapedRecipes(int i, int j, ItemStack[] aitemstack, ItemStack itemstack) {
+	public ShapedRecipes(int i, int j, ItemStack[] aitemstack, ItemStack itemstack)
+	{
 		this.width = i;
 		this.height = j;
 		this.items = aitemstack;
@@ -22,12 +24,15 @@ public class ShapedRecipes implements IRecipe {
 
 	// CraftBukkit start
 	@Override
-	public org.bukkit.inventory.ShapedRecipe toBukkitRecipe() {
+	public org.bukkit.inventory.ShapedRecipe toBukkitRecipe()
+	{
 		CraftItemStack result = CraftItemStack.asCraftMirror(this.result);
 		CraftShapedRecipe recipe = new CraftShapedRecipe(result, this);
-		switch (this.height) {
+		switch (this.height)
+		{
 		case 1:
-			switch (this.width) {
+			switch (this.width)
+			{
 			case 1:
 				recipe.shape("a");
 				break;
@@ -40,7 +45,8 @@ public class ShapedRecipes implements IRecipe {
 			}
 			break;
 		case 2:
-			switch (this.width) {
+			switch (this.width)
+			{
 			case 1:
 				recipe.shape("a", "b");
 				break;
@@ -53,7 +59,8 @@ public class ShapedRecipes implements IRecipe {
 			}
 			break;
 		case 3:
-			switch (this.width) {
+			switch (this.width)
+			{
 			case 1:
 				recipe.shape("a", "b", "c");
 				break;
@@ -67,8 +74,10 @@ public class ShapedRecipes implements IRecipe {
 			break;
 		}
 		char c = 'a';
-		for (ItemStack stack : this.items) {
-			if (stack != null) {
+		for (ItemStack stack : this.items)
+		{
+			if (stack != null)
+			{
 				recipe.setIngredient(c, org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(stack.getItem()),
 						stack.getData());
 			}
@@ -79,18 +88,22 @@ public class ShapedRecipes implements IRecipe {
 	// CraftBukkit end
 
 	@Override
-	public ItemStack b() {
+	public ItemStack b()
+	{
 		return this.result;
 	}
 
 	@Override
-	public ItemStack[] b(InventoryCrafting inventorycrafting) {
+	public ItemStack[] b(InventoryCrafting inventorycrafting)
+	{
 		ItemStack[] aitemstack = new ItemStack[inventorycrafting.getSize()];
 
-		for (int i = 0; i < aitemstack.length; ++i) {
+		for (int i = 0; i < aitemstack.length; ++i)
+		{
 			ItemStack itemstack = inventorycrafting.getItem(i);
 
-			if (itemstack != null && itemstack.getItem().r()) {
+			if (itemstack != null && itemstack.getItem().r())
+			{
 				aitemstack[i] = new ItemStack(itemstack.getItem().q());
 			}
 		}
@@ -99,14 +112,19 @@ public class ShapedRecipes implements IRecipe {
 	}
 
 	@Override
-	public boolean a(InventoryCrafting inventorycrafting, World world) {
-		for (int i = 0; i <= 3 - this.width; ++i) {
-			for (int j = 0; j <= 3 - this.height; ++j) {
-				if (this.a(inventorycrafting, i, j, true)) {
+	public boolean a(InventoryCrafting inventorycrafting, World world)
+	{
+		for (int i = 0; i <= 3 - this.width; ++i)
+		{
+			for (int j = 0; j <= 3 - this.height; ++j)
+			{
+				if (this.a(inventorycrafting, i, j, true))
+				{
 					return true;
 				}
 
-				if (this.a(inventorycrafting, i, j, false)) {
+				if (this.a(inventorycrafting, i, j, false))
+				{
 					return true;
 				}
 			}
@@ -115,33 +133,43 @@ public class ShapedRecipes implements IRecipe {
 		return false;
 	}
 
-	private boolean a(InventoryCrafting inventorycrafting, int i, int j, boolean flag) {
-		for (int k = 0; k < 3; ++k) {
-			for (int l = 0; l < 3; ++l) {
+	private boolean a(InventoryCrafting inventorycrafting, int i, int j, boolean flag)
+	{
+		for (int k = 0; k < 3; ++k)
+		{
+			for (int l = 0; l < 3; ++l)
+			{
 				int i1 = k - i;
 				int j1 = l - j;
 				ItemStack itemstack = null;
 
-				if (i1 >= 0 && j1 >= 0 && i1 < this.width && j1 < this.height) {
-					if (flag) {
+				if (i1 >= 0 && j1 >= 0 && i1 < this.width && j1 < this.height)
+				{
+					if (flag)
+					{
 						itemstack = this.items[this.width - i1 - 1 + j1 * this.width];
-					} else {
+					} else
+					{
 						itemstack = this.items[i1 + j1 * this.width];
 					}
 				}
 
 				ItemStack itemstack1 = inventorycrafting.c(k, l);
 
-				if (itemstack1 != null || itemstack != null) {
-					if (itemstack1 == null || itemstack == null) {
+				if (itemstack1 != null || itemstack != null)
+				{
+					if (itemstack1 == null || itemstack == null)
+					{
 						return false;
 					}
 
-					if (itemstack.getItem() != itemstack1.getItem()) {
+					if (itemstack.getItem() != itemstack1.getItem())
+					{
 						return false;
 					}
 
-					if (itemstack.getData() != 32767 && itemstack.getData() != itemstack1.getData()) {
+					if (itemstack.getData() != 32767 && itemstack.getData() != itemstack1.getData())
+					{
 						return false;
 					}
 				}
@@ -152,14 +180,18 @@ public class ShapedRecipes implements IRecipe {
 	}
 
 	@Override
-	public ItemStack craftItem(InventoryCrafting inventorycrafting) {
+	public ItemStack craftItem(InventoryCrafting inventorycrafting)
+	{
 		ItemStack itemstack = this.b().cloneItemStack();
 
-		if (this.e) {
-			for (int i = 0; i < inventorycrafting.getSize(); ++i) {
+		if (this.e)
+		{
+			for (int i = 0; i < inventorycrafting.getSize(); ++i)
+			{
 				ItemStack itemstack1 = inventorycrafting.getItem(i);
 
-				if (itemstack1 != null && itemstack1.hasTag()) {
+				if (itemstack1 != null && itemstack1.hasTag())
+				{
 					itemstack.setTag((NBTTagCompound) itemstack1.getTag().clone());
 				}
 			}
@@ -169,13 +201,15 @@ public class ShapedRecipes implements IRecipe {
 	}
 
 	@Override
-	public int a() {
+	public int a()
+	{
 		return this.width * this.height;
 	}
 
 	// Spigot start
 	@Override
-	public java.util.List<ItemStack> getIngredients() {
+	public java.util.List<ItemStack> getIngredients()
+	{
 		return java.util.Arrays.asList(items);
 	}
 	// Spigot end
