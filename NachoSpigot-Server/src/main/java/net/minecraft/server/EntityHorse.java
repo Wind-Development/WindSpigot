@@ -57,7 +57,6 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener
 	protected float br;
 	private boolean bG;
 	private float bH;
-	private float bI;
 	private float bJ;
 	private float bK;
 	private float bL;
@@ -1010,7 +1009,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener
 			}
 		}
 
-		this.bI = this.bH;
+		float bI = this.bH;
 		if (this.cy())
 		{
 			this.bH += (1.0F - this.bH) * 0.4F + 0.05F;
@@ -1030,7 +1029,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener
 		this.bK = this.bJ;
 		if (this.cz())
 		{
-			this.bI = this.bH = 0.0F;
+			bI = this.bH = 0.0F;
 			this.bJ += (1.0F - this.bJ) * 0.4F + 0.05F;
 			if (this.bJ > 1.0F)
 			{

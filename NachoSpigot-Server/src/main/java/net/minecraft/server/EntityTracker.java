@@ -226,9 +226,12 @@ public class EntityTracker
 			};
 
 			if (i < trackerThreads)
+			{
 				pool.execute(runnable);
-			else
+			} else
+			{
 				runnable.run();
+			}
 		}
 		try
 		{

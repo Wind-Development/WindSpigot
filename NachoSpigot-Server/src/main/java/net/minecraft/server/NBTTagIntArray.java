@@ -57,7 +57,7 @@ public class NBTTagIntArray extends NBTBase
 	@Override
 	public String toString()
 	{
-		String s = "[";
+		StringBuilder s = new StringBuilder("[");
 		int[] aint = this.data;
 		int i = aint.length;
 
@@ -65,10 +65,10 @@ public class NBTTagIntArray extends NBTBase
 		{
 			int k = aint[j];
 
-			s = s + k + ",";
+			s.append(k).append(",");
 		}
 
-		return s + "]";
+		return s.append("]").toString();
 	}
 
 	@Override

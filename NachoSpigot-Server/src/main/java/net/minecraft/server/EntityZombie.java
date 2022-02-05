@@ -43,14 +43,18 @@ public class EntityZombie extends EntityMonster
 	protected void n()
 	{
 		if (world.spigotConfig.zombieAggressiveTowardsVillager)
+		 {
 			this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntityVillager.class, 1.0D, true)); // Spigot
+		}
 		this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntityIronGolem.class, 1.0D, true));
 		this.goalSelector.a(6, new PathfinderGoalMoveThroughVillage(this, 1.0D, false));
 		this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true, new Class[]
 		{ EntityPigZombie.class }));
 		this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, true));
 		if (world.spigotConfig.zombieAggressiveTowardsVillager)
+		 {
 			this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityVillager.class, false)); // Spigot
+		}
 		this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityIronGolem.class, true));
 	}
 
@@ -729,7 +733,7 @@ public class EntityZombie extends EntityMonster
 	{
 	}
 
-	class GroupDataZombie implements GroupDataEntity
+	static class GroupDataZombie implements GroupDataEntity
 	{
 
 		public boolean a;

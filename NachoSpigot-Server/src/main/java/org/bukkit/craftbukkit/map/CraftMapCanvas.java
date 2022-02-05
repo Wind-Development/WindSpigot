@@ -45,7 +45,9 @@ public class CraftMapCanvas implements MapCanvas
 	public void setPixel(int x, int y, byte color)
 	{
 		if (x < 0 || y < 0 || x >= 128 || y >= 128)
+		{
 			return;
+		}
 		if (buffer[y * 128 + x] != color)
 		{
 			buffer[y * 128 + x] = color;
@@ -57,7 +59,9 @@ public class CraftMapCanvas implements MapCanvas
 	public byte getPixel(int x, int y)
 	{
 		if (x < 0 || y < 0 || x >= 128 || y >= 128)
+		{
 			return 0;
+		}
 		return buffer[y * 128 + x];
 	}
 
@@ -65,7 +69,9 @@ public class CraftMapCanvas implements MapCanvas
 	public byte getBasePixel(int x, int y)
 	{
 		if (x < 0 || y < 0 || x >= 128 || y >= 128)
+		{
 			return 0;
+		}
 		return base[y * 128 + x];
 	}
 

@@ -369,7 +369,9 @@ public class WorldMap extends PersistentBase
 
 			java.util.Collection<MapIcon> icons = new java.util.ArrayList<MapIcon>();
 			if (vanillaMaps)
+			 {
 				addSeenPlayers(icons); // Paper
+			}
 
 			for (org.bukkit.map.MapCursor cursor : render.cursors)
 			{
@@ -402,7 +404,9 @@ public class WorldMap extends PersistentBase
 			{
 				Player other = Bukkit.getPlayer(uuid);
 				if (other == null || player.canSee(other))
+				{
 					icons.add(mapIcon);
+				}
 			});
 		}
 

@@ -1,6 +1,5 @@
 package net.minecraft.server;
 
-import java.util.Collection;
 import java.util.List;
 
 // CraftBukkit start

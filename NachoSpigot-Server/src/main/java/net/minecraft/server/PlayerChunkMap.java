@@ -87,7 +87,9 @@ public class PlayerChunkMap
 		if (this.managedPlayers.isEmpty())
 		{
 			if (!wasNotEmpty)
+			 {
 				return; // CraftBukkit - Only do unload when we go from non-empty to empty
+			}
 			WorldProvider worldprovider = this.world.worldProvider;
 
 			if (!worldprovider.e())
@@ -266,7 +268,9 @@ public class PlayerChunkMap
 		int k1 = j - l;
 
 		if (j1 >= -i1 && j1 <= i1)
+		{
 			return k1 >= -i1 && k1 <= i1;
+		}
 		return false;
 	}
 
@@ -709,15 +713,12 @@ public class PlayerChunkMap
 				{
 					return -1;
 				}
+			} else if (bx < 0)
+			{
+				return 1;
 			} else
 			{
-				if (bx < 0)
-				{
-					return 1;
-				} else
-				{
-					return az - bz;
-				}
+				return az - bz;
 			}
 		}
 	}

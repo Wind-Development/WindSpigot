@@ -165,7 +165,7 @@ public class PathfinderGoalSelector
 				& pathfindergoalselector_pathfindergoalselectoritem1.a.j()) == 0;
 	}
 
-	class PathfinderGoalSelectorItem
+	static class PathfinderGoalSelectorItem
 	{
 
 		public PathfinderGoal a;

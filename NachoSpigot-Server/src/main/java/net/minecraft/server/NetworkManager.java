@@ -217,7 +217,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 							.getPacketListeners())
 					{
 						if (!packetListener.onReceivedPacket((PlayerConnection) this.m, packet))
+						{
 							return;
+						}
 					}
 				} catch (Exception e)
 				{
@@ -400,7 +402,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 	private void sendPacketQueue()
 	{
 		if (this.i.isEmpty())
+		 {
 			return; // [Nacho-0019] :: Avoid lock every packet send
+		}
 		if (this.channel != null && this.channel.isOpen())
 		{
 			this.j.readLock().lock();
@@ -414,7 +418,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 					QueuedPacket queued = iterator.next();
 					Packet packet = queued.a;
 					if (hasWrotePacket && (needsFlush || this.canFlush))
+					{
 						flush();
+					}
 					iterator.remove();
 					this.dispatchPacket(packet, queued.b,
 							(!iterator.hasNext() && (needsFlush || this.canFlush)) ? Boolean.TRUE : Boolean.FALSE);

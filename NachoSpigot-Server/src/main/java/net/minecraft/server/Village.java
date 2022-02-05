@@ -391,7 +391,9 @@ public class Village
 		// Paper start
 		IBlockData iblockdata = this.a.getTypeIfLoaded(blockposition);
 		if (iblockdata == null)
+		{
 			return false;
+		}
 		Block block = iblockdata.getBlock();
 		// Paper end
 
@@ -567,7 +569,7 @@ public class Village
 
 	}
 
-	class Aggressor
+	static class Aggressor
 	{
 
 		public EntityLiving a;

@@ -47,7 +47,9 @@ public class BlockHelper
 				{
 					adjacent.setValues(x, y, z);
 					if (!predicate.test(world, adjacent))
+					{
 						return false;
+					}
 				}
 			}
 		}

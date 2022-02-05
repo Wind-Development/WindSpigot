@@ -96,7 +96,6 @@ public abstract class World implements IBlockAccess
 	protected float p;
 	protected float q;
 	protected float r;
-	private int J;
 	public final Random random = new Random();
 	public WorldProvider worldProvider; // CraftBukkit - remove final
 	protected List<IWorldAccess> u = Lists.newArrayList();
@@ -779,7 +778,9 @@ public abstract class World implements IBlockAccess
 	{
 
 		if (this.captureBlockStates)
+		{
 			return;
+		}
 
 		this.d(blockposition.west(), block);
 		this.d(blockposition.east(), block);
@@ -831,7 +832,9 @@ public abstract class World implements IBlockAccess
 
 			IBlockData iblockdata = this.getTypeIfLoaded(blockposition); // Nacho-0012 :: Don't load chunks for physics
 			if (iblockdata == null)
+			 {
 				return; // Nacho-0012 :: Don't load chunks for physics
+			}
 
 			try
 			{
@@ -954,15 +957,25 @@ public abstract class World implements IBlockAccess
 			if (this.getType(blockposition).getBlock().s())
 			{
 				if (c(blockposition.up(), false) >= level)
+				{
 					return true;
+				}
 				if (c(blockposition.east(), false) >= level)
+				{
 					return true;
+				}
 				if (c(blockposition.west(), false) >= level)
+				{
 					return true;
+				}
 				if (c(blockposition.south(), false) >= level)
+				{
 					return true;
+				}
 				if (c(blockposition.north(), false) >= level)
+				{
 					return true;
+				}
 				return false;
 			}
 
@@ -1208,7 +1221,9 @@ public abstract class World implements IBlockAccess
 		{
 			BlockState previous = it.next();
 			if (previous.getX() == x && previous.getY() == y && previous.getZ() == z)
+			{
 				return CraftMagicNumbers.getBlock(previous.getTypeId()).fromLegacyData(previous.getRawData());
+			}
 		}
 		return null;
 	}
@@ -1222,11 +1237,15 @@ public abstract class World implements IBlockAccess
 		{
 			IBlockData previous = getCapturedBlockType(x, y, z);
 			if (previous != null)
+			{
 				return previous;
+			}
 		}
 		Chunk chunk = ((ChunkProviderServer) this.chunkProvider).getChunkIfLoaded(x >> 4, z >> 4);
 		if (chunk != null)
+		{
 			return chunk.getBlockData(blockposition);
+		}
 		return null;
 	}
 
@@ -1332,7 +1351,9 @@ public abstract class World implements IBlockAccess
 				IBlockData iblockdata = this.getTypeIfLoaded(blockposition); // [Nacho-0022] Stop raytracing loading
 																				// chunks
 				if (iblockdata == null)
+				 {
 					return null; // [Nacho-0022] Stop raytracing loading chunks
+				}
 				Block block = iblockdata.getBlock();
 
 				if ((!flag1 || block.a(this, blockposition, iblockdata) != null) && block.a(iblockdata, flag))
@@ -1566,7 +1587,9 @@ public abstract class World implements IBlockAccess
 	{ // Changed signature, added SpawnReason
 		org.spigotmc.AsyncCatcher.catchOp("entity add"); // Spigot
 		if (entity == null)
+		{
 			return false;
+		}
 		// CraftBukkit end
 		int i = MathHelper.floor(entity.locX / 16.0D);
 		int j = MathHelper.floor(entity.locZ / 16.0D);
@@ -1652,7 +1675,9 @@ public abstract class World implements IBlockAccess
 
 			this.getChunkAt(i, j).a(entity);
 			if (entity.dead)
+			 {
 				return false; // Paper - don't add dead entities, chunk registration may of killed it
+			}
 			this.entityList.add(entity);
 			this.a(entity);
 			return true;
@@ -1845,7 +1870,9 @@ public abstract class World implements IBlockAccess
 								{
 									AxisAlignedBB aabb = AxisAlignedBB.a(x, y, z, x + 1.0, y + 1.0, z + 1.0);
 									if (axisalignedbb.b(aabb))
+									{
 										arraylist.add(aabb);
+									}
 								} else
 								{
 									b.a(this, new BlockPosition(x, y, z), block, axisalignedbb, arraylist, entity);
@@ -1860,13 +1887,21 @@ public abstract class World implements IBlockAccess
 		// Spigot end
 
 		if (entity instanceof EntityItem)
+		 {
 			return arraylist; // PaperSpigot - Optimize item movement
+		}
 		if (entity instanceof EntityArmorStand)
+		 {
 			return arraylist; // TacoSpigot - Optimize armor stand movement
+		}
 		if (entity instanceof EntityTNTPrimed)
+		 {
 			return arraylist; // TacoSpigot - Optimize tnt entity movement
+		}
 		if (entity instanceof EntityFallingBlock)
+		 {
 			return arraylist; // TacoSpigot - Optimize falling block movement
+		}
 
 		double d0 = 0.25D;
 		List list = this.getEntities(entity, axisalignedbb.grow(d0, d0, d0));
@@ -2411,7 +2446,9 @@ public abstract class World implements IBlockAccess
 			if (!entity.ad || entity.ae != k || entity.af != l || entity.ag != i1)
 			{
 				if (entity.loadChunks)
+				 {
 					entity.loadChunks(); // PaperSpigot - Force load chunks
+				}
 				if (entity.ad && this.isChunkLoaded(entity.ae, entity.ag, true))
 				{
 					this.getChunkAt(entity.ae, entity.ag).a(entity, entity.af);
@@ -4455,7 +4492,7 @@ public abstract class World implements IBlockAccess
 
 	public void d(int i)
 	{
-		this.J = i;
+		int J = i;
 	}
 
 	public boolean ad()

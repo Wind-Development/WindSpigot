@@ -162,8 +162,10 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta
 		// PaperSpigot start - Check usercache if the player is online
 		EntityPlayer player = MinecraftServer.getServer().getPlayerList().getPlayer(name);
 		if (profile == null && player != null)
+		 {
 			profile = player.getProfile();
 		// PaperSpigot end
+		}
 
 		if (profile == null)
 		{
@@ -173,7 +175,9 @@ class CraftMetaSkull extends CraftMetaItem implements SkullMeta
 																										// skincache
 		}
 		if (profile == null)
+		{
 			profile = new GameProfile(null, name);
+		}
 
 		return true;
 	}

@@ -266,7 +266,9 @@ public class LoginListener implements PacketLoginInListener, IUpdatePlayerListBo
 					{
 						// CraftBukkit start - fire PlayerPreLoginEvent
 						if (!networkManager.g())
+						{
 							return;
+						}
 						new LoginHandler().fireEvents();
 					} else if (LoginListener.this.server.T())
 					{
@@ -347,13 +349,10 @@ public class LoginListener implements PacketLoginInListener, IUpdatePlayerListBo
 					disconnect(event.getKickMessage());
 					return;
 				}
-			} else
+			} else if (asyncEvent.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED)
 			{
-				if (asyncEvent.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED)
-				{
-					disconnect(asyncEvent.getKickMessage());
-					return;
-				}
+				disconnect(asyncEvent.getKickMessage());
+				return;
 			}
 			// CraftBukkit end
 			LoginListener.c

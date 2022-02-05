@@ -64,7 +64,9 @@ public class CraftShapedRecipe extends ShapedRecipe implements CraftRecipe
 		{
 			ItemStack mdata = ingred.get(c);
 			if (mdata == null)
+			{
 				continue;
+			}
 			data[i] = c;
 			i++;
 			int id = mdata.getTypeId();

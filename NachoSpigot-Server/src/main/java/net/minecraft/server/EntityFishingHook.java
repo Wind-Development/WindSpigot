@@ -471,7 +471,9 @@ public class EntityFishingHook extends Entity
 				this.setPosition(this.locX, this.locY, this.locZ);
 
 				if (inPortal())
+				{
 					die();
+				}
 			}
 		}
 	}

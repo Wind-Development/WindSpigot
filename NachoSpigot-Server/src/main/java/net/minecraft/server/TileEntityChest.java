@@ -210,7 +210,9 @@ public class TileEntityChest extends TileEntityContainer implements IInventory
 	public boolean a(EntityHuman entityhuman)
 	{
 		if (this.world == null)
+		 {
 			return true; // CraftBukkit
+		}
 		return this.world.getTileEntity(this.position) != this ? false
 				: entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
 						this.position.getZ() + 0.5D) <= 64.0D;
@@ -394,7 +396,9 @@ public class TileEntityChest extends TileEntityContainer implements IInventory
 
 			++this.l;
 			if (this.world == null)
+			 {
 				return; // CraftBukkit
+			}
 
 			// PaperSpigot start - Move chest open sound out of the tick loop
 			this.m();
@@ -449,7 +453,9 @@ public class TileEntityChest extends TileEntityContainer implements IInventory
 			int oldPower = Math.max(0, Math.min(15, this.l)); // CraftBukkit - Get power before new viewer is added
 			--this.l;
 			if (this.world == null)
+			 {
 				return; // CraftBukkit
+			}
 
 			// PaperSpigot start - Move chest close sound handling out of the tick loop
 			if (this.l == 0 && this.j > 0.0F || this.l > 0 && this.j < 1.0F)

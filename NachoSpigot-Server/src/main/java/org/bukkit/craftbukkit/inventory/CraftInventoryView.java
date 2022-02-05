@@ -153,24 +153,21 @@ public class CraftInventoryView extends InventoryView
 			default:
 				// Nothing to do, it's a CONTAINER slot
 			}
-		} else
+		} else if (slot == -999)
 		{
-			if (slot == -999)
+			type = SlotType.OUTSIDE;
+		} else if (inventory.getType() == InventoryType.CRAFTING)
+		{
+			if (slot < 9)
 			{
-				type = SlotType.OUTSIDE;
-			} else if (inventory.getType() == InventoryType.CRAFTING)
-			{
-				if (slot < 9)
-				{
-					type = SlotType.ARMOR;
-				} else if (slot > 35)
-				{
-					type = SlotType.QUICKBAR;
-				}
-			} else if (slot >= (inventory.countSlots() - 9))
+				type = SlotType.ARMOR;
+			} else if (slot > 35)
 			{
 				type = SlotType.QUICKBAR;
 			}
+		} else if (slot >= (inventory.countSlots() - 9))
+		{
+			type = SlotType.QUICKBAR;
 		}
 		return type;
 	}

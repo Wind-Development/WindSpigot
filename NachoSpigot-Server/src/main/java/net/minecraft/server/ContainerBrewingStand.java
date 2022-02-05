@@ -72,7 +72,9 @@ public class ContainerBrewingStand extends Container
 	public boolean a(EntityHuman entityhuman)
 	{
 		if (!this.checkReachable)
+		 {
 			return true; // CraftBukkit
+		}
 		return this.brewingStand.a(entityhuman);
 	}
 

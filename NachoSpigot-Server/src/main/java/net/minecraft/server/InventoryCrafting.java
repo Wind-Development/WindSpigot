@@ -21,8 +21,6 @@ public class InventoryCrafting implements IInventory
 	public IRecipe currentRecipe;
 	public IInventory resultInventory;
 	private EntityHuman owner;
-	private int maxStack = MAX_STACK;
-
 	@Override
 	public ItemStack[] getContents()
 	{
@@ -61,7 +59,7 @@ public class InventoryCrafting implements IInventory
 	@Override
 	public void setMaxStackSize(int size)
 	{
-		maxStack = size;
+		int maxStack = size;
 		resultInventory.setMaxStackSize(size);
 	}
 

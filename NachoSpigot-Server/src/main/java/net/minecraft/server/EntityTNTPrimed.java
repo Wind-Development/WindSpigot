@@ -45,7 +45,9 @@ public class EntityTNTPrimed extends Entity
 		this.lastZ = d2;
 		this.source = entityliving;
 		if (world.paperSpigotConfig.fixCannons)
+		 {
 			this.motX = this.motZ = 0.0F; // PaperSpigot - Fix cannons
+		}
 	}
 
 	@Override
@@ -199,7 +201,9 @@ public class EntityTNTPrimed extends Entity
 	public double f(double d0, double d1, double d2)
 	{
 		if (!world.paperSpigotConfig.fixCannons)
+		{
 			return super.f(d0, d1, d2);
+		}
 
 		double d3 = this.locX - d0;
 		double d4 = this.locY + this.getHeadHeight() - d1;
@@ -227,7 +231,9 @@ public class EntityTNTPrimed extends Entity
 	public boolean W()
 	{
 		if (!world.paperSpigotConfig.fixCannons)
+		{
 			return super.W();
+		}
 
 		// IonSpigot start - Optimise TNT Ticking
 		/*

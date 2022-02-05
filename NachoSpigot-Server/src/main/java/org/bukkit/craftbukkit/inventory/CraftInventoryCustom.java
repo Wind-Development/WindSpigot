@@ -91,7 +91,9 @@ public class CraftInventoryCustom extends CraftInventory
 			ItemStack stack = this.getItem(i);
 			ItemStack result;
 			if (stack == null)
+			{
 				return null;
+			}
 			if (stack.count <= j)
 			{
 				this.setItem(i, null);
@@ -111,7 +113,9 @@ public class CraftInventoryCustom extends CraftInventory
 			ItemStack stack = this.getItem(i);
 			ItemStack result;
 			if (stack == null)
+			{
 				return null;
+			}
 			if (stack.count <= 1)
 			{
 				this.setItem(i, null);

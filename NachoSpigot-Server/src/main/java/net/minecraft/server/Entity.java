@@ -596,7 +596,9 @@ public abstract class Entity implements ICommandListener
 			return;
 		}
 		if (this.loadChunks)
+		 {
 			loadChunks(); // PaperSpigot - Load chunks
+		}
 		if (this.noclip)
 		{
 			this.a(this.getBoundingBox().c(d0, d1, d2));
@@ -606,7 +608,9 @@ public abstract class Entity implements ICommandListener
 			// [Nacho-0019] :: We must move a meaningful amount of distance to tick
 			// collisions
 			if (d0 * d0 + d1 * d1 + d2 * d2 < 0.0001D)
+			{
 				return;
+			}
 
 			// IonSpigot start - Movement Cache
 			this.lastMotX = this.motX;
@@ -752,8 +756,10 @@ public abstract class Entity implements ICommandListener
 				// if the x velocity is
 				// greater
 				if (axisScan)
+				 {
 					list = this.world.getCubes(this, this.getBoundingBox().a(0, 0, d2)); // TacoSpigot - get z axis
 																							// blocks
+				}
 
 				for (iterator1 = list.iterator(); iterator1.hasNext(); d2 = axisalignedbb2.c(this.getBoundingBox(), d2))
 				{
@@ -763,8 +769,10 @@ public abstract class Entity implements ICommandListener
 				this.a(this.getBoundingBox().c(0.0D, 0.0D, d2));
 
 				if (axisScan)
+				 {
 					list = this.world.getCubes(this, this.getBoundingBox().a(d0, 0, 0)); // TacoSpigot - get x axis
 																							// blocks
+				}
 
 				for (iterator1 = list.iterator(); iterator1.hasNext(); d0 = axisalignedbb2.a(this.getBoundingBox(), d0))
 				{
@@ -776,8 +784,10 @@ public abstract class Entity implements ICommandListener
 			} else
 			{
 				if (axisScan)
+				 {
 					list = this.world.getCubes(this, this.getBoundingBox().a(d0, 0, 0)); // TacoSpigot - get x axis
 																							// blocks
+				}
 
 				for (iterator1 = list.iterator(); iterator1.hasNext(); d0 = axisalignedbb2.a(this.getBoundingBox(), d0))
 				{
@@ -787,8 +797,10 @@ public abstract class Entity implements ICommandListener
 				this.a(this.getBoundingBox().c(d0, 0.0D, 0.0D));
 
 				if (axisScan)
+				 {
 					list = this.world.getCubes(this, this.getBoundingBox().a(0, 0, d2)); // TacoSpigot - get z axis
 																							// blocks
+				}
 
 				for (iterator1 = list.iterator(); iterator1.hasNext(); d2 = axisalignedbb2.c(this.getBoundingBox(), d2))
 				{
@@ -1591,7 +1603,9 @@ public abstract class Entity implements ICommandListener
 	public boolean c(NBTTagCompound nbttagcompound)
 	{
 		if (this instanceof EntityFireworks || this instanceof EntityArrow)
+		 {
 			return false; // YAPFA - Don't save arrows or fireworks
+		}
 		String s = this.ag();
 
 		if (!this.dead && s != null)
@@ -2084,7 +2098,9 @@ public abstract class Entity implements ICommandListener
 						this.vehicle.getBukkitEntity()); // Spigot
 				pluginManager.callEvent(dismountEvent);
 				if (dismountEvent.isCancelled())
+				{
 					return;
+				}
 				// PaperSpigot end
 				this.setPositionRotation(this.vehicle.locX, this.vehicle.getBoundingBox().b + this.vehicle.length,
 						this.vehicle.locZ, this.yaw, this.pitch);
@@ -2851,21 +2867,33 @@ public abstract class Entity implements ICommandListener
 				f = axisalignedbb.f;
 		double len = axisalignedbb.d - axisalignedbb.a;
 		if (len < 0)
+		{
 			d = a;
+		}
 		if (len > 64)
+		{
 			d = a + 64.0;
+		}
 
 		len = axisalignedbb.e - axisalignedbb.b;
 		if (len < 0)
+		{
 			e = b;
+		}
 		if (len > 64)
+		{
 			e = b + 64.0;
+		}
 
 		len = axisalignedbb.f - axisalignedbb.c;
 		if (len < 0)
+		{
 			f = c;
+		}
 		if (len > 64)
+		{
 			f = c + 64.0;
+		}
 		this.boundingBox = new AxisAlignedBB(a, b, c, d, e, f);
 		// CraftBukkit end
 	}

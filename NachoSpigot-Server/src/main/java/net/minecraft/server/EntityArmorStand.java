@@ -346,18 +346,22 @@ public class EntityArmorStand extends EntityLiving
 			{
 				ItemArmor itemarmor = (ItemArmor) itemstack.getItem();
 
-				if (itemarmor.b == 3)
+				switch (itemarmor.b)
 				{
+				case 3:
 					b0 = 1;
-				} else if (itemarmor.b == 2)
-				{
+					break;
+				case 2:
 					b0 = 2;
-				} else if (itemarmor.b == 1)
-				{
+					break;
+				case 1:
 					b0 = 3;
-				} else if (itemarmor.b == 0)
-				{
+					break;
+				case 0:
 					b0 = 4;
+					break;
+				default:
+					break;
 				}
 			}
 
@@ -910,7 +914,9 @@ public class EntityArmorStand extends EntityLiving
 	public void move(double motX, double motY, double motZ)
 	{
 		if (getWorld().tacoSpigotConfig.optimizeArmorStandMovement)
+		{
 			return;
+		}
 		super.move(motX, motY, motZ);
 	}
 	// TacoSpigot end

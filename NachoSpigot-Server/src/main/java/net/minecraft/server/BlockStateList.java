@@ -62,7 +62,9 @@ public class BlockStateList
 			}
 		});
 		for (IBlockState state : aiblockstate)
+		 {
 			state.tryInitId(); // TacoSpigot
+		}
 		this.d = ImmutableList.copyOf(aiblockstate);
 		LinkedHashMap linkedhashmap = Maps.newLinkedHashMap();
 		ArrayList arraylist = Lists.newArrayList();

@@ -13,7 +13,6 @@ public class EntityWolf extends EntityTameableAnimal
 {
 
 	private float bo;
-	private float bp;
 	private boolean bq;
 	private boolean br;
 	private float bs;
@@ -200,7 +199,7 @@ public class EntityWolf extends EntityTameableAnimal
 	public void t_()
 	{
 		super.t_();
-		this.bp = this.bo;
+		float bp = this.bo;
 		if (this.cx())
 		{
 			this.bo += (1.0F - this.bo) * 0.4F;

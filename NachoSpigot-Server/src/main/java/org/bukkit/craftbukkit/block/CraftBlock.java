@@ -302,7 +302,9 @@ public class CraftBlock implements Block
 	public static BlockFace notchToBlockFace(EnumDirection notch)
 	{
 		if (notch == null)
+		{
 			return BlockFace.SELF;
+		}
 		switch (notch)
 		{
 		case DOWN:
@@ -448,9 +450,13 @@ public class CraftBlock implements Block
 	public boolean equals(Object o)
 	{
 		if (o == this)
+		{
 			return true;
+		}
 		if (!(o instanceof CraftBlock))
+		{
 			return false;
+		}
 		CraftBlock other = (CraftBlock) o;
 
 		return this.x == other.x && this.y == other.y && this.z == other.z && this.getWorld().equals(other.getWorld());
@@ -490,22 +496,34 @@ public class CraftBlock implements Block
 		net.minecraft.server.World world = chunk.getHandle().getWorld();
 		if ((face == BlockFace.DOWN || face == BlockFace.SELF)
 				&& world.isBlockFacePowered(new BlockPosition(x, y - 1, z), EnumDirection.DOWN))
+		{
 			power = wire.getPower(world, new BlockPosition(x, y - 1, z), power);
+		}
 		if ((face == BlockFace.UP || face == BlockFace.SELF)
 				&& world.isBlockFacePowered(new BlockPosition(x, y + 1, z), EnumDirection.UP))
+		{
 			power = wire.getPower(world, new BlockPosition(x, y + 1, z), power);
+		}
 		if ((face == BlockFace.EAST || face == BlockFace.SELF)
 				&& world.isBlockFacePowered(new BlockPosition(x + 1, y, z), EnumDirection.EAST))
+		{
 			power = wire.getPower(world, new BlockPosition(x + 1, y, z), power);
+		}
 		if ((face == BlockFace.WEST || face == BlockFace.SELF)
 				&& world.isBlockFacePowered(new BlockPosition(x - 1, y, z), EnumDirection.WEST))
+		{
 			power = wire.getPower(world, new BlockPosition(x - 1, y, z), power);
+		}
 		if ((face == BlockFace.NORTH || face == BlockFace.SELF)
 				&& world.isBlockFacePowered(new BlockPosition(x, y, z - 1), EnumDirection.NORTH))
+		{
 			power = wire.getPower(world, new BlockPosition(x, y, z - 1), power);
+		}
 		if ((face == BlockFace.SOUTH || face == BlockFace.SELF)
 				&& world.isBlockFacePowered(new BlockPosition(x, y, z + 1), EnumDirection.SOUTH))
+		{
 			power = wire.getPower(world, new BlockPosition(x, y, z - 1), power);
+		}
 		return power > 0 ? power
 				: (face == BlockFace.SELF ? isBlockIndirectlyPowered() : isBlockFaceIndirectlyPowered(face)) ? 15 : 0;
 	}

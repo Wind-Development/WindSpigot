@@ -53,7 +53,9 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn>
 		{
 			// Consume everything and leave 3 bytes at the end
 			if (serializer.readableBytes() < 3)
+			{
 				throw new DecoderException("Expected 3 facing bytes");
+			}
 			serializer.skipBytes(serializer.readableBytes() - 3);
 		}
 

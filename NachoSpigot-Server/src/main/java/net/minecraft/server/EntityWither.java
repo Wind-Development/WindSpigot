@@ -249,7 +249,9 @@ public class EntityWither extends EntityMonster implements IRangedEntity
 					if (world.spigotConfig.witherSpawnSoundRadius > 0
 							&& distanceSquared > world.spigotConfig.witherSpawnSoundRadius
 									* world.spigotConfig.witherSpawnSoundRadius)
+					 {
 						continue; // Spigot
+					}
 					if (distanceSquared > viewDistance * viewDistance)
 					{
 						double deltaLength = Math.sqrt(distanceSquared);

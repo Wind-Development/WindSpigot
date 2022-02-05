@@ -234,7 +234,9 @@ public class ChunkProviderHell implements IChunkProvider
 		this.a(i, j, chunksnapshot);
 		this.b(i, j, chunksnapshot);
 		if (this.h.paperSpigotConfig.generateCaves)
+		 {
 			this.C.a(this, this.h, i, j, chunksnapshot); // PaperSpigot
+		}
 		if (this.i && this.h.paperSpigotConfig.generateFortress)
 		{ // PaperSpigot
 			this.B.a(this, this.h, i, j, chunksnapshot);
@@ -482,7 +484,9 @@ public class ChunkProviderHell implements IChunkProvider
 	public void recreateStructures(Chunk chunk, int i, int j)
 	{
 		if (this.h.paperSpigotConfig.generateFortress)
+		 {
 			this.B.a(this, this.h, i, j, (ChunkSnapshot) null); // PaperSpigot
+		}
 	}
 
 	@Override

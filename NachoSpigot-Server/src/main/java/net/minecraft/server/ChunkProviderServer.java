@@ -186,17 +186,14 @@ public class ChunkProviderServer implements IChunkProvider
 					ChunkIOExecutor.queueChunkLoad(world, loader, this, i, j, runnable);
 				}
 				return null;
+			} else if (callChunkPreLoad(i, j))
+			{
+				chunk = new EmptyChunk(world, i, j);
+				chunk.setDone(true);
+				chunks.put(LongHash.toLong(i, j), chunk);
 			} else
 			{
-				if (callChunkPreLoad(i, j))
-				{
-					chunk = new EmptyChunk(world, i, j);
-					chunk.setDone(true);
-					chunks.put(LongHash.toLong(i, j), chunk);
-				} else
-				{
-					chunk = ChunkIOExecutor.syncChunkLoad(world, loader, this, i, j);
-				}
+				chunk = ChunkIOExecutor.syncChunkLoad(world, loader, this, i, j);
 			}
 		} else if (chunk == null)
 		{
@@ -315,7 +312,9 @@ public class ChunkProviderServer implements IChunkProvider
 				: chunk;
 
 		if (chunk == emptyChunk)
+		{
 			return chunk;
+		}
 		if (i != chunk.locX || j != chunk.locZ)
 		{
 			b.error("Chunk (" + chunk.locX + ", " + chunk.locZ + ") stored at  (" + i + ", " + j + ") in world '"
@@ -513,7 +512,9 @@ public class ChunkProviderServer implements IChunkProvider
 			// TacoSpigot end
 			Chunk chunk = this.chunks.get(chunkcoordinates);
 			if (chunk == null)
+			{
 				continue;
+			}
 
 			ChunkUnloadEvent event = new ChunkUnloadEvent(chunk.bukkitChunk);
 			server.getPluginManager().callEvent(event);

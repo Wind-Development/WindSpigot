@@ -261,7 +261,9 @@ public class PersistentVillage extends PersistentBase
 		// Paper start
 		IBlockData iblockdata = this.world.getTypeIfLoaded(var1);
 		if (iblockdata == null)
+		{
 			return false;
+		}
 		Block var2 = iblockdata.getBlock();
 		// Paper end
 		if (var2 instanceof BlockDoor)

@@ -121,7 +121,9 @@ public class CraftChunk implements Chunk
 			for (Object entity : chunk.entitySlices[i])
 			{
 				if (entity == null)
+				{
 					continue;
+				}
 				entities[index++] = ((net.minecraft.server.Entity) entity).getBukkitEntity();
 			}
 			// Paper end
@@ -188,7 +190,9 @@ public class CraftChunk implements Chunk
 		for (ChunkSection section : chunk.getSections())
 		{
 			if (section == null || section.a())
+			 {
 				continue; // ChunkSection.a() -> true if section is empty
+			}
 
 			char[] blockIds = section.getIdArray();
 			for (int i = 0; i < blockIds.length; i++)
@@ -254,10 +258,14 @@ public class CraftChunk implements Chunk
 				for (int j = 0; j < 4096; j++)
 				{
 					if (baseids[j] == 0)
+					{
 						continue;
+					}
 					IBlockData blockData = net.minecraft.server.Block.d.a(baseids[j]);
 					if (blockData == null)
+					{
 						continue;
+					}
 					blockids[j] = (short) net.minecraft.server.Block.getId(blockData.getBlock());
 					int data = blockData.getBlock().toLegacyData(blockData);
 					int jj = j >> 1;

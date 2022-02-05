@@ -12,15 +12,15 @@ public class ItemMonsterEgg extends Item
 	@Override
 	public String a(ItemStack itemstack)
 	{
-		String s = ("" + LocaleI18n.get(this.getName() + ".name")).trim();
+		StringBuilder s = new StringBuilder(("" + LocaleI18n.get(this.getName() + ".name")).trim());
 		String s1 = EntityTypes.b(itemstack.getData());
 
 		if (s1 != null)
 		{
-			s = s + " " + LocaleI18n.get("entity." + s1 + ".name");
+			s.append(" ").append(LocaleI18n.get("entity." + s1 + ".name"));
 		}
 
-		return s;
+		return s.toString();
 	}
 
 	@Override

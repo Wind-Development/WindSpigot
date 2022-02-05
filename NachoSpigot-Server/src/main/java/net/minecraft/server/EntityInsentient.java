@@ -137,7 +137,9 @@ public abstract class EntityInsentient extends EntityLiving
 	public void setGoalTarget(EntityLiving entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent)
 	{
 		if (getGoalTarget() == entityliving)
+		{
 			return;
+		}
 		if (fireEvent)
 		{
 			if (reason == EntityTargetEvent.TargetReason.UNKNOWN && getGoalTarget() != null && entityliving == null)
@@ -626,7 +628,9 @@ public abstract class EntityInsentient extends EntityLiving
 			if (goalFloat != null)
 			{
 				if (goalFloat.a())
+				{
 					goalFloat.e();
+				}
 				this.g.b();
 			}
 			// PaperSpigot end
@@ -890,21 +894,20 @@ public abstract class EntityInsentient extends EntityLiving
 		switch (i)
 		{
 		case 4:
-			if (j == 0)
+			switch (j)
 			{
+			case 0:
 				return Items.LEATHER_HELMET;
-			} else if (j == 1)
-			{
+			case 1:
 				return Items.GOLDEN_HELMET;
-			} else if (j == 2)
-			{
+			case 2:
 				return Items.CHAINMAIL_HELMET;
-			} else if (j == 3)
-			{
+			case 3:
 				return Items.IRON_HELMET;
-			} else if (j == 4)
-			{
+			case 4:
 				return Items.DIAMOND_HELMET;
+			default:
+				break;
 			}
 
 		case 3:

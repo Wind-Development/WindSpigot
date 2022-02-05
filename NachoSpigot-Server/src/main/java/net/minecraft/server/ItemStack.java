@@ -464,7 +464,9 @@ public final class ItemStack
 							(org.bukkit.entity.Player) entityliving.getBukkitEntity(), item, i);
 					org.bukkit.Bukkit.getServer().getPluginManager().callEvent(event);
 					if (event.isCancelled())
+					{
 						return false;
+					}
 					i = event.getDamage();
 				}
 				// Spigot end
@@ -594,9 +596,13 @@ public final class ItemStack
 	public static boolean matches(ItemStack itemstack, ItemStack itemstack1)
 	{
 		if (itemstack == null && itemstack1 == null)
+		{
 			return true;
+		}
 		if (itemstack == null || itemstack1 == null)
+		{
 			return false;
+		}
 		return itemstack.d(itemstack1);
 	}
 
@@ -604,13 +610,21 @@ public final class ItemStack
 	{
 
 		if (this.count != itemstack.count)
+		{
 			return false;
+		}
 		if (this.item != itemstack.item)
+		{
 			return false;
+		}
 		if (this.damage != itemstack.damage)
+		{
 			return false;
+		}
 		if (this.tag == null && itemstack.tag != null)
+		{
 			return false;
+		}
 
 		return (this.tag == null || this.tag.equals(itemstack.tag));
 	}
@@ -971,7 +985,9 @@ public final class ItemStack
 	private boolean isPlacable(Material material)
 	{
 		if (!material.isSolid())
+		{
 			return true;
+		}
 		// signs and banners
 		switch (material.getId())
 		{

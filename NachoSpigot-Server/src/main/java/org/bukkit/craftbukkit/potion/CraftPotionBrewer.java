@@ -21,17 +21,23 @@ public class CraftPotionBrewer implements PotionBrewer
 	public Collection<PotionEffect> getEffectsFromDamage(int damage)
 	{
 		if (cache.containsKey(damage))
+		{
 			return cache.get(damage);
+		}
 
 		List<?> mcEffects = net.minecraft.server.PotionBrewer.getEffects(damage, false);
 		List<PotionEffect> effects = new ArrayList<PotionEffect>();
 		if (mcEffects == null)
+		{
 			return effects;
+		}
 
 		for (Object raw : mcEffects)
 		{
 			if (raw == null || !(raw instanceof MobEffect))
+			{
 				continue;
+			}
 			MobEffect mcEffect = (MobEffect) raw;
 			PotionEffect effect = new PotionEffect(PotionEffectType.getById(mcEffect.getEffectId()),
 					mcEffect.getDuration(), mcEffect.getAmplifier());

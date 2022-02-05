@@ -346,73 +346,69 @@ public class BlockVine extends Block
 							}
 
 						}
-					} else
+					} else if (blockposition.getY() > 1)
 					{
-						if (blockposition.getY() > 1)
+						blockposition2 = blockposition.down();
+						IBlockData iblockdata2 = world.getType(blockposition2);
+						Block block1 = iblockdata2.getBlock();
+						IBlockData iblockdata3;
+						Iterator iterator1;
+						EnumDirection enumdirection3;
+
+						if (block1.material == Material.AIR)
 						{
-							blockposition2 = blockposition.down();
-							IBlockData iblockdata2 = world.getType(blockposition2);
-							Block block1 = iblockdata2.getBlock();
-							IBlockData iblockdata3;
-							Iterator iterator1;
-							EnumDirection enumdirection3;
+							iblockdata3 = iblockdata;
+							iterator1 = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
 
-							if (block1.material == Material.AIR)
+							while (iterator1.hasNext())
 							{
-								iblockdata3 = iblockdata;
-								iterator1 = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
-
-								while (iterator1.hasNext())
+								enumdirection3 = (EnumDirection) iterator1.next();
+								if (random.nextBoolean())
 								{
-									enumdirection3 = (EnumDirection) iterator1.next();
-									if (random.nextBoolean())
-									{
-										iblockdata3 = iblockdata3.set(getDirection(enumdirection3),
-												Boolean.valueOf(false));
-									}
-								}
-
-								if (iblockdata3.get(BlockVine.NORTH).booleanValue()
-										|| iblockdata3.get(BlockVine.EAST).booleanValue()
-										|| iblockdata3.get(BlockVine.SOUTH).booleanValue()
-										|| iblockdata3.get(BlockVine.WEST).booleanValue())
-								{
-									// CraftBukkit start - Call BlockSpreadEvent
-									// world.setTypeAndData(blockposition2, iblockdata3, 2);
-									org.bukkit.block.Block source = world.getWorld().getBlockAt(blockposition.getX(),
-											blockposition.getY(), blockposition.getZ());
-									org.bukkit.block.Block bukkitBlock = world.getWorld().getBlockAt(
-											blockposition2.getX(), blockposition2.getY(), blockposition2.getZ());
-									CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this,
-											toLegacyData(iblockdata3));
-									// CraftBukkit end
-								}
-							} else if (block1 == this)
-							{
-								iblockdata3 = iblockdata2;
-								iterator1 = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
-
-								while (iterator1.hasNext())
-								{
-									enumdirection3 = (EnumDirection) iterator1.next();
-									BlockStateBoolean blockstateboolean = getDirection(enumdirection3);
-
-									if (random.nextBoolean() && iblockdata.get(blockstateboolean).booleanValue())
-									{
-										iblockdata3 = iblockdata3.set(blockstateboolean, Boolean.valueOf(true));
-									}
-								}
-
-								if (iblockdata3.get(BlockVine.NORTH).booleanValue()
-										|| iblockdata3.get(BlockVine.EAST).booleanValue()
-										|| iblockdata3.get(BlockVine.SOUTH).booleanValue()
-										|| iblockdata3.get(BlockVine.WEST).booleanValue())
-								{
-									world.setTypeAndData(blockposition2, iblockdata3, 2);
+									iblockdata3 = iblockdata3.set(getDirection(enumdirection3),
+											Boolean.valueOf(false));
 								}
 							}
-						}
 
+							if (iblockdata3.get(BlockVine.NORTH).booleanValue()
+									|| iblockdata3.get(BlockVine.EAST).booleanValue()
+									|| iblockdata3.get(BlockVine.SOUTH).booleanValue()
+									|| iblockdata3.get(BlockVine.WEST).booleanValue())
+							{
+								// CraftBukkit start - Call BlockSpreadEvent
+								// world.setTypeAndData(blockposition2, iblockdata3, 2);
+								org.bukkit.block.Block source = world.getWorld().getBlockAt(blockposition.getX(),
+										blockposition.getY(), blockposition.getZ());
+								org.bukkit.block.Block bukkitBlock = world.getWorld().getBlockAt(
+										blockposition2.getX(), blockposition2.getY(), blockposition2.getZ());
+								CraftEventFactory.handleBlockSpreadEvent(bukkitBlock, source, this,
+										toLegacyData(iblockdata3));
+								// CraftBukkit end
+							}
+						} else if (block1 == this)
+						{
+							iblockdata3 = iblockdata2;
+							iterator1 = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
+
+							while (iterator1.hasNext())
+							{
+								enumdirection3 = (EnumDirection) iterator1.next();
+								BlockStateBoolean blockstateboolean = getDirection(enumdirection3);
+
+								if (random.nextBoolean() && iblockdata.get(blockstateboolean).booleanValue())
+								{
+									iblockdata3 = iblockdata3.set(blockstateboolean, Boolean.valueOf(true));
+								}
+							}
+
+							if (iblockdata3.get(BlockVine.NORTH).booleanValue()
+									|| iblockdata3.get(BlockVine.EAST).booleanValue()
+									|| iblockdata3.get(BlockVine.SOUTH).booleanValue()
+									|| iblockdata3.get(BlockVine.WEST).booleanValue())
+							{
+								world.setTypeAndData(blockposition2, iblockdata3, 2);
+							}
+						}
 					}
 				}
 			}

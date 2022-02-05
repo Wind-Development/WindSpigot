@@ -11,7 +11,6 @@ public class TileEntityPiston extends TileEntity implements IUpdatePlayerListBox
 	private IBlockData a;
 	private EnumDirection f;
 	private boolean g;
-	private boolean h;
 	private float i;
 	private float j;
 	private List<Entity> k = Lists.newArrayList();
@@ -25,7 +24,7 @@ public class TileEntityPiston extends TileEntity implements IUpdatePlayerListBox
 		this.a = iblockdata;
 		this.f = enumdirection;
 		this.g = flag;
-		this.h = flag1;
+		boolean h = flag1;
 	}
 
 	public IBlockData b()
@@ -131,7 +130,9 @@ public class TileEntityPiston extends TileEntity implements IUpdatePlayerListBox
 	public void c()
 	{
 		if (this.world == null)
+		 {
 			return; // CraftBukkit
+		}
 		this.j = this.i;
 		if (this.j >= 1.0F)
 		{

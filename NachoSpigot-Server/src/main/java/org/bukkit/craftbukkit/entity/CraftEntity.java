@@ -535,7 +535,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity
 		// Spigot start
 		if (!location.getWorld().equals(getWorld()))
 		{
-			entity.teleportTo(location, cause.equals(TeleportCause.NETHER_PORTAL));
+			entity.teleportTo(location, TeleportCause.NETHER_PORTAL.equals(cause));
 			return true;
 		}
 

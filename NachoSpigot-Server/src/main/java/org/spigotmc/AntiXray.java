@@ -240,9 +240,13 @@ public class AntiXray
 				{
 					adjacent.setValues(x, y, z);
 					if (!updateSelf && x == startPos.getX() & y == startPos.getY() & z == startPos.getZ())
+					{
 						continue;
+					}
 					if (world.isLoaded(adjacent))
+					{
 						updateBlock(world, adjacent);
+					}
 				}
 			}
 		}
@@ -314,13 +318,19 @@ public class AntiXray
 		int z = pos.getZ();
 		Chunk chunk = world.getChunkIfLoaded(x >> 4, z >> 4);
 		if (chunk == null)
+		{
 			return Blocks.AIR;
+		}
 		int sectionId = y >> 4;
 		if (sectionId < 0 || sectionId > 15)
+		{
 			return Blocks.AIR;
+		}
 		ChunkSection section = chunk.getSections()[sectionId];
 		if (section == null)
+		 {
 			return Blocks.AIR; // Handle empty chunks
+		}
 		x &= 0xF;
 		y &= 0xF;
 		z &= 0xF;

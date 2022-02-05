@@ -52,7 +52,9 @@ public class ContainerDispenser extends Container
 	public boolean a(EntityHuman entityhuman)
 	{
 		if (!this.checkReachable)
+		 {
 			return true; // CraftBukkit
+		}
 		return this.items.a(entityhuman);
 	}
 

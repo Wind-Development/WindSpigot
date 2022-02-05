@@ -66,7 +66,7 @@ public class MojangNameLookup
 		return null;
 	}
 
-	private class Response
+	private static class Response
 	{
 		String errorMessage;
 		String cause;

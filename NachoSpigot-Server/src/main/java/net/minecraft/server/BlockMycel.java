@@ -53,43 +53,39 @@ public class BlockMycel extends Block
 					blockState.update(true);
 				}
 				// CraftBukkit end
-			} else
+			} else if (world.getLightLevel(blockposition.up()) >= 9)
 			{
-				if (world.getLightLevel(blockposition.up()) >= 9)
-				{
-					for (int i = 0; i < Math.min(4, Math.max(20, (int) (4 * 100F / world.growthOdds))); ++i)
-					{ // Spigot
-						BlockPosition blockposition1 = blockposition.a(random.nextInt(3) - 1, random.nextInt(5) - 3,
-								random.nextInt(3) - 1);
-						IBlockData iblockdata1 = world.getType(blockposition1);
-						Block block = world.getType(blockposition1.up()).getBlock();
+				for (int i = 0; i < Math.min(4, Math.max(20, (int) (4 * 100F / world.growthOdds))); ++i)
+				{ // Spigot
+					BlockPosition blockposition1 = blockposition.a(random.nextInt(3) - 1, random.nextInt(5) - 3,
+							random.nextInt(3) - 1);
+					IBlockData iblockdata1 = world.getType(blockposition1);
+					Block block = world.getType(blockposition1.up()).getBlock();
 
-						if (iblockdata1.getBlock() == Blocks.DIRT
-								&& iblockdata1.get(BlockDirt.VARIANT) == BlockDirt.EnumDirtVariant.DIRT
-								&& world.getLightLevel(blockposition1.up()) >= 4 && block.p() <= 2)
+					if (iblockdata1.getBlock() == Blocks.DIRT
+							&& iblockdata1.get(BlockDirt.VARIANT) == BlockDirt.EnumDirtVariant.DIRT
+							&& world.getLightLevel(blockposition1.up()) >= 4 && block.p() <= 2)
+					{
+						// CraftBukkit start
+						// world.setTypeUpdate(blockposition1, this.getBlockData());
+						org.bukkit.World bworld = world.getWorld();
+						BlockState blockState = bworld
+								.getBlockAt(blockposition1.getX(), blockposition1.getY(), blockposition1.getZ())
+								.getState();
+						blockState.setType(CraftMagicNumbers.getMaterial(this));
+
+						BlockSpreadEvent event = new BlockSpreadEvent(blockState.getBlock(),
+								bworld.getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()),
+								blockState);
+						world.getServer().getPluginManager().callEvent(event);
+
+						if (!event.isCancelled())
 						{
-							// CraftBukkit start
-							// world.setTypeUpdate(blockposition1, this.getBlockData());
-							org.bukkit.World bworld = world.getWorld();
-							BlockState blockState = bworld
-									.getBlockAt(blockposition1.getX(), blockposition1.getY(), blockposition1.getZ())
-									.getState();
-							blockState.setType(CraftMagicNumbers.getMaterial(this));
-
-							BlockSpreadEvent event = new BlockSpreadEvent(blockState.getBlock(),
-									bworld.getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()),
-									blockState);
-							world.getServer().getPluginManager().callEvent(event);
-
-							if (!event.isCancelled())
-							{
-								blockState.update(true);
-							}
-							// CraftBukkit end
+							blockState.update(true);
 						}
+						// CraftBukkit end
 					}
 				}
-
 			}
 		}
 	}

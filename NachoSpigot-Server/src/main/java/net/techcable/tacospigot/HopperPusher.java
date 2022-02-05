@@ -29,7 +29,9 @@ public interface HopperPusher
 	public default boolean tryPutInHopper()
 	{
 		if (!getWorld().tacoSpigotConfig.isHopperPushBased)
+		{
 			return false;
+		}
 		TileEntityHopper hopper = findHopper();
 		return hopper != null && hopper.canAcceptItems() && acceptItem(hopper);
 	}

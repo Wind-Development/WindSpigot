@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 // CraftBukkit start
@@ -93,7 +92,6 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	private boolean processedDisconnect; // CraftBukkit - added
 	private int lastBookTick = 0;
 	private int creativeSlotCount = 0;
-	private int windowClickCount = 0;
 	private long lastCustomPayloadPacketTS = -1L;
 	private boolean isExploiter = false;
 
@@ -174,12 +172,14 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 		// CraftBukkit start
 		for (int spam; (spam = this.chatThrottle) > 0 && !chatSpamField.compareAndSet(this, spam, spam - 1);)
+		{
 			;
 		/*
 		 * Use thread-safe field access instead if (this.chatThrottle > 0) {
 		 * --this.chatThrottle; }
 		 */
 		// CraftBukkit end
+		}
 
 		if (this.m > 0)
 		{
@@ -216,25 +216,24 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	public void a(PacketPlayInKeepAlive packetplayinkeepalive)
 	{
 		if (noKeepalives)
+		{
 			return;
+		}
 		if (isPendingPing && packetplayinkeepalive.a() == getKeepAliveID())
 		{
 			int i = (int) (this.d() - getLastPing());
 			this.player.ping = (this.player.ping * 3 + i) / 4;
 			isPendingPing = false;
 			isDownloading = false;
+		} else if (packetplayinkeepalive.a() == 0)
+		{
+			isDownloading = true;
 		} else
 		{
-			if (packetplayinkeepalive.a() == 0)
-			{
-				isDownloading = true;
-			} else
-			{
-				noKeepalives = true;
-				c.warn("{} sent an invalid keepalive! pending keepalive: {} got id: {} expected id: {}",
-						this.player.getName(), isPendingPing, packetplayinkeepalive.a(), this.getKeepAliveID());
-				this.minecraftServer.postToMainThread(() -> disconnect("invalid keepalive"));
-			}
+			noKeepalives = true;
+			c.warn("{} sent an invalid keepalive! pending keepalive: {} got id: {} expected id: {}",
+					this.player.getName(), isPendingPing, packetplayinkeepalive.a(), this.getKeepAliveID());
+			this.minecraftServer.postToMainThread(() -> disconnect("invalid keepalive"));
 		}
 	}
 	// Feather end
@@ -347,7 +346,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		} else
 		{
 			creativeSlotCount = Math.max(creativeSlotCount--, 0);
-			windowClickCount = 0;
+			int windowClickCount = 0;
 			WorldServer worldserver = this.minecraftServer.getWorldServer(this.player.dimension);
 
 			this.h = true;
@@ -832,7 +831,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	{
 		PlayerConnectionUtils.ensureMainThread(packetplayinblockdig, this, this.player.u());
 		if (this.player.dead)
+		 {
 			return; // CraftBukkit
+		}
 		WorldServer worldserver = this.minecraftServer.getWorldServer(this.player.dimension);
 		BlockPosition blockposition = packetplayinblockdig.a();
 
@@ -966,7 +967,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 		// CraftBukkit start
 		if (this.player.dead)
+		{
 			return;
+		}
 
 		// CraftBukkit - if rightclick decremented the item, always send the update
 		// packet. */
@@ -1068,12 +1071,11 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				}
 
 				// SportPaper end
-			} else
-			{
-				if (MinecraftServer.currentTick - lastDropTick > 1 && NachoConfig.fixEatWhileRunning)
-					this.player.playerInteractManager.useItem(this.player, this.player.world, itemstack);
 			}
-			// Spigot end
+			else if (MinecraftServer.currentTick - lastDropTick > 1 && NachoConfig.fixEatWhileRunning)
+			{
+				this.player.playerInteractManager.useItem(this.player, this.player.world, itemstack);
+			}
 
 			// CraftBukkit - notch decrements the counter by 1 in the above method with
 			// food,
@@ -1325,7 +1327,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				try
 				{
 					if (!packetListener.onSentPacket(this, packet))
+					{
 						return;
+					}
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -1359,7 +1363,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	{
 		// CraftBukkit start
 		if (this.player.dead)
+		{
 			return;
+		}
 		PlayerConnectionUtils.ensureMainThread(packetplayinhelditemslot, this, this.player.u());
 		if (packetplayinhelditemslot.a() >= 0 && packetplayinhelditemslot.a() < PlayerInventory.getHotbarSize())
 		{
@@ -1683,8 +1689,10 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	{
 		SpigotTimings.playerCommandTimer.startTiming(); // Spigot
 		// CraftBukkit start - whole method
-		if (org.spigotmc.SpigotConfig.logCommands) // Spigot
+		if (org.spigotmc.SpigotConfig.logCommands)
+		{
 			PlayerConnection.c.info(this.player.getName() + " issued server command: " + s);
+		}
 
 		CraftPlayer player = this.getPlayer();
 
@@ -1722,7 +1730,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	public void a(PacketPlayInArmAnimation packetplayinarmanimation)
 	{
 		if (this.player.dead)
+		 {
 			return; // CraftBukkit
+		}
 		PlayerConnectionUtils.ensureMainThread(packetplayinarmanimation, this, this.player.u());
 		this.player.resetIdleTimer();
 		// CraftBukkit start - Raytrace to look for 'rogue armswings'
@@ -1755,7 +1765,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		this.server.getPluginManager().callEvent(event);
 
 		if (event.isCancelled())
+		{
 			return;
+		}
 		// CraftBukkit end
 		this.player.bw();
 	}
@@ -1766,7 +1778,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		PlayerConnectionUtils.ensureMainThread(packetplayinentityaction, this, this.player.u());
 		// CraftBukkit start
 		if (this.player.dead)
+		{
 			return;
+		}
 		switch (packetplayinentityaction.b())
 		{
 		case START_SNEAKING:
@@ -1843,7 +1857,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	public void a(PacketPlayInUseEntity packetplayinuseentity)
 	{
 		if (this.player.dead)
+		 {
 			return; // CraftBukkit
+		}
 		PlayerConnectionUtils.ensureMainThread(packetplayinuseentity, this, this.player.u());
 		WorldServer worldserver = this.minecraftServer.getWorldServer(this.player.dimension);
 		Entity entity = packetplayinuseentity.a(worldserver);
@@ -2012,7 +2028,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	public void a(PacketPlayInCloseWindow packetplayinclosewindow)
 	{
 		if (this.player.dead)
+		 {
 			return; // CraftBukkit
+		}
 		PlayerConnectionUtils.ensureMainThread(packetplayinclosewindow, this, this.player.u());
 
 		// Nacho: only fire InventoryCloseEvent if inventory is open
@@ -2027,7 +2045,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	public void a(PacketPlayInWindowClick packetplayinwindowclick)
 	{
 		if (this.player.dead)
+		 {
 			return; // CraftBukkit
+		}
 		PlayerConnectionUtils.ensureMainThread(packetplayinwindowclick, this, this.player.u());
 		this.player.resetIdleTimer();
 
@@ -2632,7 +2652,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	public void a(PacketPlayInTransaction packetplayintransaction)
 	{
 		if (this.player.dead)
+		 {
 			return; // CraftBukkit
+		}
 		PlayerConnectionUtils.ensureMainThread(packetplayintransaction, this, this.player.u());
 		Short id = this.n.get(this.player.activeContainer.windowId);
 
@@ -2649,7 +2671,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	public void a(PacketPlayInUpdateSign packetplayinupdatesign)
 	{
 		if (this.player.dead)
+		 {
 			return; // CraftBukkit
+		}
 		PlayerConnectionUtils.ensureMainThread(packetplayinupdatesign, this, this.player.u());
 		this.player.resetIdleTimer();
 		WorldServer worldserver = this.minecraftServer.getWorldServer(this.player.dimension);
@@ -2772,7 +2796,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	{
 		PlayerConnectionUtils.ensureMainThread(packetplayincustompayload, this, this.player.u());
 		if (isExploiter)
+		 {
 			return; // NachoSpigot - ignore if they have exploited
+		}
 		PacketDataSerializer serializer;
 		ItemStack itemstack;
 		ItemStack itemstack1;
@@ -2782,7 +2808,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			try
 			{
 				String channelName = packetplayincustompayload.a();
-				if (channelName.equals("MC|BEdit") || channelName.equals("MC|BSign"))
+				if ("MC|BEdit".equals(channelName) || "MC|BSign".equals(channelName))
 				{
 					if (this.lastCustomPayloadPacketTS == -1L
 							|| System.currentTimeMillis() - this.lastCustomPayloadPacketTS > 100)
@@ -3029,14 +3055,14 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				}
 			}
 			// CraftBukkit start
-			else if (packetplayincustompayload.a().equals("REGISTER"))
+			else if ("REGISTER".equals(packetplayincustompayload.a()))
 			{
 				String channels = packetplayincustompayload.b().toString(com.google.common.base.Charsets.UTF_8);
 				for (String channel : channels.split("\0"))
 				{
 					getPlayer().addChannel(channel);
 				}
-			} else if (packetplayincustompayload.a().equals("UNREGISTER"))
+			} else if ("UNREGISTER".equals(packetplayincustompayload.a()))
 			{
 				String channels = packetplayincustompayload.b().toString(com.google.common.base.Charsets.UTF_8);
 				for (String channel : channels.split("\0"))

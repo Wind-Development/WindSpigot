@@ -25,7 +25,6 @@ public abstract class MobSpawnerAbstract
 	private final List<MobSpawnerAbstract.a> mobs = Lists.newArrayList();
 	private MobSpawnerAbstract.a spawnData;
 	private double e;
-	private double f;
 	private int minSpawnDelay = 200 / NachoConfig.tileEntityTickingTime;
 	private int maxSpawnDelay = 800 / NachoConfig.tileEntityTickingTime;
 	private int spawnCount = 4;
@@ -51,7 +50,7 @@ public abstract class MobSpawnerAbstract
 				this.mobName = "Pig";
 			}
 			// CraftBukkit end
-			if (this.mobName != null && this.mobName.equals("Minecart"))
+			if (this.mobName != null && "Minecart".equals(this.mobName))
 			{
 				this.mobName = "MinecartRideable";
 			}
@@ -102,7 +101,7 @@ public abstract class MobSpawnerAbstract
 					--this.spawnDelay; // PaperSpigot
 				}
 
-				this.f = this.e;
+				double f = this.e;
 				this.e = (this.e + 1000.0F / (this.spawnDelay + 200.0F)) % 360.0D;
 			} else
 			{
@@ -449,7 +448,7 @@ public abstract class MobSpawnerAbstract
 		private a(NBTTagCompound nbttagcompound, String s, int i)
 		{
 			super(i);
-			if (s.equals("Minecart"))
+			if ("Minecart".equals(s))
 			{
 				if (nbttagcompound != null)
 				{

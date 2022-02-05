@@ -6,7 +6,6 @@ import java.util.Random;
 import org.bukkit.event.block.BlockRedstoneEvent; // CraftBukkit
 
 import com.google.common.base.Objects;
-import com.google.common.base.Predicate;
 
 public class BlockTripwireHook extends Block
 {

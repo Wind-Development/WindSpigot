@@ -234,7 +234,9 @@ public class WorldBorder
 	public void a(IWorldBorderListener iworldborderlistener)
 	{
 		if (a.contains(iworldborderlistener))
+		 {
 			return; // CraftBukkit
+		}
 		this.a.add(iworldborderlistener);
 	}
 

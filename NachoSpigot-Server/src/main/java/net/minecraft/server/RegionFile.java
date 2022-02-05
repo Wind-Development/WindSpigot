@@ -30,8 +30,6 @@ public class RegionFile
 	private final int[] e = new int[1024];
 	private List<Boolean> f;
 	private int g;
-	private long h;
-
 	public RegionFile(File file)
 	{
 		this.b = file;
@@ -41,7 +39,7 @@ public class RegionFile
 		{
 			if (file.exists())
 			{
-				this.h = file.lastModified();
+				long h = file.lastModified();
 			}
 
 			this.c = new RandomAccessFile(file, "rw");
@@ -84,7 +82,9 @@ public class RegionFile
 			while (header.hasRemaining())
 			{
 				if (this.c.getChannel().read(header) == -1)
+				{
 					throw new EOFException();
+				}
 			}
 			((Buffer) header).clear();
 			IntBuffer headerAsInts = header.asIntBuffer();

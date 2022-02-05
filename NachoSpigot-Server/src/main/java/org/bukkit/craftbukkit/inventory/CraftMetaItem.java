@@ -339,7 +339,9 @@ class CraftMetaItem implements ItemMeta, Repairable
 			{
 				NBTTagCompound nbttagcompound = oldList.get(i);
 				if (nbttagcompound == null)
+				{
 					continue;
+				}
 
 				if (!nbttagcompound.hasKeyOfType(ATTRIBUTES_UUID_HIGH.NBT, 99))
 				{
@@ -527,7 +529,9 @@ class CraftMetaItem implements ItemMeta, Repairable
 			// Spigot start - skip invalid enchantments
 			Enchantment e = Enchantment.getById(id);
 			if (e == null)
+			{
 				continue;
+			}
 			// Spigot end
 			enchantments.put(e, level);
 		}
@@ -879,16 +883,13 @@ class CraftMetaItem implements ItemMeta, Repairable
 		if (lore == null)
 		{
 			this.lore = null;
+		} else if (this.lore == null)
+		{
+			safelyAdd(lore, this.lore = new ArrayList<String>(lore.size()), Integer.MAX_VALUE);
 		} else
 		{
-			if (this.lore == null)
-			{
-				safelyAdd(lore, this.lore = new ArrayList<String>(lore.size()), Integer.MAX_VALUE);
-			} else
-			{
-				this.lore.clear();
-				safelyAdd(lore, this.lore, Integer.MAX_VALUE);
-			}
+			this.lore.clear();
+			safelyAdd(lore, this.lore, Integer.MAX_VALUE);
 		}
 	}
 

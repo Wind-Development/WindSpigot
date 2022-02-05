@@ -1,7 +1,5 @@
 package org.bukkit.craftbukkit.scoreboard;
 
-import java.util.Collection;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

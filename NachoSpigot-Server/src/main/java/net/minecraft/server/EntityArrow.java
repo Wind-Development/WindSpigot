@@ -281,7 +281,9 @@ public class EntityArrow extends Entity implements IProjectile
 						movingobjectposition.entity.getBukkitEntity());
 				Bukkit.getPluginManager().callEvent(collideEvent);
 				if (collideEvent.isCancelled())
+				{
 					movingobjectposition = null;
+				}
 			}
 			// TacoSpigot end
 			if (movingobjectposition != null)

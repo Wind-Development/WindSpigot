@@ -57,7 +57,9 @@ public final class VanillaCommandWrapper extends VanillaCommand
 	public boolean execute(CommandSender sender, String commandLabel, String[] args)
 	{
 		if (!testPermission(sender))
+		{
 			return true;
+		}
 
 		ICommandListener icommandlistener = getListener(sender);
 		dispatchVanillaCommand(sender, icommandlistener, args);

@@ -211,7 +211,9 @@ public class PersistentScoreboard extends PersistentBase
 		{
 			ScoreboardTeam scoreboardteam = (ScoreboardTeam) var3.next();
 			if (!NachoConfig.saveEmptyScoreboardTeams && scoreboardteam.getPlayerNameSet().isEmpty())
+			 {
 				continue; // Paper
+			}
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
 			nbttagcompound.setString("Name", scoreboardteam.getName());
 			nbttagcompound.setString("DisplayName", scoreboardteam.getDisplayName());

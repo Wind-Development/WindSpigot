@@ -85,18 +85,15 @@ public class Chunk
 					isDirty = true;
 					emptySectionBits |= (1 << i);
 				}
-			} else
+			} else if ((emptySectionBits & (1 << i)) == 1)
 			{
-				if ((emptySectionBits & (1 << i)) == 1)
-				{
-					isDirty = true;
-					emptySectionBits &= ~(1 << i);
-					section.isDirty = false;
-				} else if (section.isDirty)
-				{
-					isDirty = true;
-					section.isDirty = false;
-				}
+				isDirty = true;
+				emptySectionBits &= ~(1 << i);
+				section.isDirty = false;
+			} else if (section.isDirty)
+			{
+				isDirty = true;
+				section.isDirty = false;
 			}
 		}
 
@@ -871,23 +868,20 @@ public class Chunk
 			{
 				return enumskyblock.c;
 			}
+		} else if (enumskyblock == EnumSkyBlock.SKY)
+		{
+			if (!this.world.worldProvider.o())
+			{
+				return chunksection.d(i, j & 15, k);
+			}
 		} else
 		{
-			if (enumskyblock == EnumSkyBlock.SKY)
+			if (enumskyblock == EnumSkyBlock.BLOCK)
 			{
-				if (!this.world.worldProvider.o())
-				{
-					return chunksection.d(i, j & 15, k);
-				}
+				return chunksection.e(i, j & 15, k);
 			} else
 			{
-				if (enumskyblock == EnumSkyBlock.BLOCK)
-				{
-					return chunksection.e(i, j & 15, k);
-				} else
-				{
-					return enumskyblock.c;
-				}
+				return enumskyblock.c;
 			}
 		}
 
@@ -1045,7 +1039,9 @@ public class Chunk
 		}
 
 		if (!this.entitySlices[i].remove(entity))
+		 {
 			return; // TacoSpigot
+		}
 		// PaperSpigot start - update counts
 		if (entity instanceof EntityItem)
 		{
@@ -1364,7 +1360,9 @@ public class Chunk
 				 * checks `var1 instanceof IInventory && var1.isAlive()`
 				 */
 				if (predicate == IEntitySelector.c && inventoryEntityCounts[sectionYIndex] <= 0)
+				{
 					continue;
+				}
 				// PaperSpigot end
 				while (iterator.hasNext())
 				{
@@ -1424,7 +1422,9 @@ public class Chunk
 		for (int k = i; k <= j; ++k)
 		{
 			if (counts != null && counts[k] <= 0)
+			 {
 				continue; // PaperSpigot - Don't check a chunk if it doesn't have the type we are looking
+			}
 							// for
 			Iterator iterator = this.entitySlices[k].iterator(); // Spigot
 

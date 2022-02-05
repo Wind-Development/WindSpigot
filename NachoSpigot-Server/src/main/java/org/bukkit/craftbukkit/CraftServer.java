@@ -210,7 +210,7 @@ public final class CraftServer implements Server
 	private final List<CraftPlayer> playerView;
 	public int reloadCount;
 
-	private final class BooleanWrapper
+	private static final class BooleanWrapper
 	{
 		private boolean value = true;
 	}
@@ -389,7 +389,7 @@ public final class CraftServer implements Server
 					}
 					// Nacho end
 					// Nacho start - [Nacho-0044] Fix Citizens
-					else if (plugin.getDescription().getFullName().equals("Citizens"))
+					else if ("Citizens".equals(plugin.getDescription().getFullName()))
 					{
 						boolean val = RuntimePatches.applyCitizensPatch(plugin).join();
 						if (val)
@@ -562,7 +562,9 @@ public final class CraftServer implements Server
 					delta = curDelta;
 				}
 				if (curDelta == 0)
+				{
 					break;
+				}
 			}
 		}
 		return found;
@@ -1329,8 +1331,10 @@ public final class CraftServer implements Server
 		CraftInventoryView lastView = (CraftInventoryView) craftingManager.lastCraftView;
 		if (lastView != null && lastView.getHandle() instanceof ContainerWorkbench
 				&& ((ContainerWorkbench) lastView.getHandle()).g == handle)
+		 {
 			craftingManager.lastCraftView = null;
 		// KigPaper end
+		}
 
 		File parentFolder = world.getWorldFolder().getAbsoluteFile();
 
@@ -1464,21 +1468,18 @@ public final class CraftServer implements Server
 		if (recipe instanceof CraftRecipe)
 		{
 			toAdd = (CraftRecipe) recipe;
+		} else if (recipe instanceof ShapedRecipe)
+		{
+			toAdd = CraftShapedRecipe.fromBukkitRecipe((ShapedRecipe) recipe);
+		} else if (recipe instanceof ShapelessRecipe)
+		{
+			toAdd = CraftShapelessRecipe.fromBukkitRecipe((ShapelessRecipe) recipe);
+		} else if (recipe instanceof FurnaceRecipe)
+		{
+			toAdd = CraftFurnaceRecipe.fromBukkitRecipe((FurnaceRecipe) recipe);
 		} else
 		{
-			if (recipe instanceof ShapedRecipe)
-			{
-				toAdd = CraftShapedRecipe.fromBukkitRecipe((ShapedRecipe) recipe);
-			} else if (recipe instanceof ShapelessRecipe)
-			{
-				toAdd = CraftShapelessRecipe.fromBukkitRecipe((ShapelessRecipe) recipe);
-			} else if (recipe instanceof FurnaceRecipe)
-			{
-				toAdd = CraftFurnaceRecipe.fromBukkitRecipe((FurnaceRecipe) recipe);
-			} else
-			{
-				return false;
-			}
+			return false;
 		}
 		toAdd.addToCraftingManager();
 		CraftingManager.getInstance().sort();

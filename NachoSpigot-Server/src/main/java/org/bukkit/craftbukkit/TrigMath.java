@@ -44,7 +44,9 @@ public class TrigMath
 	public static double atan2(double arg1, double arg2)
 	{
 		if (arg1 + arg2 == arg1)
+		{
 			return arg1 >= 0 ? PIO2 : -PIO2;
+		}
 		arg1 = atan(arg1 / arg2);
 		return arg2 < 0 ? arg1 <= 0 ? arg1 + Math.PI : arg1 - Math.PI : arg1;
 	}

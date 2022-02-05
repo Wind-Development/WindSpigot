@@ -24,7 +24,6 @@ import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
 import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
-import me.elier.nachospigot.config.NachoConfig;
 
 public abstract class EntityHuman extends EntityLiving
 {
@@ -580,7 +579,7 @@ public abstract class EntityHuman extends EntityLiving
 		this.setSize(0.2F, 0.2F);
 		this.setPosition(this.locX, this.locY, this.locZ);
 		this.motY = 0.10000000149011612D;
-		if (this.getName().equals("Notch"))
+		if ("Notch".equals(this.getName()))
 		{
 			this.a(new ItemStack(Items.APPLE, 1), true, false);
 		}
@@ -1279,7 +1278,9 @@ public abstract class EntityHuman extends EntityLiving
 							this.motX *= 0.6D;
 							this.motZ *= 0.6D;
 							if (profile.isStopSprint())
+							 {
 								this.setExtraKnockback(false); // Nacho - Prevent desync player sprinting
+							}
 						}
 
 						if (entity instanceof EntityPlayer && entity.velocityChanged)

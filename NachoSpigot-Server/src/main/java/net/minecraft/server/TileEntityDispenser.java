@@ -121,7 +121,9 @@ public class TileEntityDispenser extends TileEntityContainer implements IInvento
 			if (this.items[k] != null && TileEntityDispenser.f.nextInt(j++) == 0)
 			{
 				if (this.items[k].count == 0)
+				 {
 					continue; // CraftBukkit
+				}
 				i = k;
 			}
 		}

@@ -87,7 +87,9 @@ public class ImmutableArrayTable<R, C, V> implements Table<R, C, V>
 		for (V v : values())
 		{
 			if (v.equals(value))
+			{
 				return true;
+			}
 		}
 		return false;
 	}

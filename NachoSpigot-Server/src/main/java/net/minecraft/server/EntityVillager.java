@@ -743,18 +743,22 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC
 			switch (this.getProfession())
 			{
 			case 0:
-				if (this.bx == 1)
+				switch (this.bx)
 				{
+				case 1:
 					s1 = "farmer";
-				} else if (this.bx == 2)
-				{
+					break;
+				case 2:
 					s1 = "fisherman";
-				} else if (this.bx == 3)
-				{
+					break;
+				case 3:
 					s1 = "shepherd";
-				} else if (this.bx == 4)
-				{
+					break;
+				case 4:
 					s1 = "fletcher";
+					break;
+				default:
+					break;
 				}
 				break;
 

@@ -109,7 +109,9 @@ public class EntityFireworks extends Entity
 		if (!this.world.isClientSide && this.ticksFlown > this.expectedLifespan)
 		{
 			if (!org.bukkit.craftbukkit.event.CraftEventFactory.callFireworkExplodeEvent(this).isCancelled())
+			{
 				this.world.broadcastEntityEffect(this, (byte) 17);
+			}
 			this.die();
 		}
 

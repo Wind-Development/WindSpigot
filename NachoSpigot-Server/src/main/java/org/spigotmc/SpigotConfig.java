@@ -269,18 +269,18 @@ public class SpigotConfig
 
 	protected static String timeSummary(int seconds)
 	{
-		String time = "";
+		StringBuilder time = new StringBuilder();
 		if (seconds > 60 * 60)
 		{
-			time += TimeUnit.SECONDS.toHours(seconds) + "h";
+			time.append(TimeUnit.SECONDS.toHours(seconds)).append("h");
 			seconds /= 60;
 		}
 
 		if (seconds > 0)
 		{
-			time += TimeUnit.SECONDS.toMinutes(seconds) + "m";
+			time.append(TimeUnit.SECONDS.toMinutes(seconds)).append("m");
 		}
-		return time;
+		return time.toString();
 	}
 
 	private static void nettyThreads()

@@ -38,7 +38,9 @@ public class PacketSplitter extends ByteToMessageDecoder
 			b0 = byteBuf.readByte();
 			i |= (b0 & Byte.MAX_VALUE) << j++ * 7;
 			if (j > 5)
+			{
 				throw new RuntimeException("VarInt too big");
+			}
 		} while ((b0 & 0x80) == 128);
 		return i;
 	}
@@ -50,7 +52,9 @@ public class PacketSplitter extends ByteToMessageDecoder
 	protected void decode(ChannelHandlerContext channelhandlercontext, ByteBuf in, List<Object> out) throws Exception
 	{
 		if (!in.isReadable())
+		{
 			return;
+		}
 		int origReaderIndex = in.readerIndex();
 
 		for (int i = 0; i < 3; i++)
@@ -67,7 +71,9 @@ public class PacketSplitter extends ByteToMessageDecoder
 				in.readerIndex(origReaderIndex);
 				int length = readVarInt(in);
 				if (length == 0)
+				{
 					return;
+				}
 
 				if (in.readableBytes() < length)
 				{

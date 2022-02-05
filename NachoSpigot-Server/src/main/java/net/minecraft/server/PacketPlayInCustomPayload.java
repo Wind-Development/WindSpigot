@@ -14,7 +14,9 @@ public class PacketPlayInCustomPayload implements Packet<PacketListenerPlayIn>
 		this.a = paramPacketDataSerializer.c(20);
 		int i = paramPacketDataSerializer.readableBytes();
 		if (i < 0 || i > 32767)
+		{
 			throw new IOException("Payload may not be larger than 32767 bytes");
+		}
 		this.b = new PacketDataSerializer(paramPacketDataSerializer.readBytes(i));
 	}
 

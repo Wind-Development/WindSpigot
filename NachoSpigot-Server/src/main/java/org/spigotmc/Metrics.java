@@ -426,7 +426,7 @@ public class Metrics
 		int coreCount = Runtime.getRuntime().availableProcessors();
 
 		// normalize os arch .. amd64 -> x86_64
-		if (osarch.equals("amd64"))
+		if ("amd64".equals(osarch))
 		{
 			osarch = "x86_64";
 		}
@@ -507,23 +507,20 @@ public class Metrics
 		if (response == null || response.startsWith("ERR"))
 		{
 			throw new IOException(response); // Throw the exception
-		} else
+		} else // Is this the first update this hour?
+		if (response.contains("OK This is your first update this hour"))
 		{
-			// Is this the first update this hour?
-			if (response.contains("OK This is your first update this hour"))
+			synchronized (graphs)
 			{
-				synchronized (graphs)
+				final Iterator<Graph> iter = graphs.iterator();
+
+				while (iter.hasNext())
 				{
-					final Iterator<Graph> iter = graphs.iterator();
+					final Graph graph = iter.next();
 
-					while (iter.hasNext())
+					for (Plotter plotter : graph.getPlotters())
 					{
-						final Graph graph = iter.next();
-
-						for (Plotter plotter : graph.getPlotters())
-						{
-							plotter.reset();
-						}
+						plotter.reset();
 					}
 				}
 			}

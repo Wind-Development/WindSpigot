@@ -126,7 +126,9 @@ public abstract class TileEntity
 		if (this.world != null)
 		{
 			if (IGNORE_TILE_UPDATES)
+			 {
 				return; // Paper
+			}
 			IBlockData iblockdata = this.world.getType(this.position);
 
 			this.h = iblockdata.getBlock().toLegacyData(iblockdata);
@@ -300,7 +302,9 @@ public abstract class TileEntity
 	public InventoryHolder getOwner()
 	{
 		if (world == null)
+		{
 			return null;
+		}
 		// Spigot start
 		org.bukkit.block.Block block = world.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
 		if (block == null)
@@ -313,7 +317,9 @@ public abstract class TileEntity
 		// Spigot end
 		org.bukkit.block.BlockState state = block.getState();
 		if (state instanceof InventoryHolder)
+		{
 			return (InventoryHolder) state;
+		}
 		return null;
 	}
 	// CraftBukkit end

@@ -19,7 +19,6 @@ public class InventorySubcontainer implements IInventory
 
 	// CraftBukkit start - add fields and methods
 	public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
-	private int maxStack = MAX_STACK;
 	protected org.bukkit.inventory.InventoryHolder bukkitOwner;
 
 	@Override
@@ -49,7 +48,7 @@ public class InventorySubcontainer implements IInventory
 	@Override
 	public void setMaxStackSize(int i)
 	{
-		maxStack = i;
+		int maxStack = i;
 	}
 
 	@Override

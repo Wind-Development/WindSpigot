@@ -443,11 +443,13 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
 			}
 
 			if (item == Items.COAL)
+			{
 				return 1600;
+			}
 
-			return item instanceof ItemTool && ((ItemTool) item).h().equals("WOOD") ? 200
-					: (item instanceof ItemSword && ((ItemSword) item).h().equals("WOOD") ? 200
-							: (item instanceof ItemHoe && ((ItemHoe) item).g().equals("WOOD") ? 200
+			return item instanceof ItemTool && "WOOD".equals(((ItemTool) item).h()) ? 200
+					: (item instanceof ItemSword && "WOOD".equals(((ItemSword) item).h()) ? 200
+							: (item instanceof ItemHoe && "WOOD".equals(((ItemHoe) item).g()) ? 200
 									: (item == Items.STICK ? 100
 											: (item == Items.LAVA_BUCKET ? 20000
 													: (item == Item.getItemOf(Blocks.SAPLING) ? 100

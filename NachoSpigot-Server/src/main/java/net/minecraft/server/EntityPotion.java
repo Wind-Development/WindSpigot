@@ -175,7 +175,9 @@ public class EntityPotion extends EntityProjectile
 									// Block SLOWER_MOVEMENT, SLOWER_DIG, HARM, BLINDNESS, HUNGER, WEAKNESS and
 									// POISON potions
 									if (i == 2 || i == 4 || i == 7 || i == 15 || i == 17 || i == 18 || i == 19)
+									{
 										continue;
+									}
 								}
 								// CraftBukkit end
 

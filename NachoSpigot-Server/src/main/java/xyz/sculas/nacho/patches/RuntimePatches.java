@@ -51,12 +51,16 @@ public class RuntimePatches
 				Class<?> viaManagerClass = viaManager.getClass();
 				Method getLoader = getMethod(viaManagerClass, "getLoader");
 				if (getLoader == null)
+				{
 					throw new IllegalStateException("getLoader was not found in the ViaManager class");
+				}
 				Object bukkitViaLoader = getLoader.invoke(viaManager);
 				Class<?> bukkitViaLoaderClass = bukkitViaLoader.getClass();
 				Method storeListener = getMethod(bukkitViaLoaderClass, "storeListener");
 				if (storeListener == null)
+				{
 					throw new IllegalStateException("storeListener was not found in the BukkitViaLoader class");
+				}
 				Class<?> paperPatchClass = Class
 						.forName(viaVersionPackage + "bukkit.listeners.protocol1_9to1_8.PaperPatch", true, cl);
 				Class<?> viaVersionPlugin = Class.forName(viaVersionPackage + "ViaVersionPlugin", true, cl);
@@ -66,7 +70,9 @@ public class RuntimePatches
 				Object listener = storeListener.invoke(bukkitViaLoader, paperPatch);
 				Method register = getMethod(listener.getClass().getSuperclass(), "register");
 				if (register == null)
+				{
 					throw new IllegalStateException("register was not found in the Listener class");
+				}
 				register.invoke(listener);
 				logger.info("Successfully patched block placement!");
 			}
@@ -114,7 +120,9 @@ public class RuntimePatches
 
 				CtClass defaultProtocolInjector = pool.get("com.comphenix.protocol.injector.netty.ProtocolInjector$1");
 				if (defaultProtocolInjector.isFrozen())
+				{
 					defaultProtocolInjector.defrost();
+				}
 
 				CtClass clazz = pool
 						.makeClass(CraftServer.class.getClassLoader().getResourceAsStream("protpatch.class"));
@@ -146,7 +154,9 @@ public class RuntimePatches
 
 				CtClass emptyChannel = pool.get("net.citizensnpcs.nms.v1_8_R3.network.EmptyChannel");
 				if (emptyChannel.isFrozen())
+				{
 					emptyChannel.defrost();
+				}
 
 				CtMethod metaData = emptyChannel.getDeclaredMethods("metadata")[0];
 				metaData.setBody("{ return new ChannelMetadata(true); }");

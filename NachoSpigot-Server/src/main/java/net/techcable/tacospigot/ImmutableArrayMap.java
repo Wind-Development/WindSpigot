@@ -184,7 +184,9 @@ public class ImmutableArrayMap<K, V> extends AbstractMap<K, V> implements Map<K,
 			{
 				final int max = ids[maxIndex];
 				if (lastNum + 1 != max)
+				 {
 					break; // The number is not sequential
+				}
 				lastNum = max;
 			}
 			int rangeSize = maxIndex - minIndex;

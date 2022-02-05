@@ -35,7 +35,7 @@ public class WorldGenLargeFeature extends StructureGenerator
 		{
 			Entry entry = (Entry) iterator.next();
 
-			if (((String) entry.getKey()).equals("distance"))
+			if ("distance".equals((String) entry.getKey()))
 			{
 				this.g = MathHelper.a((String) entry.getValue(), this.g, this.h + 1);
 			}

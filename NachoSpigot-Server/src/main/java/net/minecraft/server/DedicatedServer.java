@@ -484,7 +484,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 			{
 				String s = DedicatedServer.this.getServerModName();
 
-				return !s.equals("vanilla") ? "Definitely; Server brand changed to \'" + s + "\'"
+				return !"vanilla".equals(s) ? "Definitely; Server brand changed to \'" + s + "\'"
 						: "Unknown (can\'t tell)";
 			}
 
@@ -567,7 +567,9 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 			ServerCommandEvent event = new ServerCommandEvent(console, servercommand.command);
 			server.getPluginManager().callEvent(event);
 			if (event.isCancelled())
+			{
 				continue;
+			}
 			servercommand = new ServerCommand(event.getCommand(), servercommand.source);
 
 			// this.getCommandHandler().a(servercommand.source, servercommand.command); //
@@ -879,7 +881,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 
 				result.append(plugins[i].getDescription().getName());
 				result.append(" ");
-				result.append(plugins[i].getDescription().getVersion().replaceAll(";", ","));
+				result.append(plugins[i].getDescription().getVersion().replace(";", ","));
 			}
 		}
 

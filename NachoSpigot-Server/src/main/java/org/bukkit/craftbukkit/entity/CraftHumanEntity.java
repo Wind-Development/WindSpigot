@@ -252,7 +252,9 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity
 	public InventoryView openInventory(Inventory inventory)
 	{
 		if (!(getHandle() instanceof EntityPlayer))
+		{
 			return null;
+		}
 		EntityPlayer player = (EntityPlayer) getHandle();
 		InventoryType type = inventory.getType();
 		Container formerContainer = getHandle().activeContainer;
@@ -354,19 +356,23 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity
 	private void openCustomInventory(Inventory inventory, EntityPlayer player, String windowType)
 	{
 		if (player.playerConnection == null)
+		{
 			return;
+		}
 		Container container = new CraftContainer(inventory, this, player.nextContainerCounter());
 
 		container = CraftEventFactory.callInventoryOpenEvent(player, container);
 		if (container == null)
+		{
 			return;
+		}
 
 		String title = container.getBukkitView().getTitle();
 		int size = container.getBukkitView().getTopInventory().getSize();
 
 		// Special cases
-		if (windowType.equals("minecraft:crafting_table") || windowType.equals("minecraft:anvil")
-				|| windowType.equals("minecraft:enchanting_table"))
+		if ("minecraft:crafting_table".equals(windowType) || "minecraft:anvil".equals(windowType)
+				|| "minecraft:enchanting_table".equals(windowType))
 		{
 			size = 0;
 		}
@@ -438,9 +444,13 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity
 	public void openInventory(InventoryView inventory)
 	{
 		if (!(getHandle() instanceof EntityPlayer))
+		 {
 			return; // TODO: NPC support?
+		}
 		if (((EntityPlayer) getHandle()).playerConnection == null)
+		{
 			return;
+		}
 		if (getHandle().activeContainer != getHandle().defaultContainer)
 		{
 			// fire INVENTORY_CLOSE if one already open

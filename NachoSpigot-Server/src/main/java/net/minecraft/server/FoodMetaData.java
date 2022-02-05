@@ -8,8 +8,6 @@ public class FoodMetaData
 	public float exhaustionLevel;
 	private int foodTickTimer;
 	private EntityHuman entityhuman; // CraftBukkit
-	private int e = 20;
-
 	public FoodMetaData()
 	{
 		throw new AssertionError("Whoopsie, we missed the bukkit.");
@@ -52,7 +50,7 @@ public class FoodMetaData
 	{
 		EnumDifficulty enumdifficulty = entityhuman.world.getDifficulty();
 
-		this.e = this.foodLevel;
+		int e = this.foodLevel;
 		if (this.exhaustionLevel > 4.0F)
 		{
 			this.exhaustionLevel -= 4.0F;

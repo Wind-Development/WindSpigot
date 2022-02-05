@@ -18,7 +18,9 @@ public class HopperHelper
 	public static TileEntityHopper getHopper(World world, BlockPosition pos)
 	{
 		if (world.getType(pos).getBlock() != Blocks.HOPPER)
+		{
 			return null;
+		}
 		TileEntity tileEntity = world.getTileEntity(pos);
 		if (tileEntity instanceof TileEntityHopper)
 		{
@@ -38,7 +40,9 @@ public class HopperHelper
 		{
 			TileEntity tile = world.getTileEntity(position);
 			if (tile instanceof IInventory)
+			{
 				return (IInventory) tile;
+			}
 		}
 		return null;
 	}

@@ -280,7 +280,9 @@ public abstract class EntityHanging extends Entity
 		if (!this.world.isClientSide && !this.dead && d0 * d0 + d1 * d1 + d2 * d2 > 0.0D)
 		{
 			if (this.dead)
+			 {
 				return; // CraftBukkit
+			}
 
 			// CraftBukkit start - fire break events
 			// TODO - Does this need its own cause? Seems to only be triggered by pistons

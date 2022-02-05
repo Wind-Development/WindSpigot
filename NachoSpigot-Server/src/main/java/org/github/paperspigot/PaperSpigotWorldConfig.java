@@ -310,13 +310,21 @@ public class PaperSpigotWorldConfig
 
 			boolean value = config.getBoolean("world-settings.default.fix-cannons", false);
 			if (!value)
+			{
 				value = config.getBoolean("world-settings.default.tnt-gameplay.fix-directional-bias", false);
+			}
 			if (!value)
+			{
 				value = !config.getBoolean("world-settings.default.tnt-gameplay.moves-in-water", true);
+			}
 			if (!value)
+			{
 				value = config.getBoolean("world-settings.default.tnt-gameplay.legacy-explosion-height", false);
+			}
 			if (value)
+			{
 				config.set("world-settings.default.fix-cannons", true);
+			}
 
 			if (config.contains("world-settings.default.tnt-gameplay"))
 			{
@@ -328,14 +336,22 @@ public class PaperSpigotWorldConfig
 
 			value = config.getBoolean("world-settings." + worldName + ".fix-cannons", false);
 			if (!value)
+			{
 				value = config.getBoolean("world-settings." + worldName + ".tnt-gameplay.fix-directional-bias", false);
+			}
 			if (!value)
+			{
 				value = !config.getBoolean("world-settings." + worldName + ".tnt-gameplay.moves-in-water", true);
+			}
 			if (!value)
+			{
 				value = config.getBoolean("world-settings." + worldName + ".tnt-gameplay.legacy-explosion-height",
 						false);
+			}
 			if (value)
+			{
 				config.set("world-settings." + worldName + ".fix-cannons", true);
+			}
 
 			if (config.contains("world-settings." + worldName + ".tnt-gameplay"))
 			{

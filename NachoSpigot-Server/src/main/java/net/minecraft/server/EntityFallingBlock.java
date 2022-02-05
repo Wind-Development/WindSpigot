@@ -190,7 +190,7 @@ public class EntityFallingBlock extends Entity
 											String s = (String) iterator.next();
 											NBTBase nbtbase = this.tileEntityData.get(s);
 
-											if (!s.equals("x") && !s.equals("y") && !s.equals("z"))
+											if (!"x".equals(s) && !"y".equals(s) && !"z".equals(s))
 											{
 												nbttagcompound.set(s, nbtbase.clone());
 											}
@@ -375,7 +375,9 @@ public class EntityFallingBlock extends Entity
 	public double f(double d0, double d1, double d2)
 	{
 		if (!world.paperSpigotConfig.fixCannons)
+		{
 			return super.f(d0, d1, d2);
+		}
 
 		double d3 = this.locX - d0;
 		double d4 = this.locY + this.getHeadHeight() - d1;

@@ -83,7 +83,6 @@ public class MobEffectList
 	private final boolean K;
 	private final int L;
 	private String M = "";
-	private int N = -1;
 	private double O;
 	private boolean P;
 
@@ -118,7 +117,7 @@ public class MobEffectList
 
 	protected MobEffectList b(int i, int j)
 	{
-		this.N = i + j * 8;
+		int N = i + j * 8;
 		return this;
 	}
 

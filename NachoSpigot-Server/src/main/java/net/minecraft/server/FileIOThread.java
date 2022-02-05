@@ -12,8 +12,6 @@ public class FileIOThread implements Runnable
 	private List<IAsyncChunkSaver> b = Collections.synchronizedList(Lists.<IAsyncChunkSaver>newArrayList());
 	private volatile long c;
 	private volatile long d;
-	private volatile boolean e;
-
 	private FileIOThread()
 	{
 		Thread thread = new Thread(this, "File IO Thread");
@@ -80,13 +78,13 @@ public class FileIOThread implements Runnable
 
 	public void b() throws InterruptedException
 	{
-		this.e = true;
+		volatile boolean e = true;
 
 		while (this.c != this.d)
 		{
 			Thread.sleep(10L);
 		}
 
-		this.e = false;
+		e = false;
 	}
 }

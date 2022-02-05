@@ -148,7 +148,7 @@ public class KnockbackCommand extends Command
 		}
 		case 4:
 		{
-			if (args[0].equalsIgnoreCase("edit"))
+			if ("edit".equalsIgnoreCase(args[0]))
 			{
 				KnockbackProfile profile = KnockbackConfig.getKbProfileByName(args[1].toLowerCase());
 				if (profile == null)
@@ -272,7 +272,7 @@ public class KnockbackCommand extends Command
 				}
 				case "stop-sprint":
 				{
-					if ((args[3]).equalsIgnoreCase("true") || (args[3]).equalsIgnoreCase("false"))
+					if ("true".equalsIgnoreCase(args[3]) || "false".equalsIgnoreCase(args[3]))
 					{
 						profile.setStopSprint(Boolean.parseBoolean(args[3]));
 						profile.save();

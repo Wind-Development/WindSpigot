@@ -802,7 +802,9 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 		int k = MathHelper.floor(d2);
 		BlockPosition blockposition = new BlockPosition(i, j, k);
 		if (!world.isLoaded(blockposition))
+		 {
 			return null; // Spigot
+		}
 		Block block = world.getType(blockposition).getBlock();
 
 		if (block.isTileEntity())

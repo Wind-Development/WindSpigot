@@ -156,7 +156,9 @@ public final class CraftMapView implements MapView
 		for (MapRenderer renderer : renderers)
 		{
 			if (renderer.isContextual())
+			{
 				return true;
+			}
 		}
 		return false;
 	}
@@ -198,7 +200,9 @@ public final class CraftMapView implements MapView
 				byte color = buf[i];
 				// There are 143 valid color id's, 0 -> 127 and -128 -> -113
 				if (color >= 0 || color <= -113)
+				{
 					render.buffer[i] = color;
+				}
 			}
 
 			for (int i = 0; i < canvas.getCursors().size(); ++i)

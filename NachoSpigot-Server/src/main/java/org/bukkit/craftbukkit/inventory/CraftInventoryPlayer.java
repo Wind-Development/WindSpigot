@@ -48,10 +48,14 @@ public class CraftInventoryPlayer extends CraftInventory
 	{
 		super.setItem(index, item);
 		if (this.getHolder() == null)
+		{
 			return;
+		}
 		EntityPlayer player = ((CraftPlayer) this.getHolder()).getHandle();
 		if (player.playerConnection == null)
+		{
 			return;
+		}
 		// PacketPlayOutSetSlot places the items differently than setItem()
 		//
 		// Between, and including, index 9 (the first index outside of the hotbar) and
@@ -99,9 +103,12 @@ public class CraftInventoryPlayer extends CraftInventory
 		// the result of (index - 36) and
 		// subtracting that value from 8.
 		if (index < PlayerInventory.getHotbarSize())
+		{
 			index = index + 36;
-		else if (index > 35)
+		} else if (index > 35)
+		{
 			index = 8 - (index - 36);
+		}
 		player.playerConnection.sendPacket(
 				new PacketPlayOutSetSlot(player.defaultContainer.windowId, index, CraftItemStack.asNMSCopy(item)));
 	}
@@ -214,11 +221,17 @@ public class CraftInventoryPlayer extends CraftInventory
 		{
 			ItemStack item = items[i];
 			if (item == null)
+			{
 				continue;
+			}
 			if (id > -1 && item.getTypeId() != id)
+			{
 				continue;
+			}
 			if (data > -1 && item.getData().getData() != data)
+			{
 				continue;
+			}
 
 			count += item.getAmount();
 			setItem(i, null);
@@ -227,11 +240,17 @@ public class CraftInventoryPlayer extends CraftInventory
 		for (ItemStack item : armor)
 		{
 			if (item == null)
+			{
 				continue;
+			}
 			if (id > -1 && item.getTypeId() != id)
+			{
 				continue;
+			}
 			if (data > -1 && item.getData().getData() != data)
+			{
 				continue;
+			}
 
 			count += item.getAmount();
 			setItem(armorSlot++, null);

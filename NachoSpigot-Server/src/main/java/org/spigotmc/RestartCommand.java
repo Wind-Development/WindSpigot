@@ -1,8 +1,6 @@
 package org.spigotmc;
 
 import java.io.File;
-import java.util.List;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 

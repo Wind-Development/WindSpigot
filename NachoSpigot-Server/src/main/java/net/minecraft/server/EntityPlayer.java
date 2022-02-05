@@ -47,7 +47,6 @@ public class EntityPlayer extends EntityHuman implements ICrafting
 	public int lastSentExp = -99999999;
 	public int invulnerableTicks = 60;
 	private EntityHuman.EnumChatVisibility bR;
-	private boolean bS = true;
 	private long bT = System.currentTimeMillis();
 	private Entity bU = null;
 	private int containerCounter;
@@ -340,7 +339,9 @@ public class EntityPlayer extends EntityHuman implements ICrafting
 
 				LongOpenHashSet chunkPosSet = new LongOpenHashSet(chunkList.size());
 				for (Chunk newChunk : chunkList)
+				{
 					chunkPosSet.add(this.chunkToLong(newChunk.locX, newChunk.locZ));
+				}
 
 				for (EntityTrackerEntry entitytrackerentry : this.u().getTracker().c)
 				{
@@ -607,7 +608,9 @@ public class EntityPlayer extends EntityHuman implements ICrafting
 		{
 			EntityTypes.MonsterEggInfo info = EntityTypes.eggInfo.get(EntityTypes.a(entityliving));
 			if (info != null)
+			{
 				this.b(info.e);
+			}
 			entityliving.b(this, this.aW);
 		}
 
@@ -683,27 +686,24 @@ public class EntityPlayer extends EntityHuman implements ICrafting
 				this.playerConnection.sendPacket(new PacketPlayOutGameStateChange(4, 0.0F));
 			}
 			// PaperSpigot end
+		} else if (this.dimension == 0 && i == 1)
+		{
+			this.b(AchievementList.C);
+			// CraftBukkit start - Rely on custom portal management
+			/*
+			 * BlockPosition blockposition =
+			 * this.server.getWorldServer(i).getDimensionSpawn();
+			 * 
+			 * if (blockposition != null) { this.playerConnection.a((double)
+			 * blockposition.getX(), (double) blockposition.getY(), (double)
+			 * blockposition.getZ(), 0.0F, 0.0F); }
+			 * 
+			 * i = 1;
+			 */
+			// CraftBukkit end
 		} else
 		{
-			if (this.dimension == 0 && i == 1)
-			{
-				this.b(AchievementList.C);
-				// CraftBukkit start - Rely on custom portal management
-				/*
-				 * BlockPosition blockposition =
-				 * this.server.getWorldServer(i).getDimensionSpawn();
-				 * 
-				 * if (blockposition != null) { this.playerConnection.a((double)
-				 * blockposition.getX(), (double) blockposition.getY(), (double)
-				 * blockposition.getZ(), 0.0F, 0.0F); }
-				 * 
-				 * i = 1;
-				 */
-				// CraftBukkit end
-			} else
-			{
-				this.b(AchievementList.y);
-			}
+			this.b(AchievementList.y);
 		}
 
 		// PaperSpigot start - Allow configurable end portal credits
@@ -770,7 +770,9 @@ public class EntityPlayer extends EntityHuman implements ICrafting
 	public void a(boolean flag, boolean flag1, boolean flag2)
 	{
 		if (!this.sleeping)
+		 {
 			return; // CraftBukkit - Can't leave bed if not in one!
+		}
 		if (this.isSleeping())
 		{
 			this.u().getTracker().sendPacketToEntity(this, new PacketPlayOutAnimation(this, 2));
@@ -1327,7 +1329,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting
 		}
 		// PaperSpigot end
 		this.bR = packetplayinsettings.c();
-		this.bS = packetplayinsettings.d();
+		boolean bS = packetplayinsettings.d();
 		this.getDataWatcher().watch(10, Byte.valueOf((byte) packetplayinsettings.e()));
 	}
 
@@ -1475,13 +1477,10 @@ public class EntityPlayer extends EntityHuman implements ICrafting
 			{
 				this.playerConnection.sendPacket(new PacketPlayOutGameStateChange(7, newRain));
 			}
-		} else
+		} else // Plugin
+		if (pluginRainPositionPrevious != pluginRainPosition)
 		{
-			// Plugin
-			if (pluginRainPositionPrevious != pluginRainPosition)
-			{
-				this.playerConnection.sendPacket(new PacketPlayOutGameStateChange(7, pluginRainPosition));
-			}
+			this.playerConnection.sendPacket(new PacketPlayOutGameStateChange(7, pluginRainPosition));
 		}
 
 		if (oldThunder != newThunder)
@@ -1499,7 +1498,9 @@ public class EntityPlayer extends EntityHuman implements ICrafting
 	public void tickWeather()
 	{
 		if (this.weather == null)
+		{
 			return;
+		}
 
 		pluginRainPositionPrevious = pluginRainPosition;
 		if (weather == WeatherType.DOWNFALL)

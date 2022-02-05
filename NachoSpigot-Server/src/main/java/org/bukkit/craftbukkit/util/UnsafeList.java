@@ -30,7 +30,9 @@ public class UnsafeList<E> extends AbstractList<E> implements List<E>, RandomAcc
 	{
 		super();
 		if (capacity < 0)
+		{
 			capacity = 32;
+		}
 		int rounded = Integer.highestOneBit(capacity - 1) << 1;
 		data = new Object[rounded];
 		initialCapacity = rounded;

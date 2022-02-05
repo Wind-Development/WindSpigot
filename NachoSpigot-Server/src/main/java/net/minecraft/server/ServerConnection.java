@@ -221,7 +221,9 @@ public class ServerConnection
 						// Fix a race condition where a NetworkManager could be unregistered just before
 						// connection.
 						if (networkmanager.preparing)
+						{
 							continue;
+						}
 						// Spigot End
 						iterator.remove();
 						networkmanager.l();

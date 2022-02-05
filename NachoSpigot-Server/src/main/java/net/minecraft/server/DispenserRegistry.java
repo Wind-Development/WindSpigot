@@ -687,7 +687,9 @@ public class DispenserRegistry
 				// PaperSpigot start - Fix cannons
 				double y = blockposition.getY();
 				if (!world.paperSpigotConfig.fixCannons)
+				{
 					y += 0.5;
+				}
 				BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(),
 						new org.bukkit.util.Vector(blockposition.getX() + 0.5, y, blockposition.getZ() + 0.5));
 				// PaperSpigot end

@@ -471,7 +471,9 @@ public final class CraftItemStack extends ItemStack
 		}
 		itemMeta = CraftItemFactory.instance().asMetaFor(itemMeta, getType(item));
 		if (itemMeta == null)
+		{
 			return true;
+		}
 		NBTTagCompound tag = new NBTTagCompound();
 		item.setTag(tag);
 		((CraftMetaItem) itemMeta).applyToItem(tag);

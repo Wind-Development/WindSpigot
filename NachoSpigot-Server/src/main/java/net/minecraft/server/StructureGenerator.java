@@ -87,7 +87,9 @@ public abstract class StructureGenerator extends WorldGenBase
 	public boolean b(BlockPosition blockposition)
 	{
 		if (this.c == null)
+		 {
 			return false; // PaperSpigot
+		}
 		this.a(this.c);
 		return this.c(blockposition) != null;
 	}
@@ -113,14 +115,18 @@ public abstract class StructureGenerator extends WorldGenBase
 	public boolean a(World world, BlockPosition blockposition)
 	{
 		if (this.c == null)
+		 {
 			return false; // PaperSpigot
+		}
 		this.a(world);
 		Iterator<StructureStart> iterator = this.e.values().iterator();
 		StructureStart structurestart;
 		do
 		{
 			if (!iterator.hasNext())
+			{
 				return false;
+			}
 			structurestart = iterator.next();
 		} while (!structurestart.d() || !structurestart.a().b(blockposition));
 		return true;
@@ -201,7 +207,7 @@ public abstract class StructureGenerator extends WorldGenBase
 		if (this.d == null)
 		{
 			// Spigot Start
-			if (world.spigotConfig.saveStructureInfo && !this.a().equals("Mineshaft"))
+			if (world.spigotConfig.saveStructureInfo && !"Mineshaft".equals(this.a()))
 			{
 				this.d = (PersistentStructure) world.a(PersistentStructure.class, this.a());
 			} else

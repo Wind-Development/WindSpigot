@@ -2,8 +2,6 @@ package net.minecraft.server;
 
 import java.util.Iterator;
 
-import com.google.common.base.Predicate;
-
 public class BlockChest extends BlockContainer
 {
 
@@ -447,12 +445,16 @@ public class BlockChest extends BlockContainer
 		TileEntity tileentity = world.getTileEntity(blockposition);
 
 		if (!(tileentity instanceof TileEntityChest))
+		{
 			return null;
+		}
 
 		Object object = tileentity;
 
 		if (flag && this.n(world, blockposition))
+		{
 			return null;
+		}
 
 		for (EnumDirection enumdirection : EnumDirection.EnumDirectionLimit.HORIZONTAL)
 		{
@@ -460,7 +462,9 @@ public class BlockChest extends BlockContainer
 			IBlockData typeIfLoaded = world.getTypeIfLoaded(blockposition1);
 
 			if (typeIfLoaded == null)
+			{
 				continue;
+			}
 			Block block = typeIfLoaded.getBlock();
 
 			if (block == this)

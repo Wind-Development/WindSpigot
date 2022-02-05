@@ -31,10 +31,10 @@ public class WorldGenVillage extends StructureGenerator
 		{
 			Entry entry = (Entry) iterator.next();
 
-			if (((String) entry.getKey()).equals("size"))
+			if ("size".equals((String) entry.getKey()))
 			{
 				this.f = MathHelper.a((String) entry.getValue(), this.f, 0);
-			} else if (((String) entry.getKey()).equals("distance"))
+			} else if ("distance".equals((String) entry.getKey()))
 			{
 				this.g = MathHelper.a((String) entry.getValue(), this.g, this.h + 1);
 			}

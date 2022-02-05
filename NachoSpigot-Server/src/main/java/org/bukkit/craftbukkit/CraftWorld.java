@@ -767,7 +767,9 @@ public class CraftWorld implements World
 	{
 		long time = getFullTime() % 24000;
 		if (time < 0)
+		{
 			time += 24000;
+		}
 		return time;
 	}
 
@@ -776,7 +778,9 @@ public class CraftWorld implements World
 	{
 		long margin = (time - getFullTime()) % 24000;
 		if (margin < 0)
+		{
 			margin += 24000;
+		}
 		setFullTime(getFullTime() + margin);
 	}
 
@@ -796,7 +800,9 @@ public class CraftWorld implements World
 		{
 			CraftPlayer cp = (CraftPlayer) p;
 			if (cp.getHandle().playerConnection == null)
+			{
 				continue;
+			}
 
 			cp.getHandle().playerConnection.sendPacket(new PacketPlayOutUpdateTime(cp.getHandle().world.getTime(),
 					cp.getHandle().getPlayerTime(), cp.getHandle().world.getGameRules().getBoolean("doDaylightCycle")));
@@ -1048,7 +1054,7 @@ public class CraftWorld implements World
 	@Override
 	public Collection<Entity> getNearbyEntities(Location location, double x, double y, double z)
 	{
-		if (location == null || !location.getWorld().equals(this))
+		if (location == null || !this.equals(location.getWorld()))
 		{
 			return Collections.emptyList();
 		}
@@ -1701,17 +1707,14 @@ public class CraftWorld implements World
 				if (keepLoaded)
 				{
 					loadChunk(chunkCoordX + x, chunkCoordZ + z);
-				} else
+				} else if (isChunkLoaded(chunkCoordX + x, chunkCoordZ + z))
 				{
-					if (isChunkLoaded(chunkCoordX + x, chunkCoordZ + z))
+					if (this.getHandle().getChunkAt(chunkCoordX + x, chunkCoordZ + z) instanceof EmptyChunk)
 					{
-						if (this.getHandle().getChunkAt(chunkCoordX + x, chunkCoordZ + z) instanceof EmptyChunk)
-						{
-							unloadChunk(chunkCoordX + x, chunkCoordZ + z, false);
-						} else
-						{
-							unloadChunk(chunkCoordX + x, chunkCoordZ + z);
-						}
+						unloadChunk(chunkCoordX + x, chunkCoordZ + z, false);
+					} else
+					{
+						unloadChunk(chunkCoordX + x, chunkCoordZ + z);
 					}
 				}
 			}
@@ -1903,7 +1906,9 @@ public class CraftWorld implements World
 	public void playSound(Location loc, Sound sound, float volume, float pitch)
 	{
 		if (loc == null || sound == null)
+		{
 			return;
+		}
 
 		double x = loc.getX();
 		double y = loc.getY();
@@ -1923,10 +1928,14 @@ public class CraftWorld implements World
 	{
 		// No null values allowed
 		if (rule == null || value == null)
+		{
 			return false;
+		}
 
 		if (!isGameRule(rule))
+		{
 			return false;
+		}
 
 		getHandle().getGameRules().set(rule, value);
 		return true;

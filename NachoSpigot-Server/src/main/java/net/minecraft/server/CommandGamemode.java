@@ -71,11 +71,11 @@ public class CommandGamemode extends CommandAbstract
 
 	protected WorldSettings.EnumGamemode h(ICommandListener icommandlistener, String s) throws ExceptionInvalidNumber
 	{
-		return !s.equalsIgnoreCase(WorldSettings.EnumGamemode.SURVIVAL.b()) && !s.equalsIgnoreCase("s")
-				? (!s.equalsIgnoreCase(WorldSettings.EnumGamemode.CREATIVE.b()) && !s.equalsIgnoreCase("c")
-						? (!s.equalsIgnoreCase(WorldSettings.EnumGamemode.ADVENTURE.b()) && !s.equalsIgnoreCase("a")
+		return !s.equalsIgnoreCase(WorldSettings.EnumGamemode.SURVIVAL.b()) && !"s".equalsIgnoreCase(s)
+				? (!s.equalsIgnoreCase(WorldSettings.EnumGamemode.CREATIVE.b()) && !"c".equalsIgnoreCase(s)
+						? (!s.equalsIgnoreCase(WorldSettings.EnumGamemode.ADVENTURE.b()) && !"a".equalsIgnoreCase(s)
 								? (!s.equalsIgnoreCase(WorldSettings.EnumGamemode.SPECTATOR.b())
-										&& !s.equalsIgnoreCase("sp")
+										&& !"sp".equalsIgnoreCase(s)
 												? WorldSettings
 														.a(a(s, 0, WorldSettings.EnumGamemode.values().length - 2))
 												: WorldSettings.EnumGamemode.SPECTATOR)

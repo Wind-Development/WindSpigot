@@ -68,10 +68,14 @@ public class CraftTask implements BukkitTask, Runnable
 	public void run()
 	{
 		if (timings != null && isSync())
+		 {
 			timings.startTiming(); // Spigot
+		}
 		task.run();
 		if (timings != null && isSync())
+		 {
 			timings.stopTiming(); // Spigot
+		}
 	}
 
 	long getPeriod()

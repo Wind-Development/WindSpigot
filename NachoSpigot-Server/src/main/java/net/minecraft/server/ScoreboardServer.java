@@ -203,7 +203,9 @@ public class ScoreboardServer extends Scoreboard
 		{
 			EntityPlayer entityplayer = (EntityPlayer) iterator.next();
 			if (entityplayer.getBukkitEntity().getScoreboard().getHandle() != this)
+			 {
 				continue; // CraftBukkit - Only players on this board
+			}
 			Iterator iterator1 = list.iterator();
 
 			while (iterator1.hasNext())
@@ -243,7 +245,9 @@ public class ScoreboardServer extends Scoreboard
 		{
 			EntityPlayer entityplayer = (EntityPlayer) iterator.next();
 			if (entityplayer.getBukkitEntity().getScoreboard().getHandle() != this)
+			 {
 				continue; // CraftBukkit - Only players on this board
+			}
 			Iterator iterator1 = list.iterator();
 
 			while (iterator1.hasNext())

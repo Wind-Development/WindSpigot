@@ -368,7 +368,9 @@ public class Block
 		AxisAlignedBB axisalignedbb1 = this.a(world, blockposition_x, blockposition_y, blockposition_z, iblockdata);
 
 		if (axisalignedbb1 != null && axisalignedbb.b(axisalignedbb1))
+		{
 			list.add(axisalignedbb1);
+		}
 	}
 
 	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata)

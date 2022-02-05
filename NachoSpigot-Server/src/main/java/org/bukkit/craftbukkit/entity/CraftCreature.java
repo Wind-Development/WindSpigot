@@ -30,7 +30,9 @@ public class CraftCreature extends CraftLivingEntity implements Creature
 	public CraftLivingEntity getTarget()
 	{
 		if (getHandle().getGoalTarget() == null)
+		{
 			return null;
+		}
 
 		return (CraftLivingEntity) getHandle().getGoalTarget().getBukkitEntity();
 	}

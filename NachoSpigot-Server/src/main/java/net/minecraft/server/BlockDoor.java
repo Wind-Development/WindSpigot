@@ -4,8 +4,6 @@ import java.util.Random;
 
 import org.bukkit.event.block.BlockRedstoneEvent; // CraftBukkit
 
-import com.google.common.base.Predicate;
-
 public class BlockDoor extends Block
 {
 
@@ -29,7 +27,7 @@ public class BlockDoor extends Block
 	@Override
 	public String getName()
 	{
-		return LocaleI18n.get((this.a() + ".name").replaceAll("tile", "item"));
+		return LocaleI18n.get((this.a() + ".name").replace("tile", "item"));
 	}
 
 	@Override
@@ -232,7 +230,9 @@ public class BlockDoor extends Block
 				int power = bukkitBlock.getBlockPower();
 				int powerTop = blockTop.getBlockPower();
 				if (powerTop > power)
+				{
 					power = powerTop;
+				}
 				int oldPower = iblockdata2.get(POWERED) ? 15 : 0;
 
 				if (oldPower == 0 ^ power == 0)

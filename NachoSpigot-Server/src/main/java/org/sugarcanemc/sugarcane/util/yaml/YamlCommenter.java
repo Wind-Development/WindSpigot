@@ -54,9 +54,12 @@ public class YamlCommenter
 			String prefix = Utils.repeat(" ", getIndentation(lines.get(line))) + "# ";
 			boolean noNewline = getIndentation(lines.get(line)) > getIndentation(lines.get(line - 1));
 			if (line >= 0)
+			{
 				lines.add(line, (noNewline ? "" : "\n") + prefix + _comment.getValue().replace("\n", "\n" + prefix));
-			else
+			} else
+			{
 				System.out.printf("Failed to find key %s in %s!", _comment.getKey(), file);
+			}
 		}
 		String text = String.join("\n", lines);
 		FileWriter fw = new FileWriter(file);
@@ -67,10 +70,14 @@ public class YamlCommenter
 	private int getIndentation(String s)
 	{
 		if (!s.startsWith(" "))
+		{
 			return 0;
+		}
 		int i = 0;
 		while ((s = s.replaceFirst(" ", "")).startsWith(" "))
+		{
 			i++;
+		}
 		return i + 1;
 	}
 }

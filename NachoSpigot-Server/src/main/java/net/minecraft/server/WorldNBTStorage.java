@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 // CraftBukkit start
 import java.util.UUID;
 
@@ -233,7 +231,9 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData
 	public void save(EntityHuman entityhuman)
 	{
 		if (!PaperSpigotConfig.savePlayerData)
+		 {
 			return; // Paper - Make player data saving configurable
+		}
 		try
 		{
 			NBTTagCompound nbttagcompound = new NBTTagCompound();
@@ -388,7 +388,9 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData
 	public UUID getUUID()
 	{
 		if (uuid != null)
+		{
 			return uuid;
+		}
 		File file1 = new File(this.baseDir, "uid.dat");
 		if (file1.exists())
 		{

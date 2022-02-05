@@ -137,7 +137,9 @@ public class TileEntityBeacon extends TileEntityContainer implements IUpdatePlay
 				BeaconEffectEvent event = new BeaconEffectEvent(block, primaryEffect,
 						(Player) entityhuman.getBukkitEntity(), true);
 				if (CraftEventFactory.callEvent(event).isCancelled())
+				{
 					continue;
+				}
 
 				PotionEffect effect = event.getEffect();
 				entityhuman.addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(),
@@ -155,7 +157,9 @@ public class TileEntityBeacon extends TileEntityContainer implements IUpdatePlay
 					BeaconEffectEvent event = new BeaconEffectEvent(block, secondaryEffect,
 							(Player) entityhuman.getBukkitEntity(), false);
 					if (CraftEventFactory.callEvent(event).isCancelled())
+					{
 						continue;
+					}
 
 					PotionEffect effect = event.getEffect();
 					entityhuman.addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(),

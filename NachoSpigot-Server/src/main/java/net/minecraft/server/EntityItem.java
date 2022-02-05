@@ -83,14 +83,20 @@ public class EntityItem extends Entity implements HopperPusher
 		{
 			super.t_();
 			if (tryPutInHopper())
+			 {
 				return; // TacoSpigot
+			}
 			// CraftBukkit start - Use wall time for pickup and despawn timers
 			int elapsedTicks = MinecraftServer.currentTick - this.lastTick;
 			if (this.pickupDelay != 32767)
+			{
 				this.pickupDelay -= elapsedTicks;
+			}
 			this.pickupDelay = Math.max(0, this.pickupDelay); // Paper - don't go below 0
 			if (this.age != -32768)
+			{
 				this.age += elapsedTicks;
+			}
 			this.lastTick = MinecraftServer.currentTick;
 			// CraftBukkit end
 
@@ -163,15 +169,21 @@ public class EntityItem extends Entity implements HopperPusher
 	public void inactiveTick()
 	{
 		if (tryPutInHopper())
+		 {
 			return; // TacoSpigot
+		}
 		// CraftBukkit end
 		// CraftBukkit start - Use wall time for pickup and despawn timers
 		int elapsedTicks = MinecraftServer.currentTick - this.lastTick;
 		if (this.pickupDelay != 32767)
+		{
 			this.pickupDelay -= elapsedTicks;
+		}
 		this.pickupDelay = Math.max(0, this.pickupDelay); // Paper - don't go below 0
 		if (this.age != -32768)
+		{
 			this.age += elapsedTicks;
+		}
 		this.lastTick = MinecraftServer.currentTick;
 		// CraftBukkit end
 
@@ -246,7 +258,9 @@ public class EntityItem extends Entity implements HopperPusher
 						// Spigot start
 						if (org.bukkit.craftbukkit.event.CraftEventFactory.callItemMergeEvent(entityitem, this)
 								.isCancelled())
+						 {
 							return false; // CraftBukkit
+						}
 						itemstack.count += itemstack1.count;
 						this.pickupDelay = Math.max(entityitem.pickupDelay, this.pickupDelay);
 						this.age = Math.min(entityitem.age, this.age);

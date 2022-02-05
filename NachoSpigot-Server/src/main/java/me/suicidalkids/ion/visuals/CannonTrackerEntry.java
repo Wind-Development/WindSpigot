@@ -129,9 +129,13 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 	private void addNearPlayers(boolean updateCooldown)
 	{
 		if (this.withinNoTrack)
+		{
 			return;
+		}
 		if (updateCooldown)
+		{
 			this.addRemoveCooldown = addRemoveRate;
+		}
 		this.tracker.world.playerMap.forEachNearby(this.tracker.locX, this.tracker.locY, this.tracker.locZ,
 				this.getRange(), false, addNearPlayersConsumer);
 	}
@@ -144,7 +148,9 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 	private boolean withinNoTrack(Entity entity)
 	{
 		if (!(entity instanceof EntityPlayer))
+		 {
 			return false; // ensure all non-players are always tracked
+		}
 		double xDistSqrd = entity.locX * entity.locX;
 		double zDistSqrd = entity.locZ * entity.locZ;
 
@@ -159,7 +165,9 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 		public void accept(EntityPlayer entityPlayer)
 		{
 			if (!NachoConfig.disableTracking || tracker.passenger == entityPlayer)
+			{
 				updatePlayer(entityPlayer);
+			}
 		}
 	};
 
@@ -225,7 +233,9 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 		if (this.c(entityplayer) && this.tracker.h(entityplayer) < 4096.0D)
 		{
 			if (this.tracker instanceof EntityPlayer && withinNoTrack())
+			{
 				return;
+			}
 			if (this.trackedPlayers.contains(entityplayer) || (!this.e(entityplayer) && !this.tracker.attachedToPlayer))
 			{
 				return;
@@ -237,7 +247,9 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 			this.trackedPlayers.add(entityplayer);
 			Packet<?> packet = this.c(); // IonSpigot
 			if (packet == null)
+			 {
 				return; // IonSpigot - If it's null don't update the client!
+			}
 
 			entityplayer.playerConnection.sendPacket(packet);
 

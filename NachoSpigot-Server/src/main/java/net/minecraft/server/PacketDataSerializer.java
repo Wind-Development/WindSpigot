@@ -1,6 +1,5 @@
 package net.minecraft.server;
 
-import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,7 +87,9 @@ public class PacketDataSerializer extends ByteBuf
 	{
 		int len = this.readVarInt();
 		if (len > limit)
+		{
 			throw new DecoderException("The received a byte array longer than allowed " + len + " > " + limit);
+		}
 		byte[] abyte = new byte[len];
 		// TacoSpigot end
 		this.readBytes(abyte);
@@ -140,7 +141,9 @@ public class PacketDataSerializer extends ByteBuf
 			b0 = readByte();
 			i |= (b0 & Byte.MAX_VALUE) << j++ * 7;
 			if (j > 5)
+			{
 				throw new RuntimeException("VarInt too big");
+			}
 		} while ((b0 & 0x80) == 128);
 		return i;
 	}
@@ -155,7 +158,9 @@ public class PacketDataSerializer extends ByteBuf
 			b0 = readByte();
 			i |= (long) (b0 & Byte.MAX_VALUE) << j++ * 7;
 			if (j > 10)
+			{
 				throw new RuntimeException("VarLong too big");
+			}
 		} while ((b0 & 0x80) == 128);
 		return i;
 	}
@@ -296,15 +301,21 @@ public class PacketDataSerializer extends ByteBuf
 	{
 		int j = this.readVarInt();
 		if (j > i * 4)
+		{
 			throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + j
 					+ " > " + (i * 4) + ")");
+		}
 		if (j < 0)
+		{
 			throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
+		}
 		String s = toString(readerIndex(), j, StandardCharsets.UTF_8);
 		readerIndex(readerIndex() + j);
 		if (s.length() > i)
+		{
 			throw new DecoderException(
 					"The received string length is longer than maximum allowed (" + j + " > " + i + ")");
+		}
 		return s;
 	}
 

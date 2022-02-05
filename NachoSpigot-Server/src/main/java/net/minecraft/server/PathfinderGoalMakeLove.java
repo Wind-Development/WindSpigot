@@ -99,7 +99,7 @@ public class PathfinderGoalMakeLove extends PathfinderGoal
 			return false;
 		} else
 		{
-			int i = (int) (((float) this.a.c()) * 0.35D);
+			int i = (int) ((this.a.c()) * 0.35D);
 
 			return this.a.e() < i;
 		}

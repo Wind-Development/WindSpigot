@@ -438,7 +438,9 @@ public class WorldServer extends World implements IAsyncTaskHandler
 	{
 		// PaperBin start - WorldServer#everyoneDeeplySleeping optimization
 		if (this.players.isEmpty() || this.isClientSide || !this.O)
+		{
 			return false;
+		}
 		for (EntityHuman player : this.players)
 		{
 			if (!player.isSpectator() && !player.isDeeplySleeping() && !player.fauxSleeping)
@@ -531,7 +533,9 @@ public class WorldServer extends World implements IAsyncTaskHandler
 				this.a(k, l, chunk);
 				this.methodProfiler.c("tickChunk");
 				if (!chunk.areNeighborsLoaded(1))
+				 {
 					continue; // Spigot
+				}
 				chunk.b(false);
 				this.methodProfiler.c("thunder");
 				int i1;
@@ -1499,7 +1503,9 @@ public class WorldServer extends World implements IAsyncTaskHandler
 		{
 			EntityPlayer entityplayer = (EntityPlayer) this.players.get(j);
 			if (sender != null && !entityplayer.getBukkitEntity().canSee(sender.getBukkitEntity()))
+			 {
 				continue; // CraftBukkit
+			}
 			BlockPosition blockposition = entityplayer.getChunkCoordinates();
 			double d7 = blockposition.c(d0, d1, d2);
 

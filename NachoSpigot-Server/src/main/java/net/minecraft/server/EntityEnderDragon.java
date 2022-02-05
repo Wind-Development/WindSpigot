@@ -670,7 +670,9 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 	protected void aZ()
 	{
 		if (this.dead)
+		 {
 			return; // CraftBukkit - can't kill what's already dead
+		}
 		++this.by;
 		if (this.by >= 180 && this.by <= 200)
 		{
@@ -714,7 +716,9 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 					if (world.spigotConfig.dragonDeathSoundRadius > 0
 							&& distanceSquared > world.spigotConfig.dragonDeathSoundRadius
 									* world.spigotConfig.dragonDeathSoundRadius)
+					 {
 						continue; // Spigot
+					}
 					if (distanceSquared > viewDistance * viewDistance)
 					{
 						double deltaLength = Math.sqrt(distanceSquared);

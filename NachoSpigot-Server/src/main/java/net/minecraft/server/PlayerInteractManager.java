@@ -373,7 +373,9 @@ public class PlayerInteractManager
 		{
 			IBlockData iblockdata = this.world.getType(blockposition);
 			if (iblockdata.getBlock() == Blocks.AIR)
+			 {
 				return false; // CraftBukkit - A plugin set block to air without cancelling
+			}
 			TileEntity tileentity = this.world.getTileEntity(blockposition);
 
 			// CraftBukkit start - Special case skulls, their item data comes from a tile

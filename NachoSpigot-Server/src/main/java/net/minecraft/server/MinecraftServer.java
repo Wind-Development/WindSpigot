@@ -96,7 +96,6 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	private String I;
 	private String J;
 	private boolean demoMode;
-	private boolean M;
 	private boolean N;
 	private String O = "";
 	private String P = "";
@@ -524,7 +523,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		synchronized (stopLock)
 		{
 			if (hasStopped)
+			{
 				return;
+			}
 			hasStopped = true;
 		}
 		// CraftBukkit end
@@ -1474,7 +1475,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 	public void c(boolean flag)
 	{
-		this.M = flag;
+		boolean M = flag;
 	}
 
 	public Convertable getConvertable()

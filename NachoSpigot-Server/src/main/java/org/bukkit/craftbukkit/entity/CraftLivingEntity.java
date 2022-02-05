@@ -176,12 +176,9 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity
 				{
 					break;
 				}
-			} else
+			} else if (!transparent.contains((byte) id))
 			{
-				if (!transparent.contains((byte) id))
-				{
-					break;
-				}
+				break;
 			}
 		}
 		return blocks;
@@ -206,16 +203,13 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity
 			Material material = block.getType();
 			if (transparent == null)
 			{
-				if (!material.equals(Material.AIR))
+				if (!Material.AIR.equals(material))
 				{
 					break;
 				}
-			} else
+			} else if (!transparent.contains(material))
 			{
-				if (!transparent.contains(material))
-				{
-					break;
-				}
+				break;
 			}
 		}
 		return blocks;
@@ -431,7 +425,9 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity
 		for (Object raw : getHandle().effects.values())
 		{
 			if (!(raw instanceof MobEffect))
+			{
 				continue;
+			}
 			MobEffect handle = (MobEffect) raw;
 			effects.add(new PotionEffect(PotionEffectType.getById(handle.getEffectId()), handle.getDuration(),
 					handle.getAmplifier(), handle.isAmbient(), handle.isShowParticles()));
@@ -693,7 +689,9 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity
 	public boolean shouldBreakLeash()
 	{
 		if (this.getHandle() instanceof EntityInsentient)
+		{
 			return ((EntityInsentient) getHandle()).shouldBreakLeash();
+		}
 		return true;
 	}
 
@@ -701,14 +699,18 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity
 	public void setShouldBreakLeash(boolean shouldBreakLeash)
 	{
 		if (this.getHandle() instanceof EntityInsentient)
+		{
 			((EntityInsentient) getHandle()).setShouldBreakLeash(shouldBreakLeash);
+		}
 	}
 
 	@Override
 	public boolean shouldPullWhileLeashed()
 	{
 		if (this.getHandle() instanceof EntityInsentient)
+		{
 			return ((EntityInsentient) getHandle()).shouldPullWhileLeashed();
+		}
 		return true;
 	}
 
@@ -716,7 +718,9 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity
 	public void setPullWhileLeashed(boolean pullWhileLeashed)
 	{
 		if (this.getHandle() instanceof EntityInsentient)
+		{
 			((EntityInsentient) getHandle()).setPullWhileLeashed(pullWhileLeashed);
+		}
 	}
 	// TacoSpigot end
 

@@ -287,7 +287,9 @@ public class CraftInventory implements Inventory
 		for (int i = 0; i < inventory.length; i++)
 		{
 			if (inventory[i] == null)
+			{
 				continue;
+			}
 
 			if (withAmount ? item.equals(inventory[i]) : item.isSimilar(inventory[i]))
 			{
@@ -380,21 +382,18 @@ public class CraftInventory implements Inventory
 						// No space at all!
 						leftover.put(i, item);
 						break;
+					} else // More than a single stack!
+					if (item.getAmount() > getMaxItemStack())
+					{
+						CraftItemStack stack = CraftItemStack.asCraftCopy(item);
+						stack.setAmount(getMaxItemStack());
+						setItem(firstFree, stack);
+						item.setAmount(item.getAmount() - getMaxItemStack());
 					} else
 					{
-						// More than a single stack!
-						if (item.getAmount() > getMaxItemStack())
-						{
-							CraftItemStack stack = CraftItemStack.asCraftCopy(item);
-							stack.setAmount(getMaxItemStack());
-							setItem(firstFree, stack);
-							item.setAmount(item.getAmount() - getMaxItemStack());
-						} else
-						{
-							// Just store it
-							setItem(firstFree, item);
-							break;
-						}
+						// Just store it
+						setItem(firstFree, item);
+						break;
 					}
 				} else
 				{

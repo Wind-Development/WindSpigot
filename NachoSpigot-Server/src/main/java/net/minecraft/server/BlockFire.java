@@ -224,7 +224,9 @@ public class BlockFire extends Block
 
 								BlockPosition blockposition1 = blockposition.a(j, l, k);
 								if (!world.isLoaded(blockposition1))
+								 {
 									continue; // Paper
+								}
 								int j1 = this.m(world, blockposition1);
 
 								if (j1 > 0)
@@ -322,7 +324,9 @@ public class BlockFire extends Block
 		// Paper start
 		final IBlockData iblockdata = world.getTypeIfLoaded(blockposition);
 		if (iblockdata == null)
+		{
 			return;
+		}
 		int k = this.c(iblockdata.getBlock());
 		// Paper end
 
@@ -400,7 +404,9 @@ public class BlockFire extends Block
 //                i = Math.max(this.d(world.getType(blockposition.shift(enumdirection)).getBlock()), i);
 				final IBlockData type = world.getTypeIfLoaded(blockposition.shift(enumdirection)); // Paper
 				if (type == null)
+				 {
 					continue; // Paper
+				}
 				i = Math.max(this.d(type.getBlock()), i); // Paper
 			}
 

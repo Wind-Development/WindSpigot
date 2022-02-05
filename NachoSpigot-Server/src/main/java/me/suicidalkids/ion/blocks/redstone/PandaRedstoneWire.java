@@ -355,7 +355,9 @@ public class PandaRedstoneWire extends BlockRedstoneWire
 			if (flag || (facing.k().c() && a(state, facing)))
 			{
 				if (canBlockBePoweredFromSide(state, facing, true))
+				{
 					set.add(offsetPos);
+				}
 			}
 
 			// Later add blocks around the surrounding blocks that get powered
@@ -364,7 +366,9 @@ public class PandaRedstoneWire extends BlockRedstoneWire
 				for (EnumDirection facing1 : facings)
 				{
 					if (canBlockBePoweredFromSide(worldIn.getType(offsetPos.shift(facing1)), facing1, false))
+					{
 						set.add(offsetPos.shift(facing1));
+					}
 				}
 			}
 		}
@@ -399,12 +403,18 @@ public class PandaRedstoneWire extends BlockRedstoneWire
 	{
 		Block block = state.getBlock();
 		if (block == Blocks.AIR)
+		{
 			return false;
+		}
 		if (block instanceof BlockPiston && state.get(BlockPiston.FACING) == side.opposite())
+		{
 			return false;
+		}
 		if (block instanceof BlockDiodeAbstract && state.get(BlockDirectional.FACING) != side.opposite())
+		{
 			return isWire && block instanceof BlockRedstoneComparator
 					&& state.get(BlockDirectional.FACING).k() != side.k() && side.k().c();
+		}
 		return !(state.getBlock() instanceof BlockRedstoneTorch) || (!isWire && state.get(BlockTorch.FACING) == side);
 	}
 
@@ -427,7 +437,9 @@ public class PandaRedstoneWire extends BlockRedstoneWire
 			}
 		}
 		if (retval.isEmpty())
+		{
 			return Sets.newHashSet(facingsHorizontal);
+		}
 		boolean northsouth = retval.contains(EnumDirection.NORTH) || retval.contains(EnumDirection.SOUTH);
 		boolean eastwest = retval.contains(EnumDirection.EAST) || retval.contains(EnumDirection.WEST);
 		if (northsouth)

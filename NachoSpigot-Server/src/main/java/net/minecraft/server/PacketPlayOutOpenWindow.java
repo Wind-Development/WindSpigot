@@ -63,7 +63,7 @@ public class PacketPlayOutOpenWindow implements Packet<PacketListenerPlayOut>
 		this.b = serializer.c(32);
 		this.c = serializer.d();
 		this.d = serializer.readUnsignedByte();
-		if (this.b.equals("EntityHorse"))
+		if ("EntityHorse".equals(this.b))
 		{
 			this.e = serializer.readInt();
 		}
@@ -77,7 +77,7 @@ public class PacketPlayOutOpenWindow implements Packet<PacketListenerPlayOut>
 		serializer.a(this.b);
 		serializer.a(this.c);
 		serializer.writeByte(this.d);
-		if (this.b.equals("EntityHorse"))
+		if ("EntityHorse".equals(this.b))
 		{
 			serializer.writeInt(this.e);
 		}

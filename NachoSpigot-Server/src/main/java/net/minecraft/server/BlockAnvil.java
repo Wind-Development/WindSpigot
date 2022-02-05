@@ -1,7 +1,5 @@
 package net.minecraft.server;
 
-import com.google.common.base.Predicate;
-
 public class BlockAnvil extends BlockFalling
 {
 

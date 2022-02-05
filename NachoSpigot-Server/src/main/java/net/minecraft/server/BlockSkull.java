@@ -204,7 +204,9 @@ public class BlockSkull extends BlockContainer
 	public void a(World world, BlockPosition blockposition, TileEntitySkull tileentityskull)
 	{
 		if (world.captureBlockStates)
+		 {
 			return; // CraftBukkit
+		}
 		if (tileentityskull.getSkullType() == 1 && blockposition.getY() >= 2
 				&& world.getDifficulty() != EnumDifficulty.PEACEFUL && !world.isClientSide)
 		{

@@ -57,7 +57,9 @@ public abstract class EntityMinecartContainer extends EntityMinecartAbstract imp
 	{
 		org.bukkit.entity.Entity cart = getBukkitEntity();
 		if (cart instanceof InventoryHolder)
+		{
 			return (InventoryHolder) cart;
+		}
 		return null;
 	}
 

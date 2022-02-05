@@ -165,15 +165,19 @@ public abstract class CommandBlockListenerAbstract implements ICommandListener
 
 		String cmd = args[0];
 		if (cmd.startsWith("minecraft:"))
+		{
 			cmd = cmd.substring("minecraft:".length());
+		}
 		if (cmd.startsWith("bukkit:"))
+		{
 			cmd = cmd.substring("bukkit:".length());
+		}
 
 		// Block disallowed commands
-		if (cmd.equalsIgnoreCase("stop") || cmd.equalsIgnoreCase("kick") || cmd.equalsIgnoreCase("op")
-				|| cmd.equalsIgnoreCase("deop") || cmd.equalsIgnoreCase("ban") || cmd.equalsIgnoreCase("ban-ip")
-				|| cmd.equalsIgnoreCase("pardon") || cmd.equalsIgnoreCase("pardon-ip")
-				|| cmd.equalsIgnoreCase("reload"))
+		if ("stop".equalsIgnoreCase(cmd) || "kick".equalsIgnoreCase(cmd) || "op".equalsIgnoreCase(cmd)
+				|| "deop".equalsIgnoreCase(cmd) || "ban".equalsIgnoreCase(cmd) || "ban-ip".equalsIgnoreCase(cmd)
+				|| "pardon".equalsIgnoreCase(cmd) || "pardon-ip".equalsIgnoreCase(cmd)
+				|| "reload".equalsIgnoreCase(cmd))
 		{
 			return 0;
 		}

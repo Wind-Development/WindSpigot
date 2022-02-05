@@ -116,7 +116,9 @@ public class PlayerInventory implements IInventory
 		for (int i = 0; i < this.items.length; ++i)
 		{
 			if (this.items[i] == null)
+			{
 				return itemstack.count;
+			}
 
 			// Taken from firstPartial(ItemStack)
 			if (this.items[i] != null && this.items[i].getItem() == itemstack.getItem() && this.items[i].isStackable()
@@ -129,7 +131,9 @@ public class PlayerInventory implements IInventory
 						: this.getMaxStackSize()) - this.items[i].count;
 			}
 			if (remains <= 0)
+			{
 				return itemstack.count;
+			}
 		}
 		return itemstack.count - remains;
 	}

@@ -44,7 +44,7 @@ public class WorldManager implements IWorldAccess
 	@Override
 	public void a(EntityHuman entityhuman, String s, double d0, double d1, double d2, float f, float f1)
 	{
-		if (s.equals("random.drink") || s.contains("step") || s.contains("player") || s.equals("random.eat"))
+		if ("random.drink".equals(s) || s.contains("step") || s.contains("player") || "random.eat".equals(s))
 		{
 			// this.a.getPlayerList().sendPacketNearby(entityhuman, d0, d1, d2, f > 1.0F ?
 			// (double) (16.0F * f) : 16.0D, this.world.dimension, new
@@ -126,8 +126,10 @@ public class WorldManager implements IWorldAccess
 		EntityHuman entityhuman = null;
 		Entity entity = world.a(i); // PAIL Rename getEntity
 		if (entity instanceof EntityHuman)
+		 {
 			entityhuman = (EntityHuman) entity;
 		// CraftBukkit end
+		}
 
 		java.util.List<? extends EntityHuman> list = entity != null ? entity.world.players : this.a.getPlayerList().v();
 		PacketPlayOutBlockBreakAnimation packet = null; // SportPaper - cache packet
@@ -135,7 +137,9 @@ public class WorldManager implements IWorldAccess
 		for (EntityHuman human : list)
 		{
 			if (!(human instanceof EntityPlayer))
+			{
 				continue;
+			}
 			EntityPlayer entityplayer = (EntityPlayer) human;
 
 			if (entityplayer.world == this.world && entityplayer.getId() != i)
@@ -149,7 +153,9 @@ public class WorldManager implements IWorldAccess
 				// CraftBukkit end
 
 				if (packet == null)
+				{
 					packet = new PacketPlayOutBlockBreakAnimation(i, blockposition, j);
+				}
 				// entityplayer.playerConnection.sendPacket(packet);
 				this.world.playerMap.sendPacketNearby(entityplayer, blockposition.getX(), blockposition.getY(),
 						blockposition.getZ(), 32.0D, new PacketPlayOutBlockBreakAnimation(i, blockposition, j), false);

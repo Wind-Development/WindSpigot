@@ -43,7 +43,9 @@ public class DataWatcher
 	public <T> void a(int i, T t0)
 	{
 		if (this.registrationLocked)
+		 {
 			throw new IllegalStateException("Registering datawatcher object after entity initialization"); // Spigot
+		}
 		int integer = classToId.get(t0.getClass()); // Spigot
 
 		if (integer == -1)

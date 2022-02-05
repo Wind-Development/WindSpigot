@@ -172,7 +172,9 @@ public class EntityTrackerEntry
 	public boolean equals(Object object)
 	{
 		if (object instanceof EntityTrackerEntry)
+		{
 			return ((EntityTrackerEntry) object).tracker.getId() == this.tracker.getId();
+		}
 		return false;
 	}
 
@@ -238,9 +240,13 @@ public class EntityTrackerEntry
 	private void addNearPlayers(boolean updateCooldown)
 	{
 		if (this.withinNoTrack)
+		{
 			return;
+		}
 		if (updateCooldown)
+		{
 			this.addRemoveCooldown = addRemoveRate;
+		}
 		this.tracker.world.playerMap.forEachNearby(this.tracker.locX, this.tracker.locY, this.tracker.locZ,
 				this.getRange(), false, addNearPlayersConsumer);
 	}
@@ -253,7 +259,9 @@ public class EntityTrackerEntry
 	private boolean withinNoTrack(Entity entity)
 	{
 		if (!(entity instanceof EntityPlayer))
+		 {
 			return false; // ensure all non-players are always tracked
+		}
 		double xDistSqrd = entity.locX * entity.locX;
 		double zDistSqrd = entity.locZ * entity.locZ;
 
@@ -268,7 +276,9 @@ public class EntityTrackerEntry
 		public void accept(EntityPlayer entityPlayer)
 		{
 			if (!NachoConfig.disableTracking || tracker.passenger == entityPlayer)
+			{
 				updatePlayer(entityPlayer);
+			}
 		}
 	};
 
@@ -607,7 +617,9 @@ public class EntityTrackerEntry
 				if (!isPlayerEntityTracked && (this.e(entityplayer) || this.tracker.attachedToPlayer))
 				{
 					if (this.tracker instanceof EntityPlayer && withinNoTrack())
+					{
 						return;
+					}
 					// CraftBukkit start - respect vanish API
 					if (!entityplayer.getBukkitEntity().canSee(this.tracker.getBukkitEntity()))
 					{

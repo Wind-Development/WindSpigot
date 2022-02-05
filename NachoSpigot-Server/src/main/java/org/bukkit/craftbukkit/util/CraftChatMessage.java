@@ -178,7 +178,9 @@ public final class CraftChatMessage
 	public static String fromComponent(IChatBaseComponent component, EnumChatFormat defaultColor)
 	{
 		if (component == null)
+		{
 			return "";
+		}
 		StringBuilder out = new StringBuilder();
 		// FlamePaper - Limit iterations to 2
 		int iterations = 0;

@@ -312,7 +312,9 @@ public abstract class PlayerList
 	public void setPlayerFileData(WorldServer[] aworldserver)
 	{
 		if (playerFileData != null)
+		 {
 			return; // CraftBukkit
+		}
 		this.playerFileData = aworldserver[0].getDataManager().getPlayerFileData();
 		aworldserver[0].getWorldBorder().a(new IWorldBorderListener()
 		{
@@ -548,8 +550,10 @@ public abstract class PlayerList
 		CraftingManager craftingManager = CraftingManager.getInstance();
 		CraftInventoryView lastView = (CraftInventoryView) craftingManager.lastCraftView;
 		if (lastView != null && lastView.getHandle() instanceof ContainerPlayer && lastView.getPlayer() == bukkit)
+		 {
 			craftingManager.lastCraftView = null;
 		// KigPaper end
+		}
 
 		return playerQuitEvent.getQuitMessage(); // CraftBukkit
 	}
@@ -605,7 +609,9 @@ public abstract class PlayerList
 
 			// return s;
 			if (!gameprofilebanentry.hasExpired())
+			 {
 				event.disallow(PlayerLoginEvent.Result.KICK_BANNED, s); // Spigot
+			}
 		} else if (!this.isWhitelisted(gameprofile))
 		{
 			// return "You are not white-listed on this server!";
@@ -622,14 +628,11 @@ public abstract class PlayerList
 
 			// return s;
 			event.disallow(PlayerLoginEvent.Result.KICK_BANNED, s);
-		} else
+		} else // return this.players.size() >= this.maxPlayers && !this.f(gameprofile) ? "The
+		// server is full!" : null;
+		if (this.players.size() >= this.maxPlayers && !this.f(gameprofile))
 		{
-			// return this.players.size() >= this.maxPlayers && !this.f(gameprofile) ? "The
-			// server is full!" : null;
-			if (this.players.size() >= this.maxPlayers && !this.f(gameprofile))
-			{
-				event.disallow(PlayerLoginEvent.Result.KICK_FULL, org.spigotmc.SpigotConfig.serverFullMessage); // Spigot
-			}
+			event.disallow(PlayerLoginEvent.Result.KICK_FULL, org.spigotmc.SpigotConfig.serverFullMessage); // Spigot
 		}
 
 		cserver.getPluginManager().callEvent(event);
@@ -1205,24 +1208,24 @@ public abstract class PlayerList
 
 	public String b(boolean flag)
 	{
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		ArrayList arraylist = Lists.newArrayList(this.players);
 
 		for (int i = 0; i < arraylist.size(); ++i)
 		{
 			if (i > 0)
 			{
-				s = s + ", ";
+				s.append(", ");
 			}
 
-			s = s + ((EntityPlayer) arraylist.get(i)).getName();
+			s.append(((EntityPlayer) arraylist.get(i)).getName());
 			if (flag)
 			{
-				s = s + " (" + ((EntityPlayer) arraylist.get(i)).getUniqueID().toString() + ")";
+				s.append(" (").append(((EntityPlayer) arraylist.get(i)).getUniqueID().toString()).append(")");
 			}
 		}
 
-		return s;
+		return s.toString();
 	}
 
 	public String[] f()
@@ -1349,7 +1352,9 @@ public abstract class PlayerList
 		{
 			EntityHuman entity = players1.get(j);
 			if (!(entity instanceof EntityPlayer))
+			{
 				continue;
+			}
 			EntityPlayer entityplayer = (EntityPlayer) players1.get(j);
 			// CraftBukkit start - Test if player receiving packet can see the source of the
 			// packet

@@ -62,7 +62,9 @@ public class CraftHanging extends CraftEntity implements Hanging
 	{
 		EnumDirection direction = this.getHandle().direction;
 		if (direction == null)
+		{
 			return BlockFace.SELF;
+		}
 		switch (direction)
 		{
 		case SOUTH:

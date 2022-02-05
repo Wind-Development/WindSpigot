@@ -8,7 +8,6 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 public class EntityCreeper extends EntityMonster
 {
 
-	private int a;
 	private int fuseTicks;
 	private int maxFuseTicks = 30;
 	private int explosionRadius = 3;
@@ -104,7 +103,7 @@ public class EntityCreeper extends EntityMonster
 	{
 		if (this.isAlive())
 		{
-			this.a = this.fuseTicks;
+			int a = this.fuseTicks;
 			if (this.cn())
 			{
 				this.a(1);

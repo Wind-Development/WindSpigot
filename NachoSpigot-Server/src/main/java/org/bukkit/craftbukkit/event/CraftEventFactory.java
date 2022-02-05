@@ -148,13 +148,21 @@ public class CraftEventFactory
 		int spawnSize = Bukkit.getServer().getSpawnRadius();
 
 		if (world.getHandle().dimension != 0)
+		{
 			return true;
+		}
 		if (spawnSize <= 0)
+		{
 			return true;
+		}
 		if (((CraftServer) Bukkit.getServer()).getHandle().getOPs().isEmpty())
+		{
 			return true;
+		}
 		if (player.isOp())
+		{
 			return true;
+		}
 
 		BlockPosition chunkcoordinates = worldServer.getSpawn();
 
@@ -511,7 +519,9 @@ public class CraftEventFactory
 		for (org.bukkit.inventory.ItemStack stack : event.getDrops())
 		{
 			if (stack == null || stack.getType() == Material.AIR || stack.getAmount() == 0)
+			{
 				continue;
+			}
 
 			world.dropItemNaturally(entity.getLocation(), stack);
 		}
@@ -542,7 +552,9 @@ public class CraftEventFactory
 		for (org.bukkit.inventory.ItemStack stack : event.getDrops())
 		{
 			if (stack == null || stack.getType() == Material.AIR)
+			{
 				continue;
+			}
 
 			world.dropItemNaturally(entity.getLocation(), stack);
 		}

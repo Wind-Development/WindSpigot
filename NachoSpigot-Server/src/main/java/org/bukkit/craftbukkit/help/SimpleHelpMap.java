@@ -128,7 +128,7 @@ public class SimpleHelpMap implements HelpMap
 		// Initialize index help topics from the help.yml file
 		for (HelpTopic topic : yaml.getIndexTopics())
 		{
-			if (topic.getName().equals("Default"))
+			if ("Default".equals(topic.getName()))
 			{
 				defaultTopic = topic;
 			} else
@@ -168,7 +168,9 @@ public class SimpleHelpMap implements HelpMap
 				{
 					HelpTopic t = topicFactoryMap.get(c).createTopic(command);
 					if (t != null)
+					{
 						addTopic(t);
+					}
 					continue outer;
 				}
 				if (command instanceof PluginCommand
@@ -176,7 +178,9 @@ public class SimpleHelpMap implements HelpMap
 				{
 					HelpTopic t = topicFactoryMap.get(c).createTopic(command);
 					if (t != null)
+					{
 						addTopic(t);
+					}
 					continue outer;
 				}
 			}

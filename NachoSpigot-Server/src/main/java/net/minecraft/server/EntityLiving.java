@@ -268,16 +268,13 @@ public abstract class EntityLiving extends Entity
 				{
 					this.mount((Entity) null);
 				}
-			} else
+			} else // CraftBukkit start - Only set if needed to work around a DataWatcher
+			// inefficiency
+			if (this.getAirTicks() != 300)
 			{
-				// CraftBukkit start - Only set if needed to work around a DataWatcher
-				// inefficiency
-				if (this.getAirTicks() != 300)
-				{
-					this.setAirTicks(maxAirTicks);
-				}
-				// CraftBukkit end
+				this.setAirTicks(maxAirTicks);
 			}
+			// CraftBukkit end
 		}
 
 		if (this.isAlive() && this.U())
@@ -1016,7 +1013,9 @@ public abstract class EntityLiving extends Entity
 				}
 
 				if (knockbackCancelled)
+				 {
 					this.world.broadcastEntityEffect(this, (byte) 2); // PaperSpigot
+				}
 
 				String s;
 
@@ -1174,9 +1173,13 @@ public abstract class EntityLiving extends Entity
 			this.motY += vertical;
 			this.motZ -= z / magnitude * horizontal;
 			if (this.motY > kb.getVerticalMax())
+			{
 				this.motY = kb.getVerticalMax();
+			}
 			if (this.motY < kb.getVerticalMin())
+			{
 				this.motY = kb.getVerticalMin();
+			}
 		}
 	}
 
@@ -2204,8 +2207,10 @@ public abstract class EntityLiving extends Entity
 					this.vehicle.getBukkitEntity()); // Spigot
 			Bukkit.getPluginManager().callEvent(dismountEvent);
 			if (dismountEvent.isCancelled())
+			 {
 				return;
 			// PaperSpigot end
+			}
 
 			if (!this.world.isClientSide)
 			{
@@ -2348,7 +2353,9 @@ public abstract class EntityLiving extends Entity
 	public ScoreboardTeamBase getScoreboardTeam()
 	{
 		if (!this.world.tacoSpigotConfig.nonPlayerEntitiesOnScoreboards && !(this instanceof EntityHuman))
+		 {
 			return null; // TacoSpigot
+		}
 		return this.world.getScoreboard().getPlayerTeam(this.getUniqueID().toString());
 	}
 
