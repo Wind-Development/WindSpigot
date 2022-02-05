@@ -1,0 +1,13 @@
+name: 'Cleanup'
+on:
+  schedule:
+    - cron: '0 1 * * *' 
+
+jobs:
+  delete-artifacts:
+    runs-on: Linux
+    steps:
+      - uses: kolpav/purge-artifacts-action@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          expire-in: 7days
