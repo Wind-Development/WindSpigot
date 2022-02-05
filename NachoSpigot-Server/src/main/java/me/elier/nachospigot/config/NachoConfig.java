@@ -348,7 +348,7 @@ public class NachoConfig
 	{
 		disableTracking = getBoolean("settings.async.entity-tracking.disable", false);
 		c.addComment("settings.async.entity-tracking.disable", "Disable entity tracking");
-		trackingThreads = getInt("settings.async.entity-tracking.threads", 4);
+		trackingThreads = getInt("settings.async.entity-tracking.threads", 5);
 		c.addComment("settings.async.entity-tracking.threads", "Entity Tracking Threads");
 	}
 
