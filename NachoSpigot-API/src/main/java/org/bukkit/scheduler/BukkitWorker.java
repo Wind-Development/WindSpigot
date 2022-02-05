@@ -10,25 +10,25 @@ import org.bukkit.plugin.Plugin;
  */
 public interface BukkitWorker {
 
-    /**
-     * Returns the taskId for the task being executed by this worker.
-     *
-     * @return Task id number
-     */
-    public int getTaskId();
+	/**
+	 * Returns the taskId for the task being executed by this worker.
+	 *
+	 * @return Task id number
+	 */
+	public int getTaskId();
 
-    /**
-     * Returns the Plugin that owns this task.
-     *
-     * @return The Plugin that owns the task
-     */
-    public Plugin getOwner();
+	/**
+	 * Returns the Plugin that owns this task.
+	 *
+	 * @return The Plugin that owns the task
+	 */
+	public Plugin getOwner();
 
-    /**
-     * Returns the thread for the worker.
-     *
-     * @return The Thread object for the worker
-     */
-    public Thread getThread();
+	/**
+	 * Returns the thread for the worker.
+	 *
+	 * @return The Thread object for the worker
+	 */
+	public Thread getThread();
 
 }

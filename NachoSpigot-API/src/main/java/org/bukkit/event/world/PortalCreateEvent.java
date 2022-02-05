@@ -12,66 +12,66 @@ import org.bukkit.event.HandlerList;
  * Called when a portal is created
  */
 public class PortalCreateEvent extends WorldEvent implements Cancellable {
-    private static final HandlerList handlers = new HandlerList();
-    private boolean cancel = false;
-    private final ArrayList<Block> blocks = new ArrayList<Block>();
-    private CreateReason reason = CreateReason.FIRE;
+	private static final HandlerList handlers = new HandlerList();
+	private boolean cancel = false;
+	private final ArrayList<Block> blocks = new ArrayList<Block>();
+	private CreateReason reason = CreateReason.FIRE;
 
-    public PortalCreateEvent(final Collection<Block> blocks, final World world, CreateReason reason) {
-        super(world);
+	public PortalCreateEvent(final Collection<Block> blocks, final World world, CreateReason reason) {
+		super(world);
 
-        this.blocks.addAll(blocks);
-        this.reason = reason;
-    }
+		this.blocks.addAll(blocks);
+		this.reason = reason;
+	}
 
-    /**
-     * Gets an array list of all the blocks associated with the created portal
-     *
-     * @return array list of all the blocks associated with the created portal
-     */
-    public ArrayList<Block> getBlocks() {
-        return this.blocks;
-    }
+	/**
+	 * Gets an array list of all the blocks associated with the created portal
+	 *
+	 * @return array list of all the blocks associated with the created portal
+	 */
+	public ArrayList<Block> getBlocks() {
+		return this.blocks;
+	}
 
-    public boolean isCancelled() {
-        return cancel;
-    }
+	public boolean isCancelled() {
+		return cancel;
+	}
 
-    public void setCancelled(boolean cancel) {
-        this.cancel = cancel;
-    }
+	public void setCancelled(boolean cancel) {
+		this.cancel = cancel;
+	}
 
-    /**
-     * Gets the reason for the portal's creation
-     *
-     * @return CreateReason for the portal's creation
-     */
-    public CreateReason getReason() {
-        return reason;
-    }
+	/**
+	 * Gets the reason for the portal's creation
+	 *
+	 * @return CreateReason for the portal's creation
+	 */
+	public CreateReason getReason() {
+		return reason;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 
-    /**
-     * An enum to specify the various reasons for a portal's creation
-     */
-    public enum CreateReason {
-        /**
-         * When a portal is created 'traditionally' due to a portal frame
-         * being set on fire.
-         */
-        FIRE,
-        /**
-         * When a portal is created as a destination for an existing portal
-         * when using the custom PortalTravelAgent
-         */
-        OBC_DESTINATION
-    }
+	/**
+	 * An enum to specify the various reasons for a portal's creation
+	 */
+	public enum CreateReason {
+		/**
+		 * When a portal is created 'traditionally' due to a portal frame being set on
+		 * fire.
+		 */
+		FIRE,
+		/**
+		 * When a portal is created as a destination for an existing portal when using
+		 * the custom PortalTravelAgent
+		 */
+		OBC_DESTINATION
+	}
 }

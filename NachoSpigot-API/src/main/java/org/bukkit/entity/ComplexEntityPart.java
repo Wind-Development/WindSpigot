@@ -5,10 +5,10 @@ package org.bukkit.entity;
  */
 public interface ComplexEntityPart extends Entity {
 
-    /**
-     * Gets the parent {@link ComplexLivingEntity} of this part.
-     *
-     * @return Parent complex entity
-     */
-    public ComplexLivingEntity getParent();
+	/**
+	 * Gets the parent {@link ComplexLivingEntity} of this part.
+	 *
+	 * @return Parent complex entity
+	 */
+	public ComplexLivingEntity getParent();
 }

@@ -9,29 +9,29 @@ import org.bukkit.event.HandlerList;
  * spawn location is included.
  */
 public class SpawnChangeEvent extends WorldEvent {
-    private static final HandlerList handlers = new HandlerList();
-    private final Location previousLocation;
+	private static final HandlerList handlers = new HandlerList();
+	private final Location previousLocation;
 
-    public SpawnChangeEvent(final World world, final Location previousLocation) {
-        super(world);
-        this.previousLocation = previousLocation;
-    }
+	public SpawnChangeEvent(final World world, final Location previousLocation) {
+		super(world);
+		this.previousLocation = previousLocation;
+	}
 
-    /**
-     * Gets the previous spawn location
-     *
-     * @return Location that used to be spawn
-     */
-    public Location getPreviousLocation() {
-        return previousLocation;
-    }
+	/**
+	 * Gets the previous spawn location
+	 *
+	 * @return Location that used to be spawn
+	 */
+	public Location getPreviousLocation() {
+		return previousLocation;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

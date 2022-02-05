@@ -19,41 +19,40 @@ import org.bukkit.event.HandlerList;
  * disappear.
  */
 public class BlockFadeEvent extends BlockEvent implements Cancellable {
-    private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled;
-    private final BlockState newState;
+	private static final HandlerList handlers = new HandlerList();
+	private boolean cancelled;
+	private final BlockState newState;
 
-    public BlockFadeEvent(final Block block, final BlockState newState) {
-        super(block);
-        this.newState = newState;
-        this.cancelled = false;
-    }
+	public BlockFadeEvent(final Block block, final BlockState newState) {
+		super(block);
+		this.newState = newState;
+		this.cancelled = false;
+	}
 
-    /**
-     * Gets the state of the block that will be fading, melting or
-     * disappearing.
-     *
-     * @return The block state of the block that will be fading, melting or
-     *     disappearing
-     */
-    public BlockState getNewState() {
-        return newState;
-    }
+	/**
+	 * Gets the state of the block that will be fading, melting or disappearing.
+	 *
+	 * @return The block state of the block that will be fading, melting or
+	 *         disappearing
+	 */
+	public BlockState getNewState() {
+		return newState;
+	}
 
-    public boolean isCancelled() {
-        return cancelled;
-    }
+	public boolean isCancelled() {
+		return cancelled;
+	}
 
-    public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
-    }
+	public void setCancelled(boolean cancel) {
+		this.cancelled = cancel;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

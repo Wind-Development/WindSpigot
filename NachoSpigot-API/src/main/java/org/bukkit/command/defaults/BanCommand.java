@@ -15,42 +15,43 @@ import com.google.common.collect.ImmutableList;
 
 @Deprecated
 public class BanCommand extends VanillaCommand {
-    public BanCommand() {
-        super("ban");
-        this.description = "Prevents the specified player from using this server";
-        this.usageMessage = "/ban <player> [reason ...]";
-        this.setPermission("bukkit.command.ban.player");
-    }
+	public BanCommand() {
+		super("ban");
+		this.description = "Prevents the specified player from using this server";
+		this.usageMessage = "/ban <player> [reason ...]";
+		this.setPermission("bukkit.command.ban.player");
+	}
 
-    @Override
-    public boolean execute(CommandSender sender, String currentAlias, String[] args) {
-        if (!testPermission(sender)) return true;
-        if (args.length == 0)  {
-            sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
-            return false;
-        }
+	@Override
+	public boolean execute(CommandSender sender, String currentAlias, String[] args) {
+		if (!testPermission(sender))
+			return true;
+		if (args.length == 0) {
+			sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
+			return false;
+		}
 
-        String reason = args.length > 0 ? StringUtils.join(args, ' ', 1, args.length) : null;
-        Bukkit.getBanList(BanList.Type.NAME).addBan(args[0], reason, null, sender.getName());
+		String reason = args.length > 0 ? StringUtils.join(args, ' ', 1, args.length) : null;
+		Bukkit.getBanList(BanList.Type.NAME).addBan(args[0], reason, null, sender.getName());
 
-        Player player = Bukkit.getPlayer(args[0]);
-        if (player != null) {
-            player.kickPlayer("Banned by admin.");
-        }
+		Player player = Bukkit.getPlayer(args[0]);
+		if (player != null) {
+			player.kickPlayer("Banned by admin.");
+		}
 
-        Command.broadcastCommandMessage(sender, "Banned player " + args[0]);
-        return true;
-    }
+		Command.broadcastCommandMessage(sender, "Banned player " + args[0]);
+		return true;
+	}
 
-    @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        Validate.notNull(sender, "Sender cannot be null");
-        Validate.notNull(args, "Arguments cannot be null");
-        Validate.notNull(alias, "Alias cannot be null");
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		Validate.notNull(sender, "Sender cannot be null");
+		Validate.notNull(args, "Arguments cannot be null");
+		Validate.notNull(alias, "Alias cannot be null");
 
-        if (args.length >= 1) {
-            return super.tabComplete(sender, alias, args);
-        }
-        return ImmutableList.of();
-    }
+		if (args.length >= 1) {
+			return super.tabComplete(sender, alias, args);
+		}
+		return ImmutableList.of();
+	}
 }

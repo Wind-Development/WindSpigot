@@ -5,18 +5,18 @@ package org.bukkit;
  */
 public enum PortalType {
 
-    /**
-     * This is a Nether portal, made of obsidian.
-     */
-    NETHER,
+	/**
+	 * This is a Nether portal, made of obsidian.
+	 */
+	NETHER,
 
-    /**
-     * This is an Ender portal.
-     */
-    ENDER,
+	/**
+	 * This is an Ender portal.
+	 */
+	ENDER,
 
-    /**
-     * This is a custom Plugin portal.
-     */
-    CUSTOM;
+	/**
+	 * This is a custom Plugin portal.
+	 */
+	CUSTOM;
 }

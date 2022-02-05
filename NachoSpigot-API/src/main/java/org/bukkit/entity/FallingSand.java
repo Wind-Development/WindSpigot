@@ -6,4 +6,5 @@ package org.bukkit.entity;
  * @deprecated See {@link FallingBlock}
  */
 @Deprecated
-public interface FallingSand extends FallingBlock {}
+public interface FallingSand extends FallingBlock {
+}

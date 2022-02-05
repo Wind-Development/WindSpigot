@@ -7,10 +7,10 @@ import org.bukkit.block.BlockFace;
  */
 public interface Attachable extends Directional {
 
-    /**
-     * Gets the face that this block is attached on
-     *
-     * @return BlockFace attached to
-     */
-    public BlockFace getAttachedFace();
+	/**
+	 * Gets the face that this block is attached on
+	 *
+	 * @return BlockFace attached to
+	 */
+	public BlockFace getAttachedFace();
 }

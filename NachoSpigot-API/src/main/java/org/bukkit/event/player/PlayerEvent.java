@@ -7,24 +7,24 @@ import org.bukkit.event.Event;
  * Represents a player related event
  */
 public abstract class PlayerEvent extends Event {
-    protected Player player;
+	protected Player player;
 
-    public PlayerEvent(final Player who) {
-        player = who;
-    }
+	public PlayerEvent(final Player who) {
+		player = who;
+	}
 
-    public PlayerEvent(final Player who, boolean async) {
-        super(async);
-        player = who;
+	public PlayerEvent(final Player who, boolean async) {
+		super(async);
+		player = who;
 
-    }
+	}
 
-    /**
-     * Returns the player involved in this event
-     *
-     * @return Player who is involved in this event
-     */
-    public final Player getPlayer() {
-        return player;
-    }
+	/**
+	 * Returns the player involved in this event
+	 *
+	 * @return Player who is involved in this event
+	 */
+	public final Player getPlayer() {
+		return player;
+	}
 }

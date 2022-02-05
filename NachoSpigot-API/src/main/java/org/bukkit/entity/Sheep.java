@@ -7,13 +7,13 @@ import org.bukkit.material.Colorable;
  */
 public interface Sheep extends Animals, Colorable {
 
-    /**
-     * @return Whether the sheep is sheared.
-     */
-    public boolean isSheared();
+	/**
+	 * @return Whether the sheep is sheared.
+	 */
+	public boolean isSheared();
 
-    /**
-     * @param flag Whether to shear the sheep
-     */
-    public void setSheared(boolean flag);
+	/**
+	 * @param flag Whether to shear the sheep
+	 */
+	public void setSheared(boolean flag);
 }

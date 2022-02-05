@@ -9,52 +9,52 @@ import org.bukkit.event.HandlerList;
  * Called when a player respawns.
  */
 public class PlayerRespawnEvent extends PlayerEvent {
-    private static final HandlerList handlers = new HandlerList();
-    private Location respawnLocation;
-    private final boolean isBedSpawn;
+	private static final HandlerList handlers = new HandlerList();
+	private Location respawnLocation;
+	private final boolean isBedSpawn;
 
-    public PlayerRespawnEvent(final Player respawnPlayer, final Location respawnLocation, final boolean isBedSpawn) {
-        super(respawnPlayer);
-        this.respawnLocation = respawnLocation;
-        this.isBedSpawn = isBedSpawn;
-    }
+	public PlayerRespawnEvent(final Player respawnPlayer, final Location respawnLocation, final boolean isBedSpawn) {
+		super(respawnPlayer);
+		this.respawnLocation = respawnLocation;
+		this.isBedSpawn = isBedSpawn;
+	}
 
-    /**
-     * Gets the current respawn location
-     *
-     * @return Location current respawn location
-     */
-    public Location getRespawnLocation() {
-        return this.respawnLocation;
-    }
+	/**
+	 * Gets the current respawn location
+	 *
+	 * @return Location current respawn location
+	 */
+	public Location getRespawnLocation() {
+		return this.respawnLocation;
+	}
 
-    /**
-     * Sets the new respawn location
-     *
-     * @param respawnLocation new location for the respawn
-     */
-    public void setRespawnLocation(Location respawnLocation) {
-        Validate.notNull(respawnLocation, "Respawn location can not be null");
-        Validate.notNull(respawnLocation.getWorld(), "Respawn world can not be null");
+	/**
+	 * Sets the new respawn location
+	 *
+	 * @param respawnLocation new location for the respawn
+	 */
+	public void setRespawnLocation(Location respawnLocation) {
+		Validate.notNull(respawnLocation, "Respawn location can not be null");
+		Validate.notNull(respawnLocation.getWorld(), "Respawn world can not be null");
 
-        this.respawnLocation = respawnLocation;
-    }
+		this.respawnLocation = respawnLocation;
+	}
 
-    /**
-     * Gets whether the respawn location is the player's bed.
-     *
-     * @return true if the respawn location is the player's bed.
-     */
-    public boolean isBedSpawn() {
-        return this.isBedSpawn;
-    }
+	/**
+	 * Gets whether the respawn location is the player's bed.
+	 *
+	 * @return true if the respawn location is the player's bed.
+	 */
+	public boolean isBedSpawn() {
+		return this.isBedSpawn;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

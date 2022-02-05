@@ -12,40 +12,42 @@ import com.google.common.collect.ImmutableList;
 
 @Deprecated
 public class KillCommand extends VanillaCommand {
-    public KillCommand() {
-        super("kill");
-        this.description = "Commits suicide, only usable as a player";
-        this.usageMessage = "/kill";
-        this.setPermission("bukkit.command.kill");
-    }
+	public KillCommand() {
+		super("kill");
+		this.description = "Commits suicide, only usable as a player";
+		this.usageMessage = "/kill";
+		this.setPermission("bukkit.command.kill");
+	}
 
-    @Override
-    public boolean execute(CommandSender sender, String currentAlias, String[] args) {
-        if (!testPermission(sender)) return true;
+	@Override
+	public boolean execute(CommandSender sender, String currentAlias, String[] args) {
+		if (!testPermission(sender))
+			return true;
 
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
 
-            EntityDamageEvent ede = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.SUICIDE, 1000);
-            Bukkit.getPluginManager().callEvent(ede);
-            if (ede.isCancelled()) return true;
+			EntityDamageEvent ede = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.SUICIDE, 1000);
+			Bukkit.getPluginManager().callEvent(ede);
+			if (ede.isCancelled())
+				return true;
 
-            ede.getEntity().setLastDamageCause(ede);
-            player.setHealth(0);
-            sender.sendMessage("Ouch. That look like it hurt.");
-        } else {
-            sender.sendMessage("You can only perform this command as a player");
-        }
+			ede.getEntity().setLastDamageCause(ede);
+			player.setHealth(0);
+			sender.sendMessage("Ouch. That look like it hurt.");
+		} else {
+			sender.sendMessage("You can only perform this command as a player");
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        Validate.notNull(sender, "Sender cannot be null");
-        Validate.notNull(args, "Arguments cannot be null");
-        Validate.notNull(alias, "Alias cannot be null");
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		Validate.notNull(sender, "Sender cannot be null");
+		Validate.notNull(args, "Arguments cannot be null");
+		Validate.notNull(alias, "Alias cannot be null");
 
-        return ImmutableList.of();
-    }
+		return ImmutableList.of();
+	}
 }

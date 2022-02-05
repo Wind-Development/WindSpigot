@@ -7,63 +7,63 @@ import org.bukkit.Material;
  */
 public interface FallingBlock extends Entity {
 
-    /**
-     * Get the Material of the falling block
-     *
-     * @return Material of the block
-     */
-    Material getMaterial();
+	/**
+	 * Get the Material of the falling block
+	 *
+	 * @return Material of the block
+	 */
+	Material getMaterial();
 
-    /**
-     * Get the ID of the falling block
-     *
-     * @return ID type of the block
-     * @deprecated Magic value
-     */
-    @Deprecated
-    int getBlockId();
+	/**
+	 * Get the ID of the falling block
+	 *
+	 * @return ID type of the block
+	 * @deprecated Magic value
+	 */
+	@Deprecated
+	int getBlockId();
 
-    /**
-     * Get the data for the falling block
-     *
-     * @return data of the block
-     * @deprecated Magic value
-     */
-    @Deprecated
-    byte getBlockData();
+	/**
+	 * Get the data for the falling block
+	 *
+	 * @return data of the block
+	 * @deprecated Magic value
+	 */
+	@Deprecated
+	byte getBlockData();
 
-    /**
-     * Get if the falling block will break into an item if it cannot be placed
-     *
-     * @return true if the block will break into an item when obstructed
-     */
-    boolean getDropItem();
+	/**
+	 * Get if the falling block will break into an item if it cannot be placed
+	 *
+	 * @return true if the block will break into an item when obstructed
+	 */
+	boolean getDropItem();
 
-    /**
-     * Set if the falling block will break into an item if it cannot be placed
-     *
-     * @param drop true to break into an item when obstructed
-     */
-    void setDropItem(boolean drop);
+	/**
+	 * Set if the falling block will break into an item if it cannot be placed
+	 *
+	 * @param drop true to break into an item when obstructed
+	 */
+	void setDropItem(boolean drop);
 
-    /**
-     * Get the HurtEntities state of this block.
-     *
-     * @return whether entities will be damaged by this block.
-     */
-    boolean canHurtEntities();
+	/**
+	 * Get the HurtEntities state of this block.
+	 *
+	 * @return whether entities will be damaged by this block.
+	 */
+	boolean canHurtEntities();
 
-    /**
-     * Set the HurtEntities state of this block.
-     *
-     * @param hurtEntities whether entities will be damaged by this block.
-     */
-    void setHurtEntities(boolean hurtEntities);
+	/**
+	 * Set the HurtEntities state of this block.
+	 *
+	 * @param hurtEntities whether entities will be damaged by this block.
+	 */
+	void setHurtEntities(boolean hurtEntities);
 
-    /**
-     * Gets the source block location of the falling block
-     *
-     * @return the source block location the falling block was spawned from
-     */
-    org.bukkit.Location getSourceLoc(); // PaperSpigot - Add FallingBlock source location API
+	/**
+	 * Gets the source block location of the falling block
+	 *
+	 * @return the source block location the falling block was spawned from
+	 */
+	org.bukkit.Location getSourceLoc(); // PaperSpigot - Add FallingBlock source location API
 }

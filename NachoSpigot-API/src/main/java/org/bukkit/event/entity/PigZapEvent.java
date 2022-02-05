@@ -10,55 +10,55 @@ import org.bukkit.event.HandlerList;
  * Stores data for pigs being zapped
  */
 public class PigZapEvent extends EntityEvent implements Cancellable {
-    private static final HandlerList handlers = new HandlerList();
-    private boolean canceled;
-    private final PigZombie pigzombie;
-    private final LightningStrike bolt;
+	private static final HandlerList handlers = new HandlerList();
+	private boolean canceled;
+	private final PigZombie pigzombie;
+	private final LightningStrike bolt;
 
-    public PigZapEvent(final Pig pig, final LightningStrike bolt, final PigZombie pigzombie) {
-        super(pig);
-        this.bolt = bolt;
-        this.pigzombie = pigzombie;
-    }
+	public PigZapEvent(final Pig pig, final LightningStrike bolt, final PigZombie pigzombie) {
+		super(pig);
+		this.bolt = bolt;
+		this.pigzombie = pigzombie;
+	}
 
-    public boolean isCancelled() {
-        return canceled;
-    }
+	public boolean isCancelled() {
+		return canceled;
+	}
 
-    public void setCancelled(boolean cancel) {
-        canceled = cancel;
-    }
+	public void setCancelled(boolean cancel) {
+		canceled = cancel;
+	}
 
-    @Override
-    public Pig getEntity() {
-        return (Pig) entity;
-    }
+	@Override
+	public Pig getEntity() {
+		return (Pig) entity;
+	}
 
-    /**
-     * Gets the bolt which is striking the pig.
-     *
-     * @return lightning entity
-     */
-    public LightningStrike getLightning() {
-        return bolt;
-    }
+	/**
+	 * Gets the bolt which is striking the pig.
+	 *
+	 * @return lightning entity
+	 */
+	public LightningStrike getLightning() {
+		return bolt;
+	}
 
-    /**
-     * Gets the zombie pig that will replace the pig, provided the event is
-     * not cancelled first.
-     *
-     * @return resulting entity
-     */
-    public PigZombie getPigZombie() {
-        return pigzombie;
-    }
+	/**
+	 * Gets the zombie pig that will replace the pig, provided the event is not
+	 * cancelled first.
+	 *
+	 * @return resulting entity
+	 */
+	public PigZombie getPigZombie() {
+		return pigzombie;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

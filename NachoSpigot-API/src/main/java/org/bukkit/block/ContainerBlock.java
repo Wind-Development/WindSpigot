@@ -8,4 +8,5 @@ import org.bukkit.inventory.InventoryHolder;
  * @deprecated in favour of {@link InventoryHolder}
  */
 @Deprecated
-public interface ContainerBlock extends InventoryHolder {}
+public interface ContainerBlock extends InventoryHolder {
+}

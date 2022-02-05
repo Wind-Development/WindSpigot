@@ -5,13 +5,13 @@ package org.bukkit.plugin.messaging;
  */
 public enum PluginChannelDirection {
 
-    /**
-     * The plugin channel is being sent to the server from a client.
-     */
-    INCOMING,
+	/**
+	 * The plugin channel is being sent to the server from a client.
+	 */
+	INCOMING,
 
-    /**
-     * The plugin channel is being sent to a client from the server.
-     */
-    OUTGOING
+	/**
+	 * The plugin channel is being sent to a client from the server.
+	 */
+	OUTGOING
 }

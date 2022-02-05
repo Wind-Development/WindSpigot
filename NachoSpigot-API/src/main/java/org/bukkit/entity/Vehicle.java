@@ -7,17 +7,17 @@ import org.bukkit.util.Vector;
  */
 public interface Vehicle extends Entity {
 
-    /**
-     * Gets the vehicle's velocity.
-     *
-     * @return velocity vector
-     */
-    public Vector getVelocity();
+	/**
+	 * Gets the vehicle's velocity.
+	 *
+	 * @return velocity vector
+	 */
+	public Vector getVelocity();
 
-    /**
-     * Sets the vehicle's velocity.
-     *
-     * @param vel velocity vector
-     */
-    public void setVelocity(Vector vel);
+	/**
+	 * Sets the vehicle's velocity.
+	 *
+	 * @param vel velocity vector
+	 */
+	public void setVelocity(Vector vel);
 }

@@ -16,60 +16,61 @@ import com.google.common.collect.ImmutableList;
 
 @Deprecated
 public class WeatherCommand extends VanillaCommand {
-    private static final List<String> WEATHER_TYPES = ImmutableList.of("clear", "rain", "thunder");
+	private static final List<String> WEATHER_TYPES = ImmutableList.of("clear", "rain", "thunder");
 
-    public WeatherCommand() {
-        super("weather");
-        this.description = "Changes the weather";
-        this.usageMessage = "/weather <clear/rain/thunder> [duration in seconds]";
-        this.setPermission("bukkit.command.weather");
-    }
+	public WeatherCommand() {
+		super("weather");
+		this.description = "Changes the weather";
+		this.usageMessage = "/weather <clear/rain/thunder> [duration in seconds]";
+		this.setPermission("bukkit.command.weather");
+	}
 
-    @Override
-    public boolean execute(CommandSender sender, String currentAlias, String[] args) {
-        if (!testPermission(sender)) return true;
-        if (args.length == 0) {
-            sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
-            return false;
-        }
+	@Override
+	public boolean execute(CommandSender sender, String currentAlias, String[] args) {
+		if (!testPermission(sender))
+			return true;
+		if (args.length == 0) {
+			sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
+			return false;
+		}
 
-        int duration = (300 + new Random().nextInt(600)) * 20;
-        if (args.length >= 2) {
-            duration = getInteger(sender, args[1], 1, 1000000) * 20;
-        }
+		int duration = (300 + new Random().nextInt(600)) * 20;
+		if (args.length >= 2) {
+			duration = getInteger(sender, args[1], 1, 1000000) * 20;
+		}
 
-        World world = Bukkit.getWorlds().get(0);
+		World world = Bukkit.getWorlds().get(0);
 
-        world.setWeatherDuration(duration);
-        world.setThunderDuration(duration);
+		world.setWeatherDuration(duration);
+		world.setThunderDuration(duration);
 
-        if ("clear".equalsIgnoreCase(args[0])) {
-            world.setStorm(false);
-            world.setThundering(false);
-            Command.broadcastCommandMessage(sender, "Changed weather to clear for " + (duration / 20) + " seconds.");
-        } else if ("rain".equalsIgnoreCase(args[0])) {
-            world.setStorm(true);
-            world.setThundering(false);
-            Command.broadcastCommandMessage(sender, "Changed weather to rainy for " + (duration / 20) + " seconds.");
-        } else if ("thunder".equalsIgnoreCase(args[0])) {
-            world.setStorm(true);
-            world.setThundering(true);
-            Command.broadcastCommandMessage(sender, "Changed weather to thundering " + (duration / 20) + " seconds.");
-        }
+		if ("clear".equalsIgnoreCase(args[0])) {
+			world.setStorm(false);
+			world.setThundering(false);
+			Command.broadcastCommandMessage(sender, "Changed weather to clear for " + (duration / 20) + " seconds.");
+		} else if ("rain".equalsIgnoreCase(args[0])) {
+			world.setStorm(true);
+			world.setThundering(false);
+			Command.broadcastCommandMessage(sender, "Changed weather to rainy for " + (duration / 20) + " seconds.");
+		} else if ("thunder".equalsIgnoreCase(args[0])) {
+			world.setStorm(true);
+			world.setThundering(true);
+			Command.broadcastCommandMessage(sender, "Changed weather to thundering " + (duration / 20) + " seconds.");
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
-        Validate.notNull(sender, "Sender cannot be null");
-        Validate.notNull(args, "Arguments cannot be null");
-        Validate.notNull(alias, "Alias cannot be null");
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
+		Validate.notNull(sender, "Sender cannot be null");
+		Validate.notNull(args, "Arguments cannot be null");
+		Validate.notNull(alias, "Alias cannot be null");
 
-        if (args.length == 1) {
-            return StringUtil.copyPartialMatches(args[0], WEATHER_TYPES, new ArrayList<String>(WEATHER_TYPES.size()));
-        }
+		if (args.length == 1) {
+			return StringUtil.copyPartialMatches(args[0], WEATHER_TYPES, new ArrayList<String>(WEATHER_TYPES.size()));
+		}
 
-        return ImmutableList.of();
-    }
+		return ImmutableList.of();
+	}
 }

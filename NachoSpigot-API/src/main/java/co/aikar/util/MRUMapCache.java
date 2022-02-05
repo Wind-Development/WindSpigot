@@ -29,72 +29,88 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Implements a Most Recently Used cache in front of a backing map, to quickly access the last accessed result.
+ * Implements a Most Recently Used cache in front of a backing map, to quickly
+ * access the last accessed result.
+ * 
  * @param <K>
  * @param <V>
  */
 public class MRUMapCache<K, V> extends AbstractMap<K, V> {
-    final Map<K, V> backingMap;
-    Object cacheKey;
-    V cacheValue;
-    public MRUMapCache(final Map<K, V> backingMap) {
-        this.backingMap = backingMap;
-    }
+	final Map<K, V> backingMap;
+	Object cacheKey;
+	V cacheValue;
 
-    public int size() {return backingMap.size();}
+	public MRUMapCache(final Map<K, V> backingMap) {
+		this.backingMap = backingMap;
+	}
 
-    public boolean isEmpty() {return backingMap.isEmpty();}
+	public int size() {
+		return backingMap.size();
+	}
 
-    public boolean containsKey(Object key) {
-        return key != null && key.equals(cacheKey) || backingMap.containsKey(key);
-    }
+	public boolean isEmpty() {
+		return backingMap.isEmpty();
+	}
 
-    public boolean containsValue(Object value) {
-        return value != null && value == cacheValue || backingMap.containsValue(value);
-    }
+	public boolean containsKey(Object key) {
+		return key != null && key.equals(cacheKey) || backingMap.containsKey(key);
+	}
 
-    public V get(Object key) {
-        if (cacheKey != null && cacheKey.equals(key)) {
-            return cacheValue;
-        }
-        cacheKey = key;
-        return cacheValue = backingMap.get(key);
-    }
+	public boolean containsValue(Object value) {
+		return value != null && value == cacheValue || backingMap.containsValue(value);
+	}
 
-    public V put(K key, V value) {
-        cacheKey = key;
-        return cacheValue = backingMap.put(key, value);
-    }
+	public V get(Object key) {
+		if (cacheKey != null && cacheKey.equals(key)) {
+			return cacheValue;
+		}
+		cacheKey = key;
+		return cacheValue = backingMap.get(key);
+	}
 
-    public V remove(Object key) {
-        if (key != null && key.equals(cacheKey)) {
-            cacheKey = null;
-        }
-        return backingMap.remove(key);
-    }
+	public V put(K key, V value) {
+		cacheKey = key;
+		return cacheValue = backingMap.put(key, value);
+	}
 
-    public void putAll(Map<? extends K, ? extends V> m) {backingMap.putAll(m);}
+	public V remove(Object key) {
+		if (key != null && key.equals(cacheKey)) {
+			cacheKey = null;
+		}
+		return backingMap.remove(key);
+	}
 
-    public void clear() {
-        cacheKey = null;
-        cacheValue = null;
-        backingMap.clear();
-    }
+	public void putAll(Map<? extends K, ? extends V> m) {
+		backingMap.putAll(m);
+	}
 
-    public Set<K> keySet() {return backingMap.keySet();}
+	public void clear() {
+		cacheKey = null;
+		cacheValue = null;
+		backingMap.clear();
+	}
 
-    public Collection<V> values() {return backingMap.values();}
+	public Set<K> keySet() {
+		return backingMap.keySet();
+	}
 
-    public Set<Map.Entry<K, V>> entrySet() {return backingMap.entrySet();}
+	public Collection<V> values() {
+		return backingMap.values();
+	}
 
-    /**
-     * Wraps the specified map with a most recently used cache
-     * @param map
-     * @param <K>
-     * @param <V>
-     * @return
-     */
-    public static <K, V> Map<K, V> of(Map<K, V> map) {
-        return new MRUMapCache<K, V>(map);
-    }
+	public Set<Map.Entry<K, V>> entrySet() {
+		return backingMap.entrySet();
+	}
+
+	/**
+	 * Wraps the specified map with a most recently used cache
+	 * 
+	 * @param map
+	 * @param <K>
+	 * @param <V>
+	 * @return
+	 */
+	public static <K, V> Map<K, V> of(Map<K, V> map) {
+		return new MRUMapCache<K, V>(map);
+	}
 }

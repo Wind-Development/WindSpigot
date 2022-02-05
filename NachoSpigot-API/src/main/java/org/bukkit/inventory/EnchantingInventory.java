@@ -5,31 +5,31 @@ package org.bukkit.inventory;
  */
 public interface EnchantingInventory extends Inventory {
 
-    /**
-     * Set the item being enchanted.
-     *
-     * @param item The new item
-     */
-    void setItem(ItemStack item);
+	/**
+	 * Set the item being enchanted.
+	 *
+	 * @param item The new item
+	 */
+	void setItem(ItemStack item);
 
-    /**
-     * Get the item being enchanted.
-     *
-     * @return The current item.
-     */
-    ItemStack getItem();
+	/**
+	 * Get the item being enchanted.
+	 *
+	 * @return The current item.
+	 */
+	ItemStack getItem();
 
-    /**
-     * Set the secondary item being used for the enchant.
-     *
-     * @param item The new item
-     */
-    void setSecondary(ItemStack item);
+	/**
+	 * Set the secondary item being used for the enchant.
+	 *
+	 * @param item The new item
+	 */
+	void setSecondary(ItemStack item);
 
-    /**
-     * Get the secondary item being used for the enchant.
-     *
-     * @return The second item
-     */
-    ItemStack getSecondary();
+	/**
+	 * Get the secondary item being used for the enchant.
+	 *
+	 * @return The second item
+	 */
+	ItemStack getSecondary();
 }

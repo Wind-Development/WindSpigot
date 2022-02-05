@@ -27,46 +27,53 @@ package co.aikar.timings;
  * Provides an ability to time sections of code within the Minecraft Server
  */
 public interface Timing extends AutoCloseable {
-    /**
-     * Starts timing the execution until {@link #stopTiming()} is called.
-     */
-    public void startTiming();
+	/**
+	 * Starts timing the execution until {@link #stopTiming()} is called.
+	 */
+	public void startTiming();
 
-    /**
-     * <p>Stops timing and records the data. Propagates the data up to group handlers.</p>
-     *
-     * Will automatically be called when this Timing is used with try-with-resources
-     */
-    public void stopTiming();
+	/**
+	 * <p>
+	 * Stops timing and records the data. Propagates the data up to group handlers.
+	 * </p>
+	 *
+	 * Will automatically be called when this Timing is used with try-with-resources
+	 */
+	public void stopTiming();
 
-    /**
-     * Starts timing the execution until {@link #stopTiming()} is called.
-     *
-     * But only if we are on the primary thread.
-     */
-    public void startTimingIfSync();
+	/**
+	 * Starts timing the execution until {@link #stopTiming()} is called.
+	 *
+	 * But only if we are on the primary thread.
+	 */
+	public void startTimingIfSync();
 
-    /**
-     * <p>Stops timing and records the data. Propagates the data up to group handlers.</p>
-     *
-     * <p>Will automatically be called when this Timing is used with try-with-resources</p>
-     *
-     * But only if we are on the primary thread.
-     */
-    public void stopTimingIfSync();
+	/**
+	 * <p>
+	 * Stops timing and records the data. Propagates the data up to group handlers.
+	 * </p>
+	 *
+	 * <p>
+	 * Will automatically be called when this Timing is used with try-with-resources
+	 * </p>
+	 *
+	 * But only if we are on the primary thread.
+	 */
+	public void stopTimingIfSync();
 
-    /**
-     * Stops timing and disregards current timing data.
-     */
-    public void abort();
+	/**
+	 * Stops timing and disregards current timing data.
+	 */
+	public void abort();
 
-    /**
-     * Used internally to get the actual backing Handler in the case of delegated Handlers
-     *
-     * @return TimingHandler
-     */
-    TimingHandler getTimingHandler();
+	/**
+	 * Used internally to get the actual backing Handler in the case of delegated
+	 * Handlers
+	 *
+	 * @return TimingHandler
+	 */
+	TimingHandler getTimingHandler();
 
-    @Override
-    void close();
+	@Override
+	void close();
 }

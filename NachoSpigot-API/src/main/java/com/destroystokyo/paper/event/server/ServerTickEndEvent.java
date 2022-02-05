@@ -8,49 +8,51 @@ import org.bukkit.event.HandlerList;
  */
 public class ServerTickEndEvent extends Event {
 
-    private static final HandlerList handlers = new HandlerList();
-    private final int tickNumber;
-    private final double tickDuration;
-    private final long timeEnd;
+	private static final HandlerList handlers = new HandlerList();
+	private final int tickNumber;
+	private final double tickDuration;
+	private final long timeEnd;
 
-    public ServerTickEndEvent(int tickNumber, double tickDuration, long timeRemaining) {
-        this.tickNumber = tickNumber;
-        this.tickDuration = tickDuration;
-        this.timeEnd = System.nanoTime() + timeRemaining;
-    }
+	public ServerTickEndEvent(int tickNumber, double tickDuration, long timeRemaining) {
+		this.tickNumber = tickNumber;
+		this.tickDuration = tickDuration;
+		this.timeEnd = System.nanoTime() + timeRemaining;
+	}
 
-    /**
-     * @return What tick this was since start (first tick = 1)
-     */
-    public int getTickNumber() {
-        return tickNumber;
-    }
+	/**
+	 * @return What tick this was since start (first tick = 1)
+	 */
+	public int getTickNumber() {
+		return tickNumber;
+	}
 
-    /**
-     * @return Time in milliseconds of how long this tick took
-     */
-    public double getTickDuration() {
-        return tickDuration;
-    }
+	/**
+	 * @return Time in milliseconds of how long this tick took
+	 */
+	public double getTickDuration() {
+		return tickDuration;
+	}
 
-    /**
-     * Amount of nanoseconds remaining before the next tick should start.
-     *
-     * If this value is negative, then that means the server has exceeded the tick time limit and TPS has been lost.
-     *
-     * Method will continously return the updated time remaining value. (return value is not static)
-     *
-     * @return Amount of nanoseconds remaining before the next tick should start
-     */
-    public long getTimeRemaining() {
-        return this.timeEnd - System.nanoTime();
-    }
+	/**
+	 * Amount of nanoseconds remaining before the next tick should start.
+	 *
+	 * If this value is negative, then that means the server has exceeded the tick
+	 * time limit and TPS has been lost.
+	 *
+	 * Method will continously return the updated time remaining value. (return
+	 * value is not static)
+	 *
+	 * @return Amount of nanoseconds remaining before the next tick should start
+	 */
+	public long getTimeRemaining() {
+		return this.timeEnd - System.nanoTime();
+	}
 
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

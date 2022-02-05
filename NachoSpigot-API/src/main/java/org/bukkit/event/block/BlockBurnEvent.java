@@ -11,28 +11,28 @@ import org.bukkit.event.HandlerList;
  * result of being burnt by fire.
  */
 public class BlockBurnEvent extends BlockEvent implements Cancellable {
-    private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled;
+	private static final HandlerList handlers = new HandlerList();
+	private boolean cancelled;
 
-    public BlockBurnEvent(final Block block) {
-        super(block);
-        this.cancelled = false;
-    }
+	public BlockBurnEvent(final Block block) {
+		super(block);
+		this.cancelled = false;
+	}
 
-    public boolean isCancelled() {
-        return cancelled;
-    }
+	public boolean isCancelled() {
+		return cancelled;
+	}
 
-    public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
-    }
+	public void setCancelled(boolean cancel) {
+		this.cancelled = cancel;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

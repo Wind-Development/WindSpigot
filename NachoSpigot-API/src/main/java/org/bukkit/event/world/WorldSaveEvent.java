@@ -7,18 +7,18 @@ import org.bukkit.event.HandlerList;
  * Called when a World is saved.
  */
 public class WorldSaveEvent extends WorldEvent {
-    private static final HandlerList handlers = new HandlerList();
+	private static final HandlerList handlers = new HandlerList();
 
-    public WorldSaveEvent(final World world) {
-        super(world);
-    }
+	public WorldSaveEvent(final World world) {
+		super(world);
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

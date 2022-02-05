@@ -2,90 +2,91 @@ package dev.cobblesword.nachospigot.knockback;
 
 public interface KnockbackProfile {
 
-    void save();
-    void save(boolean projectiles);
+	void save();
 
-    String getName();
+	void save(boolean projectiles);
 
-    void setName(String name);
+	String getName();
 
-    double getHorizontal();
+	void setName(String name);
 
-    void setHorizontal(double horizontal);
+	double getHorizontal();
 
-    double getVertical();
+	void setHorizontal(double horizontal);
 
-    void setVertical(double vertical);
+	double getVertical();
 
-    double getVerticalMin();
+	void setVertical(double vertical);
 
-    void setVerticalMin(double verticalMin);
+	double getVerticalMin();
 
-    double getVerticalMax();
+	void setVerticalMin(double verticalMin);
 
-    void setVerticalMax(double verticalMax);
+	double getVerticalMax();
 
-    double getExtraHorizontal();
+	void setVerticalMax(double verticalMax);
 
-    void setExtraHorizontal(double extraHorizontal);
+	double getExtraHorizontal();
 
-    double getExtraVertical();
+	void setExtraHorizontal(double extraHorizontal);
 
-    void setExtraVertical(double extraVertical);
+	double getExtraVertical();
 
-    double getFrictionHorizontal();
+	void setExtraVertical(double extraVertical);
 
-    void setFrictionHorizontal(double frictionHorizontal);
+	double getFrictionHorizontal();
 
-    double getFrictionVertical();
+	void setFrictionHorizontal(double frictionHorizontal);
 
-    void setFrictionVertical(double frictionVertical);
+	double getFrictionVertical();
 
-    boolean isStopSprint();
+	void setFrictionVertical(double frictionVertical);
 
-    void setStopSprint(boolean stopSprint);
+	boolean isStopSprint();
 
-    double getRodHorizontal();
+	void setStopSprint(boolean stopSprint);
 
-    void setRodHorizontal(double rodHorizontal);
+	double getRodHorizontal();
 
-    double getRodVertical();
+	void setRodHorizontal(double rodHorizontal);
 
-    void setRodVertical(double rodVertical);
+	double getRodVertical();
 
-    double getArrowHorizontal();
+	void setRodVertical(double rodVertical);
 
-    void setArrowHorizontal(double arrowHorizontal);
+	double getArrowHorizontal();
 
-    double getArrowVertical();
+	void setArrowHorizontal(double arrowHorizontal);
 
-    void setArrowVertical(double arrowVertical);
+	double getArrowVertical();
 
-    double getPearlHorizontal();
+	void setArrowVertical(double arrowVertical);
 
-    void setPearlHorizontal(double pearlHorizontal) ;
+	double getPearlHorizontal();
 
-    double getPearlVertical();
+	void setPearlHorizontal(double pearlHorizontal);
 
-    void setPearlVertical(double pearlVertical);
+	double getPearlVertical();
 
-    double getSnowballHorizontal();
+	void setPearlVertical(double pearlVertical);
 
-    void setSnowballHorizontal(double snowballHorizontal);
+	double getSnowballHorizontal();
 
-    double getSnowballVertical();
+	void setSnowballHorizontal(double snowballHorizontal);
 
-    void setSnowballVertical(double snowballVertical);
+	double getSnowballVertical();
 
-    double getEggHorizontal();
+	void setSnowballVertical(double snowballVertical);
 
-    void setEggHorizontal(double eggHorizontal);
+	double getEggHorizontal();
 
-    double getEggVertical();
+	void setEggHorizontal(double eggHorizontal);
 
-    void setEggVertical(double eggVertical);
+	double getEggVertical();
 
-    String[] getKnockbackValues();
+	void setEggVertical(double eggVertical);
 
-    String[] getProjectilesValues();
+	String[] getKnockbackValues();
+
+	String[] getProjectilesValues();
 }

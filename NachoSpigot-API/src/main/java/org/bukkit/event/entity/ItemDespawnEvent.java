@@ -13,43 +13,43 @@ import org.bukkit.event.HandlerList;
  * minutes. This behavior is not guaranteed and may change in future versions.
  */
 public class ItemDespawnEvent extends EntityEvent implements Cancellable {
-    private static final HandlerList handlers = new HandlerList();
-    private boolean canceled;
-    private final Location location;
+	private static final HandlerList handlers = new HandlerList();
+	private boolean canceled;
+	private final Location location;
 
-    public ItemDespawnEvent(final Item despawnee, final Location loc) {
-        super(despawnee);
-        location = loc;
-    }
+	public ItemDespawnEvent(final Item despawnee, final Location loc) {
+		super(despawnee);
+		location = loc;
+	}
 
-    public boolean isCancelled() {
-        return canceled;
-    }
+	public boolean isCancelled() {
+		return canceled;
+	}
 
-    public void setCancelled(boolean cancel) {
-        canceled = cancel;
-    }
+	public void setCancelled(boolean cancel) {
+		canceled = cancel;
+	}
 
-    @Override
-    public Item getEntity() {
-        return (Item) entity;
-    }
+	@Override
+	public Item getEntity() {
+		return (Item) entity;
+	}
 
-    /**
-     * Gets the location at which the item is despawning.
-     *
-     * @return The location at which the item is despawning
-     */
-    public Location getLocation() {
-        return location;
-    }
+	/**
+	 * Gets the location at which the item is despawning.
+	 *
+	 * @return The location at which the item is despawning
+	 */
+	public Location getLocation() {
+		return location;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 }

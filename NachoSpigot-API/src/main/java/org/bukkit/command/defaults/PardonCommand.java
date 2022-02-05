@@ -16,42 +16,43 @@ import com.google.common.collect.ImmutableList;
 
 @Deprecated
 public class PardonCommand extends VanillaCommand {
-    public PardonCommand() {
-        super("pardon");
-        this.description = "Allows the specified player to use this server";
-        this.usageMessage = "/pardon <player>";
-        this.setPermission("bukkit.command.unban.player");
-    }
+	public PardonCommand() {
+		super("pardon");
+		this.description = "Allows the specified player to use this server";
+		this.usageMessage = "/pardon <player>";
+		this.setPermission("bukkit.command.unban.player");
+	}
 
-    @Override
-    public boolean execute(CommandSender sender, String currentAlias, String[] args) {
-        if (!testPermission(sender)) return true;
-        if (args.length != 1)  {
-            sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
-            return false;
-        }
+	@Override
+	public boolean execute(CommandSender sender, String currentAlias, String[] args) {
+		if (!testPermission(sender))
+			return true;
+		if (args.length != 1) {
+			sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
+			return false;
+		}
 
-        Bukkit.getBanList(BanList.Type.NAME).pardon(args[0]);
-        Command.broadcastCommandMessage(sender, "Pardoned " + args[0]);
-        return true;
-    }
+		Bukkit.getBanList(BanList.Type.NAME).pardon(args[0]);
+		Command.broadcastCommandMessage(sender, "Pardoned " + args[0]);
+		return true;
+	}
 
-    @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        Validate.notNull(sender, "Sender cannot be null");
-        Validate.notNull(args, "Arguments cannot be null");
-        Validate.notNull(alias, "Alias cannot be null");
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		Validate.notNull(sender, "Sender cannot be null");
+		Validate.notNull(args, "Arguments cannot be null");
+		Validate.notNull(alias, "Alias cannot be null");
 
-        if (args.length == 1) {
-            List<String> completions = new ArrayList<String>();
-            for (OfflinePlayer player : Bukkit.getBannedPlayers()) {
-                String name = player.getName();
-                if (StringUtil.startsWithIgnoreCase(name, args[0])) {
-                    completions.add(name);
-                }
-            }
-            return completions;
-        }
-        return ImmutableList.of();
-    }
+		if (args.length == 1) {
+			List<String> completions = new ArrayList<String>();
+			for (OfflinePlayer player : Bukkit.getBannedPlayers()) {
+				String name = player.getName();
+				if (StringUtil.startsWithIgnoreCase(name, args[0])) {
+					completions.add(name);
+				}
+			}
+			return completions;
+		}
+		return ImmutableList.of();
+	}
 }

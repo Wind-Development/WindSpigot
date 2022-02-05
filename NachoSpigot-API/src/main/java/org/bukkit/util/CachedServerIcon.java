@@ -4,8 +4,8 @@ import org.bukkit.Server;
 import org.bukkit.event.server.ServerListPingEvent;
 
 /**
- * This is a cached version of a server-icon. It's internal representation
- * and implementation is undefined.
+ * This is a cached version of a server-icon. It's internal representation and
+ * implementation is undefined.
  *
  * @see Server#getServerIcon()
  * @see Server#loadServerIcon(java.awt.image.BufferedImage)
@@ -13,5 +13,5 @@ import org.bukkit.event.server.ServerListPingEvent;
  * @see ServerListPingEvent#setServerIcon(CachedServerIcon)
  */
 public interface CachedServerIcon {
-    public String getData(); // Spigot
+	public String getData(); // Spigot
 }

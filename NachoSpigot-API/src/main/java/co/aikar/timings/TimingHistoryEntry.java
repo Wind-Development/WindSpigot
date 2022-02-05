@@ -30,30 +30,28 @@ import java.util.List;
 import com.google.common.base.Function;
 
 class TimingHistoryEntry {
-    final TimingData data;
-    final TimingData[] children;
+	final TimingData data;
+	final TimingData[] children;
 
-    TimingHistoryEntry(TimingHandler handler) {
-        this.data = handler.record.clone();
-        children = new TimingData[handler.children.size()];
-        int i = 0;
-        for (TimingData child : handler.children.valueCollection()) {
-            children[i++] = child.clone();
-        }
-    }
+	TimingHistoryEntry(TimingHandler handler) {
+		this.data = handler.record.clone();
+		children = new TimingData[handler.children.size()];
+		int i = 0;
+		for (TimingData child : handler.children.valueCollection()) {
+			children[i++] = child.clone();
+		}
+	}
 
-    List export() {
-        List result = data.export();
-        if (children.length > 0) {
-            result.add(
-                toArrayMapper(children, new Function<TimingData, Object>() {
-                    @Override
-                    public Object apply(TimingData child) {
-                        return child.export();
-                    }
-                })
-            );
-        }
-        return result;
-    }
+	List export() {
+		List result = data.export();
+		if (children.length > 0) {
+			result.add(toArrayMapper(children, new Function<TimingData, Object>() {
+				@Override
+				public Object apply(TimingData child) {
+					return child.export();
+				}
+			}));
+		}
+		return result;
+	}
 }

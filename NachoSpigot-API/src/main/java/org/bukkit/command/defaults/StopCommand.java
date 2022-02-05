@@ -13,36 +13,37 @@ import com.google.common.collect.ImmutableList;
 
 @Deprecated
 public class StopCommand extends VanillaCommand {
-    public StopCommand() {
-        super("stop");
-        this.description = "Stops the server with optional reason";
-        this.usageMessage = "/stop [reason]";
-        this.setPermission("bukkit.command.stop");
-    }
+	public StopCommand() {
+		super("stop");
+		this.description = "Stops the server with optional reason";
+		this.usageMessage = "/stop [reason]";
+		this.setPermission("bukkit.command.stop");
+	}
 
-    @Override
-    public boolean execute(CommandSender sender, String currentAlias, String[] args) {
-        if (!testPermission(sender)) return true;
+	@Override
+	public boolean execute(CommandSender sender, String currentAlias, String[] args) {
+		if (!testPermission(sender))
+			return true;
 
-        Command.broadcastCommandMessage(sender, "Stopping the server..");
-        Bukkit.shutdown();
+		Command.broadcastCommandMessage(sender, "Stopping the server..");
+		Bukkit.shutdown();
 
-        String reason = this.createString(args, 0);
-        if (StringUtils.isNotEmpty(reason)) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.kickPlayer(reason);
-            }
-        }
+		String reason = this.createString(args, 0);
+		if (StringUtils.isNotEmpty(reason)) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				player.kickPlayer(reason);
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
-        Validate.notNull(sender, "Sender cannot be null");
-        Validate.notNull(args, "Arguments cannot be null");
-        Validate.notNull(alias, "Alias cannot be null");
+	@Override
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+		Validate.notNull(sender, "Sender cannot be null");
+		Validate.notNull(args, "Arguments cannot be null");
+		Validate.notNull(alias, "Alias cannot be null");
 
-        return ImmutableList.of();
-    }
+		return ImmutableList.of();
+	}
 }

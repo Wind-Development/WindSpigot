@@ -27,25 +27,25 @@ import org.bukkit.Bukkit;
 
 class UnsafeTimingHandler extends TimingHandler {
 
-    UnsafeTimingHandler(TimingIdentifier id) {
-        super(id);
-    }
+	UnsafeTimingHandler(TimingIdentifier id) {
+		super(id);
+	}
 
-    private static void checkThread() {
-        if (!Bukkit.isPrimaryThread()) {
-            throw new IllegalStateException("Calling Timings from Async Operation");
-        }
-    }
+	private static void checkThread() {
+		if (!Bukkit.isPrimaryThread()) {
+			throw new IllegalStateException("Calling Timings from Async Operation");
+		}
+	}
 
-    @Override
-    public void startTiming() {
-        checkThread();
-        super.startTiming();
-    }
+	@Override
+	public void startTiming() {
+		checkThread();
+		super.startTiming();
+	}
 
-    @Override
-    public void stopTiming() {
-        checkThread();
-        super.stopTiming();
-    }
+	@Override
+	public void stopTiming() {
+		checkThread();
+		super.stopTiming();
+	}
 }

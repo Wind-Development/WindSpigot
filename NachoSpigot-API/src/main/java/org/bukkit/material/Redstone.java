@@ -5,11 +5,11 @@ package org.bukkit.material;
  */
 public interface Redstone {
 
-    /**
-     * Gets the current state of this Material, indicating if it's powered or
-     * unpowered
-     *
-     * @return true if powered, otherwise false
-     */
-    public boolean isPowered();
+	/**
+	 * Gets the current state of this Material, indicating if it's powered or
+	 * unpowered
+	 *
+	 * @return true if powered, otherwise false
+	 */
+	public boolean isPowered();
 }

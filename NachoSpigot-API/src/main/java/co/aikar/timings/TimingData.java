@@ -30,76 +30,75 @@ import java.util.List;
 import com.google.common.base.Function;
 
 /**
- * <p>Lightweight object for tracking timing data</p>
+ * <p>
+ * Lightweight object for tracking timing data
+ * </p>
  *
  * This is broken out to reduce memory usage
  */
 class TimingData {
-    static Function<Integer, TimingData> LOADER = new Function<Integer, TimingData>() {
-        @Override
-        public TimingData apply(Integer input) {
-            return new TimingData(input);
-        }
-    };
-    int id;
-    int count = 0;
-    int lagCount = 0;
-    long totalTime = 0;
-    long lagTotalTime = 0;
+	static Function<Integer, TimingData> LOADER = new Function<Integer, TimingData>() {
+		@Override
+		public TimingData apply(Integer input) {
+			return new TimingData(input);
+		}
+	};
+	int id;
+	int count = 0;
+	int lagCount = 0;
+	long totalTime = 0;
+	long lagTotalTime = 0;
 
-    int curTickCount = 0;
-    int curTickTotal = 0;
+	int curTickCount = 0;
+	int curTickTotal = 0;
 
-    TimingData(int id) {
-        this.id = id;
-    }
+	TimingData(int id) {
+		this.id = id;
+	}
 
-    TimingData(TimingData data) {
-        this.id = data.id;
-        this.totalTime = data.totalTime;
-        this.lagTotalTime = data.lagTotalTime;
-        this.count = data.count;
-        this.lagCount = data.lagCount;
-    }
+	TimingData(TimingData data) {
+		this.id = data.id;
+		this.totalTime = data.totalTime;
+		this.lagTotalTime = data.lagTotalTime;
+		this.count = data.count;
+		this.lagCount = data.lagCount;
+	}
 
-    void add(long diff) {
-        ++curTickCount;
-        curTickTotal += diff;
-    }
+	void add(long diff) {
+		++curTickCount;
+		curTickTotal += diff;
+	}
 
-    void processTick(boolean violated) {
-        totalTime += curTickTotal;
-        count += curTickCount;
-        if (violated) {
-            lagTotalTime += curTickTotal;
-            lagCount += curTickCount;
-        }
-        curTickTotal = 0;
-        curTickCount = 0;
-    }
+	void processTick(boolean violated) {
+		totalTime += curTickTotal;
+		count += curTickCount;
+		if (violated) {
+			lagTotalTime += curTickTotal;
+			lagCount += curTickCount;
+		}
+		curTickTotal = 0;
+		curTickCount = 0;
+	}
 
-    void reset() {
-        count = 0;
-        lagCount = 0;
-        curTickTotal = 0;
-        curTickCount = 0;
-        totalTime = 0;
-        lagTotalTime = 0;
-    }
+	void reset() {
+		count = 0;
+		lagCount = 0;
+		curTickTotal = 0;
+		curTickCount = 0;
+		totalTime = 0;
+		lagTotalTime = 0;
+	}
 
-    protected TimingData clone() {
-        return new TimingData(this);
-    }
+	protected TimingData clone() {
+		return new TimingData(this);
+	}
 
-    public List export() {
-        List list = toArray(
-            id,
-            count,
-            totalTime);
-        if (lagCount > 0) {
-            list.add(lagCount);
-            list.add(lagTotalTime);
-        }
-        return list;
-    }
+	public List export() {
+		List list = toArray(id, count, totalTime);
+		if (lagCount > 0) {
+			list.add(lagCount);
+			list.add(lagTotalTime);
+		}
+		return list;
+	}
 }
