@@ -1,9 +1,16 @@
-name: NachoSpigot Build
+name: WindSpigot Build
 
 on:
   push:
 
 jobs:
+  delete-artifacts:
+    runs-on: Linux
+    steps:
+      - uses: kolpav/purge-artifacts-action@v1
+        with:
+          token: ${{ secrets.TOKEN }}
+          expire-in: 0
   build:
     runs-on: Linux
     if: "!contains(github.event.head_commit.message, '[skip]')"
