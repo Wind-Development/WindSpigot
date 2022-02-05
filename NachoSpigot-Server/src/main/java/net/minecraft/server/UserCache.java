@@ -147,9 +147,7 @@ public class UserCache
 		this.d.put(uuid, usercache_usercacheentry);
 		this.e.addFirst(gameprofile);
 		if (!org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly)
-		 {
 			this.c(); // Spigot - skip saving if disabled
-		}
 	}
 
 	public GameProfile getProfile(String s)
@@ -183,9 +181,7 @@ public class UserCache
 		}
 
 		if (!org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly)
-		 {
 			this.c(); // Spigot - skip saving if disabled
-		}
 		return usercache_usercacheentry == null ? null : usercache_usercacheentry.a();
 	}
 
@@ -297,7 +293,7 @@ public class UserCache
 		return arraylist;
 	}
 
-	static class UserCacheEntry
+	class UserCacheEntry
 	{
 
 		private final GameProfile b;
