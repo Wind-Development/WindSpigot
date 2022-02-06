@@ -211,6 +211,7 @@ public class EntityTracker
 		for (int i = 1; i <= trackerThreads; i++)
 		{
 			final int localOffset = offset++;
+			// Async Entity Tracker
 			Runnable runnable = () ->
 			{
 				/*
