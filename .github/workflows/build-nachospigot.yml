@@ -4,8 +4,8 @@ on:
   push:
 
 jobs:
-  cleanup-and-build:
-    runs-on: Linux
+  build:
+    runs-on: self-hosted
     if: "!contains(github.event.head_commit.message, '[skip]')"
     steps:
     - uses: actions/checkout@v2
@@ -24,11 +24,9 @@ jobs:
       with:
         name: NachoSpigot-server
         path: ${{ github.workspace }}/NachoSpigot-Server/target/NachoSpigot.jar
-        retention-days: 1
 
     - name: Upload API Artifact
       uses: actions/upload-artifact@v2.2.0
       with:
         name: NachoSpigot-API
         path: ${{ github.workspace }}/NachoSpigot-API/target/NachoSpigot-API.jar
-        retention-days: 1
