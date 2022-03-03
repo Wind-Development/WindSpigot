@@ -48,6 +48,7 @@ import io.netty.util.ResourceLeakDetector;
 import jline.console.ConsoleReader;
 import joptsimple.OptionSet;
 import me.elier.nachospigot.config.NachoConfig;
+import net.openhft.affinity.AffinityLock;
 import xyz.sculas.nacho.async.AsyncExplosions;
 // CraftBukkit end
 
@@ -663,6 +664,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	}
 	// PaperSpigot End
 
+	AffinityLock lock = null;
+
 	@Override
 	public void run()
 	{
@@ -670,9 +673,26 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		{
 			if (this.init())
 			{
-				this.ab = az();
-				long i = 0L;
+				// WindSpigot start - implement thread affinity
+				if (NachoConfig.threadAffinity)
+				{
+					System.out.println("Enabling Thread Affinity...");
+					lock = AffinityLock.acquireLock();
+					if (lock.cpuId() != -1)
+					{
+						System.out.println("CPU " + lock.cpuId() + " locked for server usage.");
+						System.out.println("This will boost the server's performance, but will use more cpu.");
+						System.out.println("This is most effective on linux with JNA installed.");
+						System.out.println("See https://github.com/OpenHFT/Java-Thread-Affinity");
+					} else
+					{
+						System.out.println("An error occured whilst enabling thread affinity!");
+					}
 
+				}
+				// WindSpigot end
+
+				this.ab = az();
 				this.r.setMOTD(new ChatComponentText(this.motd));
 				this.r.setServerInfo(new ServerPing.ServerData("1.8.8", 47));
 				this.a(this.r);
@@ -685,6 +705,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				long start = System.nanoTime(), lastTick = start - TICK_TIME, catchupTime = 0, curTime, wait,
 						tickSection = start;
 				// PaperSpigot end
+
 				while (this.isRunning)
 				{
 					curTime = System.nanoTime();
@@ -744,6 +765,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 					// NachoSpigot end
 					this.Q = true;
 				}
+
 				// Spigot end
 			} else
 			{
@@ -782,6 +804,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			this.a(crashreport);
 		} finally
 		{
+			lock.release();
 			try
 			{
 				org.spigotmc.WatchdogThread.doStop();

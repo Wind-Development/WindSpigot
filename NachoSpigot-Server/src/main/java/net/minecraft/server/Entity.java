@@ -596,7 +596,7 @@ public abstract class Entity implements ICommandListener
 			return;
 		}
 		if (this.loadChunks)
-		 {
+		{
 			loadChunks(); // PaperSpigot - Load chunks
 		}
 		if (this.noclip)
@@ -756,7 +756,7 @@ public abstract class Entity implements ICommandListener
 				// if the x velocity is
 				// greater
 				if (axisScan)
-				 {
+				{
 					list = this.world.getCubes(this, this.getBoundingBox().a(0, 0, d2)); // TacoSpigot - get z axis
 																							// blocks
 				}
@@ -769,7 +769,7 @@ public abstract class Entity implements ICommandListener
 				this.a(this.getBoundingBox().c(0.0D, 0.0D, d2));
 
 				if (axisScan)
-				 {
+				{
 					list = this.world.getCubes(this, this.getBoundingBox().a(d0, 0, 0)); // TacoSpigot - get x axis
 																							// blocks
 				}
@@ -784,7 +784,7 @@ public abstract class Entity implements ICommandListener
 			} else
 			{
 				if (axisScan)
-				 {
+				{
 					list = this.world.getCubes(this, this.getBoundingBox().a(d0, 0, 0)); // TacoSpigot - get x axis
 																							// blocks
 				}
@@ -797,7 +797,7 @@ public abstract class Entity implements ICommandListener
 				this.a(this.getBoundingBox().c(d0, 0.0D, 0.0D));
 
 				if (axisScan)
-				 {
+				{
 					list = this.world.getCubes(this, this.getBoundingBox().a(0, 0, d2)); // TacoSpigot - get z axis
 																							// blocks
 				}
@@ -1603,7 +1603,7 @@ public abstract class Entity implements ICommandListener
 	public boolean c(NBTTagCompound nbttagcompound)
 	{
 		if (this instanceof EntityFireworks || this instanceof EntityArrow)
-		 {
+		{
 			return false; // YAPFA - Don't save arrows or fireworks
 		}
 		String s = this.ag();
@@ -2057,6 +2057,11 @@ public abstract class Entity implements ICommandListener
 
 	// CraftBukkit start
 	protected CraftEntity bukkitEntity;
+
+	public boolean hasBukkitEntity()
+	{
+		return bukkitEntity != null;
+	}
 
 	public CraftEntity getBukkitEntity()
 	{
