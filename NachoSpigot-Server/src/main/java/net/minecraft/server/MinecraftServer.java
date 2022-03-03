@@ -676,7 +676,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				// WindSpigot start - implement thread affinity
 				if (NachoConfig.threadAffinity)
 				{
-					System.out.println();
+					System.out.println(" ");
 					System.out.println("Enabling Thread Affinity...");
 					lock = AffinityLock.acquireLock();
 					if (lock.cpuId() != -1)
@@ -685,11 +685,11 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						System.out.println("This will boost the server's performance, but will use more cpu.");
 						System.out.println("This is most effective on linux with JNA installed.");
 						System.out.println("See https://github.com/OpenHFT/Java-Thread-Affinity");
-						System.out.println();
+						System.out.println(" ");
 					} else
 					{
 						System.out.println("An error occured whilst enabling thread affinity!");
-						System.out.println();
+						System.out.println(" ");
 					}
 
 				}
@@ -810,7 +810,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			if (lock != null)
 			{
 				lock.release();
-				System.out.println("Released " + lock.cpuId() + " from server usage.");
+				System.out.println("Released CPU " + lock.cpuId() + " from server usage.");
 			}
 			try
 			{
