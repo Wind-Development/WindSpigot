@@ -483,7 +483,7 @@ public class NachoConfig
 
 	private static void threadAffinity()
 	{
-		instantPlayInUseEntity = getBoolean("settings.thread-affinity", true);
+		threadAffinity = getBoolean("settings.thread-affinity", true);
 		c.addComment("settings.thread-affinity", "Allocates an entire cpu to the server, improves performance but uses more cpu.");
 	}
 }

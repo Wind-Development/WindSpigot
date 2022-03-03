@@ -804,7 +804,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			this.a(crashreport);
 		} finally
 		{
-			lock.release();
+			if (lock != null)
+			{
+				lock.release();
+			}
 			try
 			{
 				org.spigotmc.WatchdogThread.doStop();
