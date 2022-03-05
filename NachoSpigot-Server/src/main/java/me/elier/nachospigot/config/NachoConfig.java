@@ -56,7 +56,7 @@ public class NachoConfig
 			migrate(old_config);
 		}
 
-		int configVersion = 6; // Update this every new configuration update
+		int configVersion = 7; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
@@ -112,6 +112,7 @@ public class NachoConfig
 		set("settings.fix-eat-while-running", nachoJson.fixEatWhileRunning);
 		set("settings.hide-projectiles-from-hidden-players", nachoJson.hideProjectilesFromHiddenPlayers);
 		set("settings.instant-use-entity", nachoJson.hideProjectilesFromHiddenPlayers);
+		
 		old_config.delete();
 	}
 
@@ -476,5 +477,13 @@ public class NachoConfig
 	{
 		instantPlayInUseEntity = getBoolean("settings.instant-interaction", false);
 		c.addComment("settings.instant-interaction", "Disables delay of all interactions");
+	}
+
+	public static boolean threadAffinity;
+
+	private static void threadAffinity()
+	{
+		threadAffinity = getBoolean("settings.thread-affinity", true);
+		c.addComment("settings.thread-affinity", "Allocates an entire cpu to the server, improves performance but uses more cpu.");
 	}
 }
