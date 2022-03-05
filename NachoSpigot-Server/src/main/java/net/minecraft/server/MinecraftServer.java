@@ -48,9 +48,10 @@ import io.netty.util.ResourceLeakDetector;
 import jline.console.ConsoleReader;
 import joptsimple.OptionSet;
 import me.elier.nachospigot.config.NachoConfig;
-import net.openhft.affinity.AffinityLock;
 import xyz.sculas.nacho.async.AsyncExplosions;
 // CraftBukkit end
+
+import net.openhft.affinity.AffinityLock; // WindSpigot
 
 public abstract class MinecraftServer implements Runnable, ICommandListener, IAsyncTaskHandler, IMojangStatistics
 {
