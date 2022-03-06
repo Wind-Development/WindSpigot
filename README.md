@@ -1,11 +1,9 @@
 # WindSpigot 
 
-#### WindSpigot is a fork of a fork of NachoSpigot
-(A fork of a fork of a fork of a fork of a fork of a fork of a fork)
-(fork of NachoSpigot fork which is a fork of NachoSpigot which is a fork of TacoSpigot which is a fork of PaperSpigot which is a fork of Spigot which is a Fork of Bukkit which is a fork of Minecraft)
+#### WindSpigot is based on a fork of NachoSpigot.
 
 ## Current State
-Java 15 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2/ProtocolLib), [ViaVersion](https://github.com/ViaVersion/ViaVersion), and [Citizens2](https://github.com/CitizensDev/Citizens2) are patched at runtime to work with Nacho's modifications.
+Java 17 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2/ProtocolLib), [ViaVersion](https://github.com/ViaVersion/ViaVersion), and [Citizens2](https://github.com/CitizensDev/Citizens2) are patched at runtime to work with Nacho's modifications.
 
 **WindSpigot supports Java 8 to Java 17!**
 
@@ -13,10 +11,13 @@ Java 15 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 **All credit goes to the people that made these patches.**<br>
 *Give credit where credit is due!*
 ```
+[WindSpigot-0001] Thread Affinity
+
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
 [Spigot-2380] Hitting in the air will always load the chunk at 0,0 by md_5
 
+[Paper-0021] Implement Paper VersionChecker
 [Paper-0033] Optimize explosions
 [Paper-0044] Use UserCache for player heads
 [Paper-0072] Fix Furnace cook time bug when lagging by Aikar
@@ -24,15 +25,16 @@ Java 15 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 [Paper-0083] Waving banner workaround by Gabscap
 [Paper-0068] Use a Shared Random for Entities by Aikar
 [Paper-0085] Add handshake event to allow plugins to handle client handshaking logic themselves
-[Paper-0097] Don't save empty scoreboard teams to scoreboard.dat by Aikar
+[Paper-0093] Don't save empty scoreboard teams to scoreboard.dat by Aikar
+[Paper-0097] Faster redstone torch rapid clock removal by Martin Panzer
 [Paper-0100] Avoid blocking on Network Manager creation by Aikar
-[Paper-0102] Faster redstone torch rapid clock removal by Martin Panzer.
+[Paper-0103] Add setting for proxy online mode status
 [Paper-0112] Reduce IO ops opening a new region file by Antony Riley
 [Paper-0122] Don't let fishinghooks use portals by Zach Brown
 [Paper-0125] Optimize World.isLoaded(BlockPosition)Z by Aikar
 [Paper-0125] Improve Maps (in item frames) performance and bug fixes by Aikar
 [Paper-0141] Do not let armorstands drown
-[Paper-0144] Improve Minecraft Hopper Performance by  Aikar
+[Paper-0144] Improve Minecraft Hopper Performance by Aikar
 [Paper-0152] Disable ticking of snow blocks by killme
 [Paper-0164] [MC-117075] TE Unload Lag Spike by mezz
 [Paper-0168] Cache user authenticator threads by vemacs
@@ -75,7 +77,7 @@ Java 15 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 [Nacho-0016] faster getHighestBlockYAt function
 [Nacho-0017] tiny winy optimization for async lighting
 [Nacho-0018] more tiny winy optimization to lighting
-[Nacho-0019] Avoid lock every packet send 
+[Nacho-0019] Avoid lock every packet send
 [Nacho-0020] Packet Listener Api
 [Nacho-0021] Add setMaxPlayers within Bukkit.getServer() and SetMaxSlot Command
 [Nacho-0022] Stop raytracing loading chunks
@@ -89,8 +91,11 @@ Java 15 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 [Nacho-0030] add a ChunkPreLoadEvent
 [Nacho-0031] remove unused vars
 [Nacho-0033] Faster Operator search method
-[Nacho-0049] Don't allocate empty int arrays for particles
-[Nacho-0050] Option to disable Enchantment table ticking
+[Nacho-0048] Don't allocate empty int arrays for particles
+[Nacho-0049] Option to disable Enchantment table ticking
+
+<--> by Rastrian
+[Nacho-????] Async entity tracker by Rastrian
 
 <--> by Sculas
 [Nacho-0034] Remove Java 8 message from TacoSpigot which made it so you couldn't run Java 8 or higher
@@ -101,14 +106,13 @@ Java 15 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 [Nacho-0040] Change deprecated Netty parameter in ResourceLeakDetector
 [Nacho-0041] Fix block placement
 [Nacho-0042] Remove Spigot Watchdog
-[Nacho-0043] Fix ProtocolLib
-[Nacho-0044] Fix Citizens
-[Nacho-0045] Async obfuscation
-[Nacho-0046] Add Player#jump and Player#sendActionBar
-[Nacho-0047] Little anti-malware
-[Nacho-0048] Little anti-crash
-[Nacho-0051] Custom knockback
-[Nacho-0052] Rework ServerConnection and MinecraftPipeline (credits to Minestom)
+[Nacho-0043] Fix Citizens
+[Nacho-0044] Async obfuscation
+[Nacho-0045] Add Player#jump and Player#sendActionBar
+[Nacho-0046] Little anti-malware
+[Nacho-0047] Little anti-crash
+[Nacho-0050] Custom knockback
+[Nacho-0051] Rework ServerConnection and MinecraftPipeline (credits to Minestom)
 
 [Yatopia-0030] Don't save Fireworks and Arrows by tr7zw (Arrows and firework Entities, eg stuck arrows in the ground)
 [Yatopia-0047] Smarter statistics ticking
