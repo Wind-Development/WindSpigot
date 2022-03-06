@@ -14,12 +14,12 @@
     <version>dev-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>NachoSpigot-Parent</name>
-    <description>Parent project for all NachoSpigot modules.</description>
+    <name>WindSpigot-Parent</name>
+    <description>Parent project for all WindSpigot modules.</description>
 
     <modules>
-        <module>NachoSpigot-Server</module>
-        <module>NachoSpigot-API</module>
+        <module>WindSpigot-Server</module>
+        <module>WindSpigot-API</module>
     </modules>
 
     <build>

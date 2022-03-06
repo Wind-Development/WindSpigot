@@ -13,7 +13,7 @@
     <version>1.8.8-R0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>NachoSpigot-API</name>
+    <name>WindSpigot-API</name>
     <description>An enhanced plugin API for Minecraft servers.</description>
 
     <properties>
@@ -100,7 +100,7 @@
     </dependencies>
 
     <build>
-        <finalName>NachoSpigot-API</finalName>
+        <finalName>WindSpigot-API</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
