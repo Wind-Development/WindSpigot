@@ -10,6 +10,7 @@ import com.google.common.collect.Sets;
 import dev.cobblesword.nachospigot.knockback.KnockbackCommand;
 import dev.cobblesword.nachospigot.protocol.MovementListener;
 import dev.cobblesword.nachospigot.protocol.PacketListener;
+import ga.windpvp.windspigot.commands.MobAICommand;
 import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.MinecraftServer;
 import xyz.sculas.nacho.anticrash.AntiCrash;
@@ -49,10 +50,16 @@ public class Nacho
 																			// Bukkit.getServer() and SetMaxSlot Command
 		SpawnMobCommand spawnMobCommand = new SpawnMobCommand("spawnmob");
 		KnockbackCommand knockbackCommand = new KnockbackCommand("kb");
+	
+		//WindSpigot - mob ai cmd
+		MobAICommand mobAiCommand = new MobAICommand("mobai");
+		
 		MinecraftServer.getServer().server.getCommandMap().register(setMaxSlotCommand.getName(), "ns",
 				setMaxSlotCommand);
 		MinecraftServer.getServer().server.getCommandMap().register(spawnMobCommand.getName(), "ns", spawnMobCommand);
 		MinecraftServer.getServer().server.getCommandMap().register(knockbackCommand.getName(), "ns", knockbackCommand);
+		
+		MinecraftServer.getServer().server.getCommandMap().register(mobAiCommand.getName(), "", mobAiCommand);
 	}
 
 	public void registerPacketListener(PacketListener packetListener)

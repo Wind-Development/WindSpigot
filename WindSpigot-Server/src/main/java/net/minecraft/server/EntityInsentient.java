@@ -637,6 +637,8 @@ public abstract class EntityInsentient extends EntityLiving
 			return;
 		}
 		// Spigot End
+		
+		// NachoSpigot - toggleable mob ai
 		if (world.nachoSpigotConfig.enableMobAI)
 		{
 			this.world.methodProfiler.a("sensing");
