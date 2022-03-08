@@ -1,4 +1,4 @@
-package ga.windpvp.wspigot;
+package ga.windpvp.windspigot;
 
 public class WindSpigot
 {

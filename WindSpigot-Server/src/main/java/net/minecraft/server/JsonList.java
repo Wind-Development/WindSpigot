@@ -31,7 +31,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import ga.windpvp.wspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.AsyncUtil;
 
 public class JsonList<K, V extends JsonListEntry<K>>
 {

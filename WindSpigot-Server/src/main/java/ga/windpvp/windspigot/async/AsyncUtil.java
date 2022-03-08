@@ -1,4 +1,4 @@
-package ga.windpvp.wspigot.async;
+package ga.windpvp.windspigot.async;
 
 import java.util.concurrent.CompletableFuture;
 

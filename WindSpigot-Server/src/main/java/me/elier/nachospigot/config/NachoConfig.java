@@ -25,7 +25,7 @@ public class NachoConfig
 	private static final Logger LOGGER = LogManager.getLogger(NachoConfig.class);
 	private static File CONFIG_FILE;
 	protected static final YamlCommenter c = new YamlCommenter();
-	private static final String HEADER = "This is the main configuration file for NachoSpigot.\n"
+	private static final String HEADER = "This is the main configuration file for NachoSpigot and WindSpigot.\n"
 			+ "As you can see, there's tons to configure. Some options may impact gameplay, so use\n"
 			+ "with caution, and make sure you know what each option does before configuring.\n" + "\n"
 			+ "If you need help with the configuration or have any questions related to NachoSpigot,\n"
@@ -56,7 +56,7 @@ public class NachoConfig
 			migrate(old_config);
 		}
 
-		int configVersion = 7; // Update this every new configuration update
+		int configVersion = 8; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
@@ -483,7 +483,7 @@ public class NachoConfig
 
 	private static void threadAffinity()
 	{
-		threadAffinity = getBoolean("settings.thread-affinity", true);
-		c.addComment("settings.thread-affinity", "Allocates an entire cpu to the server, improves performance but uses more cpu.");
+		threadAffinity = getBoolean("settings.thread-affinity", false);
+		c.addComment("settings.thread-affinity", "Only switch to true if your OS is properly configured!! When properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
 	}
 }
