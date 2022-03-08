@@ -33,5 +33,5 @@ jobs:
     - name: Upload API Artifact
       uses: actions/upload-artifact@v2.2.0
       with:
-        name: NachoSpigot-API
+        name: WindSpigot-API
         path: ${{ github.workspace }}/WindSpigot-API/target/WindSpigot-API.jar
