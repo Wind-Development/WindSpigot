@@ -11,65 +11,53 @@ import org.bukkit.util.Vector;
 import net.minecraft.server.EntityFireball;
 import net.minecraft.server.MathHelper;
 
-public class CraftFireball extends AbstractProjectile implements Fireball
-{
-	public CraftFireball(CraftServer server, EntityFireball entity)
-	{
+public class CraftFireball extends AbstractProjectile implements Fireball {
+	public CraftFireball(CraftServer server, EntityFireball entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public float getYield()
-	{
+	public float getYield() {
 		return getHandle().bukkitYield;
 	}
 
 	@Override
-	public boolean isIncendiary()
-	{
+	public boolean isIncendiary() {
 		return getHandle().isIncendiary;
 	}
 
 	@Override
-	public void setIsIncendiary(boolean isIncendiary)
-	{
+	public void setIsIncendiary(boolean isIncendiary) {
 		getHandle().isIncendiary = isIncendiary;
 	}
 
 	@Override
-	public void setYield(float yield)
-	{
+	public void setYield(float yield) {
 		getHandle().bukkitYield = yield;
 	}
 
 	@Override
-	public ProjectileSource getShooter()
-	{
+	public ProjectileSource getShooter() {
 		return getHandle().projectileSource;
 	}
 
 	@Override
-	public void setShooter(ProjectileSource shooter)
-	{
-		if (shooter instanceof CraftLivingEntity)
-		{
+	public void setShooter(ProjectileSource shooter) {
+		if (shooter instanceof CraftLivingEntity) {
 			getHandle().shooter = ((CraftLivingEntity) shooter).getHandle();
-		} else
-		{
+		} else {
 			getHandle().shooter = null;
 		}
 		getHandle().projectileSource = shooter;
 	}
 
 	@Override
-	public Vector getDirection()
-	{
+	public Vector getDirection() {
 		return new Vector(getHandle().dirX, getHandle().dirY, getHandle().dirZ);
 	}
 
 	@Override
-	public void setDirection(Vector direction)
-	{
+	public void setDirection(Vector direction) {
 		Validate.notNull(direction, "Direction can not be null");
 		double x = direction.getX();
 		double y = direction.getY();
@@ -81,36 +69,30 @@ public class CraftFireball extends AbstractProjectile implements Fireball
 	}
 
 	@Override
-	public EntityFireball getHandle()
-	{
+	public EntityFireball getHandle() {
 		return (EntityFireball) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftFireball";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.UNKNOWN;
 	}
 
 	@Override
 	@Deprecated
-	public void _INVALID_setShooter(LivingEntity shooter)
-	{
+	public void _INVALID_setShooter(LivingEntity shooter) {
 		setShooter(shooter);
 	}
 
 	@Override
 	@Deprecated
-	public LivingEntity _INVALID_getShooter()
-	{
-		if (getHandle().shooter != null)
-		{
+	public LivingEntity _INVALID_getShooter() {
+		if (getHandle().shooter != null) {
 			return (LivingEntity) getHandle().shooter.getBukkitEntity();
 		}
 		return null;

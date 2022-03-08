@@ -4,11 +4,10 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public abstract class NBTBase
-{
+public abstract class NBTBase {
 
-	public static final String[] a = new String[]
-	{ "END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]" };
+	public static final String[] a = new String[] { "END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]",
+			"STRING", "LIST", "COMPOUND", "INT[]" };
 
 	abstract void write(DataOutput dataoutput) throws IOException;
 
@@ -19,14 +18,11 @@ public abstract class NBTBase
 
 	public abstract byte getTypeId();
 
-	protected NBTBase()
-	{
+	protected NBTBase() {
 	}
 
-	protected static NBTBase createTag(byte b0)
-	{
-		switch (b0)
-		{
+	protected static NBTBase createTag(byte b0) {
+		switch (b0) {
 		case 0:
 			return new NBTTagEnd();
 
@@ -71,19 +67,15 @@ public abstract class NBTBase
 	@Override
 	public abstract NBTBase clone();
 
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		return false;
 	}
 
 	@Override
-	public boolean equals(Object object)
-	{
-		if (!(object instanceof NBTBase))
-		{
+	public boolean equals(Object object) {
+		if (!(object instanceof NBTBase)) {
 			return false;
-		} else
-		{
+		} else {
 			NBTBase nbtbase = (NBTBase) object;
 
 			return this.getTypeId() == nbtbase.getTypeId();
@@ -91,21 +83,17 @@ public abstract class NBTBase
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return this.getTypeId();
 	}
 
-	protected String a_()
-	{
+	protected String a_() {
 		return this.toString();
 	}
 
-	public abstract static class NBTNumber extends NBTBase
-	{
+	public abstract static class NBTNumber extends NBTBase {
 
-		protected NBTNumber()
-		{
+		protected NBTNumber() {
 		}
 
 		public abstract long c();

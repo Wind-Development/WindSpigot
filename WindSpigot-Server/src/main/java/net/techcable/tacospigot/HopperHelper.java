@@ -12,43 +12,34 @@ import net.minecraft.server.TileEntity;
 import net.minecraft.server.TileEntityHopper;
 import net.minecraft.server.World;
 
-public class HopperHelper
-{
+public class HopperHelper {
 
-	public static TileEntityHopper getHopper(World world, BlockPosition pos)
-	{
-		if (world.getType(pos).getBlock() != Blocks.HOPPER)
-		{
+	public static TileEntityHopper getHopper(World world, BlockPosition pos) {
+		if (world.getType(pos).getBlock() != Blocks.HOPPER) {
 			return null;
 		}
 		TileEntity tileEntity = world.getTileEntity(pos);
-		if (tileEntity instanceof TileEntityHopper)
-		{
+		if (tileEntity instanceof TileEntityHopper) {
 			return (TileEntityHopper) tileEntity;
 		}
 		return null;
 	}
 
-	public static IInventory getInventory(World world, BlockPosition position)
-	{
+	public static IInventory getInventory(World world, BlockPosition position) {
 		Block block = world.getType(position).getBlock();
-		if (block instanceof BlockChest)
-		{
+		if (block instanceof BlockChest) {
 			return ((BlockChest) block).getInventory(world, position);
 		}
-		if (block.isTileEntity())
-		{
+		if (block.isTileEntity()) {
 			TileEntity tile = world.getTileEntity(position);
-			if (tile instanceof IInventory)
-			{
+			if (tile instanceof IInventory) {
 				return (IInventory) tile;
 			}
 		}
 		return null;
 	}
 
-	public static boolean isFireInventoryMoveItemEvent(IHopper hopper)
-	{
+	public static boolean isFireInventoryMoveItemEvent(IHopper hopper) {
 		return hopper.getWorld().tacoSpigotConfig.isHopperFireIMIE
 				&& InventoryMoveItemEvent.getHandlerList().getRegisteredListeners().length > 0;
 	}

@@ -15,15 +15,13 @@ import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.TileEntityBanner;
 
-public class CraftBanner extends CraftBlockState implements Banner
-{
+public class CraftBanner extends CraftBlockState implements Banner {
 
 	private final TileEntityBanner banner;
 	private DyeColor base;
 	private List<Pattern> patterns = new ArrayList<Pattern>();
 
-	public CraftBanner(final Block block)
-	{
+	public CraftBanner(final Block block) {
 		super(block);
 
 		CraftWorld world = (CraftWorld) block.getWorld();
@@ -31,10 +29,8 @@ public class CraftBanner extends CraftBlockState implements Banner
 
 		base = DyeColor.getByDyeData((byte) banner.color);
 
-		if (banner.patterns != null)
-		{
-			for (int i = 0; i < banner.patterns.size(); i++)
-			{
+		if (banner.patterns != null) {
+			for (int i = 0; i < banner.patterns.size(); i++) {
 				NBTTagCompound p = banner.patterns.get(i);
 				patterns.add(new Pattern(DyeColor.getByDyeData((byte) p.getInt("Color")),
 						PatternType.getByIdentifier(p.getString("Pattern"))));
@@ -42,17 +38,14 @@ public class CraftBanner extends CraftBlockState implements Banner
 		}
 	}
 
-	public CraftBanner(final Material material, final TileEntityBanner te)
-	{
+	public CraftBanner(final Material material, final TileEntityBanner te) {
 		super(material);
 		banner = te;
 
 		base = DyeColor.getByDyeData((byte) banner.color);
 
-		if (banner.patterns != null)
-		{
-			for (int i = 0; i < banner.patterns.size(); i++)
-			{
+		if (banner.patterns != null) {
+			for (int i = 0; i < banner.patterns.size(); i++) {
 				NBTTagCompound p = banner.patterns.get(i);
 				patterns.add(new Pattern(DyeColor.getByDyeData((byte) p.getInt("Color")),
 						PatternType.getByIdentifier(p.getString("Pattern"))));
@@ -61,72 +54,60 @@ public class CraftBanner extends CraftBlockState implements Banner
 	}
 
 	@Override
-	public DyeColor getBaseColor()
-	{
+	public DyeColor getBaseColor() {
 		return this.base;
 	}
 
 	@Override
-	public void setBaseColor(DyeColor color)
-	{
+	public void setBaseColor(DyeColor color) {
 		this.base = color;
 	}
 
 	@Override
-	public List<Pattern> getPatterns()
-	{
+	public List<Pattern> getPatterns() {
 		return new ArrayList<Pattern>(patterns);
 	}
 
 	@Override
-	public void setPatterns(List<Pattern> patterns)
-	{
+	public void setPatterns(List<Pattern> patterns) {
 		this.patterns = new ArrayList<Pattern>(patterns);
 	}
 
 	@Override
-	public void addPattern(Pattern pattern)
-	{
+	public void addPattern(Pattern pattern) {
 		this.patterns.add(pattern);
 	}
 
 	@Override
-	public Pattern getPattern(int i)
-	{
+	public Pattern getPattern(int i) {
 		return this.patterns.get(i);
 	}
 
 	@Override
-	public Pattern removePattern(int i)
-	{
+	public Pattern removePattern(int i) {
 		return this.patterns.remove(i);
 	}
 
 	@Override
-	public void setPattern(int i, Pattern pattern)
-	{
+	public void setPattern(int i, Pattern pattern) {
 		this.patterns.set(i, pattern);
 	}
 
 	@Override
-	public int numberOfPatterns()
-	{
+	public int numberOfPatterns() {
 		return patterns.size();
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics)
-	{
+	public boolean update(boolean force, boolean applyPhysics) {
 		boolean result = super.update(force, applyPhysics);
 
-		if (result)
-		{
+		if (result) {
 			banner.color = base.getDyeData();
 
 			NBTTagList newPatterns = new NBTTagList();
 
-			for (Pattern p : patterns)
-			{
+			for (Pattern p : patterns) {
 				NBTTagCompound compound = new NBTTagCompound();
 				compound.setInt("Color", p.getColor().getDyeData());
 				compound.setString("Pattern", p.getPattern().getIdentifier());

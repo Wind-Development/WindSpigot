@@ -14,45 +14,37 @@ import net.minecraft.server.IChatBaseComponent;
 import net.minecraft.server.IInventory;
 import net.minecraft.server.ItemStack;
 
-public class InventoryWrapper implements IInventory
-{
+public class InventoryWrapper implements IInventory {
 
 	private final Inventory inventory;
 	private final List<HumanEntity> viewers = new ArrayList<HumanEntity>();
 
-	public InventoryWrapper(Inventory inventory)
-	{
+	public InventoryWrapper(Inventory inventory) {
 		this.inventory = inventory;
 	}
 
 	@Override
-	public int getSize()
-	{
+	public int getSize() {
 		return inventory.getSize();
 	}
 
 	@Override
-	public ItemStack getItem(int i)
-	{
+	public ItemStack getItem(int i) {
 		return CraftItemStack.asNMSCopy(inventory.getItem(i));
 	}
 
 	@Override
-	public ItemStack splitStack(int i, int j)
-	{
+	public ItemStack splitStack(int i, int j) {
 		// Copied from CraftItemStack
 		ItemStack stack = getItem(i);
 		ItemStack result;
-		if (stack == null)
-		{
+		if (stack == null) {
 			return null;
 		}
-		if (stack.count <= j)
-		{
+		if (stack.count <= j) {
 			this.setItem(i, null);
 			result = stack;
-		} else
-		{
+		} else {
 			result = CraftItemStack.copyNMSStack(stack, j);
 			stack.count -= j;
 		}
@@ -61,21 +53,17 @@ public class InventoryWrapper implements IInventory
 	}
 
 	@Override
-	public ItemStack splitWithoutUpdate(int i)
-	{
+	public ItemStack splitWithoutUpdate(int i) {
 		// Copied from CraftItemStack
 		ItemStack stack = getItem(i);
 		ItemStack result;
-		if (stack == null)
-		{
+		if (stack == null) {
 			return null;
 		}
-		if (stack.count <= 1)
-		{
+		if (stack.count <= 1) {
 			this.setItem(i, null);
 			result = stack;
-		} else
-		{
+		} else {
 			result = CraftItemStack.copyNMSStack(stack, 1);
 			stack.count -= 1;
 		}
@@ -83,75 +71,62 @@ public class InventoryWrapper implements IInventory
 	}
 
 	@Override
-	public void setItem(int i, ItemStack itemstack)
-	{
+	public void setItem(int i, ItemStack itemstack) {
 		inventory.setItem(i, CraftItemStack.asBukkitCopy(itemstack));
 	}
 
 	@Override
-	public int getMaxStackSize()
-	{
+	public int getMaxStackSize() {
 		return inventory.getMaxStackSize();
 	}
 
 	@Override
-	public void update()
-	{
+	public void update() {
 	}
 
 	@Override
-	public boolean a(EntityHuman entityhuman)
-	{
+	public boolean a(EntityHuman entityhuman) {
 		return true;
 	}
 
 	@Override
-	public void startOpen(EntityHuman entityhuman)
-	{
+	public void startOpen(EntityHuman entityhuman) {
 	}
 
 	@Override
-	public void closeContainer(EntityHuman entityhuman)
-	{
+	public void closeContainer(EntityHuman entityhuman) {
 	}
 
 	@Override
-	public boolean b(int i, ItemStack itemstack)
-	{
+	public boolean b(int i, ItemStack itemstack) {
 		return true;
 	}
 
 	@Override
-	public int getProperty(int i)
-	{
+	public int getProperty(int i) {
 		return 0;
 	}
 
 	@Override
-	public void b(int i, int j)
-	{
+	public void b(int i, int j) {
 	}
 
 	@Override
-	public int g()
-	{
+	public int g() {
 		return 0;
 	}
 
 	@Override
-	public void l()
-	{
+	public void l() {
 		inventory.clear();
 	}
 
 	@Override
-	public ItemStack[] getContents()
-	{
+	public ItemStack[] getContents() {
 		int size = getSize();
 		ItemStack[] items = new ItemStack[size];
 
-		for (int i = 0; i < size; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			items[i] = getItem(i);
 		}
 
@@ -159,50 +134,42 @@ public class InventoryWrapper implements IInventory
 	}
 
 	@Override
-	public void onOpen(CraftHumanEntity who)
-	{
+	public void onOpen(CraftHumanEntity who) {
 		viewers.add(who);
 	}
 
 	@Override
-	public void onClose(CraftHumanEntity who)
-	{
+	public void onClose(CraftHumanEntity who) {
 		viewers.remove(who);
 	}
 
 	@Override
-	public List<HumanEntity> getViewers()
-	{
+	public List<HumanEntity> getViewers() {
 		return viewers;
 	}
 
 	@Override
-	public InventoryHolder getOwner()
-	{
+	public InventoryHolder getOwner() {
 		return inventory.getHolder();
 	}
 
 	@Override
-	public void setMaxStackSize(int size)
-	{
+	public void setMaxStackSize(int size) {
 		inventory.setMaxStackSize(size);
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return inventory.getName();
 	}
 
 	@Override
-	public boolean hasCustomName()
-	{
+	public boolean hasCustomName() {
 		return getName() != null;
 	}
 
 	@Override
-	public IChatBaseComponent getScoreboardDisplayName()
-	{
+	public IChatBaseComponent getScoreboardDisplayName() {
 		return CraftChatMessage.fromString(getName())[0];
 	}
 }

@@ -6,28 +6,23 @@ import org.bukkit.entity.SmallFireball;
 
 import net.minecraft.server.EntitySmallFireball;
 
-public class CraftSmallFireball extends CraftFireball implements SmallFireball
-{
-	public CraftSmallFireball(CraftServer server, EntitySmallFireball entity)
-	{
+public class CraftSmallFireball extends CraftFireball implements SmallFireball {
+	public CraftSmallFireball(CraftServer server, EntitySmallFireball entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public EntitySmallFireball getHandle()
-	{
+	public EntitySmallFireball getHandle() {
 		return (EntitySmallFireball) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftSmallFireball";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.SMALL_FIREBALL;
 	}
 }

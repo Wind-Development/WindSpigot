@@ -6,28 +6,23 @@ import org.bukkit.entity.MushroomCow;
 
 import net.minecraft.server.EntityMushroomCow;
 
-public class CraftMushroomCow extends CraftCow implements MushroomCow
-{
-	public CraftMushroomCow(CraftServer server, EntityMushroomCow entity)
-	{
+public class CraftMushroomCow extends CraftCow implements MushroomCow {
+	public CraftMushroomCow(CraftServer server, EntityMushroomCow entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public EntityMushroomCow getHandle()
-	{
+	public EntityMushroomCow getHandle() {
 		return (EntityMushroomCow) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftMushroomCow";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.MUSHROOM_COW;
 	}
 }

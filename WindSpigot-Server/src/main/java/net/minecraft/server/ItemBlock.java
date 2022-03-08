@@ -1,52 +1,42 @@
 package net.minecraft.server;
 
-public class ItemBlock extends Item
-{
+public class ItemBlock extends Item {
 
 	protected final Block a;
 
-	public ItemBlock(Block block)
-	{
+	public ItemBlock(Block block) {
 		this.a = block;
 	}
 
-	public ItemBlock b(String s)
-	{
+	public ItemBlock b(String s) {
 		super.c(s);
 		return this;
 	}
 
 	@Override
 	public boolean interactWith(ItemStack itemstack, EntityHuman entityhuman, World world, BlockPosition blockposition,
-			EnumDirection enumdirection, float f, float f1, float f2)
-	{
+			EnumDirection enumdirection, float f, float f1, float f2) {
 		IBlockData iblockdata = world.getType(blockposition);
 		Block block = iblockdata.getBlock();
 
-		if (!block.a(world, blockposition))
-		{
+		if (!block.a(world, blockposition)) {
 			blockposition = blockposition.shift(enumdirection);
 		}
 
-		if (itemstack.count == 0)
-		{
+		if (itemstack.count == 0) {
 			return false;
-		} else if (!entityhuman.a(blockposition, enumdirection, itemstack))
-		{
+		} else if (!entityhuman.a(blockposition, enumdirection, itemstack)) {
 			return false;
-		} else if (world.a(this.a, blockposition, false, enumdirection, entityhuman, itemstack))
-		{ // PaperSpigot - Pass
-			// entityhuman
-			// instead of null
+		} else if (world.a(this.a, blockposition, false, enumdirection, entityhuman, itemstack)) { // PaperSpigot - Pass
+																									// entityhuman
+																									// instead of null
 			int i = this.filterData(itemstack.getData());
 			IBlockData iblockdata1 = this.a.getPlacedState(world, blockposition, enumdirection, f, f1, f2, i,
 					entityhuman);
 
-			if (world.setTypeAndData(blockposition, iblockdata1, 3))
-			{
+			if (world.setTypeAndData(blockposition, iblockdata1, 3)) {
 				iblockdata1 = world.getType(blockposition);
-				if (iblockdata1.getBlock() == this.a)
-				{
+				if (iblockdata1.getBlock() == this.a) {
 					a(world, entityhuman, blockposition, itemstack);
 					this.a.postPlace(world, blockposition, iblockdata1, entityhuman, itemstack);
 				}
@@ -58,30 +48,23 @@ public class ItemBlock extends Item
 			}
 
 			return true;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
 
-	public static boolean a(World world, EntityHuman entityhuman, BlockPosition blockposition, ItemStack itemstack)
-	{
+	public static boolean a(World world, EntityHuman entityhuman, BlockPosition blockposition, ItemStack itemstack) {
 		MinecraftServer minecraftserver = MinecraftServer.getServer();
 
-		if (minecraftserver == null)
-		{
+		if (minecraftserver == null) {
 			return false;
-		} else
-		{
-			if (itemstack.hasTag() && itemstack.getTag().hasKeyOfType("BlockEntityTag", 10))
-			{
+		} else {
+			if (itemstack.hasTag() && itemstack.getTag().hasKeyOfType("BlockEntityTag", 10)) {
 				TileEntity tileentity = world.getTileEntity(blockposition);
 
-				if (tileentity != null)
-				{
+				if (tileentity != null) {
 					if (!world.isClientSide && tileentity.F()
-							&& !minecraftserver.getPlayerList().isOp(entityhuman.getProfile()))
-					{
+							&& !minecraftserver.getPlayerList().isOp(entityhuman.getProfile())) {
 						return false;
 					}
 
@@ -95,8 +78,7 @@ public class ItemBlock extends Item
 					nbttagcompound.setInt("x", blockposition.getX());
 					nbttagcompound.setInt("y", blockposition.getY());
 					nbttagcompound.setInt("z", blockposition.getZ());
-					if (!nbttagcompound.equals(nbttagcompound1))
-					{
+					if (!nbttagcompound.equals(nbttagcompound1)) {
 						tileentity.a(nbttagcompound);
 						tileentity.update();
 						return true;
@@ -109,25 +91,21 @@ public class ItemBlock extends Item
 	}
 
 	@Override
-	public String e_(ItemStack itemstack)
-	{
+	public String e_(ItemStack itemstack) {
 		return this.a.a();
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return this.a.a();
 	}
 
-	public Block d()
-	{
+	public Block d() {
 		return this.a;
 	}
 
 	@Override
-	public Item c(String s)
-	{
+	public Item c(String s) {
 		return this.b(s);
 	}
 }

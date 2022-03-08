@@ -5,26 +5,22 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public abstract class BlockMinecartTrackAbstract extends Block
-{
+public abstract class BlockMinecartTrackAbstract extends Block {
 
 	protected final boolean a;
 
-	public static boolean e(World world, BlockPosition blockposition)
-	{
+	public static boolean e(World world, BlockPosition blockposition) {
 		return d(world.getType(blockposition));
 	}
 
-	public static boolean d(IBlockData iblockdata)
-	{
+	public static boolean d(IBlockData iblockdata) {
 		Block block = iblockdata.getBlock();
 
 		return block == Blocks.RAIL || block == Blocks.GOLDEN_RAIL || block == Blocks.DETECTOR_RAIL
 				|| block == Blocks.ACTIVATOR_RAIL;
 	}
 
-	protected BlockMinecartTrackAbstract(boolean flag)
-	{
+	protected BlockMinecartTrackAbstract(boolean flag) {
 		super(Material.ORIENTABLE);
 		this.a = flag;
 		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
@@ -32,61 +28,50 @@ public abstract class BlockMinecartTrackAbstract extends Block
 	}
 
 	@Override
-	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata)
-	{
+	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata) {
 		return null;
 	}
 
 	@Override
-	public boolean c()
-	{
+	public boolean c() {
 		return false;
 	}
 
 	@Override
-	public MovingObjectPosition a(World world, BlockPosition blockposition, Vec3D vec3d, Vec3D vec3d1)
-	{
+	public MovingObjectPosition a(World world, BlockPosition blockposition, Vec3D vec3d, Vec3D vec3d1) {
 		this.updateShape(world, blockposition);
 		return super.a(world, blockposition, vec3d, vec3d1);
 	}
 
 	@Override
-	public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition)
-	{
+	public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition) {
 		IBlockData iblockdata = iblockaccess.getType(blockposition);
 		BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = iblockdata
 				.getBlock() == this ? (BlockMinecartTrackAbstract.EnumTrackPosition) iblockdata.get(this.n()) : null;
 
-		if (blockminecarttrackabstract_enumtrackposition != null && blockminecarttrackabstract_enumtrackposition.c())
-		{
+		if (blockminecarttrackabstract_enumtrackposition != null && blockminecarttrackabstract_enumtrackposition.c()) {
 			this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.625F, 1.0F);
-		} else
-		{
+		} else {
 			this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 		}
 
 	}
 
 	@Override
-	public boolean d()
-	{
+	public boolean d() {
 		return false;
 	}
 
 	@Override
-	public boolean canPlace(World world, BlockPosition blockposition)
-	{
+	public boolean canPlace(World world, BlockPosition blockposition) {
 		return World.a(world, blockposition.down());
 	}
 
 	@Override
-	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata)
-	{
-		if (!world.isClientSide)
-		{
+	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata) {
+		if (!world.isClientSide) {
 			iblockdata = this.a(world, blockposition, iblockdata, true);
-			if (this.a)
-			{
+			if (this.a) {
 				this.doPhysics(world, blockposition, iblockdata, this);
 			}
 		}
@@ -94,77 +79,62 @@ public abstract class BlockMinecartTrackAbstract extends Block
 	}
 
 	@Override
-	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block)
-	{
-		if (!world.isClientSide)
-		{
+	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
+		if (!world.isClientSide) {
 			BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = iblockdata
 					.get(this.n());
 			boolean flag = false;
 
-			if (!World.a(world, blockposition.down()))
-			{
+			if (!World.a(world, blockposition.down())) {
 				flag = true;
 			}
 
 			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_EAST
-					&& !World.a(world, blockposition.east()))
-			{
+					&& !World.a(world, blockposition.east())) {
 				flag = true;
 			} else if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_WEST
-					&& !World.a(world, blockposition.west()))
-			{
+					&& !World.a(world, blockposition.west())) {
 				flag = true;
 			} else if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_NORTH
-					&& !World.a(world, blockposition.north()))
-			{
+					&& !World.a(world, blockposition.north())) {
 				flag = true;
 			} else if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_SOUTH
-					&& !World.a(world, blockposition.south()))
-			{
+					&& !World.a(world, blockposition.south())) {
 				flag = true;
 			}
 
-			if (flag && !world.isEmpty(blockposition))
-			{ // CraftBukkit - SPIGOT-424, MC-73474
+			if (flag && !world.isEmpty(blockposition)) { // CraftBukkit - SPIGOT-424, MC-73474
 				this.b(world, blockposition, iblockdata, 0);
 				world.setAir(blockposition);
-			} else
-			{
+			} else {
 				this.b(world, blockposition, iblockdata, block);
 			}
 
 		}
 	}
 
-	protected void b(World world, BlockPosition blockposition, IBlockData iblockdata, Block block)
-	{
+	protected void b(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
 	}
 
-	protected IBlockData a(World world, BlockPosition blockposition, IBlockData iblockdata, boolean flag)
-	{
+	protected IBlockData a(World world, BlockPosition blockposition, IBlockData iblockdata, boolean flag) {
 		return world.isClientSide ? iblockdata
 				: (new BlockMinecartTrackAbstract.MinecartTrackLogic(world, blockposition, iblockdata))
 						.a(world.isBlockIndirectlyPowered(blockposition), flag).b();
 	}
 
 	@Override
-	public int k()
-	{
+	public int k() {
 		return 0;
 	}
 
 	@Override
-	public void remove(World world, BlockPosition blockposition, IBlockData iblockdata)
-	{
+	public void remove(World world, BlockPosition blockposition, IBlockData iblockdata) {
 		super.remove(world, blockposition, iblockdata);
-		if (iblockdata.get(this.n()).c())
-		{
+		if (iblockdata.get(this.n()).c()) {
 			world.applyPhysics(blockposition.up(), this);
 		}
 
-		if (this.a)
-		{
+		if (this.a) {
 			world.applyPhysics(blockposition, this);
 			world.applyPhysics(blockposition.down(), this);
 		}
@@ -173,108 +143,85 @@ public abstract class BlockMinecartTrackAbstract extends Block
 
 	public abstract IBlockState<BlockMinecartTrackAbstract.EnumTrackPosition> n();
 
-	static class SyntheticClass_1
-	{
+	static class SyntheticClass_1 {
 
 		static final int[] a = new int[BlockMinecartTrackAbstract.EnumTrackPosition.values().length];
 
-		static
-		{
-			try
-			{
+		static {
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH
 						.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror)
-			{
+			} catch (NoSuchFieldError nosuchfielderror) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.EAST_WEST
 						.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1)
-			{
+			} catch (NoSuchFieldError nosuchfielderror1) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_EAST
 						.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2)
-			{
+			} catch (NoSuchFieldError nosuchfielderror2) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_WEST
 						.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3)
-			{
+			} catch (NoSuchFieldError nosuchfielderror3) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_NORTH
 						.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4)
-			{
+			} catch (NoSuchFieldError nosuchfielderror4) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_SOUTH
 						.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror5)
-			{
+			} catch (NoSuchFieldError nosuchfielderror5) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_EAST
 						.ordinal()] = 7;
-			} catch (NoSuchFieldError nosuchfielderror6)
-			{
+			} catch (NoSuchFieldError nosuchfielderror6) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_WEST
 						.ordinal()] = 8;
-			} catch (NoSuchFieldError nosuchfielderror7)
-			{
+			} catch (NoSuchFieldError nosuchfielderror7) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_WEST
 						.ordinal()] = 9;
-			} catch (NoSuchFieldError nosuchfielderror8)
-			{
+			} catch (NoSuchFieldError nosuchfielderror8) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_EAST
 						.ordinal()] = 10;
-			} catch (NoSuchFieldError nosuchfielderror9)
-			{
+			} catch (NoSuchFieldError nosuchfielderror9) {
 				;
 			}
 
 		}
 	}
 
-	public static enum EnumTrackPosition implements INamable
-	{
+	public static enum EnumTrackPosition implements INamable {
 
 		NORTH_SOUTH(0, "north_south"), EAST_WEST(1, "east_west"), ASCENDING_EAST(2, "ascending_east"),
 		ASCENDING_WEST(3, "ascending_west"), ASCENDING_NORTH(4, "ascending_north"),
@@ -285,35 +232,29 @@ public abstract class BlockMinecartTrackAbstract extends Block
 		private final int l;
 		private final String m;
 
-		private EnumTrackPosition(int i, String s)
-		{
+		private EnumTrackPosition(int i, String s) {
 			this.l = i;
 			this.m = s;
 		}
 
-		public int a()
-		{
+		public int a() {
 			return this.l;
 		}
 
 		@Override
-		public String toString()
-		{
+		public String toString() {
 			return this.m;
 		}
 
-		public boolean c()
-		{
+		public boolean c() {
 			return this == BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_NORTH
 					|| this == BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_EAST
 					|| this == BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_SOUTH
 					|| this == BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_WEST;
 		}
 
-		public static BlockMinecartTrackAbstract.EnumTrackPosition a(int i)
-		{
-			if (i < 0 || i >= BlockMinecartTrackAbstract.EnumTrackPosition.k.length)
-			{
+		public static BlockMinecartTrackAbstract.EnumTrackPosition a(int i) {
+			if (i < 0 || i >= BlockMinecartTrackAbstract.EnumTrackPosition.k.length) {
 				i = 0;
 			}
 
@@ -321,18 +262,15 @@ public abstract class BlockMinecartTrackAbstract extends Block
 		}
 
 		@Override
-		public String getName()
-		{
+		public String getName() {
 			return this.m;
 		}
 
-		static
-		{
+		static {
 			BlockMinecartTrackAbstract.EnumTrackPosition[] ablockminecarttrackabstract_enumtrackposition = values();
 			int i = ablockminecarttrackabstract_enumtrackposition.length;
 
-			for (int j = 0; j < i; ++j)
-			{
+			for (int j = 0; j < i; ++j) {
 				BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = ablockminecarttrackabstract_enumtrackposition[j];
 
 				BlockMinecartTrackAbstract.EnumTrackPosition.k[blockminecarttrackabstract_enumtrackposition
@@ -342,8 +280,7 @@ public abstract class BlockMinecartTrackAbstract extends Block
 		}
 	}
 
-	public class MinecartTrackLogic
-	{
+	public class MinecartTrackLogic {
 
 		private final World b;
 		private final BlockPosition c;
@@ -352,8 +289,7 @@ public abstract class BlockMinecartTrackAbstract extends Block
 		private final boolean f;
 		private final List<BlockPosition> g = Lists.newArrayList();
 
-		public MinecartTrackLogic(World world, BlockPosition blockposition, IBlockData iblockdata)
-		{
+		public MinecartTrackLogic(World world, BlockPosition blockposition, IBlockData iblockdata) {
 			this.b = world;
 			this.c = blockposition;
 			this.e = iblockdata;
@@ -365,12 +301,10 @@ public abstract class BlockMinecartTrackAbstract extends Block
 			this.a(blockminecarttrackabstract_enumtrackposition);
 		}
 
-		private void a(BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition)
-		{
+		private void a(BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition) {
 			this.g.clear();
 			switch (BlockMinecartTrackAbstract.SyntheticClass_1.a[blockminecarttrackabstract_enumtrackposition
-					.ordinal()])
-			{
+					.ordinal()]) {
 			case 1:
 				this.g.add(this.c.north());
 				this.g.add(this.c.south());
@@ -423,49 +357,39 @@ public abstract class BlockMinecartTrackAbstract extends Block
 
 		}
 
-		private void c()
-		{
-			for (int i = 0; i < this.g.size(); ++i)
-			{
+		private void c() {
+			for (int i = 0; i < this.g.size(); ++i) {
 				BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic = this
 						.b(this.g.get(i));
 
 				if (blockminecarttrackabstract_minecarttracklogic != null
-						&& blockminecarttrackabstract_minecarttracklogic.a(this))
-				{
+						&& blockminecarttrackabstract_minecarttracklogic.a(this)) {
 					this.g.set(i, blockminecarttrackabstract_minecarttracklogic.c);
-				} else
-				{
+				} else {
 					this.g.remove(i--);
 				}
 			}
 
 		}
 
-		private boolean a(BlockPosition blockposition)
-		{
+		private boolean a(BlockPosition blockposition) {
 			return BlockMinecartTrackAbstract.e(this.b, blockposition)
 					|| BlockMinecartTrackAbstract.e(this.b, blockposition.up())
 					|| BlockMinecartTrackAbstract.e(this.b, blockposition.down());
 		}
 
-		private BlockMinecartTrackAbstract.MinecartTrackLogic b(BlockPosition blockposition)
-		{
+		private BlockMinecartTrackAbstract.MinecartTrackLogic b(BlockPosition blockposition) {
 			IBlockData iblockdata = this.b.getType(blockposition);
 
-			if (BlockMinecartTrackAbstract.d(iblockdata))
-			{
+			if (BlockMinecartTrackAbstract.d(iblockdata)) {
 				return BlockMinecartTrackAbstract.this.new MinecartTrackLogic(this.b, blockposition, iblockdata);
-			} else
-			{
+			} else {
 				BlockPosition blockposition1 = blockposition.up();
 
 				iblockdata = this.b.getType(blockposition1);
-				if (BlockMinecartTrackAbstract.d(iblockdata))
-				{
+				if (BlockMinecartTrackAbstract.d(iblockdata)) {
 					return BlockMinecartTrackAbstract.this.new MinecartTrackLogic(this.b, blockposition1, iblockdata);
-				} else
-				{
+				} else {
 					blockposition1 = blockposition.down();
 					iblockdata = this.b.getType(blockposition1);
 					return BlockMinecartTrackAbstract.d(iblockdata)
@@ -475,19 +399,15 @@ public abstract class BlockMinecartTrackAbstract extends Block
 			}
 		}
 
-		private boolean a(BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic)
-		{
+		private boolean a(BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic) {
 			return this.c(blockminecarttrackabstract_minecarttracklogic.c);
 		}
 
-		private boolean c(BlockPosition blockposition)
-		{
-			for (int i = 0; i < this.g.size(); ++i)
-			{
+		private boolean c(BlockPosition blockposition) {
+			for (int i = 0; i < this.g.size(); ++i) {
 				BlockPosition blockposition1 = this.g.get(i);
 
-				if (blockposition1.getX() == blockposition.getX() && blockposition1.getZ() == blockposition.getZ())
-				{
+				if (blockposition1.getX() == blockposition.getX() && blockposition1.getZ() == blockposition.getZ()) {
 					return true;
 				}
 			}
@@ -495,17 +415,14 @@ public abstract class BlockMinecartTrackAbstract extends Block
 			return false;
 		}
 
-		protected int a()
-		{
+		protected int a() {
 			int i = 0;
 			Iterator iterator = EnumDirection.EnumDirectionLimit.HORIZONTAL.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()) {
 				EnumDirection enumdirection = (EnumDirection) iterator.next();
 
-				if (this.a(this.c.shift(enumdirection)))
-				{
+				if (this.a(this.c.shift(enumdirection))) {
 					++i;
 				}
 			}
@@ -513,13 +430,11 @@ public abstract class BlockMinecartTrackAbstract extends Block
 			return i;
 		}
 
-		private boolean b(BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic)
-		{
+		private boolean b(BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic) {
 			return this.a(blockminecarttrackabstract_minecarttracklogic) || this.g.size() != 2;
 		}
 
-		private void c(BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic)
-		{
+		private void c(BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic) {
 			this.g.add(blockminecarttrackabstract_minecarttracklogic.c);
 			BlockPosition blockposition = this.c.north();
 			BlockPosition blockposition1 = this.c.south();
@@ -531,67 +446,53 @@ public abstract class BlockMinecartTrackAbstract extends Block
 			boolean flag3 = this.c(blockposition3);
 			BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = null;
 
-			if (flag || flag1)
-			{
+			if (flag || flag1) {
 				blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH;
 			}
 
-			if (flag2 || flag3)
-			{
+			if (flag2 || flag3) {
 				blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.EAST_WEST;
 			}
 
-			if (!this.f)
-			{
-				if (flag1 && flag3 && !flag && !flag2)
-				{
+			if (!this.f) {
+				if (flag1 && flag3 && !flag && !flag2) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_EAST;
 				}
 
-				if (flag1 && flag2 && !flag && !flag3)
-				{
+				if (flag1 && flag2 && !flag && !flag3) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_WEST;
 				}
 
-				if (flag && flag2 && !flag1 && !flag3)
-				{
+				if (flag && flag2 && !flag1 && !flag3) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_WEST;
 				}
 
-				if (flag && flag3 && !flag1 && !flag2)
-				{
+				if (flag && flag3 && !flag1 && !flag2) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_EAST;
 				}
 			}
 
-			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH)
-			{
-				if (BlockMinecartTrackAbstract.e(this.b, blockposition.up()))
-				{
+			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH) {
+				if (BlockMinecartTrackAbstract.e(this.b, blockposition.up())) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_NORTH;
 				}
 
-				if (BlockMinecartTrackAbstract.e(this.b, blockposition1.up()))
-				{
+				if (BlockMinecartTrackAbstract.e(this.b, blockposition1.up())) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_SOUTH;
 				}
 			}
 
-			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.EAST_WEST)
-			{
-				if (BlockMinecartTrackAbstract.e(this.b, blockposition3.up()))
-				{
+			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.EAST_WEST) {
+				if (BlockMinecartTrackAbstract.e(this.b, blockposition3.up())) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_EAST;
 				}
 
-				if (BlockMinecartTrackAbstract.e(this.b, blockposition2.up()))
-				{
+				if (BlockMinecartTrackAbstract.e(this.b, blockposition2.up())) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_WEST;
 				}
 			}
 
-			if (blockminecarttrackabstract_enumtrackposition == null)
-			{
+			if (blockminecarttrackabstract_enumtrackposition == null) {
 				blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH;
 			}
 
@@ -599,23 +500,19 @@ public abstract class BlockMinecartTrackAbstract extends Block
 			this.b.setTypeAndData(this.c, this.e, 3);
 		}
 
-		private boolean d(BlockPosition blockposition)
-		{
+		private boolean d(BlockPosition blockposition) {
 			BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic = this
 					.b(blockposition);
 
-			if (blockminecarttrackabstract_minecarttracklogic == null)
-			{
+			if (blockminecarttrackabstract_minecarttracklogic == null) {
 				return false;
-			} else
-			{
+			} else {
 				blockminecarttrackabstract_minecarttracklogic.c();
 				return blockminecarttrackabstract_minecarttracklogic.b(this);
 			}
 		}
 
-		public BlockMinecartTrackAbstract.MinecartTrackLogic a(boolean flag, boolean flag1)
-		{
+		public BlockMinecartTrackAbstract.MinecartTrackLogic a(boolean flag, boolean flag1) {
 			BlockPosition blockposition = this.c.north();
 			BlockPosition blockposition1 = this.c.south();
 			BlockPosition blockposition2 = this.c.west();
@@ -626,146 +523,114 @@ public abstract class BlockMinecartTrackAbstract extends Block
 			boolean flag5 = this.d(blockposition3);
 			BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = null;
 
-			if ((flag2 || flag3) && !flag4 && !flag5)
-			{
+			if ((flag2 || flag3) && !flag4 && !flag5) {
 				blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH;
 			}
 
-			if ((flag4 || flag5) && !flag2 && !flag3)
-			{
+			if ((flag4 || flag5) && !flag2 && !flag3) {
 				blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.EAST_WEST;
 			}
 
-			if (!this.f)
-			{
-				if (flag3 && flag5 && !flag2 && !flag4)
-				{
+			if (!this.f) {
+				if (flag3 && flag5 && !flag2 && !flag4) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_EAST;
 				}
 
-				if (flag3 && flag4 && !flag2 && !flag5)
-				{
+				if (flag3 && flag4 && !flag2 && !flag5) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_WEST;
 				}
 
-				if (flag2 && flag4 && !flag3 && !flag5)
-				{
+				if (flag2 && flag4 && !flag3 && !flag5) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_WEST;
 				}
 
-				if (flag2 && flag5 && !flag3 && !flag4)
-				{
+				if (flag2 && flag5 && !flag3 && !flag4) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_EAST;
 				}
 			}
 
-			if (blockminecarttrackabstract_enumtrackposition == null)
-			{
-				if (flag2 || flag3)
-				{
+			if (blockminecarttrackabstract_enumtrackposition == null) {
+				if (flag2 || flag3) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH;
 				}
 
-				if (flag4 || flag5)
-				{
+				if (flag4 || flag5) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.EAST_WEST;
 				}
 
-				if (!this.f)
-				{
-					if (flag)
-					{
-						if (flag3 && flag5)
-						{
+				if (!this.f) {
+					if (flag) {
+						if (flag3 && flag5) {
 							blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_EAST;
 						}
 
-						if (flag4 && flag3)
-						{
+						if (flag4 && flag3) {
 							blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_WEST;
 						}
 
-						if (flag5 && flag2)
-						{
+						if (flag5 && flag2) {
 							blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_EAST;
 						}
 
-						if (flag2 && flag4)
-						{
+						if (flag2 && flag4) {
 							blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_WEST;
 						}
-					} else
-					{
-						if (flag2 && flag4)
-						{
+					} else {
+						if (flag2 && flag4) {
 							blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_WEST;
 						}
 
-						if (flag5 && flag2)
-						{
+						if (flag5 && flag2) {
 							blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_EAST;
 						}
 
-						if (flag4 && flag3)
-						{
+						if (flag4 && flag3) {
 							blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_WEST;
 						}
 
-						if (flag3 && flag5)
-						{
+						if (flag3 && flag5) {
 							blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_EAST;
 						}
 					}
 				}
 			}
 
-			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH)
-			{
-				if (BlockMinecartTrackAbstract.e(this.b, blockposition.up()))
-				{
+			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH) {
+				if (BlockMinecartTrackAbstract.e(this.b, blockposition.up())) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_NORTH;
 				}
 
-				if (BlockMinecartTrackAbstract.e(this.b, blockposition1.up()))
-				{
+				if (BlockMinecartTrackAbstract.e(this.b, blockposition1.up())) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_SOUTH;
 				}
 			}
 
-			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.EAST_WEST)
-			{
-				if (BlockMinecartTrackAbstract.e(this.b, blockposition3.up()))
-				{
+			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.EAST_WEST) {
+				if (BlockMinecartTrackAbstract.e(this.b, blockposition3.up())) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_EAST;
 				}
 
-				if (BlockMinecartTrackAbstract.e(this.b, blockposition2.up()))
-				{
+				if (BlockMinecartTrackAbstract.e(this.b, blockposition2.up())) {
 					blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_WEST;
 				}
 			}
 
-			if (blockminecarttrackabstract_enumtrackposition == null)
-			{
+			if (blockminecarttrackabstract_enumtrackposition == null) {
 				blockminecarttrackabstract_enumtrackposition = BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH;
 			}
 
 			this.a(blockminecarttrackabstract_enumtrackposition);
 			this.e = this.e.set(this.d.n(), blockminecarttrackabstract_enumtrackposition);
-			if (flag1 || this.b.getType(this.c) != this.e)
-			{
+			if (flag1 || this.b.getType(this.c) != this.e) {
 				this.b.setTypeAndData(this.c, this.e, 3);
 
-				for (int i = 0; i < this.g.size(); ++i)
-				{
+				for (int i = 0; i < this.g.size(); ++i) {
 					BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic = this
 							.b(this.g.get(i));
 
-					if (blockminecarttrackabstract_minecarttracklogic != null)
-					{
+					if (blockminecarttrackabstract_minecarttracklogic != null) {
 						blockminecarttrackabstract_minecarttracklogic.c();
-						if (blockminecarttrackabstract_minecarttracklogic.b(this))
-						{
+						if (blockminecarttrackabstract_minecarttracklogic.b(this)) {
 							blockminecarttrackabstract_minecarttracklogic.c(this);
 						}
 					}
@@ -775,8 +640,7 @@ public abstract class BlockMinecartTrackAbstract extends Block
 			return this;
 		}
 
-		public IBlockData b()
-		{
+		public IBlockData b() {
 			return this.e;
 		}
 	}

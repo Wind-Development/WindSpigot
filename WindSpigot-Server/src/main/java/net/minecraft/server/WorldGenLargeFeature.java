@@ -9,34 +9,29 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-public class WorldGenLargeFeature extends StructureGenerator
-{
+public class WorldGenLargeFeature extends StructureGenerator {
 
-	private static final List<BiomeBase> d = Arrays.asList(new BiomeBase[]
-	{ BiomeBase.DESERT, BiomeBase.DESERT_HILLS, BiomeBase.JUNGLE, BiomeBase.JUNGLE_HILLS, BiomeBase.SWAMPLAND });
+	private static final List<BiomeBase> d = Arrays.asList(new BiomeBase[] { BiomeBase.DESERT, BiomeBase.DESERT_HILLS,
+			BiomeBase.JUNGLE, BiomeBase.JUNGLE_HILLS, BiomeBase.SWAMPLAND });
 	private List<BiomeBase.BiomeMeta> f;
 	private int g;
 	private int h;
 
-	public WorldGenLargeFeature()
-	{
+	public WorldGenLargeFeature() {
 		this.f = Lists.newArrayList();
 		this.g = 32;
 		this.h = 8;
 		this.f.add(new BiomeBase.BiomeMeta(EntityWitch.class, 1, 1, 1));
 	}
 
-	public WorldGenLargeFeature(Map<String, String> map)
-	{
+	public WorldGenLargeFeature(Map<String, String> map) {
 		this();
 		Iterator iterator = map.entrySet().iterator();
 
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			Entry entry = (Entry) iterator.next();
 
-			if ("distance".equals((String) entry.getKey()))
-			{
+			if ("distance".equals((String) entry.getKey())) {
 				this.g = MathHelper.a((String) entry.getValue(), this.g, this.h + 1);
 			}
 		}
@@ -44,24 +39,20 @@ public class WorldGenLargeFeature extends StructureGenerator
 	}
 
 	@Override
-	public String a()
-	{
+	public String a() {
 		return "Temple";
 	}
 
 	@Override
-	protected boolean a(int i, int j)
-	{
+	protected boolean a(int i, int j) {
 		int k = i;
 		int l = j;
 
-		if (i < 0)
-		{
+		if (i < 0) {
 			i -= this.g - 1;
 		}
 
-		if (j < 0)
-		{
+		if (j < 0) {
 			j -= this.g - 1;
 		}
 
@@ -73,23 +64,19 @@ public class WorldGenLargeFeature extends StructureGenerator
 		j1 *= this.g;
 		i1 += random.nextInt(this.g - this.h);
 		j1 += random.nextInt(this.g - this.h);
-		if (k == i1 && l == j1)
-		{
+		if (k == i1 && l == j1) {
 			BiomeBase biomebase = this.c.getWorldChunkManager().getBiome(new BlockPosition(k * 16 + 8, 0, l * 16 + 8));
 
-			if (biomebase == null)
-			{
+			if (biomebase == null) {
 				return false;
 			}
 
 			Iterator iterator = WorldGenLargeFeature.d.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()) {
 				BiomeBase biomebase1 = (BiomeBase) iterator.next();
 
-				if (biomebase == biomebase1)
-				{
+				if (biomebase == biomebase1) {
 					return true;
 				}
 			}
@@ -99,61 +86,49 @@ public class WorldGenLargeFeature extends StructureGenerator
 	}
 
 	@Override
-	protected StructureStart b(int i, int j)
-	{
+	protected StructureStart b(int i, int j) {
 		return new WorldGenLargeFeature.WorldGenLargeFeatureStart(this.c, this.b, i, j);
 	}
 
-	public boolean a(BlockPosition blockposition)
-	{
+	public boolean a(BlockPosition blockposition) {
 		StructureStart structurestart = this.c(blockposition);
 
 		if (structurestart != null && structurestart instanceof WorldGenLargeFeature.WorldGenLargeFeatureStart
-				&& !structurestart.a.isEmpty())
-		{
+				&& !structurestart.a.isEmpty()) {
 			StructurePiece structurepiece = structurestart.a.getFirst();
 
 			return structurepiece instanceof WorldGenRegistration.WorldGenWitchHut;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
 
-	public List<BiomeBase.BiomeMeta> b()
-	{
+	public List<BiomeBase.BiomeMeta> b() {
 		return this.f;
 	}
 
-	public static class WorldGenLargeFeatureStart extends StructureStart
-	{
+	public static class WorldGenLargeFeatureStart extends StructureStart {
 
-		public WorldGenLargeFeatureStart()
-		{
+		public WorldGenLargeFeatureStart() {
 		}
 
-		public WorldGenLargeFeatureStart(World world, Random random, int i, int j)
-		{
+		public WorldGenLargeFeatureStart(World world, Random random, int i, int j) {
 			super(i, j);
 			BiomeBase biomebase = world.getBiome(new BlockPosition(i * 16 + 8, 0, j * 16 + 8));
 
-			if (biomebase != BiomeBase.JUNGLE && biomebase != BiomeBase.JUNGLE_HILLS)
-			{
-				if (biomebase == BiomeBase.SWAMPLAND)
-				{
+			if (biomebase != BiomeBase.JUNGLE && biomebase != BiomeBase.JUNGLE_HILLS) {
+				if (biomebase == BiomeBase.SWAMPLAND) {
 					WorldGenRegistration.WorldGenWitchHut worldgenregistration_worldgenwitchhut = new WorldGenRegistration.WorldGenWitchHut(
 							random, i * 16, j * 16);
 
 					this.a.add(worldgenregistration_worldgenwitchhut);
-				} else if (biomebase == BiomeBase.DESERT || biomebase == BiomeBase.DESERT_HILLS)
-				{
+				} else if (biomebase == BiomeBase.DESERT || biomebase == BiomeBase.DESERT_HILLS) {
 					WorldGenRegistration.WorldGenPyramidPiece worldgenregistration_worldgenpyramidpiece = new WorldGenRegistration.WorldGenPyramidPiece(
 							random, i * 16, j * 16);
 
 					this.a.add(worldgenregistration_worldgenpyramidpiece);
 				}
-			} else
-			{
+			} else {
 				WorldGenRegistration.WorldGenJungleTemple worldgenregistration_worldgenjungletemple = new WorldGenRegistration.WorldGenJungleTemple(
 						random, i * 16, j * 16);
 

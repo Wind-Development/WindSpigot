@@ -10,48 +10,40 @@ import org.bukkit.entity.EntityType;
 import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.TileEntityMobSpawner;
 
-public class CraftCreatureSpawner extends CraftBlockState implements CreatureSpawner
-{
+public class CraftCreatureSpawner extends CraftBlockState implements CreatureSpawner {
 	private final TileEntityMobSpawner spawner;
 
-	public CraftCreatureSpawner(final Block block)
-	{
+	public CraftCreatureSpawner(final Block block) {
 		super(block);
 
 		spawner = (TileEntityMobSpawner) ((CraftWorld) block.getWorld()).getTileEntityAt(getX(), getY(), getZ());
 	}
 
-	public CraftCreatureSpawner(final Material material, TileEntityMobSpawner te)
-	{
+	public CraftCreatureSpawner(final Material material, TileEntityMobSpawner te) {
 		super(material);
 		spawner = te;
 	}
 
 	@Override
 	@Deprecated
-	public CreatureType getCreatureType()
-	{
+	public CreatureType getCreatureType() {
 		return CreatureType.fromName(spawner.getSpawner().getMobName());
 	}
 
 	@Override
-	public EntityType getSpawnedType()
-	{
+	public EntityType getSpawnedType() {
 		return EntityType.fromName(spawner.getSpawner().getMobName());
 	}
 
 	@Override
 	@Deprecated
-	public void setCreatureType(CreatureType creatureType)
-	{
+	public void setCreatureType(CreatureType creatureType) {
 		spawner.getSpawner().setMobName(creatureType.getName());
 	}
 
 	@Override
-	public void setSpawnedType(EntityType entityType)
-	{
-		if (entityType == null || entityType.getName() == null)
-		{
+	public void setSpawnedType(EntityType entityType) {
+		if (entityType == null || entityType.getName() == null) {
 			throw new IllegalArgumentException("Can't spawn EntityType " + entityType + " from mobspawners!");
 		}
 
@@ -60,51 +52,43 @@ public class CraftCreatureSpawner extends CraftBlockState implements CreatureSpa
 
 	@Override
 	@Deprecated
-	public String getCreatureTypeId()
-	{
+	public String getCreatureTypeId() {
 		return spawner.getSpawner().getMobName();
 	}
 
 	@Override
 	@Deprecated
-	public void setCreatureTypeId(String creatureName)
-	{
+	public void setCreatureTypeId(String creatureName) {
 		setCreatureTypeByName(creatureName);
 	}
 
 	@Override
-	public String getCreatureTypeName()
-	{
+	public String getCreatureTypeName() {
 		return spawner.getSpawner().getMobName();
 	}
 
 	@Override
-	public void setCreatureTypeByName(String creatureType)
-	{
+	public void setCreatureTypeByName(String creatureType) {
 		// Verify input
 		EntityType type = EntityType.fromName(creatureType);
-		if (type == null)
-		{
+		if (type == null) {
 			return;
 		}
 		setSpawnedType(type);
 	}
 
 	@Override
-	public int getDelay()
-	{
+	public int getDelay() {
 		return spawner.getSpawner().spawnDelay * NachoConfig.tileEntityTickingTime;
 	}
 
 	@Override
-	public void setDelay(int delay)
-	{
+	public void setDelay(int delay) {
 		spawner.getSpawner().spawnDelay = delay / NachoConfig.tileEntityTickingTime;
 	}
 
 	@Override
-	public TileEntityMobSpawner getTileEntity()
-	{
+	public TileEntityMobSpawner getTileEntity() {
 		return spawner;
 	}
 }

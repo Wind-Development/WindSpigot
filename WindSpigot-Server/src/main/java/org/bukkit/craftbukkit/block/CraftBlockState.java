@@ -17,8 +17,7 @@ import org.bukkit.plugin.Plugin;
 import net.minecraft.server.BlockPosition;
 import net.minecraft.server.TileEntity;
 
-public class CraftBlockState implements BlockState
-{
+public class CraftBlockState implements BlockState {
 	private final CraftWorld world;
 	private final CraftChunk chunk;
 	private final int x;
@@ -29,8 +28,7 @@ public class CraftBlockState implements BlockState
 	protected int flag;
 	protected final byte light;
 
-	public CraftBlockState(final Block block)
-	{
+	public CraftBlockState(final Block block) {
 		this.world = (CraftWorld) block.getWorld();
 		this.x = block.getX();
 		this.y = block.getY();
@@ -43,14 +41,12 @@ public class CraftBlockState implements BlockState
 		createData(block.getData());
 	}
 
-	public CraftBlockState(final Block block, int flag)
-	{
+	public CraftBlockState(final Block block, int flag) {
 		this(block);
 		this.flag = flag;
 	}
 
-	public CraftBlockState(Material material)
-	{
+	public CraftBlockState(Material material) {
 		world = null;
 		type = material.getId();
 		light = 0;
@@ -58,83 +54,68 @@ public class CraftBlockState implements BlockState
 		x = y = z = 0;
 	}
 
-	public static CraftBlockState getBlockState(net.minecraft.server.World world, int x, int y, int z)
-	{
+	public static CraftBlockState getBlockState(net.minecraft.server.World world, int x, int y, int z) {
 		return new CraftBlockState(world.getWorld().getBlockAt(x, y, z));
 	}
 
-	public static CraftBlockState getBlockState(net.minecraft.server.World world, int x, int y, int z, int flag)
-	{
+	public static CraftBlockState getBlockState(net.minecraft.server.World world, int x, int y, int z, int flag) {
 		return new CraftBlockState(world.getWorld().getBlockAt(x, y, z), flag);
 	}
 
 	@Override
-	public World getWorld()
-	{
+	public World getWorld() {
 		requirePlaced();
 		return world;
 	}
 
 	@Override
-	public int getX()
-	{
+	public int getX() {
 		return x;
 	}
 
 	@Override
-	public int getY()
-	{
+	public int getY() {
 		return y;
 	}
 
 	@Override
-	public int getZ()
-	{
+	public int getZ() {
 		return z;
 	}
 
 	@Override
-	public Chunk getChunk()
-	{
+	public Chunk getChunk() {
 		requirePlaced();
 		return chunk;
 	}
 
 	@Override
-	public void setData(final MaterialData data)
-	{
+	public void setData(final MaterialData data) {
 		Material mat = getType();
 
-		if ((mat == null) || (mat.getData() == null))
-		{
+		if ((mat == null) || (mat.getData() == null)) {
 			this.data = data;
-		} else if ((data.getClass() == mat.getData()) || (data.getClass() == MaterialData.class))
-		{
+		} else if ((data.getClass() == mat.getData()) || (data.getClass() == MaterialData.class)) {
 			this.data = data;
-		} else
-		{
-			throw new IllegalArgumentException("Provided data is not of type " + mat.getData().getName()
-					+ ", found " + data.getClass().getName());
+		} else {
+			throw new IllegalArgumentException(
+					"Provided data is not of type " + mat.getData().getName() + ", found " + data.getClass().getName());
 		}
 	}
 
 	@Override
-	public MaterialData getData()
-	{
+	public MaterialData getData() {
 		return data;
 	}
 
 	@Override
-	public void setType(final Material type)
-	{
+	public void setType(final Material type) {
 		setTypeId(type.getId());
 	}
 
 	@Override
-	public boolean setTypeId(final int type)
-	{
-		if (this.type != type)
-		{
+	public boolean setTypeId(final int type) {
+		if (this.type != type) {
 			this.type = type;
 
 			createData((byte) 0);
@@ -143,62 +124,51 @@ public class CraftBlockState implements BlockState
 	}
 
 	@Override
-	public Material getType()
-	{
+	public Material getType() {
 		return Material.getMaterial(getTypeId());
 	}
 
-	public void setFlag(int flag)
-	{
+	public void setFlag(int flag) {
 		this.flag = flag;
 	}
 
-	public int getFlag()
-	{
+	public int getFlag() {
 		return flag;
 	}
 
 	@Override
-	public int getTypeId()
-	{
+	public int getTypeId() {
 		return type;
 	}
 
 	@Override
-	public byte getLightLevel()
-	{
+	public byte getLightLevel() {
 		return light;
 	}
 
 	@Override
-	public Block getBlock()
-	{
+	public Block getBlock() {
 		requirePlaced();
 		return world.getBlockAt(x, y, z);
 	}
 
 	@Override
-	public boolean update()
-	{
+	public boolean update() {
 		return update(false);
 	}
 
 	@Override
-	public boolean update(boolean force)
-	{
+	public boolean update(boolean force) {
 		return update(force, true);
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics)
-	{
+	public boolean update(boolean force, boolean applyPhysics) {
 		requirePlaced();
 		Block block = getBlock();
 
-		if (block.getType() != getType())
-		{
-			if (!force)
-			{
+		if (block.getType() != getType()) {
+			if (!force) {
 				return false;
 			}
 		}
@@ -209,35 +179,28 @@ public class CraftBlockState implements BlockState
 		return true;
 	}
 
-	private void createData(final byte data)
-	{
+	private void createData(final byte data) {
 		Material mat = getType();
-		if (mat == null || mat.getData() == null)
-		{
+		if (mat == null || mat.getData() == null) {
 			this.data = new MaterialData(type, data);
-		} else
-		{
+		} else {
 			this.data = mat.getNewData(data);
 		}
 	}
 
 	@Override
-	public byte getRawData()
-	{
+	public byte getRawData() {
 		return data.getData();
 	}
 
 	@Override
-	public Location getLocation()
-	{
+	public Location getLocation() {
 		return new Location(world, x, y, z);
 	}
 
 	@Override
-	public Location getLocation(Location loc)
-	{
-		if (loc != null)
-		{
+	public Location getLocation(Location loc) {
+		if (loc != null) {
 			loc.setWorld(world);
 			loc.setX(x);
 			loc.setY(y);
@@ -250,53 +213,42 @@ public class CraftBlockState implements BlockState
 	}
 
 	@Override
-	public void setRawData(byte data)
-	{
+	public void setRawData(byte data) {
 		this.data.setData(data);
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (obj == null)
-		{
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
-		if (getClass() != obj.getClass())
-		{
+		if (getClass() != obj.getClass()) {
 			return false;
 		}
 		final CraftBlockState other = (CraftBlockState) obj;
-		if (this.world != other.world && (this.world == null || !this.world.equals(other.world)))
-		{
+		if (this.world != other.world && (this.world == null || !this.world.equals(other.world))) {
 			return false;
 		}
-		if (this.x != other.x)
-		{
+		if (this.x != other.x) {
 			return false;
 		}
-		if (this.y != other.y)
-		{
+		if (this.y != other.y) {
 			return false;
 		}
-		if (this.z != other.z)
-		{
+		if (this.z != other.z) {
 			return false;
 		}
-		if (this.type != other.type)
-		{
+		if (this.type != other.type) {
 			return false;
 		}
-		if (this.data != other.data && (this.data == null || !this.data.equals(other.data)))
-		{
+		if (this.data != other.data && (this.data == null || !this.data.equals(other.data))) {
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		int hash = 7;
 		hash = 73 * hash + (this.world != null ? this.world.hashCode() : 0);
 		hash = 73 * hash + this.x;
@@ -307,49 +259,41 @@ public class CraftBlockState implements BlockState
 		return hash;
 	}
 
-	public TileEntity getTileEntity()
-	{
+	public TileEntity getTileEntity() {
 		return null;
 	}
 
 	@Override
-	public void setMetadata(String metadataKey, MetadataValue newMetadataValue)
-	{
+	public void setMetadata(String metadataKey, MetadataValue newMetadataValue) {
 		requirePlaced();
 		chunk.getCraftWorld().getBlockMetadata().setMetadata(getBlock(), metadataKey, newMetadataValue);
 	}
 
 	@Override
-	public List<MetadataValue> getMetadata(String metadataKey)
-	{
+	public List<MetadataValue> getMetadata(String metadataKey) {
 		requirePlaced();
 		return chunk.getCraftWorld().getBlockMetadata().getMetadata(getBlock(), metadataKey);
 	}
 
 	@Override
-	public boolean hasMetadata(String metadataKey)
-	{
+	public boolean hasMetadata(String metadataKey) {
 		requirePlaced();
 		return chunk.getCraftWorld().getBlockMetadata().hasMetadata(getBlock(), metadataKey);
 	}
 
 	@Override
-	public void removeMetadata(String metadataKey, Plugin owningPlugin)
-	{
+	public void removeMetadata(String metadataKey, Plugin owningPlugin) {
 		requirePlaced();
 		chunk.getCraftWorld().getBlockMetadata().removeMetadata(getBlock(), metadataKey, owningPlugin);
 	}
 
 	@Override
-	public boolean isPlaced()
-	{
+	public boolean isPlaced() {
 		return world != null;
 	}
 
-	protected void requirePlaced()
-	{
-		if (!isPlaced())
-		{
+	protected void requirePlaced() {
+		if (!isPlaced()) {
 			throw new IllegalStateException("The blockState must be placed to call this method");
 		}
 	}

@@ -2,18 +2,15 @@ package net.minecraft.server;
 
 import java.util.List;
 
-public class ItemBoat extends Item
-{
+public class ItemBoat extends Item {
 
-	public ItemBoat()
-	{
+	public ItemBoat() {
 		this.maxStackSize = 1;
 		this.a(CreativeModeTab.e);
 	}
 
 	@Override
-	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman)
-	{
+	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman) {
 		float f = 1.0F;
 		float f1 = entityhuman.lastPitch + (entityhuman.pitch - entityhuman.lastPitch) * f;
 		float f2 = entityhuman.lastYaw + (entityhuman.yaw - entityhuman.lastYaw) * f;
@@ -31,40 +28,32 @@ public class ItemBoat extends Item
 		Vec3D vec3d1 = vec3d.add(f7 * d3, f6 * d3, f8 * d3);
 		MovingObjectPosition movingobjectposition = world.rayTrace(vec3d, vec3d1, true);
 
-		if (movingobjectposition == null)
-		{
+		if (movingobjectposition == null) {
 			return itemstack;
-		} else
-		{
+		} else {
 			Vec3D vec3d2 = entityhuman.d(f);
 			boolean flag = false;
 			float f9 = 1.0F;
 			List list = world.getEntities(entityhuman,
 					entityhuman.getBoundingBox().a(vec3d2.a * d3, vec3d2.b * d3, vec3d2.c * d3).grow(f9, f9, f9));
 
-			for (int i = 0; i < list.size(); ++i)
-			{
+			for (int i = 0; i < list.size(); ++i) {
 				Entity entity = (Entity) list.get(i);
 
-				if (entity.ad())
-				{
+				if (entity.ad()) {
 					float f10 = entity.ao();
 					AxisAlignedBB axisalignedbb = entity.getBoundingBox().grow(f10, f10, f10);
 
-					if (axisalignedbb.a(vec3d))
-					{
+					if (axisalignedbb.a(vec3d)) {
 						flag = true;
 					}
 				}
 			}
 
-			if (flag)
-			{
+			if (flag) {
 				return itemstack;
-			} else
-			{
-				if (movingobjectposition.type == MovingObjectPosition.EnumMovingObjectType.BLOCK)
-				{
+			} else {
+				if (movingobjectposition.type == MovingObjectPosition.EnumMovingObjectType.BLOCK) {
 					BlockPosition blockposition = movingobjectposition.a();
 
 					// CraftBukkit start - Boat placement
@@ -72,14 +61,12 @@ public class ItemBoat extends Item
 							.callPlayerInteractEvent(entityhuman, org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK,
 									blockposition, movingobjectposition.direction, itemstack);
 
-					if (event.isCancelled())
-					{
+					if (event.isCancelled()) {
 						return itemstack;
 					}
 					// CraftBukkit end
 
-					if (world.getType(blockposition).getBlock() == Blocks.SNOW_LAYER)
-					{
+					if (world.getType(blockposition).getBlock() == Blocks.SNOW_LAYER) {
 						blockposition = blockposition.down();
 					}
 
@@ -87,18 +74,15 @@ public class ItemBoat extends Item
 							blockposition.getY() + 1.0F, blockposition.getZ() + 0.5F);
 
 					entityboat.yaw = ((MathHelper.floor(entityhuman.yaw * 4.0F / 360.0F + 0.5D) & 3) - 1) * 90;
-					if (!world.getCubes(entityboat, entityboat.getBoundingBox().grow(-0.1D, -0.1D, -0.1D)).isEmpty())
-					{
+					if (!world.getCubes(entityboat, entityboat.getBoundingBox().grow(-0.1D, -0.1D, -0.1D)).isEmpty()) {
 						return itemstack;
 					}
 
-					if (!world.isClientSide)
-					{
+					if (!world.isClientSide) {
 						world.addEntity(entityboat);
 					}
 
-					if (!entityhuman.abilities.canInstantlyBuild)
-					{
+					if (!entityhuman.abilities.canInstantlyBuild) {
 						--itemstack.count;
 					}
 

@@ -17,28 +17,23 @@ import net.minecraft.server.PacketPrepender;
 import net.minecraft.server.PacketSplitter;
 import net.minecraft.server.ServerConnection;
 
-public class MinecraftPipeline extends ChannelInitializer<SocketChannel>
-{
+public class MinecraftPipeline extends ChannelInitializer<SocketChannel> {
 	private final ServerConnection serverConnection;
 
-	public MinecraftPipeline(ServerConnection serverConnection)
-	{
+	public MinecraftPipeline(ServerConnection serverConnection) {
 		this.serverConnection = serverConnection;
 	}
 
 	@Override
-	protected void initChannel(SocketChannel channel)
-	{
-		try
-		{
+	protected void initChannel(SocketChannel channel) {
+		try {
 			ChannelConfig config = channel.config();
 			config.setOption(ChannelOption.TCP_NODELAY, NachoConfig.enableTCPNODELAY);
 			config.setOption(ChannelOption.TCP_FASTOPEN, NachoConfig.modeTcpFastOpen);
 			config.setOption(ChannelOption.TCP_FASTOPEN_CONNECT, NachoConfig.enableTcpFastOpen);
 			config.setOption(ChannelOption.IP_TOS, 0x18); // [Nacho-0027] :: Optimize networking
 			config.setAllocator(ByteBufAllocator.DEFAULT);
-		} catch (Exception ignored)
-		{
+		} catch (Exception ignored) {
 		}
 
 		channel.pipeline().addLast("timeout", new ReadTimeoutHandler(30))

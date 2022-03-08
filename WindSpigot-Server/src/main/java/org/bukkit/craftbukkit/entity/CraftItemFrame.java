@@ -15,18 +15,14 @@ import net.minecraft.server.EnumDirection;
 import net.minecraft.server.ItemStack;
 import net.minecraft.server.WorldServer;
 
-public class CraftItemFrame extends CraftHanging implements ItemFrame
-{
-	public CraftItemFrame(CraftServer server, EntityItemFrame entity)
-	{
+public class CraftItemFrame extends CraftHanging implements ItemFrame {
+	public CraftItemFrame(CraftServer server, EntityItemFrame entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public boolean setFacingDirection(BlockFace face, boolean force)
-	{
-		if (!super.setFacingDirection(face, force))
-		{
+	public boolean setFacingDirection(BlockFace face, boolean force) {
+		if (!super.setFacingDirection(face, force)) {
 			return false;
 		}
 
@@ -35,8 +31,7 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame
 		return true;
 	}
 
-	private void update()
-	{
+	private void update() {
 		EntityItemFrame old = this.getHandle();
 
 		WorldServer world = ((CraftWorld) getWorld()).getHandle();
@@ -53,34 +48,27 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame
 	}
 
 	@Override
-	public void setItem(org.bukkit.inventory.ItemStack item)
-	{
-		if (item == null || item.getTypeId() == 0)
-		{
+	public void setItem(org.bukkit.inventory.ItemStack item) {
+		if (item == null || item.getTypeId() == 0) {
 			getHandle().setItem(null);
-		} else
-		{
+		} else {
 			getHandle().setItem(CraftItemStack.asNMSCopy(item));
 		}
 	}
 
 	@Override
-	public org.bukkit.inventory.ItemStack getItem()
-	{
+	public org.bukkit.inventory.ItemStack getItem() {
 		return CraftItemStack.asBukkitCopy(getHandle().getItem());
 	}
 
 	@Override
-	public Rotation getRotation()
-	{
+	public Rotation getRotation() {
 		return toBukkitRotation(getHandle().getRotation());
 	}
 
-	Rotation toBukkitRotation(int value)
-	{
+	Rotation toBukkitRotation(int value) {
 		// Translate NMS rotation integer to Bukkit API
-		switch (value)
-		{
+		switch (value) {
 		case 0:
 			return Rotation.NONE;
 		case 1:
@@ -103,17 +91,14 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame
 	}
 
 	@Override
-	public void setRotation(Rotation rotation)
-	{
+	public void setRotation(Rotation rotation) {
 		Validate.notNull(rotation, "Rotation cannot be null");
 		getHandle().setRotation(toInteger(rotation));
 	}
 
-	static int toInteger(Rotation rotation)
-	{
+	static int toInteger(Rotation rotation) {
 		// Translate Bukkit API rotation to NMS integer
-		switch (rotation)
-		{
+		switch (rotation) {
 		case NONE:
 			return 0;
 		case CLOCKWISE_45:
@@ -136,20 +121,17 @@ public class CraftItemFrame extends CraftHanging implements ItemFrame
 	}
 
 	@Override
-	public EntityItemFrame getHandle()
-	{
+	public EntityItemFrame getHandle() {
 		return (EntityItemFrame) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftItemFrame{item=" + getItem() + ", rotation=" + getRotation() + "}";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.ITEM_FRAME;
 	}
 }

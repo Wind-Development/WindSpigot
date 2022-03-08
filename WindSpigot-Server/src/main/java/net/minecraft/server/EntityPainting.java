@@ -4,40 +4,34 @@ import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
-public class EntityPainting extends EntityHanging
-{
+public class EntityPainting extends EntityHanging {
 
 	public static final EnumArt[] CACHED_ART_VALUES = EnumArt.values();
 	public EntityPainting.EnumArt art;
 
-	public EntityPainting(World world)
-	{
+	public EntityPainting(World world) {
 		super(world);
 		this.art = CACHED_ART_VALUES[this.random.nextInt(CACHED_ART_VALUES.length)]; // CraftBukkit - generate a
 																						// non-null painting
 	}
 
-	public EntityPainting(World world, BlockPosition blockposition, EnumDirection enumdirection)
-	{
+	public EntityPainting(World world, BlockPosition blockposition, EnumDirection enumdirection) {
 		super(world, blockposition);
 		ArrayList arraylist = Lists.newArrayList();
 		EntityPainting.EnumArt[] aentitypainting_enumart = CACHED_ART_VALUES;
 		int i = aentitypainting_enumart.length;
 
-		for (int j = 0; j < i; ++j)
-		{
+		for (int j = 0; j < i; ++j) {
 			EntityPainting.EnumArt entitypainting_enumart = aentitypainting_enumart[j];
 
 			this.art = entitypainting_enumart;
 			this.setDirection(enumdirection);
-			if (this.survives())
-			{
+			if (this.survives()) {
 				arraylist.add(entitypainting_enumart);
 			}
 		}
 
-		if (!arraylist.isEmpty())
-		{
+		if (!arraylist.isEmpty()) {
 			this.art = (EntityPainting.EnumArt) arraylist.get(this.random.nextInt(arraylist.size()));
 		}
 
@@ -45,31 +39,26 @@ public class EntityPainting extends EntityHanging
 	}
 
 	@Override
-	public void b(NBTTagCompound nbttagcompound)
-	{
+	public void b(NBTTagCompound nbttagcompound) {
 		nbttagcompound.setString("Motive", this.art.B);
 		super.b(nbttagcompound);
 	}
 
 	@Override
-	public void a(NBTTagCompound nbttagcompound)
-	{
+	public void a(NBTTagCompound nbttagcompound) {
 		String s = nbttagcompound.getString("Motive");
 		EntityPainting.EnumArt[] aentitypainting_enumart = CACHED_ART_VALUES;
 		int i = aentitypainting_enumart.length;
 
-		for (int j = 0; j < i; ++j)
-		{
+		for (int j = 0; j < i; ++j) {
 			EntityPainting.EnumArt entitypainting_enumart = aentitypainting_enumart[j];
 
-			if (entitypainting_enumart.B.equals(s))
-			{
+			if (entitypainting_enumart.B.equals(s)) {
 				this.art = entitypainting_enumart;
 			}
 		}
 
-		if (this.art == null)
-		{
+		if (this.art == null) {
 			this.art = EntityPainting.EnumArt.KEBAB;
 		}
 
@@ -77,28 +66,22 @@ public class EntityPainting extends EntityHanging
 	}
 
 	@Override
-	public int l()
-	{
+	public int l() {
 		return this.art.C;
 	}
 
 	@Override
-	public int m()
-	{
+	public int m() {
 		return this.art.D;
 	}
 
 	@Override
-	public void b(Entity entity)
-	{
-		if (this.world.getGameRules().getBoolean("doEntityDrops"))
-		{
-			if (entity instanceof EntityHuman)
-			{
+	public void b(Entity entity) {
+		if (this.world.getGameRules().getBoolean("doEntityDrops")) {
+			if (entity instanceof EntityHuman) {
 				EntityHuman entityhuman = (EntityHuman) entity;
 
-				if (entityhuman.abilities.canInstantlyBuild)
-				{
+				if (entityhuman.abilities.canInstantlyBuild) {
 					return;
 				}
 			}
@@ -108,15 +91,13 @@ public class EntityPainting extends EntityHanging
 	}
 
 	@Override
-	public void setPositionRotation(double d0, double d1, double d2, float f, float f1)
-	{
+	public void setPositionRotation(double d0, double d1, double d2, float f, float f1) {
 		BlockPosition blockposition = this.blockPosition.a(d0 - this.locX, d1 - this.locY, d2 - this.locZ);
 
 		this.setPosition(blockposition.getX(), blockposition.getY(), blockposition.getZ());
 	}
 
-	public static enum EnumArt
-	{
+	public static enum EnumArt {
 
 		KEBAB("Kebab", 16, 16, 0, 0), AZTEC("Aztec", 16, 16, 16, 0), ALBAN("Alban", 16, 16, 32, 0),
 		AZTEC_2("Aztec2", 16, 16, 48, 0), BOMB("Bomb", 16, 16, 64, 0), PLANT("Plant", 16, 16, 80, 0),
@@ -136,8 +117,7 @@ public class EntityPainting extends EntityHanging
 		public final int E;
 		public final int F;
 
-		private EnumArt(String s, int i, int j, int k, int l)
-		{
+		private EnumArt(String s, int i, int j, int k, int l) {
 			this.B = s;
 			this.C = i;
 			this.D = j;

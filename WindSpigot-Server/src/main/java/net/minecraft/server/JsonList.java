@@ -33,38 +33,31 @@ import com.google.gson.JsonSerializer;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
 
-public class JsonList<K, V extends JsonListEntry<K>>
-{
+public class JsonList<K, V extends JsonListEntry<K>> {
 
 	protected static final Logger a = LogManager.getLogger();
 	protected final Gson b;
 	private final File c;
 	private final Map<String, V> d = Maps.newHashMap();
 	private boolean e = true;
-	private static final ParameterizedType f = new ParameterizedType()
-	{
+	private static final ParameterizedType f = new ParameterizedType() {
 		@Override
-		public Type[] getActualTypeArguments()
-		{
-			return new Type[]
-			{ JsonListEntry.class };
+		public Type[] getActualTypeArguments() {
+			return new Type[] { JsonListEntry.class };
 		}
 
 		@Override
-		public Type getRawType()
-		{
+		public Type getRawType() {
 			return List.class;
 		}
 
 		@Override
-		public Type getOwnerType()
-		{
+		public Type getOwnerType() {
 			return null;
 		}
 	};
 
-	public JsonList(File file)
-	{
+	public JsonList(File file) {
 		this.c = file;
 		GsonBuilder gsonbuilder = (new GsonBuilder()).setPrettyPrinting();
 
@@ -72,101 +65,82 @@ public class JsonList<K, V extends JsonListEntry<K>>
 		this.b = gsonbuilder.create();
 	}
 
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return this.e;
 	}
 
-	public void a(boolean flag)
-	{
+	public void a(boolean flag) {
 		this.e = flag;
 	}
 
-	public File c()
-	{
+	public File c() {
 		return this.c;
 	}
 
-	public void add(V v0)
-	{
+	public void add(V v0) {
 		this.d.put(this.a(v0.getKey()), v0);
 
-		try
-		{
+		try {
 			this.save();
-		} catch (IOException ioexception)
-		{
+		} catch (IOException ioexception) {
 			JsonList.a.warn("Could not save the list after adding a user.", ioexception);
 		}
 
 	}
 
-	public V get(K k0)
-	{
+	public V get(K k0) {
 		this.h();
 		return this.d.get(this.a(k0)); // CraftBukkit - fix decompile error
 	}
 
-	public void remove(K k0)
-	{
+	public void remove(K k0) {
 		this.d.remove(this.a(k0));
 
-		try
-		{
+		try {
 			this.save();
-		} catch (IOException ioexception)
-		{
+		} catch (IOException ioexception) {
 			JsonList.a.warn("Could not save the list after removing a user.", ioexception);
 		}
 
 	}
 
-	public String[] getEntries()
-	{
+	public String[] getEntries() {
 		return this.d.keySet().toArray(new String[this.d.size()]);
 	}
 
 	// CraftBukkit start
-	public Collection<V> getValues()
-	{
+	public Collection<V> getValues() {
 		return this.d.values();
 	}
 	// CraftBukkit end
 
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		return this.d.size() < 1;
 	}
 
-	protected String a(K k0)
-	{
+	protected String a(K k0) {
 		return k0.toString();
 	}
 
-	protected boolean d(K k0)
-	{
+	protected boolean d(K k0) {
 		return this.d.containsKey(this.a(k0));
 	}
 
-	private void h()
-	{
+	private void h() {
 		ArrayList arraylist = Lists.newArrayList();
 		Iterator iterator = this.d.values().iterator();
 
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			JsonListEntry jsonlistentry = (JsonListEntry) iterator.next();
 
-			if (jsonlistentry.hasExpired())
-			{
+			if (jsonlistentry.hasExpired()) {
 				arraylist.add(jsonlistentry.getKey());
 			}
 		}
 
 		iterator = arraylist.iterator();
 
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			Object object = iterator.next();
 
 			this.d.remove(object);
@@ -174,39 +148,30 @@ public class JsonList<K, V extends JsonListEntry<K>>
 
 	}
 
-	protected JsonListEntry<K> a(JsonObject jsonobject)
-	{
+	protected JsonListEntry<K> a(JsonObject jsonobject) {
 		return new JsonListEntry((Object) null, jsonobject);
 	}
 
-	protected Map<String, V> e()
-	{
+	protected Map<String, V> e() {
 		return this.d;
 	}
 
-	public void save() throws IOException
-	{
-		Runnable runnable = () ->
-		{ // Akarin - Save json list async
+	public void save() throws IOException {
+		Runnable runnable = () -> { // Akarin - Save json list async
 			Collection collection = this.d.values();
 			String s = this.b.toJson(collection);
 			BufferedWriter bufferedwriter = null;
 
-			try
-			{
+			try {
 				bufferedwriter = Files.newWriter(this.c, Charsets.UTF_8);
-				try
-				{
+				try {
 					bufferedwriter.write(s);
-				} catch (IOException e)
-				{
+				} catch (IOException e) {
 					System.out.println("Failed to save " + this.c); // Akarin - Save json list async
 				}
-			} catch (FileNotFoundException e1)
-			{
+			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
-			} finally
-			{
+			} finally {
 				IOUtils.closeQuietly(bufferedwriter);
 			}
 
@@ -215,44 +180,36 @@ public class JsonList<K, V extends JsonListEntry<K>>
 
 	}
 
-	public void load() throws FileNotFoundException
-	{
+	public void load() throws FileNotFoundException {
 		Collection collection = null;
 		BufferedReader bufferedreader = null;
 
-		try
-		{
+		try {
 			bufferedreader = Files.newReader(this.c, Charsets.UTF_8);
 			collection = (Collection) this.b.fromJson(bufferedreader, JsonList.f);
 			// Spigot Start
-		} catch (java.io.FileNotFoundException ex)
-		{
+		} catch (java.io.FileNotFoundException ex) {
 			org.bukkit.Bukkit.getLogger().log(java.util.logging.Level.INFO, "Unable to find file {0}, creating it.",
 					this.c);
-		} catch (com.google.gson.JsonSyntaxException ex)
-		{
+		} catch (com.google.gson.JsonSyntaxException ex) {
 			org.bukkit.Bukkit.getLogger().log(java.util.logging.Level.WARNING,
 					"Unable to read file {0}, backing it up to {0}.backup and creating new copy.", this.c);
 			File backup = new File(this.c + ".backup");
 			this.c.renameTo(backup);
 			this.c.delete();
 			// Spigot End
-		} finally
-		{
+		} finally {
 			IOUtils.closeQuietly(bufferedreader);
 		}
 
-		if (collection != null)
-		{
+		if (collection != null) {
 			this.d.clear();
 			Iterator iterator = collection.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()) {
 				JsonListEntry jsonlistentry = (JsonListEntry) iterator.next();
 
-				if (jsonlistentry.getKey() != null)
-				{
+				if (jsonlistentry.getKey() != null) {
 					this.d.put(this.a((K) jsonlistentry.getKey()), (V) jsonlistentry); // CraftBukkit - fix decompile
 																						// error
 				}
@@ -261,16 +218,13 @@ public class JsonList<K, V extends JsonListEntry<K>>
 
 	}
 
-	class JsonListEntrySerializer implements JsonDeserializer<JsonListEntry<K>>, JsonSerializer<JsonListEntry<K>>
-	{
+	class JsonListEntrySerializer implements JsonDeserializer<JsonListEntry<K>>, JsonSerializer<JsonListEntry<K>> {
 
-		private JsonListEntrySerializer()
-		{
+		private JsonListEntrySerializer() {
 		}
 
 		public JsonElement a(JsonListEntry<K> jsonlistentry, Type type,
-				JsonSerializationContext jsonserializationcontext)
-		{
+				JsonSerializationContext jsonserializationcontext) {
 			JsonObject jsonobject = new JsonObject();
 
 			jsonlistentry.a(jsonobject);
@@ -278,37 +232,31 @@ public class JsonList<K, V extends JsonListEntry<K>>
 		}
 
 		public JsonListEntry<K> a(JsonElement jsonelement, Type type,
-				JsonDeserializationContext jsondeserializationcontext) throws JsonParseException
-		{
-			if (jsonelement.isJsonObject())
-			{
+				JsonDeserializationContext jsondeserializationcontext) throws JsonParseException {
+			if (jsonelement.isJsonObject()) {
 				JsonObject jsonobject = jsonelement.getAsJsonObject();
 				JsonListEntry jsonlistentry = JsonList.this.a(jsonobject);
 
 				return jsonlistentry;
-			} else
-			{
+			} else {
 				return null;
 			}
 		}
 
 		@Override
 		public JsonElement serialize(JsonListEntry<K> object, Type type,
-				JsonSerializationContext jsonserializationcontext)
-		{ // CraftBukkit - fix decompile error
+				JsonSerializationContext jsonserializationcontext) { // CraftBukkit - fix decompile error
 			return this.a(object, type, jsonserializationcontext);
 		}
 
 		@Override
 		public JsonListEntry<K> deserialize(JsonElement jsonelement, Type type,
-				JsonDeserializationContext jsondeserializationcontext) throws JsonParseException
-		{ // CraftBukkit - fix
-			// decompile error
+				JsonDeserializationContext jsondeserializationcontext) throws JsonParseException { // CraftBukkit - fix
+																									// decompile error
 			return this.a(jsonelement, type, jsondeserializationcontext);
 		}
 
-		JsonListEntrySerializer(Object object)
-		{
+		JsonListEntrySerializer(Object object) {
 			this();
 		}
 	}

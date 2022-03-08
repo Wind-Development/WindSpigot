@@ -9,46 +9,38 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import net.minecraft.server.EntityComplexPart;
 import net.minecraft.server.EntityEnderDragon;
 
-public class CraftComplexPart extends CraftEntity implements ComplexEntityPart
-{
-	public CraftComplexPart(CraftServer server, EntityComplexPart entity)
-	{
+public class CraftComplexPart extends CraftEntity implements ComplexEntityPart {
+	public CraftComplexPart(CraftServer server, EntityComplexPart entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public ComplexLivingEntity getParent()
-	{
+	public ComplexLivingEntity getParent() {
 		return (ComplexLivingEntity) ((EntityEnderDragon) getHandle().owner).getBukkitEntity();
 	}
 
 	@Override
-	public void setLastDamageCause(EntityDamageEvent cause)
-	{
+	public void setLastDamageCause(EntityDamageEvent cause) {
 		getParent().setLastDamageCause(cause);
 	}
 
 	@Override
-	public EntityDamageEvent getLastDamageCause()
-	{
+	public EntityDamageEvent getLastDamageCause() {
 		return getParent().getLastDamageCause();
 	}
 
 	@Override
-	public EntityComplexPart getHandle()
-	{
+	public EntityComplexPart getHandle() {
 		return (EntityComplexPart) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftComplexPart";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.COMPLEX_PART;
 	}
 }

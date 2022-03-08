@@ -12,14 +12,12 @@ import org.fusesource.jansi.Ansi.Attribute;
 
 import jline.Terminal;
 
-public class ColouredConsoleSender extends CraftConsoleCommandSender
-{
+public class ColouredConsoleSender extends CraftConsoleCommandSender {
 	private final Terminal terminal;
 	private final Map<ChatColor, String> replacements = new EnumMap<ChatColor, String>(ChatColor.class);
 	private final ChatColor[] colors = ChatColor.values();
 
-	protected ColouredConsoleSender()
-	{
+	protected ColouredConsoleSender() {
 		super();
 		this.terminal = ((CraftServer) getServer()).getReader().getTerminal();
 
@@ -51,38 +49,28 @@ public class ColouredConsoleSender extends CraftConsoleCommandSender
 	}
 
 	@Override
-	public void sendMessage(String message)
-	{
-		if (terminal.isAnsiSupported())
-		{
-			if (!conversationTracker.isConversingModaly())
-			{
+	public void sendMessage(String message) {
+		if (terminal.isAnsiSupported()) {
+			if (!conversationTracker.isConversingModaly()) {
 				String result = message;
-				for (ChatColor color : colors)
-				{
-					if (replacements.containsKey(color))
-					{
+				for (ChatColor color : colors) {
+					if (replacements.containsKey(color)) {
 						result = result.replaceAll("(?i)" + color.toString(), replacements.get(color));
-					} else
-					{
+					} else {
 						result = result.replaceAll("(?i)" + color.toString(), "");
 					}
 				}
 				System.out.println(result + Ansi.ansi().reset().toString());
 			}
-		} else
-		{
+		} else {
 			super.sendMessage(message);
 		}
 	}
 
-	public static ConsoleCommandSender getInstance()
-	{
-		if (Bukkit.getConsoleSender() != null)
-		{
+	public static ConsoleCommandSender getInstance() {
+		if (Bukkit.getConsoleSender() != null) {
 			return Bukkit.getConsoleSender();
-		} else
-		{
+		} else {
 			return new ColouredConsoleSender();
 		}
 	}

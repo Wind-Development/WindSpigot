@@ -12,39 +12,33 @@ import net.minecraft.server.BlockPosition;
 import net.minecraft.server.Blocks;
 import net.minecraft.server.TileEntityDropper;
 
-public class CraftDropper extends CraftBlockState implements Dropper
-{
+public class CraftDropper extends CraftBlockState implements Dropper {
 	private final CraftWorld world;
 	private final TileEntityDropper dropper;
 
-	public CraftDropper(final Block block)
-	{
+	public CraftDropper(final Block block) {
 		super(block);
 
 		world = (CraftWorld) block.getWorld();
 		dropper = (TileEntityDropper) world.getTileEntityAt(getX(), getY(), getZ());
 	}
 
-	public CraftDropper(final Material material, TileEntityDropper te)
-	{
+	public CraftDropper(final Material material, TileEntityDropper te) {
 		super(material);
 		world = null;
 		dropper = te;
 	}
 
 	@Override
-	public Inventory getInventory()
-	{
+	public Inventory getInventory() {
 		return new CraftInventory(dropper);
 	}
 
 	@Override
-	public void drop()
-	{
+	public void drop() {
 		Block block = getBlock();
 
-		if (block.getType() == Material.DROPPER)
-		{
+		if (block.getType() == Material.DROPPER) {
 			BlockDropper drop = (BlockDropper) Blocks.DROPPER;
 
 			drop.dispense(world.getHandle(), new BlockPosition(getX(), getY(), getZ()));
@@ -52,12 +46,10 @@ public class CraftDropper extends CraftBlockState implements Dropper
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics)
-	{
+	public boolean update(boolean force, boolean applyPhysics) {
 		boolean result = super.update(force, applyPhysics);
 
-		if (result)
-		{
+		if (result) {
 			dropper.update();
 		}
 
@@ -65,8 +57,7 @@ public class CraftDropper extends CraftBlockState implements Dropper
 	}
 
 	@Override
-	public TileEntityDropper getTileEntity()
-	{
+	public TileEntityDropper getTileEntity() {
 		return dropper;
 	}
 }

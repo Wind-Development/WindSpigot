@@ -6,28 +6,23 @@ import org.bukkit.entity.EntityType;
 
 import net.minecraft.server.EntityEnderCrystal;
 
-public class CraftEnderCrystal extends CraftEntity implements EnderCrystal
-{
-	public CraftEnderCrystal(CraftServer server, EntityEnderCrystal entity)
-	{
+public class CraftEnderCrystal extends CraftEntity implements EnderCrystal {
+	public CraftEnderCrystal(CraftServer server, EntityEnderCrystal entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public EntityEnderCrystal getHandle()
-	{
+	public EntityEnderCrystal getHandle() {
 		return (EntityEnderCrystal) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftEnderCrystal";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.ENDER_CRYSTAL;
 	}
 }

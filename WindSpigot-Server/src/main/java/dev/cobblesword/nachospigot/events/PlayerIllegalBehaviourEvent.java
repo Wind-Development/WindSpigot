@@ -5,49 +5,41 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
-public class PlayerIllegalBehaviourEvent extends PlayerEvent implements Cancellable
-{
+public class PlayerIllegalBehaviourEvent extends PlayerEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private final IllegalType illegalType;
 	private Boolean cancel;
 
-	public PlayerIllegalBehaviourEvent(final Player player, IllegalType illegalType)
-	{
+	public PlayerIllegalBehaviourEvent(final Player player, IllegalType illegalType) {
 		super(player);
 		this.illegalType = illegalType;
 		this.cancel = false;
 	}
 
-	public IllegalType getIllegalType()
-	{
+	public IllegalType getIllegalType() {
 		return illegalType;
 	}
 
 	@Override
-	public boolean isCancelled()
-	{
+	public boolean isCancelled() {
 		return cancel;
 	}
 
 	@Override
-	public void setCancelled(boolean cancel)
-	{
+	public void setCancelled(boolean cancel) {
 		this.cancel = cancel;
 	}
 
 	@Override
-	public HandlerList getHandlers()
-	{
+	public HandlerList getHandlers() {
 		return handlers;
 	}
 
-	public static HandlerList getHandlerList()
-	{
+	public static HandlerList getHandlerList() {
 		return handlers;
 	}
 
-	public enum IllegalType
-	{
+	public enum IllegalType {
 		CREATIVE_ACTION_NOT_IN_CREATIVE
 	}
 }

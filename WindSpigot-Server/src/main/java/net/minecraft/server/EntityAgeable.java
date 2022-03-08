@@ -2,8 +2,7 @@ package net.minecraft.server;
 
 import dev.cobblesword.nachospigot.commons.Constants;
 
-public abstract class EntityAgeable extends EntityCreature
-{
+public abstract class EntityAgeable extends EntityCreature {
 
 	protected int a;
 	protected int b;
@@ -14,22 +13,17 @@ public abstract class EntityAgeable extends EntityCreature
 
 	// Spigot start
 	@Override
-	public void inactiveTick()
-	{
+	public void inactiveTick() {
 		super.inactiveTick();
-		if (this.world.isClientSide || this.ageLocked)
-		{ // CraftBukkit
+		if (this.world.isClientSide || this.ageLocked) { // CraftBukkit
 			this.a(this.isBaby());
-		} else
-		{
+		} else {
 			int i = this.getAge();
 
-			if (i < 0)
-			{
+			if (i < 0) {
 				++i;
 				this.setAgeRaw(i);
-			} else if (i > 0)
-			{
+			} else if (i > 0) {
 				--i;
 				this.setAgeRaw(i);
 			}
@@ -37,44 +31,35 @@ public abstract class EntityAgeable extends EntityCreature
 	}
 	// Spigot end
 
-	public EntityAgeable(World world)
-	{
+	public EntityAgeable(World world) {
 		super(world);
 	}
 
 	public abstract EntityAgeable createChild(EntityAgeable entityageable);
 
 	@Override
-	public boolean a(EntityHuman entityhuman)
-	{
+	public boolean a(EntityHuman entityhuman) {
 		ItemStack itemstack = entityhuman.inventory.getItemInHand();
 
-		if (itemstack != null && itemstack.getItem() == Items.SPAWN_EGG)
-		{
-			if (!this.world.isClientSide)
-			{
+		if (itemstack != null && itemstack.getItem() == Items.SPAWN_EGG) {
+			if (!this.world.isClientSide) {
 				Class oclass = EntityTypes.a(itemstack.getData());
 
-				if (oclass != null && this.getClass() == oclass)
-				{
+				if (oclass != null && this.getClass() == oclass) {
 					EntityAgeable entityageable = this.createChild(this);
 
-					if (entityageable != null)
-					{
+					if (entityageable != null) {
 						entityageable.setAgeRaw(-24000);
 						entityageable.setPositionRotation(this.locX, this.locY, this.locZ, 0.0F, 0.0F);
 						this.world.addEntity(entityageable,
 								org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.SPAWNER_EGG); // CraftBukkit
-						if (itemstack.hasName())
-						{
+						if (itemstack.hasName()) {
 							entityageable.setCustomName(itemstack.getName());
 						}
 
-						if (!entityhuman.abilities.canInstantlyBuild)
-						{
+						if (!entityhuman.abilities.canInstantlyBuild) {
 							--itemstack.count;
-							if (itemstack.count == 0)
-							{ // CraftBukkit - allow less than 0 stacks as "infinite"
+							if (itemstack.count == 0) { // CraftBukkit - allow less than 0 stacks as "infinite"
 								entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
 							}
 						}
@@ -83,35 +68,29 @@ public abstract class EntityAgeable extends EntityCreature
 			}
 
 			return true;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
 
 	@Override
-	protected void h()
-	{
+	protected void h() {
 		super.h();
 		this.datawatcher.a(12, Byte.valueOf((byte) 0));
 	}
 
-	public int getAge()
-	{
+	public int getAge() {
 		return this.world.isClientSide ? this.datawatcher.getByte(12) : this.a;
 	}
 
-	public void setAge(int i, boolean flag)
-	{
+	public void setAge(int i, boolean flag) {
 		int j = this.getAge();
 		int k = j;
 
 		j += i * 20;
-		if (j > 0)
-		{
+		if (j > 0) {
 			j = 0;
-			if (k < 0)
-			{
+			if (k < 0) {
 				this.n();
 			}
 		}
@@ -119,37 +98,31 @@ public abstract class EntityAgeable extends EntityCreature
 		int l = j - k;
 
 		this.setAgeRaw(j);
-		if (flag)
-		{
+		if (flag) {
 			this.b += l;
-			if (this.c == 0)
-			{
+			if (this.c == 0) {
 				this.c = 40;
 			}
 		}
 
-		if (this.getAge() == 0)
-		{
+		if (this.getAge() == 0) {
 			this.setAgeRaw(this.b);
 		}
 
 	}
 
-	public void setAge(int i)
-	{
+	public void setAge(int i) {
 		this.setAge(i, false);
 	}
 
-	public void setAgeRaw(int i)
-	{
+	public void setAgeRaw(int i) {
 		this.datawatcher.watch(12, Byte.valueOf((byte) MathHelper.clamp(i, -1, 1)));
 		this.a = i;
 		this.a(this.isBaby());
 	}
 
 	@Override
-	public void b(NBTTagCompound nbttagcompound)
-	{
+	public void b(NBTTagCompound nbttagcompound) {
 		super.b(nbttagcompound);
 		nbttagcompound.setInt("Age", this.getAge());
 		nbttagcompound.setInt("ForcedAge", this.b);
@@ -157,8 +130,7 @@ public abstract class EntityAgeable extends EntityCreature
 	}
 
 	@Override
-	public void a(NBTTagCompound nbttagcompound)
-	{
+	public void a(NBTTagCompound nbttagcompound) {
 		super.a(nbttagcompound);
 		this.setAgeRaw(nbttagcompound.getInt("Age"));
 		this.b = nbttagcompound.getInt("ForcedAge");
@@ -166,15 +138,11 @@ public abstract class EntityAgeable extends EntityCreature
 	}
 
 	@Override
-	public void m()
-	{
+	public void m() {
 		super.m();
-		if (this.world.isClientSide || ageLocked)
-		{ // CraftBukkit
-			if (this.c > 0)
-			{
-				if (this.c % 4 == 0)
-				{
+		if (this.world.isClientSide || ageLocked) { // CraftBukkit
+			if (this.c > 0) {
+				if (this.c % 4 == 0) {
 					this.world.addParticle(EnumParticle.VILLAGER_HAPPY,
 							this.locX + this.random.nextFloat() * this.width * 2.0F - this.width,
 							this.locY + 0.5D + this.random.nextFloat() * this.length,
@@ -186,20 +154,16 @@ public abstract class EntityAgeable extends EntityCreature
 			}
 
 			this.a(this.isBaby());
-		} else
-		{
+		} else {
 			int i = this.getAge();
 
-			if (i < 0)
-			{
+			if (i < 0) {
 				++i;
 				this.setAgeRaw(i);
-				if (i == 0)
-				{
+				if (i == 0) {
 					this.n();
 				}
-			} else if (i > 0)
-			{
+			} else if (i > 0) {
 				--i;
 				this.setAgeRaw(i);
 			}
@@ -207,37 +171,31 @@ public abstract class EntityAgeable extends EntityCreature
 
 	}
 
-	protected void n()
-	{
+	protected void n() {
 	}
 
 	@Override
-	public boolean isBaby()
-	{
+	public boolean isBaby() {
 		return this.getAge() < 0;
 	}
 
-	public void a(boolean flag)
-	{
+	public void a(boolean flag) {
 		this.a(flag ? 0.5F : 1.0F);
 	}
 
 	@Override
-	public final void setSize(float f, float f1)
-	{ // CraftBukkit - protected to public
+	public final void setSize(float f, float f1) { // CraftBukkit - protected to public
 		boolean flag = this.bm > 0.0F;
 
 		this.bm = f;
 		this.bn = f1;
-		if (!flag)
-		{
+		if (!flag) {
 			this.a(1.0F);
 		}
 
 	}
 
-	protected final void a(float f)
-	{
+	protected final void a(float f) {
 		super.setSize(this.bm * f, this.bn * f);
 	}
 }

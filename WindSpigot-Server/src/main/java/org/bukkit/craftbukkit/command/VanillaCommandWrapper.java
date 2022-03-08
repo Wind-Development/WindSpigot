@@ -34,18 +34,15 @@ import net.minecraft.server.PlayerSelector;
 import net.minecraft.server.RemoteControlCommandListener;
 import net.minecraft.server.WorldServer;
 
-public final class VanillaCommandWrapper extends VanillaCommand
-{
+public final class VanillaCommandWrapper extends VanillaCommand {
 	protected final CommandAbstract vanillaCommand;
 
-	public VanillaCommandWrapper(CommandAbstract vanillaCommand)
-	{
+	public VanillaCommandWrapper(CommandAbstract vanillaCommand) {
 		super(vanillaCommand.getCommand());
 		this.vanillaCommand = vanillaCommand;
 	}
 
-	public VanillaCommandWrapper(CommandAbstract vanillaCommand, String usage)
-	{
+	public VanillaCommandWrapper(CommandAbstract vanillaCommand, String usage) {
 		super(vanillaCommand.getCommand());
 		this.vanillaCommand = vanillaCommand;
 		this.description = "A Mojang provided command.";
@@ -54,10 +51,8 @@ public final class VanillaCommandWrapper extends VanillaCommand
 	}
 
 	@Override
-	public boolean execute(CommandSender sender, String commandLabel, String[] args)
-	{
-		if (!testPermission(sender))
-		{
+	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+		if (!testPermission(sender)) {
 			return true;
 		}
 
@@ -67,8 +62,7 @@ public final class VanillaCommandWrapper extends VanillaCommand
 	}
 
 	@Override
-	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException
-	{
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
 		return tabComplete(sender, alias, args, null); // PaperSpigot - location tab-completes. Original code moved
 														// below
 	}
@@ -80,16 +74,13 @@ public final class VanillaCommandWrapper extends VanillaCommand
 	 */
 	@Override
 	public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location)
-			throws IllegalArgumentException
-	{
+			throws IllegalArgumentException {
 		Validate.notNull(sender, "Sender cannot be null");
 		Validate.notNull(args, "Arguments cannot be null");
 		Validate.notNull(alias, "Alias cannot be null");
-		if (location == null)
-		{ // PaperSpigot use location information if available
+		if (location == null) { // PaperSpigot use location information if available
 			return vanillaCommand.tabComplete(getListener(sender), args, new BlockPosition(0, 0, 0));
-		} else
-		{
+		} else {
 			return vanillaCommand.tabComplete(getListener(sender), args,
 					new BlockPosition(location.getBlockX(), location.getBlockY(), location.getBlockZ()));
 		}
@@ -98,8 +89,7 @@ public final class VanillaCommandWrapper extends VanillaCommand
 
 	public static CommandSender lastSender = null; // Nasty :(
 
-	public final int dispatchVanillaCommand(CommandSender bSender, ICommandListener icommandlistener, String[] as)
-	{
+	public final int dispatchVanillaCommand(CommandSender bSender, ICommandListener icommandlistener, String[] as) {
 		// Copied from net.minecraft.server.CommandHandler
 		int i = getPlayerListSize(as);
 		int j = 0;
@@ -111,158 +101,127 @@ public final class VanillaCommandWrapper extends VanillaCommand
 		server.worldServer = new WorldServer[server.worlds.size()];
 		server.worldServer[0] = (WorldServer) icommandlistener.getWorld();
 		int bpos = 0;
-		for (int pos = 1; pos < server.worldServer.length; pos++)
-		{
+		for (int pos = 1; pos < server.worldServer.length; pos++) {
 			WorldServer world = server.worlds.get(bpos++);
-			if (server.worldServer[0] == world)
-			{
+			if (server.worldServer[0] == world) {
 				pos--;
 				continue;
 			}
 			server.worldServer[pos] = world;
 		}
 
-		try
-		{
-			if (vanillaCommand.canUse(icommandlistener))
-			{
-				if (i > -1)
-				{
+		try {
+			if (vanillaCommand.canUse(icommandlistener)) {
+				if (i > -1) {
 					List<Entity> list = (PlayerSelector.getPlayers(icommandlistener, as[i], Entity.class));
 					String s2 = as[i];
 
 					icommandlistener.a(CommandObjectiveExecutor.EnumCommandResult.AFFECTED_ENTITIES, list.size());
 					Iterator<Entity> iterator = list.iterator();
 
-					while (iterator.hasNext())
-					{
+					while (iterator.hasNext()) {
 						Entity entity = iterator.next();
 
 						CommandSender oldSender = lastSender;
 						lastSender = bSender;
-						try
-						{
+						try {
 							as[i] = entity.getUniqueID().toString();
 							vanillaCommand.execute(icommandlistener, as);
 							j++;
-						} catch (ExceptionUsage exceptionusage)
-						{
-							ChatMessage chatmessage = new ChatMessage("commands.generic.usage", new Object[]
-							{ new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()) });
+						} catch (ExceptionUsage exceptionusage) {
+							ChatMessage chatmessage = new ChatMessage("commands.generic.usage", new Object[] {
+									new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()) });
 							chatmessage.getChatModifier().setColor(EnumChatFormat.RED);
 							icommandlistener.sendMessage(chatmessage);
-						} catch (CommandException commandexception)
-						{
+						} catch (CommandException commandexception) {
 							CommandAbstract.a(icommandlistener, vanillaCommand, 1, commandexception.getMessage(),
 									commandexception.getArgs());
-						} finally
-						{
+						} finally {
 							lastSender = oldSender;
 						}
 					}
 					as[i] = s2;
-				} else
-				{
+				} else {
 					icommandlistener.a(CommandObjectiveExecutor.EnumCommandResult.AFFECTED_ENTITIES, 1);
 					vanillaCommand.execute(icommandlistener, as);
 					j++;
 				}
-			} else
-			{
+			} else {
 				ChatMessage chatmessage = new ChatMessage("commands.generic.permission", new Object[0]);
 				chatmessage.getChatModifier().setColor(EnumChatFormat.RED);
 				icommandlistener.sendMessage(chatmessage);
 			}
-		} catch (ExceptionUsage exceptionusage)
-		{
-			ChatMessage chatmessage1 = new ChatMessage("commands.generic.usage", new Object[]
-			{ new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()) });
+		} catch (ExceptionUsage exceptionusage) {
+			ChatMessage chatmessage1 = new ChatMessage("commands.generic.usage",
+					new Object[] { new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()) });
 			chatmessage1.getChatModifier().setColor(EnumChatFormat.RED);
 			icommandlistener.sendMessage(chatmessage1);
-		} catch (CommandException commandexception)
-		{
+		} catch (CommandException commandexception) {
 			CommandAbstract.a(icommandlistener, vanillaCommand, 1, commandexception.getMessage(),
 					commandexception.getArgs());
-		} catch (Throwable throwable)
-		{
+		} catch (Throwable throwable) {
 			ChatMessage chatmessage3 = new ChatMessage("commands.generic.exception", new Object[0]);
 			chatmessage3.getChatModifier().setColor(EnumChatFormat.RED);
 			icommandlistener.sendMessage(chatmessage3);
-			if (icommandlistener.f() instanceof EntityMinecartCommandBlock)
-			{
+			if (icommandlistener.f() instanceof EntityMinecartCommandBlock) {
 				MinecraftServer.LOGGER.log(Level.WARN,
 						String.format("MinecartCommandBlock at (%d,%d,%d) failed to handle command",
 								icommandlistener.getChunkCoordinates().getX(),
 								icommandlistener.getChunkCoordinates().getY(),
 								icommandlistener.getChunkCoordinates().getZ()),
 						throwable);
-			} else if (icommandlistener instanceof CommandBlockListenerAbstract)
-			{
+			} else if (icommandlistener instanceof CommandBlockListenerAbstract) {
 				CommandBlockListenerAbstract listener = (CommandBlockListenerAbstract) icommandlistener;
 				MinecraftServer.LOGGER.log(Level.WARN,
 						String.format("CommandBlock at (%d,%d,%d) failed to handle command",
 								listener.getChunkCoordinates().getX(), listener.getChunkCoordinates().getY(),
 								listener.getChunkCoordinates().getZ()),
 						throwable);
-			} else
-			{
+			} else {
 				MinecraftServer.LOGGER.log(Level.WARN, String.format("Unknown CommandBlock failed to handle command"),
 						throwable);
 			}
-		} finally
-		{
+		} finally {
 			MinecraftServer.getServer().worldServer = prev;
 		}
 		icommandlistener.a(CommandObjectiveExecutor.EnumCommandResult.SUCCESS_COUNT, j);
 		return j;
 	}
 
-	private ICommandListener getListener(CommandSender sender)
-	{
-		if (sender instanceof Player)
-		{
+	private ICommandListener getListener(CommandSender sender) {
+		if (sender instanceof Player) {
 			return ((CraftPlayer) sender).getHandle();
 		}
-		if (sender instanceof BlockCommandSender)
-		{
+		if (sender instanceof BlockCommandSender) {
 			return ((CraftBlockCommandSender) sender).getTileEntity();
 		}
-		if (sender instanceof CommandMinecart)
-		{
+		if (sender instanceof CommandMinecart) {
 			return ((EntityMinecartCommandBlock) ((CraftMinecartCommand) sender).getHandle()).getCommandBlock();
 		}
-		if (sender instanceof RemoteConsoleCommandSender)
-		{
+		if (sender instanceof RemoteConsoleCommandSender) {
 			return RemoteControlCommandListener.getInstance();
 		}
-		if (sender instanceof ConsoleCommandSender)
-		{
+		if (sender instanceof ConsoleCommandSender) {
 			return ((CraftServer) sender.getServer()).getServer();
 		}
-		if (sender instanceof ProxiedCommandSender)
-		{
+		if (sender instanceof ProxiedCommandSender) {
 			return ((ProxiedNativeCommandSender) sender).getHandle();
 		}
 		throw new IllegalArgumentException("Cannot make " + sender + " a vanilla command listener");
 	}
 
-	private int getPlayerListSize(String as[])
-	{
-		for (int i = 0; i < as.length; i++)
-		{
-			if (vanillaCommand.isListStart(as, i) && PlayerSelector.isList(as[i]))
-			{
+	private int getPlayerListSize(String as[]) {
+		for (int i = 0; i < as.length; i++) {
+			if (vanillaCommand.isListStart(as, i) && PlayerSelector.isList(as[i])) {
 				return i;
 			}
 		}
 		return -1;
 	}
 
-	public static String[] dropFirstArgument(String as[])
-	{
+	public static String[] dropFirstArgument(String as[]) {
 		String as1[] = new String[as.length - 1];
-		for (int i = 1; i < as.length; i++)
-		{
+		for (int i = 1; i < as.length; i++) {
 			as1[i - 1] = as[i];
 		}
 

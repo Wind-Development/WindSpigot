@@ -15,61 +15,51 @@ import com.google.common.collect.ImmutableMap.Builder;
 import net.minecraft.server.NBTTagCompound;
 
 @DelegateDeserialization(SerializableMeta.class)
-class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorageMeta
-{
+class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorageMeta {
 	static final ItemMetaKey STORED_ENCHANTMENTS = new ItemMetaKey("StoredEnchantments", "stored-enchants");
 
 	private Map<Enchantment, Integer> enchantments;
 
-	CraftMetaEnchantedBook(CraftMetaItem meta)
-	{
+	CraftMetaEnchantedBook(CraftMetaItem meta) {
 		super(meta);
 
-		if (!(meta instanceof CraftMetaEnchantedBook))
-		{
+		if (!(meta instanceof CraftMetaEnchantedBook)) {
 			return;
 		}
 
 		CraftMetaEnchantedBook that = (CraftMetaEnchantedBook) meta;
 
-		if (that.hasEnchants())
-		{
+		if (that.hasEnchants()) {
 			this.enchantments = new HashMap<Enchantment, Integer>(that.enchantments);
 		}
 	}
 
-	CraftMetaEnchantedBook(NBTTagCompound tag)
-	{
+	CraftMetaEnchantedBook(NBTTagCompound tag) {
 		super(tag);
 
-		if (!tag.hasKey(STORED_ENCHANTMENTS.NBT))
-		{
+		if (!tag.hasKey(STORED_ENCHANTMENTS.NBT)) {
 			return;
 		}
 
 		enchantments = buildEnchantments(tag, STORED_ENCHANTMENTS);
 	}
 
-	CraftMetaEnchantedBook(Map<String, Object> map)
-	{
+	CraftMetaEnchantedBook(Map<String, Object> map) {
 		super(map);
 
 		enchantments = buildEnchantments(map, STORED_ENCHANTMENTS);
 	}
 
 	@Override
-	void applyToItem(NBTTagCompound itemTag)
-	{
+	void applyToItem(NBTTagCompound itemTag) {
 		super.applyToItem(itemTag);
 
 		applyEnchantments(enchantments, itemTag, STORED_ENCHANTMENTS);
 	}
 
 	@Override
-	boolean applicableTo(Material type)
-	{
-		switch (type)
-		{
+	boolean applicableTo(Material type) {
+		switch (type) {
 		case ENCHANTED_BOOK:
 			return true;
 		default:
@@ -78,20 +68,16 @@ class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorage
 	}
 
 	@Override
-	boolean isEmpty()
-	{
+	boolean isEmpty() {
 		return super.isEmpty() && isEnchantedEmpty();
 	}
 
 	@Override
-	boolean equalsCommon(CraftMetaItem meta)
-	{
-		if (!super.equalsCommon(meta))
-		{
+	boolean equalsCommon(CraftMetaItem meta) {
+		if (!super.equalsCommon(meta)) {
 			return false;
 		}
-		if (meta instanceof CraftMetaEnchantedBook)
-		{
+		if (meta instanceof CraftMetaEnchantedBook) {
 			CraftMetaEnchantedBook that = (CraftMetaEnchantedBook) meta;
 
 			return (hasStoredEnchants() ? that.hasStoredEnchants() && this.enchantments.equals(that.enchantments)
@@ -101,19 +87,16 @@ class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorage
 	}
 
 	@Override
-	boolean notUncommon(CraftMetaItem meta)
-	{
+	boolean notUncommon(CraftMetaItem meta) {
 		return super.notUncommon(meta) && (meta instanceof CraftMetaEnchantedBook || isEnchantedEmpty());
 	}
 
 	@Override
-	int applyHash()
-	{
+	int applyHash() {
 		final int original;
 		int hash = original = super.applyHash();
 
-		if (hasStoredEnchants())
-		{
+		if (hasStoredEnchants()) {
 			hash = 61 * hash + enchantments.hashCode();
 		}
 
@@ -121,12 +104,10 @@ class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorage
 	}
 
 	@Override
-	public CraftMetaEnchantedBook clone()
-	{
+	public CraftMetaEnchantedBook clone() {
 		CraftMetaEnchantedBook meta = (CraftMetaEnchantedBook) super.clone();
 
-		if (this.enchantments != null)
-		{
+		if (this.enchantments != null) {
 			meta.enchantments = new HashMap<Enchantment, Integer>(this.enchantments);
 		}
 
@@ -134,8 +115,7 @@ class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorage
 	}
 
 	@Override
-	Builder<String, Object> serialize(Builder<String, Object> builder)
-	{
+	Builder<String, Object> serialize(Builder<String, Object> builder) {
 		super.serialize(builder);
 
 		serializeEnchantments(enchantments, builder, STORED_ENCHANTMENTS);
@@ -143,44 +123,36 @@ class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorage
 		return builder;
 	}
 
-	boolean isEnchantedEmpty()
-	{
+	boolean isEnchantedEmpty() {
 		return !hasStoredEnchants();
 	}
 
 	@Override
-	public boolean hasStoredEnchant(Enchantment ench)
-	{
+	public boolean hasStoredEnchant(Enchantment ench) {
 		return hasStoredEnchants() && enchantments.containsKey(ench);
 	}
 
 	@Override
-	public int getStoredEnchantLevel(Enchantment ench)
-	{
+	public int getStoredEnchantLevel(Enchantment ench) {
 		Integer level = hasStoredEnchants() ? enchantments.get(ench) : null;
-		if (level == null)
-		{
+		if (level == null) {
 			return 0;
 		}
 		return level;
 	}
 
 	@Override
-	public Map<Enchantment, Integer> getStoredEnchants()
-	{
+	public Map<Enchantment, Integer> getStoredEnchants() {
 		return hasStoredEnchants() ? ImmutableMap.copyOf(enchantments) : ImmutableMap.<Enchantment, Integer>of();
 	}
 
 	@Override
-	public boolean addStoredEnchant(Enchantment ench, int level, boolean ignoreRestrictions)
-	{
-		if (enchantments == null)
-		{
+	public boolean addStoredEnchant(Enchantment ench, int level, boolean ignoreRestrictions) {
+		if (enchantments == null) {
 			enchantments = new HashMap<Enchantment, Integer>(4);
 		}
 
-		if (ignoreRestrictions || level >= ench.getStartLevel() && level <= ench.getMaxLevel())
-		{
+		if (ignoreRestrictions || level >= ench.getStartLevel() && level <= ench.getMaxLevel()) {
 			Integer old = enchantments.put(ench, level);
 			return old == null || old != level;
 		}
@@ -188,20 +160,17 @@ class CraftMetaEnchantedBook extends CraftMetaItem implements EnchantmentStorage
 	}
 
 	@Override
-	public boolean removeStoredEnchant(Enchantment ench)
-	{
+	public boolean removeStoredEnchant(Enchantment ench) {
 		return hasStoredEnchants() && enchantments.remove(ench) != null;
 	}
 
 	@Override
-	public boolean hasStoredEnchants()
-	{
+	public boolean hasStoredEnchants() {
 		return !(enchantments == null || enchantments.isEmpty());
 	}
 
 	@Override
-	public boolean hasConflictingStoredEnchant(Enchantment ench)
-	{
+	public boolean hasConflictingStoredEnchant(Enchantment ench) {
 		return checkConflictingEnchants(enchantments, ench);
 	}
 }

@@ -7,21 +7,18 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
-public class PacketEncoder extends MessageToByteEncoder<Packet<?>>
-{
+public class PacketEncoder extends MessageToByteEncoder<Packet<?>> {
 
 	// private static final Logger a = LogManager.getLogger();
 	// private static final Marker b = MarkerManager.getMarker("PACKET_SENT",
 	// NetworkManager.PACKET_MARKER);
 	private final EnumProtocolDirection c;
 
-	public PacketEncoder(EnumProtocolDirection enumprotocoldirection)
-	{
+	public PacketEncoder(EnumProtocolDirection enumprotocoldirection) {
 		this.c = enumprotocoldirection;
 	}
 
-	protected void a(ChannelHandlerContext ctx, Packet<?> packet, ByteBuf bytebuf) throws Exception
-	{
+	protected void a(ChannelHandlerContext ctx, Packet<?> packet, ByteBuf bytebuf) throws Exception {
 		Integer packetId = ctx.channel().attr(NetworkManager.ATTRIBUTE_PROTOCOL).get().getPacketIdForPacket(packet);
 
 		/*
@@ -31,19 +28,15 @@ public class PacketEncoder extends MessageToByteEncoder<Packet<?>>
 		 * packet.getClass().getName()); }
 		 */
 
-		if (packetId == null)
-		{
+		if (packetId == null) {
 			throw new IOException("Can't serialize unregistered packet");
-		} else
-		{
+		} else {
 			PacketDataSerializer serializer = new PacketDataSerializer(bytebuf);
 			serializer.b(packetId);
 
-			try
-			{
+			try {
 				packet.b(serializer);
-			} catch (ExploitException ex)
-			{
+			} catch (ExploitException ex) {
 				System.out.println("Exploit exception: " + ctx.channel().attr(NetworkManager.ATTRIBUTE_PROTOCOL).get());
 			}
 
@@ -51,8 +44,8 @@ public class PacketEncoder extends MessageToByteEncoder<Packet<?>>
 	}
 
 	@Override
-	protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception
-	{
+	protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf)
+			throws Exception {
 		this.a(channelHandlerContext, packet, byteBuf);
 	}
 }

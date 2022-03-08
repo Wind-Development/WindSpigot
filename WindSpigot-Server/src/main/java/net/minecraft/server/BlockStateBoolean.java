@@ -4,28 +4,23 @@ import java.util.Collection;
 
 import com.google.common.collect.ImmutableSet;
 
-public class BlockStateBoolean extends BlockState<Boolean>
-{
+public class BlockStateBoolean extends BlockState<Boolean> {
 
 	private final ImmutableSet<Boolean> a = ImmutableSet.of(Boolean.valueOf(true), Boolean.valueOf(false));
 
-	protected BlockStateBoolean(String s)
-	{
+	protected BlockStateBoolean(String s) {
 		super(s, Boolean.class);
 	}
 
 	// TacoSpigot start
 	@Override
-	public int getValueId(Boolean value)
-	{
+	public int getValueId(Boolean value) {
 		return value ? 1 : 0;
 	}
 
 	@Override
-	public Boolean getByValueId(int id)
-	{
-		switch (id)
-		{
+	public Boolean getByValueId(int id) {
+		switch (id) {
 		case 0:
 			return false;
 		case 1:
@@ -37,19 +32,16 @@ public class BlockStateBoolean extends BlockState<Boolean>
 	// TacoSpigot end
 
 	@Override
-	public Collection<Boolean> c()
-	{
+	public Collection<Boolean> c() {
 		return this.a;
 	}
 
-	public static BlockStateBoolean of(String s)
-	{
+	public static BlockStateBoolean of(String s) {
 		return new BlockStateBoolean(s);
 	}
 
 	@Override
-	public String a(Boolean obool)
-	{
+	public String a(Boolean obool) {
 		return obool.toString();
 	}
 

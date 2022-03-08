@@ -9,27 +9,22 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 
-public class PacketDecrypter extends MessageToMessageDecoder<ByteBuf>
-{
+public class PacketDecrypter extends MessageToMessageDecoder<ByteBuf> {
 	private final VelocityCipher cipher; // Paper
 
-	public PacketDecrypter(VelocityCipher cipher)
-	{ // Paper
+	public PacketDecrypter(VelocityCipher cipher) { // Paper
 		this.cipher = cipher; // Paper
 	}
 
 	@Override
 	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list)
-			throws Exception
-	{
+			throws Exception {
 		// Paper start
 		ByteBuf compatible = MoreByteBufUtils.ensureCompatible(channelHandlerContext.alloc(), cipher, byteBuf);
-		try
-		{
+		try {
 			cipher.process(compatible);
 			list.add(compatible);
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			compatible.release(); // compatible will never be used if we throw an exception
 			throw e;
 		}
@@ -38,8 +33,7 @@ public class PacketDecrypter extends MessageToMessageDecoder<ByteBuf>
 
 	// Paper start
 	@Override
-	public void handlerRemoved(ChannelHandlerContext ctx)
-	{
+	public void handlerRemoved(ChannelHandlerContext ctx) {
 		cipher.close();
 	}
 	// Paper end

@@ -2,8 +2,7 @@ package net.minecraft.server;
 
 import org.bukkit.event.block.BlockRedstoneEvent; // CraftBukkit
 
-public class BlockTrapdoor extends Block
-{
+public class BlockTrapdoor extends Block {
 
 	public static final BlockStateDirection FACING = BlockStateDirection.of("facing",
 			EnumDirection.EnumDirectionLimit.HORIZONTAL);
@@ -11,8 +10,7 @@ public class BlockTrapdoor extends Block
 	public static final BlockStateEnum<BlockTrapdoor.EnumTrapdoorHalf> HALF = BlockStateEnum.of("half",
 			BlockTrapdoor.EnumTrapdoorHalf.class);
 
-	protected BlockTrapdoor(Material material)
-	{
+	protected BlockTrapdoor(Material material) {
 		super(material);
 		this.j(this.blockStateList.getBlockData().set(BlockTrapdoor.FACING, EnumDirection.NORTH)
 				.set(BlockTrapdoor.OPEN, Boolean.valueOf(false))
@@ -25,80 +23,65 @@ public class BlockTrapdoor extends Block
 	}
 
 	@Override
-	public boolean c()
-	{
+	public boolean c() {
 		return false;
 	}
 
 	@Override
-	public boolean d()
-	{
+	public boolean d() {
 		return false;
 	}
 
 	@Override
-	public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition)
-	{
+	public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition) {
 		return !iblockaccess.getType(blockposition).get(BlockTrapdoor.OPEN).booleanValue();
 	}
 
 	@Override
-	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata)
-	{
+	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata) {
 		this.updateShape(world, blockposition);
 		return super.a(world, blockposition, iblockdata);
 	}
 
 	@Override
-	public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition)
-	{
+	public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition) {
 		this.d(iblockaccess.getType(blockposition));
 	}
 
 	@Override
-	public void j()
-	{
+	public void j() {
 		float f = 0.1875F;
 
 		this.a(0.0F, 0.40625F, 0.0F, 1.0F, 0.59375F, 1.0F);
 	}
 
-	public void d(IBlockData iblockdata)
-	{
-		if (iblockdata.getBlock() == this)
-		{
+	public void d(IBlockData iblockdata) {
+		if (iblockdata.getBlock() == this) {
 			boolean flag = iblockdata.get(BlockTrapdoor.HALF) == BlockTrapdoor.EnumTrapdoorHalf.TOP;
 			Boolean obool = iblockdata.get(BlockTrapdoor.OPEN);
 			EnumDirection enumdirection = iblockdata.get(BlockTrapdoor.FACING);
 			float f = 0.1875F;
 
-			if (flag)
-			{
+			if (flag) {
 				this.a(0.0F, 0.8125F, 0.0F, 1.0F, 1.0F, 1.0F);
-			} else
-			{
+			} else {
 				this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.1875F, 1.0F);
 			}
 
-			if (obool.booleanValue())
-			{
-				if (enumdirection == EnumDirection.NORTH)
-				{
+			if (obool.booleanValue()) {
+				if (enumdirection == EnumDirection.NORTH) {
 					this.a(0.0F, 0.0F, 0.8125F, 1.0F, 1.0F, 1.0F);
 				}
 
-				if (enumdirection == EnumDirection.SOUTH)
-				{
+				if (enumdirection == EnumDirection.SOUTH) {
 					this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.1875F);
 				}
 
-				if (enumdirection == EnumDirection.WEST)
-				{
+				if (enumdirection == EnumDirection.WEST) {
 					this.a(0.8125F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 				}
 
-				if (enumdirection == EnumDirection.EAST)
-				{
+				if (enumdirection == EnumDirection.EAST) {
 					this.a(0.0F, 0.0F, 0.0F, 0.1875F, 1.0F, 1.0F);
 				}
 			}
@@ -108,13 +91,10 @@ public class BlockTrapdoor extends Block
 
 	@Override
 	public boolean interact(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman,
-			EnumDirection enumdirection, float f, float f1, float f2)
-	{
-		if (this.material == Material.ORE)
-		{
+			EnumDirection enumdirection, float f, float f1, float f2) {
+		if (this.material == Material.ORE) {
 			return true;
-		} else
-		{
+		} else {
 			iblockdata = iblockdata.a(BlockTrapdoor.OPEN);
 			world.setTypeAndData(blockposition, iblockdata, 2);
 			world.a(entityhuman, iblockdata.get(BlockTrapdoor.OPEN).booleanValue() ? 1003 : 1006, blockposition, 0);
@@ -123,22 +103,17 @@ public class BlockTrapdoor extends Block
 	}
 
 	@Override
-	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block)
-	{
-		if (!world.isClientSide)
-		{
+	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
+		if (!world.isClientSide) {
 			BlockPosition blockposition1 = blockposition.shift(iblockdata.get(BlockTrapdoor.FACING).opposite());
 
-			if (!c(world.getType(blockposition1).getBlock()))
-			{
+			if (!c(world.getType(blockposition1).getBlock())) {
 				world.setAir(blockposition);
 				this.b(world, blockposition, iblockdata, 0);
-			} else
-			{
+			} else {
 				boolean flag = world.isBlockIndirectlyPowered(blockposition);
 
-				if (flag || block.isPowerSource())
-				{
+				if (flag || block.isPowerSource()) {
 					// CraftBukkit start
 					org.bukkit.World bworld = world.getWorld();
 					org.bukkit.block.Block bblock = bworld.getBlockAt(blockposition.getX(), blockposition.getY(),
@@ -147,8 +122,7 @@ public class BlockTrapdoor extends Block
 					int power = bblock.getBlockPower();
 					int oldPower = iblockdata.get(OPEN) ? 15 : 0;
 
-					if (oldPower == 0 ^ power == 0 || block.isPowerSource())
-					{
+					if (oldPower == 0 ^ power == 0 || block.isPowerSource()) {
 						BlockRedstoneEvent eventRedstone = new BlockRedstoneEvent(bblock, oldPower, power);
 						world.getServer().getPluginManager().callEvent(eventRedstone);
 						flag = eventRedstone.getNewCurrent() > 0;
@@ -156,8 +130,7 @@ public class BlockTrapdoor extends Block
 					// CraftBukkit end
 					boolean flag1 = iblockdata.get(BlockTrapdoor.OPEN).booleanValue();
 
-					if (flag1 != flag)
-					{
+					if (flag1 != flag) {
 						world.setTypeAndData(blockposition, iblockdata.set(BlockTrapdoor.OPEN, Boolean.valueOf(flag)),
 								2);
 						world.a((EntityHuman) null, flag ? 1003 : 1006, blockposition, 0);
@@ -169,20 +142,17 @@ public class BlockTrapdoor extends Block
 	}
 
 	@Override
-	public MovingObjectPosition a(World world, BlockPosition blockposition, Vec3D vec3d, Vec3D vec3d1)
-	{
+	public MovingObjectPosition a(World world, BlockPosition blockposition, Vec3D vec3d, Vec3D vec3d1) {
 		this.updateShape(world, blockposition);
 		return super.a(world, blockposition, vec3d, vec3d1);
 	}
 
 	@Override
 	public IBlockData getPlacedState(World world, BlockPosition blockposition, EnumDirection enumdirection, float f,
-			float f1, float f2, int i, EntityLiving entityliving)
-	{
+			float f1, float f2, int i, EntityLiving entityliving) {
 		IBlockData iblockdata = this.getBlockData();
 
-		if (enumdirection.k().c())
-		{
+		if (enumdirection.k().c()) {
 			iblockdata = iblockdata.set(BlockTrapdoor.FACING, enumdirection).set(BlockTrapdoor.OPEN,
 					Boolean.valueOf(false));
 			iblockdata = iblockdata.set(BlockTrapdoor.HALF,
@@ -193,15 +163,12 @@ public class BlockTrapdoor extends Block
 	}
 
 	@Override
-	public boolean canPlace(World world, BlockPosition blockposition, EnumDirection enumdirection)
-	{
+	public boolean canPlace(World world, BlockPosition blockposition, EnumDirection enumdirection) {
 		return !enumdirection.k().b() && c(world.getType(blockposition.shift(enumdirection.opposite())).getBlock());
 	}
 
-	protected static EnumDirection b(int i)
-	{
-		switch (i & 3)
-		{
+	protected static EnumDirection b(int i) {
+		switch (i & 3) {
 		case 0:
 			return EnumDirection.NORTH;
 
@@ -217,10 +184,8 @@ public class BlockTrapdoor extends Block
 		}
 	}
 
-	protected static int a(EnumDirection enumdirection)
-	{
-		switch (BlockTrapdoor.SyntheticClass_1.a[enumdirection.ordinal()])
-		{
+	protected static int a(EnumDirection enumdirection) {
+		switch (BlockTrapdoor.SyntheticClass_1.a[enumdirection.ordinal()]) {
 		case 1:
 			return 0;
 
@@ -236,33 +201,28 @@ public class BlockTrapdoor extends Block
 		}
 	}
 
-	private static boolean c(Block block)
-	{
+	private static boolean c(Block block) {
 		return block.material.k() && block.d() || block == Blocks.GLOWSTONE || block instanceof BlockStepAbstract
 				|| block instanceof BlockStairs;
 	}
 
 	@Override
-	public IBlockData fromLegacyData(int i)
-	{
+	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData().set(BlockTrapdoor.FACING, b(i))
 				.set(BlockTrapdoor.OPEN, Boolean.valueOf((i & 4) != 0)).set(BlockTrapdoor.HALF,
 						(i & 8) == 0 ? BlockTrapdoor.EnumTrapdoorHalf.BOTTOM : BlockTrapdoor.EnumTrapdoorHalf.TOP);
 	}
 
 	@Override
-	public int toLegacyData(IBlockData iblockdata)
-	{
+	public int toLegacyData(IBlockData iblockdata) {
 		byte b0 = 0;
 		int i = b0 | a(iblockdata.get(BlockTrapdoor.FACING));
 
-		if (iblockdata.get(BlockTrapdoor.OPEN).booleanValue())
-		{
+		if (iblockdata.get(BlockTrapdoor.OPEN).booleanValue()) {
 			i |= 4;
 		}
 
-		if (iblockdata.get(BlockTrapdoor.HALF) == BlockTrapdoor.EnumTrapdoorHalf.TOP)
-		{
+		if (iblockdata.get(BlockTrapdoor.HALF) == BlockTrapdoor.EnumTrapdoorHalf.TOP) {
 			i |= 8;
 		}
 
@@ -270,75 +230,60 @@ public class BlockTrapdoor extends Block
 	}
 
 	@Override
-	protected BlockStateList getStateList()
-	{
-		return new BlockStateList(this, new IBlockState[]
-		{ BlockTrapdoor.FACING, BlockTrapdoor.OPEN, BlockTrapdoor.HALF });
+	protected BlockStateList getStateList() {
+		return new BlockStateList(this,
+				new IBlockState[] { BlockTrapdoor.FACING, BlockTrapdoor.OPEN, BlockTrapdoor.HALF });
 	}
 
-	static class SyntheticClass_1
-	{
+	static class SyntheticClass_1 {
 
 		static final int[] a = new int[EnumDirection.values().length];
 
-		static
-		{
-			try
-			{
+		static {
+			try {
 				BlockTrapdoor.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror)
-			{
+			} catch (NoSuchFieldError nosuchfielderror) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockTrapdoor.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1)
-			{
+			} catch (NoSuchFieldError nosuchfielderror1) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockTrapdoor.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2)
-			{
+			} catch (NoSuchFieldError nosuchfielderror2) {
 				;
 			}
 
-			try
-			{
+			try {
 				BlockTrapdoor.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3)
-			{
+			} catch (NoSuchFieldError nosuchfielderror3) {
 				;
 			}
 
 		}
 	}
 
-	public static enum EnumTrapdoorHalf implements INamable
-	{
+	public static enum EnumTrapdoorHalf implements INamable {
 
 		TOP("top"), BOTTOM("bottom");
 
 		private final String c;
 
-		private EnumTrapdoorHalf(String s)
-		{
+		private EnumTrapdoorHalf(String s) {
 			this.c = s;
 		}
 
 		@Override
-		public String toString()
-		{
+		public String toString() {
 			return this.c;
 		}
 
 		@Override
-		public String getName()
-		{
+		public String getName() {
 			return this.c;
 		}
 	}

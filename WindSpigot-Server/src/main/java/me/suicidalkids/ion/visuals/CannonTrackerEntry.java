@@ -25,8 +25,7 @@ import net.minecraft.server.PacketPlayOutEntityVelocity;
  * It may not completely replicate the original behavior, but it should make up
  * for that with its advantages.
  */
-public class CannonTrackerEntry extends EntityTrackerEntry
-{
+public class CannonTrackerEntry extends EntityTrackerEntry {
 
 	private boolean movingX;
 	private boolean movingY;
@@ -42,8 +41,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 	private int addRemoveCooldown;
 	private boolean withinNoTrack = false;
 
-	public CannonTrackerEntry(EntityTracker entityTracker, Entity entity, int i, int j, boolean flag)
-	{
+	public CannonTrackerEntry(EntityTracker entityTracker, Entity entity, int i, int j, boolean flag) {
 		super(entityTracker, entity, i, j, flag);
 		this.entityTracker = entityTracker;
 		this.tracker = entity;
@@ -54,28 +52,22 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 		this.updateY = entity.locY;
 		this.updateZ = entity.locZ;
 
-		if (NachoConfig.disableTracking)
-		{
+		if (NachoConfig.disableTracking) {
 			this.addRemoveRate = 100;
-		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile)
-		{
+		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
 			this.addRemoveRate = 5; // projectile things
-		} else if (this.tracker instanceof EntityPlayer)
-		{
+		} else if (this.tracker instanceof EntityPlayer) {
 			this.addRemoveRate = 5; // players
-		} else
-		{
+		} else {
 			this.addRemoveRate = 10; // default
 		}
 		this.addRemoveCooldown = this.tracker.getId() % addRemoveRate;
 	}
 
 	@Override
-	public void update()
-	{
+	public void update() {
 		this.withinNoTrack = this.withinNoTrack();
-		if (--this.addRemoveCooldown <= 0)
-		{
+		if (--this.addRemoveCooldown <= 0) {
 			this.removeFarPlayers();
 			this.addNearPlayers();
 			this.addRemoveCooldown = this.addRemoveRate;
@@ -84,23 +76,19 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 		this.track(null);
 	}
 
-	private void removeFarPlayers()
-	{
-		if (this.withinNoTrack)
-		{
+	private void removeFarPlayers() {
+		if (this.withinNoTrack) {
 			toRemove.addAll(this.trackedPlayers);
 			processToRemove();
 			return;
 		}
 
-		for (EntityPlayer entityplayer : this.trackedPlayers)
-		{
+		for (EntityPlayer entityplayer : this.trackedPlayers) {
 			double d0 = entityplayer.locX - this.tracker.locX;
 			double d1 = entityplayer.locZ - this.tracker.locZ;
 			int range = this.getRange();
 
-			if (!(d0 >= (-range) && d0 <= range && d1 >= (-range) && d1 <= range) || withinNoTrack())
-			{
+			if (!(d0 >= (-range) && d0 <= range && d1 >= (-range) && d1 <= range) || withinNoTrack()) {
 				toRemove.add(entityplayer);
 			}
 		}
@@ -109,10 +97,8 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 	}
 
 	@Override
-	public void processToRemove()
-	{
-		for (EntityPlayer entityPlayer : toRemove)
-		{
+	public void processToRemove() {
+		for (EntityPlayer entityPlayer : toRemove) {
 			entityPlayer.d(this.tracker);
 			this.trackedPlayers.remove(entityPlayer);
 		}
@@ -121,34 +107,27 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 	}
 
 	@Override
-	public void addNearPlayers()
-	{
+	public void addNearPlayers() {
 		addNearPlayers(false);
 	}
 
-	private void addNearPlayers(boolean updateCooldown)
-	{
-		if (this.withinNoTrack)
-		{
+	private void addNearPlayers(boolean updateCooldown) {
+		if (this.withinNoTrack) {
 			return;
 		}
-		if (updateCooldown)
-		{
+		if (updateCooldown) {
 			this.addRemoveCooldown = addRemoveRate;
 		}
 		this.tracker.world.playerMap.forEachNearby(this.tracker.locX, this.tracker.locY, this.tracker.locZ,
 				this.getRange(), false, addNearPlayersConsumer);
 	}
 
-	private boolean withinNoTrack()
-	{
+	private boolean withinNoTrack() {
 		return this.withinNoTrack(this.tracker);
 	}
 
-	private boolean withinNoTrack(Entity entity)
-	{
-		if (!(entity instanceof EntityPlayer))
-		 {
+	private boolean withinNoTrack(Entity entity) {
+		if (!(entity instanceof EntityPlayer)) {
 			return false; // ensure all non-players are always tracked
 		}
 		double xDistSqrd = entity.locX * entity.locX;
@@ -158,36 +137,30 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 		return noTrackDistanceSqrd != 0 && xDistSqrd <= noTrackDistanceSqrd && zDistSqrd <= noTrackDistanceSqrd;
 	}
 
-	private final Consumer<EntityPlayer> addNearPlayersConsumer = new Consumer<EntityPlayer>()
-	{
+	private final Consumer<EntityPlayer> addNearPlayersConsumer = new Consumer<EntityPlayer>() {
 
 		@Override
-		public void accept(EntityPlayer entityPlayer)
-		{
-			if (!NachoConfig.disableTracking || tracker.passenger == entityPlayer)
-			{
+		public void accept(EntityPlayer entityPlayer) {
+			if (!NachoConfig.disableTracking || tracker.passenger == entityPlayer) {
 				updatePlayer(entityPlayer);
 			}
 		}
 	};
 
 	@Override
-	public void track(List<EntityHuman> list)
-	{
+	public void track(List<EntityHuman> list) {
 		boolean motionX = this.tracker.motX != 0.0;
 		boolean motionY = this.tracker.motY != 0.0;
 		boolean motionZ = this.tracker.motZ != 0.0;
 
 		// This tracked entities motion has changed or an explosion has occurred, update
 		// it!
-		if (!this.tracker.ai && motionX == movingX && motionY == movingY && motionZ == movingZ)
-		{
+		if (!this.tracker.ai && motionX == movingX && motionY == movingY && motionZ == movingZ) {
 			return;
 		}
 
 		// This entity has moved 4 blocks since the last update, search for players
-		if (this.tracker.e(updateX, updateY, updateZ) > 16.0D)
-		{
+		if (this.tracker.e(updateX, updateY, updateZ) > 16.0D) {
 			// this.scanPlayers(list);
 			this.updateX = this.tracker.locX;
 			this.updateY = this.tracker.locY;
@@ -195,8 +168,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 		}
 
 		// Update nearby players, only resynchronise when motion is updated
-		if (motionX || motionY || motionZ)
-		{
+		if (motionX || motionY || motionZ) {
 			this.broadcastUpdate();
 		}
 
@@ -207,19 +179,16 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 		this.movingZ = motionZ;
 	}
 
-	private void broadcastUpdate()
-	{
+	private void broadcastUpdate() {
 		DataWatcher datawatcher = this.tracker.getDataWatcher();
 
-		if (datawatcher.a())
-		{
+		if (datawatcher.a()) {
 			this.broadcastIncludingSelf(new PacketPlayOutEntityMetadata(this.tracker.getId(), datawatcher, false));
 		}
 
 		// Only update location on movement
 		if (this.tracker.lastX != this.tracker.locX || this.tracker.lastY != this.tracker.locY
-				|| this.tracker.lastZ != this.tracker.locZ)
-		{
+				|| this.tracker.lastZ != this.tracker.locZ) {
 			this.broadcast(new PacketPlayOutEntityTeleport(this.tracker));
 		}
 
@@ -227,17 +196,14 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 	}
 
 	@Override
-	public void updatePlayer(EntityPlayer entityplayer)
-	{
+	public void updatePlayer(EntityPlayer entityplayer) {
 		// Check configurable distance as a cube then visible distance.
-		if (this.c(entityplayer) && this.tracker.h(entityplayer) < 4096.0D)
-		{
-			if (this.tracker instanceof EntityPlayer && withinNoTrack())
-			{
+		if (this.c(entityplayer) && this.tracker.h(entityplayer) < 4096.0D) {
+			if (this.tracker instanceof EntityPlayer && withinNoTrack()) {
 				return;
 			}
-			if (this.trackedPlayers.contains(entityplayer) || (!this.e(entityplayer) && !this.tracker.attachedToPlayer))
-			{
+			if (this.trackedPlayers.contains(entityplayer)
+					|| (!this.e(entityplayer) && !this.tracker.attachedToPlayer)) {
 				return;
 			}
 
@@ -246,15 +212,13 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 			this.trackedPlayerMap.put(entityplayer, true); // Paper
 			this.trackedPlayers.add(entityplayer);
 			Packet<?> packet = this.c(); // IonSpigot
-			if (packet == null)
-			 {
+			if (packet == null) {
 				return; // IonSpigot - If it's null don't update the client!
 			}
 
 			entityplayer.playerConnection.sendPacket(packet);
 
-			if (this.tracker.getCustomNameVisible())
-			{
+			if (this.tracker.getCustomNameVisible()) {
 				entityplayer.playerConnection.sendPacket(
 						new PacketPlayOutEntityMetadata(this.tracker.getId(), this.tracker.getDataWatcher(), true));
 			}
@@ -262,13 +226,11 @@ public class CannonTrackerEntry extends EntityTrackerEntry
 			entityplayer.playerConnection.sendPacket(new PacketPlayOutEntityVelocity(this.tracker.getId(),
 					this.tracker.motX, this.tracker.motY, this.tracker.motZ));
 
-			if (this.tracker.vehicle != null)
-			{
+			if (this.tracker.vehicle != null) {
 				entityplayer.playerConnection
 						.sendPacket(new PacketPlayOutAttachEntity(0, this.tracker, this.tracker.vehicle));
 			}
-		} else if (this.trackedPlayers.contains(entityplayer))
-		{
+		} else if (this.trackedPlayers.contains(entityplayer)) {
 			this.trackedPlayers.remove(entityplayer);
 			entityplayer.d(this.tracker);
 		}

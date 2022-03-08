@@ -2,19 +2,16 @@ package net.minecraft.server;
 
 import java.io.IOException;
 
-public class Int3PacketPlayOutWorldEvent extends PacketPlayOutWorldEvent
-{
+public class Int3PacketPlayOutWorldEvent extends PacketPlayOutWorldEvent {
 	private int blockPosition_x;
 	private int blockPosition_y;
 	private int blockPosition_z;
 
-	public Int3PacketPlayOutWorldEvent()
-	{
+	public Int3PacketPlayOutWorldEvent() {
 	}
 
 	public Int3PacketPlayOutWorldEvent(int var1, int blockPosition_x, int blockPosition_y, int blockPosition_z,
-			int var3, boolean var4)
-	{
+			int var3, boolean var4) {
 		this.a = var1;
 		this.blockPosition_x = blockPosition_x;
 		this.blockPosition_y = blockPosition_y;
@@ -23,39 +20,32 @@ public class Int3PacketPlayOutWorldEvent extends PacketPlayOutWorldEvent
 		this.d = var4;
 	}
 
-	public void setX(int x)
-	{
+	public void setX(int x) {
 		this.blockPosition_x = x;
 	}
 
-	public void setY(int y)
-	{
+	public void setY(int y) {
 		this.blockPosition_y = y;
 	}
 
-	public void setZ(int z)
-	{
+	public void setZ(int z) {
 		this.blockPosition_z = z;
 	}
 
-	public int getX()
-	{
+	public int getX() {
 		return blockPosition_x;
 	}
 
-	public int getY()
-	{
+	public int getY() {
 		return blockPosition_y;
 	}
 
-	public int getZ()
-	{
+	public int getZ() {
 		return blockPosition_z;
 	}
 
 	@Override
-	public void a(PacketDataSerializer var1) throws IOException
-	{
+	public void a(PacketDataSerializer var1) throws IOException {
 		this.a = var1.readInt();
 
 		long i = var1.readLong();
@@ -68,8 +58,7 @@ public class Int3PacketPlayOutWorldEvent extends PacketPlayOutWorldEvent
 	}
 
 	@Override
-	public void b(PacketDataSerializer var1) throws IOException
-	{
+	public void b(PacketDataSerializer var1) throws IOException {
 		var1.writeInt(this.a);
 		var1.writeLong((this.blockPosition_x & BlockPosition.h) << BlockPosition.g
 				| (this.blockPosition_y & BlockPosition.i) << BlockPosition.f
@@ -79,8 +68,7 @@ public class Int3PacketPlayOutWorldEvent extends PacketPlayOutWorldEvent
 	}
 
 	@Override
-	public void a(PacketListenerPlayOut var1)
-	{
+	public void a(PacketListenerPlayOut var1) {
 		var1.a(this);
 	}
 }

@@ -11,76 +11,63 @@ import org.bukkit.inventory.Inventory;
 import net.minecraft.server.BlockPosition;
 import net.minecraft.server.TileEntityChest;
 
-public class CraftChest extends CraftBlockState implements Chest
-{
+public class CraftChest extends CraftBlockState implements Chest {
 	private final CraftWorld world;
 	private final TileEntityChest chest;
 
-	public CraftChest(final Block block)
-	{
+	public CraftChest(final Block block) {
 		super(block);
 
 		world = (CraftWorld) block.getWorld();
 		chest = (TileEntityChest) world.getTileEntityAt(getX(), getY(), getZ());
 	}
 
-	public CraftChest(final Material material, final TileEntityChest te)
-	{
+	public CraftChest(final Material material, final TileEntityChest te) {
 		super(material);
 		chest = te;
 		world = null;
 	}
 
 	@Override
-	public Inventory getBlockInventory()
-	{
+	public Inventory getBlockInventory() {
 		return new CraftInventory(chest);
 	}
 
 	@Override
-	public Inventory getInventory()
-	{
+	public Inventory getInventory() {
 		int x = getX();
 		int y = getY();
 		int z = getZ();
 		// The logic here is basically identical to the logic in BlockChest.interact
 		CraftInventory inventory = new CraftInventory(chest);
-		if (!isPlaced())
-		{
+		if (!isPlaced()) {
 			return inventory;
 		}
 		int id;
-		if (world.getBlockTypeIdAt(x, y, z) == Material.CHEST.getId())
-		{
+		if (world.getBlockTypeIdAt(x, y, z) == Material.CHEST.getId()) {
 			id = Material.CHEST.getId();
-		} else if (world.getBlockTypeIdAt(x, y, z) == Material.TRAPPED_CHEST.getId())
-		{
+		} else if (world.getBlockTypeIdAt(x, y, z) == Material.TRAPPED_CHEST.getId()) {
 			id = Material.TRAPPED_CHEST.getId();
-		} else
-		{
+		} else {
 			throw new IllegalStateException("CraftChest is not a chest but is instead " + world.getBlockAt(x, y, z));
 		}
 
-		if (world.getBlockTypeIdAt(x - 1, y, z) == id)
-		{
+		if (world.getBlockTypeIdAt(x - 1, y, z) == id) {
 			CraftInventory left = new CraftInventory(
 					(TileEntityChest) world.getHandle().getTileEntity(new BlockPosition(x - 1, y, z)));
 			inventory = new CraftInventoryDoubleChest(left, inventory);
 		}
-		if (world.getBlockTypeIdAt(x + 1, y, z) == id)
-		{
+		if (world.getBlockTypeIdAt(x + 1, y, z) == id) {
 			CraftInventory right = new CraftInventory(
 					(TileEntityChest) world.getHandle().getTileEntity(new BlockPosition(x + 1, y, z)));
 			inventory = new CraftInventoryDoubleChest(inventory, right);
 		}
-		if (world.getBlockTypeIdAt(x, y, z - 1) == id)
-		{
+		if (world.getBlockTypeIdAt(x, y, z - 1) == id) {
 			CraftInventory left = new CraftInventory(
 					(TileEntityChest) world.getHandle().getTileEntity(new BlockPosition(x, y, z - 1)));
 			inventory = new CraftInventoryDoubleChest(left, inventory);
 		}
-		if (world.getBlockTypeIdAt(x, y, z + 1) == id)
-		{
+		if (world.getBlockTypeIdAt(x, y, z + 1) == id) {
 			CraftInventory right = new CraftInventory(
 					(TileEntityChest) world.getHandle().getTileEntity(new BlockPosition(x, y, z + 1)));
 			inventory = new CraftInventoryDoubleChest(inventory, right);
@@ -89,12 +76,10 @@ public class CraftChest extends CraftBlockState implements Chest
 	}
 
 	@Override
-	public boolean update(boolean force, boolean applyPhysics)
-	{
+	public boolean update(boolean force, boolean applyPhysics) {
 		boolean result = super.update(force, applyPhysics);
 
-		if (result)
-		{
+		if (result) {
 			chest.update();
 		}
 
@@ -102,8 +87,7 @@ public class CraftChest extends CraftBlockState implements Chest
 	}
 
 	@Override
-	public TileEntityChest getTileEntity()
-	{
+	public TileEntityChest getTileEntity() {
 		return chest;
 	}
 }

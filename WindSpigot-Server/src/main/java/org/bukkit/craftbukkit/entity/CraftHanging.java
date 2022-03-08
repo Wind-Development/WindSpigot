@@ -8,32 +8,26 @@ import org.bukkit.entity.Hanging;
 import net.minecraft.server.EntityHanging;
 import net.minecraft.server.EnumDirection;
 
-public class CraftHanging extends CraftEntity implements Hanging
-{
-	public CraftHanging(CraftServer server, EntityHanging entity)
-	{
+public class CraftHanging extends CraftEntity implements Hanging {
+	public CraftHanging(CraftServer server, EntityHanging entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public BlockFace getAttachedFace()
-	{
+	public BlockFace getAttachedFace() {
 		return getFacing().getOppositeFace();
 	}
 
 	@Override
-	public void setFacingDirection(BlockFace face)
-	{
+	public void setFacingDirection(BlockFace face) {
 		setFacingDirection(face, false);
 	}
 
 	@Override
-	public boolean setFacingDirection(BlockFace face, boolean force)
-	{
+	public boolean setFacingDirection(BlockFace face, boolean force) {
 		EntityHanging hanging = getHandle();
 		EnumDirection dir = hanging.direction;
-		switch (face)
-		{
+		switch (face) {
 		case SOUTH:
 		default:
 			getHandle().setDirection(EnumDirection.SOUTH);
@@ -48,8 +42,7 @@ public class CraftHanging extends CraftEntity implements Hanging
 			getHandle().setDirection(EnumDirection.EAST);
 			break;
 		}
-		if (!force && !hanging.survives())
-		{
+		if (!force && !hanging.survives()) {
 			// Revert since it doesn't fit
 			hanging.setDirection(dir);
 			return false;
@@ -58,15 +51,12 @@ public class CraftHanging extends CraftEntity implements Hanging
 	}
 
 	@Override
-	public BlockFace getFacing()
-	{
+	public BlockFace getFacing() {
 		EnumDirection direction = this.getHandle().direction;
-		if (direction == null)
-		{
+		if (direction == null) {
 			return BlockFace.SELF;
 		}
-		switch (direction)
-		{
+		switch (direction) {
 		case SOUTH:
 		default:
 			return BlockFace.SOUTH;
@@ -80,20 +70,17 @@ public class CraftHanging extends CraftEntity implements Hanging
 	}
 
 	@Override
-	public EntityHanging getHandle()
-	{
+	public EntityHanging getHandle() {
 		return (EntityHanging) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftHanging";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.UNKNOWN;
 	}
 }

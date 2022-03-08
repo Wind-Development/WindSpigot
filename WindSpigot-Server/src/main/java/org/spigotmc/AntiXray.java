@@ -20,8 +20,7 @@ import net.minecraft.server.World;
 import net.techcable.tacospigot.utils.BlockHelper;
 // TacoSpigot end
 
-public class AntiXray
-{
+public class AntiXray {
 
 	// Used to keep track of which blocks to obfuscate
 	private final boolean[] obfuscateBlocks = new boolean[Short.MAX_VALUE];
@@ -32,22 +31,18 @@ public class AntiXray
 	public final Set<BlockPosition> pendingUpdates = new HashSet<BlockPosition>();
 	// PaperSpigot end
 
-	public AntiXray(SpigotWorldConfig config)
-	{
+	public AntiXray(SpigotWorldConfig config) {
 		// Set all listed blocks as true to be obfuscated
-		for (int id : (config.engineMode == 1) ? config.hiddenBlocks : config.replaceBlocks)
-		{
+		for (int id : (config.engineMode == 1) ? config.hiddenBlocks : config.replaceBlocks) {
 			obfuscateBlocks[id] = true;
 		}
 
 		// For every block
 		TByteSet blocks = new TByteHashSet();
-		for (Integer i : config.hiddenBlocks)
-		{
+		for (Integer i : config.hiddenBlocks) {
 			Block block = Block.getById(i);
 			// Check it exists and is not a tile entity
-			if (block != null && !block.isTileEntity())
-			{
+			if (block != null && !block.isTileEntity()) {
 				// Add it to the set of replacement blocks
 				blocks.add((byte) (int) i);
 			}
@@ -59,14 +54,11 @@ public class AntiXray
 	/**
 	 * PaperSpigot - Flush queued block updates for world.
 	 */
-	public void flushUpdates(World world)
-	{
-		if (world.spigotConfig.antiXray && !pendingUpdates.isEmpty())
-		{
+	public void flushUpdates(World world) {
+		if (world.spigotConfig.antiXray && !pendingUpdates.isEmpty()) {
 			queueUpdates = false;
 
-			for (BlockPosition position : pendingUpdates)
-			{
+			for (BlockPosition position : pendingUpdates) {
 				updateNearbyBlocks(world, position);
 			}
 
@@ -79,13 +71,10 @@ public class AntiXray
 	 * Starts the timings handler, then updates all blocks within the set radius of
 	 * the given coordinate, revealing them if they are hidden ores.
 	 */
-	public void updateNearbyBlocks(World world, BlockPosition position)
-	{
-		if (world.spigotConfig.antiXray)
-		{
+	public void updateNearbyBlocks(World world, BlockPosition position) {
+		if (world.spigotConfig.antiXray) {
 			// PaperSpigot start
-			if (queueUpdates)
-			{
+			if (queueUpdates) {
 				pendingUpdates.add(position);
 				return;
 			}
@@ -101,10 +90,8 @@ public class AntiXray
 	 * Starts the timings handler, and then removes all non exposed ores from the
 	 * chunk buffer.
 	 */
-	public void obfuscateSync(int chunkX, int chunkY, int bitmask, byte[] buffer, World world)
-	{
-		if (world.spigotConfig.antiXray)
-		{
+	public void obfuscateSync(int chunkX, int chunkY, int bitmask, byte[] buffer, World world) {
+		if (world.spigotConfig.antiXray) {
 			SpigotTimings.antiXrayObfuscateTimer.startTiming();
 			obfuscate(chunkX, chunkY, bitmask, buffer, world);
 			SpigotTimings.antiXrayObfuscateTimer.stopTiming();
@@ -114,11 +101,9 @@ public class AntiXray
 	/**
 	 * Removes all non exposed ores from the chunk buffer.
 	 */
-	public void obfuscate(int chunkX, int chunkY, int bitmask, byte[] buffer, World world)
-	{
+	public void obfuscate(int chunkX, int chunkY, int bitmask, byte[] buffer, World world) {
 		// If the world is marked as obfuscated
-		if (world.spigotConfig.antiXray)
-		{
+		if (world.spigotConfig.antiXray) {
 			// Initial radius to search around for air
 			int initialRadius = 1;
 			// Which block in the buffer we are looking at, anywhere from 0 to 16^4
@@ -131,8 +116,7 @@ public class AntiXray
 			int startZ = chunkY << 4;
 
 			byte replaceWithTypeId;
-			switch (world.getWorld().getEnvironment())
-			{
+			switch (world.getWorld().getEnvironment()) {
 			case NETHER:
 				replaceWithTypeId = (byte) CraftMagicNumbers.getId(Blocks.NETHERRACK);
 				break;
@@ -148,22 +132,16 @@ public class AntiXray
 																								// preallocate
 																								// MutableBlockPosition
 			// Chunks can have up to 16 sections
-			for (int i = 0; i < 16; i++)
-			{
+			for (int i = 0; i < 16; i++) {
 				// If the bitmask indicates this chunk is sent...
-				if ((bitmask & 1 << i) != 0)
-				{
+				if ((bitmask & 1 << i) != 0) {
 					// Work through all blocks in the chunk, y,z,x
-					for (int y = 0; y < 16; y++)
-					{
-						for (int z = 0; z < 16; z++)
-						{
-							for (int x = 0; x < 16; x++)
-							{
+					for (int y = 0; y < 16; y++) {
+						for (int z = 0; z < 16; z++) {
+							for (int x = 0; x < 16; x++) {
 								// For some reason we can get too far ahead of ourselves (concurrent
 								// modification on bulk chunks?) so if we do, just abort and move on
-								if (index >= buffer.length)
-								{
+								if (index >= buffer.length) {
 									index++;
 									continue;
 								}
@@ -172,15 +150,13 @@ public class AntiXray
 								int blockId = (buffer[index << 1] & 0xFF) | ((buffer[(index << 1) + 1] & 0xFF) << 8);
 								blockId >>>= 4;
 								// Check if the block should be obfuscated
-								if (obfuscateBlocks[blockId])
-								{
+								if (obfuscateBlocks[blockId]) {
 									// The world isn't loaded, bail out
 									// TacoSpigot start
 									pos.setValues(startX + x, (i << 4) + y, startZ + z);
 									if (!isLoaded(world,
 											/* new BlockPosition( startX + x, ( i << 4 ) + y, startZ + z ) */ pos,
-											initialRadius))
-									{
+											initialRadius)) {
 										// TacoSpigot end
 										index++;
 										continue;
@@ -192,16 +168,14 @@ public class AntiXray
 											initialRadius)) // TacoSpigot - use prexisting MutableBlockPosition
 									{
 										int newId = blockId;
-										switch (world.spigotConfig.engineMode)
-										{
+										switch (world.spigotConfig.engineMode) {
 										case 1:
 											// Replace with replacement material
 											newId = replaceWithTypeId & 0xFF;
 											break;
 										case 2:
 											// Replace with random ore.
-											if (randomOre >= replacementOres.length)
-											{
+											if (randomOre >= replacementOres.length) {
 												randomOre = 0;
 											}
 											newId = replacementOres[randomOre++] & 0xFF;
@@ -223,8 +197,7 @@ public class AntiXray
 	}
 
 	// TacoSpigot start
-	private void updateNearbyBlocks(World world, final BlockPosition startPos, int radius, boolean updateSelf)
-	{
+	private void updateNearbyBlocks(World world, final BlockPosition startPos, int radius, boolean updateSelf) {
 		int startX = startPos.getX() - radius;
 		int endX = startPos.getX() + radius;
 		int startY = Math.max(0, startPos.getY() - radius);
@@ -232,19 +205,14 @@ public class AntiXray
 		int startZ = startPos.getZ() - radius;
 		int endZ = startPos.getZ() + radius;
 		BlockPosition.MutableBlockPosition adjacent = new BlockPosition.MutableBlockPosition();
-		for (int x = startX; x <= endX; x++)
-		{
-			for (int y = startY; y <= endY; y++)
-			{
-				for (int z = startZ; z <= endZ; z++)
-				{
+		for (int x = startX; x <= endX; x++) {
+			for (int y = startY; y <= endY; y++) {
+				for (int z = startZ; z <= endZ; z++) {
 					adjacent.setValues(x, y, z);
-					if (!updateSelf && x == startPos.getX() & y == startPos.getY() & z == startPos.getZ())
-					{
+					if (!updateSelf && x == startPos.getX() & y == startPos.getY() & z == startPos.getZ()) {
 						continue;
 					}
-					if (world.isLoaded(adjacent))
-					{
+					if (world.isLoaded(adjacent)) {
 						updateBlock(world, adjacent);
 					}
 				}
@@ -252,8 +220,7 @@ public class AntiXray
 		}
 	}
 
-	private void updateBlock(World world, BlockPosition position)
-	{
+	private void updateBlock(World world, BlockPosition position) {
 		// If the block in question is loaded
 		if (true) // TacoSpigot - caller checked
 		{
@@ -281,27 +248,23 @@ public class AntiXray
 		}
 	}
 
-	private static boolean isLoaded(World world, BlockPosition position, int radius)
-	{
+	private static boolean isLoaded(World world, BlockPosition position, int radius) {
 		// TacoSpigot start
 		return BlockHelper.isAllAdjacentBlocksLoaded(world, position, radius);
 		// TacoSpigot end
 	}
 
 	// TacoSpigot start
-	private static boolean hasTransparentBlockAdjacent(World w, BlockPosition startPos, int radius)
-	{
+	private static boolean hasTransparentBlockAdjacent(World w, BlockPosition startPos, int radius) {
 		// !(solid blocks all around)
-		return !BlockHelper.isAllAdjacentBlocksFillPredicate(w, startPos, radius, (world, position) ->
-		{
+		return !BlockHelper.isAllAdjacentBlocksFillPredicate(w, startPos, radius, (world, position) -> {
 			Block block = getType(world, position);
 			return isSolidBlock(block);
 		}); /* isSolidBlock */
 		// TacoSpigot end
 	}
 
-	private static boolean isSolidBlock(Block block)
-	{
+	private static boolean isSolidBlock(Block block) {
 		// Mob spawners are treated as solid blocks as far as the
 		// game is concerned for lighting and other tasks but for
 		// rendering they can be seen through therefor we special
@@ -311,24 +274,20 @@ public class AntiXray
 	}
 
 	// TacoSpigot start
-	public static Block getType(World world, BlockPosition pos)
-	{
+	public static Block getType(World world, BlockPosition pos) {
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
 		Chunk chunk = world.getChunkIfLoaded(x >> 4, z >> 4);
-		if (chunk == null)
-		{
+		if (chunk == null) {
 			return Blocks.AIR;
 		}
 		int sectionId = y >> 4;
-		if (sectionId < 0 || sectionId > 15)
-		{
+		if (sectionId < 0 || sectionId > 15) {
 			return Blocks.AIR;
 		}
 		ChunkSection section = chunk.getSections()[sectionId];
-		if (section == null)
-		 {
+		if (section == null) {
 			return Blocks.AIR; // Handle empty chunks
 		}
 		x &= 0xF;

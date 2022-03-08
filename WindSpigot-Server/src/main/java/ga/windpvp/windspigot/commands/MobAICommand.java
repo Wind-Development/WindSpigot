@@ -7,11 +7,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
 // Implements a Mob AI toggle command
-public class MobAICommand extends Command
-{
+public class MobAICommand extends Command {
 
-	public MobAICommand(String name)
-	{
+	public MobAICommand(String name) {
 		super(name);
 		this.description = "Toggles Mob AI";
 		this.usageMessage = "/mobai";
@@ -19,25 +17,20 @@ public class MobAICommand extends Command
 	}
 
 	@Override
-	public boolean execute(CommandSender sender, String currentAlias, String[] args)
-	{
-		if (!testPermission(sender))
-		{
+	public boolean execute(CommandSender sender, String currentAlias, String[] args) {
+		if (!testPermission(sender)) {
 			return true;
 		}
-		
+
 		// WindSpigot - Loop through each world and toggle mob ai
-		for (WorldServer world : MinecraftServer.getServer().worlds)
-		{
-			if (world.nachoSpigotConfig.enableMobAI)
-			{
+		for (WorldServer world : MinecraftServer.getServer().worlds) {
+			if (world.nachoSpigotConfig.enableMobAI) {
 				world.nachoSpigotConfig.enableMobAI = false;
-			} else
-			{
+			} else {
 				world.nachoSpigotConfig.enableMobAI = true;
 			}
 		}
-		
+
 		return true;
 	}
 

@@ -5,14 +5,12 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 // CraftBukkit end
 
-public class EntityEnderCrystal extends Entity
-{
+public class EntityEnderCrystal extends Entity {
 
 	public int a;
 	public int b;
 
-	public EntityEnderCrystal(World world)
-	{
+	public EntityEnderCrystal(World world) {
 		super(world);
 		this.k = true;
 		this.setSize(2.0F, 2.0F);
@@ -21,20 +19,17 @@ public class EntityEnderCrystal extends Entity
 	}
 
 	@Override
-	protected boolean s_()
-	{
+	protected boolean s_() {
 		return false;
 	}
 
 	@Override
-	protected void h()
-	{
+	protected void h() {
 		this.datawatcher.a(8, Integer.valueOf(this.b));
 	}
 
 	@Override
-	public void t_()
-	{
+	public void t_() {
 		this.lastX = this.locX;
 		this.lastY = this.locY;
 		this.lastZ = this.locZ;
@@ -45,11 +40,9 @@ public class EntityEnderCrystal extends Entity
 		int k = MathHelper.floor(this.locZ);
 
 		if (this.world.worldProvider instanceof WorldProviderTheEnd
-				&& this.world.getType(new BlockPosition(i, j, k)).getBlock() != Blocks.FIRE)
-		{
+				&& this.world.getType(new BlockPosition(i, j, k)).getBlock() != Blocks.FIRE) {
 			// CraftBukkit start
-			if (!CraftEventFactory.callBlockIgniteEvent(this.world, i, j, k, this).isCancelled())
-			{
+			if (!CraftEventFactory.callBlockIgniteEvent(this.world, i, j, k, this).isCancelled()) {
 				this.world.setTypeUpdate(new BlockPosition(i, j, k), Blocks.FIRE.getBlockData());
 			}
 			// CraftBukkit end
@@ -58,48 +51,37 @@ public class EntityEnderCrystal extends Entity
 	}
 
 	@Override
-	protected void b(NBTTagCompound nbttagcompound)
-	{
+	protected void b(NBTTagCompound nbttagcompound) {
 	}
 
 	@Override
-	protected void a(NBTTagCompound nbttagcompound)
-	{
+	protected void a(NBTTagCompound nbttagcompound) {
 	}
 
 	@Override
-	public boolean ad()
-	{
+	public boolean ad() {
 		return true;
 	}
 
 	@Override
-	public boolean damageEntity(DamageSource damagesource, float f)
-	{
-		if (this.isInvulnerable(damagesource))
-		{
+	public boolean damageEntity(DamageSource damagesource, float f) {
+		if (this.isInvulnerable(damagesource)) {
 			return false;
-		} else
-		{
-			if (!this.dead && !this.world.isClientSide)
-			{
+		} else {
+			if (!this.dead && !this.world.isClientSide) {
 				// CraftBukkit start - All non-living entities need this
-				if (CraftEventFactory.handleNonLivingEntityDamageEvent(this, damagesource, f))
-				{
+				if (CraftEventFactory.handleNonLivingEntityDamageEvent(this, damagesource, f)) {
 					return false;
 				}
 				// CraftBukkit end
 				this.b = 0;
-				if (this.b <= 0)
-				{
+				if (this.b <= 0) {
 					this.die();
-					if (!this.world.isClientSide)
-					{
+					if (!this.world.isClientSide) {
 						// CraftBukkit start
 						ExplosionPrimeEvent event = new ExplosionPrimeEvent(this.getBukkitEntity(), 6.0F, false);
 						this.world.getServer().getPluginManager().callEvent(event);
-						if (event.isCancelled())
-						{
+						if (event.isCancelled()) {
 							this.dead = false;
 							return false;
 						}

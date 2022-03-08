@@ -7,62 +7,51 @@ import org.bukkit.event.entity.CreeperPowerEvent;
 
 import net.minecraft.server.EntityCreeper;
 
-public class CraftCreeper extends CraftMonster implements Creeper
-{
+public class CraftCreeper extends CraftMonster implements Creeper {
 
-	public CraftCreeper(CraftServer server, EntityCreeper entity)
-	{
+	public CraftCreeper(CraftServer server, EntityCreeper entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public boolean isPowered()
-	{
+	public boolean isPowered() {
 		return getHandle().isPowered();
 	}
 
 	@Override
-	public void setPowered(boolean powered)
-	{
+	public void setPowered(boolean powered) {
 		CraftServer server = this.server;
 		Creeper entity = (Creeper) this.getHandle().getBukkitEntity();
 
-		if (powered)
-		{
+		if (powered) {
 			CreeperPowerEvent event = new CreeperPowerEvent(entity, CreeperPowerEvent.PowerCause.SET_ON);
 			server.getPluginManager().callEvent(event);
 
-			if (!event.isCancelled())
-			{
+			if (!event.isCancelled()) {
 				getHandle().setPowered(true);
 			}
-		} else
-		{
+		} else {
 			CreeperPowerEvent event = new CreeperPowerEvent(entity, CreeperPowerEvent.PowerCause.SET_OFF);
 			server.getPluginManager().callEvent(event);
 
-			if (!event.isCancelled())
-			{
+			if (!event.isCancelled()) {
 				getHandle().setPowered(false);
 			}
 		}
 	}
 
 	@Override
-	public EntityCreeper getHandle()
-	{
+	public EntityCreeper getHandle() {
 		return (EntityCreeper) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftCreeper";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.CREEPER;
 	}
 }

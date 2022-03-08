@@ -6,11 +6,9 @@ import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.event.block.EntityBlockFormEvent;
 // CraftBukkit end
 
-public class EntitySnowman extends EntityGolem implements IRangedEntity
-{
+public class EntitySnowman extends EntityGolem implements IRangedEntity {
 
-	public EntitySnowman(World world)
-	{
+	public EntitySnowman(World world) {
 		super(world);
 		this.setSize(0.7F, 1.9F);
 		((Navigation) this.getNavigation()).a(true);
@@ -23,36 +21,30 @@ public class EntitySnowman extends EntityGolem implements IRangedEntity
 	}
 
 	@Override
-	protected void initAttributes()
-	{
+	protected void initAttributes() {
 		super.initAttributes();
 		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(4.0D);
 		this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.20000000298023224D);
 	}
 
 	@Override
-	public void m()
-	{
+	public void m() {
 		super.m();
-		if (!this.world.isClientSide)
-		{
+		if (!this.world.isClientSide) {
 			int i = MathHelper.floor(this.locX);
 			int j = MathHelper.floor(this.locY);
 			int k = MathHelper.floor(this.locZ);
 
-			if (this.U())
-			{
+			if (this.U()) {
 				this.damageEntity(DamageSource.DROWN, 1.0F);
 			}
 
-			if (this.world.getBiome(new BlockPosition(i, 0, k)).a(new BlockPosition(i, j, k)) > 1.0F)
-			{
+			if (this.world.getBiome(new BlockPosition(i, 0, k)).a(new BlockPosition(i, j, k)) > 1.0F) {
 				this.damageEntity(CraftEventFactory.MELTING, 1.0F); // CraftBukkit - DamageSource.BURN ->
 																	// CraftEventFactory.MELTING
 			}
 
-			for (int l = 0; l < 4; ++l)
-			{
+			for (int l = 0; l < 4; ++l) {
 				i = MathHelper.floor(this.locX + (l % 2 * 2 - 1) * 0.25F);
 				j = MathHelper.floor(this.locY);
 				k = MathHelper.floor(this.locZ + (l / 2 % 2 * 2 - 1) * 0.25F);
@@ -60,8 +52,7 @@ public class EntitySnowman extends EntityGolem implements IRangedEntity
 
 				if (this.world.getType(blockposition).getBlock().getMaterial() == Material.AIR
 						&& this.world.getBiome(new BlockPosition(i, 0, k)).a(blockposition) < 0.8F
-						&& Blocks.SNOW_LAYER.canPlace(this.world, blockposition))
-				{
+						&& Blocks.SNOW_LAYER.canPlace(this.world, blockposition)) {
 					// CraftBukkit start
 					org.bukkit.block.BlockState blockState = this.world.getWorld().getBlockAt(i, j, k).getState();
 					blockState.setType(CraftMagicNumbers.getMaterial(Blocks.SNOW_LAYER));
@@ -70,8 +61,7 @@ public class EntitySnowman extends EntityGolem implements IRangedEntity
 							blockState);
 					this.world.getServer().getPluginManager().callEvent(event);
 
-					if (!event.isCancelled())
-					{
+					if (!event.isCancelled()) {
 						blockState.update(true);
 					}
 					// CraftBukkit end
@@ -82,26 +72,22 @@ public class EntitySnowman extends EntityGolem implements IRangedEntity
 	}
 
 	@Override
-	protected Item getLoot()
-	{
+	protected Item getLoot() {
 		return Items.SNOWBALL;
 	}
 
 	@Override
-	protected void dropDeathLoot(boolean flag, int i)
-	{
+	protected void dropDeathLoot(boolean flag, int i) {
 		int j = this.random.nextInt(16);
 
-		for (int k = 0; k < j; ++k)
-		{
+		for (int k = 0; k < j; ++k) {
 			this.a(Items.SNOWBALL, 1);
 		}
 
 	}
 
 	@Override
-	public void a(EntityLiving entityliving, float f)
-	{
+	public void a(EntityLiving entityliving, float f) {
 		EntitySnowball entitysnowball = new EntitySnowball(this.world, this);
 		double d0 = entityliving.locY + entityliving.getHeadHeight() - 1.100000023841858D;
 		double d1 = entityliving.locX - this.locX;
@@ -115,8 +101,7 @@ public class EntitySnowman extends EntityGolem implements IRangedEntity
 	}
 
 	@Override
-	public float getHeadHeight()
-	{
+	public float getHeadHeight() {
 		return 1.7F;
 	}
 }

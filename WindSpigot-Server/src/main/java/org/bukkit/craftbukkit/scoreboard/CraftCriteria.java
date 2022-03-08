@@ -7,17 +7,14 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.server.IScoreboardCriteria;
 import net.minecraft.server.ScoreboardObjective;
 
-final class CraftCriteria
-{
+final class CraftCriteria {
 	static final Map<String, CraftCriteria> DEFAULTS;
 	static final CraftCriteria DUMMY;
 
-	static
-	{
+	static {
 		ImmutableMap.Builder<String, CraftCriteria> defaults = ImmutableMap.builder();
 
-		for (Map.Entry<?, ?> entry : ((Map<?, ?>) IScoreboardCriteria.criteria).entrySet())
-		{
+		for (Map.Entry<?, ?> entry : ((Map<?, ?>) IScoreboardCriteria.criteria).entrySet()) {
 			String name = entry.getKey().toString();
 			IScoreboardCriteria criteria = (IScoreboardCriteria) entry.getValue();
 
@@ -31,46 +28,38 @@ final class CraftCriteria
 	final IScoreboardCriteria criteria;
 	final String bukkitName;
 
-	private CraftCriteria(String bukkitName)
-	{
+	private CraftCriteria(String bukkitName) {
 		this.bukkitName = bukkitName;
 		this.criteria = DUMMY.criteria;
 	}
 
-	private CraftCriteria(IScoreboardCriteria criteria)
-	{
+	private CraftCriteria(IScoreboardCriteria criteria) {
 		this.criteria = criteria;
 		this.bukkitName = criteria.getName();
 	}
 
-	static CraftCriteria getFromNMS(ScoreboardObjective objective)
-	{
+	static CraftCriteria getFromNMS(ScoreboardObjective objective) {
 		return DEFAULTS.get(objective.getCriteria().getName());
 	}
 
-	static CraftCriteria getFromBukkit(String name)
-	{
+	static CraftCriteria getFromBukkit(String name) {
 		final CraftCriteria criteria = DEFAULTS.get(name);
-		if (criteria != null)
-		{
+		if (criteria != null) {
 			return criteria;
 		}
 		return new CraftCriteria(name);
 	}
 
 	@Override
-	public boolean equals(Object that)
-	{
-		if (!(that instanceof CraftCriteria))
-		{
+	public boolean equals(Object that) {
+		if (!(that instanceof CraftCriteria)) {
 			return false;
 		}
 		return ((CraftCriteria) that).bukkitName.equals(this.bukkitName);
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return this.bukkitName.hashCode() ^ CraftCriteria.class.hashCode();
 	}
 }

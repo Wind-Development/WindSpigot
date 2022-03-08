@@ -13,29 +13,23 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.server.MobEffect;
 
-public class CraftPotionBrewer implements PotionBrewer
-{
+public class CraftPotionBrewer implements PotionBrewer {
 	private static final Map<Integer, Collection<PotionEffect>> cache = Maps.newHashMap();
 
 	@Override
-	public Collection<PotionEffect> getEffectsFromDamage(int damage)
-	{
-		if (cache.containsKey(damage))
-		{
+	public Collection<PotionEffect> getEffectsFromDamage(int damage) {
+		if (cache.containsKey(damage)) {
 			return cache.get(damage);
 		}
 
 		List<?> mcEffects = net.minecraft.server.PotionBrewer.getEffects(damage, false);
 		List<PotionEffect> effects = new ArrayList<PotionEffect>();
-		if (mcEffects == null)
-		{
+		if (mcEffects == null) {
 			return effects;
 		}
 
-		for (Object raw : mcEffects)
-		{
-			if (raw == null || !(raw instanceof MobEffect))
-			{
+		for (Object raw : mcEffects) {
+			if (raw == null || !(raw instanceof MobEffect)) {
 				continue;
 			}
 			MobEffect mcEffect = (MobEffect) raw;
@@ -51,8 +45,7 @@ public class CraftPotionBrewer implements PotionBrewer
 	}
 
 	@Override
-	public PotionEffect createEffect(PotionEffectType potion, int duration, int amplifier)
-	{
+	public PotionEffect createEffect(PotionEffectType potion, int duration, int amplifier) {
 		return new PotionEffect(potion, potion.isInstant() ? 1 : (int) (duration * potion.getDurationModifier()),
 				amplifier);
 	}

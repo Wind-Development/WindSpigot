@@ -12,8 +12,7 @@ import com.google.common.collect.Maps;
 import co.aikar.timings.SpigotTimings; // Spigot
 import co.aikar.timings.Timing; // Spigot
 
-public abstract class TileEntity
-{
+public abstract class TileEntity {
 
 	public Timing tickTimer = SpigotTimings.getTileEntityTimings(this); // Spigot
 	private static final Logger a = LogManager.getLogger();
@@ -26,54 +25,43 @@ public abstract class TileEntity
 	protected Block e;
 	static boolean IGNORE_TILE_UPDATES = false; // Paper
 
-	public TileEntity()
-	{
+	public TileEntity() {
 		this.position = BlockPosition.ZERO;
 		this.h = -1;
 	}
 
-	private static void a(Class<? extends TileEntity> oclass, String s)
-	{
-		if (TileEntity.f.containsKey(s))
-		{
+	private static void a(Class<? extends TileEntity> oclass, String s) {
+		if (TileEntity.f.containsKey(s)) {
 			throw new IllegalArgumentException("Duplicate id: " + s);
-		} else
-		{
+		} else {
 			TileEntity.f.put(s, oclass);
 			TileEntity.g.put(oclass, s);
 		}
 	}
 
-	public World getWorld()
-	{
+	public World getWorld() {
 		return this.world;
 	}
 
-	public void a(World world)
-	{
+	public void a(World world) {
 		this.world = world;
 	}
 
-	public boolean t()
-	{
+	public boolean t() {
 		return this.world != null;
 	}
 
-	public void a(NBTTagCompound nbttagcompound)
-	{
+	public void a(NBTTagCompound nbttagcompound) {
 		this.position = new BlockPosition(nbttagcompound.getInt("x"), nbttagcompound.getInt("y"),
 				nbttagcompound.getInt("z"));
 	}
 
-	public void b(NBTTagCompound nbttagcompound)
-	{
+	public void b(NBTTagCompound nbttagcompound) {
 		String s = TileEntity.g.get(this.getClass());
 
-		if (s == null)
-		{
+		if (s == null) {
 			throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
-		} else
-		{
+		} else {
 			nbttagcompound.setString("id", s);
 			nbttagcompound.setInt("x", this.position.getX());
 			nbttagcompound.setInt("y", this.position.getY());
@@ -81,38 +69,30 @@ public abstract class TileEntity
 		}
 	}
 
-	public static TileEntity c(NBTTagCompound nbttagcompound)
-	{
+	public static TileEntity c(NBTTagCompound nbttagcompound) {
 		TileEntity tileentity = null;
 
-		try
-		{
+		try {
 			Class oclass = TileEntity.f.get(nbttagcompound.getString("id"));
 
-			if (oclass != null)
-			{
+			if (oclass != null) {
 				tileentity = (TileEntity) oclass.newInstance();
 			}
-		} catch (Exception exception)
-		{
+		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
 
-		if (tileentity != null)
-		{
+		if (tileentity != null) {
 			tileentity.a(nbttagcompound);
-		} else
-		{
+		} else {
 			TileEntity.a.warn("Skipping BlockEntity with id " + nbttagcompound.getString("id"));
 		}
 
 		return tileentity;
 	}
 
-	public int u()
-	{
-		if (this.h == -1)
-		{
+	public int u() {
+		if (this.h == -1) {
 			IBlockData iblockdata = this.world.getType(this.position);
 
 			this.h = iblockdata.getBlock().toLegacyData(iblockdata);
@@ -121,160 +101,126 @@ public abstract class TileEntity
 		return this.h;
 	}
 
-	public void update()
-	{
-		if (this.world != null)
-		{
-			if (IGNORE_TILE_UPDATES)
-			 {
+	public void update() {
+		if (this.world != null) {
+			if (IGNORE_TILE_UPDATES) {
 				return; // Paper
 			}
 			IBlockData iblockdata = this.world.getType(this.position);
 
 			this.h = iblockdata.getBlock().toLegacyData(iblockdata);
 			this.world.b(this.position, this);
-			if (this.w() != Blocks.AIR)
-			{
+			if (this.w() != Blocks.AIR) {
 				this.world.updateAdjacentComparators(this.position, this.w());
 			}
 		}
 
 	}
 
-	public BlockPosition getPosition()
-	{
+	public BlockPosition getPosition() {
 		return this.position;
 	}
 
-	public Block w()
-	{
-		if (this.e == null)
-		{
+	public Block w() {
+		if (this.e == null) {
 			this.e = this.world.getType(this.position).getBlock();
 		}
 
 		return this.e;
 	}
 
-	public Packet getUpdatePacket()
-	{
+	public Packet getUpdatePacket() {
 		return null;
 	}
 
-	public boolean x()
-	{
+	public boolean x() {
 		return this.d;
 	}
 
-	public void y()
-	{
+	public void y() {
 		this.d = true;
 	}
 
-	public void D()
-	{
+	public void D() {
 		this.d = false;
 	}
 
-	public boolean c(int i, int j)
-	{
+	public boolean c(int i, int j) {
 		return false;
 	}
 
-	public void E()
-	{
+	public void E() {
 		this.e = null;
 		this.h = -1;
 	}
 
-	public void a(CrashReportSystemDetails crashreportsystemdetails)
-	{
-		crashreportsystemdetails.a("Name", new Callable()
-		{
-			public String a() throws Exception
-			{
+	public void a(CrashReportSystemDetails crashreportsystemdetails) {
+		crashreportsystemdetails.a("Name", new Callable() {
+			public String a() throws Exception {
 				return TileEntity.g.get(TileEntity.this.getClass()) + " // "
 						+ TileEntity.this.getClass().getCanonicalName();
 			}
 
 			@Override
-			public Object call() throws Exception
-			{
+			public Object call() throws Exception {
 				return this.a();
 			}
 		});
-		if (this.world != null)
-		{
+		if (this.world != null) {
 			// PaperSpigot start - Prevent tile entity and entity crashes
 			Block block = this.w();
-			if (block != null)
-			{
+			if (block != null) {
 				CrashReportSystemDetails.a(crashreportsystemdetails, this.position, this.w(), this.u());
 			}
 			// PaperSpigot end
-			crashreportsystemdetails.a("Actual block type", new Callable()
-			{
-				public String a() throws Exception
-				{
+			crashreportsystemdetails.a("Actual block type", new Callable() {
+				public String a() throws Exception {
 					int i = Block.getId(TileEntity.this.world.getType(TileEntity.this.position).getBlock());
 
-					try
-					{
-						return String.format("ID #%d (%s // %s)", new Object[]
-						{ Integer.valueOf(i), Block.getById(i).a(), Block.getById(i).getClass().getCanonicalName() });
-					} catch (Throwable throwable)
-					{
+					try {
+						return String.format("ID #%d (%s // %s)", new Object[] { Integer.valueOf(i),
+								Block.getById(i).a(), Block.getById(i).getClass().getCanonicalName() });
+					} catch (Throwable throwable) {
 						return "ID #" + i;
 					}
 				}
 
 				@Override
-				public Object call() throws Exception
-				{
+				public Object call() throws Exception {
 					return this.a();
 				}
 			});
-			crashreportsystemdetails.a("Actual block data value", new Callable()
-			{
-				public String a() throws Exception
-				{
+			crashreportsystemdetails.a("Actual block data value", new Callable() {
+				public String a() throws Exception {
 					IBlockData iblockdata = TileEntity.this.world.getType(TileEntity.this.position);
 					int i = iblockdata.getBlock().toLegacyData(iblockdata);
 
-					if (i < 0)
-					{
+					if (i < 0) {
 						return "Unknown? (Got " + i + ")";
-					} else
-					{
-						String s = String.format("%4s", new Object[]
-						{ Integer.toBinaryString(i) }).replace(" ", "0");
+					} else {
+						String s = String.format("%4s", new Object[] { Integer.toBinaryString(i) }).replace(" ", "0");
 
-						return String.format("%1$d / 0x%1$X / 0b%2$s", new Object[]
-						{ Integer.valueOf(i), s });
+						return String.format("%1$d / 0x%1$X / 0b%2$s", new Object[] { Integer.valueOf(i), s });
 					}
 				}
 
 				@Override
-				public Object call() throws Exception
-				{
+				public Object call() throws Exception {
 					return this.a();
 				}
 			});
 		}
 	}
 
-	public void a(BlockPosition blockposition)
-	{
+	public void a(BlockPosition blockposition) {
 		this.position = blockposition;
 	}
 
-	public boolean F()
-	{
+	public boolean F() {
 		return false;
 	}
 
-	static
-	{
+	static {
 		a(TileEntityFurnace.class, "Furnace");
 		a(TileEntityChest.class, "Chest");
 		a(TileEntityEnderChest.class, "EnderChest");
@@ -299,25 +245,20 @@ public abstract class TileEntity
 	}
 
 	// CraftBukkit start - add method
-	public InventoryHolder getOwner()
-	{
-		if (world == null)
-		{
+	public InventoryHolder getOwner() {
+		if (world == null) {
 			return null;
 		}
 		// Spigot start
 		org.bukkit.block.Block block = world.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
-		if (block == null)
-		{
+		if (block == null) {
 			org.bukkit.Bukkit.getLogger().log(java.util.logging.Level.WARNING, "No block for owner at %s %d %d %d",
-					new Object[]
-					{ world.getWorld(), position.getX(), position.getY(), position.getZ() });
+					new Object[] { world.getWorld(), position.getX(), position.getY(), position.getZ() });
 			return null;
 		}
 		// Spigot end
 		org.bukkit.block.BlockState state = block.getState();
-		if (state instanceof InventoryHolder)
-		{
+		if (state instanceof InventoryHolder) {
 			return (InventoryHolder) state;
 		}
 		return null;

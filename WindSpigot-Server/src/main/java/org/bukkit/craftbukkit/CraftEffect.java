@@ -6,13 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.potion.Potion;
 
-public class CraftEffect
-{
-	public static <T> int getDataValue(Effect effect, T data)
-	{
+public class CraftEffect {
+	public static <T> int getDataValue(Effect effect, T data) {
 		int datavalue;
-		switch (effect)
-		{
+		switch (effect) {
 		case POTION_BREAK:
 			datavalue = ((Potion) data).toDamageValue() & 0x3F;
 			break;
@@ -21,8 +18,7 @@ public class CraftEffect
 			datavalue = ((Material) data).getId();
 			break;
 		case SMOKE:
-			switch ((BlockFace) data)
-			{ // TODO: Verify (Where did these values come from...?)
+			switch ((BlockFace) data) { // TODO: Verify (Where did these values come from...?)
 			case SOUTH_EAST:
 				datavalue = 0;
 				break;

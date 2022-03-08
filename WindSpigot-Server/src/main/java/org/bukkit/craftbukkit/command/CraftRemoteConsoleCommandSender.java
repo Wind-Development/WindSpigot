@@ -5,16 +5,13 @@ import org.bukkit.command.RemoteConsoleCommandSender;
 import net.minecraft.server.ChatComponentText;
 import net.minecraft.server.RemoteControlCommandListener;
 
-public class CraftRemoteConsoleCommandSender extends ServerCommandSender implements RemoteConsoleCommandSender
-{
-	public CraftRemoteConsoleCommandSender()
-	{
+public class CraftRemoteConsoleCommandSender extends ServerCommandSender implements RemoteConsoleCommandSender {
+	public CraftRemoteConsoleCommandSender() {
 		super();
 	}
 
 	@Override
-	public void sendMessage(String message)
-	{
+	public void sendMessage(String message) {
 		RemoteControlCommandListener.getInstance().sendMessage(new ChatComponentText(message + "\n")); // Send a newline
 																										// after each
 																										// message, to
@@ -23,29 +20,24 @@ public class CraftRemoteConsoleCommandSender extends ServerCommandSender impleme
 	}
 
 	@Override
-	public void sendMessage(String[] messages)
-	{
-		for (String message : messages)
-		{
+	public void sendMessage(String[] messages) {
+		for (String message : messages) {
 			sendMessage(message);
 		}
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return "Rcon";
 	}
 
 	@Override
-	public boolean isOp()
-	{
+	public boolean isOp() {
 		return true;
 	}
 
 	@Override
-	public void setOp(boolean value)
-	{
+	public void setOp(boolean value) {
 		throw new UnsupportedOperationException("Cannot change operator status of remote controller.");
 	}
 }

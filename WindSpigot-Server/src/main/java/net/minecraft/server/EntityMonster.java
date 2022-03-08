@@ -2,23 +2,19 @@ package net.minecraft.server;
 
 import org.bukkit.event.entity.EntityCombustByEntityEvent; // CraftBukkit
 
-public abstract class EntityMonster extends EntityCreature implements IMonster
-{
+public abstract class EntityMonster extends EntityCreature implements IMonster {
 
-	public EntityMonster(World world)
-	{
+	public EntityMonster(World world) {
 		super(world);
 		this.b_ = 5;
 	}
 
 	@Override
-	public void m()
-	{
+	public void m() {
 		this.bx();
 		float f = this.c(1.0F);
 
-		if (f > 0.5F)
-		{
+		if (f > 0.5F) {
 			this.ticksFarFromPlayer += 2;
 		}
 
@@ -26,81 +22,66 @@ public abstract class EntityMonster extends EntityCreature implements IMonster
 	}
 
 	@Override
-	public void t_()
-	{
+	public void t_() {
 		super.t_();
-		if (!this.world.isClientSide && this.world.getDifficulty() == EnumDifficulty.PEACEFUL)
-		{
+		if (!this.world.isClientSide && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
 			this.die();
 		}
 
 	}
 
 	@Override
-	protected String P()
-	{
+	protected String P() {
 		return "game.hostile.swim";
 	}
 
 	@Override
-	protected String aa()
-	{
+	protected String aa() {
 		return "game.hostile.swim.splash";
 	}
 
 	@Override
-	public boolean damageEntity(DamageSource damagesource, float f)
-	{
-		if (this.isInvulnerable(damagesource))
-		{
+	public boolean damageEntity(DamageSource damagesource, float f) {
+		if (this.isInvulnerable(damagesource)) {
 			return false;
-		} else if (super.damageEntity(damagesource, f))
-		{
+		} else if (super.damageEntity(damagesource, f)) {
 			Entity entity = damagesource.getEntity();
 
 			return this.passenger != entity && this.vehicle != entity ? true : true;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
 
 	@Override
-	protected String bo()
-	{
+	protected String bo() {
 		return "game.hostile.hurt";
 	}
 
 	@Override
-	protected String bp()
-	{
+	protected String bp() {
 		return "game.hostile.die";
 	}
 
 	@Override
-	protected String n(int i)
-	{
+	protected String n(int i) {
 		return i > 4 ? "game.hostile.hurt.fall.big" : "game.hostile.hurt.fall.small";
 	}
 
 	@Override
-	public boolean r(Entity entity)
-	{
+	public boolean r(Entity entity) {
 		float f = (float) this.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).getValue();
 		int i = 0;
 
-		if (entity instanceof EntityLiving)
-		{
+		if (entity instanceof EntityLiving) {
 			f += EnchantmentManager.a(this.bA(), ((EntityLiving) entity).getMonsterType());
 			i += EnchantmentManager.a(this);
 		}
 
 		boolean flag = entity.damageEntity(DamageSource.mobAttack(this), f);
 
-		if (flag)
-		{
-			if (i > 0)
-			{
+		if (flag) {
+			if (i > 0) {
 				entity.g(-MathHelper.sin(this.yaw * 3.1415927F / 180.0F) * i * 0.5F, 0.1D,
 						MathHelper.cos(this.yaw * 3.1415927F / 180.0F) * i * 0.5F);
 				this.motX *= 0.6D;
@@ -109,16 +90,14 @@ public abstract class EntityMonster extends EntityCreature implements IMonster
 
 			int j = EnchantmentManager.getFireAspectEnchantmentLevel(this);
 
-			if (j > 0)
-			{
+			if (j > 0) {
 				// CraftBukkit start - Call a combust event when somebody hits with a fire
 				// enchanted item
 				EntityCombustByEntityEvent combustEvent = new EntityCombustByEntityEvent(this.getBukkitEntity(),
 						entity.getBukkitEntity(), j * 4);
 				org.bukkit.Bukkit.getPluginManager().callEvent(combustEvent);
 
-				if (!combustEvent.isCancelled())
-				{
+				if (!combustEvent.isCancelled()) {
 					entity.setOnFire(combustEvent.getDuration());
 				}
 				// CraftBukkit end
@@ -131,30 +110,24 @@ public abstract class EntityMonster extends EntityCreature implements IMonster
 	}
 
 	@Override
-	public float a(BlockPosition blockposition)
-	{
+	public float a(BlockPosition blockposition) {
 		return 0.5F - this.world.o(blockposition);
 	}
 
-	protected boolean n_()
-	{
+	protected boolean n_() {
 		BlockPosition blockposition = new BlockPosition(this.locX, this.getBoundingBox().b, this.locZ);
 
-		if (this.world.b(EnumSkyBlock.SKY, blockposition) > this.random.nextInt(32))
-		{
+		if (this.world.b(EnumSkyBlock.SKY, blockposition) > this.random.nextInt(32)) {
 			return false;
-		} else
-		{
+		} else {
 			boolean passes; // Paper
-			if (this.world.R())
-			{
+			if (this.world.R()) {
 				int j = this.world.ab();
 
 				this.world.c(10);
 				passes = !world.isLightLevel(blockposition, this.random.nextInt(9)); // Paper
 				this.world.c(j);
-			} else
-			{
+			} else {
 				passes = !world.isLightLevel(blockposition, this.random.nextInt(9));
 			} // Paper
 
@@ -163,21 +136,18 @@ public abstract class EntityMonster extends EntityCreature implements IMonster
 	}
 
 	@Override
-	public boolean bR()
-	{
+	public boolean bR() {
 		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.n_() && super.bR();
 	}
 
 	@Override
-	protected void initAttributes()
-	{
+	protected void initAttributes() {
 		super.initAttributes();
 		this.getAttributeMap().b(GenericAttributes.ATTACK_DAMAGE);
 	}
 
 	@Override
-	protected boolean ba()
-	{
+	protected boolean ba() {
 		return true;
 	}
 }

@@ -2,8 +2,7 @@ package net.minecraft.server;
 
 import java.io.File;
 
-public interface IDataManager
-{
+public interface IDataManager {
 
 	WorldData getWorldData();
 

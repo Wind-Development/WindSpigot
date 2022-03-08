@@ -17,8 +17,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
-public class DataWatcher
-{
+public class DataWatcher {
 
 	private final Entity a;
 	private boolean b = true;
@@ -35,30 +34,23 @@ public class DataWatcher
 //    private ReadWriteLock f = new ReentrantReadWriteLock(); // Spigot - Remove DataWatcher Locking
 	boolean registrationLocked; // Spigot
 
-	public DataWatcher(Entity entity)
-	{
+	public DataWatcher(Entity entity) {
 		this.a = entity;
 	}
 
-	public <T> void a(int i, T t0)
-	{
-		if (this.registrationLocked)
-		 {
+	public <T> void a(int i, T t0) {
+		if (this.registrationLocked) {
 			throw new IllegalStateException("Registering datawatcher object after entity initialization"); // Spigot
 		}
 		int integer = classToId.get(t0.getClass()); // Spigot
 
-		if (integer == -1)
-		{ // Spigot
+		if (integer == -1) { // Spigot
 			throw new IllegalArgumentException("Unknown data type: " + t0.getClass());
-		} else if (i > 31)
-		{
+		} else if (i > 31) {
 			throw new IllegalArgumentException("Data value id is too big with " + i + "! (Max is " + 31 + ")");
-		} else if (this.dataValues.containsKey(i))
-		{ // Spigot
+		} else if (this.dataValues.containsKey(i)) { // Spigot
 			throw new IllegalArgumentException("Duplicate id value for " + i + "!");
-		} else
-		{
+		} else {
 			DataWatcher.WatchableObject datawatcher_watchableobject = new DataWatcher.WatchableObject(integer, i, t0); // Spigot
 
 //            this.f.writeLock().lock(); // Spigot - not required
@@ -68,8 +60,7 @@ public class DataWatcher
 		}
 	}
 
-	public void add(int i, int j)
-	{
+	public void add(int i, int j) {
 		DataWatcher.WatchableObject datawatcher_watchableobject = new DataWatcher.WatchableObject(j, i, (Object) null);
 
 //        this.f.writeLock().lock(); // Spigot - not required
@@ -78,38 +69,31 @@ public class DataWatcher
 		this.b = false;
 	}
 
-	public byte getByte(int i)
-	{
+	public byte getByte(int i) {
 		return ((Byte) this.j(i).b()).byteValue();
 	}
 
-	public short getShort(int i)
-	{
+	public short getShort(int i) {
 		return ((Short) this.j(i).b()).shortValue();
 	}
 
-	public int getInt(int i)
-	{
+	public int getInt(int i) {
 		return ((Integer) this.j(i).b()).intValue();
 	}
 
-	public float getFloat(int i)
-	{
+	public float getFloat(int i) {
 		return ((Float) this.j(i).b()).floatValue();
 	}
 
-	public String getString(int i)
-	{
+	public String getString(int i) {
 		return (String) this.j(i).b();
 	}
 
-	public ItemStack getItemStack(int i)
-	{
+	public ItemStack getItemStack(int i) {
 		return (ItemStack) this.j(i).b();
 	}
 
-	private DataWatcher.WatchableObject j(int i)
-	{
+	private DataWatcher.WatchableObject j(int i) {
 		// Spigot - not required
 		/*
 		 * this.f.readLock().lock();
@@ -131,17 +115,14 @@ public class DataWatcher
 		return (WatchableObject) this.dataValues.get(i);
 	}
 
-	public Vector3f h(int i)
-	{
+	public Vector3f h(int i) {
 		return (Vector3f) this.j(i).b();
 	}
 
-	public <T> void watch(int i, T t0)
-	{
+	public <T> void watch(int i, T t0) {
 		DataWatcher.WatchableObject datawatcher_watchableobject = this.j(i);
 
-		if (ObjectUtils.notEqual(t0, datawatcher_watchableobject.b()))
-		{
+		if (ObjectUtils.notEqual(t0, datawatcher_watchableobject.b())) {
 			datawatcher_watchableobject.a(t0);
 			this.a.i(i);
 			datawatcher_watchableobject.a(true);
@@ -150,25 +131,20 @@ public class DataWatcher
 
 	}
 
-	public void update(int i)
-	{
+	public void update(int i) {
 		this.j(i).d = true;
 		this.e = true;
 	}
 
-	public boolean a()
-	{
+	public boolean a() {
 		return this.e;
 	}
 
-	public static void a(List<DataWatcher.WatchableObject> list, PacketDataSerializer serializer) throws IOException
-	{
-		if (list != null)
-		{
+	public static void a(List<DataWatcher.WatchableObject> list, PacketDataSerializer serializer) throws IOException {
+		if (list != null) {
 			Iterator iterator = list.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()) {
 				DataWatcher.WatchableObject datawatcher_watchableobject = (DataWatcher.WatchableObject) iterator.next();
 
 				a(serializer, datawatcher_watchableobject);
@@ -178,30 +154,24 @@ public class DataWatcher
 		serializer.writeByte(127);
 	}
 
-	public List<DataWatcher.WatchableObject> b()
-	{
+	public List<DataWatcher.WatchableObject> b() {
 		ArrayList arraylist = null;
 
-		if (this.e)
-		{
+		if (this.e) {
 //            this.f.readLock().lock(); // Spigot - not required
 			Iterator iterator = this.dataValues.values().iterator(); // Spigot // TacoSpigot
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()) {
 				DataWatcher.WatchableObject datawatcher_watchableobject = (DataWatcher.WatchableObject) iterator.next();
 
-				if (datawatcher_watchableobject.d())
-				{
+				if (datawatcher_watchableobject.d()) {
 					datawatcher_watchableobject.a(false);
-					if (arraylist == null)
-					{
+					if (arraylist == null) {
 						arraylist = Lists.newArrayList();
 					}
 
 					// Spigot start - copy ItemStacks to prevent ConcurrentModificationExceptions
-					if (datawatcher_watchableobject.b() instanceof ItemStack)
-					{
+					if (datawatcher_watchableobject.b() instanceof ItemStack) {
 						datawatcher_watchableobject = new WatchableObject(datawatcher_watchableobject.c(),
 								datawatcher_watchableobject.a(),
 								((ItemStack) datawatcher_watchableobject.b()).cloneItemStack());
@@ -219,13 +189,11 @@ public class DataWatcher
 		return arraylist;
 	}
 
-	public void a(PacketDataSerializer serializer) throws IOException
-	{
+	public void a(PacketDataSerializer serializer) throws IOException {
 //        this.f.readLock().lock(); // Spigot - not required
 		Iterator iterator = this.dataValues.values().iterator(); // Spigot // TacoSpigot
 
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			DataWatcher.WatchableObject datawatcher_watchableobject = (DataWatcher.WatchableObject) iterator.next();
 
 			a(serializer, datawatcher_watchableobject);
@@ -235,19 +203,16 @@ public class DataWatcher
 		serializer.writeByte(127);
 	}
 
-	public List<DataWatcher.WatchableObject> c()
-	{
+	public List<DataWatcher.WatchableObject> c() {
 		ArrayList arraylist = Lists.newArrayList(); // Spigot
 
 //        this.f.readLock().lock(); // Spigot - not required
 
 		arraylist.addAll(this.dataValues.values()); // Spigot // TacoSpigot
 		// Spigot start - copy ItemStacks to prevent ConcurrentModificationExceptions
-		for (int i = 0; i < arraylist.size(); i++)
-		{
+		for (int i = 0; i < arraylist.size(); i++) {
 			WatchableObject watchableobject = (WatchableObject) arraylist.get(i);
-			if (watchableobject.b() instanceof ItemStack)
-			{
+			if (watchableobject.b() instanceof ItemStack) {
 				watchableobject = new WatchableObject(watchableobject.c(), watchableobject.a(),
 						((ItemStack) watchableobject.b()).cloneItemStack());
 				arraylist.set(i, watchableobject);
@@ -260,13 +225,11 @@ public class DataWatcher
 	}
 
 	private static void a(PacketDataSerializer serializer, DataWatcher.WatchableObject datawatcher_watchableobject)
-			throws IOException
-	{
+			throws IOException {
 		int i = (datawatcher_watchableobject.c() << 5 | datawatcher_watchableobject.a() & 31) & 255;
 
 		serializer.writeByte(i);
-		switch (datawatcher_watchableobject.c())
-		{
+		switch (datawatcher_watchableobject.c()) {
 		case 0:
 			serializer.writeByte(((Byte) datawatcher_watchableobject.b()).byteValue());
 			break;
@@ -311,14 +274,11 @@ public class DataWatcher
 
 	}
 
-	public static List<DataWatcher.WatchableObject> b(PacketDataSerializer serializer) throws IOException
-	{
+	public static List<DataWatcher.WatchableObject> b(PacketDataSerializer serializer) throws IOException {
 		ArrayList arraylist = null;
 
-		for (byte b0 = serializer.readByte(); b0 != 127; b0 = serializer.readByte())
-		{
-			if (arraylist == null)
-			{
+		for (byte b0 = serializer.readByte(); b0 != 127; b0 = serializer.readByte()) {
+			if (arraylist == null) {
 				arraylist = Lists.newArrayList();
 			}
 
@@ -326,8 +286,7 @@ public class DataWatcher
 			int j = b0 & 31;
 			DataWatcher.WatchableObject datawatcher_watchableobject = null;
 
-			switch (i)
-			{
+			switch (i) {
 			case 0:
 				datawatcher_watchableobject = new DataWatcher.WatchableObject(i, j,
 						Byte.valueOf(serializer.readByte()));
@@ -378,18 +337,15 @@ public class DataWatcher
 		return arraylist;
 	}
 
-	public boolean d()
-	{
+	public boolean d() {
 		return this.b;
 	}
 
-	public void e()
-	{
+	public void e() {
 		this.e = false;
 	}
 
-	static
-	{
+	static {
 		// Spigot Start - remove valueOf
 		classToId.put(Byte.class, 0);
 		classToId.put(Short.class, 1);
@@ -402,49 +358,41 @@ public class DataWatcher
 		// Spigot End
 	}
 
-	public static class WatchableObject
-	{
+	public static class WatchableObject {
 
 		private final int a;
 		private final int b;
 		private Object c;
 		private boolean d;
 
-		public WatchableObject(int i, int j, Object object)
-		{
+		public WatchableObject(int i, int j, Object object) {
 			this.b = j;
 			this.c = object;
 			this.a = i;
 			this.d = true;
 		}
 
-		public int a()
-		{
+		public int a() {
 			return this.b;
 		}
 
-		public void a(Object object)
-		{
+		public void a(Object object) {
 			this.c = object;
 		}
 
-		public Object b()
-		{
+		public Object b() {
 			return this.c;
 		}
 
-		public int c()
-		{
+		public int c() {
 			return this.a;
 		}
 
-		public boolean d()
-		{
+		public boolean d() {
 			return this.d;
 		}
 
-		public void a(boolean flag)
-		{
+		public void a(boolean flag) {
 			this.d = flag;
 		}
 	}

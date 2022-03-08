@@ -35,11 +35,9 @@ import org.apache.commons.lang.Validate;
  *            main thread
  * @author Wesley Wolfe (c) 2012, 2014
  */
-public final class AsynchronousExecutor<P, T, C, E extends Throwable>
-{
+public final class AsynchronousExecutor<P, T, C, E extends Throwable> {
 
-	public static interface CallBackProvider<P, T, C, E extends Throwable> extends ThreadFactory
-	{
+	public static interface CallBackProvider<P, T, C, E extends Throwable> extends ThreadFactory {
 
 		/**
 		 * Normally an asynchronous call, but can be synchronous
@@ -71,15 +69,12 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	static final AtomicIntegerFieldUpdater STATE_FIELD = AtomicIntegerFieldUpdater
 			.newUpdater(AsynchronousExecutor.Task.class, "state");
 
-	@SuppressWarnings(
-	{ "unchecked", "rawtypes" })
-	private static boolean set(AsynchronousExecutor.Task $this, int expected, int value)
-	{
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static boolean set(AsynchronousExecutor.Task $this, int expected, int value) {
 		return STATE_FIELD.compareAndSet($this, expected, value);
 	}
 
-	class Task implements Runnable
-	{
+	class Task implements Runnable {
 		static final int PENDING = 0x0;
 		static final int STAGE_1_ASYNC = PENDING + 1;
 		static final int STAGE_1_SYNC = STAGE_1_ASYNC + 1;
@@ -92,45 +87,33 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 		final List<C> callbacks = new LinkedList<C>();
 		E t = null;
 
-		Task(final P parameter)
-		{
+		Task(final P parameter) {
 			this.parameter = parameter;
 		}
 
 		@Override
-		public void run()
-		{
-			if (initAsync())
-			{
+		public void run() {
+			if (initAsync()) {
 				finished.add(this);
 			}
 		}
 
-		boolean initAsync()
-		{
-			if (set(this, PENDING, STAGE_1_ASYNC))
-			{
+		boolean initAsync() {
+			if (set(this, PENDING, STAGE_1_ASYNC)) {
 				boolean ret = true;
 
-				try
-				{
+				try {
 					init();
-				} finally
-				{
-					if (set(this, STAGE_1_ASYNC, STAGE_1_COMPLETE))
-					{
+				} finally {
+					if (set(this, STAGE_1_ASYNC, STAGE_1_COMPLETE)) {
 						// No one is/will be waiting
-					} else
-					{
+					} else {
 						// We know that the sync thread will be waiting
-						synchronized (this)
-						{
-							if (state != STAGE_1_SYNC)
-							{
+						synchronized (this) {
+							if (state != STAGE_1_SYNC) {
 								// They beat us to the synchronized block
 								this.notifyAll();
-							} else
-							{
+							} else {
 								// We beat them to the synchronized block
 							}
 							state = STAGE_1_COMPLETE; // They're already synchronized, atomic locks are not needed
@@ -142,67 +125,51 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 				}
 
 				return ret;
-			} else
-			{
+			} else {
 				return false;
 			}
 		}
 
-		void initSync()
-		{
-			if (set(this, PENDING, STAGE_1_COMPLETE))
-			{
+		void initSync() {
+			if (set(this, PENDING, STAGE_1_COMPLETE)) {
 				// If we succeed that variable switch, good as done
 				init();
-			} else if (set(this, STAGE_1_ASYNC, STAGE_1_SYNC))
-			{
+			} else if (set(this, STAGE_1_ASYNC, STAGE_1_SYNC)) {
 				// Async thread is running, but this shouldn't be likely; we need to sync to
 				// wait on them because of it.
-				synchronized (this)
-				{
-					if (set(this, STAGE_1_SYNC, PENDING))
-					{ // They might NOT synchronized yet, atomic lock IS needed
-						// We are the first into the lock
-						while (state != STAGE_1_COMPLETE)
-						{
-							try
-							{
+				synchronized (this) {
+					if (set(this, STAGE_1_SYNC, PENDING)) { // They might NOT synchronized yet, atomic lock IS needed
+															// We are the first into the lock
+						while (state != STAGE_1_COMPLETE) {
+							try {
 								this.wait();
-							} catch (InterruptedException e)
-							{
+							} catch (InterruptedException e) {
 								Thread.currentThread().interrupt();
 								throw new RuntimeException("Unable to handle interruption on " + parameter, e);
 							}
 						}
-					} else
-					{
+					} else {
 						// They beat us to the synchronized block
 					}
 				}
-			} else
-			{
+			} else {
 				// Async thread is not pending, the more likely situation for a task not pending
 			}
 		}
 
 		@SuppressWarnings("unchecked")
-		void init()
-		{
-			try
-			{
+		void init() {
+			try {
 				object = provider.callStage1(parameter);
-			} catch (final Throwable t)
-			{
+			} catch (final Throwable t) {
 				this.t = (E) t;
 			}
 		}
 
 		@SuppressWarnings("unchecked")
-		T get() throws E
-		{
+		T get() throws E {
 			initSync();
-			if (callbacks.isEmpty())
-			{
+			if (callbacks.isEmpty()) {
 				// 'this' is a placeholder to prevent callbacks from being empty during finish
 				// call
 				// See get method below
@@ -212,10 +179,8 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 			return object;
 		}
 
-		void finish() throws E
-		{
-			switch (state)
-			{
+		void finish() throws E {
+			switch (state) {
 			default:
 			case PENDING:
 			case STAGE_1_ASYNC:
@@ -223,14 +188,11 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 				throw new IllegalStateException(
 						"Attempting to finish unprepared(" + state + ") task(" + parameter + ")");
 			case STAGE_1_COMPLETE:
-				try
-				{
-					if (t != null)
-					{
+				try {
+					if (t != null) {
 						throw t;
 					}
-					if (callbacks.isEmpty())
-					{
+					if (callbacks.isEmpty()) {
 						return;
 					}
 
@@ -239,18 +201,15 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 					final T object = this.object;
 
 					provider.callStage2(parameter, object);
-					for (C callback : callbacks)
-					{
-						if (callback == this)
-						{
+					for (C callback : callbacks) {
+						if (callback == this) {
 							// 'this' is a placeholder to prevent callbacks from being empty on a get() call
 							// See get method above
 							continue;
 						}
 						provider.callStage3(parameter, object, callback);
 					}
-				} finally
-				{
+				} finally {
 					tasks.remove(parameter);
 					state = FINISHED;
 				}
@@ -258,15 +217,12 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 			}
 		}
 
-		boolean drop()
-		{
-			if (set(this, PENDING, FINISHED))
-			{
+		boolean drop() {
+			if (set(this, PENDING, FINISHED)) {
 				// If we succeed that variable switch, good as forgotten
 				tasks.remove(parameter);
 				return true;
-			} else
-			{
+			} else {
 				// We need the async thread to finish normally to properly dispose of the task
 				return false;
 			}
@@ -283,8 +239,7 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	 * 
 	 * @see AsynchronousExecutor
 	 */
-	public AsynchronousExecutor(final CallBackProvider<P, T, C, E> provider, final int coreSize)
-	{
+	public AsynchronousExecutor(final CallBackProvider<P, T, C, E> provider, final int coreSize) {
 		Validate.notNull(provider, "Provider cannot be null");
 		this.provider = provider;
 
@@ -299,11 +254,9 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	 * <p>
 	 * This should always be synchronous.
 	 */
-	public void add(P parameter, C callback)
-	{
+	public void add(P parameter, C callback) {
 		Task task = tasks.get(parameter);
-		if (task == null)
-		{
+		if (task == null) {
 			tasks.put(parameter, task = new Task(parameter));
 			pool.execute(task);
 		}
@@ -333,19 +286,15 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	 * @throws IllegalStateException if the callback was not specified for given
 	 *                               parameter
 	 */
-	public boolean drop(P parameter, C callback) throws IllegalStateException
-	{
+	public boolean drop(P parameter, C callback) throws IllegalStateException {
 		final Task task = tasks.get(parameter);
-		if (task == null)
-		{
+		if (task == null) {
 			return true;
 		}
-		if (!task.callbacks.remove(callback))
-		{
+		if (!task.callbacks.remove(callback)) {
 			throw new IllegalStateException("Unknown " + callback + " for " + parameter);
 		}
-		if (task.callbacks.isEmpty())
-		{
+		if (task.callbacks.isEmpty()) {
 			return task.drop();
 		}
 		return false;
@@ -359,11 +308,9 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	 * @throws IllegalStateException if the parameter is not in the queue anymore,
 	 *                               or sometimes if called from asynchronous thread
 	 */
-	public T get(P parameter) throws E, IllegalStateException
-	{
+	public T get(P parameter) throws E, IllegalStateException {
 		final Task task = tasks.get(parameter);
-		if (task == null)
-		{
+		if (task == null) {
 			throw new IllegalStateException("Unknown " + parameter);
 		}
 		return task.get();
@@ -373,8 +320,7 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	 * Processes a parameter as if it was in the queue, without ever passing to
 	 * another thread.
 	 */
-	public T getSkipQueue(P parameter) throws E
-	{
+	public T getSkipQueue(P parameter) throws E {
 		return skipQueue(parameter);
 	}
 
@@ -382,8 +328,7 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	 * Processes a parameter as if it was in the queue, without ever passing to
 	 * another thread.
 	 */
-	public T getSkipQueue(P parameter, C callback) throws E
-	{
+	public T getSkipQueue(P parameter, C callback) throws E {
 		final T object = skipQueue(parameter);
 		provider.callStage3(parameter, object, callback);
 		return object;
@@ -393,12 +338,10 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	 * Processes a parameter as if it was in the queue, without ever passing to
 	 * another thread.
 	 */
-	public T getSkipQueue(P parameter, C... callbacks) throws E
-	{
+	public T getSkipQueue(P parameter, C... callbacks) throws E {
 		final CallBackProvider<P, T, C, E> provider = this.provider;
 		final T object = skipQueue(parameter);
-		for (C callback : callbacks)
-		{
+		for (C callback : callbacks) {
 			provider.callStage3(parameter, object, callback);
 		}
 		return object;
@@ -408,22 +351,18 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	 * Processes a parameter as if it was in the queue, without ever passing to
 	 * another thread.
 	 */
-	public T getSkipQueue(P parameter, Iterable<C> callbacks) throws E
-	{
+	public T getSkipQueue(P parameter, Iterable<C> callbacks) throws E {
 		final CallBackProvider<P, T, C, E> provider = this.provider;
 		final T object = skipQueue(parameter);
-		for (C callback : callbacks)
-		{
+		for (C callback : callbacks) {
 			provider.callStage3(parameter, object, callback);
 		}
 		return object;
 	}
 
-	private T skipQueue(P parameter) throws E
-	{
+	private T skipQueue(P parameter) throws E {
 		Task task = tasks.get(parameter);
-		if (task != null)
-		{
+		if (task != null) {
 			return task.get();
 		}
 		T object = provider.callStage1(parameter);
@@ -435,17 +374,14 @@ public final class AsynchronousExecutor<P, T, C, E extends Throwable>
 	 * This is the 'heartbeat' that should be called synchronously to finish any
 	 * pending tasks
 	 */
-	public void finishActive() throws E
-	{
+	public void finishActive() throws E {
 		final Queue<Task> finished = this.finished;
-		while (!finished.isEmpty())
-		{
+		while (!finished.isEmpty()) {
 			finished.poll().finish();
 		}
 	}
 
-	public void setActiveThreads(final int coreSize)
-	{
+	public void setActiveThreads(final int coreSize) {
 		pool.setCorePoolSize(coreSize);
 	}
 }

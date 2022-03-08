@@ -10,83 +10,69 @@ import org.bukkit.craftbukkit.conversations.ConversationTracker;
 /**
  * Represents CLI input from a console
  */
-public class CraftConsoleCommandSender extends ServerCommandSender implements ConsoleCommandSender
-{
+public class CraftConsoleCommandSender extends ServerCommandSender implements ConsoleCommandSender {
 
 	protected final ConversationTracker conversationTracker = new ConversationTracker();
 
-	protected CraftConsoleCommandSender()
-	{
+	protected CraftConsoleCommandSender() {
 		super();
 	}
 
 	@Override
-	public void sendMessage(String message)
-	{
+	public void sendMessage(String message) {
 		sendRawMessage(message);
 	}
 
 	@Override
-	public void sendRawMessage(String message)
-	{
+	public void sendRawMessage(String message) {
 		System.out.println(ChatColor.stripColor(message));
 	}
 
 	@Override
-	public void sendMessage(String[] messages)
-	{
-		for (String message : messages)
-		{
+	public void sendMessage(String[] messages) {
+		for (String message : messages) {
 			sendMessage(message);
 		}
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return "CONSOLE";
 	}
 
 	@Override
-	public boolean isOp()
-	{
+	public boolean isOp() {
 		return true;
 	}
 
 	@Override
-	public void setOp(boolean value)
-	{
+	public void setOp(boolean value) {
 		throw new UnsupportedOperationException("Cannot change operator status of server console");
 	}
 
 	@Override
-	public boolean beginConversation(Conversation conversation)
-	{
+	public boolean beginConversation(Conversation conversation) {
 		return conversationTracker.beginConversation(conversation);
 	}
 
 	@Override
-	public void abandonConversation(Conversation conversation)
-	{
+	public void abandonConversation(Conversation conversation) {
 		conversationTracker.abandonConversation(conversation,
 				new ConversationAbandonedEvent(conversation, new ManuallyAbandonedConversationCanceller()));
 	}
 
 	@Override
-	public void abandonConversation(Conversation conversation, ConversationAbandonedEvent details)
-	{
+	public void abandonConversation(Conversation conversation, ConversationAbandonedEvent details) {
 		conversationTracker.abandonConversation(conversation, details);
 	}
 
 	@Override
-	public void acceptConversationInput(String input)
-	{
+	public void acceptConversationInput(String input) {
 		conversationTracker.acceptConversationInput(input);
 	}
 
 	@Override
-	public boolean isConversing()
-	{
+	public boolean isConversing() {
 		return conversationTracker.isConversing();
 	}
 }

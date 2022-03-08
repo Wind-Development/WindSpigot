@@ -5,8 +5,7 @@ import net.minecraft.server.World;
 /**
  * Set of timers per world, to track world specific timings.
  */
-public class WorldTimingsHandler
-{
+public class WorldTimingsHandler {
 	public final Timing mobSpawn;
 	public final Timing doChunkUnload;
 	public final Timing doPortalForcer;
@@ -35,8 +34,7 @@ public class WorldTimingsHandler
 	public final Timing syncChunkLoadTileTicksTimer;
 	public final Timing syncChunkLoadPostTimer;
 
-	public WorldTimingsHandler(World server)
-	{
+	public WorldTimingsHandler(World server) {
 		String name = server.worldData.getName() + " - ";
 
 		mobSpawn = Timings.ofSafe(name + "mobSpawn");

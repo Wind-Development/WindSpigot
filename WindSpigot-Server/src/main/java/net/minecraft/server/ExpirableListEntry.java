@@ -6,8 +6,7 @@ import java.util.Date;
 
 import com.google.gson.JsonObject;
 
-public abstract class ExpirableListEntry<T> extends JsonListEntry<T>
-{
+public abstract class ExpirableListEntry<T> extends JsonListEntry<T> {
 
 	public static final SimpleDateFormat a = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
 	protected final Date b;
@@ -15,8 +14,7 @@ public abstract class ExpirableListEntry<T> extends JsonListEntry<T>
 	protected final Date d;
 	protected final String e;
 
-	public ExpirableListEntry(T t0, Date date, String s, Date date1, String s1)
-	{
+	public ExpirableListEntry(T t0, Date date, String s, Date date1, String s1) {
 		super(t0);
 		this.b = date == null ? new Date() : date;
 		this.c = s == null ? "(Unknown)" : s;
@@ -24,18 +22,15 @@ public abstract class ExpirableListEntry<T> extends JsonListEntry<T>
 		this.e = s1 == null ? "Banned by an operator." : s1;
 	}
 
-	protected ExpirableListEntry(T t0, JsonObject jsonobject)
-	{
+	protected ExpirableListEntry(T t0, JsonObject jsonobject) {
 		super(checkExpiry(t0, jsonobject), jsonobject);
 
 		Date date;
 
-		try
-		{
+		try {
 			date = jsonobject.has("created") ? ExpirableListEntry.a.parse(jsonobject.get("created").getAsString())
 					: new Date();
-		} catch (ParseException parseexception)
-		{
+		} catch (ParseException parseexception) {
 			date = new Date();
 		}
 
@@ -44,12 +39,10 @@ public abstract class ExpirableListEntry<T> extends JsonListEntry<T>
 
 		Date date1;
 
-		try
-		{
+		try {
 			date1 = jsonobject.has("expires") ? ExpirableListEntry.a.parse(jsonobject.get("expires").getAsString())
 					: null;
-		} catch (ParseException parseexception1)
-		{
+		} catch (ParseException parseexception1) {
 			date1 = null;
 		}
 
@@ -57,25 +50,21 @@ public abstract class ExpirableListEntry<T> extends JsonListEntry<T>
 		this.e = jsonobject.has("reason") ? jsonobject.get("reason").getAsString() : "Banned by an operator.";
 	}
 
-	public Date getExpires()
-	{
+	public Date getExpires() {
 		return this.d;
 	}
 
-	public String getReason()
-	{
+	public String getReason() {
 		return this.e;
 	}
 
 	@Override
-	boolean hasExpired()
-	{
+	boolean hasExpired() {
 		return this.d == null ? false : this.d.before(new Date());
 	}
 
 	@Override
-	protected void a(JsonObject jsonobject)
-	{
+	protected void a(JsonObject jsonobject) {
 		jsonobject.addProperty("created", ExpirableListEntry.a.format(this.b));
 		jsonobject.addProperty("source", this.c);
 		jsonobject.addProperty("expires", this.d == null ? "forever" : ExpirableListEntry.a.format(this.d));
@@ -83,33 +72,26 @@ public abstract class ExpirableListEntry<T> extends JsonListEntry<T>
 	}
 
 	// CraftBukkit start
-	public String getSource()
-	{
+	public String getSource() {
 		return this.c;
 	}
 
-	public Date getCreated()
-	{
+	public Date getCreated() {
 		return this.b;
 	}
 
-	private static <T> T checkExpiry(T object, JsonObject jsonobject)
-	{
+	private static <T> T checkExpiry(T object, JsonObject jsonobject) {
 		Date expires = null;
 
-		try
-		{
+		try {
 			expires = jsonobject.has("expires") ? a.parse(jsonobject.get("expires").getAsString()) : null;
-		} catch (ParseException ex)
-		{
+		} catch (ParseException ex) {
 			// Guess we don't have a date
 		}
 
-		if (expires == null || expires.after(new Date()))
-		{
+		if (expires == null || expires.after(new Date())) {
 			return object;
-		} else
-		{
+		} else {
 			return null;
 		}
 	}

@@ -9,54 +9,45 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class EULA
-{
+public class EULA {
 
 	private static final Logger a = LogManager.getLogger();
 	private final File b;
 	private final boolean c;
 
-	public EULA(File file)
-	{
+	public EULA(File file) {
 		this.b = file;
 		this.c = this.a(file);
 	}
 
-	private boolean a(File file)
-	{
+	private boolean a(File file) {
 		FileInputStream fileinputstream = null;
 		boolean flag = false;
 
-		try
-		{
+		try {
 			Properties properties = new Properties();
 
 			fileinputstream = new FileInputStream(file);
 			properties.load(fileinputstream);
 			flag = Boolean.parseBoolean(properties.getProperty("eula", "false"));
-		} catch (Exception exception)
-		{
+		} catch (Exception exception) {
 			EULA.a.warn("Failed to load " + file);
 			this.b();
-		} finally
-		{
+		} finally {
 			IOUtils.closeQuietly(fileinputstream);
 		}
 
 		return flag;
 	}
 
-	public boolean a()
-	{
+	public boolean a() {
 		return this.c;
 	}
 
-	public void b()
-	{
+	public void b() {
 		FileOutputStream fileoutputstream = null;
 
-		try
-		{
+		try {
 			Properties properties = new Properties();
 
 			fileoutputstream = new FileOutputStream(this.b);
@@ -66,11 +57,9 @@ public class EULA
 							+ "\nand also agreeing that nachos are tasty."); // TacoSpigot - fix lag // NachoSpigot - I
 																				// must say, Nacho's do be better
 																				// though. Tacos are just messy.
-		} catch (Exception exception)
-		{
+		} catch (Exception exception) {
 			EULA.a.warn("Failed to save " + this.b, exception);
-		} finally
-		{
+		} finally {
 			IOUtils.closeQuietly(fileoutputstream);
 		}
 

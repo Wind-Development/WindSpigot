@@ -1,37 +1,27 @@
 package net.minecraft.server;
 
-public class ItemFireball extends Item
-{
+public class ItemFireball extends Item {
 
-	public ItemFireball()
-	{
+	public ItemFireball() {
 		this.a(CreativeModeTab.f);
 	}
 
 	@Override
 	public boolean interactWith(ItemStack itemstack, EntityHuman entityhuman, World world, BlockPosition blockposition,
-			EnumDirection enumdirection, float f, float f1, float f2)
-	{
-		if (world.isClientSide)
-		{
+			EnumDirection enumdirection, float f, float f1, float f2) {
+		if (world.isClientSide) {
 			return true;
-		} else
-		{
+		} else {
 			blockposition = blockposition.shift(enumdirection);
-			if (!entityhuman.a(blockposition, enumdirection, itemstack))
-			{
+			if (!entityhuman.a(blockposition, enumdirection, itemstack)) {
 				return false;
-			} else
-			{
-				if (world.getType(blockposition).getBlock().getMaterial() == Material.AIR)
-				{
+			} else {
+				if (world.getType(blockposition).getBlock().getMaterial() == Material.AIR) {
 					// CraftBukkit start - fire BlockIgniteEvent
 					if (org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(world, blockposition.getX(),
 							blockposition.getY(), blockposition.getZ(),
-							org.bukkit.event.block.BlockIgniteEvent.IgniteCause.FIREBALL, entityhuman).isCancelled())
-					{
-						if (!entityhuman.abilities.canInstantlyBuild)
-						{
+							org.bukkit.event.block.BlockIgniteEvent.IgniteCause.FIREBALL, entityhuman).isCancelled()) {
+						if (!entityhuman.abilities.canInstantlyBuild) {
 							--itemstack.count;
 						}
 						return false;
@@ -43,8 +33,7 @@ public class ItemFireball extends Item
 					world.setTypeUpdate(blockposition, Blocks.FIRE.getBlockData());
 				}
 
-				if (!entityhuman.abilities.canInstantlyBuild)
-				{
+				if (!entityhuman.abilities.canInstantlyBuild) {
 					--itemstack.count;
 				}
 

@@ -27,8 +27,7 @@ import net.minecraft.server.NBTTagList;
 import net.minecraft.server.NBTTagString;
 
 @DelegateDeserialization(SerializableMeta.class)
-public class CraftMetaBook extends CraftMetaItem implements BookMeta
-{
+public class CraftMetaBook extends CraftMetaItem implements BookMeta {
 	static final ItemMetaKey BOOK_TITLE = new ItemMetaKey("title");
 	static final ItemMetaKey BOOK_AUTHOR = new ItemMetaKey("author");
 	static final ItemMetaKey BOOK_PAGES = new ItemMetaKey("pages");
@@ -44,12 +43,10 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 	public List<IChatBaseComponent> pages = new ArrayList<>();
 	protected Integer generation;
 
-	CraftMetaBook(CraftMetaItem meta)
-	{
+	CraftMetaBook(CraftMetaItem meta) {
 		super(meta);
 
-		if (meta instanceof CraftMetaBook)
-		{
+		if (meta instanceof CraftMetaBook) {
 			CraftMetaBook bookMeta = (CraftMetaBook) meta;
 			this.title = bookMeta.title;
 			this.author = bookMeta.author;
@@ -58,53 +55,42 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 		}
 	}
 
-	CraftMetaBook(NBTTagCompound tag)
-	{
+	CraftMetaBook(NBTTagCompound tag) {
 		this(tag, true);
 	}
 
-	CraftMetaBook(NBTTagCompound tag, boolean handlePages)
-	{
+	CraftMetaBook(NBTTagCompound tag, boolean handlePages) {
 		super(tag);
 
-		if (tag.hasKey(BOOK_TITLE.NBT))
-		{
+		if (tag.hasKey(BOOK_TITLE.NBT)) {
 			// FlamePaper - Apply title limit
 			this.title = limit(tag.getString(BOOK_TITLE.NBT), MAX_TITLE_LENGTH); // Spigot
 		}
 
-		if (tag.hasKey(BOOK_AUTHOR.NBT))
-		{
+		if (tag.hasKey(BOOK_AUTHOR.NBT)) {
 			// FlamePaper - Apply author limit
 			this.author = limit(tag.getString(BOOK_AUTHOR.NBT), MAX_AUTHOR_LENGTH); // Spigot
 		}
 
 		boolean resolved = false;
-		if (tag.hasKey(RESOLVED.NBT))
-		{
+		if (tag.hasKey(RESOLVED.NBT)) {
 			resolved = tag.getBoolean(RESOLVED.NBT);
 		}
 
-		if (tag.hasKey(GENERATION.NBT))
-		{
+		if (tag.hasKey(GENERATION.NBT)) {
 			generation = tag.getInt(GENERATION.NBT);
 		}
 
-		if (tag.hasKey(BOOK_PAGES.NBT) && handlePages)
-		{
+		if (tag.hasKey(BOOK_PAGES.NBT) && handlePages) {
 			NBTTagList pages = tag.getList(BOOK_PAGES.NBT, 8);
 			// FlamePaper - Apply page limit
-			for (int i = 0; i < Math.min(pages.size(), MAX_PAGES); i++)
-			{
+			for (int i = 0; i < Math.min(pages.size(), MAX_PAGES); i++) {
 				String page = pages.getString(i);
-				if (resolved)
-				{
-					try
-					{
+				if (resolved) {
+					try {
 						this.pages.add(ChatSerializer.a(page));
 						continue;
-					} catch (Exception e)
-					{
+					} catch (Exception e) {
 						// Ignore and treat as an old book
 					}
 				}
@@ -114,8 +100,7 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 		}
 	}
 
-	CraftMetaBook(Map<String, Object> map)
-	{
+	CraftMetaBook(Map<String, Object> map) {
 		super(map);
 
 		setAuthor(SerializableMeta.getString(map, BOOK_AUTHOR.BUKKIT, true));
@@ -123,21 +108,16 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 		setTitle(SerializableMeta.getString(map, BOOK_TITLE.BUKKIT, true));
 
 		Iterable<?> pages = SerializableMeta.getObject(Iterable.class, map, BOOK_PAGES.BUKKIT, true);
-		if (pages != null)
-		{
+		if (pages != null) {
 			int pageCount = 0;
-			for (Object page : pages)
-			{
+			for (Object page : pages) {
 				// FlamePaper - Limit page iterations
-				if (pageCount < MAX_PAGES)
-				{
-					if (page instanceof String)
-					{
+				if (pageCount < MAX_PAGES) {
+					if (page instanceof String) {
 						addPage((String) page);
 					}
 					pageCount++;
-				} else
-				{
+				} else {
 					break;
 				}
 			}
@@ -147,32 +127,25 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 	}
 
 	@Override
-	void applyToItem(NBTTagCompound itemData)
-	{
+	void applyToItem(NBTTagCompound itemData) {
 		applyToItem(itemData, true);
 	}
 
-	void applyToItem(NBTTagCompound itemData, boolean handlePages)
-	{
+	void applyToItem(NBTTagCompound itemData, boolean handlePages) {
 		super.applyToItem(itemData);
 
-		if (hasTitle())
-		{
+		if (hasTitle()) {
 			itemData.setString(BOOK_TITLE.NBT, this.title);
 		}
 
-		if (hasAuthor())
-		{
+		if (hasAuthor()) {
 			itemData.setString(BOOK_AUTHOR.NBT, this.author);
 		}
 
-		if (handlePages)
-		{
-			if (hasPages())
-			{
+		if (handlePages) {
+			if (hasPages()) {
 				NBTTagList list = new NBTTagList();
-				for (IChatBaseComponent page : pages)
-				{
+				for (IChatBaseComponent page : pages) {
 					list.add(new NBTTagString(CraftChatMessage.fromComponent(page)));
 				}
 				itemData.set(BOOK_PAGES.NBT, list);
@@ -181,28 +154,23 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 			itemData.remove(RESOLVED.NBT);
 		}
 
-		if (generation != null)
-		{
+		if (generation != null) {
 			itemData.setInt(GENERATION.NBT, generation);
 		}
 	}
 
 	@Override
-	boolean isEmpty()
-	{
+	boolean isEmpty() {
 		return super.isEmpty() && isBookEmpty();
 	}
 
-	boolean isBookEmpty()
-	{
+	boolean isBookEmpty() {
 		return !(hasPages() || hasAuthor() || hasTitle());
 	}
 
 	@Override
-	boolean applicableTo(Material type)
-	{
-		switch (type)
-		{
+	boolean applicableTo(Material type) {
+		switch (type) {
 		case WRITTEN_BOOK:
 		case BOOK_AND_QUILL:
 			return true;
@@ -212,37 +180,30 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 	}
 
 	@Override
-	public boolean hasAuthor()
-	{
+	public boolean hasAuthor() {
 		return !Strings.isNullOrEmpty(author);
 	}
 
 	@Override
-	public boolean hasTitle()
-	{
+	public boolean hasTitle() {
 		return !Strings.isNullOrEmpty(title);
 	}
 
 	@Override
-	public boolean hasPages()
-	{
+	public boolean hasPages() {
 		return !pages.isEmpty();
 	}
 
 	@Override
-	public String getTitle()
-	{
+	public String getTitle() {
 		return this.title;
 	}
 
 	@Override
-	public boolean setTitle(final String title)
-	{
-		if (title == null)
-		{
+	public boolean setTitle(final String title) {
+		if (title == null) {
 			this.title = null;
-		} else
-		{
+		} else {
 			// FlamePaper - Simplify & improve title handling
 			this.title = title.substring(0, Math.min(title.length(), MAX_PAGE_LENGTH));
 		}
@@ -251,29 +212,24 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 	}
 
 	@Override
-	public String getAuthor()
-	{
+	public String getAuthor() {
 		return this.author;
 	}
 
 	@Override
-	public void setAuthor(final String author)
-	{
+	public void setAuthor(final String author) {
 		this.author = author;
 	}
 
 	@Override
-	public String getPage(final int page)
-	{
+	public String getPage(final int page) {
 		Validate.isTrue(isValidPage(page), "Invalid page number");
 		return CraftChatMessage.fromComponent(pages.get(page - 1));
 	}
 
 	@Override
-	public void setPage(final int page, final String text)
-	{
-		if (!isValidPage(page))
-		{
+	public void setPage(final int page, final String text) {
+		if (!isValidPage(page)) {
 			throw new IllegalArgumentException("Invalid page number " + page + "/" + pages.size());
 		}
 
@@ -283,116 +239,94 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 	}
 
 	@Override
-	public void setPages(final String... pages)
-	{
+	public void setPages(final String... pages) {
 		this.pages.clear();
 
 		addPage(pages);
 	}
 
 	@Override
-	public void addPage(final String... pages)
-	{
+	public void addPage(final String... pages) {
 		// FlamePaper - Limit page iterations
-		for (int i = 0; i < Math.min(pages.length, MAX_PAGES); i++)
-		{
+		for (int i = 0; i < Math.min(pages.length, MAX_PAGES); i++) {
 			// FlamePaper - Apply page limit
-			if (getPageCount() < MAX_PAGES)
-			{
+			if (getPageCount() < MAX_PAGES) {
 				String page = pages[i];
 
-				if (page == null)
-				{
+				if (page == null) {
 					page = "";
-				} else if (page.length() > MAX_PAGE_LENGTH)
-				{
+				} else if (page.length() > MAX_PAGE_LENGTH) {
 					page = page.substring(0, MAX_PAGE_LENGTH);
 				}
 				this.pages.add(CraftChatMessage.fromString(page, true)[0]);
-			} else
-			{
+			} else {
 				break;
 			}
 		}
 	}
 
 	@Override
-	public int getPageCount()
-	{
+	public int getPageCount() {
 		return pages.size();
 	}
 
 	@Override
-	public List<String> getPages()
-	{
+	public List<String> getPages() {
 		final List<IChatBaseComponent> copy = ImmutableList.copyOf(pages);
-		return new AbstractList<String>()
-		{
+		return new AbstractList<String>() {
 
 			@Override
-			public String get(int index)
-			{
+			public String get(int index) {
 				return CraftChatMessage.fromComponent(copy.get(index));
 			}
 
 			@Override
-			public int size()
-			{
+			public int size() {
 				return copy.size();
 			}
 		};
 	}
 
 	@Override
-	public void setPages(List<String> pages)
-	{
+	public void setPages(List<String> pages) {
 		this.pages.clear();
 		// FlamePaper - Convert list to array to reuse methods
 		addPage(pages.toArray(new String[0]));
 	}
 
-	private boolean isValidPage(int page)
-	{
+	private boolean isValidPage(int page) {
 		return page > 0 && page <= pages.size();
 	}
 
 	@Override
-	public CraftMetaBook clone()
-	{
+	public CraftMetaBook clone() {
 		CraftMetaBook meta = (CraftMetaBook) super.clone();
 		meta.pages = new ArrayList<>(pages);
 		return meta;
 	}
 
 	@Override
-	int applyHash()
-	{
+	int applyHash() {
 		final int original;
 		int hash = original = super.applyHash();
-		if (hasTitle())
-		{
+		if (hasTitle()) {
 			hash = 61 * hash + this.title.hashCode();
 		}
-		if (hasAuthor())
-		{
+		if (hasAuthor()) {
 			hash = 61 * hash + 13 * this.author.hashCode();
 		}
-		if (hasPages())
-		{
+		if (hasPages()) {
 			hash = 61 * hash + 17 * this.pages.hashCode();
 		}
 		return original != hash ? CraftMetaBook.class.hashCode() ^ hash : hash;
 	}
 
 	@Override
-	boolean equalsCommon(CraftMetaItem meta)
-	{
-		if (!super.equalsCommon(meta))
-		{
+	boolean equalsCommon(CraftMetaItem meta) {
+		if (!super.equalsCommon(meta)) {
 			return false;
 		}
-		if (meta instanceof CraftMetaBook)
-		{
+		if (meta instanceof CraftMetaBook) {
 			CraftMetaBook that = (CraftMetaBook) meta;
 
 			return (hasTitle() ? that.hasTitle() && this.title.equals(that.title) : !that.hasTitle())
@@ -403,38 +337,31 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta
 	}
 
 	@Override
-	boolean notUncommon(CraftMetaItem meta)
-	{
+	boolean notUncommon(CraftMetaItem meta) {
 		return super.notUncommon(meta) && (meta instanceof CraftMetaBook || isBookEmpty());
 	}
 
 	@Override
-	Builder<String, Object> serialize(Builder<String, Object> builder)
-	{
+	Builder<String, Object> serialize(Builder<String, Object> builder) {
 		super.serialize(builder);
 
-		if (hasTitle())
-		{
+		if (hasTitle()) {
 			builder.put(BOOK_TITLE.BUKKIT, title);
 		}
 
-		if (hasAuthor())
-		{
+		if (hasAuthor()) {
 			builder.put(BOOK_AUTHOR.BUKKIT, author);
 		}
 
-		if (hasPages())
-		{
+		if (hasPages()) {
 			List<String> pagesString = new ArrayList<>();
-			for (IChatBaseComponent comp : pages)
-			{
+			for (IChatBaseComponent comp : pages) {
 				pagesString.add(CraftChatMessage.fromComponent(comp));
 			}
 			builder.put(BOOK_PAGES.BUKKIT, pagesString);
 		}
 
-		if (generation != null)
-		{
+		if (generation != null) {
 			builder.put(GENERATION.BUKKIT, generation);
 		}
 

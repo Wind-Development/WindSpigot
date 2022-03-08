@@ -7,11 +7,9 @@ import org.bukkit.command.CommandSender;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
-public class RestartCommand extends Command
-{
+public class RestartCommand extends Command {
 
-	public RestartCommand(String name)
-	{
+	public RestartCommand(String name) {
 		super(name);
 		this.description = "Restarts the server";
 		this.usageMessage = "/restart";
@@ -19,15 +17,11 @@ public class RestartCommand extends Command
 	}
 
 	@Override
-	public boolean execute(CommandSender sender, String currentAlias, String[] args)
-	{
-		if (testPermission(sender))
-		{
-			MinecraftServer.getServer().processQueue.add(new Runnable()
-			{
+	public boolean execute(CommandSender sender, String currentAlias, String[] args) {
+		if (testPermission(sender)) {
+			MinecraftServer.getServer().processQueue.add(new Runnable() {
 				@Override
-				public void run()
-				{
+				public void run() {
 					restart();
 				}
 			});
@@ -35,73 +29,55 @@ public class RestartCommand extends Command
 		return true;
 	}
 
-	public static void restart()
-	{
+	public static void restart() {
 		restart(new File(SpigotConfig.restartScript));
 	}
 
-	public static void restart(final File script)
-	{
+	public static void restart(final File script) {
 		AsyncCatcher.enabled = false; // Disable async catcher incase it interferes with us
-		try
-		{
-			if (script.isFile())
-			{
+		try {
+			if (script.isFile()) {
 				System.out.println("Attempting to restart with " + SpigotConfig.restartScript);
 
 				// Disable Watchdog
 				WatchdogThread.doStop();
 
 				// Kick all players
-				for (EntityPlayer p : MinecraftServer.getServer().getPlayerList().players)
-				{
+				for (EntityPlayer p : MinecraftServer.getServer().getPlayerList().players) {
 					p.playerConnection.disconnect(SpigotConfig.restartMessage);
 				}
 				// Give the socket a chance to send the packets
-				try
-				{
+				try {
 					Thread.sleep(100);
-				} catch (InterruptedException ex)
-				{
+				} catch (InterruptedException ex) {
 				}
 				// Close the socket so we can rebind with the new process
 				MinecraftServer.getServer().getServerConnection().stopServer();
 
 				// Give time for it to kick in
-				try
-				{
+				try {
 					Thread.sleep(100);
-				} catch (InterruptedException ex)
-				{
+				} catch (InterruptedException ex) {
 				}
 
 				// Actually shutdown
-				try
-				{
+				try {
 					MinecraftServer.getServer().stop();
-				} catch (Throwable t)
-				{
+				} catch (Throwable t) {
 				}
 
 				// This will be done AFTER the server has completely halted
-				Thread shutdownHook = new Thread()
-				{
+				Thread shutdownHook = new Thread() {
 					@Override
-					public void run()
-					{
-						try
-						{
+					public void run() {
+						try {
 							String os = System.getProperty("os.name").toLowerCase();
-							if (os.contains("win"))
-							{
+							if (os.contains("win")) {
 								Runtime.getRuntime().exec("cmd /c start " + script.getPath());
-							} else
-							{
-								Runtime.getRuntime().exec(new String[]
-								{ "sh", script.getPath() });
+							} else {
+								Runtime.getRuntime().exec(new String[] { "sh", script.getPath() });
 							}
-						} catch (Exception e)
-						{
+						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
@@ -109,14 +85,12 @@ public class RestartCommand extends Command
 
 				shutdownHook.setDaemon(true);
 				Runtime.getRuntime().addShutdownHook(shutdownHook);
-			} else
-			{
+			} else {
 				System.out.println(
 						"Startup script '" + SpigotConfig.restartScript + "' does not exist! Stopping server.");
 			}
 			System.exit(0);
-		} catch (Exception ex)
-		{
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

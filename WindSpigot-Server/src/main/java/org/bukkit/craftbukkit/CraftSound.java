@@ -5,12 +5,10 @@ import static org.bukkit.Sound.*;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Sound;
 
-public class CraftSound
-{
+public class CraftSound {
 	private static final String[] sounds = new String[Sound.values().length];
 
-	static
-	{
+	static {
 		// Ambient
 		set(AMBIENCE_CAVE, "ambient.cave.cave");
 		set(AMBIENCE_RAIN, "ambient.weather.rain");
@@ -220,18 +218,15 @@ public class CraftSound
 		set(PISTON_RETRACT, "tile.piston.in");
 	}
 
-	private static void set(Sound sound, String key)
-	{
+	private static void set(Sound sound, String key) {
 		sounds[sound.ordinal()] = key;
 	}
 
-	public static String getSound(final Sound sound)
-	{
+	public static String getSound(final Sound sound) {
 		Validate.notNull(sound, "Sound cannot be null");
 		return sounds[sound.ordinal()];
 	}
 
-	private CraftSound()
-	{
+	private CraftSound() {
 	}
 }
