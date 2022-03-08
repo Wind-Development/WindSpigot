@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerVelocityEvent;
 // CraftBukkit end
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 
 public class EntityTrackerEntry {
@@ -88,7 +89,7 @@ public class EntityTrackerEntry {
 	private int addRemoveCooldown;
 	private boolean withinNoTrack = false;
 
-	// Method is used internally (Incompatible with NMS plugins)
+	// Constructor is used internally (Incompatible with NMS plugins)
 	public EntityTrackerEntry(EntityTracker entityTracker, Entity entity, int b, int c, boolean flag) {
 		this.entityTracker = entityTracker;
 		this.tracker = entity;
@@ -103,7 +104,7 @@ public class EntityTrackerEntry {
 		this.lastHeadYaw = MathHelper.d(entity.getHeadRotation() * 256.0F / 360.0F);
 		this.lastOnGround = entity.onGround;
 
-		if (NachoConfig.disableTracking) {
+		if (WindSpigotConfig.disableTracking) {
 			this.addRemoveRate = 100;
 		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
 			this.addRemoveRate = 5; // projectile things
@@ -115,8 +116,8 @@ public class EntityTrackerEntry {
 		this.addRemoveCooldown = this.tracker.getId() % addRemoveRate;
 	}
 
-	// Method used by plugins via NMS
-	// WindSpigot - readd removed method used by Citizens
+	// Constructor is used by plugins via NMS
+	// WindSpigot - re add removed method used by Citizens
 	public EntityTrackerEntry(Entity entity, int b, int c, boolean flag) {
 
 		// WindSpigot Start - get the entity's tracker from it's dimension
@@ -140,7 +141,7 @@ public class EntityTrackerEntry {
 		this.lastHeadYaw = MathHelper.d(entity.getHeadRotation() * 256.0F / 360.0F);
 		this.lastOnGround = entity.onGround;
 
-		if (NachoConfig.disableTracking) {
+		if (WindSpigotConfig.disableTracking) {
 			this.addRemoveRate = 100;
 		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
 			this.addRemoveRate = 5; // projectile things
@@ -239,7 +240,7 @@ public class EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
-			if (!NachoConfig.disableTracking || tracker.passenger == entityPlayer) {
+			if (!WindSpigotConfig.disableTracking || tracker.passenger == entityPlayer) {
 				updatePlayer(entityPlayer);
 			}
 		}

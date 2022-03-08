@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import me.elier.nachospigot.config.NachoConfig;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.DataWatcher;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityArrow;
@@ -52,7 +52,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 		this.updateY = entity.locY;
 		this.updateZ = entity.locZ;
 
-		if (NachoConfig.disableTracking) {
+		if (WindSpigotConfig.disableTracking) {
 			this.addRemoveRate = 100;
 		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
 			this.addRemoveRate = 5; // projectile things
@@ -141,7 +141,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
-			if (!NachoConfig.disableTracking || tracker.passenger == entityPlayer) {
+			if (!WindSpigotConfig.disableTracking || tracker.passenger == entityPlayer) {
 				updatePlayer(entityPlayer);
 			}
 		}

@@ -6,8 +6,11 @@ import java.util.concurrent.Executors;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
+import net.openhft.affinity.AffinityLock;
+import net.openhft.affinity.AffinityStrategies;
 
 public class EntityTracker {
 
@@ -35,8 +38,8 @@ public class EntityTracker {
 
 	private int e;
 
-	// parallel tracking
-	private static int trackerThreads = NachoConfig.trackingThreads; // <-- 3 non-this threads, one this
+	// WindSpigot parallel tracking
+	private static int trackerThreads = WindSpigotConfig.trackingThreads; // <-- 3 non-this threads, one this
 	private static ExecutorService pool = Executors.newFixedThreadPool(trackerThreads - 1,
 			new ThreadFactoryBuilder().setNameFormat("Entity Tracker Thread %d").build());
 
@@ -165,6 +168,19 @@ public class EntityTracker {
 			final int localOffset = offset++;
 			// Async Entity Tracker
 			Runnable runnable = () -> {
+				boolean lock;
+				AffinityLock affinityLock = null;
+				
+				// WindSpigot start - entity tracker thread affinity
+				if (WindSpigotConfig.threadAffinity && !WindSpigotConfig.disableTracking) {
+					affinityLock = MinecraftServer.getServer().lock.acquireLock(AffinityStrategies.SAME_SOCKET,
+							AffinityStrategies.ANY);
+					lock = true;
+				} else {
+					lock = false;
+				}
+				
+				try {
 				/*
 				 * Loops the entire index hashset of registered entities. In this loop it
 				 * distributes the entities among the defined threads.
@@ -174,6 +190,12 @@ public class EntityTracker {
 				}
 
 				latch.countDown();
+				} finally {
+					if (lock) {
+						affinityLock.release();
+					}
+				}
+				// WindSpigot end
 			};
 
 			if (i < trackerThreads) {

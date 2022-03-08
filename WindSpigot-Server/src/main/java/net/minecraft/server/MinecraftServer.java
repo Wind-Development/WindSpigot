@@ -37,6 +37,8 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import co.aikar.timings.SpigotTimings; // Spigot
+import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -127,6 +129,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	public java.util.Queue<Runnable> processQueue = new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();
 	public int autosavePeriod;
 	// CraftBukkit end
+	
+	public WindSpigot windSpigot;
 
 	public MinecraftServer(OptionSet options, Proxy proxy, File file1) {
 		io.netty.util.ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED); // [Nacho-0040] Change
@@ -593,7 +597,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		try {
 			if (this.init()) {
 				// WindSpigot start - implement thread affinity
-				if (NachoConfig.threadAffinity) {
+				if (WindSpigotConfig.threadAffinity) {
 					System.out.println(" ");
 					System.out.println("Enabling Thread Affinity...");
 					lock = AffinityLock.acquireLock();

@@ -24,7 +24,7 @@ public class NachoConfig {
 	private static final Logger LOGGER = LogManager.getLogger(NachoConfig.class);
 	private static File CONFIG_FILE;
 	protected static final YamlCommenter c = new YamlCommenter();
-	private static final String HEADER = "This is the main configuration file for NachoSpigot and WindSpigot.\n"
+	private static final String HEADER = "This is the main configuration file for NachoSpigot.\n"
 			+ "As you can see, there's tons to configure. Some options may impact gameplay, so use\n"
 			+ "with caution, and make sure you know what each option does before configuring.\n" + "\n"
 			+ "If you need help with the configuration or have any questions related to NachoSpigot,\n"
@@ -50,7 +50,7 @@ public class NachoConfig {
 			migrate(old_config);
 		}
 
-		int configVersion = 8; // Update this every new configuration update
+		int configVersion = 9; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
@@ -302,16 +302,6 @@ public class NachoConfig {
 		c.addComment("settings.faster-cannon-tracker", "Enables a faster cannon entity tracker");
 	}
 
-	public static boolean disableTracking;
-	public static int trackingThreads;
-
-	private static void tracking() {
-		disableTracking = getBoolean("settings.async.entity-tracking.disable", false);
-		c.addComment("settings.async.entity-tracking.disable", "Disable entity tracking");
-		trackingThreads = getInt("settings.async.entity-tracking.threads", 5);
-		c.addComment("settings.async.entity-tracking.threads", "Entity Tracking Threads");
-	}
-
 	public static boolean fixEatWhileRunning;
 
 	private static void fixEatWhileRunning() {
@@ -423,11 +413,4 @@ public class NachoConfig {
 		c.addComment("settings.instant-interaction", "Disables delay of all interactions");
 	}
 
-	public static boolean threadAffinity;
-
-	private static void threadAffinity() {
-		threadAffinity = getBoolean("settings.thread-affinity", false);
-		c.addComment("settings.thread-affinity",
-				"Only switch to true if your OS is properly configured!! When properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
-	}
 }

@@ -24,6 +24,7 @@ import dev.cobblesword.nachospigot.Nacho;
 import dev.cobblesword.nachospigot.commons.IPUtils;
 import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
 import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 
 public class DedicatedServer extends MinecraftServer implements IMinecraftServer {
@@ -187,6 +188,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 			// Spigot start
 			NachoConfig.init((File) options.valueOf("nacho-settings")); // NachoSpigot - Load config before PlayerList
 			KnockbackConfig.init((File) options.valueOf("knockback-settings"));
+			
+			// WindSpigot start - config
+			WindSpigotConfig.init((File) options.valueOf("windspigot-settings"));
+			// WindSpigot end
+			
 			this.a(new DedicatedPlayerList(this));
 			org.spigotmc.SpigotConfig.init((File) options.valueOf("spigot-settings"));
 			org.spigotmc.SpigotConfig.registerCommands();
@@ -366,7 +372,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 				 */
 
 				Nacho.get().applyPatches(); // Nacho
-				new WindSpigot(); // WindSpigot
+				this.windSpigot = new WindSpigot(); // WindSpigot
 
 				return true;
 			}

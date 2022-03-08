@@ -118,6 +118,7 @@ import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.Nacho;
 import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -813,6 +814,11 @@ public final class CraftServer implements Server {
 		net.techcable.tacospigot.TacoSpigotConfig.init((File) console.options.valueOf("taco-settings")); // TacoSpigot
 		NachoConfig.init((File) console.options.valueOf("nacho-settings")); // NachoSpigot
 		KnockbackConfig.init((File) console.options.valueOf("knockback-settings"));
+		
+		// WindSpigot start - config
+		WindSpigotConfig.init((File) console.options.valueOf("windspigot-settings"));
+		// WindSpigot end
+		
 		Nacho.get(); // NachoSpigot
 		for (WorldServer world : console.worlds) {
 			world.worldData.setDifficulty(difficulty);
@@ -839,6 +845,8 @@ public final class CraftServer implements Server {
 		org.spigotmc.SpigotConfig.registerCommands(); // Spigot
 		org.github.paperspigot.PaperSpigotConfig.registerCommands(); // PaperSpigot
 		Nacho.get().registerCommands(); // NachoSpigot :: Commands
+		
+		MinecraftServer.getServer().windSpigot.reload(); // WindSpigot - reload
 
 		overrideAllCommandBlockCommands = commandsConfiguration.getStringList("command-block-overrides").contains("*");
 
