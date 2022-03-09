@@ -110,6 +110,10 @@ public class Main {
 						.withRequiredArg().ofType(File.class).defaultsTo(new File("knockback.yml"))
 						.describedAs("Yml file");
 				// NachoSpigot end
+				// WindSpigot start - config
+				acceptsAll(asList("wind", "wind-settings"), "File for windspigot settings").withRequiredArg()
+				.ofType(File.class).defaultsTo(new File("windspigot.yml")).describedAs("Yml file");
+				// WindSpigot end
 			}
 		};
 
