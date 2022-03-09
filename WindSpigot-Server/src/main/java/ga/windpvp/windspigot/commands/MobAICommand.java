@@ -2,7 +2,6 @@ package ga.windpvp.windspigot.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
@@ -26,8 +25,10 @@ public class MobAICommand extends Command {
 		for (WorldServer world : MinecraftServer.getServer().worlds) {
 			if (world.nachoSpigotConfig.enableMobAI) {
 				world.nachoSpigotConfig.enableMobAI = false;
+				sender.sendMessage("Mob AI disabled.");
 			} else {
 				world.nachoSpigotConfig.enableMobAI = true;
+				sender.sendMessage("Mob AI enabled.");
 			}
 		}
 
