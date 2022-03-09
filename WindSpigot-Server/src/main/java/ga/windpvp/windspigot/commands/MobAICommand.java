@@ -22,15 +22,24 @@ public class MobAICommand extends Command {
 		}
 
 		// WindSpigot - Loop through each world and toggle mob ai
+		String msg = null;
+		boolean setMsg = true;
 		for (WorldServer world : MinecraftServer.getServer().worlds) {
 			if (world.nachoSpigotConfig.enableMobAI) {
 				world.nachoSpigotConfig.enableMobAI = false;
-				sender.sendMessage("Mob AI disabled.");
+				if (setMsg) {
+					msg = "Mob AI disabled in all worlds.";
+					setMsg = false;
+				}
 			} else {
 				world.nachoSpigotConfig.enableMobAI = true;
-				sender.sendMessage("Mob AI enabled.");
+				if (setMsg) {
+					msg = "Mob AI enabled in all worlds.";
+					setMsg = false;
+				}
 			}
 		}
+		sender.sendMessage(msg);
 
 		return true;
 	}
