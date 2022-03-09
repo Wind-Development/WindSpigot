@@ -111,7 +111,7 @@ public class Main {
 						.describedAs("Yml file");
 				// NachoSpigot end
 				// WindSpigot start - config
-				acceptsAll(asList("wind", "wind-settings"), "File for windspigot settings").withRequiredArg()
+				acceptsAll(asList("windspigot", "windpigot-settings"), "File for windspigot settings").withRequiredArg()
 				.ofType(File.class).defaultsTo(new File("windspigot.yml")).describedAs("Yml file");
 				// WindSpigot end
 			}
