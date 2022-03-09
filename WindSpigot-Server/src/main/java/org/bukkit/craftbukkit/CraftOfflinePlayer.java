@@ -25,52 +25,43 @@ import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.WorldNBTStorage;
 
 @SerializableAs("Player")
-public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializable
-{
+public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializable {
 	private final GameProfile profile;
 	private final CraftServer server;
 	private final WorldNBTStorage storage;
 
-	protected CraftOfflinePlayer(CraftServer server, GameProfile profile)
-	{
+	protected CraftOfflinePlayer(CraftServer server, GameProfile profile) {
 		this.server = server;
 		this.profile = profile;
 		this.storage = (WorldNBTStorage) (server.console.worlds.get(0).getDataManager());
 
 	}
 
-	public GameProfile getProfile()
-	{
+	public GameProfile getProfile() {
 		return profile;
 	}
 
 	@Override
-	public boolean isOnline()
-	{
+	public boolean isOnline() {
 		return getPlayer() != null;
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		Player player = getPlayer();
-		if (player != null)
-		{
+		if (player != null) {
 			return player.getName();
 		}
 
 		// This might not match lastKnownName but if not it should be more correct
-		if (profile.getName() != null)
-		{
+		if (profile.getName() != null) {
 			return profile.getName();
 		}
 
 		NBTTagCompound data = getBukkitData();
 
-		if (data != null)
-		{
-			if (data.hasKey("lastKnownName"))
-			{
+		if (data != null) {
+			if (data.hasKey("lastKnownName")) {
 				return data.getString("lastKnownName");
 			}
 		}
@@ -79,44 +70,35 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
 	}
 
 	@Override
-	public UUID getUniqueId()
-	{
+	public UUID getUniqueId() {
 		return profile.getId();
 	}
 
-	public Server getServer()
-	{
+	public Server getServer() {
 		return server;
 	}
 
 	@Override
-	public boolean isOp()
-	{
+	public boolean isOp() {
 		return server.getHandle().isOp(profile);
 	}
 
 	@Override
-	public void setOp(boolean value)
-	{
-		if (value == isOp())
-		{
+	public void setOp(boolean value) {
+		if (value == isOp()) {
 			return;
 		}
 
-		if (value)
-		{
+		if (value) {
 			server.getHandle().addOp(profile);
-		} else
-		{
+		} else {
 			server.getHandle().removeOp(profile);
 		}
 	}
 
 	@Override
-	public boolean isBanned()
-	{
-		if (getName() == null)
-		{
+	public boolean isBanned() {
+		if (getName() == null) {
 			return false;
 		}
 
@@ -124,43 +106,34 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
 	}
 
 	@Override
-	public void setBanned(boolean value)
-	{
-		if (getName() == null)
-		{
+	public void setBanned(boolean value) {
+		if (getName() == null) {
 			return;
 		}
 
-		if (value)
-		{
+		if (value) {
 			server.getBanList(BanList.Type.NAME).addBan(getName(), null, null, null);
-		} else
-		{
+		} else {
 			server.getBanList(BanList.Type.NAME).pardon(getName());
 		}
 	}
 
 	@Override
-	public boolean isWhitelisted()
-	{
+	public boolean isWhitelisted() {
 		return server.getHandle().getWhitelist().isWhitelisted(profile);
 	}
 
 	@Override
-	public void setWhitelisted(boolean value)
-	{
-		if (value)
-		{
+	public void setWhitelisted(boolean value) {
+		if (value) {
 			server.getHandle().addWhitelist(profile);
-		} else
-		{
+		} else {
 			server.getHandle().removeWhitelist(profile);
 		}
 	}
 
 	@Override
-	public Map<String, Object> serialize()
-	{
+	public Map<String, Object> serialize() {
 		Map<String, Object> result = new LinkedHashMap<String, Object>();
 
 		result.put("UUID", profile.getId().toString());
@@ -168,11 +141,9 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
 		return result;
 	}
 
-	public static OfflinePlayer deserialize(Map<String, Object> args)
-	{
+	public static OfflinePlayer deserialize(Map<String, Object> args) {
 		// Backwards comparability
-		if (args.get("name") != null)
-		{
+		if (args.get("name") != null) {
 			return Bukkit.getServer().getOfflinePlayer((String) args.get("name"));
 		}
 
@@ -180,14 +151,12 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return getClass().getSimpleName() + "[UUID=" + profile.getId() + "]";
 	}
 
 	@Override
-	public Player getPlayer()
-	{
+	public Player getPlayer() {
 		// PaperSpigot - Improved player lookup, replace entire method
 		final EntityPlayer playerEntity = server.getHandle().uuidMap.get(getUniqueId());
 		return playerEntity != null ? playerEntity.getBukkitEntity() : null;
@@ -195,16 +164,13 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (obj == null || !(obj instanceof OfflinePlayer))
-		{
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof OfflinePlayer)) {
 			return false;
 		}
 
 		OfflinePlayer other = (OfflinePlayer) obj;
-		if ((this.getUniqueId() == null) || (other.getUniqueId() == null))
-		{
+		if ((this.getUniqueId() == null) || (other.getUniqueId() == null)) {
 			return false;
 		}
 
@@ -212,26 +178,21 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		int hash = 5;
 		hash = 97 * hash + (this.getUniqueId() != null ? this.getUniqueId().hashCode() : 0);
 		return hash;
 	}
 
-	private NBTTagCompound getData()
-	{
+	private NBTTagCompound getData() {
 		return storage.getPlayerData(getUniqueId().toString());
 	}
 
-	private NBTTagCompound getBukkitData()
-	{
+	private NBTTagCompound getBukkitData() {
 		NBTTagCompound result = getData();
 
-		if (result != null)
-		{
-			if (!result.hasKey("bukkit"))
-			{
+		if (result != null) {
+			if (!result.hasKey("bukkit")) {
 				result.set("bukkit", new NBTTagCompound());
 			}
 			result = result.getCompound("bukkit");
@@ -240,85 +201,67 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
 		return result;
 	}
 
-	private File getDataFile()
-	{
+	private File getDataFile() {
 		return new File(storage.getPlayerDir(), getUniqueId() + ".dat");
 	}
 
 	@Override
-	public long getFirstPlayed()
-	{
+	public long getFirstPlayed() {
 		Player player = getPlayer();
-		if (player != null)
-		{
+		if (player != null) {
 			return player.getFirstPlayed();
 		}
 
 		NBTTagCompound data = getBukkitData();
 
-		if (data != null)
-		{
-			if (data.hasKey("firstPlayed"))
-			{
+		if (data != null) {
+			if (data.hasKey("firstPlayed")) {
 				return data.getLong("firstPlayed");
-			} else
-			{
+			} else {
 				File file = getDataFile();
 				return file.lastModified();
 			}
-		} else
-		{
+		} else {
 			return 0;
 		}
 	}
 
 	@Override
-	public long getLastPlayed()
-	{
+	public long getLastPlayed() {
 		Player player = getPlayer();
-		if (player != null)
-		{
+		if (player != null) {
 			return player.getLastPlayed();
 		}
 
 		NBTTagCompound data = getBukkitData();
 
-		if (data != null)
-		{
-			if (data.hasKey("lastPlayed"))
-			{
+		if (data != null) {
+			if (data.hasKey("lastPlayed")) {
 				return data.getLong("lastPlayed");
-			} else
-			{
+			} else {
 				File file = getDataFile();
 				return file.lastModified();
 			}
-		} else
-		{
+		} else {
 			return 0;
 		}
 	}
 
 	@Override
-	public boolean hasPlayedBefore()
-	{
+	public boolean hasPlayedBefore() {
 		return getData() != null;
 	}
 
 	@Override
-	public Location getBedSpawnLocation()
-	{
+	public Location getBedSpawnLocation() {
 		NBTTagCompound data = getData();
-		if (data == null)
-		{
+		if (data == null) {
 			return null;
 		}
 
-		if (data.hasKey("SpawnX") && data.hasKey("SpawnY") && data.hasKey("SpawnZ"))
-		{
+		if (data.hasKey("SpawnX") && data.hasKey("SpawnY") && data.hasKey("SpawnZ")) {
 			String spawnWorld = data.getString("SpawnWorld");
-			if (spawnWorld.isEmpty())
-			{
+			if (spawnWorld.isEmpty()) {
 				spawnWorld = server.getWorlds().get(0).getName();
 			}
 			return new Location(server.getWorld(spawnWorld), data.getInt("SpawnX"), data.getInt("SpawnY"),
@@ -327,23 +270,19 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
 		return null;
 	}
 
-	public void setMetadata(String metadataKey, MetadataValue metadataValue)
-	{
+	public void setMetadata(String metadataKey, MetadataValue metadataValue) {
 		server.getPlayerMetadata().setMetadata(this, metadataKey, metadataValue);
 	}
 
-	public List<MetadataValue> getMetadata(String metadataKey)
-	{
+	public List<MetadataValue> getMetadata(String metadataKey) {
 		return server.getPlayerMetadata().getMetadata(this, metadataKey);
 	}
 
-	public boolean hasMetadata(String metadataKey)
-	{
+	public boolean hasMetadata(String metadataKey) {
 		return server.getPlayerMetadata().hasMetadata(this, metadataKey);
 	}
 
-	public void removeMetadata(String metadataKey, Plugin plugin)
-	{
+	public void removeMetadata(String metadataKey, Plugin plugin) {
 		server.getPlayerMetadata().removeMetadata(this, metadataKey, plugin);
 	}
 }

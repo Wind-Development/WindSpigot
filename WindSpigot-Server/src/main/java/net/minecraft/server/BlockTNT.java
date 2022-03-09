@@ -1,23 +1,19 @@
 package net.minecraft.server;
 
-public class BlockTNT extends Block
-{
+public class BlockTNT extends Block {
 
 	public static final BlockStateBoolean EXPLODE = BlockStateBoolean.of("explode");
 
-	public BlockTNT()
-	{
+	public BlockTNT() {
 		super(Material.TNT);
 		this.j(this.blockStateList.getBlockData().set(BlockTNT.EXPLODE, Boolean.valueOf(false)));
 		this.a(CreativeModeTab.d);
 	}
 
 	@Override
-	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata)
-	{
+	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata) {
 		super.onPlace(world, blockposition, iblockdata);
-		if (world.isBlockIndirectlyPowered(blockposition))
-		{
+		if (world.isBlockIndirectlyPowered(blockposition)) {
 			this.postBreak(world, blockposition, iblockdata.set(BlockTNT.EXPLODE, Boolean.valueOf(true)));
 			world.setAir(blockposition);
 		}
@@ -25,10 +21,8 @@ public class BlockTNT extends Block
 	}
 
 	@Override
-	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block)
-	{
-		if (world.isBlockIndirectlyPowered(blockposition))
-		{
+	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
+		if (world.isBlockIndirectlyPowered(blockposition)) {
 			this.postBreak(world, blockposition, iblockdata.set(BlockTNT.EXPLODE, Boolean.valueOf(true)));
 			world.setAir(blockposition);
 		}
@@ -36,18 +30,15 @@ public class BlockTNT extends Block
 	}
 
 	@Override
-	public void wasExploded(World world, BlockPosition blockposition, Explosion explosion)
-	{
-		if (!world.isClientSide)
-		{
+	public void wasExploded(World world, BlockPosition blockposition, Explosion explosion) {
+		if (!world.isClientSide) {
 			org.bukkit.Location loc = explosion.source instanceof EntityTNTPrimed
 					? ((EntityTNTPrimed) explosion.source).sourceLoc
 					: new org.bukkit.Location(world.getWorld(), blockposition.getX(), blockposition.getY(),
 							blockposition.getZ()); // PaperSpigot
 			// PaperSpigot start - Fix cannons
 			double y = blockposition.getY();
-			if (!world.paperSpigotConfig.fixCannons)
-			{
+			if (!world.paperSpigotConfig.fixCannons) {
 				y += 0.5;
 			}
 			EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(loc, world, blockposition.getX() + 0.5F, y,
@@ -61,23 +52,18 @@ public class BlockTNT extends Block
 	}
 
 	@Override
-	public void postBreak(World world, BlockPosition blockposition, IBlockData iblockdata)
-	{
+	public void postBreak(World world, BlockPosition blockposition, IBlockData iblockdata) {
 		this.a(world, blockposition, iblockdata, (EntityLiving) null);
 	}
 
-	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, EntityLiving entityliving)
-	{
-		if (!world.isClientSide)
-		{
-			if (iblockdata.get(BlockTNT.EXPLODE).booleanValue())
-			{
+	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, EntityLiving entityliving) {
+		if (!world.isClientSide) {
+			if (iblockdata.get(BlockTNT.EXPLODE).booleanValue()) {
 				org.bukkit.Location loc = new org.bukkit.Location(world.getWorld(), blockposition.getX(),
 						blockposition.getY(), blockposition.getZ()); // PaperSpigot
 				// PaperSpigot start - Fix cannons
 				double y = blockposition.getY();
-				if (!world.paperSpigotConfig.fixCannons)
-				{
+				if (!world.paperSpigotConfig.fixCannons) {
 					y += 0.5;
 				}
 				EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(loc, world, blockposition.getX() + 0.5F, y,
@@ -93,22 +79,17 @@ public class BlockTNT extends Block
 
 	@Override
 	public boolean interact(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman,
-			EnumDirection enumdirection, float f, float f1, float f2)
-	{
-		if (entityhuman.bZ() != null)
-		{
+			EnumDirection enumdirection, float f, float f1, float f2) {
+		if (entityhuman.bZ() != null) {
 			Item item = entityhuman.bZ().getItem();
 
-			if (item == Items.FLINT_AND_STEEL || item == Items.FIRE_CHARGE)
-			{
+			if (item == Items.FLINT_AND_STEEL || item == Items.FIRE_CHARGE) {
 				this.a(world, blockposition, iblockdata.set(BlockTNT.EXPLODE, Boolean.valueOf(true)),
 						(EntityLiving) entityhuman);
 				world.setAir(blockposition);
-				if (item == Items.FLINT_AND_STEEL)
-				{
+				if (item == Items.FLINT_AND_STEEL) {
 					entityhuman.bZ().damage(1, entityhuman);
-				} else if (!entityhuman.abilities.canInstantlyBuild)
-				{
+				} else if (!entityhuman.abilities.canInstantlyBuild) {
 					--entityhuman.bZ().count;
 				}
 
@@ -120,18 +101,15 @@ public class BlockTNT extends Block
 	}
 
 	@Override
-	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, Entity entity)
-	{
-		if (!world.isClientSide && entity instanceof EntityArrow)
-		{
+	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, Entity entity) {
+		if (!world.isClientSide && entity instanceof EntityArrow) {
 			EntityArrow entityarrow = (EntityArrow) entity;
 
-			if (entityarrow.isBurning())
-			{
+			if (entityarrow.isBurning()) {
 				// CraftBukkit start
 				if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(entityarrow,
-						blockposition.getX(), blockposition.getY(), blockposition.getZ(), Blocks.AIR, 0).isCancelled())
-				{
+						blockposition.getX(), blockposition.getY(), blockposition.getZ(), Blocks.AIR, 0)
+						.isCancelled()) {
 					return;
 				}
 				// CraftBukkit end
@@ -144,27 +122,22 @@ public class BlockTNT extends Block
 	}
 
 	@Override
-	public boolean a(Explosion explosion)
-	{
+	public boolean a(Explosion explosion) {
 		return false;
 	}
 
 	@Override
-	public IBlockData fromLegacyData(int i)
-	{
+	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData().set(BlockTNT.EXPLODE, Boolean.valueOf((i & 1) > 0));
 	}
 
 	@Override
-	public int toLegacyData(IBlockData iblockdata)
-	{
+	public int toLegacyData(IBlockData iblockdata) {
 		return iblockdata.get(BlockTNT.EXPLODE).booleanValue() ? 1 : 0;
 	}
 
 	@Override
-	protected BlockStateList getStateList()
-	{
-		return new BlockStateList(this, new IBlockState[]
-		{ BlockTNT.EXPLODE });
+	protected BlockStateList getStateList() {
+		return new BlockStateList(this, new IBlockState[] { BlockTNT.EXPLODE });
 	}
 }

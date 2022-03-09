@@ -5,19 +5,16 @@ import java.security.PrivateKey;
 
 import javax.crypto.SecretKey;
 
-public class PacketLoginInEncryptionBegin implements Packet<PacketLoginInListener>
-{
+public class PacketLoginInEncryptionBegin implements Packet<PacketLoginInListener> {
 
 	private byte[] a = new byte[0];
 	private byte[] b = new byte[0];
 
-	public PacketLoginInEncryptionBegin()
-	{
+	public PacketLoginInEncryptionBegin() {
 	}
 
 	@Override
-	public void a(PacketDataSerializer serializer) throws IOException
-	{
+	public void a(PacketDataSerializer serializer) throws IOException {
 		// TacoSpigot start - limit to 256 bytes
 		this.a = serializer.readByteArray(256);
 		this.b = serializer.readByteArray(256);
@@ -25,25 +22,21 @@ public class PacketLoginInEncryptionBegin implements Packet<PacketLoginInListene
 	}
 
 	@Override
-	public void b(PacketDataSerializer serializer) throws IOException
-	{
+	public void b(PacketDataSerializer serializer) throws IOException {
 		serializer.a(this.a);
 		serializer.a(this.b);
 	}
 
 	@Override
-	public void a(PacketLoginInListener packetlogininlistener)
-	{
+	public void a(PacketLoginInListener packetlogininlistener) {
 		packetlogininlistener.a(this);
 	}
 
-	public SecretKey a(PrivateKey privatekey)
-	{
+	public SecretKey a(PrivateKey privatekey) {
 		return MinecraftEncryption.a(privatekey, this.a);
 	}
 
-	public byte[] b(PrivateKey privatekey)
-	{
+	public byte[] b(PrivateKey privatekey) {
 		return privatekey == null ? this.b : MinecraftEncryption.b(privatekey, this.b);
 	}
 

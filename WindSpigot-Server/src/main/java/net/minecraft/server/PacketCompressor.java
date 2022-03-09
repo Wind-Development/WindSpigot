@@ -9,28 +9,23 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
-public class PacketCompressor extends MessageToByteEncoder<ByteBuf>
-{
+public class PacketCompressor extends MessageToByteEncoder<ByteBuf> {
 	private final byte[] encodeBuf; // Paper
 	private final Deflater deflater;
 	private final com.velocitypowered.natives.compression.VelocityCompressor compressor; // Paper
 	private int threshold;
 
-	public PacketCompressor(int compressionThreshold)
-	{
+	public PacketCompressor(int compressionThreshold) {
 		// Paper start
 		this(null, compressionThreshold);
 	}
 
-	public PacketCompressor(VelocityCompressor compressor, int compressionThreshold)
-	{
+	public PacketCompressor(VelocityCompressor compressor, int compressionThreshold) {
 		this.threshold = compressionThreshold;
-		if (compressor == null)
-		{
+		if (compressor == null) {
 			this.encodeBuf = new byte[8192];
 			this.deflater = new Deflater();
-		} else
-		{
+		} else {
 			this.encodeBuf = null;
 			this.deflater = null;
 		}
@@ -39,27 +34,22 @@ public class PacketCompressor extends MessageToByteEncoder<ByteBuf>
 	}
 
 	@Override
-	protected void encode(ChannelHandlerContext var1, ByteBuf var2, ByteBuf var3) throws Exception
-	{
+	protected void encode(ChannelHandlerContext var1, ByteBuf var2, ByteBuf var3) throws Exception {
 		int var4 = var2.readableBytes();
 		PacketDataSerializer var5 = new PacketDataSerializer(var3);
-		if (var4 < this.threshold)
-		{
+		if (var4 < this.threshold) {
 			var5.b(0);
 			var5.writeBytes(var2);
-		} else
-		{
+		} else {
 			// Paper start
-			if (this.deflater != null)
-			{
+			if (this.deflater != null) {
 				byte[] var6 = new byte[var4];
 				var2.readBytes(var6);
 				var5.b(var6.length);
 				this.deflater.setInput(var6, 0, var4);
 				this.deflater.finish();
 
-				while (!this.deflater.finished())
-				{
+				while (!this.deflater.finished()) {
 					int var7 = this.deflater.deflate(this.encodeBuf);
 					var5.writeBytes(this.encodeBuf, 0, var7);
 				}
@@ -70,11 +60,9 @@ public class PacketCompressor extends MessageToByteEncoder<ByteBuf>
 
 			var5.writeVarInt(var4);
 			ByteBuf compatibleIn = MoreByteBufUtils.ensureCompatible(var1.alloc(), this.compressor, var2);
-			try
-			{
+			try {
 				this.compressor.deflate(compatibleIn, var3);
-			} finally
-			{
+			} finally {
 				compatibleIn.release();
 			}
 			// Paper end
@@ -83,10 +71,8 @@ public class PacketCompressor extends MessageToByteEncoder<ByteBuf>
 
 	// Paper start
 	@Override
-	protected ByteBuf allocateBuffer(ChannelHandlerContext ctx, ByteBuf msg, boolean preferDirect) throws Exception
-	{
-		if (this.compressor != null)
-		{
+	protected ByteBuf allocateBuffer(ChannelHandlerContext ctx, ByteBuf msg, boolean preferDirect) throws Exception {
+		if (this.compressor != null) {
 			// We allocate bytes to be compressed plus 1 byte. This covers two cases:
 			//
 			// - Compression
@@ -107,23 +93,19 @@ public class PacketCompressor extends MessageToByteEncoder<ByteBuf>
 	}
 
 	@Override
-	public void handlerRemoved(ChannelHandlerContext ctx) throws Exception
-	{
-		if (this.compressor != null)
-		{
+	public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
+		if (this.compressor != null) {
 			this.compressor.close();
 		}
 	}
 	// Paper end
 
-	public void a(int var1)
-	{
+	public void a(int var1) {
 		// Nacho start - OBFHELPER
 		this.setThreshold(var1);
 	}
 
-	public void setThreshold(int threshold)
-	{
+	public void setThreshold(int threshold) {
 		this.threshold = threshold;
 	}
 	// Nacho end

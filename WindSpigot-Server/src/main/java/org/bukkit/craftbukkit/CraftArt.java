@@ -5,13 +5,10 @@ import org.bukkit.Art;
 import net.minecraft.server.EntityPainting.EnumArt;
 
 // Safety class, will break if either side changes
-public class CraftArt
-{
+public class CraftArt {
 
-	public static Art NotchToBukkit(EnumArt art)
-	{
-		switch (art)
-		{
+	public static Art NotchToBukkit(EnumArt art) {
+		switch (art) {
 		case KEBAB:
 			return Art.KEBAB;
 		case AZTEC:
@@ -69,10 +66,8 @@ public class CraftArt
 		}
 	}
 
-	public static EnumArt BukkitToNotch(Art art)
-	{
-		switch (art)
-		{
+	public static EnumArt BukkitToNotch(Art art) {
+		switch (art) {
 		case KEBAB:
 			return EnumArt.KEBAB;
 		case AZTEC:

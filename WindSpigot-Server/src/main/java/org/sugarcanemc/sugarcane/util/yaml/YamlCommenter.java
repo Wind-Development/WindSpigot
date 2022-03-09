@@ -10,8 +10,7 @@ import java.util.Map;
 
 import me.elier.util.Utils;
 
-public class YamlCommenter
-{
+public class YamlCommenter {
 	private final HashMap<String, String> comments = new HashMap<>();
 	private String Header = "";
 
@@ -22,8 +21,7 @@ public class YamlCommenter
 	 * @param path    Config path to add comment to
 	 * @param comment Comment to add
 	 */
-	public void addComment(String path, String comment)
-	{
+	public void addComment(String path, String comment) {
 		comments.put(path, comment);
 	}
 
@@ -32,8 +30,7 @@ public class YamlCommenter
 	 *
 	 * @param header Header to add
 	 */
-	public void setHeader(String header)
-	{
+	public void setHeader(String header) {
 		Header = header;
 	}
 
@@ -43,21 +40,17 @@ public class YamlCommenter
 	 * @param file File to save to
 	 * @throws IOException
 	 */
-	public void saveComments(File file) throws IOException
-	{
+	public void saveComments(File file) throws IOException {
 		ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(file.toPath());
 		lines.removeIf(s -> s.trim().startsWith("#") || s.trim().length() <= 4);
 		lines.add(0, "# " + Header.replace("\n", "\n# ") + "\n");
-		for (Map.Entry<String, String> _comment : comments.entrySet())
-		{
+		for (Map.Entry<String, String> _comment : comments.entrySet()) {
 			int line = YamlUtils.findKey(lines, _comment.getKey());
 			String prefix = Utils.repeat(" ", getIndentation(lines.get(line))) + "# ";
 			boolean noNewline = getIndentation(lines.get(line)) > getIndentation(lines.get(line - 1));
-			if (line >= 0)
-			{
+			if (line >= 0) {
 				lines.add(line, (noNewline ? "" : "\n") + prefix + _comment.getValue().replace("\n", "\n" + prefix));
-			} else
-			{
+			} else {
 				System.out.printf("Failed to find key %s in %s!", _comment.getKey(), file);
 			}
 		}
@@ -67,15 +60,12 @@ public class YamlCommenter
 		fw.close();
 	}
 
-	private int getIndentation(String s)
-	{
-		if (!s.startsWith(" "))
-		{
+	private int getIndentation(String s) {
+		if (!s.startsWith(" ")) {
 			return 0;
 		}
 		int i = 0;
-		while ((s = s.replaceFirst(" ", "")).startsWith(" "))
-		{
+		while ((s = s.replaceFirst(" ", "")).startsWith(" ")) {
 			i++;
 		}
 		return i + 1;

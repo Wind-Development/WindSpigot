@@ -1,27 +1,21 @@
 package net.minecraft.server;
 
-public class PathfinderGoalBreakDoor extends PathfinderGoalDoorInteract
-{
+public class PathfinderGoalBreakDoor extends PathfinderGoalDoorInteract {
 
 	private int g;
 	private int h = -1;
 
-	public PathfinderGoalBreakDoor(EntityInsentient entityinsentient)
-	{
+	public PathfinderGoalBreakDoor(EntityInsentient entityinsentient) {
 		super(entityinsentient);
 	}
 
 	@Override
-	public boolean a()
-	{
-		if (!super.a())
-		{
+	public boolean a() {
+		if (!super.a()) {
 			return false;
-		} else if (!this.a.world.getGameRules().getBoolean("mobGriefing"))
-		{
+		} else if (!this.a.world.getGameRules().getBoolean("mobGriefing")) {
 			return false;
-		} else
-		{
+		} else {
 			BlockDoor blockdoor = this.c;
 
 			return !BlockDoor.f(this.a.world, this.b);
@@ -29,24 +23,20 @@ public class PathfinderGoalBreakDoor extends PathfinderGoalDoorInteract
 	}
 
 	@Override
-	public void c()
-	{
+	public void c() {
 		super.c();
 		this.g = 0;
 	}
 
 	@Override
-	public boolean b()
-	{
+	public boolean b() {
 		double d0 = this.a.b(this.b);
 		boolean flag;
 
-		if (this.g <= 240)
-		{
+		if (this.g <= 240) {
 			BlockDoor blockdoor = this.c;
 
-			if (!BlockDoor.f(this.a.world, this.b) && d0 < 4.0D)
-			{
+			if (!BlockDoor.f(this.a.world, this.b) && d0 < 4.0D) {
 				flag = true;
 				return flag;
 			}
@@ -57,36 +47,30 @@ public class PathfinderGoalBreakDoor extends PathfinderGoalDoorInteract
 	}
 
 	@Override
-	public void d()
-	{
+	public void d() {
 		super.d();
 		this.a.world.c(this.a.getId(), this.b, -1);
 	}
 
 	@Override
-	public void e()
-	{
+	public void e() {
 		super.e();
-		if (this.a.bc().nextInt(20) == 0)
-		{
+		if (this.a.bc().nextInt(20) == 0) {
 			this.a.world.triggerEffect(1010, this.b, 0);
 		}
 
 		++this.g;
 		int i = (int) (this.g / 240.0F * 10.0F);
 
-		if (i != this.h)
-		{
+		if (i != this.h) {
 			this.a.world.c(this.a.getId(), this.b, i);
 			this.h = i;
 		}
 
-		if (this.g == 240 && this.a.world.getDifficulty() == EnumDifficulty.HARD)
-		{
+		if (this.g == 240 && this.a.world.getDifficulty() == EnumDifficulty.HARD) {
 			// CraftBukkit start
 			if (org.bukkit.craftbukkit.event.CraftEventFactory
-					.callEntityBreakDoorEvent(this.a, this.b.getX(), this.b.getY(), this.b.getZ()).isCancelled())
-			{
+					.callEntityBreakDoorEvent(this.a, this.b.getX(), this.b.getY(), this.b.getZ()).isCancelled()) {
 				this.c();
 				return;
 			}

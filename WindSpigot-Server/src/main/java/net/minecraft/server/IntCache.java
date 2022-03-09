@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public class IntCache
-{
+public class IntCache {
 
 	private static int a = 256;
 	private static List<int[]> b = Lists.newArrayList();
@@ -13,68 +12,53 @@ public class IntCache
 	private static List<int[]> d = Lists.newArrayList();
 	private static List<int[]> e = Lists.newArrayList();
 
-	public static synchronized int[] a(int i)
-	{
+	public static synchronized int[] a(int i) {
 		int[] aint;
 
-		if (i <= 256)
-		{
-			if (IntCache.b.isEmpty())
-			{
+		if (i <= 256) {
+			if (IntCache.b.isEmpty()) {
 				aint = new int[256];
-				if (c.size() < org.spigotmc.SpigotConfig.intCacheLimit)
-				{
+				if (c.size() < org.spigotmc.SpigotConfig.intCacheLimit) {
 					IntCache.c.add(aint);
 				}
 				return aint;
-			} else
-			{
+			} else {
 				aint = IntCache.b.remove(IntCache.b.size() - 1);
-				if (c.size() < org.spigotmc.SpigotConfig.intCacheLimit)
-				{
+				if (c.size() < org.spigotmc.SpigotConfig.intCacheLimit) {
 					IntCache.c.add(aint);
 				}
 				return aint;
 			}
-		} else if (i > IntCache.a)
-		{
+		} else if (i > IntCache.a) {
 			IntCache.a = i;
 			IntCache.d.clear();
 			IntCache.e.clear();
 			aint = new int[IntCache.a];
-			if (e.size() < org.spigotmc.SpigotConfig.intCacheLimit)
-			{
+			if (e.size() < org.spigotmc.SpigotConfig.intCacheLimit) {
 				IntCache.e.add(aint);
 			}
 			return aint;
-		} else if (IntCache.d.isEmpty())
-		{
+		} else if (IntCache.d.isEmpty()) {
 			aint = new int[IntCache.a];
-			if (e.size() < org.spigotmc.SpigotConfig.intCacheLimit)
-			{
+			if (e.size() < org.spigotmc.SpigotConfig.intCacheLimit) {
 				IntCache.e.add(aint);
 			}
 			return aint;
-		} else
-		{
+		} else {
 			aint = IntCache.d.remove(IntCache.d.size() - 1);
-			if (e.size() < org.spigotmc.SpigotConfig.intCacheLimit)
-			{
+			if (e.size() < org.spigotmc.SpigotConfig.intCacheLimit) {
 				IntCache.e.add(aint);
 			}
 			return aint;
 		}
 	}
 
-	public static synchronized void a()
-	{
-		if (!IntCache.d.isEmpty())
-		{
+	public static synchronized void a() {
+		if (!IntCache.d.isEmpty()) {
 			IntCache.d.remove(IntCache.d.size() - 1);
 		}
 
-		if (!IntCache.b.isEmpty())
-		{
+		if (!IntCache.b.isEmpty()) {
 			IntCache.b.remove(IntCache.b.size() - 1);
 		}
 
@@ -84,8 +68,7 @@ public class IntCache
 		IntCache.c.clear();
 	}
 
-	public static synchronized String b()
-	{
+	public static synchronized String b() {
 		return "cache: " + IntCache.d.size() + ", tcache: " + IntCache.b.size() + ", allocated: " + IntCache.e.size()
 				+ ", tallocated: " + IntCache.c.size();
 	}

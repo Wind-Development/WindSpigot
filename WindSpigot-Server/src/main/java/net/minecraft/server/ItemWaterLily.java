@@ -1,35 +1,27 @@
 package net.minecraft.server;
 
-public class ItemWaterLily extends ItemWithAuxData
-{
+public class ItemWaterLily extends ItemWithAuxData {
 
-	public ItemWaterLily(Block block)
-	{
+	public ItemWaterLily(Block block) {
 		super(block, false);
 	}
 
 	@Override
-	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman)
-	{
+	public ItemStack a(ItemStack itemstack, World world, EntityHuman entityhuman) {
 		MovingObjectPosition movingobjectposition = this.a(world, entityhuman, true);
 
-		if (movingobjectposition == null)
-		{
+		if (movingobjectposition == null) {
 			return itemstack;
-		} else
-		{
-			if (movingobjectposition.type == MovingObjectPosition.EnumMovingObjectType.BLOCK)
-			{
+		} else {
+			if (movingobjectposition.type == MovingObjectPosition.EnumMovingObjectType.BLOCK) {
 				BlockPosition blockposition = movingobjectposition.a();
 
-				if (!world.a(entityhuman, blockposition))
-				{
+				if (!world.a(entityhuman, blockposition)) {
 					return itemstack;
 				}
 
 				if (!entityhuman.a(blockposition.shift(movingobjectposition.direction), movingobjectposition.direction,
-						itemstack))
-				{
+						itemstack)) {
 					return itemstack;
 				}
 
@@ -37,8 +29,7 @@ public class ItemWaterLily extends ItemWithAuxData
 				IBlockData iblockdata = world.getType(blockposition);
 
 				if (iblockdata.getBlock().getMaterial() == Material.WATER
-						&& iblockdata.get(BlockFluids.LEVEL).intValue() == 0 && world.isEmpty(blockposition1))
-				{
+						&& iblockdata.get(BlockFluids.LEVEL).intValue() == 0 && world.isEmpty(blockposition1)) {
 					// CraftBukkit start - special case for handling block placement with water
 					// lilies
 					org.bukkit.block.BlockState blockstate = org.bukkit.craftbukkit.block.CraftBlockState
@@ -47,14 +38,12 @@ public class ItemWaterLily extends ItemWithAuxData
 					org.bukkit.event.block.BlockPlaceEvent placeEvent = org.bukkit.craftbukkit.event.CraftEventFactory
 							.callBlockPlaceEvent(world, entityhuman, blockstate, blockposition.getX(),
 									blockposition.getY(), blockposition.getZ());
-					if (placeEvent != null && (placeEvent.isCancelled() || !placeEvent.canBuild()))
-					{
+					if (placeEvent != null && (placeEvent.isCancelled() || !placeEvent.canBuild())) {
 						blockstate.update(true, false);
 						return itemstack;
 					}
 					// CraftBukkit end
-					if (!entityhuman.abilities.canInstantlyBuild)
-					{
+					if (!entityhuman.abilities.canInstantlyBuild) {
 						--itemstack.count;
 					}
 

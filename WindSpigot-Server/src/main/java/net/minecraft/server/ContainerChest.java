@@ -5,8 +5,7 @@ import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.craftbukkit.inventory.CraftInventoryView;
 // CraftBukkit end
 
-public class ContainerChest extends Container
-{
+public class ContainerChest extends Container {
 
 	private IInventory container;
 	private int f;
@@ -15,23 +14,18 @@ public class ContainerChest extends Container
 	private PlayerInventory player;
 
 	@Override
-	public CraftInventoryView getBukkitView()
-	{
-		if (bukkitEntity != null)
-		{
+	public CraftInventoryView getBukkitView() {
+		if (bukkitEntity != null) {
 			return bukkitEntity;
 		}
 
 		CraftInventory inventory;
-		if (this.container instanceof PlayerInventory)
-		{
+		if (this.container instanceof PlayerInventory) {
 			inventory = new org.bukkit.craftbukkit.inventory.CraftInventoryPlayer((PlayerInventory) this.container);
-		} else if (this.container instanceof InventoryLargeChest)
-		{
+		} else if (this.container instanceof InventoryLargeChest) {
 			inventory = new org.bukkit.craftbukkit.inventory.CraftInventoryDoubleChest(
 					(InventoryLargeChest) this.container);
-		} else
-		{
+		} else {
 			inventory = new CraftInventory(this.container);
 		}
 
@@ -40,8 +34,7 @@ public class ContainerChest extends Container
 	}
 	// CraftBukkit end
 
-	public ContainerChest(IInventory iinventory, IInventory iinventory1, EntityHuman entityhuman)
-	{
+	public ContainerChest(IInventory iinventory, IInventory iinventory1, EntityHuman entityhuman) {
 		this.container = iinventory1;
 		this.f = iinventory1.getSize() / 9;
 		iinventory1.startOpen(entityhuman);
@@ -55,66 +48,52 @@ public class ContainerChest extends Container
 		int j;
 		int k;
 
-		for (j = 0; j < this.f; ++j)
-		{
-			for (k = 0; k < 9; ++k)
-			{
+		for (j = 0; j < this.f; ++j) {
+			for (k = 0; k < 9; ++k) {
 				this.a(new Slot(iinventory1, k + j * 9, 8 + k * 18, 18 + j * 18));
 			}
 		}
 
-		for (j = 0; j < 3; ++j)
-		{
-			for (k = 0; k < 9; ++k)
-			{
+		for (j = 0; j < 3; ++j) {
+			for (k = 0; k < 9; ++k) {
 				this.a(new Slot(iinventory, k + j * 9 + 9, 8 + k * 18, 103 + j * 18 + i));
 			}
 		}
 
-		for (j = 0; j < 9; ++j)
-		{
+		for (j = 0; j < 9; ++j) {
 			this.a(new Slot(iinventory, j, 8 + j * 18, 161 + i));
 		}
 
 	}
 
 	@Override
-	public boolean a(EntityHuman entityhuman)
-	{
-		if (!this.checkReachable)
-		 {
+	public boolean a(EntityHuman entityhuman) {
+		if (!this.checkReachable) {
 			return true; // CraftBukkit
 		}
 		return this.container.a(entityhuman);
 	}
 
 	@Override
-	public ItemStack b(EntityHuman entityhuman, int i)
-	{
+	public ItemStack b(EntityHuman entityhuman, int i) {
 		ItemStack itemstack = null;
 		Slot slot = this.c.get(i);
 
-		if (slot != null && slot.hasItem())
-		{
+		if (slot != null && slot.hasItem()) {
 			ItemStack itemstack1 = slot.getItem();
 
 			itemstack = itemstack1.cloneItemStack();
-			if (i < this.f * 9)
-			{
-				if (!this.a(itemstack1, this.f * 9, this.c.size(), true))
-				{
+			if (i < this.f * 9) {
+				if (!this.a(itemstack1, this.f * 9, this.c.size(), true)) {
 					return null;
 				}
-			} else if (!this.a(itemstack1, 0, this.f * 9, false))
-			{
+			} else if (!this.a(itemstack1, 0, this.f * 9, false)) {
 				return null;
 			}
 
-			if (itemstack1.count == 0)
-			{
+			if (itemstack1.count == 0) {
 				slot.set((ItemStack) null);
-			} else
-			{
+			} else {
 				slot.f();
 			}
 		}
@@ -123,14 +102,12 @@ public class ContainerChest extends Container
 	}
 
 	@Override
-	public void b(EntityHuman entityhuman)
-	{
+	public void b(EntityHuman entityhuman) {
 		super.b(entityhuman);
 		this.container.closeContainer(entityhuman);
 	}
 
-	public IInventory e()
-	{
+	public IInventory e() {
 		return this.container;
 	}
 }

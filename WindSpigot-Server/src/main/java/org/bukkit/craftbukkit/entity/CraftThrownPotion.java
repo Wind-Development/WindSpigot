@@ -14,24 +14,20 @@ import org.bukkit.potion.PotionEffect;
 
 import net.minecraft.server.EntityPotion;
 
-public class CraftThrownPotion extends CraftProjectile implements ThrownPotion
-{
-	public CraftThrownPotion(CraftServer server, EntityPotion entity)
-	{
+public class CraftThrownPotion extends CraftProjectile implements ThrownPotion {
+	public CraftThrownPotion(CraftServer server, EntityPotion entity) {
 		super(server, entity);
 	}
 
 	// TODO: This one does not handle custom NBT potion effects does it?
 	// In that case this method could be said to be misleading or incorrect
 	@Override
-	public Collection<PotionEffect> getEffects()
-	{
+	public Collection<PotionEffect> getEffects() {
 		return Potion.getBrewer().getEffectsFromDamage(getHandle().getPotionValue());
 	}
 
 	@Override
-	public ItemStack getItem()
-	{
+	public ItemStack getItem() {
 		// We run this method once since it will set the item stack if there is none.
 		getHandle().getPotionValue();
 
@@ -39,8 +35,7 @@ public class CraftThrownPotion extends CraftProjectile implements ThrownPotion
 	}
 
 	@Override
-	public void setItem(ItemStack item)
-	{
+	public void setItem(ItemStack item) {
 		// The ItemStack must not be null.
 		Validate.notNull(item, "ItemStack cannot be null.");
 
@@ -52,20 +47,17 @@ public class CraftThrownPotion extends CraftProjectile implements ThrownPotion
 	}
 
 	@Override
-	public EntityPotion getHandle()
-	{
+	public EntityPotion getHandle() {
 		return (EntityPotion) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftThrownPotion";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.SPLASH_POTION;
 	}
 }

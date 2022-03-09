@@ -17,29 +17,24 @@ import net.minecraft.server.GameProfileBanList;
 import net.minecraft.server.JsonListEntry;
 import net.minecraft.server.MinecraftServer;
 
-public class CraftProfileBanList implements org.bukkit.BanList
-{
+public class CraftProfileBanList implements org.bukkit.BanList {
 	private final GameProfileBanList list;
 
-	public CraftProfileBanList(GameProfileBanList list)
-	{
+	public CraftProfileBanList(GameProfileBanList list) {
 		this.list = list;
 	}
 
 	@Override
-	public org.bukkit.BanEntry getBanEntry(String target)
-	{
+	public org.bukkit.BanEntry getBanEntry(String target) {
 		Validate.notNull(target, "Target cannot be null");
 
 		GameProfile profile = MinecraftServer.getServer().getUserCache().getProfile(target);
-		if (profile == null)
-		{
+		if (profile == null) {
 			return null;
 		}
 
 		GameProfileBanEntry entry = list.get(profile);
-		if (entry == null)
-		{
+		if (entry == null) {
 			return null;
 		}
 
@@ -47,13 +42,11 @@ public class CraftProfileBanList implements org.bukkit.BanList
 	}
 
 	@Override
-	public org.bukkit.BanEntry addBan(String target, String reason, Date expires, String source)
-	{
+	public org.bukkit.BanEntry addBan(String target, String reason, Date expires, String source) {
 		Validate.notNull(target, "Ban target cannot be null");
 
 		GameProfile profile = MinecraftServer.getServer().getUserCache().getProfile(target);
-		if (profile == null)
-		{
+		if (profile == null) {
 			return null;
 		}
 
@@ -62,11 +55,9 @@ public class CraftProfileBanList implements org.bukkit.BanList
 
 		list.add(entry);
 
-		try
-		{
+		try {
 			list.save();
-		} catch (IOException ex)
-		{
+		} catch (IOException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Failed to save banned-players.json, {0}", ex.getMessage());
 		}
 
@@ -74,12 +65,10 @@ public class CraftProfileBanList implements org.bukkit.BanList
 	}
 
 	@Override
-	public Set<org.bukkit.BanEntry> getBanEntries()
-	{
+	public Set<org.bukkit.BanEntry> getBanEntries() {
 		ImmutableSet.Builder<org.bukkit.BanEntry> builder = ImmutableSet.builder();
 
-		for (JsonListEntry entry : list.getValues())
-		{
+		for (JsonListEntry entry : list.getValues()) {
 			GameProfile profile = (GameProfile) entry.getKey();
 			builder.add(new CraftProfileBanEntry(profile, (GameProfileBanEntry) entry, list));
 		}
@@ -88,13 +77,11 @@ public class CraftProfileBanList implements org.bukkit.BanList
 	}
 
 	@Override
-	public boolean isBanned(String target)
-	{
+	public boolean isBanned(String target) {
 		Validate.notNull(target, "Target cannot be null");
 
 		GameProfile profile = MinecraftServer.getServer().getUserCache().getProfile(target);
-		if (profile == null)
-		{
+		if (profile == null) {
 			return false;
 		}
 
@@ -102,8 +89,7 @@ public class CraftProfileBanList implements org.bukkit.BanList
 	}
 
 	@Override
-	public void pardon(String target)
-	{
+	public void pardon(String target) {
 		Validate.notNull(target, "Target cannot be null");
 
 		GameProfile profile = MinecraftServer.getServer().getUserCache().getProfile(target);

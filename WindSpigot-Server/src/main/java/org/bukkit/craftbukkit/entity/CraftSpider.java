@@ -6,29 +6,24 @@ import org.bukkit.entity.Spider;
 
 import net.minecraft.server.EntitySpider;
 
-public class CraftSpider extends CraftMonster implements Spider
-{
+public class CraftSpider extends CraftMonster implements Spider {
 
-	public CraftSpider(CraftServer server, EntitySpider entity)
-	{
+	public CraftSpider(CraftServer server, EntitySpider entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public EntitySpider getHandle()
-	{
+	public EntitySpider getHandle() {
 		return (EntitySpider) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftSpider";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.SPIDER;
 	}
 }

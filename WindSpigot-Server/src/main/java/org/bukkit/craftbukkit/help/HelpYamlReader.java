@@ -19,39 +19,32 @@ import com.google.common.base.Charsets;
  * HelpYamlReader is responsible for processing the contents of the help.yml
  * file.
  */
-public class HelpYamlReader
-{
+public class HelpYamlReader {
 
 	private YamlConfiguration helpYaml;
 	private final char ALT_COLOR_CODE = '&';
 	private final Server server;
 
-	public HelpYamlReader(Server server)
-	{
+	public HelpYamlReader(Server server) {
 		this.server = server;
 
 		File helpYamlFile = new File("help.yml");
 		YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(
 				getClass().getClassLoader().getResourceAsStream("configurations/help.yml"), Charsets.UTF_8));
 
-		try
-		{
+		try {
 			helpYaml = YamlConfiguration.loadConfiguration(helpYamlFile);
 			helpYaml.options().copyDefaults(true);
 			helpYaml.setDefaults(defaultConfig);
 
-			try
-			{
-				if (!helpYamlFile.exists())
-				{
+			try {
+				if (!helpYamlFile.exists()) {
 					helpYaml.save(helpYamlFile);
 				}
-			} catch (IOException ex)
-			{
+			} catch (IOException ex) {
 				server.getLogger().log(Level.SEVERE, "Could not save " + helpYamlFile, ex);
 			}
-		} catch (Exception ex)
-		{
+		} catch (Exception ex) {
 			server.getLogger().severe(
 					"Failed to load help.yml. Verify the yaml indentation is correct. Reverting to default help.yml.");
 			helpYaml = defaultConfig;
@@ -63,14 +56,11 @@ public class HelpYamlReader
 	 *
 	 * @return A list of general topics.
 	 */
-	public List<HelpTopic> getGeneralTopics()
-	{
+	public List<HelpTopic> getGeneralTopics() {
 		List<HelpTopic> topics = new LinkedList<HelpTopic>();
 		ConfigurationSection generalTopics = helpYaml.getConfigurationSection("general-topics");
-		if (generalTopics != null)
-		{
-			for (String topicName : generalTopics.getKeys(false))
-			{
+		if (generalTopics != null) {
+			for (String topicName : generalTopics.getKeys(false)) {
 				ConfigurationSection section = generalTopics.getConfigurationSection(topicName);
 				String shortText = ChatColor.translateAlternateColorCodes(ALT_COLOR_CODE,
 						section.getString("shortText", ""));
@@ -88,14 +78,11 @@ public class HelpYamlReader
 	 *
 	 * @return A list of index topics.
 	 */
-	public List<HelpTopic> getIndexTopics()
-	{
+	public List<HelpTopic> getIndexTopics() {
 		List<HelpTopic> topics = new LinkedList<HelpTopic>();
 		ConfigurationSection indexTopics = helpYaml.getConfigurationSection("index-topics");
-		if (indexTopics != null)
-		{
-			for (String topicName : indexTopics.getKeys(false))
-			{
+		if (indexTopics != null) {
+			for (String topicName : indexTopics.getKeys(false)) {
 				ConfigurationSection section = indexTopics.getConfigurationSection(topicName);
 				String shortText = ChatColor.translateAlternateColorCodes(ALT_COLOR_CODE,
 						section.getString("shortText", ""));
@@ -116,14 +103,11 @@ public class HelpYamlReader
 	 *
 	 * @return A list of amendments.
 	 */
-	public List<HelpTopicAmendment> getTopicAmendments()
-	{
+	public List<HelpTopicAmendment> getTopicAmendments() {
 		List<HelpTopicAmendment> amendments = new LinkedList<HelpTopicAmendment>();
 		ConfigurationSection commandTopics = helpYaml.getConfigurationSection("amended-topics");
-		if (commandTopics != null)
-		{
-			for (String topicName : commandTopics.getKeys(false))
-			{
+		if (commandTopics != null) {
+			for (String topicName : commandTopics.getKeys(false)) {
 				ConfigurationSection section = commandTopics.getConfigurationSection(topicName);
 				String description = ChatColor.translateAlternateColorCodes(ALT_COLOR_CODE,
 						section.getString("shortText", ""));
@@ -136,13 +120,11 @@ public class HelpYamlReader
 		return amendments;
 	}
 
-	public List<String> getIgnoredPlugins()
-	{
+	public List<String> getIgnoredPlugins() {
 		return helpYaml.getStringList("ignore-plugins");
 	}
 
-	public boolean commandTopicsInMasterIndex()
-	{
+	public boolean commandTopicsInMasterIndex() {
 		return helpYaml.getBoolean("command-topics-in-master-index", true);
 	}
 }

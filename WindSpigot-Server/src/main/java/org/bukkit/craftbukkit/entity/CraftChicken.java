@@ -6,29 +6,24 @@ import org.bukkit.entity.EntityType;
 
 import net.minecraft.server.EntityChicken;
 
-public class CraftChicken extends CraftAnimals implements Chicken
-{
+public class CraftChicken extends CraftAnimals implements Chicken {
 
-	public CraftChicken(CraftServer server, EntityChicken entity)
-	{
+	public CraftChicken(CraftServer server, EntityChicken entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public EntityChicken getHandle()
-	{
+	public EntityChicken getHandle() {
 		return (EntityChicken) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftChicken";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.CHICKEN;
 	}
 }

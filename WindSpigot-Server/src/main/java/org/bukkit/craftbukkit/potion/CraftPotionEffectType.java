@@ -4,32 +4,26 @@ import org.bukkit.potion.PotionEffectType;
 
 import net.minecraft.server.MobEffectList;
 
-public class CraftPotionEffectType extends PotionEffectType
-{
+public class CraftPotionEffectType extends PotionEffectType {
 	private final MobEffectList handle;
 
-	public CraftPotionEffectType(MobEffectList handle)
-	{
+	public CraftPotionEffectType(MobEffectList handle) {
 		super(handle.id);
 		this.handle = handle;
 	}
 
 	@Override
-	public double getDurationModifier()
-	{
+	public double getDurationModifier() {
 		return handle.getDurationModifier();
 	}
 
-	public MobEffectList getHandle()
-	{
+	public MobEffectList getHandle() {
 		return handle;
 	}
 
 	@Override
-	public String getName()
-	{
-		switch (handle.id)
-		{
+	public String getName() {
+		switch (handle.id) {
 		case 1:
 			return "SPEED";
 		case 2:
@@ -82,8 +76,7 @@ public class CraftPotionEffectType extends PotionEffectType
 	}
 
 	@Override
-	public boolean isInstant()
-	{
+	public boolean isInstant() {
 		return handle.isInstant();
 	}
 }

@@ -5,8 +5,7 @@ import java.io.IOException;
 import io.netty.handler.codec.DecoderException;
 import me.elier.nachospigot.config.NachoConfig;
 
-public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn>
-{
+public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn> {
 
 	private static final BlockPosition a = new BlockPosition(-1, -1, -1);
 	private BlockPosition b;
@@ -18,17 +17,15 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn>
 
 	public long timestamp; // CraftBukkit
 
-	public PacketPlayInBlockPlace()
-	{
+	public PacketPlayInBlockPlace() {
 	}
 
-	public PacketPlayInBlockPlace(ItemStack itemstack)
-	{
+	public PacketPlayInBlockPlace(ItemStack itemstack) {
 		this(PacketPlayInBlockPlace.a, 255, itemstack, 0.0F, 0.0F, 0.0F);
 	}
 
-	public PacketPlayInBlockPlace(BlockPosition blockposition, int i, ItemStack itemstack, float f, float f1, float f2)
-	{
+	public PacketPlayInBlockPlace(BlockPosition blockposition, int i, ItemStack itemstack, float f, float f1,
+			float f2) {
 		this.b = blockposition;
 		this.c = i;
 		this.d = itemstack != null ? itemstack.cloneItemStack() : null;
@@ -38,22 +35,18 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn>
 	}
 
 	@Override
-	public void a(PacketDataSerializer serializer) throws IOException
-	{
+	public void a(PacketDataSerializer serializer) throws IOException {
 		timestamp = System.currentTimeMillis(); // CraftBukkit
 		this.b = serializer.c();
 		this.c = serializer.readUnsignedByte();
 
 		// KigPaper-0172 start - don't parse itemstack
 
-		if (!NachoConfig.stopDecodingItemStackOnPlace)
-		{
+		if (!NachoConfig.stopDecodingItemStackOnPlace) {
 			this.d = serializer.decodeItemStack();
-		} else
-		{
+		} else {
 			// Consume everything and leave 3 bytes at the end
-			if (serializer.readableBytes() < 3)
-			{
+			if (serializer.readableBytes() < 3) {
 				throw new DecoderException("Expected 3 facing bytes");
 			}
 			serializer.skipBytes(serializer.readableBytes() - 3);
@@ -67,8 +60,7 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn>
 	}
 
 	@Override
-	public void b(PacketDataSerializer serializer) throws IOException
-	{
+	public void b(PacketDataSerializer serializer) throws IOException {
 		serializer.a(this.b);
 		serializer.writeByte(this.c);
 		serializer.a(this.d);
@@ -78,38 +70,31 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn>
 	}
 
 	@Override
-	public void a(PacketListenerPlayIn packetlistenerplayin)
-	{
+	public void a(PacketListenerPlayIn packetlistenerplayin) {
 		packetlistenerplayin.a(this);
 	}
 
-	public BlockPosition a()
-	{
+	public BlockPosition a() {
 		return this.b;
 	}
 
-	public int getFace()
-	{
+	public int getFace() {
 		return this.c;
 	}
 
-	public ItemStack getItemStack()
-	{
+	public ItemStack getItemStack() {
 		return this.d;
 	}
 
-	public float d()
-	{
+	public float d() {
 		return this.e;
 	}
 
-	public float e()
-	{
+	public float e() {
 		return this.f;
 	}
 
-	public float f()
-	{
+	public float f() {
 		return this.g;
 	}
 }

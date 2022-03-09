@@ -3,19 +3,16 @@ package me.suicidalkids.ion.movement;
 import net.minecraft.server.AxisAlignedBB;
 import net.minecraft.server.Entity;
 
-public class MovementCache
-{
+public class MovementCache {
 
 	private AxisAlignedBB bb;
 	private double locX, locY, locZ, lastX, lastY, lastZ;
 	private double motX, motY, motZ, lastMotX, lastMotY, lastMotZ;
 	private boolean onGround;
 
-	public boolean move(Entity entity)
-	{
+	public boolean move(Entity entity) {
 		if (entity.locX == lastX && entity.locY == lastY && entity.locZ == lastZ && entity.motX == lastMotX
-				&& entity.motY == lastMotY && entity.motZ == lastMotZ)
-		{
+				&& entity.motY == lastMotY && entity.motZ == lastMotZ) {
 			entity.boundingBox = bb;
 			entity.onGround = onGround;
 			entity.locX = locX;
@@ -30,8 +27,7 @@ public class MovementCache
 		return false;
 	}
 
-	public void cache(Entity entity)
-	{
+	public void cache(Entity entity) {
 		onGround = entity.onGround;
 		bb = entity.boundingBox;
 		lastX = entity.lastX;
@@ -48,8 +44,7 @@ public class MovementCache
 		motZ = entity.motZ;
 	}
 
-	public void clear()
-	{
+	public void clear() {
 		lastX = Double.MAX_VALUE;
 	}
 

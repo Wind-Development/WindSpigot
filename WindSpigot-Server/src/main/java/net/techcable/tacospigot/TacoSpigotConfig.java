@@ -14,8 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.google.common.base.Throwables;
 
-public class TacoSpigotConfig
-{
+public class TacoSpigotConfig {
 
 	private static File CONFIG_FILE;
 	private static final String HEADER = "This is the main configuration file for TacoSpigot.\n"
@@ -28,18 +27,14 @@ public class TacoSpigotConfig
 	static int version;
 	/* ======================================================================== */
 
-	public static void init(File configFile)
-	{
+	public static void init(File configFile) {
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
-		try
-		{
+		try {
 			System.out.println("Loading TacoSpigot config from " + configFile.getName());
 			config.load(CONFIG_FILE);
-		} catch (IOException ignored)
-		{
-		} catch (InvalidConfigurationException ex)
-		{
+		} catch (IOException ignored) {
+		} catch (InvalidConfigurationException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Could not load taco.yml, please correct your syntax errors", ex);
 			throw Throwables.propagate(ex);
 		}
@@ -51,75 +46,59 @@ public class TacoSpigotConfig
 		readConfig(TacoSpigotConfig.class, null);
 	}
 
-	static void readConfig(Class<?> clazz, Object instance)
-	{
-		for (Method method : clazz.getDeclaredMethods())
-		{
-			if (Modifier.isPrivate(method.getModifiers()))
-			{
-				if (method.getParameterTypes().length == 0 && method.getReturnType() == Void.TYPE)
-				{
-					try
-					{
+	static void readConfig(Class<?> clazz, Object instance) {
+		for (Method method : clazz.getDeclaredMethods()) {
+			if (Modifier.isPrivate(method.getModifiers())) {
+				if (method.getParameterTypes().length == 0 && method.getReturnType() == Void.TYPE) {
+					try {
 						method.setAccessible(true);
 						method.invoke(instance);
-					} catch (InvocationTargetException ex)
-					{
+					} catch (InvocationTargetException ex) {
 						throw Throwables.propagate(ex.getCause());
-					} catch (Exception ex)
-					{
+					} catch (Exception ex) {
 						Bukkit.getLogger().log(Level.SEVERE, "Error invoking " + method, ex);
 					}
 				}
 			}
 		}
 
-		try
-		{
+		try {
 			config.save(CONFIG_FILE);
-		} catch (IOException ex)
-		{
+		} catch (IOException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Could not save " + CONFIG_FILE, ex);
 		}
 	}
 
-	private static void set(String path, Object val)
-	{
+	private static void set(String path, Object val) {
 		config.set(path, val);
 	}
 
-	private static boolean getBoolean(String path, boolean def)
-	{
+	private static boolean getBoolean(String path, boolean def) {
 		config.addDefault(path, def);
 		return config.getBoolean(path, config.getBoolean(path));
 	}
 
-	private static double getDouble(String path, double def)
-	{
+	private static double getDouble(String path, double def) {
 		config.addDefault(path, def);
 		return config.getDouble(path, config.getDouble(path));
 	}
 
-	private static float getFloat(String path, float def)
-	{
+	private static float getFloat(String path, float def) {
 		config.addDefault(path, def);
 		return config.getFloat(path, config.getFloat(path));
 	}
 
-	private static int getInt(String path, int def)
-	{
+	private static int getInt(String path, int def) {
 		config.addDefault(path, def);
 		return config.getInt(path, config.getInt(path));
 	}
 
-	private static <T> List getList(String path, T def)
-	{
+	private static <T> List getList(String path, T def) {
 		config.addDefault(path, def);
 		return config.getList(path, config.getList(path));
 	}
 
-	private static String getString(String path, String def)
-	{
+	private static String getString(String path, String def) {
 		config.addDefault(path, def);
 		return config.getString(path, config.getString(path));
 	}

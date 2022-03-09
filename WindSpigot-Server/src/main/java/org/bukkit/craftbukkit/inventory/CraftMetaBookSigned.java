@@ -16,39 +16,30 @@ import net.minecraft.server.NBTTagList;
 import net.minecraft.server.NBTTagString;
 
 @DelegateDeserialization(SerializableMeta.class)
-class CraftMetaBookSigned extends CraftMetaBook implements BookMeta
-{
+class CraftMetaBookSigned extends CraftMetaBook implements BookMeta {
 
-	CraftMetaBookSigned(CraftMetaItem meta)
-	{
+	CraftMetaBookSigned(CraftMetaItem meta) {
 		super(meta);
 	}
 
-	CraftMetaBookSigned(NBTTagCompound tag)
-	{
+	CraftMetaBookSigned(NBTTagCompound tag) {
 		super(tag, false);
 
 		boolean resolved = true;
-		if (tag.hasKey(RESOLVED.NBT))
-		{
+		if (tag.hasKey(RESOLVED.NBT)) {
 			resolved = tag.getBoolean(RESOLVED.NBT);
 		}
 
-		if (tag.hasKey(BOOK_PAGES.NBT))
-		{
+		if (tag.hasKey(BOOK_PAGES.NBT)) {
 			NBTTagList pages = tag.getList(BOOK_PAGES.NBT, 8);
 
-			for (int i = 0; i < pages.size(); i++)
-			{
+			for (int i = 0; i < pages.size(); i++) {
 				String page = pages.getString(i);
-				if (resolved)
-				{
-					try
-					{
+				if (resolved) {
+					try {
 						this.pages.add(ChatSerializer.a(page));
 						continue;
-					} catch (Exception e)
-					{
+					} catch (Exception e) {
 						// Ignore and treat as an old book
 					}
 				}
@@ -57,63 +48,50 @@ class CraftMetaBookSigned extends CraftMetaBook implements BookMeta
 		}
 	}
 
-	CraftMetaBookSigned(Map<String, Object> map)
-	{
+	CraftMetaBookSigned(Map<String, Object> map) {
 		super(map);
 	}
 
 	@Override
-	void applyToItem(NBTTagCompound itemData)
-	{
+	void applyToItem(NBTTagCompound itemData) {
 		super.applyToItem(itemData, false);
 
-		if (hasTitle())
-		{
+		if (hasTitle()) {
 			itemData.setString(BOOK_TITLE.NBT, this.title);
-		} else
-		{
+		} else {
 			itemData.setString(BOOK_TITLE.NBT, " ");
 		}
 
-		if (hasAuthor())
-		{
+		if (hasAuthor()) {
 			itemData.setString(BOOK_AUTHOR.NBT, this.author);
-		} else
-		{
+		} else {
 			itemData.setString(BOOK_AUTHOR.NBT, " ");
 		}
 
-		if (hasPages())
-		{
+		if (hasPages()) {
 			NBTTagList list = new NBTTagList();
-			for (IChatBaseComponent page : pages)
-			{
+			for (IChatBaseComponent page : pages) {
 				list.add(new NBTTagString(ChatSerializer.a(page)));
 			}
 			itemData.set(BOOK_PAGES.NBT, list);
 		}
 		itemData.setBoolean(RESOLVED.NBT, true);
 
-		if (generation != null)
-		{
+		if (generation != null) {
 			itemData.setInt(GENERATION.NBT, generation);
-		} else
-		{
+		} else {
 			itemData.setInt(GENERATION.NBT, 0);
 		}
 	}
 
 	@Override
-	boolean isEmpty()
-	{
+	boolean isEmpty() {
 		return super.isEmpty();
 	}
 
 	@Override
-	boolean applicableTo(Material type)
-	{
-		switch (type)
-		{
+	boolean applicableTo(Material type) {
+		switch (type) {
 		case WRITTEN_BOOK:
 		case BOOK_AND_QUILL:
 			return true;
@@ -123,35 +101,30 @@ class CraftMetaBookSigned extends CraftMetaBook implements BookMeta
 	}
 
 	@Override
-	public CraftMetaBookSigned clone()
-	{
+	public CraftMetaBookSigned clone() {
 		CraftMetaBookSigned meta = (CraftMetaBookSigned) super.clone();
 		return meta;
 	}
 
 	@Override
-	int applyHash()
-	{
+	int applyHash() {
 		final int original;
 		int hash = original = super.applyHash();
 		return original != hash ? CraftMetaBookSigned.class.hashCode() ^ hash : hash;
 	}
 
 	@Override
-	boolean equalsCommon(CraftMetaItem meta)
-	{
+	boolean equalsCommon(CraftMetaItem meta) {
 		return super.equalsCommon(meta);
 	}
 
 	@Override
-	boolean notUncommon(CraftMetaItem meta)
-	{
+	boolean notUncommon(CraftMetaItem meta) {
 		return super.notUncommon(meta) && (meta instanceof CraftMetaBookSigned || isBookEmpty());
 	}
 
 	@Override
-	Builder<String, Object> serialize(Builder<String, Object> builder)
-	{
+	Builder<String, Object> serialize(Builder<String, Object> builder) {
 		super.serialize(builder);
 		return builder;
 	}

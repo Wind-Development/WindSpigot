@@ -1,24 +1,18 @@
 package net.minecraft.server;
 
-public class Path
-{
+public class Path {
 
 	private PathPoint[] a = new PathPoint[128]; // CraftBukkit - reduce default size
 	private int b;
 
-	public Path()
-	{
+	public Path() {
 	}
 
-	public PathPoint a(PathPoint pathpoint)
-	{
-		if (pathpoint.d >= 0)
-		{
+	public PathPoint a(PathPoint pathpoint) {
+		if (pathpoint.d >= 0) {
 			throw new IllegalStateException("OW KNOWS!");
-		} else
-		{
-			if (this.b == this.a.length)
-			{
+		} else {
+			if (this.b == this.a.length) {
 				PathPoint[] apathpoint = new PathPoint[this.b << 1];
 
 				System.arraycopy(this.a, 0, apathpoint, 0, this.b);
@@ -32,19 +26,16 @@ public class Path
 		}
 	}
 
-	public void a()
-	{
+	public void a() {
 		this.b = 0;
 	}
 
-	public PathPoint c()
-	{
+	public PathPoint c() {
 		PathPoint pathpoint = this.a[0];
 
 		this.a[0] = this.a[--this.b];
 		this.a[this.b] = null;
-		if (this.b > 0)
-		{
+		if (this.b > 0) {
 			this.b(0);
 		}
 
@@ -52,34 +43,28 @@ public class Path
 		return pathpoint;
 	}
 
-	public void a(PathPoint pathpoint, float f)
-	{
+	public void a(PathPoint pathpoint, float f) {
 		float f1 = pathpoint.g;
 
 		pathpoint.g = f;
-		if (f < f1)
-		{
+		if (f < f1) {
 			this.a(pathpoint.d);
-		} else
-		{
+		} else {
 			this.b(pathpoint.d);
 		}
 
 	}
 
-	private void a(int i)
-	{
+	private void a(int i) {
 		PathPoint pathpoint = this.a[i];
 
 		int j;
 
-		for (float f = pathpoint.g; i > 0; i = j)
-		{
+		for (float f = pathpoint.g; i > 0; i = j) {
 			j = i - 1 >> 1;
 			PathPoint pathpoint1 = this.a[j];
 
-			if (f >= pathpoint1.g)
-			{
+			if (f >= pathpoint1.g) {
 				break;
 			}
 
@@ -91,18 +76,15 @@ public class Path
 		pathpoint.d = i;
 	}
 
-	private void b(int i)
-	{
+	private void b(int i) {
 		PathPoint pathpoint = this.a[i];
 		float f = pathpoint.g;
 
-		while (true)
-		{
+		while (true) {
 			int j = 1 + (i << 1);
 			int k = j + 1;
 
-			if (j >= this.b)
-			{
+			if (j >= this.b) {
 				break;
 			}
 
@@ -111,30 +93,24 @@ public class Path
 			PathPoint pathpoint2;
 			float f2;
 
-			if (k >= this.b)
-			{
+			if (k >= this.b) {
 				pathpoint2 = null;
 				f2 = Float.POSITIVE_INFINITY;
-			} else
-			{
+			} else {
 				pathpoint2 = this.a[k];
 				f2 = pathpoint2.g;
 			}
 
-			if (f1 < f2)
-			{
-				if (f1 >= f)
-				{
+			if (f1 < f2) {
+				if (f1 >= f) {
 					break;
 				}
 
 				this.a[i] = pathpoint1;
 				pathpoint1.d = i;
 				i = j;
-			} else
-			{
-				if (f2 >= f)
-				{
+			} else {
+				if (f2 >= f) {
 					break;
 				}
 
@@ -148,8 +124,7 @@ public class Path
 		pathpoint.d = i;
 	}
 
-	public boolean e()
-	{
+	public boolean e() {
 		return this.b == 0;
 	}
 }

@@ -39,31 +39,26 @@ import net.minecraft.server.MathHelper;
 import net.minecraft.server.SourceBlock;
 import net.minecraft.server.TileEntityDispenser;
 
-public class CraftBlockProjectileSource implements BlockProjectileSource
-{
+public class CraftBlockProjectileSource implements BlockProjectileSource {
 	private final TileEntityDispenser dispenserBlock;
 
-	public CraftBlockProjectileSource(TileEntityDispenser dispenserBlock)
-	{
+	public CraftBlockProjectileSource(TileEntityDispenser dispenserBlock) {
 		this.dispenserBlock = dispenserBlock;
 	}
 
 	@Override
-	public Block getBlock()
-	{
+	public Block getBlock() {
 		return dispenserBlock.getWorld().getWorld().getBlockAt(dispenserBlock.getPosition().getX(),
 				dispenserBlock.getPosition().getY(), dispenserBlock.getPosition().getZ());
 	}
 
 	@Override
-	public <T extends Projectile> T launchProjectile(Class<? extends T> projectile)
-	{
+	public <T extends Projectile> T launchProjectile(Class<? extends T> projectile) {
 		return launchProjectile(projectile, null);
 	}
 
 	@Override
-	public <T extends Projectile> T launchProjectile(Class<? extends T> projectile, Vector velocity)
-	{
+	public <T extends Projectile> T launchProjectile(Class<? extends T> projectile, Vector velocity) {
 		Validate.isTrue(getBlock().getType() == Material.DISPENSER, "Block is no longer dispenser");
 		// Copied from BlockDispenser.dispense()
 		SourceBlock isourceblock = new SourceBlock(dispenserBlock.getWorld(), dispenserBlock.getPosition());
@@ -73,30 +68,23 @@ public class CraftBlockProjectileSource implements BlockProjectileSource
 		net.minecraft.server.World world = dispenserBlock.getWorld();
 		net.minecraft.server.Entity launch = null;
 
-		if (Snowball.class.isAssignableFrom(projectile))
-		{
+		if (Snowball.class.isAssignableFrom(projectile)) {
 			launch = new EntitySnowball(world, iposition.getX(), iposition.getY(), iposition.getZ());
-		} else if (Egg.class.isAssignableFrom(projectile))
-		{
+		} else if (Egg.class.isAssignableFrom(projectile)) {
 			launch = new EntityEgg(world, iposition.getX(), iposition.getY(), iposition.getZ());
-		} else if (EnderPearl.class.isAssignableFrom(projectile))
-		{
+		} else if (EnderPearl.class.isAssignableFrom(projectile)) {
 			launch = new EntityEnderPearl(world, null);
 			launch.setPosition(iposition.getX(), iposition.getY(), iposition.getZ());
-		} else if (ThrownExpBottle.class.isAssignableFrom(projectile))
-		{
+		} else if (ThrownExpBottle.class.isAssignableFrom(projectile)) {
 			launch = new EntityThrownExpBottle(world, iposition.getX(), iposition.getY(), iposition.getZ());
-		} else if (ThrownPotion.class.isAssignableFrom(projectile))
-		{
+		} else if (ThrownPotion.class.isAssignableFrom(projectile)) {
 			launch = new EntityPotion(world, iposition.getX(), iposition.getY(), iposition.getZ(),
 					CraftItemStack.asNMSCopy(new ItemStack(Material.POTION, 1)));
-		} else if (Arrow.class.isAssignableFrom(projectile))
-		{
+		} else if (Arrow.class.isAssignableFrom(projectile)) {
 			launch = new EntityArrow(world, iposition.getX(), iposition.getY(), iposition.getZ());
 			((EntityArrow) launch).fromPlayer = 1;
 			((EntityArrow) launch).projectileSource = this;
-		} else if (Fireball.class.isAssignableFrom(projectile))
-		{
+		} else if (Fireball.class.isAssignableFrom(projectile)) {
 			double d0 = iposition.getX() + enumdirection.getAdjacentX() * 0.3F;
 			double d1 = iposition.getY() + enumdirection.getAdjacentY() * 0.3F;
 			double d2 = iposition.getZ() + enumdirection.getAdjacentZ() * 0.3F;
@@ -105,11 +93,9 @@ public class CraftBlockProjectileSource implements BlockProjectileSource
 			double d4 = random.nextGaussian() * 0.05D + enumdirection.getAdjacentY();
 			double d5 = random.nextGaussian() * 0.05D + enumdirection.getAdjacentZ();
 
-			if (SmallFireball.class.isAssignableFrom(projectile))
-			{
+			if (SmallFireball.class.isAssignableFrom(projectile)) {
 				launch = new EntitySmallFireball(world, d0, d1, d2, d3, d4, d5);
-			} else if (WitherSkull.class.isAssignableFrom(projectile))
-			{
+			} else if (WitherSkull.class.isAssignableFrom(projectile)) {
 				launch = new EntityWitherSkull(world);
 				launch.setPosition(d0, d1, d2);
 				double d6 = MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
@@ -117,8 +103,7 @@ public class CraftBlockProjectileSource implements BlockProjectileSource
 				((EntityFireball) launch).dirX = d3 / d6 * 0.1D;
 				((EntityFireball) launch).dirY = d4 / d6 * 0.1D;
 				((EntityFireball) launch).dirZ = d5 / d6 * 0.1D;
-			} else
-			{
+			} else {
 				launch = new EntityLargeFireball(world);
 				launch.setPosition(d0, d1, d2);
 				double d6 = MathHelper.sqrt(d3 * d3 + d4 * d4 + d5 * d5);
@@ -133,17 +118,14 @@ public class CraftBlockProjectileSource implements BlockProjectileSource
 
 		Validate.notNull(launch, "Projectile not supported");
 
-		if (launch instanceof IProjectile)
-		{
-			if (launch instanceof EntityProjectile)
-			{
+		if (launch instanceof IProjectile) {
+			if (launch instanceof EntityProjectile) {
 				((EntityProjectile) launch).projectileSource = this;
 			}
 			// Values from DispenseBehaviorProjectile
 			float a = 6.0F;
 			float b = 1.1F;
-			if (launch instanceof EntityPotion || launch instanceof ThrownExpBottle)
-			{
+			if (launch instanceof EntityPotion || launch instanceof ThrownExpBottle) {
 				// Values from respective DispenseBehavior classes
 				a *= 0.5F;
 				b *= 1.25F;
@@ -153,8 +135,7 @@ public class CraftBlockProjectileSource implements BlockProjectileSource
 					enumdirection.getAdjacentZ(), b, a);
 		}
 
-		if (velocity != null)
-		{
+		if (velocity != null) {
 			((T) launch.getBukkitEntity()).setVelocity(velocity);
 		}
 

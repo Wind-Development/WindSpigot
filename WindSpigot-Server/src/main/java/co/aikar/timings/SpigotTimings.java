@@ -8,8 +8,7 @@ import net.minecraft.server.Block;
 import net.minecraft.server.Entity;
 import net.minecraft.server.TileEntity;
 
-public final class SpigotTimings
-{
+public final class SpigotTimings {
 
 	public static final Timing playerListTimer = Timings.ofSafe("Player List");
 	public static final Timing connectionTimer = Timings.ofSafe("Connection Handler");
@@ -34,8 +33,7 @@ public final class SpigotTimings
 	public static final Timing antiXrayUpdateTimer = Timings.ofSafe("anti-xray - update");
 	public static final Timing antiXrayObfuscateTimer = Timings.ofSafe("anti-xray - obfuscate");
 
-	private SpigotTimings()
-	{
+	private SpigotTimings() {
 	}
 
 	/**
@@ -45,10 +43,8 @@ public final class SpigotTimings
 	 * @param period
 	 * @return
 	 */
-	public static Timing getPluginTaskTimings(BukkitTask bukkitTask, long period)
-	{
-		if (!bukkitTask.isSync())
-		{
+	public static Timing getPluginTaskTimings(BukkitTask bukkitTask, long period) {
+		if (!bukkitTask.isSync()) {
 			return null;
 		}
 		Plugin plugin;
@@ -56,34 +52,27 @@ public final class SpigotTimings
 		Runnable task = ((CraftTask) bukkitTask).task;
 
 		final Class<? extends Runnable> taskClass = task.getClass();
-		if (bukkitTask.getOwner() != null)
-		{
+		if (bukkitTask.getOwner() != null) {
 			plugin = bukkitTask.getOwner();
-		} else
-		{
+		} else {
 			plugin = TimingsManager.getPluginByClassloader(taskClass);
 		}
 
 		final String taskname;
-		if (taskClass.isAnonymousClass())
-		{
+		if (taskClass.isAnonymousClass()) {
 			taskname = taskClass.getName();
-		} else
-		{
+		} else {
 			taskname = taskClass.getCanonicalName();
 		}
 
 		String name = "Task: " + taskname;
-		if (period > 0)
-		{
+		if (period > 0) {
 			name += " (interval:" + period + ")";
-		} else
-		{
+		} else {
 			name += " (Single)";
 		}
 
-		if (plugin == null)
-		{
+		if (plugin == null) {
 			return Timings.ofSafe(null, name, TimingsManager.PLUGIN_GROUP_HANDLER);
 		}
 
@@ -97,8 +86,7 @@ public final class SpigotTimings
 	 * @param entity
 	 * @return
 	 */
-	public static Timing getEntityTimings(Entity entity)
-	{
+	public static Timing getEntityTimings(Entity entity) {
 		String entityType = entity.getClass().getName();
 		return Timings.ofSafe("Minecraft", "## tickEntity - " + entityType, tickEntityTimer);
 	}
@@ -110,29 +98,24 @@ public final class SpigotTimings
 	 * @param entity
 	 * @return
 	 */
-	public static Timing getTileEntityTimings(TileEntity entity)
-	{
+	public static Timing getTileEntityTimings(TileEntity entity) {
 		String entityType = entity.getClass().getName();
 		return Timings.ofSafe("Minecraft", "## tickTileEntity - " + entityType, tickTileEntityTimer);
 	}
 
-	public static Timing getCancelTasksTimer()
-	{
+	public static Timing getCancelTasksTimer() {
 		return Timings.ofSafe("Cancel Tasks");
 	}
 
-	public static Timing getCancelTasksTimer(Plugin plugin)
-	{
+	public static Timing getCancelTasksTimer(Plugin plugin) {
 		return Timings.ofSafe(plugin, "Cancel Tasks");
 	}
 
-	public static void stopServer()
-	{
+	public static void stopServer() {
 		TimingsManager.stopServer();
 	}
 
-	public static Timing getBlockTiming(Block block)
-	{
+	public static Timing getBlockTiming(Block block) {
 		return Timings.ofSafe("## Scheduled Block: " + block.getName());
 	}
 }

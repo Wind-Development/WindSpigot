@@ -35,8 +35,7 @@ import net.minecraft.server.Item;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.TileEntitySkull;
 
-public class CraftBlock implements Block
-{
+public class CraftBlock implements Block {
 	private final CraftChunk chunk;
 	private final int x;
 	private final int y;
@@ -44,41 +43,34 @@ public class CraftBlock implements Block
 	private static final Biome BIOME_MAPPING[];
 	private static final BiomeBase BIOMEBASE_MAPPING[];
 
-	public CraftBlock(CraftChunk chunk, int x, int y, int z)
-	{
+	public CraftBlock(CraftChunk chunk, int x, int y, int z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.chunk = chunk;
 	}
 
-	private net.minecraft.server.Block getNMSBlock()
-	{
+	private net.minecraft.server.Block getNMSBlock() {
 		return CraftMagicNumbers.getBlock(this); // TODO: UPDATE THIS
 	}
 
-	private static net.minecraft.server.Block getNMSBlock(int type)
-	{
+	private static net.minecraft.server.Block getNMSBlock(int type) {
 		return CraftMagicNumbers.getBlock(type);
 	}
 
 	@Override
-	public World getWorld()
-	{
+	public World getWorld() {
 		return chunk.getWorld();
 	}
 
 	@Override
-	public Location getLocation()
-	{
+	public Location getLocation() {
 		return new Location(getWorld(), x, y, z);
 	}
 
 	@Override
-	public Location getLocation(Location loc)
-	{
-		if (loc != null)
-		{
+	public Location getLocation(Location loc) {
+		if (loc != null) {
 			loc.setWorld(getWorld());
 			loc.setX(x);
 			loc.setY(y);
@@ -90,55 +82,45 @@ public class CraftBlock implements Block
 		return loc;
 	}
 
-	public BlockVector getVector()
-	{
+	public BlockVector getVector() {
 		return new BlockVector(x, y, z);
 	}
 
 	@Override
-	public int getX()
-	{
+	public int getX() {
 		return x;
 	}
 
 	@Override
-	public int getY()
-	{
+	public int getY() {
 		return y;
 	}
 
 	@Override
-	public int getZ()
-	{
+	public int getZ() {
 		return z;
 	}
 
 	@Override
-	public Chunk getChunk()
-	{
+	public Chunk getChunk() {
 		return chunk;
 	}
 
 	@Override
-	public void setData(final byte data)
-	{
+	public void setData(final byte data) {
 		setData(data, 3);
 	}
 
 	@Override
-	public void setData(final byte data, boolean applyPhysics)
-	{
-		if (applyPhysics)
-		{
+	public void setData(final byte data, boolean applyPhysics) {
+		if (applyPhysics) {
 			setData(data, 3);
-		} else
-		{
+		} else {
 			setData(data, 2);
 		}
 	}
 
-	private void setData(final byte data, int flag)
-	{
+	private void setData(final byte data, int flag) {
 		net.minecraft.server.World world = chunk.getHandle().getWorld();
 		BlockPosition position = new BlockPosition(x, y, z);
 		IBlockData blockData = world.getType(position);
@@ -146,70 +128,58 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public byte getData()
-	{
+	public byte getData() {
 		IBlockData blockData = chunk.getHandle().getBlockData(new BlockPosition(x, y, z));
 		return (byte) blockData.getBlock().toLegacyData(blockData);
 	}
 
 	@Override
-	public void setType(final Material type)
-	{
+	public void setType(final Material type) {
 		setType(type, true);
 	}
 
 	@Override
-	public void setType(Material type, boolean applyPhysics)
-	{
+	public void setType(Material type, boolean applyPhysics) {
 		setTypeId(type.getId(), applyPhysics, true);
 	}
 
 	@Override
-	public void setType(Material type, boolean applyPhysics, boolean updateLight)
-	{
+	public void setType(Material type, boolean applyPhysics, boolean updateLight) {
 		setTypeId(type.getId(), applyPhysics, updateLight);
 	}
 
 	@Override
-	public boolean setTypeId(final int type)
-	{
+	public boolean setTypeId(final int type) {
 		return setTypeId(type, true);
 	}
 
 	@Override
-	public boolean setTypeId(final int type, final boolean applyPhysics)
-	{
+	public boolean setTypeId(final int type, final boolean applyPhysics) {
 		return setTypeId(type, applyPhysics, true);
 	}
 
 	@Override
-	public boolean setTypeIdAndData(final int type, final byte data, final boolean applyPhysics)
-	{
+	public boolean setTypeIdAndData(final int type, final byte data, final boolean applyPhysics) {
 		return setTypeIdAndData(type, data, applyPhysics, true);
 	}
 
-	public boolean setTypeId(final int type, final boolean applyPhysics, boolean updateLight)
-	{
+	public boolean setTypeId(final int type, final boolean applyPhysics, boolean updateLight) {
 		net.minecraft.server.Block block = getNMSBlock(type);
 		return setTypeIdAndData(type, (byte) block.toLegacyData(block.getBlockData()), applyPhysics, updateLight);
 	}
 
-	public boolean setTypeIdAndData(final int type, final byte data, final boolean applyPhysics, boolean updateLight)
-	{ // KigPaper
-		// -
-		// add
-		// updateLight
-		// param
+	public boolean setTypeIdAndData(final int type, final byte data, final boolean applyPhysics, boolean updateLight) { // KigPaper
+																														// -
+																														// add
+																														// updateLight
+																														// param
 		IBlockData blockData = getNMSBlock(type).fromLegacyData(data);
 		BlockPosition position = new BlockPosition(x, y, z);
-		if (applyPhysics)
-		{
+		if (applyPhysics) {
 			return chunk.getHandle().getWorld().setTypeAndData(position, blockData, 3, updateLight);
-		} else
-		{
+		} else {
 			boolean success = chunk.getHandle().getWorld().setTypeAndData(position, blockData, 2, updateLight);
-			if (success)
-			{
+			if (success) {
 				chunk.getHandle().getWorld().notify(position);
 			}
 			return success;
@@ -217,74 +187,61 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public Material getType()
-	{
+	public Material getType() {
 		return Material.getMaterial(getTypeId());
 	}
 
 	@Deprecated
 	@Override
-	public int getTypeId()
-	{
+	public int getTypeId() {
 		return CraftMagicNumbers.getId(chunk.getHandle().getType(new BlockPosition(this.x, this.y, this.z)));
 	}
 
 	@Override
-	public byte getLightLevel()
-	{
+	public byte getLightLevel() {
 		return (byte) chunk.getHandle().getWorld().getLightLevel(new BlockPosition(this.x, this.y, this.z));
 	}
 
 	@Override
-	public byte getLightFromSky()
-	{
+	public byte getLightFromSky() {
 		return (byte) chunk.getHandle().getBrightness(EnumSkyBlock.SKY, new BlockPosition(this.x, this.y, this.z));
 	}
 
 	@Override
-	public byte getLightFromBlocks()
-	{
+	public byte getLightFromBlocks() {
 		return (byte) chunk.getHandle().getBrightness(EnumSkyBlock.BLOCK, new BlockPosition(this.x, this.y, this.z));
 	}
 
-	public Block getFace(final BlockFace face)
-	{
+	public Block getFace(final BlockFace face) {
 		return getRelative(face, 1);
 	}
 
-	public Block getFace(final BlockFace face, final int distance)
-	{
+	public Block getFace(final BlockFace face, final int distance) {
 		return getRelative(face, distance);
 	}
 
 	@Override
-	public Block getRelative(final int modX, final int modY, final int modZ)
-	{
+	public Block getRelative(final int modX, final int modY, final int modZ) {
 		return getWorld().getBlockAt(getX() + modX, getY() + modY, getZ() + modZ);
 	}
 
 	@Override
-	public Block getRelative(BlockFace face)
-	{
+	public Block getRelative(BlockFace face) {
 		return getRelative(face, 1);
 	}
 
 	@Override
-	public Block getRelative(BlockFace face, int distance)
-	{
+	public Block getRelative(BlockFace face, int distance) {
 		return getRelative(face.getModX() * distance, face.getModY() * distance, face.getModZ() * distance);
 	}
 
 	@Override
-	public BlockFace getFace(final Block block)
-	{
+	public BlockFace getFace(final Block block) {
 		BlockFace[] values = BlockFace.values();
 
-		for (BlockFace face : values)
-		{
+		for (BlockFace face : values) {
 			if ((this.getX() + face.getModX() == block.getX()) && (this.getY() + face.getModY() == block.getY())
-					&& (this.getZ() + face.getModZ() == block.getZ()))
-			{
+					&& (this.getZ() + face.getModZ() == block.getZ())) {
 				return face;
 			}
 		}
@@ -293,20 +250,16 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftBlock{" + "chunk=" + chunk + ",x=" + x + ",y=" + y + ",z=" + z + ",type=" + getType() + ",data="
 				+ getData() + '}';
 	}
 
-	public static BlockFace notchToBlockFace(EnumDirection notch)
-	{
-		if (notch == null)
-		{
+	public static BlockFace notchToBlockFace(EnumDirection notch) {
+		if (notch == null) {
 			return BlockFace.SELF;
 		}
-		switch (notch)
-		{
+		switch (notch) {
 		case DOWN:
 			return BlockFace.DOWN;
 		case UP:
@@ -324,10 +277,8 @@ public class CraftBlock implements Block
 		}
 	}
 
-	public static EnumDirection blockFaceToNotch(BlockFace face)
-	{
-		switch (face)
-		{
+	public static EnumDirection blockFaceToNotch(BlockFace face) {
+		switch (face) {
 		case DOWN:
 			return EnumDirection.DOWN;
 		case UP:
@@ -346,12 +297,10 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public BlockState getState()
-	{
+	public BlockState getState() {
 		Material material = getType();
 
-		switch (material)
-		{
+		switch (material) {
 		case SIGN:
 		case SIGN_POST:
 		case WALL_SIGN:
@@ -392,69 +341,56 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public Biome getBiome()
-	{
+	public Biome getBiome() {
 		return getWorld().getBiome(x, z);
 	}
 
 	@Override
-	public void setBiome(Biome bio)
-	{
+	public void setBiome(Biome bio) {
 		getWorld().setBiome(x, z, bio);
 	}
 
-	public static Biome biomeBaseToBiome(BiomeBase base)
-	{
-		if (base == null)
-		{
+	public static Biome biomeBaseToBiome(BiomeBase base) {
+		if (base == null) {
 			return null;
 		}
 
 		return BIOME_MAPPING[base.id];
 	}
 
-	public static BiomeBase biomeToBiomeBase(Biome bio)
-	{
-		if (bio == null)
-		{
+	public static BiomeBase biomeToBiomeBase(Biome bio) {
+		if (bio == null) {
 			return null;
 		}
 		return BIOMEBASE_MAPPING[bio.ordinal()];
 	}
 
 	@Override
-	public double getTemperature()
-	{
+	public double getTemperature() {
 		return getWorld().getTemperature(x, z);
 	}
 
 	@Override
-	public double getHumidity()
-	{
+	public double getHumidity() {
 		return getWorld().getHumidity(x, z);
 	}
 
 	@Override
-	public boolean isBlockPowered()
-	{
+	public boolean isBlockPowered() {
 		return chunk.getHandle().getWorld().getBlockPower(new BlockPosition(x, y, z)) > 0;
 	}
 
 	@Override
-	public boolean isBlockIndirectlyPowered()
-	{
+	public boolean isBlockIndirectlyPowered() {
 		return chunk.getHandle().getWorld().isBlockIndirectlyPowered(new BlockPosition(x, y, z));
 	}
 
 	@Override
-	public boolean equals(Object o)
-	{
-		if (o == this)
-		{
+	public boolean equals(Object o) {
+		if (o == this) {
 			return true;
 		}
-		if (!(o instanceof CraftBlock))
-		{
+		if (!(o instanceof CraftBlock)) {
 			return false;
 		}
 		CraftBlock other = (CraftBlock) o;
@@ -463,25 +399,21 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return this.y << 24 ^ this.x ^ this.z ^ this.getWorld().hashCode();
 	}
 
 	@Override
-	public boolean isBlockFacePowered(BlockFace face)
-	{
+	public boolean isBlockFacePowered(BlockFace face) {
 		return chunk.getHandle().getWorld().isBlockFacePowered(new BlockPosition(x, y, z), blockFaceToNotch(face));
 	}
 
 	@Override
-	public boolean isBlockFaceIndirectlyPowered(BlockFace face)
-	{
+	public boolean isBlockFaceIndirectlyPowered(BlockFace face) {
 		int power = chunk.getHandle().getWorld().getBlockFacePower(new BlockPosition(x, y, z), blockFaceToNotch(face));
 
 		Block relative = getRelative(face);
-		if (relative.getType() == Material.REDSTONE_WIRE)
-		{
+		if (relative.getType() == Material.REDSTONE_WIRE) {
 			return Math.max(power, relative.getData()) > 0;
 		}
 
@@ -489,39 +421,32 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public int getBlockPower(BlockFace face)
-	{
+	public int getBlockPower(BlockFace face) {
 		int power = 0;
 		BlockRedstoneWire wire = Blocks.REDSTONE_WIRE;
 		net.minecraft.server.World world = chunk.getHandle().getWorld();
 		if ((face == BlockFace.DOWN || face == BlockFace.SELF)
-				&& world.isBlockFacePowered(new BlockPosition(x, y - 1, z), EnumDirection.DOWN))
-		{
+				&& world.isBlockFacePowered(new BlockPosition(x, y - 1, z), EnumDirection.DOWN)) {
 			power = wire.getPower(world, new BlockPosition(x, y - 1, z), power);
 		}
 		if ((face == BlockFace.UP || face == BlockFace.SELF)
-				&& world.isBlockFacePowered(new BlockPosition(x, y + 1, z), EnumDirection.UP))
-		{
+				&& world.isBlockFacePowered(new BlockPosition(x, y + 1, z), EnumDirection.UP)) {
 			power = wire.getPower(world, new BlockPosition(x, y + 1, z), power);
 		}
 		if ((face == BlockFace.EAST || face == BlockFace.SELF)
-				&& world.isBlockFacePowered(new BlockPosition(x + 1, y, z), EnumDirection.EAST))
-		{
+				&& world.isBlockFacePowered(new BlockPosition(x + 1, y, z), EnumDirection.EAST)) {
 			power = wire.getPower(world, new BlockPosition(x + 1, y, z), power);
 		}
 		if ((face == BlockFace.WEST || face == BlockFace.SELF)
-				&& world.isBlockFacePowered(new BlockPosition(x - 1, y, z), EnumDirection.WEST))
-		{
+				&& world.isBlockFacePowered(new BlockPosition(x - 1, y, z), EnumDirection.WEST)) {
 			power = wire.getPower(world, new BlockPosition(x - 1, y, z), power);
 		}
 		if ((face == BlockFace.NORTH || face == BlockFace.SELF)
-				&& world.isBlockFacePowered(new BlockPosition(x, y, z - 1), EnumDirection.NORTH))
-		{
+				&& world.isBlockFacePowered(new BlockPosition(x, y, z - 1), EnumDirection.NORTH)) {
 			power = wire.getPower(world, new BlockPosition(x, y, z - 1), power);
 		}
 		if ((face == BlockFace.SOUTH || face == BlockFace.SELF)
-				&& world.isBlockFacePowered(new BlockPosition(x, y, z + 1), EnumDirection.SOUTH))
-		{
+				&& world.isBlockFacePowered(new BlockPosition(x, y, z + 1), EnumDirection.SOUTH)) {
 			power = wire.getPower(world, new BlockPosition(x, y, z - 1), power);
 		}
 		return power > 0 ? power
@@ -529,32 +454,27 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public int getBlockPower()
-	{
+	public int getBlockPower() {
 		return getBlockPower(BlockFace.SELF);
 	}
 
 	@Override
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		return getType() == Material.AIR;
 	}
 
 	@Override
-	public boolean isLiquid()
-	{
+	public boolean isLiquid() {
 		return (getType() == Material.WATER) || (getType() == Material.STATIONARY_WATER) || (getType() == Material.LAVA)
 				|| (getType() == Material.STATIONARY_LAVA);
 	}
 
 	@Override
-	public PistonMoveReaction getPistonMoveReaction()
-	{
+	public PistonMoveReaction getPistonMoveReaction() {
 		return PistonMoveReaction.getById(getNMSBlock().getMaterial().getPushReaction());
 	}
 
-	private boolean itemCausesDrops(ItemStack item)
-	{
+	private boolean itemCausesDrops(ItemStack item) {
 		net.minecraft.server.Block block = this.getNMSBlock();
 		net.minecraft.server.Item itemType = item != null ? net.minecraft.server.Item.getById(item.getTypeId()) : null;
 		return block != null && (block.getMaterial().isAlwaysDestroyable()
@@ -562,16 +482,14 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public boolean breakNaturally()
-	{
+	public boolean breakNaturally() {
 		// Order matters here, need to drop before setting to air so skulls can get
 		// their data
 		net.minecraft.server.Block block = this.getNMSBlock();
 		byte data = getData();
 		boolean result = false;
 
-		if (block != null && block != Blocks.AIR)
-		{
+		if (block != null && block != Blocks.AIR) {
 			block.dropNaturally(chunk.getHandle().getWorld(), new BlockPosition(x, y, z), block.fromLegacyData(data),
 					1.0F, 0);
 			result = true;
@@ -582,43 +500,34 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public boolean breakNaturally(ItemStack item)
-	{
-		if (itemCausesDrops(item))
-		{
+	public boolean breakNaturally(ItemStack item) {
+		if (itemCausesDrops(item)) {
 			return breakNaturally();
-		} else
-		{
+		} else {
 			return setTypeId(Material.AIR.getId());
 		}
 	}
 
 	@Override
-	public Collection<ItemStack> getDrops()
-	{
+	public Collection<ItemStack> getDrops() {
 		List<ItemStack> drops = new ArrayList<ItemStack>();
 
 		net.minecraft.server.Block block = this.getNMSBlock();
-		if (block != Blocks.AIR)
-		{
+		if (block != Blocks.AIR) {
 			byte data = getData();
 			// based on nms.Block.dropNaturally
 			int count = block.getDropCount(0, chunk.getHandle().getWorld().random);
-			for (int i = 0; i < count; ++i)
-			{
+			for (int i = 0; i < count; ++i) {
 				Item item = block.getDropType(block.fromLegacyData(data), chunk.getHandle().getWorld().random, 0);
-				if (item != null)
-				{
+				if (item != null) {
 					// Skulls are special, their data is based on the tile entity
-					if (Blocks.SKULL == block)
-					{
+					if (Blocks.SKULL == block) {
 						net.minecraft.server.ItemStack nmsStack = new net.minecraft.server.ItemStack(item, 1,
 								block.getDropData(chunk.getHandle().getWorld(), new BlockPosition(x, y, z)));
 						TileEntitySkull tileentityskull = (TileEntitySkull) chunk.getHandle().getWorld()
 								.getTileEntity(new BlockPosition(x, y, z));
 
-						if (tileentityskull.getSkullType() == 3 && tileentityskull.getGameProfile() != null)
-						{
+						if (tileentityskull.getSkullType() == 3 && tileentityskull.getGameProfile() != null) {
 							nmsStack.setTag(new NBTTagCompound());
 							NBTTagCompound nbttagcompound = new NBTTagCompound();
 
@@ -628,16 +537,13 @@ public class CraftBlock implements Block
 
 						drops.add(CraftItemStack.asBukkitCopy(nmsStack));
 						// We don't want to drop cocoa blocks, we want to drop cocoa beans.
-					} else if (Blocks.COCOA == block)
-					{
+					} else if (Blocks.COCOA == block) {
 						int age = block.fromLegacyData(data).get(BlockCocoa.AGE);
 						int dropAmount = (age >= 2 ? 3 : 1);
-						for (int j = 0; j < dropAmount; ++j)
-						{
+						for (int j = 0; j < dropAmount; ++j) {
 							drops.add(new ItemStack(Material.INK_SACK, 1, (short) 3));
 						}
-					} else
-					{
+					} else {
 						drops.add(new ItemStack(org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(item), 1,
 								(short) block.getDropData(block.fromLegacyData(data))));
 					}
@@ -648,20 +554,16 @@ public class CraftBlock implements Block
 	}
 
 	@Override
-	public Collection<ItemStack> getDrops(ItemStack item)
-	{
-		if (itemCausesDrops(item))
-		{
+	public Collection<ItemStack> getDrops(ItemStack item) {
+		if (itemCausesDrops(item)) {
 			return getDrops();
-		} else
-		{
+		} else {
 			return Collections.emptyList();
 		}
 	}
 
 	/* Build biome index based lookup table for BiomeBase to Biome mapping */
-	static
-	{
+	static {
 		BIOME_MAPPING = new Biome[BiomeBase.getBiomes().length];
 		BIOMEBASE_MAPPING = new BiomeBase[Biome.values().length];
 		BIOME_MAPPING[BiomeBase.OCEAN.id] = Biome.OCEAN;
@@ -735,41 +637,34 @@ public class CraftBlock implements Block
 		/*
 		 * Helps avoid missed biomes when we upgrade bukkit to new code with new biomes
 		 */
-		for (int i = 0; i < BIOME_MAPPING.length; i++)
-		{
-			if ((BiomeBase.getBiome(i) != null) && (BIOME_MAPPING[i] == null))
-			{
+		for (int i = 0; i < BIOME_MAPPING.length; i++) {
+			if ((BiomeBase.getBiome(i) != null) && (BIOME_MAPPING[i] == null)) {
 				throw new IllegalArgumentException(
 						"Missing Biome mapping for BiomeBase[" + i + ", " + BiomeBase.getBiome(i) + "]");
 			}
-			if (BIOME_MAPPING[i] != null)
-			{ /* Build reverse mapping for setBiome */
+			if (BIOME_MAPPING[i] != null) { /* Build reverse mapping for setBiome */
 				BIOMEBASE_MAPPING[BIOME_MAPPING[i].ordinal()] = BiomeBase.getBiome(i);
 			}
 		}
 	}
 
 	@Override
-	public void setMetadata(String metadataKey, MetadataValue newMetadataValue)
-	{
+	public void setMetadata(String metadataKey, MetadataValue newMetadataValue) {
 		chunk.getCraftWorld().getBlockMetadata().setMetadata(this, metadataKey, newMetadataValue);
 	}
 
 	@Override
-	public List<MetadataValue> getMetadata(String metadataKey)
-	{
+	public List<MetadataValue> getMetadata(String metadataKey) {
 		return chunk.getCraftWorld().getBlockMetadata().getMetadata(this, metadataKey);
 	}
 
 	@Override
-	public boolean hasMetadata(String metadataKey)
-	{
+	public boolean hasMetadata(String metadataKey) {
 		return chunk.getCraftWorld().getBlockMetadata().hasMetadata(this, metadataKey);
 	}
 
 	@Override
-	public void removeMetadata(String metadataKey, Plugin owningPlugin)
-	{
+	public void removeMetadata(String metadataKey, Plugin owningPlugin) {
 		chunk.getCraftWorld().getBlockMetadata().removeMetadata(this, metadataKey, owningPlugin);
 	}
 }

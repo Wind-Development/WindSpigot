@@ -2,13 +2,11 @@ package net.minecraft.server;
 
 import java.util.Random;
 
-public class EntitySilverfish extends EntityMonster
-{
+public class EntitySilverfish extends EntityMonster {
 
 	private EntitySilverfish.PathfinderGoalSilverfishWakeOthers a;
 
-	public EntitySilverfish(World world)
-	{
+	public EntitySilverfish(World world) {
 		super(world);
 		this.setSize(0.4F, 0.3F);
 		this.goalSelector.a(1, new PathfinderGoalFloat(this));
@@ -20,20 +18,17 @@ public class EntitySilverfish extends EntityMonster
 	}
 
 	@Override
-	public double am()
-	{
+	public double am() {
 		return 0.2D;
 	}
 
 	@Override
-	public float getHeadHeight()
-	{
+	public float getHeadHeight() {
 		return 0.1F;
 	}
 
 	@Override
-	protected void initAttributes()
-	{
+	protected void initAttributes() {
 		super.initAttributes();
 		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(8.0D);
 		this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.25D);
@@ -41,39 +36,31 @@ public class EntitySilverfish extends EntityMonster
 	}
 
 	@Override
-	protected boolean s_()
-	{
+	protected boolean s_() {
 		return false;
 	}
 
 	@Override
-	protected String z()
-	{
+	protected String z() {
 		return "mob.silverfish.say";
 	}
 
 	@Override
-	protected String bo()
-	{
+	protected String bo() {
 		return "mob.silverfish.hit";
 	}
 
 	@Override
-	protected String bp()
-	{
+	protected String bp() {
 		return "mob.silverfish.kill";
 	}
 
 	@Override
-	public boolean damageEntity(DamageSource damagesource, float f)
-	{
-		if (this.isInvulnerable(damagesource))
-		{
+	public boolean damageEntity(DamageSource damagesource, float f) {
+		if (this.isInvulnerable(damagesource)) {
 			return false;
-		} else
-		{
-			if (damagesource instanceof EntityDamageSource || damagesource == DamageSource.MAGIC)
-			{
+		} else {
+			if (damagesource instanceof EntityDamageSource || damagesource == DamageSource.MAGIC) {
 				this.a.f();
 			}
 
@@ -82,92 +69,75 @@ public class EntitySilverfish extends EntityMonster
 	}
 
 	@Override
-	protected void a(BlockPosition blockposition, Block block)
-	{
+	protected void a(BlockPosition blockposition, Block block) {
 		this.makeSound("mob.silverfish.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected Item getLoot()
-	{
+	protected Item getLoot() {
 		return null;
 	}
 
 	@Override
-	public void t_()
-	{
+	public void t_() {
 		this.aI = this.yaw;
 		super.t_();
 	}
 
 	@Override
-	public float a(BlockPosition blockposition)
-	{
+	public float a(BlockPosition blockposition) {
 		return this.world.getType(blockposition.down()).getBlock() == Blocks.STONE ? 10.0F : super.a(blockposition);
 	}
 
 	@Override
-	protected boolean n_()
-	{
+	protected boolean n_() {
 		return true;
 	}
 
 	@Override
-	public boolean bR()
-	{
-		if (super.bR())
-		{
+	public boolean bR() {
+		if (super.bR()) {
 			EntityHuman entityhuman = this.world.findNearbyPlayer(this, 5.0D);
 
 			return entityhuman == null;
-		} else
-		{
+		} else {
 			return false;
 		}
 	}
 
 	@Override
-	public EnumMonsterType getMonsterType()
-	{
+	public EnumMonsterType getMonsterType() {
 		return EnumMonsterType.ARTHROPOD;
 	}
 
-	static class PathfinderGoalSilverfishHideInBlock extends PathfinderGoalRandomStroll
-	{
+	static class PathfinderGoalSilverfishHideInBlock extends PathfinderGoalRandomStroll {
 
 		private final EntitySilverfish silverfish;
 		private EnumDirection b;
 		private boolean c;
 
-		public PathfinderGoalSilverfishHideInBlock(EntitySilverfish entitysilverfish)
-		{
+		public PathfinderGoalSilverfishHideInBlock(EntitySilverfish entitysilverfish) {
 			super(entitysilverfish, 1.0D, 10);
 			this.silverfish = entitysilverfish;
 			this.a(1);
 		}
 
 		@Override
-		public boolean a()
-		{
-			if (this.silverfish.getGoalTarget() != null)
-			{
+		public boolean a() {
+			if (this.silverfish.getGoalTarget() != null) {
 				return false;
-			} else if (!this.silverfish.getNavigation().m())
-			{
+			} else if (!this.silverfish.getNavigation().m()) {
 				return false;
-			} else
-			{
+			} else {
 				Random random = this.silverfish.bc();
 
-				if (random.nextInt(10) == 0)
-				{
+				if (random.nextInt(10) == 0) {
 					this.b = EnumDirection.a(random);
 					BlockPosition blockposition = (new BlockPosition(this.silverfish.locX, this.silverfish.locY + 0.5D,
 							this.silverfish.locZ)).shift(this.b);
 					IBlockData iblockdata = this.silverfish.world.getType(blockposition);
 
-					if (BlockMonsterEggs.d(iblockdata))
-					{
+					if (BlockMonsterEggs.d(iblockdata)) {
 						this.c = true;
 						return true;
 					}
@@ -179,33 +149,27 @@ public class EntitySilverfish extends EntityMonster
 		}
 
 		@Override
-		public boolean b()
-		{
+		public boolean b() {
 			return this.c ? false : super.b();
 		}
 
 		@Override
-		public void c()
-		{
-			if (!this.c)
-			{
+		public void c() {
+			if (!this.c) {
 				super.c();
-			} else
-			{
+			} else {
 				World world = this.silverfish.world;
 				BlockPosition blockposition = (new BlockPosition(this.silverfish.locX, this.silverfish.locY + 0.5D,
 						this.silverfish.locZ)).shift(this.b);
 				IBlockData iblockdata = world.getType(blockposition);
 
-				if (BlockMonsterEggs.d(iblockdata))
-				{
+				if (BlockMonsterEggs.d(iblockdata)) {
 					// CraftBukkit start
 					if (org.bukkit.craftbukkit.event.CraftEventFactory
 							.callEntityChangeBlockEvent(this.silverfish, blockposition.getX(), blockposition.getY(),
 									blockposition.getZ(), Blocks.MONSTER_EGG,
 									Block.getId(Block.getById(iblockdata.getBlock().toLegacyData(iblockdata))))
-							.isCancelled())
-					{
+							.isCancelled()) {
 						return;
 					}
 					// CraftBukkit end
@@ -219,73 +183,58 @@ public class EntitySilverfish extends EntityMonster
 		}
 	}
 
-	static class PathfinderGoalSilverfishWakeOthers extends PathfinderGoal
-	{
+	static class PathfinderGoalSilverfishWakeOthers extends PathfinderGoal {
 
 		private EntitySilverfish silverfish;
 		private int b;
 
-		public PathfinderGoalSilverfishWakeOthers(EntitySilverfish entitysilverfish)
-		{
+		public PathfinderGoalSilverfishWakeOthers(EntitySilverfish entitysilverfish) {
 			this.silverfish = entitysilverfish;
 		}
 
-		public void f()
-		{
-			if (this.b == 0)
-			{
+		public void f() {
+			if (this.b == 0) {
 				this.b = 20;
 			}
 
 		}
 
 		@Override
-		public boolean a()
-		{
+		public boolean a() {
 			return this.b > 0;
 		}
 
 		@Override
-		public void e()
-		{
+		public void e() {
 			--this.b;
-			if (this.b <= 0)
-			{
+			if (this.b <= 0) {
 				World world = this.silverfish.world;
 				Random random = this.silverfish.bc();
 				BlockPosition blockposition = new BlockPosition(this.silverfish);
 
-				for (int i = 0; i <= 5 && i >= -5; i = i <= 0 ? 1 - i : 0 - i)
-				{
-					for (int j = 0; j <= 10 && j >= -10; j = j <= 0 ? 1 - j : 0 - j)
-					{
-						for (int k = 0; k <= 10 && k >= -10; k = k <= 0 ? 1 - k : 0 - k)
-						{
+				for (int i = 0; i <= 5 && i >= -5; i = i <= 0 ? 1 - i : 0 - i) {
+					for (int j = 0; j <= 10 && j >= -10; j = j <= 0 ? 1 - j : 0 - j) {
+						for (int k = 0; k <= 10 && k >= -10; k = k <= 0 ? 1 - k : 0 - k) {
 							BlockPosition blockposition1 = blockposition.a(j, i, k);
 							IBlockData iblockdata = world.getType(blockposition1);
 
-							if (iblockdata.getBlock() == Blocks.MONSTER_EGG)
-							{
+							if (iblockdata.getBlock() == Blocks.MONSTER_EGG) {
 								// CraftBukkit start
 								if (org.bukkit.craftbukkit.event.CraftEventFactory
 										.callEntityChangeBlockEvent(this.silverfish, blockposition1.getX(),
 												blockposition1.getY(), blockposition1.getZ(), Blocks.AIR, 0)
-										.isCancelled())
-								{
+										.isCancelled()) {
 									continue;
 								}
 								// CraftBukkit end
-								if (world.getGameRules().getBoolean("mobGriefing"))
-								{
+								if (world.getGameRules().getBoolean("mobGriefing")) {
 									world.setAir(blockposition1, true);
-								} else
-								{
+								} else {
 									world.setTypeAndData(blockposition1, iblockdata.get(BlockMonsterEggs.VARIANT).d(),
 											3);
 								}
 
-								if (random.nextBoolean())
-								{
+								if (random.nextBoolean()) {
 									return;
 								}
 							}

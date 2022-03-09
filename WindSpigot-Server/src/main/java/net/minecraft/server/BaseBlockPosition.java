@@ -2,8 +2,7 @@ package net.minecraft.server;
 
 import com.google.common.base.Objects;
 
-public class BaseBlockPosition implements Comparable<BaseBlockPosition>
-{
+public class BaseBlockPosition implements Comparable<BaseBlockPosition> {
 
 	public static final BaseBlockPosition ZERO = new BaseBlockPosition(0, 0, 0);
 	// PaperSpigot start - Make mutable and protected for MutableBlockPos
@@ -12,29 +11,23 @@ public class BaseBlockPosition implements Comparable<BaseBlockPosition>
 	protected int d;
 	// PaperSpigot end
 
-	public BaseBlockPosition(int i, int j, int k)
-	{
+	public BaseBlockPosition(int i, int j, int k) {
 		this.a = i;
 		this.c = j;
 		this.d = k;
 	}
 
-	public BaseBlockPosition(double d0, double d1, double d2)
-	{
+	public BaseBlockPosition(double d0, double d1, double d2) {
 		this(MathHelper.floor(d0), MathHelper.floor(d1), MathHelper.floor(d2));
 	}
 
 	@Override
-	public final boolean equals(Object object)
-	{ // Paper
-		if (this == object)
-		{
+	public final boolean equals(Object object) { // Paper
+		if (this == object) {
 			return true;
-		} else if (!(object instanceof BaseBlockPosition))
-		{
+		} else if (!(object instanceof BaseBlockPosition)) {
 			return false;
-		} else
-		{
+		} else {
 			BaseBlockPosition baseblockposition = (BaseBlockPosition) object;
 
 			return this.getX() != baseblockposition.getX() ? false
@@ -43,13 +36,11 @@ public class BaseBlockPosition implements Comparable<BaseBlockPosition>
 	}
 
 	@Override
-	public final int hashCode()
-	{
+	public final int hashCode() {
 		return (this.getY() + this.getZ() * 31) * 31 + this.getX();
 	}
 
-	public int g(BaseBlockPosition baseblockposition)
-	{
+	public int g(BaseBlockPosition baseblockposition) {
 		return this.getY() == baseblockposition.getY()
 				? (this.getZ() == baseblockposition.getZ() ? this.getX() - baseblockposition.getX()
 						: this.getZ() - baseblockposition.getZ())
@@ -58,31 +49,26 @@ public class BaseBlockPosition implements Comparable<BaseBlockPosition>
 
 	// PaperSpigot start - Only allow one implementation of these methods (make
 	// final)
-	public final int getX()
-	{
+	public final int getX() {
 		return this.a;
 	}
 
-	public final int getY()
-	{
+	public final int getY() {
 		return this.c;
 	}
 
-	public final int getZ()
-	{
+	public final int getZ() {
 		return this.d;
 	}
 	// PaperSpigot end
 
-	public BaseBlockPosition d(BaseBlockPosition baseblockposition)
-	{
+	public BaseBlockPosition d(BaseBlockPosition baseblockposition) {
 		return new BaseBlockPosition(this.getY() * baseblockposition.getZ() - this.getZ() * baseblockposition.getY(),
 				this.getZ() * baseblockposition.getX() - this.getX() * baseblockposition.getZ(),
 				this.getX() * baseblockposition.getY() - this.getY() * baseblockposition.getX());
 	}
 
-	public double c(double d0, double d1, double d2)
-	{
+	public double c(double d0, double d1, double d2) {
 		double d3 = this.getX() - d0;
 		double d4 = this.getY() - d1;
 		double d5 = this.getZ() - d2;
@@ -90,8 +76,7 @@ public class BaseBlockPosition implements Comparable<BaseBlockPosition>
 		return d3 * d3 + d4 * d4 + d5 * d5;
 	}
 
-	public double d(double d0, double d1, double d2)
-	{
+	public double d(double d0, double d1, double d2) {
 		double d3 = this.getX() + 0.5D - d0;
 		double d4 = this.getY() + 0.5D - d1;
 		double d5 = this.getZ() + 0.5D - d2;
@@ -99,22 +84,19 @@ public class BaseBlockPosition implements Comparable<BaseBlockPosition>
 		return d3 * d3 + d4 * d4 + d5 * d5;
 	}
 
-	public double i(BaseBlockPosition baseblockposition)
-	{
+	public double i(BaseBlockPosition baseblockposition) {
 		return this.c(baseblockposition.getX(), baseblockposition.getY(), baseblockposition.getZ());
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return Objects.toStringHelper(this).add("x", this.getX()).add("y", this.getY()).add("z", this.getZ())
 				.toString();
 	}
 
 	// Paperspigot - Signature change, Object -> BaseBlockPosition
 	@Override
-	public int compareTo(BaseBlockPosition object)
-	{
+	public int compareTo(BaseBlockPosition object) {
 		return this.g(object);
 	}
 }

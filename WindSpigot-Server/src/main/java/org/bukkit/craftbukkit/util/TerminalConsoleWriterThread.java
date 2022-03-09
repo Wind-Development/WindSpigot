@@ -11,55 +11,44 @@ import com.mojang.util.QueueLogAppender;
 
 import jline.console.ConsoleReader;
 
-public class TerminalConsoleWriterThread implements Runnable
-{
+public class TerminalConsoleWriterThread implements Runnable {
 	final private ConsoleReader reader;
 	final private OutputStream output;
 
-	public TerminalConsoleWriterThread(OutputStream output, ConsoleReader reader)
-	{
+	public TerminalConsoleWriterThread(OutputStream output, ConsoleReader reader) {
 		this.output = output;
 		this.reader = reader;
 	}
 
 	@Override
-	public void run()
-	{
+	public void run() {
 		String message;
 
 		// Using name from log4j config in vanilla jar
-		while (true)
-		{
+		while (true) {
 			message = QueueLogAppender.getNextLogEvent("TerminalConsole");
-			if (message == null)
-			{
+			if (message == null) {
 				continue;
 			}
 
-			try
-			{
-				if (Main.useJline)
-				{
+			try {
+				if (Main.useJline) {
 					reader.print(ConsoleReader.RESET_LINE + "");
 					reader.flush();
 					output.write(message.getBytes());
 					output.flush();
 
-					try
-					{
+					try {
 						reader.drawLine();
-					} catch (Throwable ex)
-					{
+					} catch (Throwable ex) {
 						reader.getCursorBuffer().clear();
 					}
 					reader.flush();
-				} else
-				{
+				} else {
 					output.write(message.getBytes());
 					output.flush();
 				}
-			} catch (IOException ex)
-			{
+			} catch (IOException ex) {
 				Logger.getLogger(TerminalConsoleWriterThread.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}

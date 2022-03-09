@@ -31,11 +31,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.GenericFutureListener;
 
-public class ServerConnection
-{
+public class ServerConnection {
 
-	public enum EventGroupType
-	{
+	public enum EventGroupType {
 		EPOLL, KQUEUE, NIO, DEFAULT
 	}
 
@@ -55,15 +53,13 @@ public class ServerConnection
 
 	private final List<ChannelFuture> g = Collections.synchronizedList(Lists.newArrayList());
 
-	public List<ChannelFuture> getListeningChannels()
-	{
+	public List<ChannelFuture> getListeningChannels() {
 		return this.g;
 	} // OBFHELPER
 
 	private final List<NetworkManager> h = Collections.synchronizedList(Lists.newArrayList());
 
-	public List<NetworkManager> getConnectedChannels()
-	{
+	public List<NetworkManager> getConnectedChannels() {
 		return this.h;
 	} // OBFHELPER
 
@@ -71,29 +67,24 @@ public class ServerConnection
 	// server is ticking
 	public final java.util.Queue<NetworkManager> pending = new java.util.concurrent.ConcurrentLinkedQueue<>();
 
-	private void addPending()
-	{
+	private void addPending() {
 		NetworkManager manager;
-		while ((manager = pending.poll()) != null)
-		{
+		while ((manager = pending.poll()) != null) {
 			this.getConnectedChannels().add(manager);
 		}
 	}
 	// Paper end
 
-	public ServerConnection(MinecraftServer server)
-	{
+	public ServerConnection(MinecraftServer server) {
 		this.server = server;
 		this.started = true;
 
 		if (server.ai())
 		/* use-native-transport */ {
-			if (Epoll.isAvailable())
-			{
+			if (Epoll.isAvailable()) {
 				this.eventGroupType = EventGroupType.EPOLL;
 				return;
-			} else if (KQueue.isAvailable())
-			{
+			} else if (KQueue.isAvailable()) {
 				this.eventGroupType = EventGroupType.KQUEUE;
 				return;
 			}
@@ -102,27 +93,21 @@ public class ServerConnection
 		this.eventGroupType = server.getTransport();
 	}
 
-	public void a(InetAddress ip, int port) throws IOException
-	{
-		synchronized (this.getListeningChannels())
-		{
+	public void a(InetAddress ip, int port) throws IOException {
+		synchronized (this.getListeningChannels()) {
 			Class<? extends ServerChannel> channel = null;
 			final int workerThreadCount = Runtime.getRuntime().availableProcessors();
 
 			{
 				// First time using fall-through, lol
-				switch (eventGroupType)
-				{
+				switch (eventGroupType) {
 				default:
-				case DEFAULT:
-				{
+				case DEFAULT: {
 					LOGGER.info("Finding best event group type using fall-through");
 				}
 
-				case EPOLL:
-				{
-					if (Epoll.isAvailable())
-					{
+				case EPOLL: {
+					if (Epoll.isAvailable()) {
 						a = new LazyInitVar<>(() -> new EpollEventLoopGroup(2));
 						b = new LazyInitVar<>(() -> new EpollEventLoopGroup(workerThreadCount));
 
@@ -133,10 +118,8 @@ public class ServerConnection
 						break;
 					}
 				}
-				case KQUEUE:
-				{
-					if (KQueue.isAvailable())
-					{
+				case KQUEUE: {
+					if (KQueue.isAvailable()) {
 						a = new LazyInitVar<>(() -> new KQueueEventLoopGroup(2));
 						b = new LazyInitVar<>(() -> new KQueueEventLoopGroup(workerThreadCount));
 
@@ -147,8 +130,7 @@ public class ServerConnection
 						break;
 					}
 				}
-				case NIO:
-				{
+				case NIO: {
 					a = new LazyInitVar<>(() -> new NioEventLoopGroup(2));
 					b = new LazyInitVar<>(() -> new NioEventLoopGroup(workerThreadCount));
 
@@ -174,17 +156,13 @@ public class ServerConnection
 		}
 	}
 
-	public void stopServer() throws InterruptedException
-	{
+	public void stopServer() throws InterruptedException {
 		this.started = false;
 		LOGGER.info("Shutting down event loops");
-		for (ChannelFuture channelfuture : this.getListeningChannels())
-		{
-			try
-			{
+		for (ChannelFuture channelfuture : this.getListeningChannels()) {
+			try {
 				channelfuture.channel().close().sync();
-			} finally
-			{
+			} finally {
 				a.get().shutdownGracefully();
 				b.get().shutdownGracefully();
 				c.get().shutdownGracefully();
@@ -193,49 +171,38 @@ public class ServerConnection
 
 	}
 
-	public void c()
-	{
-		synchronized (this.getConnectedChannels())
-		{
+	public void c() {
+		synchronized (this.getConnectedChannels()) {
 			// Spigot Start
 			this.addPending(); // Paper
 			// This prevents players from 'gaming' the server, and strategically relogging
 			// to increase their position in the tick order
 			if (org.spigotmc.SpigotConfig.playerShuffle > 0
-					&& MinecraftServer.currentTick % org.spigotmc.SpigotConfig.playerShuffle == 0)
-			{
+					&& MinecraftServer.currentTick % org.spigotmc.SpigotConfig.playerShuffle == 0) {
 				Collections.shuffle(this.h);
 			}
 			// Spigot End
 			Iterator<NetworkManager> iterator = this.h.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()) {
 				final NetworkManager networkmanager = iterator.next();
 
-				if (!networkmanager.h())
-				{
-					if (!networkmanager.isConnected())
-					{
+				if (!networkmanager.h()) {
+					if (!networkmanager.isConnected()) {
 						// Spigot Start
 						// Fix a race condition where a NetworkManager could be unregistered just before
 						// connection.
-						if (networkmanager.preparing)
-						{
+						if (networkmanager.preparing) {
 							continue;
 						}
 						// Spigot End
 						iterator.remove();
 						networkmanager.l();
-					} else
-					{
-						try
-						{
+					} else {
+						try {
 							networkmanager.tick();
-						} catch (Exception exception)
-						{
-							if (networkmanager.c())
-							{
+						} catch (Exception exception) {
+							if (networkmanager.c()) {
 								CrashReport crashreport = CrashReport.a(exception, "Ticking memory connection");
 								CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Ticking connection");
 
@@ -259,8 +226,7 @@ public class ServerConnection
 		}
 	}
 
-	public MinecraftServer d()
-	{
+	public MinecraftServer d() {
 		return this.server;
 	}
 }

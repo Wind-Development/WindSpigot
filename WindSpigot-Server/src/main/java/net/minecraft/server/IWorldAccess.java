@@ -1,7 +1,6 @@
 package net.minecraft.server;
 
-public interface IWorldAccess
-{
+public interface IWorldAccess {
 	void a(BlockPosition var1);
 
 	void b(BlockPosition var1);

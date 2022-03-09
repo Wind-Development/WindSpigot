@@ -8,12 +8,10 @@ import org.bukkit.help.HelpTopicFactory;
  * This class creates {@link MultipleCommandAliasHelpTopic} help topics from
  * {@link MultipleCommandAlias} commands.
  */
-public class MultipleCommandAliasHelpTopicFactory implements HelpTopicFactory<MultipleCommandAlias>
-{
+public class MultipleCommandAliasHelpTopicFactory implements HelpTopicFactory<MultipleCommandAlias> {
 
 	@Override
-	public HelpTopic createTopic(MultipleCommandAlias multipleCommandAlias)
-	{
+	public HelpTopic createTopic(MultipleCommandAlias multipleCommandAlias) {
 		return new MultipleCommandAliasHelpTopic(multipleCommandAlias);
 	}
 }

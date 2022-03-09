@@ -5,16 +5,13 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.event.block.BlockDispenseEvent;
 // CraftBukkit end
 
-public class DispenseBehaviorItem implements IDispenseBehavior
-{
+public class DispenseBehaviorItem implements IDispenseBehavior {
 
-	public DispenseBehaviorItem()
-	{
+	public DispenseBehaviorItem() {
 	}
 
 	@Override
-	public final ItemStack a(ISourceBlock isourceblock, ItemStack itemstack)
-	{
+	public final ItemStack a(ISourceBlock isourceblock, ItemStack itemstack) {
 		ItemStack itemstack1 = this.b(isourceblock, itemstack);
 
 		this.a(isourceblock);
@@ -22,15 +19,13 @@ public class DispenseBehaviorItem implements IDispenseBehavior
 		return itemstack1;
 	}
 
-	protected ItemStack b(ISourceBlock isourceblock, ItemStack itemstack)
-	{
+	protected ItemStack b(ISourceBlock isourceblock, ItemStack itemstack) {
 		EnumDirection enumdirection = BlockDispenser.b(isourceblock.f());
 		IPosition iposition = BlockDispenser.a(isourceblock);
 		ItemStack itemstack1 = itemstack.cloneAndSubtract(1);
 
 		// CraftBukkit start
-		if (!a(isourceblock.getWorld(), itemstack1, 6, enumdirection, isourceblock))
-		{
+		if (!a(isourceblock.getWorld(), itemstack1, 6, enumdirection, isourceblock)) {
 			itemstack.count++;
 		}
 		// CraftBukkit end
@@ -40,19 +35,16 @@ public class DispenseBehaviorItem implements IDispenseBehavior
 	// CraftBukkit start - void -> boolean return, IPosition -> ISourceBlock last
 	// argument
 	public static boolean a(World world, ItemStack itemstack, int i, EnumDirection enumdirection,
-			ISourceBlock isourceblock)
-	{
+			ISourceBlock isourceblock) {
 		IPosition iposition = BlockDispenser.a(isourceblock);
 		// CraftBukkit end
 		double d0 = iposition.getX();
 		double d1 = iposition.getY();
 		double d2 = iposition.getZ();
 
-		if (enumdirection.k() == EnumDirection.EnumAxis.Y)
-		{
+		if (enumdirection.k() == EnumDirection.EnumAxis.Y) {
 			d1 -= 0.125D;
-		} else
-		{
+		} else {
 			d1 -= 0.15625D;
 		}
 
@@ -73,13 +65,11 @@ public class DispenseBehaviorItem implements IDispenseBehavior
 
 		BlockDispenseEvent event = new BlockDispenseEvent(block, craftItem.clone(),
 				new org.bukkit.util.Vector(entityitem.motX, entityitem.motY, entityitem.motZ));
-		if (!BlockDispenser.eventFired)
-		{
+		if (!BlockDispenser.eventFired) {
 			world.getServer().getPluginManager().callEvent(event);
 		}
 
-		if (event.isCancelled())
-		{
+		if (event.isCancelled()) {
 			return false;
 		}
 
@@ -88,17 +78,14 @@ public class DispenseBehaviorItem implements IDispenseBehavior
 		entityitem.motY = event.getVelocity().getY();
 		entityitem.motZ = event.getVelocity().getZ();
 
-		if (!event.getItem().getType().equals(craftItem.getType()))
-		{
+		if (!event.getItem().getType().equals(craftItem.getType())) {
 			// Chain to handler for new item
 			ItemStack eventStack = CraftItemStack.asNMSCopy(event.getItem());
 			IDispenseBehavior idispensebehavior = BlockDispenser.REGISTRY.get(eventStack.getItem());
 			if (idispensebehavior != IDispenseBehavior.NONE
-					&& idispensebehavior.getClass() != DispenseBehaviorItem.class)
-			{
+					&& idispensebehavior.getClass() != DispenseBehaviorItem.class) {
 				idispensebehavior.a(isourceblock, eventStack);
-			} else
-			{
+			} else {
 				world.addEntity(entityitem);
 			}
 			return false;
@@ -110,18 +97,15 @@ public class DispenseBehaviorItem implements IDispenseBehavior
 		// CraftBukkit end
 	}
 
-	protected void a(ISourceBlock isourceblock)
-	{
+	protected void a(ISourceBlock isourceblock) {
 		isourceblock.getWorld().triggerEffect(1000, isourceblock.getBlockPosition(), 0);
 	}
 
-	protected void a(ISourceBlock isourceblock, EnumDirection enumdirection)
-	{
+	protected void a(ISourceBlock isourceblock, EnumDirection enumdirection) {
 		isourceblock.getWorld().triggerEffect(2000, isourceblock.getBlockPosition(), this.a(enumdirection));
 	}
 
-	private int a(EnumDirection enumdirection)
-	{
+	private int a(EnumDirection enumdirection) {
 		return enumdirection.getAdjacentX() + 1 + (enumdirection.getAdjacentZ() + 1) * 3;
 	}
 }

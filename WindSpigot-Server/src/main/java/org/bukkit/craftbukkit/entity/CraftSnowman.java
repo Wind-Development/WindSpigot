@@ -6,28 +6,23 @@ import org.bukkit.entity.Snowman;
 
 import net.minecraft.server.EntitySnowman;
 
-public class CraftSnowman extends CraftGolem implements Snowman
-{
-	public CraftSnowman(CraftServer server, EntitySnowman entity)
-	{
+public class CraftSnowman extends CraftGolem implements Snowman {
+	public CraftSnowman(CraftServer server, EntitySnowman entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public EntitySnowman getHandle()
-	{
+	public EntitySnowman getHandle() {
 		return (EntitySnowman) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftSnowman";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.SNOWMAN;
 	}
 }

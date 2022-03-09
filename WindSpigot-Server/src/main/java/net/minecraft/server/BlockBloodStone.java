@@ -2,28 +2,23 @@ package net.minecraft.server;
 
 import org.bukkit.event.block.BlockRedstoneEvent; // CraftBukkit
 
-public class BlockBloodStone extends Block
-{
+public class BlockBloodStone extends Block {
 
-	public BlockBloodStone()
-	{
+	public BlockBloodStone() {
 		super(Material.STONE);
 		this.a(CreativeModeTab.b);
 	}
 
 	@Override
-	public MaterialMapColor g(IBlockData iblockdata)
-	{
+	public MaterialMapColor g(IBlockData iblockdata) {
 		return MaterialMapColor.K;
 	}
 
 	// CraftBukkit start
 	// @Override // PaperSpigot - Remove completely invalid Redstone event for
 	// Netherrack
-	public void doPhysics_nvmplsdont(World world, BlockPosition position, IBlockData iblockdata, Block block)
-	{
-		if (block != null && block.isPowerSource())
-		{
+	public void doPhysics_nvmplsdont(World world, BlockPosition position, IBlockData iblockdata, Block block) {
+		if (block != null && block.isPowerSource()) {
 			org.bukkit.block.Block bl = world.getWorld().getBlockAt(position.getX(), position.getY(), position.getZ());
 			int power = bl.getBlockPower();
 

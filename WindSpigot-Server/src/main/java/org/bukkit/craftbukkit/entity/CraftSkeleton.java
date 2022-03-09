@@ -7,41 +7,34 @@ import org.bukkit.entity.Skeleton;
 
 import net.minecraft.server.EntitySkeleton;
 
-public class CraftSkeleton extends CraftMonster implements Skeleton
-{
+public class CraftSkeleton extends CraftMonster implements Skeleton {
 
-	public CraftSkeleton(CraftServer server, EntitySkeleton entity)
-	{
+	public CraftSkeleton(CraftServer server, EntitySkeleton entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public EntitySkeleton getHandle()
-	{
+	public EntitySkeleton getHandle() {
 		return (EntitySkeleton) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftSkeleton";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.SKELETON;
 	}
 
 	@Override
-	public SkeletonType getSkeletonType()
-	{
+	public SkeletonType getSkeletonType() {
 		return SkeletonType.getType(getHandle().getSkeletonType());
 	}
 
 	@Override
-	public void setSkeletonType(SkeletonType type)
-	{
+	public void setSkeletonType(SkeletonType type) {
 		Validate.notNull(type);
 		getHandle().setSkeletonType(type.getId());
 	}

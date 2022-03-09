@@ -7,39 +7,31 @@ import org.bukkit.craftbukkit.command.ProxiedNativeCommandSender;
 import org.bukkit.craftbukkit.command.VanillaCommandWrapper;
 // CraftBukkit end
 
-public class CommandExecute extends CommandAbstract
-{
+public class CommandExecute extends CommandAbstract {
 
-	public CommandExecute()
-	{
+	public CommandExecute() {
 	}
 
 	@Override
-	public String getCommand()
-	{
+	public String getCommand() {
 		return "execute";
 	}
 
 	@Override
-	public int a()
-	{
+	public int a() {
 		return 2;
 	}
 
 	@Override
-	public String getUsage(ICommandListener icommandlistener)
-	{
+	public String getUsage(ICommandListener icommandlistener) {
 		return "commands.execute.usage";
 	}
 
 	@Override
-	public void execute(final ICommandListener icommandlistener, String[] astring) throws CommandException
-	{
-		if (astring.length < 5)
-		{
+	public void execute(final ICommandListener icommandlistener, String[] astring) throws CommandException {
+		if (astring.length < 5) {
 			throw new ExceptionUsage("commands.execute.usage", new Object[0]);
-		} else
-		{
+		} else {
 			final Entity entity = a(icommandlistener, astring[0], Entity.class);
 			final double d0 = b(entity.locX, astring[1], false);
 			final double d1 = b(entity.locY, astring[2], false);
@@ -47,8 +39,7 @@ public class CommandExecute extends CommandAbstract
 			final BlockPosition blockposition = new BlockPosition(d0, d1, d2);
 			byte b0 = 4;
 
-			if ("detect".equals(astring[4]) && astring.length > 10)
-			{
+			if ("detect".equals(astring[4]) && astring.length > 10) {
 				World world = entity.getWorld();
 				double d3 = b(d0, astring[5], false);
 				double d4 = b(d1, astring[6], false);
@@ -58,69 +49,57 @@ public class CommandExecute extends CommandAbstract
 				BlockPosition blockposition1 = new BlockPosition(d3, d4, d5);
 				IBlockData iblockdata = world.getType(blockposition1);
 
-				if (iblockdata.getBlock() != block || i >= 0 && iblockdata.getBlock().toLegacyData(iblockdata) != i)
-				{
-					throw new CommandException("commands.execute.failed", new Object[]
-					{ "detect", entity.getName() });
+				if (iblockdata.getBlock() != block || i >= 0 && iblockdata.getBlock().toLegacyData(iblockdata) != i) {
+					throw new CommandException("commands.execute.failed", new Object[] { "detect", entity.getName() });
 				}
 
 				b0 = 10;
 			}
 
 			String s = a(astring, b0);
-			ICommandListener icommandlistener1 = new ICommandListener()
-			{
+			ICommandListener icommandlistener1 = new ICommandListener() {
 				@Override
-				public String getName()
-				{
+				public String getName() {
 					return entity.getName();
 				}
 
 				@Override
-				public IChatBaseComponent getScoreboardDisplayName()
-				{
+				public IChatBaseComponent getScoreboardDisplayName() {
 					return entity.getScoreboardDisplayName();
 				}
 
 				@Override
-				public void sendMessage(IChatBaseComponent ichatbasecomponent)
-				{
+				public void sendMessage(IChatBaseComponent ichatbasecomponent) {
 					icommandlistener.sendMessage(ichatbasecomponent);
 				}
 
 				@Override
-				public boolean a(int i, String s)
-				{
+				public boolean a(int i, String s) {
 					return icommandlistener.a(i, s);
 				}
 
 				@Override
-				public BlockPosition getChunkCoordinates()
-				{
+				public BlockPosition getChunkCoordinates() {
 					return blockposition;
 				}
 
 				@Override
-				public Vec3D d()
-				{
+				public Vec3D d() {
 					return new Vec3D(d0, d1, d2);
 				}
 
 				@Override
-				public World getWorld()
-				{
+				public World getWorld() {
 					return entity.world;
 				}
 
 				@Override
-				public Entity f()
-				{
+				public Entity f() {
 					return entity;
 				}
 
 				@Override
-				public boolean getSendCommandFeedback()
-				{
+				public boolean getSendCommandFeedback() {
 					MinecraftServer minecraftserver = MinecraftServer.getServer();
 
 					return minecraftserver == null
@@ -129,31 +108,24 @@ public class CommandExecute extends CommandAbstract
 
 				@Override
 				public void a(CommandObjectiveExecutor.EnumCommandResult commandobjectiveexecutor_enumcommandresult,
-						int i)
-				{
+						int i) {
 					entity.a(commandobjectiveexecutor_enumcommandresult, i);
 				}
 			};
 			ICommandHandler icommandhandler = MinecraftServer.getServer().getCommandHandler();
 
-			try
-			{
+			try {
 				// CraftBukkit start
 				org.bukkit.command.CommandSender sender = null;
-				if (icommandlistener instanceof DedicatedServer)
-				{
+				if (icommandlistener instanceof DedicatedServer) {
 					sender = MinecraftServer.getServer().server.getConsoleSender();
-				} else if (icommandlistener instanceof CommandBlockListenerAbstract)
-				{
+				} else if (icommandlistener instanceof CommandBlockListenerAbstract) {
 					sender = ((CommandBlockListenerAbstract) icommandlistener).sender;
-				} else if (VanillaCommandWrapper.lastSender != null)
-				{
+				} else if (VanillaCommandWrapper.lastSender != null) {
 					sender = VanillaCommandWrapper.lastSender;
-				} else if (icommandlistener.f() != null)
-				{
+				} else if (icommandlistener.f() != null) {
 					sender = icommandlistener.f().getBukkitEntity();
-				} else
-				{
+				} else {
 					throw new CommandException("Unhandled executor " + icommandlistener.getClass().getSimpleName(),
 							new Object[0]);
 				}
@@ -161,28 +133,22 @@ public class CommandExecute extends CommandAbstract
 						new ProxiedNativeCommandSender(icommandlistener1, sender, entity.getBukkitEntity()), s);
 				// CraftBukkit end
 
-				if (j < 1)
-				{
-					throw new CommandException("commands.execute.allInvocationsFailed", new Object[]
-					{ s });
+				if (j < 1) {
+					throw new CommandException("commands.execute.allInvocationsFailed", new Object[] { s });
 				}
-			} catch (Throwable throwable)
-			{
+			} catch (Throwable throwable) {
 				// CraftBukkit start
-				if (throwable instanceof CommandException)
-				{
+				if (throwable instanceof CommandException) {
 					throw (CommandException) throwable;
 				}
 				// CraftBukkit end
-				throw new CommandException("commands.execute.failed", new Object[]
-				{ s, entity.getName() });
+				throw new CommandException("commands.execute.failed", new Object[] { s, entity.getName() });
 			}
 		}
 	}
 
 	@Override
-	public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition)
-	{
+	public List<String> tabComplete(ICommandListener icommandlistener, String[] astring, BlockPosition blockposition) {
 		return astring.length == 1 ? a(astring, MinecraftServer.getServer().getPlayers())
 				: (astring.length > 1 && astring.length <= 4 ? a(astring, 1, blockposition)
 						: (astring.length > 5 && astring.length <= 8 && "detect".equals(astring[4])
@@ -193,15 +159,13 @@ public class CommandExecute extends CommandAbstract
 	}
 
 	@Override
-	public boolean isListStart(String[] astring, int i)
-	{
+	public boolean isListStart(String[] astring, int i) {
 		return i == 0;
 	}
 
 	// CraftBukkit start - fix decompiler error
 	@Override
-	public int compareTo(ICommand o)
-	{
+	public int compareTo(ICommand o) {
 		return a(o);
 	}
 	// CraftBukkit end

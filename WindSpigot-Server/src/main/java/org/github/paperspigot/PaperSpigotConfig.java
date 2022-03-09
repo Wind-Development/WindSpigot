@@ -24,8 +24,7 @@ import com.google.common.base.Throwables;
 
 import net.minecraft.server.MinecraftServer;
 
-public class PaperSpigotConfig
-{
+public class PaperSpigotConfig {
 
 	private static File CONFIG_FILE;
 	private static final String HEADER = "This is the main configuration file for PaperSpigot.\n"
@@ -40,17 +39,13 @@ public class PaperSpigotConfig
 	static Map<String, Command> commands;
 	/* ======================================================================== */
 
-	public static void init(File configFile)
-	{
+	public static void init(File configFile) {
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
-		try
-		{
+		try {
 			config.load(CONFIG_FILE);
-		} catch (IOException ex)
-		{
-		} catch (InvalidConfigurationException ex)
-		{
+		} catch (IOException ex) {
+		} catch (InvalidConfigurationException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Could not load paper.yml, please correct your syntax errors", ex);
 			throw Throwables.propagate(ex);
 		}
@@ -64,103 +59,82 @@ public class PaperSpigotConfig
 		readConfig(PaperSpigotConfig.class, null);
 	}
 
-	public static void registerCommands()
-	{
-		for (Map.Entry<String, Command> entry : commands.entrySet())
-		{
+	public static void registerCommands() {
+		for (Map.Entry<String, Command> entry : commands.entrySet()) {
 			MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "PaperSpigot",
 					entry.getValue());
 		}
 	}
 
-	static void readConfig(Class<?> clazz, Object instance)
-	{
-		for (Method method : clazz.getDeclaredMethods())
-		{
-			if (Modifier.isPrivate(method.getModifiers()))
-			{
-				if (method.getParameterTypes().length == 0 && method.getReturnType() == Void.TYPE)
-				{
-					try
-					{
+	static void readConfig(Class<?> clazz, Object instance) {
+		for (Method method : clazz.getDeclaredMethods()) {
+			if (Modifier.isPrivate(method.getModifiers())) {
+				if (method.getParameterTypes().length == 0 && method.getReturnType() == Void.TYPE) {
+					try {
 						method.setAccessible(true);
 						method.invoke(instance);
-					} catch (InvocationTargetException ex)
-					{
+					} catch (InvocationTargetException ex) {
 						throw Throwables.propagate(ex.getCause());
-					} catch (Exception ex)
-					{
+					} catch (Exception ex) {
 						Bukkit.getLogger().log(Level.SEVERE, "Error invoking " + method, ex);
 					}
 				}
 			}
 		}
 
-		try
-		{
+		try {
 			config.save(CONFIG_FILE);
-		} catch (IOException ex)
-		{
+		} catch (IOException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Could not save " + CONFIG_FILE, ex);
 		}
 	}
 
-	private static void set(String path, Object val)
-	{
+	private static void set(String path, Object val) {
 		config.set(path, val);
 	}
 
-	private static boolean getBoolean(String path, boolean def)
-	{
+	private static boolean getBoolean(String path, boolean def) {
 		config.addDefault(path, def);
 		return config.getBoolean(path, config.getBoolean(path));
 	}
 
-	private static double getDouble(String path, double def)
-	{
+	private static double getDouble(String path, double def) {
 		config.addDefault(path, def);
 		return config.getDouble(path, config.getDouble(path));
 	}
 
-	private static float getFloat(String path, float def)
-	{
+	private static float getFloat(String path, float def) {
 		// TODO: Figure out why getFloat() always returns the default value.
 		return (float) getDouble(path, def);
 	}
 
-	private static int getInt(String path, int def)
-	{
+	private static int getInt(String path, int def) {
 		config.addDefault(path, def);
 		return config.getInt(path, config.getInt(path));
 	}
 
-	private static <T> List getList(String path, T def)
-	{
+	private static <T> List getList(String path, T def) {
 		config.addDefault(path, def);
 		return config.getList(path, config.getList(path));
 	}
 
-	private static String getString(String path, String def)
-	{
+	private static String getString(String path, String def) {
 		config.addDefault(path, def);
 		return config.getString(path, config.getString(path));
 	}
 
 	public static double babyZombieMovementSpeed;
 
-	private static void babyZombieMovementSpeed()
-	{
+	private static void babyZombieMovementSpeed() {
 		babyZombieMovementSpeed = getDouble("settings.baby-zombie-movement-speed", 0.5D); // Player moves at 0.1F, for
 																							// reference
 	}
 
 	public static boolean interactLimitEnabled;
 
-	private static void interactLimitEnabled()
-	{
+	private static void interactLimitEnabled() {
 		interactLimitEnabled = getBoolean("settings.limit-player-interactions", true);
-		if (!interactLimitEnabled)
-		{
+		if (!interactLimitEnabled) {
 			Bukkit.getLogger().log(Level.INFO,
 					"Disabling player interaction limiter, your server may be more vulnerable to malicious users");
 		}
@@ -169,16 +143,14 @@ public class PaperSpigotConfig
 	public static double strengthEffectModifier;
 	public static double weaknessEffectModifier;
 
-	private static void effectModifiers()
-	{
+	private static void effectModifiers() {
 		strengthEffectModifier = getDouble("effect-modifiers.strength", 1.3D);
 		weaknessEffectModifier = getDouble("effect-modifiers.weakness", -0.5D);
 	}
 
 	public static Set<Integer> dataValueAllowedItems;
 
-	private static void dataValueAllowedItems()
-	{
+	private static void dataValueAllowedItems() {
 		dataValueAllowedItems = new HashSet<Integer>(getList("data-value-allowed-items", Collections.emptyList()));
 		Bukkit.getLogger().info("Data value allowed items: " + StringUtils.join(dataValueAllowedItems, ", "));
 	}
@@ -187,8 +159,7 @@ public class PaperSpigotConfig
 	public static boolean stackableWaterBuckets;
 	public static boolean stackableMilkBuckets;
 
-	private static void stackableBuckets()
-	{
+	private static void stackableBuckets() {
 		stackableLavaBuckets = getBoolean("stackable-buckets.lava", false);
 		stackableWaterBuckets = getBoolean("stackable-buckets.water", false);
 		stackableMilkBuckets = getBoolean("stackable-buckets.milk", false);
@@ -229,44 +200,38 @@ public class PaperSpigotConfig
 
 	public static boolean warnForExcessiveVelocity;
 
-	private static void excessiveVelocityWarning()
-	{
+	private static void excessiveVelocityWarning() {
 		warnForExcessiveVelocity = getBoolean("warnWhenSettingExcessiveVelocity", true);
 	}
 
 	// FlamePaper start - 0117-Pearl-through-blocks
 	public static boolean pearlPassthroughFenceGate;
 
-	private static void pearlPassthroughFenceGate()
-	{
+	private static void pearlPassthroughFenceGate() {
 		pearlPassthroughFenceGate = getBoolean("pearl-passthrough.fence_gate", true);
 	}
 
 	public static boolean pearlPassthroughTripwire;
 
-	private static void pearlPassthroughTripwire()
-	{
+	private static void pearlPassthroughTripwire() {
 		pearlPassthroughTripwire = getBoolean("pearl-passthrough.tripwire", true);
 	}
 
 	public static boolean pearlPassthroughSlab;
 
-	private static void pearlPassthroughSlab()
-	{
+	private static void pearlPassthroughSlab() {
 		pearlPassthroughSlab = getBoolean("pearl-passthrough.slab", true);
 	}
 
 	public static boolean pearlPassthroughCobweb;
 
-	private static void pearlPassthroughCobweb()
-	{
+	private static void pearlPassthroughCobweb() {
 		pearlPassthroughCobweb = getBoolean("pearl-passthrough.cobweb", true);
 	}
 
 	public static boolean pearlPassthroughBed;
 
-	private static void pearlPassthroughBed()
-	{
+	private static void pearlPassthroughBed() {
 		pearlPassthroughBed = getBoolean("pearl-passthrough.bed", false);
 	}
 	// FlamePaper end
@@ -274,11 +239,9 @@ public class PaperSpigotConfig
 	// Nacho start
 	public static boolean savePlayerData = true;
 
-	private static void savePlayerData()
-	{
+	private static void savePlayerData() {
 		savePlayerData = getBoolean("settings.save-player-data", savePlayerData);
-		if (!savePlayerData)
-		{
+		if (!savePlayerData) {
 			Bukkit.getLogger().log(Level.WARNING,
 					"Player Data Saving is currently disabled. Any changes to your players data, "
 							+ "such as inventories, experience points, advancements and the like will not be saved when they log out.");

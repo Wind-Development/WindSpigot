@@ -9,40 +9,32 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-public class RegionFileCache
-{
+public class RegionFileCache {
 
 	public static final Map<File, RegionFile> a = Maps.newHashMap(); // Spigot - private -> public
 
 	// PaperSpigot start
-	public static synchronized RegionFile a(File file, int i, int j)
-	{
+	public static synchronized RegionFile a(File file, int i, int j) {
 		return a(file, i, j, true);
 	}
 
-	public static synchronized RegionFile a(File file, int i, int j, boolean create)
-	{
+	public static synchronized RegionFile a(File file, int i, int j, boolean create) {
 		// PaperSpigot end
 		File file1 = new File(file, "region");
 		File file2 = new File(file1, "r." + (i >> 5) + "." + (j >> 5) + ".mca");
 		RegionFile regionfile = RegionFileCache.a.get(file2);
 
-		if (regionfile != null)
-		{
+		if (regionfile != null) {
 			return regionfile;
-		} else
-		{
-			if (!create && !file2.exists())
-			{
+		} else {
+			if (!create && !file2.exists()) {
 				return null;
 			} // PaperSpigot
-			if (!file1.exists())
-			{
+			if (!file1.exists()) {
 				file1.mkdirs();
 			}
 
-			if (RegionFileCache.a.size() >= 256)
-			{
+			if (RegionFileCache.a.size() >= 256) {
 				a();
 			}
 
@@ -53,22 +45,17 @@ public class RegionFileCache
 		}
 	}
 
-	public static synchronized void a()
-	{
+	public static synchronized void a() {
 		Iterator iterator = RegionFileCache.a.values().iterator();
 
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			RegionFile regionfile = (RegionFile) iterator.next();
 
-			try
-			{
-				if (regionfile != null)
-				{
+			try {
+				if (regionfile != null) {
 					regionfile.c();
 				}
-			} catch (IOException ioexception)
-			{
+			} catch (IOException ioexception) {
 				ioexception.printStackTrace();
 			}
 		}
@@ -76,15 +63,13 @@ public class RegionFileCache
 		RegionFileCache.a.clear();
 	}
 
-	public static DataInputStream c(File file, int i, int j)
-	{
+	public static DataInputStream c(File file, int i, int j) {
 		RegionFile regionfile = a(file, i, j);
 
 		return regionfile.a(i & 31, j & 31);
 	}
 
-	public static DataOutputStream d(File file, int i, int j)
-	{
+	public static DataOutputStream d(File file, int i, int j) {
 		RegionFile regionfile = a(file, i, j);
 
 		return regionfile.b(i & 31, j & 31);

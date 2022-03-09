@@ -14,20 +14,15 @@ And use only 1 instance of all connections
 
  */
 @ChannelHandler.Sharable
-public class PacketPrepender extends MessageToMessageEncoder<ByteBuf>
-{
+public class PacketPrepender extends MessageToMessageEncoder<ByteBuf> {
 	public static final PacketPrepender INSTANCE = new PacketPrepender();
 
-	public PacketPrepender()
-	{
+	public PacketPrepender() {
 	}
 
-	public static void writeVarInt(ByteBuf buf, int value)
-	{
-		while (true)
-		{
-			if ((value & 0xFFFFFF80) == 0)
-			{
+	public static void writeVarInt(ByteBuf buf, int value) {
+		while (true) {
+			if ((value & 0xFFFFFF80) == 0) {
 				buf.writeByte(value);
 				return;
 			}
@@ -38,8 +33,7 @@ public class PacketPrepender extends MessageToMessageEncoder<ByteBuf>
 	}
 
 	@Override
-	protected void encode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception
-	{
+	protected void encode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 		ByteBuf lengthBuf = ctx.alloc().buffer(5);
 		writeVarInt(lengthBuf, in.readableBytes());
 		out.add(lengthBuf);

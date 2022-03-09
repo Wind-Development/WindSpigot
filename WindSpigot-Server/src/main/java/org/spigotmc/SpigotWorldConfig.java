@@ -6,71 +6,60 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class SpigotWorldConfig
-{
+public class SpigotWorldConfig {
 
 	private final String worldName;
 	private final YamlConfiguration config;
 	private boolean verbose;
 
-	public SpigotWorldConfig(String worldName)
-	{
+	public SpigotWorldConfig(String worldName) {
 		this.worldName = worldName;
 		this.config = SpigotConfig.config;
 		init();
 	}
 
-	public void init()
-	{
+	public void init() {
 		this.verbose = getBoolean("verbose", true);
 
 		log("-------- World Settings For [" + worldName + "] --------");
 		SpigotConfig.readConfig(SpigotWorldConfig.class, this);
 	}
 
-	private void log(String s)
-	{
-		if (verbose)
-		{
+	private void log(String s) {
+		if (verbose) {
 			Bukkit.getLogger().info(s);
 		}
 	}
 
-	private void set(String path, Object val)
-	{
+	private void set(String path, Object val) {
 		config.set("world-settings.default." + path, val);
 	}
 
-	private boolean getBoolean(String path, boolean def)
-	{
+	private boolean getBoolean(String path, boolean def) {
 		config.addDefault("world-settings.default." + path, def);
 		return config.getBoolean("world-settings." + worldName + "." + path,
 				config.getBoolean("world-settings.default." + path));
 	}
 
-	private double getDouble(String path, double def)
-	{
+	private double getDouble(String path, double def) {
 		config.addDefault("world-settings.default." + path, def);
 		return config.getDouble("world-settings." + worldName + "." + path,
 				config.getDouble("world-settings.default." + path));
 	}
 
-	private int getInt(String path, int def)
-	{
+	private int getInt(String path, int def) {
 		config.addDefault("world-settings.default." + path, def);
 		return config.getInt("world-settings." + worldName + "." + path,
 				config.getInt("world-settings.default." + path));
 	}
 
-	private <T> List getList(String path, T def)
-	{
+	private <T> List getList(String path, T def) {
 		config.addDefault("world-settings.default." + path, def);
 		return config.getList("world-settings." + worldName + "." + path,
 				config.getList("world-settings.default." + path));
 	}
 
-	private String getString(String path, String def)
-	{
+	private String getString(String path, String def) {
 		config.addDefault("world-settings.default." + path, def);
 		return config.getString("world-settings." + worldName + "." + path,
 				config.getString("world-settings.default." + path));
@@ -79,8 +68,7 @@ public class SpigotWorldConfig
 	public int chunksPerTick;
 	public boolean clearChunksOnTick;
 
-	private void chunksPerTick()
-	{
+	private void chunksPerTick() {
 		chunksPerTick = getInt("chunks-per-tick", 650);
 		log("Chunks to Grow per Tick: " + chunksPerTick);
 
@@ -98,11 +86,9 @@ public class SpigotWorldConfig
 	public int wheatModifier;
 	public int wartModifier;
 
-	private int getAndValidateGrowth(String crop)
-	{
+	private int getAndValidateGrowth(String crop) {
 		int modifier = getInt("growth." + crop.toLowerCase() + "-modifier", 100);
-		if (modifier == 0)
-		{
+		if (modifier == 0) {
 			log("Cannot set " + crop + " growth to zero, defaulting to 100");
 			modifier = 100;
 		}
@@ -111,8 +97,7 @@ public class SpigotWorldConfig
 		return modifier;
 	}
 
-	private void growthModifiers()
-	{
+	private void growthModifiers() {
 		cactusModifier = getAndValidateGrowth("Cactus");
 		caneModifier = getAndValidateGrowth("Cane");
 		melonModifier = getAndValidateGrowth("Melon");
@@ -125,32 +110,28 @@ public class SpigotWorldConfig
 
 	public double itemMerge;
 
-	private void itemMerge()
-	{
+	private void itemMerge() {
 		itemMerge = getDouble("merge-radius.item", 2.5);
 		log("Item Merge Radius: " + itemMerge);
 	}
 
 	public double expMerge;
 
-	private void expMerge()
-	{
+	private void expMerge() {
 		expMerge = getDouble("merge-radius.exp", 3.0);
 		log("Experience Merge Radius: " + expMerge);
 	}
 
 	public int viewDistance;
 
-	private void viewDistance()
-	{
+	private void viewDistance() {
 		viewDistance = getInt("view-distance", Bukkit.getViewDistance());
 		log("View Distance: " + viewDistance);
 	}
 
 	public byte mobSpawnRange;
 
-	private void mobSpawnRange()
-	{
+	private void mobSpawnRange() {
 		mobSpawnRange = (byte) getInt("mob-spawn-range", 4);
 		log("Mob Spawn Range: " + mobSpawnRange);
 	}
@@ -159,8 +140,7 @@ public class SpigotWorldConfig
 	public int monsterActivationRange = 32;
 	public int miscActivationRange = 16;
 
-	private void activationRange()
-	{
+	private void activationRange() {
 		animalActivationRange = getInt("entity-activation-range.animals", animalActivationRange);
 		monsterActivationRange = getInt("entity-activation-range.monsters", monsterActivationRange);
 		miscActivationRange = getInt("entity-activation-range.misc", miscActivationRange);
@@ -174,8 +154,7 @@ public class SpigotWorldConfig
 	public int miscTrackingRange = 32;
 	public int otherTrackingRange = 64;
 
-	private void trackingRange()
-	{
+	private void trackingRange() {
 		playerTrackingRange = getInt("entity-tracking-range.players", playerTrackingRange);
 		animalTrackingRange = getInt("entity-tracking-range.animals", animalTrackingRange);
 		monsterTrackingRange = getInt("entity-tracking-range.monsters", monsterTrackingRange);
@@ -189,8 +168,7 @@ public class SpigotWorldConfig
 	public int hopperCheck;
 	public int hopperAmount;
 
-	private void hoppers()
-	{
+	private void hoppers() {
 		// Set the tick delay between hopper item movements
 		hopperTransfer = getInt("ticks-per.hopper-transfer", 8);
 		// Set the tick delay between checking for items after the associated
@@ -203,20 +181,17 @@ public class SpigotWorldConfig
 
 	public boolean randomLightUpdates;
 
-	private void lightUpdates()
-	{
+	private void lightUpdates() {
 		randomLightUpdates = getBoolean("random-light-updates", false);
 		log("Random Lighting Updates: " + randomLightUpdates);
 	}
 
 	public boolean saveStructureInfo;
 
-	private void structureInfo()
-	{
+	private void structureInfo() {
 		saveStructureInfo = getBoolean("save-structure-info", true);
 		log("Structure Info Saving: " + saveStructureInfo);
-		if (!saveStructureInfo)
-		{
+		if (!saveStructureInfo) {
 			log("*** WARNING *** You have selected to NOT save structure info. This may cause structures such as fortresses to not spawn mobs!");
 			log("*** WARNING *** Please use this option with caution, SpigotMC is not responsible for any issues this option may cause in the future!");
 		}
@@ -224,16 +199,14 @@ public class SpigotWorldConfig
 
 	public int itemDespawnRate;
 
-	private void itemDespawnRate()
-	{
+	private void itemDespawnRate() {
 		itemDespawnRate = getInt("item-despawn-rate", 6000);
 		log("Item Despawn Rate: " + itemDespawnRate);
 	}
 
 	public int arrowDespawnRate;
 
-	private void arrowDespawnRate()
-	{
+	private void arrowDespawnRate() {
 		arrowDespawnRate = getInt("arrow-despawn-rate", 1200);
 		log("Arrow Despawn Rate: " + arrowDespawnRate);
 	}
@@ -244,24 +217,21 @@ public class SpigotWorldConfig
 	public List<Integer> replaceBlocks;
 	public AntiXray antiXrayInstance;
 
-	private void antiXray()
-	{
+	private void antiXray() {
 		antiXray = getBoolean("anti-xray.enabled", false);
 		log("Anti X-Ray: " + antiXray);
 
 		engineMode = getInt("anti-xray.engine-mode", 1);
 		log("\tEngine Mode: " + engineMode);
 
-		if (SpigotConfig.version < 5)
-		{
+		if (SpigotConfig.version < 5) {
 			set("anti-xray.blocks", null);
 		}
-		hiddenBlocks = getList("anti-xray.hide-blocks", Arrays.asList(new Integer[]
-		{ 14, 15, 16, 21, 48, 49, 54, 56, 73, 74, 82, 129, 130 }));
+		hiddenBlocks = getList("anti-xray.hide-blocks",
+				Arrays.asList(new Integer[] { 14, 15, 16, 21, 48, 49, 54, 56, 73, 74, 82, 129, 130 }));
 		log("\tHidden Blocks: " + hiddenBlocks);
 
-		replaceBlocks = getList("anti-xray.replace-blocks", Arrays.asList(new Integer[]
-		{ 1, 5 }));
+		replaceBlocks = getList("anti-xray.replace-blocks", Arrays.asList(new Integer[] { 1, 5 }));
 		log("\tReplace Blocks: " + replaceBlocks);
 
 		antiXrayInstance = new AntiXray(this);
@@ -269,63 +239,55 @@ public class SpigotWorldConfig
 
 	public boolean zombieAggressiveTowardsVillager;
 
-	private void zombieAggressiveTowardsVillager()
-	{
+	private void zombieAggressiveTowardsVillager() {
 		zombieAggressiveTowardsVillager = getBoolean("zombie-aggressive-towards-villager", true);
 		log("Zombie Aggressive Towards Villager: " + zombieAggressiveTowardsVillager);
 	}
 
 	public boolean nerfSpawnerMobs;
 
-	private void nerfSpawnerMobs()
-	{
+	private void nerfSpawnerMobs() {
 		nerfSpawnerMobs = getBoolean("nerf-spawner-mobs", false);
 		log("Nerfing mobs spawned from spawners: " + nerfSpawnerMobs);
 	}
 
 	public boolean enableZombiePigmenPortalSpawns;
 
-	private void enableZombiePigmenPortalSpawns()
-	{
+	private void enableZombiePigmenPortalSpawns() {
 		enableZombiePigmenPortalSpawns = getBoolean("enable-zombie-pigmen-portal-spawns", true);
 		log("Allow Zombie Pigmen to spawn from portal blocks: " + enableZombiePigmenPortalSpawns);
 	}
 
 	public int maxBulkChunk;
 
-	private void bulkChunkCount()
-	{
+	private void bulkChunkCount() {
 		maxBulkChunk = getInt("max-bulk-chunks", 10);
 		log("Sending up to " + maxBulkChunk + " chunks per packet");
 	}
 
 	public int maxCollisionsPerEntity;
 
-	private void maxEntityCollision()
-	{
+	private void maxEntityCollision() {
 		maxCollisionsPerEntity = getInt("max-entity-collisions", 4);
 		log("Max Entity Collisions: " + maxCollisionsPerEntity);
 	}
 
 	public int dragonDeathSoundRadius;
 
-	private void keepDragonDeathPerWorld()
-	{
+	private void keepDragonDeathPerWorld() {
 		dragonDeathSoundRadius = getInt("dragon-death-sound-radius", 0);
 	}
 
 	public int witherSpawnSoundRadius;
 
-	private void witherSpawnSoundRadius()
-	{
+	private void witherSpawnSoundRadius() {
 		witherSpawnSoundRadius = getInt("wither-spawn-sound-radius", 0);
 	}
 
 	public int villageSeed;
 	public int largeFeatureSeed;
 
-	private void initWorldGenSeeds()
-	{
+	private void initWorldGenSeeds() {
 		villageSeed = getInt("seed-village", 10387312);
 		largeFeatureSeed = getInt("seed-feature", 14357617);
 		log("Custom Map Seeds:  Village: " + villageSeed + " Feature: " + largeFeatureSeed);
@@ -336,8 +298,7 @@ public class SpigotWorldConfig
 	public float combatExhaustion;
 	public float regenExhaustion;
 
-	private void initHunger()
-	{
+	private void initHunger() {
 		walkExhaustion = (float) getDouble("hunger.walk-exhaustion", 0.2);
 		sprintExhaustion = (float) getDouble("hunger.sprint-exhaustion", 0.8);
 		combatExhaustion = (float) getDouble("hunger.combat-exhaustion", 0.3);
@@ -347,10 +308,8 @@ public class SpigotWorldConfig
 	public int currentPrimedTnt = 0;
 	public int maxTntTicksPerTick;
 
-	private void maxTntPerTick()
-	{
-		if (SpigotConfig.version < 7)
-		{
+	private void maxTntPerTick() {
+		if (SpigotConfig.version < 7) {
 			set("max-tnt-per-tick", 100);
 		}
 		maxTntTicksPerTick = getInt("max-tnt-per-tick", 100);
@@ -359,16 +318,14 @@ public class SpigotWorldConfig
 
 	public int hangingTickFrequency;
 
-	private void hangingTickFrequency()
-	{
+	private void hangingTickFrequency() {
 		hangingTickFrequency = getInt("hanging-tick-frequency", 100);
 	}
 
 	public int tileMaxTickTime;
 	public int entityMaxTickTime;
 
-	private void maxTickTimes()
-	{
+	private void maxTickTimes() {
 		tileMaxTickTime = getInt("max-tick-time.tile", 50);
 		entityMaxTickTime = getInt("max-tick-time.entity", 50);
 		log("Tile Max Tick Time: " + tileMaxTickTime + "ms Entity max Tick Time: " + entityMaxTickTime + "ms");

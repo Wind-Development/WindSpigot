@@ -4,11 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class TicksPerSecondCommand extends Command
-{
+public class TicksPerSecondCommand extends Command {
 
-	public TicksPerSecondCommand(String name)
-	{
+	public TicksPerSecondCommand(String name) {
 		super(name);
 		this.description = "Gets the current ticks per second for the server";
 		this.usageMessage = "/tps";
@@ -16,10 +14,8 @@ public class TicksPerSecondCommand extends Command
 	}
 
 	@Override
-	public boolean execute(CommandSender sender, String currentAlias, String[] args)
-	{
-		if (!testPermission(sender))
-		{
+	public boolean execute(CommandSender sender, String currentAlias, String[] args) {
+		if (!testPermission(sender)) {
 			return true;
 		}
 
@@ -27,8 +23,7 @@ public class TicksPerSecondCommand extends Command
 		double[] tps = org.bukkit.Bukkit.spigot().getTPS();
 		String[] tpsAvg = new String[tps.length];
 
-		for (int i = 0; i < tps.length; i++)
-		{
+		for (int i = 0; i < tps.length; i++) {
 			tpsAvg[i] = format(tps[i]);
 		}
 		sender.sendMessage(ChatColor.DARK_AQUA + "WindSpigot Performance:");

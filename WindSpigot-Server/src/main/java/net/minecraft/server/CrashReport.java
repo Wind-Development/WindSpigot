@@ -19,8 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Lists;
 
-public class CrashReport
-{
+public class CrashReport {
 
 	private static final Logger a = LogManager.getLogger();
 	private final String b;
@@ -31,73 +30,57 @@ public class CrashReport
 	private boolean g = true;
 	private StackTraceElement[] h = new StackTraceElement[0];
 
-	public CrashReport(String s, Throwable throwable)
-	{
+	public CrashReport(String s, Throwable throwable) {
 		this.b = s;
 		this.c = throwable;
 		this.h();
 	}
 
-	private void h()
-	{
-		this.d.a("Minecraft Version", new Callable()
-		{
-			public String a()
-			{
+	private void h() {
+		this.d.a("Minecraft Version", new Callable() {
+			public String a() {
 				return "1.8.8";
 			}
 
 			@Override
-			public Object call() throws Exception
-			{
+			public Object call() throws Exception {
 				return this.a();
 			}
 		});
-		this.d.a("Operating System", new Callable()
-		{
-			public String a()
-			{
+		this.d.a("Operating System", new Callable() {
+			public String a() {
 				return System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version "
 						+ System.getProperty("os.version");
 			}
 
 			@Override
-			public Object call() throws Exception
-			{
+			public Object call() throws Exception {
 				return this.a();
 			}
 		});
-		this.d.a("Java Version", new Callable()
-		{
-			public String a()
-			{
+		this.d.a("Java Version", new Callable() {
+			public String a() {
 				return System.getProperty("java.version") + ", " + System.getProperty("java.vendor");
 			}
 
 			@Override
-			public Object call() throws Exception
-			{
+			public Object call() throws Exception {
 				return this.a();
 			}
 		});
-		this.d.a("Java VM Version", new Callable()
-		{
-			public String a()
-			{
+		this.d.a("Java VM Version", new Callable() {
+			public String a() {
 				return System.getProperty("java.vm.name") + " (" + System.getProperty("java.vm.info") + "), "
 						+ System.getProperty("java.vm.vendor");
 			}
 
 			@Override
-			public Object call() throws Exception
-			{
+			public Object call() throws Exception {
 				return this.a();
 			}
 		});
-		this.d.a("Memory", new Callable()
-		{
-			public String a()
-			{
+		this.d.a("Memory", new Callable() {
+			public String a() {
 				Runtime runtime = Runtime.getRuntime();
 				long i = runtime.maxMemory();
 				long j = runtime.totalMemory();
@@ -111,29 +94,23 @@ public class CrashReport
 			}
 
 			@Override
-			public Object call() throws Exception
-			{
+			public Object call() throws Exception {
 				return this.a();
 			}
 		});
-		this.d.a("JVM Flags", new Callable()
-		{
-			public String a()
-			{
+		this.d.a("JVM Flags", new Callable() {
+			public String a() {
 				RuntimeMXBean runtimemxbean = ManagementFactory.getRuntimeMXBean();
 				List list = runtimemxbean.getInputArguments();
 				int i = 0;
 				StringBuilder stringbuilder = new StringBuilder();
 				Iterator iterator = list.iterator();
 
-				while (iterator.hasNext())
-				{
+				while (iterator.hasNext()) {
 					String s = (String) iterator.next();
 
-					if (s.startsWith("-X"))
-					{
-						if (i++ > 0)
-						{
+					if (s.startsWith("-X")) {
+						if (i++ > 0) {
 							stringbuilder.append(" ");
 						}
 
@@ -141,58 +118,47 @@ public class CrashReport
 					}
 				}
 
-				return String.format("%d total; %s", new Object[]
-				{ Integer.valueOf(i), stringbuilder.toString() });
+				return String.format("%d total; %s", new Object[] { Integer.valueOf(i), stringbuilder.toString() });
 			}
 
 			@Override
-			public Object call() throws Exception
-			{
+			public Object call() throws Exception {
 				return this.a();
 			}
 		});
-		this.d.a("IntCache", new Callable()
-		{
-			public String a() throws Exception
-			{
+		this.d.a("IntCache", new Callable() {
+			public String a() throws Exception {
 				return IntCache.b();
 			}
 
 			@Override
-			public Object call() throws Exception
-			{
+			public Object call() throws Exception {
 				return this.a();
 			}
 		});
 		this.d.a("CraftBukkit Information", (Callable) (new org.bukkit.craftbukkit.CraftCrashReport())); // CraftBukkit
 	}
 
-	public String a()
-	{
+	public String a() {
 		return this.b;
 	}
 
-	public Throwable b()
-	{
+	public Throwable b() {
 		return this.c;
 	}
 
-	public void a(StringBuilder stringbuilder)
-	{
-		if ((this.h == null || this.h.length <= 0) && this.e.size() > 0)
-		{
+	public void a(StringBuilder stringbuilder) {
+		if ((this.h == null || this.h.length <= 0) && this.e.size() > 0) {
 			this.h = ArrayUtils.subarray(this.e.get(0).a(), 0, 1);
 		}
 
-		if (this.h != null && this.h.length > 0)
-		{
+		if (this.h != null && this.h.length > 0) {
 			stringbuilder.append("-- Head --\n");
 			stringbuilder.append("Stacktrace:\n");
 			StackTraceElement[] astacktraceelement = this.h;
 			int i = astacktraceelement.length;
 
-			for (int j = 0; j < i; ++j)
-			{
+			for (int j = 0; j < i; ++j) {
 				StackTraceElement stacktraceelement = astacktraceelement[j];
 
 				stringbuilder.append("\t").append("at ").append(stacktraceelement.toString());
@@ -204,8 +170,7 @@ public class CrashReport
 
 		Iterator iterator = this.e.iterator();
 
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			CrashReportSystemDetails crashreportsystemdetails = (CrashReportSystemDetails) iterator.next();
 
 			crashreportsystemdetails.a(stringbuilder);
@@ -215,22 +180,17 @@ public class CrashReport
 		this.d.a(stringbuilder);
 	}
 
-	public String d()
-	{
+	public String d() {
 		StringWriter stringwriter = null;
 		PrintWriter printwriter = null;
 		Object object = this.c;
 
-		if (((Throwable) object).getMessage() == null)
-		{
-			if (object instanceof NullPointerException)
-			{
+		if (((Throwable) object).getMessage() == null) {
+			if (object instanceof NullPointerException) {
 				object = new NullPointerException(this.b);
-			} else if (object instanceof StackOverflowError)
-			{
+			} else if (object instanceof StackOverflowError) {
 				object = new StackOverflowError(this.b);
-			} else if (object instanceof OutOfMemoryError)
-			{
+			} else if (object instanceof OutOfMemoryError) {
 				object = new OutOfMemoryError(this.b);
 			}
 
@@ -239,14 +199,12 @@ public class CrashReport
 
 		String s = ((Throwable) object).toString();
 
-		try
-		{
+		try {
 			stringwriter = new StringWriter();
 			printwriter = new PrintWriter(stringwriter);
 			((Throwable) object).printStackTrace(printwriter);
 			s = stringwriter.toString();
-		} finally
-		{
+		} finally {
 			IOUtils.closeQuietly(stringwriter);
 			IOUtils.closeQuietly(printwriter);
 		}
@@ -254,8 +212,7 @@ public class CrashReport
 		return s;
 	}
 
-	public String e()
-	{
+	public String e() {
 		StringBuilder stringbuilder = new StringBuilder();
 
 		stringbuilder.append("---- Minecraft Crash Report ----\n");
@@ -272,8 +229,7 @@ public class CrashReport
 		stringbuilder.append(
 				"\n\nA detailed walkthrough of the error, its code path and all known details is as follows:\n");
 
-		for (int i = 0; i < 87; ++i)
-		{
+		for (int i = 0; i < 87; ++i) {
 			stringbuilder.append("-");
 		}
 
@@ -282,84 +238,68 @@ public class CrashReport
 		return stringbuilder.toString();
 	}
 
-	public boolean a(File file)
-	{
-		if (this.f != null)
-		{
+	public boolean a(File file) {
+		if (this.f != null) {
 			return false;
-		} else
-		{
-			if (file.getParentFile() != null)
-			{
+		} else {
+			if (file.getParentFile() != null) {
 				file.getParentFile().mkdirs();
 			}
 
-			try
-			{
+			try {
 				FileWriter filewriter = new FileWriter(file);
 
 				filewriter.write(this.e());
 				filewriter.close();
 				this.f = file;
 				return true;
-			} catch (Throwable throwable)
-			{
+			} catch (Throwable throwable) {
 				CrashReport.a.error("Could not save crash report to " + file, throwable);
 				return false;
 			}
 		}
 	}
 
-	public CrashReportSystemDetails g()
-	{
+	public CrashReportSystemDetails g() {
 		return this.d;
 	}
 
-	public CrashReportSystemDetails a(String s)
-	{
+	public CrashReportSystemDetails a(String s) {
 		return this.a(s, 1);
 	}
 
-	public CrashReportSystemDetails a(String s, int i)
-	{
+	public CrashReportSystemDetails a(String s, int i) {
 		CrashReportSystemDetails crashreportsystemdetails = new CrashReportSystemDetails(this, s);
 
-		if (this.g)
-		{
+		if (this.g) {
 			int j = crashreportsystemdetails.a(i);
 			StackTraceElement[] astacktraceelement = this.c.getStackTrace();
 			StackTraceElement stacktraceelement = null;
 			StackTraceElement stacktraceelement1 = null;
 			int k = astacktraceelement.length - j;
 
-			if (k < 0)
-			{
+			if (k < 0) {
 				System.out.println(
 						"Negative index in crash report handler (" + astacktraceelement.length + "/" + j + ")");
 			}
 
-			if (astacktraceelement != null && 0 <= k && k < astacktraceelement.length)
-			{
+			if (astacktraceelement != null && 0 <= k && k < astacktraceelement.length) {
 				stacktraceelement = astacktraceelement[k];
-				if (astacktraceelement.length + 1 - j < astacktraceelement.length)
-				{
+				if (astacktraceelement.length + 1 - j < astacktraceelement.length) {
 					stacktraceelement1 = astacktraceelement[astacktraceelement.length + 1 - j];
 				}
 			}
 
 			this.g = crashreportsystemdetails.a(stacktraceelement, stacktraceelement1);
-			if (j > 0 && !this.e.isEmpty())
-			{
+			if (j > 0 && !this.e.isEmpty()) {
 				CrashReportSystemDetails crashreportsystemdetails1 = this.e.get(this.e.size() - 1);
 
 				crashreportsystemdetails1.b(j);
 			} else if (astacktraceelement != null && astacktraceelement.length >= j && 0 <= k
-					&& k < astacktraceelement.length)
-			{
+					&& k < astacktraceelement.length) {
 				this.h = new StackTraceElement[k];
 				System.arraycopy(astacktraceelement, 0, this.h, 0, this.h.length);
-			} else
-			{
+			} else {
 				this.g = false;
 			}
 		}
@@ -368,13 +308,12 @@ public class CrashReport
 		return crashreportsystemdetails;
 	}
 
-	private static String i()
-	{
-		String[] astring = new String[]
-		{ "Who set us up the TNT?", "Everything\'s going to plan. No, really, that was supposed to happen.",
-				"Uh... Did I do that?", "Oops.", "Why did you do that?", "I feel sad now :(", "My bad.",
-				"I\'m sorry, Dave.", "I let you down. Sorry :(", "On the bright side, I bought you a teddy bear!",
-				"Daisy, daisy...", "Oh - I know what I did wrong!", "Hey, that tickles! Hehehe!", "I blame Dinnerbone.",
+	private static String i() {
+		String[] astring = new String[] { "Who set us up the TNT?",
+				"Everything\'s going to plan. No, really, that was supposed to happen.", "Uh... Did I do that?",
+				"Oops.", "Why did you do that?", "I feel sad now :(", "My bad.", "I\'m sorry, Dave.",
+				"I let you down. Sorry :(", "On the bright side, I bought you a teddy bear!", "Daisy, daisy...",
+				"Oh - I know what I did wrong!", "Hey, that tickles! Hehehe!", "I blame Dinnerbone.",
 				"You should try our sister game, Minceraft!", "Don\'t be sad. I\'ll do better next time, I promise!",
 				"Don\'t be sad, have a hug! <3", "I just don\'t know what went wrong :(", "Shall we play a game?",
 				"Quite honestly, I wouldn\'t worry myself about that.", "I bet Cylons wouldn\'t have this problem.",
@@ -384,24 +323,19 @@ public class CrashReport
 				"This is a token for 1 free hug. Redeem at your nearest Mojangsta: [~~HUG~~]", "There are four lights!",
 				"But it works on my machine." };
 
-		try
-		{
+		try {
 			return astring[(int) (System.nanoTime() % astring.length)];
-		} catch (Throwable throwable)
-		{
+		} catch (Throwable throwable) {
 			return "Witty comment unavailable :(";
 		}
 	}
 
-	public static CrashReport a(Throwable throwable, String s)
-	{
+	public static CrashReport a(Throwable throwable, String s) {
 		CrashReport crashreport;
 
-		if (throwable instanceof ReportedException)
-		{
+		if (throwable instanceof ReportedException) {
 			crashreport = ((ReportedException) throwable).a();
-		} else
-		{
+		} else {
 			crashreport = new CrashReport(s, throwable);
 		}
 

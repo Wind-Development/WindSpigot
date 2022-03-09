@@ -12,8 +12,7 @@ import org.bukkit.plugin.Plugin;
 /**
  * A BlockMetadataStore stores metadata values for {@link Block} objects.
  */
-public class BlockMetadataStore extends MetadataStoreBase<Block> implements MetadataStore<Block>
-{
+public class BlockMetadataStore extends MetadataStoreBase<Block> implements MetadataStore<Block> {
 
 	private final World owningWorld;
 
@@ -22,8 +21,7 @@ public class BlockMetadataStore extends MetadataStoreBase<Block> implements Meta
 	 * 
 	 * @param owningWorld The world to which this BlockMetadataStore belongs.
 	 */
-	public BlockMetadataStore(World owningWorld)
-	{
+	public BlockMetadataStore(World owningWorld) {
 		this.owningWorld = owningWorld;
 	}
 
@@ -37,8 +35,7 @@ public class BlockMetadataStore extends MetadataStoreBase<Block> implements Meta
 	 * @return a unique metadata key
 	 */
 	@Override
-	protected String disambiguate(Block block, String metadataKey)
-	{
+	protected String disambiguate(Block block, String metadataKey) {
 		return Integer.toString(block.getX()) + ":" + Integer.toString(block.getY()) + ":"
 				+ Integer.toString(block.getZ()) + ":" + metadataKey;
 	}
@@ -50,13 +47,10 @@ public class BlockMetadataStore extends MetadataStoreBase<Block> implements Meta
 	 * @see MetadataStoreBase#getMetadata(Object, String)
 	 */
 	@Override
-	public List<MetadataValue> getMetadata(Block block, String metadataKey)
-	{
-		if (block.getWorld() == owningWorld)
-		{
+	public List<MetadataValue> getMetadata(Block block, String metadataKey) {
+		if (block.getWorld() == owningWorld) {
 			return super.getMetadata(block, metadataKey);
-		} else
-		{
+		} else {
 			throw new IllegalArgumentException("Block does not belong to world " + owningWorld.getName());
 		}
 	}
@@ -69,13 +63,10 @@ public class BlockMetadataStore extends MetadataStoreBase<Block> implements Meta
 	 * @see MetadataStoreBase#hasMetadata(Object, String)
 	 */
 	@Override
-	public boolean hasMetadata(Block block, String metadataKey)
-	{
-		if (block.getWorld() == owningWorld)
-		{
+	public boolean hasMetadata(Block block, String metadataKey) {
+		if (block.getWorld() == owningWorld) {
 			return super.hasMetadata(block, metadataKey);
-		} else
-		{
+		} else {
 			throw new IllegalArgumentException("Block does not belong to world " + owningWorld.getName());
 		}
 	}
@@ -89,13 +80,10 @@ public class BlockMetadataStore extends MetadataStoreBase<Block> implements Meta
 	 *      org.bukkit.plugin.Plugin)
 	 */
 	@Override
-	public void removeMetadata(Block block, String metadataKey, Plugin owningPlugin)
-	{
-		if (block.getWorld() == owningWorld)
-		{
+	public void removeMetadata(Block block, String metadataKey, Plugin owningPlugin) {
+		if (block.getWorld() == owningWorld) {
 			super.removeMetadata(block, metadataKey, owningPlugin);
-		} else
-		{
+		} else {
 			throw new IllegalArgumentException("Block does not belong to world " + owningWorld.getName());
 		}
 	}
@@ -109,13 +97,10 @@ public class BlockMetadataStore extends MetadataStoreBase<Block> implements Meta
 	 *      org.bukkit.metadata.MetadataValue)
 	 */
 	@Override
-	public void setMetadata(Block block, String metadataKey, MetadataValue newMetadataValue)
-	{
-		if (block.getWorld() == owningWorld)
-		{
+	public void setMetadata(Block block, String metadataKey, MetadataValue newMetadataValue) {
+		if (block.getWorld() == owningWorld) {
 			super.setMetadata(block, metadataKey, newMetadataValue);
-		} else
-		{
+		} else {
 			throw new IllegalArgumentException("Block does not belong to world " + owningWorld.getName());
 		}
 	}

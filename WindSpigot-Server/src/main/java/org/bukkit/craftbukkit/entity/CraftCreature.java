@@ -6,31 +6,24 @@ import org.bukkit.entity.LivingEntity;
 
 import net.minecraft.server.EntityCreature;
 
-public class CraftCreature extends CraftLivingEntity implements Creature
-{
-	public CraftCreature(CraftServer server, EntityCreature entity)
-	{
+public class CraftCreature extends CraftLivingEntity implements Creature {
+	public CraftCreature(CraftServer server, EntityCreature entity) {
 		super(server, entity);
 	}
 
 	@Override
-	public void setTarget(LivingEntity target)
-	{
+	public void setTarget(LivingEntity target) {
 		EntityCreature entity = getHandle();
-		if (target == null)
-		{
+		if (target == null) {
 			entity.setGoalTarget(null, null, false);
-		} else if (target instanceof CraftLivingEntity)
-		{
+		} else if (target instanceof CraftLivingEntity) {
 			entity.setGoalTarget(((CraftLivingEntity) target).getHandle(), null, false);
 		}
 	}
 
 	@Override
-	public CraftLivingEntity getTarget()
-	{
-		if (getHandle().getGoalTarget() == null)
-		{
+	public CraftLivingEntity getTarget() {
+		if (getHandle().getGoalTarget() == null) {
 			return null;
 		}
 
@@ -38,14 +31,12 @@ public class CraftCreature extends CraftLivingEntity implements Creature
 	}
 
 	@Override
-	public EntityCreature getHandle()
-	{
+	public EntityCreature getHandle() {
 		return (EntityCreature) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftCreature";
 	}
 }

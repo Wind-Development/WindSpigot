@@ -13,21 +13,18 @@ import net.minecraft.server.EntityFireworks;
 import net.minecraft.server.ItemStack;
 import net.minecraft.server.Items;
 
-public class CraftFirework extends CraftEntity implements Firework
-{
+public class CraftFirework extends CraftEntity implements Firework {
 	private static final int FIREWORK_ITEM_INDEX = 8;
 
 	private final Random random = new Random();
 	private final CraftItemStack item;
 
-	public CraftFirework(CraftServer server, EntityFireworks entity)
-	{
+	public CraftFirework(CraftServer server, EntityFireworks entity) {
 		super(server, entity);
 
 		ItemStack item = getHandle().getDataWatcher().getItemStack(FIREWORK_ITEM_INDEX);
 
-		if (item == null)
-		{
+		if (item == null) {
 			item = new ItemStack(Items.FIREWORKS);
 			getHandle().getDataWatcher().watch(FIREWORK_ITEM_INDEX, item);
 		}
@@ -35,39 +32,33 @@ public class CraftFirework extends CraftEntity implements Firework
 		this.item = CraftItemStack.asCraftMirror(item);
 
 		// Ensure the item is a firework...
-		if (this.item.getType() != Material.FIREWORK)
-		{
+		if (this.item.getType() != Material.FIREWORK) {
 			this.item.setType(Material.FIREWORK);
 		}
 	}
 
 	@Override
-	public EntityFireworks getHandle()
-	{
+	public EntityFireworks getHandle() {
 		return (EntityFireworks) entity;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "CraftFirework";
 	}
 
 	@Override
-	public EntityType getType()
-	{
+	public EntityType getType() {
 		return EntityType.FIREWORK;
 	}
 
 	@Override
-	public FireworkMeta getFireworkMeta()
-	{
+	public FireworkMeta getFireworkMeta() {
 		return (FireworkMeta) item.getItemMeta();
 	}
 
 	@Override
-	public void setFireworkMeta(FireworkMeta meta)
-	{
+	public void setFireworkMeta(FireworkMeta meta) {
 		item.setItemMeta(meta);
 
 		// Copied from EntityFireworks constructor, update firework lifetime/power
@@ -77,8 +68,7 @@ public class CraftFirework extends CraftEntity implements Firework
 	}
 
 	@Override
-	public void detonate()
-	{
+	public void detonate() {
 		getHandle().expectedLifespan = 0;
 	}
 }
