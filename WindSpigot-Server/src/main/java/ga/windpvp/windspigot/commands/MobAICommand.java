@@ -1,5 +1,6 @@
 package ga.windpvp.windspigot.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -28,13 +29,13 @@ public class MobAICommand extends Command {
 			if (world.nachoSpigotConfig.enableMobAI) {
 				world.nachoSpigotConfig.enableMobAI = false;
 				if (setMsg) {
-					msg = "Mob AI disabled in all worlds.";
+					msg = ChatColor.AQUA + "Mob AI disabled in all worlds.";
 					setMsg = false;
 				}
 			} else {
 				world.nachoSpigotConfig.enableMobAI = true;
 				if (setMsg) {
-					msg = "Mob AI enabled in all worlds.";
+					msg = ChatColor.AQUA + "Mob AI enabled in all worlds.";
 					setMsg = false;
 				}
 			}
