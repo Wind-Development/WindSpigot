@@ -168,19 +168,7 @@ public class EntityTracker {
 			final int localOffset = offset++;
 			// WindSpigot - async entity tracker from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
 			Runnable runnable = () -> {
-				boolean lock;
-				AffinityLock affinityLock = null;
 				
-				// WindSpigot start - entity tracker thread affinity
-				if (WindSpigotConfig.threadAffinity && !WindSpigotConfig.disableTracking) {
-					affinityLock = MinecraftServer.getServer().getLock().acquireLock(AffinityStrategies.SAME_SOCKET,
-							AffinityStrategies.ANY);
-					lock = true;
-				} else {
-					lock = false;
-				}
-				
-				try {
 				/*
 				 * Loops the entire index hashset of registered entities. In this loop it
 				 * distributes the entities among the defined threads.
@@ -190,11 +178,7 @@ public class EntityTracker {
 				}
 
 				latch.countDown();
-				} finally {
-					if (lock) {
-						affinityLock.release();
-					}
-				}
+				
 				// WindSpigot end
 			};
 
