@@ -127,7 +127,7 @@ public class WindSpigotConfig {
 	private static void threadAffinity() {
 		threadAffinity = getBoolean("settings.thread-affinity", false);
 		c.addComment("settings.thread-affinity",
-				"Only switch to true if your OS is properly configured!! When properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
+				"Only switch to true if your OS is properly configured!! (See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus) When properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
 	}
 	
 	public static boolean mobAiCmd;

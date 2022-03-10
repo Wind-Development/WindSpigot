@@ -605,7 +605,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						MinecraftServer.LOGGER.info("CPU " + lock.cpuId() + " locked for server usage.");
 						MinecraftServer.LOGGER.info("This will boost the server's performance if configured properly.");
 						MinecraftServer.LOGGER.info("If not it will most likely decrease performance.");
-						MinecraftServer.LOGGER.info("See https://github.com/OpenHFT/Java-Thread-Affinity for configuration.");
+						MinecraftServer.LOGGER.info("See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus for configuration!");
 						MinecraftServer.LOGGER.info(" ");
 					} else {
 						MinecraftServer.LOGGER.error("An error occured whilst enabling thread affinity!");
