@@ -598,18 +598,18 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			if (this.init()) {
 				// WindSpigot start - implement thread affinity
 				if (WindSpigotConfig.threadAffinity) {
-					System.out.println(" ");
-					System.out.println("Enabling Thread Affinity...");
+					MinecraftServer.LOGGER.info(" ");
+					MinecraftServer.LOGGER.info("Enabling Thread Affinity...");
 					lock = AffinityLock.acquireLock();
 					if (lock.cpuId() != -1) {
-						System.out.println("CPU " + lock.cpuId() + " locked for server usage.");
-						System.out.println("This will boost the server's performance, but will use more cpu.");
-						System.out.println("This is most effective on linux with JNA installed.");
-						System.out.println("See https://github.com/OpenHFT/Java-Thread-Affinity");
-						System.out.println(" ");
+						MinecraftServer.LOGGER.info("CPU " + lock.cpuId() + " locked for server usage.");
+						MinecraftServer.LOGGER.info("This will boost the server's performance if configured properly.");
+						MinecraftServer.LOGGER.info("If not it will most likely decrease performance.");
+						MinecraftServer.LOGGER.info("See https://github.com/OpenHFT/Java-Thread-Affinity for configuration.");
+						MinecraftServer.LOGGER.info(" ");
 					} else {
-						System.out.println("An error occured whilst enabling thread affinity!");
-						System.out.println(" ");
+						MinecraftServer.LOGGER.error("An error occured whilst enabling thread affinity!");
+						MinecraftServer.LOGGER.error(" ");
 					}
 
 				}
@@ -714,7 +714,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		} finally {
 			if (lock != null) {
 				lock.release();
-				System.out.println("Released CPU " + lock.cpuId() + " from server usage.");
+				MinecraftServer.LOGGER.info("Released CPU " + lock.cpuId() + " from server usage.");
 			}
 			try {
 				org.spigotmc.WatchdogThread.doStop();
