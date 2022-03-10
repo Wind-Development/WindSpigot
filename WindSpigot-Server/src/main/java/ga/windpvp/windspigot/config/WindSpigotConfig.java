@@ -16,9 +16,6 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
-import dev.cobblesword.nachospigot.OldNachoConfig;
-import dev.cobblesword.nachospigot.commons.FileUtils;
-
 public class WindSpigotConfig {
 
 	private static final Logger LOGGER = LogManager.getLogger(WindSpigotConfig.class);

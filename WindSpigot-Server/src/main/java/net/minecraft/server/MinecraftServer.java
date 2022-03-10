@@ -590,7 +590,13 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	}
 	// PaperSpigot End
 
-	AffinityLock lock = null;
+	private AffinityLock lock = null;
+	
+	// WindSpigot - thread affinity
+	public AffinityLock getLock()
+	{
+		return this.lock;
+	}
 
 	@Override
 	public void run() {
