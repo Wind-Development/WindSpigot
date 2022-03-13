@@ -39,6 +39,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import co.aikar.timings.SpigotTimings; // Spigot
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.internal.InternalAPI;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -129,7 +130,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	public java.util.Queue<Runnable> processQueue = new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();
 	public int autosavePeriod;
 	// CraftBukkit end
-	
+
 	public WindSpigot windSpigot;
 
 	public MinecraftServer(OptionSet options, Proxy proxy, File file1) {
@@ -591,11 +592,21 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	// PaperSpigot End
 
 	private AffinityLock lock = null;
-	
+
 	// WindSpigot - thread affinity
-	public AffinityLock getLock()
-	{
+	public AffinityLock getLock() {
 		return this.lock;
+	}
+
+	// WindSpigot - auto ai toggle
+	private void checkAi() {
+		// Disable ai if tps is lower than 18 and ai is enabled
+		if (recentTps[0] < 18 && InternalAPI.aiEnabled) {
+			InternalAPI.disableAi();
+			// Enable ai if tps is equal to or higher than 18 and ai is disabled
+		} else if (recentTps[0] >= 18 && !InternalAPI.aiEnabled) {
+			InternalAPI.toggleAi();
+		}
 	}
 
 	@Override
@@ -611,7 +622,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						MinecraftServer.LOGGER.info("CPU " + lock.cpuId() + " locked for server usage.");
 						MinecraftServer.LOGGER.info("This will boost the server's performance if configured properly.");
 						MinecraftServer.LOGGER.info("If not it will most likely decrease performance.");
-						MinecraftServer.LOGGER.info("See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus for configuration!");
+						MinecraftServer.LOGGER.info(
+								"See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus for configuration!");
 						MinecraftServer.LOGGER.info(" ");
 					} else {
 						MinecraftServer.LOGGER.error("An error occured whilst enabling thread affinity!");
@@ -675,6 +687,11 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 					}
 					lastTick = curTime;
 
+					// WindSpigot - automatic mob ai toggle
+					if (WindSpigotConfig.autoMobAi) {
+						this.checkAi();
+					}
+					
 					// NachoSpigot start - backport tick events from Paper
 					this.server.getPluginManager()
 							.callEvent(new com.destroystokyo.paper.event.server.ServerTickStartEvent(this.ticks + 1));

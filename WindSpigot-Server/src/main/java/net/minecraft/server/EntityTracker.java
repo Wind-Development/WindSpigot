@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import ga.windpvp.windspigot.async.ReusableCountDownLatch;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
@@ -160,10 +161,15 @@ public class EntityTracker {
 			entry.a();
 		}
 	}
+	
+	// WindSpigot - optimize async entity tracker
+	private ReusableCountDownLatch latch = new ReusableCountDownLatch(trackerThreads);
 
 	public void updatePlayers() {
 		int offset = 0;
-		final CountDownLatch latch = new CountDownLatch(trackerThreads);
+		
+		//final CountDownLatch latch = new CountDownLatch(trackerThreads);
+		
 		for (int i = 1; i <= trackerThreads; i++) {
 			final int localOffset = offset++;
 			// WindSpigot - async entity tracker from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
