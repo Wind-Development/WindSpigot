@@ -15,9 +15,9 @@ public class ReusableCountDownLatch {
 		if (threads <= 0) {
 			throw new IllegalArgumentException("Threads must be greater than 0.");
 		}
-		
+
 		this.threads = threads;
-		
+
 		this.threadsToCountDown = new AtomicInteger(threads);
 		this.canBeReset = new AtomicBoolean(false);
 	}
@@ -31,17 +31,18 @@ public class ReusableCountDownLatch {
 		}
 	}
 
-	public void countDown() {
+	public synchronized void countDown() {
 		if (this.threadsToCountDown.decrementAndGet() == 0) {
 			this.canBeReset.set(true);
+			notifyAll();
 		}
 	}
 
-	public void await() throws InterruptedException {
-		do {
-			Thread.sleep(1);
-		} while (threadsToCountDown.get() != 0);
-
+	public synchronized void await() throws InterruptedException {
+		while (threadsToCountDown.get() != 0)
+		{
+			wait();
+		}
 	}
 
 }

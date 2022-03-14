@@ -602,10 +602,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	private void checkAi() {
 		// Disable ai if tps is lower than 18 and ai is enabled
 		if (recentTps[0] < 18 && InternalAPI.aiEnabled) {
-			InternalAPI.disableAi();
+			MinecraftServer.LOGGER.info(InternalAPI.disableAi() + " (Low TPS)");
 			// Enable ai if tps is equal to or higher than 18 and ai is disabled
 		} else if (recentTps[0] >= 18 && !InternalAPI.aiEnabled) {
-			InternalAPI.toggleAi();
+			MinecraftServer.LOGGER.info(InternalAPI.enableAi() + " (Stable TPS)");
 		}
 	}
 
