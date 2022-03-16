@@ -1,10 +1,11 @@
-package ga.windpvp.windspigot.async.world;
+package ga.windpvp.windspigot;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.world.WorldTicker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
