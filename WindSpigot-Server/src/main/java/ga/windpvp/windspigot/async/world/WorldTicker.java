@@ -15,7 +15,6 @@ public class WorldTicker implements Runnable {
 
 	public final WorldServer worldserver;
 
-	public final static Object lock = new Object();
 	private final boolean isAsync;
 
 	public WorldTicker(WorldServer worldServer, boolean isAsync) {
@@ -61,7 +60,7 @@ public class WorldTicker implements Runnable {
 			throw new ReportedException(crashreport);
 		}
 
-		synchronized (lock) {
+		synchronized (WorldTickerManager.lock) {
 			//this.methodProfiler.b();
 			//this.methodProfiler.a("tracker");
 			worldserver.timings.tracker.startTiming(); // Spigot

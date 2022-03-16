@@ -18,6 +18,9 @@ public class WorldTickerManager {
 	// Latch to wait for world tick completion
 	public static CountDownLatch latch = null;
 	
+	// Lock for ticking
+	public final static Object lock = new Object();
+	
 	// Caches Runnables for less Object creation
 	private void cacheWorlds(boolean isAsync) {
 		if (this.worldTickers.size() != MinecraftServer.getServer().worlds.size()) {
@@ -30,7 +33,7 @@ public class WorldTickerManager {
 
 	// Ticks all worlds
 	public void tick() {
-		if (!WindSpigotConfig.parallelWorld || this.worldTickers.size() == 1) {
+		if (!WindSpigotConfig.parallelWorld) {
 			
 			this.cacheWorlds(false);
 
