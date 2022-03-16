@@ -37,10 +37,10 @@ public class WorldTickerManager {
 			for (WorldTicker ticker : this.worldTickers) {
 				ticker.run();
 			}
-		} else {
-			latch = new CountDownLatch(worldTickers.size());
-			
+		} else {			
 			this.cacheWorlds(true);
+			
+			latch = new CountDownLatch(worldTickers.size());
 			
 			for (WorldTicker ticker : this.worldTickers) {
 				AsyncUtil.run(ticker);
