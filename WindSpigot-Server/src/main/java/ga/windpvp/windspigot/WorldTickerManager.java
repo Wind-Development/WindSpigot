@@ -16,7 +16,7 @@ public class WorldTickerManager {
 	private List<WorldTicker> worldTickers = new ArrayList<>();
 	
 	// Latch to wait for world tick completion
-	public static CountDownLatch latch = null;
+	public static volatile CountDownLatch latch = null;
 	
 	// Lock for ticking
 	public final static Object lock = new Object();
