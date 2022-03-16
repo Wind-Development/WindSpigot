@@ -1,5 +1,6 @@
 package ga.windpvp.windspigot;
 
+import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.commands.MobAICommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.MinecraftServer;
@@ -25,6 +26,11 @@ public class WindSpigot {
 
 	private void init() {
 		initCmds();
+		
+		if (WindSpigotConfig.parallelWorld) {
+			Timings.setTimingsEnabled(false);
+			System.out.println("Timings disabled due to parallel worlds enabled.");
+		}
 	}
 
 }

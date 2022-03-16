@@ -43,7 +43,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 1; // Update this every new configuration update
+		int configVersion = 2; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
@@ -133,5 +133,13 @@ public class WindSpigotConfig {
 		mobAiCmd = getBoolean("settings.mob-ai-command", true);
 		c.addComment("settings.mob-ai-command",
 				"Enables the command \"/mobai\" which toggles mob ai. Users require the permission windspigot.command.mobai");
+	}
+	
+	public static boolean parallelWorld;
+
+	private static void parallelWorld() {
+		parallelWorld = getBoolean("settings.parallel-world", false);
+		c.addComment("settings.parallel-world",
+				"Enables async world ticking, ticking is faster if there are more worlds. This may break plugins!! Please take frequent backups whilst using this.");
 	}
 }

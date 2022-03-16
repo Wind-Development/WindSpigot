@@ -92,14 +92,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private int flushPacketsStart;
 	private final Object flushLock = new Object();
 
-	void disableAutomaticFlush() {
+	public void disableAutomaticFlush() {
 		synchronized (this.flushLock) {
 			this.flushPacketsStart = this.packetWrites.get(); // must be volatile and before canFlush = false
 			this.canFlush = false;
 		}
 	}
 
-	void enableAutomaticFlush() {
+	public void enableAutomaticFlush() {
 		synchronized (this.flushLock) {
 			this.canFlush = true;
 			if (this.packetWrites.get() != this.flushPacketsStart) { // must be after canFlush = true
