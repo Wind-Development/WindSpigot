@@ -29,7 +29,7 @@ public class WindSpigot {
 		
 		if (WindSpigotConfig.parallelWorld) {
 			Timings.setTimingsEnabled(false);
-			System.out.println("Timings disabled due to parallel worlds enabled.");
+			System.out.println("Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
 		}
 	}
 
