@@ -24,8 +24,8 @@ public class WorldTicker implements Runnable {
 
 	@Override
 	public void run() {
-		//this.methodProfiler.a(worldserver.getWorldData().getName());
-		//this.methodProfiler.a("tick");
+		// this.methodProfiler.a(worldserver.getWorldData().getName());
+		// this.methodProfiler.a("tick");
 		CrashReport crashreport;
 
 		try {
@@ -61,8 +61,8 @@ public class WorldTicker implements Runnable {
 		}
 
 		synchronized (WorldTickerManager.lock) {
-			//this.methodProfiler.b();
-			//this.methodProfiler.a("tracker");
+			// this.methodProfiler.b();
+			// this.methodProfiler.a("tracker");
 			worldserver.timings.tracker.startTiming(); // Spigot
 			if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
 			{
@@ -85,12 +85,14 @@ public class WorldTicker implements Runnable {
 				}
 				// Tuinity end - controlled flush for entity tracker packets
 			}
-			worldserver.timings.tracker.stopTiming(); // Spigot
-			//this.methodProfiler.b();
-			//this.methodProfiler.b();
-			worldserver.explosionDensityCache.clear(); // Paper - Optimize explosions
-			worldserver.movementCache.clear(); // IonSpigot - Movement Cache
 		}
+		
+		worldserver.timings.tracker.stopTiming(); // Spigot
+		// this.methodProfiler.b();
+		// this.methodProfiler.b();
+		worldserver.explosionDensityCache.clear(); // Paper - Optimize explosions
+		worldserver.movementCache.clear(); // IonSpigot - Movement Cache
+
 		if (this.isAsync) {
 			WorldTickerManager.latch.countDown();
 		}
