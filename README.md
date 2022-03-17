@@ -14,6 +14,7 @@ Java 17 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 [WindSpigot-0001] Thread Affinity
 [WindSpigot-0002] WindSpigot Config
 [WindSpigot-0003] Mob AI toggle
+[WindSpigot-0004] Parallel world ticking
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
