@@ -144,7 +144,7 @@ public class WindSpigotConfig {
 		// Disable timings by making timings check a variable (Code from api can't
 		// access server code, so we have to do this)
 		// Please open a PR if you know of a better method to do this.
-		if (parallelWorld = true) {
+		if (parallelWorld == true) {
 			TimingsCheck.enableTimings = false;
 		} else {
 			TimingsCheck.enableTimings = true;
