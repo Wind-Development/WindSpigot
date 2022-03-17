@@ -140,6 +140,6 @@ public class WindSpigotConfig {
 	private static void parallelWorld() {
 		parallelWorld = getBoolean("settings.parallel-world", false);
 		c.addComment("settings.parallel-world",
-				"Enables async world ticking, ticking is faster if there are more worlds. This may break plugins!! Please take frequent backups whilst using this.");
+				"Enables async world ticking, ticking is faster if there are more worlds. This may break plugins!! Timings is also not supported when using this. Please take frequent backups whilst using this.");
 	}
 }
