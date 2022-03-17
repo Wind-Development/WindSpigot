@@ -857,8 +857,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	public void B() {
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
 		this.methodProfiler.a("jobs");
-		Queue queue = this.j;
-
+		
 		// Spigot start
 		FutureTask<?> entry;
 		int count = this.j.size();
