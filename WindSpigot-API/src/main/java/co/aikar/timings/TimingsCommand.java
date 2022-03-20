@@ -34,6 +34,8 @@ import org.bukkit.util.StringUtil;
 
 import com.google.common.collect.ImmutableList;
 
+import ga.windpvp.timings.TimingsCheck;
+
 public class TimingsCommand extends BukkitCommand {
 	public static final List<String> TIMINGS_SUBCOMMANDS = ImmutableList.of("report", "reset", "on", "off", "paste",
 			"verbon", "verboff");
@@ -50,6 +52,14 @@ public class TimingsCommand extends BukkitCommand {
 		if (!testPermission(sender)) {
 			return true;
 		}
+		
+		// WindSpigot start - Disable timings if using parallel worlds
+		if (!TimingsCheck.enableTimings) {
+			sender.sendMessage(ChatColor.RED + "Timings command is disabled due to parallel world ticking being enabled.");
+			return true;
+		}
+		// WindSpigot end
+		
 		if (args.length < 1) {
 			sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
 			return true;

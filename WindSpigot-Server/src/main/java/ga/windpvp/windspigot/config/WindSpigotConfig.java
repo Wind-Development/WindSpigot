@@ -16,6 +16,8 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
+import ga.windpvp.timings.TimingsCheck;
+
 public class WindSpigotConfig {
 
 	private static final Logger LOGGER = LogManager.getLogger(WindSpigotConfig.class);
@@ -26,7 +28,7 @@ public class WindSpigotConfig {
 			+ "with caution, and make sure you know what each option does before configuring.\n" + "\n"
 			+ "If you need help with the configuration or have any questions related to WindSpigot,\n"
 			+ "join us in our Discord.\n" + "\n" + "Discord: https://discord.gg/kAbTsFkbmN\n";
-	
+
 	static YamlConfiguration config;
 	static int version;
 
@@ -43,7 +45,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 1; // Update this every new configuration update
+		int configVersion = 2; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
@@ -108,7 +110,7 @@ public class WindSpigotConfig {
 		config.addDefault(path, def);
 		return config.getString(path, config.getString(path));
 	}
-	
+
 	public static boolean disableTracking;
 	public static int trackingThreads;
 
@@ -118,7 +120,7 @@ public class WindSpigotConfig {
 		trackingThreads = getInt("settings.async.entity-tracking.threads", 5);
 		c.addComment("settings.async.entity-tracking.threads", "Entity Tracking Threads");
 	}
-	
+
 	public static boolean threadAffinity;
 
 	private static void threadAffinity() {
@@ -126,12 +128,28 @@ public class WindSpigotConfig {
 		c.addComment("settings.thread-affinity",
 				"Only switch to true if your OS is properly configured!! (See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus) When properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
 	}
-	
+
 	public static boolean mobAiCmd;
 
 	private static void mobAiCmd() {
 		mobAiCmd = getBoolean("settings.mob-ai-command", true);
 		c.addComment("settings.mob-ai-command",
 				"Enables the command \"/mobai\" which toggles mob ai. Users require the permission windspigot.command.mobai");
+	}
+
+	public static boolean parallelWorld;
+
+	private static void parallelWorld() {
+		parallelWorld = getBoolean("settings.async.parallel-world", true);
+		// Disable timings by making timings check a variable (Code from api can't
+		// access server code, so we have to do this)
+		// Please open a PR if you know of a better method to do this.
+		if (parallelWorld == true) {
+			TimingsCheck.enableTimings = false;
+		} else {
+			TimingsCheck.enableTimings = true;
+		}
+		c.addComment("settings.async.parallel-world",
+				"Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this. Please take frequent backups whilst using this.");
 	}
 }

@@ -38,6 +38,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import co.aikar.timings.SpigotTimings; // Spigot
 import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.WorldTickerManager;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
@@ -620,6 +621,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 				}
 				// WindSpigot end
+				
+				// WindSpigot - parallel worlds
+				this.worldTickerManager = new WorldTickerManager();
 
 				this.ab = az();
 				this.r.setMOTD(new ChatComponentText(this.motd));
@@ -847,12 +851,13 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		org.spigotmc.WatchdogThread.tick(); // Spigot
 		co.aikar.timings.TimingsManager.FULL_SERVER_TICK.stopTiming(); // Spigot
 	}
+	
+	private WorldTickerManager worldTickerManager;
 
 	public void B() {
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
 		this.methodProfiler.a("jobs");
-		Queue queue = this.j;
-
+		
 		// Spigot start
 		FutureTask<?> entry;
 		int count = this.j.size();
@@ -911,73 +916,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		}
 		SpigotTimings.timeUpdateTimer.stopTiming(); // Spigot
 
-		for (i = 0; i < this.worlds.size(); ++i) {
-			WorldServer worldserver = this.worlds.get(i);
-			this.methodProfiler.a(worldserver.getWorldData().getName());
-			this.methodProfiler.a("tick");
-			CrashReport crashreport;
-
-			try {
-				worldserver.timings.doTick.startTiming(); // Spigot
-				worldserver.doTick();
-				worldserver.timings.doTick.stopTiming(); // Spigot
-			} catch (Throwable throwable) {
-				// Spigot Start
-				try {
-					crashreport = CrashReport.a(throwable, "Exception ticking world");
-				} catch (Throwable t) {
-					throw new RuntimeException("Error generating crash report", t);
-				}
-				// Spigot End
-				worldserver.a(crashreport);
-				throw new ReportedException(crashreport);
-			}
-
-			try {
-				worldserver.timings.tickEntities.startTiming(); // Spigot
-				worldserver.tickEntities();
-				worldserver.timings.tickEntities.stopTiming(); // Spigot
-			} catch (Throwable throwable1) {
-				// Spigot Start
-				try {
-					crashreport = CrashReport.a(throwable1, "Exception ticking world entities");
-				} catch (Throwable t) {
-					throw new RuntimeException("Error generating crash report", t);
-				}
-				// Spigot End
-				worldserver.a(crashreport);
-				throw new ReportedException(crashreport);
-			}
-
-			this.methodProfiler.b();
-			this.methodProfiler.a("tracker");
-			worldserver.timings.tracker.startTiming(); // Spigot
-			if (this.getPlayerList().getPlayerCount() != 0) // Tuinity
-			{
-				// Tuinity start - controlled flush for entity tracker packets
-				List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(this.getPlayerList().getPlayerCount());
-				for (EntityPlayer player : this.getPlayerList().players) {
-					PlayerConnection connection = player.playerConnection;
-					if (connection != null) {
-						connection.networkManager.disableAutomaticFlush();
-						disabledFlushes.add(connection.networkManager);
-					}
-				}
-				try {
-					worldserver.getTracker().updatePlayers();
-				} finally {
-					for (NetworkManager networkManager : disabledFlushes) {
-						networkManager.enableAutomaticFlush();
-					}
-				}
-				// Tuinity end - controlled flush for entity tracker packets
-			}
-			worldserver.timings.tracker.stopTiming(); // Spigot
-			this.methodProfiler.b();
-			this.methodProfiler.b();
-			worldserver.explosionDensityCache.clear(); // Paper - Optimize explosions
-			worldserver.movementCache.clear(); // IonSpigot - Movement Cache
-		}
+		// WindSpigot - parallel worlds
+		worldTickerManager.tick();
 
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot
