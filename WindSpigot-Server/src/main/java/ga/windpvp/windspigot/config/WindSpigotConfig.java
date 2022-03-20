@@ -140,7 +140,7 @@ public class WindSpigotConfig {
 	public static boolean parallelWorld;
 
 	private static void parallelWorld() {
-		parallelWorld = getBoolean("settings.parallel-world", false);
+		parallelWorld = getBoolean("settings.parallel-world", true);
 		// Disable timings by making timings check a variable (Code from api can't
 		// access server code, so we have to do this)
 		// Please open a PR if you know of a better method to do this.
@@ -150,6 +150,6 @@ public class WindSpigotConfig {
 			TimingsCheck.enableTimings = true;
 		}
 		c.addComment("settings.parallel-world",
-				"Enables async world ticking, ticking is faster if there are more worlds. This feature may be removed at a later date. This may break plugins!! Timings is also not supported when using this. Please take frequent backups whilst using this.");
+				"Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this. Please take frequent backups whilst using this.");
 	}
 }
