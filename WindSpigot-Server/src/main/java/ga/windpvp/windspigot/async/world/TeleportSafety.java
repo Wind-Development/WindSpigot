@@ -8,6 +8,10 @@ import net.minecraft.server.WorldServer;
 
 public class TeleportSafety {
 	
-	public static final Map<WorldServer, Boolean> isWaitingOnTeleport = Maps.newConcurrentMap();
+	public static Map<WorldServer, Boolean> isWaitingOnTeleport;
+	
+	public static void init() {
+		isWaitingOnTeleport = Maps.newConcurrentMap();
+	}
 
 }

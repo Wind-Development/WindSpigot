@@ -1,6 +1,7 @@
 package ga.windpvp.windspigot;
 
 import co.aikar.timings.Timings;
+import ga.windpvp.windspigot.async.world.TeleportSafety;
 import ga.windpvp.windspigot.commands.MobAICommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.MinecraftServer;
@@ -32,6 +33,7 @@ public class WindSpigot {
 			System.out.println(" ");
 			System.out.println("Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
 			System.out.println(" ");
+			TeleportSafety.init();
 		}
 	}
 
