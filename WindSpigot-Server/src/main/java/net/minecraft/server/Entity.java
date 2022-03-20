@@ -40,7 +40,10 @@ import com.eatthepath.uuid.FastUUID;
 import co.aikar.timings.SpigotTimings; // Spigot
 import co.aikar.timings.Timing; // Spigot
 import dev.cobblesword.nachospigot.commons.Constants;
+import dev.cobblesword.nachospigot.commons.MCUtils;
 import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
+import ga.windpvp.windspigot.async.world.TeleportSafety;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 
 public abstract class Entity implements ICommandListener {
 
@@ -519,9 +522,10 @@ public abstract class Entity implements ICommandListener {
 	}
 
 	public void move(double d0, double d1, double d2) {
-		// Check if we're moving                                    
+		// Check if we're moving
 		// WindSpigot - smoother mob ai disable
-		if ((d0 == 0 && d1 == 0 && d2 == 0 && this.vehicle == null && this.passenger == null) || (!this.getWorld().nachoSpigotConfig.enableMobAI && this instanceof EntityInsentient)) {
+		if ((d0 == 0 && d1 == 0 && d2 == 0 && this.vehicle == null && this.passenger == null)
+				|| (!this.getWorld().nachoSpigotConfig.enableMobAI && this instanceof EntityInsentient)) {
 			return;
 		}
 		if (this.loadChunks) {
@@ -2234,59 +2238,147 @@ public abstract class Entity implements ICommandListener {
 
 	public void teleportTo(Location exit, boolean portal) {
 		if (true) {
-			WorldServer worldserver = ((CraftWorld) getBukkitEntity().getLocation().getWorld()).getHandle();
-			WorldServer worldserver1 = ((CraftWorld) exit.getWorld()).getHandle();
-			int i = worldserver1.dimension;
-			// CraftBukkit end
+			// WindSpigot start - world teleportation safety (parallel worlds)
+			final WorldServer worldserver = ((CraftWorld) getBukkitEntity().getLocation().getWorld()).getHandle();
+			final WorldServer worldserver1 = ((CraftWorld) exit.getWorld()).getHandle();
 
-			this.dimension = i;
-			/*
-			 * CraftBukkit start - TODO: Check if we need this if (j == 1 && i == 1) {
-			 * worldserver1 = minecraftserver.getWorldServer(0); this.dimension = 0; } //
-			 * CraftBukkit end
-			 */
+			// Check if using parallel worlds and if teleporting is between worlds
+			if (WindSpigotConfig.parallelWorld && worldserver != worldserver1) {
 
-			this.world.kill(this);
-			this.dead = false;
-			this.world.methodProfiler.a("reposition");
-			// CraftBukkit start - Ensure chunks are loaded in case TravelAgent is not used
-			// which would initially cause chunks to load during find/create
-			// minecraftserver.getPlayerList().changeWorld(this, j, worldserver,
-			// worldserver1);
-			boolean before = worldserver1.chunkProviderServer.forceChunkLoad;
-			worldserver1.chunkProviderServer.forceChunkLoad = true;
-			worldserver1.getMinecraftServer().getPlayerList().repositionEntity(this, exit, portal);
-			worldserver1.chunkProviderServer.forceChunkLoad = before;
-			// CraftBukkit end
-			this.world.methodProfiler.c("reloading");
-			Entity entity = EntityTypes.createEntityByName(EntityTypes.b(this), worldserver1);
+				// Only one thread can access this at a time 
+				synchronized (TeleportSafety.isWaitingOnTeleport) {
+					
+					// Check if other worlds are waiting on teleporting
+					if (TeleportSafety.isWaitingOnTeleport.get(worldserver1)) {
 
-			if (entity != null) {
-				entity.n(this);
+						// Create a runnable that is then run on the main thread
+						Runnable runnable = (() -> {
+							int i = worldserver1.dimension;
+							// CraftBukkit end
+
+							this.dimension = i;
+							/*
+							 * CraftBukkit start - TODO: Check if we need this if (j == 1 && i == 1) {
+							 * worldserver1 = minecraftserver.getWorldServer(0); this.dimension = 0; } //
+							 * CraftBukkit end
+							 */
+
+							this.world.kill(this);
+							this.dead = false;
+							this.world.methodProfiler.a("reposition");
+							// CraftBukkit start - Ensure chunks are loaded in case TravelAgent is not used
+							// which would initially cause chunks to load during find/create
+							// minecraftserver.getPlayerList().changeWorld(this, j, worldserver,
+							// worldserver1);
+							boolean before = worldserver1.chunkProviderServer.forceChunkLoad;
+							worldserver1.chunkProviderServer.forceChunkLoad = true;
+							worldserver1.getMinecraftServer().getPlayerList().repositionEntity(this, exit, portal);
+							worldserver1.chunkProviderServer.forceChunkLoad = before;
+							// CraftBukkit end
+							this.world.methodProfiler.c("reloading");
+							Entity entity = EntityTypes.createEntityByName(EntityTypes.b(this), worldserver1);
+
+							if (entity != null) {
+								entity.n(this);
+								/*
+								 * CraftBukkit start - We need to do this... if (j == 1 && i == 1) {
+								 * BlockPosition blockposition = this.world.r(worldserver1.getSpawn());
+								 * 
+								 * entity.setPositionRotation(blockposition, entity.yaw, entity.pitch); } //
+								 * CraftBukkit end
+								 */
+
+								worldserver1.addEntity(entity);
+								// CraftBukkit start - Forward the CraftEntity to the new entity
+								this.getBukkitEntity().setHandle(entity);
+								entity.bukkitEntity = this.getBukkitEntity();
+
+								if (this instanceof EntityInsentient) {
+									((EntityInsentient) this).unleash(true, false); // Unleash to prevent duping of
+																					// leads.
+								}
+								// CraftBukkit end
+							}
+
+							this.dead = true;
+							this.world.methodProfiler.b();
+							worldserver.j();
+							worldserver1.j();
+							this.world.methodProfiler.b();
+						});
+						
+						// Run this runnable on the main thread on the next tick
+						MCUtils.ensureMain(runnable);
+						return;
+					}
+					
+					// Register this teleport if no other teleports are waiting
+					TeleportSafety.isWaitingOnTeleport.put(worldserver, true);
+				}
+			}
+			// WindSpigot end
+
+			// WindSpigot - synchronize on the WorldServer to wait for the world to finish
+			// ticking before teleporting the entity
+			synchronized (worldserver1) {
+
+				int i = worldserver1.dimension;
+				// CraftBukkit end
+
+				this.dimension = i;
 				/*
-				 * CraftBukkit start - We need to do this... if (j == 1 && i == 1) {
-				 * BlockPosition blockposition = this.world.r(worldserver1.getSpawn());
-				 * 
-				 * entity.setPositionRotation(blockposition, entity.yaw, entity.pitch); } //
+				 * CraftBukkit start - TODO: Check if we need this if (j == 1 && i == 1) {
+				 * worldserver1 = minecraftserver.getWorldServer(0); this.dimension = 0; } //
 				 * CraftBukkit end
 				 */
 
-				worldserver1.addEntity(entity);
-				// CraftBukkit start - Forward the CraftEntity to the new entity
-				this.getBukkitEntity().setHandle(entity);
-				entity.bukkitEntity = this.getBukkitEntity();
-
-				if (this instanceof EntityInsentient) {
-					((EntityInsentient) this).unleash(true, false); // Unleash to prevent duping of leads.
-				}
+				this.world.kill(this);
+				this.dead = false;
+				this.world.methodProfiler.a("reposition");
+				// CraftBukkit start - Ensure chunks are loaded in case TravelAgent is not used
+				// which would initially cause chunks to load during find/create
+				// minecraftserver.getPlayerList().changeWorld(this, j, worldserver,
+				// worldserver1);
+				boolean before = worldserver1.chunkProviderServer.forceChunkLoad;
+				worldserver1.chunkProviderServer.forceChunkLoad = true;
+				worldserver1.getMinecraftServer().getPlayerList().repositionEntity(this, exit, portal);
+				worldserver1.chunkProviderServer.forceChunkLoad = before;
 				// CraftBukkit end
+				this.world.methodProfiler.c("reloading");
+				Entity entity = EntityTypes.createEntityByName(EntityTypes.b(this), worldserver1);
+
+				if (entity != null) {
+					entity.n(this);
+					/*
+					 * CraftBukkit start - We need to do this... if (j == 1 && i == 1) {
+					 * BlockPosition blockposition = this.world.r(worldserver1.getSpawn());
+					 * 
+					 * entity.setPositionRotation(blockposition, entity.yaw, entity.pitch); } //
+					 * CraftBukkit end
+					 */
+
+					worldserver1.addEntity(entity);
+					// CraftBukkit start - Forward the CraftEntity to the new entity
+					this.getBukkitEntity().setHandle(entity);
+					entity.bukkitEntity = this.getBukkitEntity();
+
+					if (this instanceof EntityInsentient) {
+						((EntityInsentient) this).unleash(true, false); // Unleash to prevent duping of leads.
+					}
+					// CraftBukkit end
+				}
+
+				this.dead = true;
+				this.world.methodProfiler.b();
+				worldserver.j();
+				worldserver1.j();
+				this.world.methodProfiler.b();
 			}
 
-			this.dead = true;
-			this.world.methodProfiler.b();
-			worldserver.j();
-			worldserver1.j();
-			this.world.methodProfiler.b();
+			// WindSpigot - no longer waiting to teleport
+			if (WindSpigotConfig.parallelWorld) {
+				TeleportSafety.isWaitingOnTeleport.remove(worldserver);
+			}
 		}
 	}
 
