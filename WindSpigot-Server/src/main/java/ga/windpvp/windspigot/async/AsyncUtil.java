@@ -13,5 +13,9 @@ public class AsyncUtil {
 	public static void run(Runnable runnable) {
 		executor.execute(runnable);
 	}
+	
+	public static void run(Runnable runnable, Executor executor) {
+		executor.execute(runnable);
+	}
 
 }

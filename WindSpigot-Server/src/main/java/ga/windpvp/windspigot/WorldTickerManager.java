@@ -3,6 +3,10 @@ package ga.windpvp.windspigot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.world.WorldTicker;
@@ -20,6 +24,10 @@ public class WorldTickerManager {
 
 	// Lock for ticking
 	public final static Object lock = new Object();
+
+	// Executor for world ticking
+	private final Executor worldTickExecutor = Executors
+			.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("WindSpigot Parallel World Thread").build());
 
 	// Caches Runnables for less Object creation
 	private void cacheWorlds(boolean isAsync) {
@@ -47,7 +55,7 @@ public class WorldTickerManager {
 				latch = new CountDownLatch(worldTickers.size());
 
 				for (WorldTicker ticker : this.worldTickers) {
-					AsyncUtil.run(ticker);
+					AsyncUtil.run(ticker, this.worldTickExecutor);
 				}
 
 				try {
@@ -59,6 +67,10 @@ public class WorldTickerManager {
 				this.worldTickers.get(0).run();
 			}
 		}
+	}
+
+	public Executor getExecutor() {
+		return this.worldTickExecutor;
 	}
 
 }
