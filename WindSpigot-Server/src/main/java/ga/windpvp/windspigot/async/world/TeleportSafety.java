@@ -7,11 +7,13 @@ import com.google.common.collect.Maps;
 import net.minecraft.server.WorldServer;
 
 public class TeleportSafety {
-	
+
 	public static Map<WorldServer, Boolean> isWaitingOnTeleport;
-	
+
 	public static void init() {
-		isWaitingOnTeleport = Maps.newConcurrentMap();
+		if (isWaitingOnTeleport == null) {
+			isWaitingOnTeleport = Maps.newConcurrentMap();
+		}
 	}
 
 }
