@@ -734,6 +734,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 					try {
 						// Signal that there is one less server
 						this.windSpigot.client.sendMessage("removed server");
+						// This tells the server to stop listening for messages from this client
+						this.windSpigot.client.sendMessage(".");
 						this.windSpigot.client.stop();
 					} catch (IOException e) {
 						e.printStackTrace();
