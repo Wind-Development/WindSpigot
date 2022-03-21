@@ -762,7 +762,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			// WindSpigot - wait for statistics to finish stopping
 			try {
 				if (this.windSpigot.client.isConnected) {
-					statisticsThread.join(1000);
+					statisticsThread.join(1500);
 				}
 			} catch (Throwable ignored) {
 			}
