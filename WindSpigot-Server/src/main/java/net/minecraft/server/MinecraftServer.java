@@ -726,6 +726,16 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				lock.release();
 				MinecraftServer.LOGGER.info("Released CPU " + lock.cpuId() + " from server usage.");
 			}
+			// WindSpigot - stop statistics connection
+			if (this.windSpigot.client.isConnected) {
+				try {
+					// Signal that there is one less server
+					this.windSpigot.client.sendMessage("removed server");
+					this.windSpigot.client.stop();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			try {
 				org.spigotmc.WatchdogThread.doStop();
 				this.isStopped = true;
