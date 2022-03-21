@@ -757,6 +757,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				// CraftBukkit end
 				this.z();
 			}
+			// WindSpigot - wait for statistics to finish stopping
 			try {
 				if (this.windSpigot.client.isConnected) {
 					statisticsThread.join(1000);
