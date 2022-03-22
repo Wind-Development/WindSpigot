@@ -679,88 +679,84 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		} else {
 			int i = this.M.size();
 
-			if (false) { // CraftBukkit
-				throw new IllegalStateException("TickNextTick list out of sync");
-			} else {
-				// PaperSpigot start - No, stop doing this, it affects things like redstone
-				/*
-				 * if (i > 1000) { // CraftBukkit start - If the server has too much to process
-				 * over time, try to alleviate that if (i > 20 * 1000) { i = i / 20; } else { i
-				 * = 1000; } // CraftBukkit end
-				 */
-				if (i > paperSpigotConfig.tickNextTickCap) {
-					i = paperSpigotConfig.tickNextTickCap;
-				}
-				// PaperSpigot end
-
-				this.methodProfiler.a("cleaning");
-
-				timings.scheduledBlocksCleanup.startTiming(); // Spigot
-				NextTickListEntry nextticklistentry;
-
-				for (int j = 0; j < i; ++j) {
-					nextticklistentry = this.M.first();
-					if (!flag && nextticklistentry.b > this.worldData.getTime()) {
-						break;
-					}
-
-					// CraftBukkit - use M, PAIL: Rename nextTickList
-					this.M.remove(nextticklistentry);
-					this.V.add(nextticklistentry);
-				}
-				timings.scheduledBlocksCleanup.stopTiming(); // Spigot
-
-				// PaperSpigot start - Allow redstone ticks to bypass the tickNextTickListCap
-				/*
-				 * if (paperSpigotConfig.tickNextTickListCapIgnoresRedstone) {
-				 * Iterator<NextTickListEntry> iterator = this.M.iterator(); while
-				 * (iterator.hasNext()) { NextTickListEntry next = iterator.next(); if (!flag &&
-				 * next.b > this.worldData.getTime()) { break; }
-				 * 
-				 * if (next.a().isPowerSource() || next.a() instanceof IContainer) {
-				 * iterator.remove(); this.V.add(next); } } }
-				 */
-				// PaperSpigot end
-
-				this.methodProfiler.b();
-				this.methodProfiler.a("ticking");
-				timings.scheduledBlocksTicking.startTiming(); // Spigot
-				Iterator iterator = this.V.iterator();
-
-				while (iterator.hasNext()) {
-					nextticklistentry = (NextTickListEntry) iterator.next();
-					iterator.remove();
-					byte b0 = 0;
-
-					if (this.areChunksLoadedBetween(nextticklistentry.a.a(-b0, -b0, -b0),
-							nextticklistentry.a.a(b0, b0, b0))) {
-						IBlockData iblockdata = this.getType(nextticklistentry.a);
-						co.aikar.timings.Timing timing = iblockdata.getBlock().getTiming(); // Spigot
-						timing.startTiming(); // Spigot
-
-						if (iblockdata.getBlock().getMaterial() != Material.AIR
-								&& Block.a(iblockdata.getBlock(), nextticklistentry.a())) {
-							try {
-								iblockdata.getBlock().b(this, nextticklistentry.a, iblockdata, this.random);
-							} catch (Throwable throwable) {
-								CrashReport crashreport = CrashReport.a(throwable, "Exception while ticking a block");
-								CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Block being ticked");
-
-								CrashReportSystemDetails.a(crashreportsystemdetails, nextticklistentry.a, iblockdata);
-								throw new ReportedException(crashreport);
-							}
-						}
-						timing.stopTiming(); // Spigot
-					} else {
-						this.a(nextticklistentry.a, nextticklistentry.a(), 0);
-					}
-				}
-				timings.scheduledBlocksTicking.stopTiming(); // Spigot
-
-				this.methodProfiler.b();
-				this.V.clear();
-				return !this.M.isEmpty();
+			// PaperSpigot start - No, stop doing this, it affects things like redstone
+			/*
+			 * if (i > 1000) { // CraftBukkit start - If the server has too much to process
+			 * over time, try to alleviate that if (i > 20 * 1000) { i = i / 20; } else { i
+			 * = 1000; } // CraftBukkit end
+			 */
+			if (i > paperSpigotConfig.tickNextTickCap) {
+				i = paperSpigotConfig.tickNextTickCap;
 			}
+			// PaperSpigot end
+
+			this.methodProfiler.a("cleaning");
+
+			timings.scheduledBlocksCleanup.startTiming(); // Spigot
+			NextTickListEntry nextticklistentry;
+
+			for (int j = 0; j < i; ++j) {
+				nextticklistentry = this.M.first();
+				if (!flag && nextticklistentry.b > this.worldData.getTime()) {
+					break;
+				}
+
+				// CraftBukkit - use M, PAIL: Rename nextTickList
+				this.M.remove(nextticklistentry);
+				this.V.add(nextticklistentry);
+			}
+			timings.scheduledBlocksCleanup.stopTiming(); // Spigot
+
+			// PaperSpigot start - Allow redstone ticks to bypass the tickNextTickListCap
+			/*
+			 * if (paperSpigotConfig.tickNextTickListCapIgnoresRedstone) {
+			 * Iterator<NextTickListEntry> iterator = this.M.iterator(); while
+			 * (iterator.hasNext()) { NextTickListEntry next = iterator.next(); if (!flag &&
+			 * next.b > this.worldData.getTime()) { break; }
+			 * 
+			 * if (next.a().isPowerSource() || next.a() instanceof IContainer) {
+			 * iterator.remove(); this.V.add(next); } } }
+			 */
+			// PaperSpigot end
+
+			this.methodProfiler.b();
+			this.methodProfiler.a("ticking");
+			timings.scheduledBlocksTicking.startTiming(); // Spigot
+			Iterator iterator = this.V.iterator();
+
+			while (iterator.hasNext()) {
+				nextticklistentry = (NextTickListEntry) iterator.next();
+				iterator.remove();
+				byte b0 = 0;
+
+				if (this.areChunksLoadedBetween(nextticklistentry.a.a(-b0, -b0, -b0),
+						nextticklistentry.a.a(b0, b0, b0))) {
+					IBlockData iblockdata = this.getType(nextticklistentry.a);
+					co.aikar.timings.Timing timing = iblockdata.getBlock().getTiming(); // Spigot
+					timing.startTiming(); // Spigot
+
+					if (iblockdata.getBlock().getMaterial() != Material.AIR
+							&& Block.a(iblockdata.getBlock(), nextticklistentry.a())) {
+						try {
+							iblockdata.getBlock().b(this, nextticklistentry.a, iblockdata, this.random);
+						} catch (Throwable throwable) {
+							CrashReport crashreport = CrashReport.a(throwable, "Exception while ticking a block");
+							CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Block being ticked");
+
+							CrashReportSystemDetails.a(crashreportsystemdetails, nextticklistentry.a, iblockdata);
+							throw new ReportedException(crashreport);
+						}
+					}
+					timing.stopTiming(); // Spigot
+				} else {
+					this.a(nextticklistentry.a, nextticklistentry.a(), 0);
+				}
+			}
+			timings.scheduledBlocksTicking.stopTiming(); // Spigot
+
+			this.methodProfiler.b();
+			this.V.clear();
+			return !this.M.isEmpty();
 		}
 	}
 
