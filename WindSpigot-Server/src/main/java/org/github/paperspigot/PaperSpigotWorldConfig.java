@@ -121,8 +121,9 @@ public class PaperSpigotWorldConfig {
 	public int hardDespawnDistance;
 
 	private void despawnDistances() {
-		softDespawnDistance = getInt("despawn-ranges.soft", 32); // 32^2 = 1024, Minecraft Default
-		hardDespawnDistance = getInt("despawn-ranges.hard", 128); // 128^2 = 16384, Minecraft Default;
+		// WindSpigot - optimize config defaults 32 -> 20, 128 -> 40
+		softDespawnDistance = getInt("despawn-ranges.soft", 20); // 32^2 = 1024, Minecraft Default
+		hardDespawnDistance = getInt("despawn-ranges.hard", 40); // 128^2 = 16384, Minecraft Default;
 
 		if (softDespawnDistance > hardDespawnDistance) {
 			softDespawnDistance = hardDespawnDistance;
@@ -203,7 +204,8 @@ public class PaperSpigotWorldConfig {
 	public boolean tickNextTickListCapIgnoresRedstone;
 
 	private void tickNextTickCap() {
-		tickNextTickCap = getInt("tick-next-tick-list-cap", 10000); // Higher values will be friendlier to vanilla style
+		// WindSpigot - optimize config defaults 10000 -> 7500
+		tickNextTickCap = getInt("tick-next-tick-list-cap", 7500); // Higher values will be friendlier to vanilla style
 																	// mechanics (to a point) but may hurt performance
 		tickNextTickListCapIgnoresRedstone = getBoolean("tick-next-tick-list-cap-ignores-redstone", false); // Redstone
 																											// TickNextTicks
@@ -220,7 +222,8 @@ public class PaperSpigotWorldConfig {
 	public boolean useAsyncLighting;
 
 	private void useAsyncLighting() {
-		useAsyncLighting = getBoolean("use-async-lighting", false);
+		// WindSpigot - optimize config defaults false -> true
+		useAsyncLighting = getBoolean("use-async-lighting", true);
 		log("World async lighting: " + useAsyncLighting);
 	}
 
@@ -313,7 +316,8 @@ public class PaperSpigotWorldConfig {
 			}
 		}
 
-		fixCannons = getBoolean("fix-cannons", false);
+		// WindSpigot - optimize config defaults false -> true
+		fixCannons = getBoolean("fix-cannons", true);
 		log("Fix TNT cannons: " + fixCannons);
 	}
 
@@ -366,7 +370,8 @@ public class PaperSpigotWorldConfig {
 	public int mobSpawnerTickRate;
 
 	private void mobSpawnerTickRate() {
-		mobSpawnerTickRate = getInt("mob-spawner-tick-rate", 1);
+		// WindSpigot - optimize config defaults 1 -> 2
+		mobSpawnerTickRate = getInt("mob-spawner-tick-rate", 2);
 	}
 
 	public boolean cacheChunkMaps;
@@ -378,7 +383,8 @@ public class PaperSpigotWorldConfig {
 	public int containerUpdateTickRate;
 
 	private void containerUpdateTickRate() {
-		containerUpdateTickRate = getInt("container-update-tick-rate", 1);
+		// WindSpigot - optimize config defaults 1 -> 4
+		containerUpdateTickRate = getInt("container-update-tick-rate", 4);
 	}
 
 	public float tntExplosionVolume;
