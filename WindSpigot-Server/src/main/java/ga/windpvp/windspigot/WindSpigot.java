@@ -43,7 +43,7 @@ public class WindSpigot {
 					client.sendMessage("new server");
 				}
 			} catch (IOException ignored) {
-				System.out.println("There was an error enabling WindSpigot statistics!");
+				Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "There was an error enabling WindSpigot statistics! This is usually safe to ignore.");
 			}
 		});
 		AsyncUtil.run(runnable);
