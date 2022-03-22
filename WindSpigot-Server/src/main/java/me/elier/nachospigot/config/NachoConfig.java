@@ -190,7 +190,7 @@ public class NachoConfig {
 	public static boolean useFastOperators;
 
 	private static void useFastOperators() {
-		useFastOperators = getBoolean("settings.fast-operators", false);
+		useFastOperators = getBoolean("settings.fast-operators", true);
 		c.addComment("settings.fast-operators",
 				"Enables Fast Operators, which uses a faster method for managing operators");
 	}
