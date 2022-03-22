@@ -1,6 +1,6 @@
 # WindSpigot 
 
-#### WindSpigot is based on a fork of NachoSpigot.
+#### WindSpigot is a 1.8.8 Minecraft server software based on a fork of NachoSpigot.
 
 ## Current State
 Java 17 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2/ProtocolLib), [ViaVersion](https://github.com/ViaVersion/ViaVersion), and [Citizens2](https://github.com/CitizensDev/Citizens2) are patched at runtime to work with Nacho's modifications.
