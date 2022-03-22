@@ -61,6 +61,7 @@ public class WindSpigot {
 			System.out.println(" ");
 			TeleportSafety.init();
 		}
+		System.gc();
 	}
 
 }
