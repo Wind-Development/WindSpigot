@@ -158,6 +158,15 @@ public class WindSpigotConfig {
 
 	private static void limitedMobSpawns() {
 		limitedMobSpawns = getBoolean("settings.limited-mob-spawns", true);
-		c.addComment("settings.limited-mob-spawns", "Disables mob spawning if TPS is lower than 18");
+		c.addComment("settings.limited-mob-spawns",
+				"Disables mob spawning if TPS is lower than the specified threshold.");
+	}
+
+	public static int limitedMobSpawnsThreshold;
+
+	private static void limitedMobSpawnsThreshold() {
+		limitedMobSpawnsThreshold = getInt("settings.limited-mob-spawns-threshold", 18);
+		c.addComment("settings.limited-mob-spawns-threshold",
+				"Threshold to disable mob spawning. Does not apply if limited mob spawns is not enabled.");
 	}
 }
