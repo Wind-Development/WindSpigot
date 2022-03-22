@@ -204,8 +204,8 @@ public class PaperSpigotWorldConfig {
 	public boolean tickNextTickListCapIgnoresRedstone;
 
 	private void tickNextTickCap() {
-		// WindSpigot - optimize config defaults 10000 -> 1500
-		tickNextTickCap = getInt("tick-next-tick-list-cap", 1500); // Higher values will be friendlier to vanilla style
+		// WindSpigot - optimize config defaults 10000 -> 7500
+		tickNextTickCap = getInt("tick-next-tick-list-cap", 7500); // Higher values will be friendlier to vanilla style
 																	// mechanics (to a point) but may hurt performance
 		tickNextTickListCapIgnoresRedstone = getBoolean("tick-next-tick-list-cap-ignores-redstone", false); // Redstone
 																											// TickNextTicks
