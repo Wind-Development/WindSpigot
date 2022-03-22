@@ -118,7 +118,8 @@ public class WindSpigotConfig {
 		disableTracking = getBoolean("settings.async.entity-tracking.disable", false);
 		c.addComment("settings.async.entity-tracking.disable", "Disables asynchronous entity tracking");
 		trackingThreads = getInt("settings.async.entity-tracking.threads", 5);
-		c.addComment("settings.async.entity-tracking.threads", "The amount of threads to use when asynchronous entity tracking is enabled.");
+		c.addComment("settings.async.entity-tracking.threads",
+				"The amount of threads to use when asynchronous entity tracking is enabled.");
 	}
 
 	public static boolean threadAffinity;
@@ -151,5 +152,12 @@ public class WindSpigotConfig {
 		}
 		c.addComment("settings.async.parallel-world",
 				"Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this. Please take frequent backups whilst using this.");
+	}
+
+	public static boolean limitedMobSpawns;
+
+	private static void limitedMobSpawns() {
+		limitedMobSpawns = getBoolean("settings.limited-mob-spawns", true);
+		c.addComment("settings.limited-mob-spawns", "Disables mob spawning if TPS is lower than 18");
 	}
 }
