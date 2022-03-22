@@ -201,7 +201,7 @@ public class PaperSpigotConfig {
 	public static boolean warnForExcessiveVelocity;
 
 	private static void excessiveVelocityWarning() {
-		warnForExcessiveVelocity = getBoolean("warnWhenSettingExcessiveVelocity", true);
+		warnForExcessiveVelocity = getBoolean("warnWhenSettingExcessiveVelocity", false);
 	}
 
 	// FlamePaper start - 0117-Pearl-through-blocks
