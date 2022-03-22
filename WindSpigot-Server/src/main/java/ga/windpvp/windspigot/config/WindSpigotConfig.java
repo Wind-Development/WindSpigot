@@ -206,4 +206,8 @@ public class WindSpigotConfig {
 		c.addComment("settings.pearl-passthrough.bed", "Allows ender pearls to pass through beds. (Credits to FlamePaper)");
 	}
 	// FlamePaper end
+	
+	private static void async() {
+		c.addComment("settings.async", "Configuration for asynchronous things.");
+	}
 }
