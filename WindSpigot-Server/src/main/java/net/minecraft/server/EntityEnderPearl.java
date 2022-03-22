@@ -3,9 +3,9 @@ package net.minecraft.server;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.github.paperspigot.PaperSpigotConfig;
 
 import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 
 // CraftBukkit end
@@ -49,15 +49,15 @@ public class EntityEnderPearl extends EntityProjectile {
 		if (blockPosition != null) {
 			IBlockData blockData = world.getType(blockPosition);
 			Block block = blockData.getBlock();
-			boolean collides = PaperSpigotConfig.pearlPassthroughTripwire && block == Blocks.TRIPWIRE
-					|| PaperSpigotConfig.pearlPassthroughCobweb && block == Blocks.WEB
-					|| PaperSpigotConfig.pearlPassthroughBed && block == Blocks.BED
-					|| PaperSpigotConfig.pearlPassthroughFenceGate
+			boolean collides = WindSpigotConfig.pearlPassthroughTripwire && block == Blocks.TRIPWIRE
+					|| WindSpigotConfig.pearlPassthroughCobweb && block == Blocks.WEB
+					|| WindSpigotConfig.pearlPassthroughBed && block == Blocks.BED
+					|| WindSpigotConfig.pearlPassthroughFenceGate
 							&& (block == Blocks.FENCE_GATE || block == Blocks.SPRUCE_FENCE_GATE
 									|| block == Blocks.BIRCH_FENCE_GATE || block == Blocks.JUNGLE_FENCE_GATE
 									|| block == Blocks.DARK_OAK_FENCE_GATE || block == Blocks.ACACIA_FENCE_GATE)
 							&& blockData.get(BlockFenceGate.OPEN).booleanValue()
-					|| PaperSpigotConfig.pearlPassthroughSlab && (block == Blocks.STONE_SLAB
+					|| WindSpigotConfig.pearlPassthroughSlab && (block == Blocks.STONE_SLAB
 							|| block == Blocks.WOODEN_SLAB || block == Blocks.STONE_SLAB2);
 
 			if (collides) {

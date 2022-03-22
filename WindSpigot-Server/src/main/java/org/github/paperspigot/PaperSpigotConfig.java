@@ -204,38 +204,6 @@ public class PaperSpigotConfig {
 		warnForExcessiveVelocity = getBoolean("warnWhenSettingExcessiveVelocity", false);
 	}
 
-	// FlamePaper start - 0117-Pearl-through-blocks
-	public static boolean pearlPassthroughFenceGate;
-
-	private static void pearlPassthroughFenceGate() {
-		pearlPassthroughFenceGate = getBoolean("pearl-passthrough.fence_gate", true);
-	}
-
-	public static boolean pearlPassthroughTripwire;
-
-	private static void pearlPassthroughTripwire() {
-		pearlPassthroughTripwire = getBoolean("pearl-passthrough.tripwire", true);
-	}
-
-	public static boolean pearlPassthroughSlab;
-
-	private static void pearlPassthroughSlab() {
-		pearlPassthroughSlab = getBoolean("pearl-passthrough.slab", true);
-	}
-
-	public static boolean pearlPassthroughCobweb;
-
-	private static void pearlPassthroughCobweb() {
-		pearlPassthroughCobweb = getBoolean("pearl-passthrough.cobweb", true);
-	}
-
-	public static boolean pearlPassthroughBed;
-
-	private static void pearlPassthroughBed() {
-		pearlPassthroughBed = getBoolean("pearl-passthrough.bed", false);
-	}
-	// FlamePaper end
-
 	// Nacho start
 	public static boolean savePlayerData = true;
 
