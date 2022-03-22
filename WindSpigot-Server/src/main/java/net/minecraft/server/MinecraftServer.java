@@ -39,6 +39,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import co.aikar.timings.SpigotTimings; // Spigot
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.WorldTickerManager;
+import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
@@ -130,7 +131,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	public java.util.Queue<Runnable> processQueue = new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();
 	public int autosavePeriod;
 	// CraftBukkit end
-	
+
 	public WindSpigot windSpigot;
 
 	public MinecraftServer(OptionSet options, Proxy proxy, File file1) {
@@ -592,10 +593,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	// PaperSpigot End
 
 	private AffinityLock lock = null;
-	
+
 	// WindSpigot - thread affinity
-	public AffinityLock getLock()
-	{
+	public AffinityLock getLock() {
 		return this.lock;
 	}
 
@@ -612,7 +612,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						MinecraftServer.LOGGER.info("CPU " + lock.cpuId() + " locked for server usage.");
 						MinecraftServer.LOGGER.info("This will boost the server's performance if configured properly.");
 						MinecraftServer.LOGGER.info("If not it will most likely decrease performance.");
-						MinecraftServer.LOGGER.info("See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus for configuration!");
+						MinecraftServer.LOGGER.info(
+								"See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus for configuration!");
 						MinecraftServer.LOGGER.info(" ");
 					} else {
 						MinecraftServer.LOGGER.error("An error occured whilst enabling thread affinity!");
@@ -621,7 +622,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 				}
 				// WindSpigot end
-				
+
 				// WindSpigot - parallel worlds
 				this.worldTickerManager = new WorldTickerManager();
 
@@ -726,6 +727,23 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				lock.release();
 				MinecraftServer.LOGGER.info("Released CPU " + lock.cpuId() + " from server usage.");
 			}
+			Thread statisticsThread = null;
+			// WindSpigot - stop statistics connection
+			if (this.windSpigot.client.isConnected) {
+				Runnable runnable = (() -> {
+					try {
+						// Signal that there is one less server
+						this.windSpigot.client.sendMessage("removed server");
+						// This tells the server to stop listening for messages from this client
+						this.windSpigot.client.sendMessage(".");
+						this.windSpigot.client.stop();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+				statisticsThread = new Thread(runnable);
+				statisticsThread.start();
+			}
 			try {
 				org.spigotmc.WatchdogThread.doStop();
 				this.isStopped = true;
@@ -741,7 +759,13 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				// CraftBukkit end
 				this.z();
 			}
-
+			// WindSpigot - wait for statistics to finish stopping
+			try {
+				if (this.windSpigot.client.isConnected) {
+					statisticsThread.join(1500);
+				}
+			} catch (Throwable ignored) {
+			}
 		}
 
 	}
@@ -851,13 +875,13 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		org.spigotmc.WatchdogThread.tick(); // Spigot
 		co.aikar.timings.TimingsManager.FULL_SERVER_TICK.stopTiming(); // Spigot
 	}
-	
+
 	private WorldTickerManager worldTickerManager;
 
 	public void B() {
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
 		this.methodProfiler.a("jobs");
-		
+
 		// Spigot start
 		FutureTask<?> entry;
 		int count = this.j.size();
