@@ -1770,7 +1770,8 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		if (this.player.activeContainer.windowId == packetplayinwindowclick.a()
 				&& this.player.activeContainer.c(this.player)) {
 			boolean cancelled = this.player.isSpectator(); // CraftBukkit - see below if
-			if (false) { // this.player.isSpectator()) {
+			// WindSpigot - remove dead code
+			/*if (false) { // this.player.isSpectator()) {
 				ArrayList arraylist = Lists.newArrayList();
 
 				for (int i = 0; i < this.player.activeContainer.c.size(); ++i) {
@@ -1778,7 +1779,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				}
 
 				this.player.a(this.player.activeContainer, arraylist);
-			} else {
+			} else {*/
 				// ItemStack itemstack =
 				// this.player.activeContainer.clickItem(packetplayinwindowclick.b(),
 				// packetplayinwindowclick.c(), packetplayinwindowclick.f(), this.player);
@@ -2123,7 +2124,6 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 					this.player.a(this.player.activeContainer, arraylist1);
 				}
-			}
 		}
 
 	}

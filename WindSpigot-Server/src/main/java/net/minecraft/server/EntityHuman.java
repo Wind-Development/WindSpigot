@@ -835,10 +835,11 @@ public abstract class EntityHuman extends EntityLiving {
 						f = f * 3.0F / 2.0F;
 					}
 				}
-
-				if (false && f == 0.0F) { // CraftBukkit - Don't filter out 0 damage
+				
+				// WindSpigot - remove dead code
+				/*if (false && f == 0.0F) { // CraftBukkit - Don't filter out 0 damage
 					return false;
-				} else {
+				} else {*/
 					Entity entity = damagesource.getEntity();
 
 					if (entity instanceof EntityArrow && ((EntityArrow) entity).shooter != null) {
@@ -846,7 +847,6 @@ public abstract class EntityHuman extends EntityLiving {
 					}
 
 					return super.damageEntity(damagesource, f);
-				}
 			}
 		}
 	}
@@ -907,11 +907,12 @@ public abstract class EntityHuman extends EntityLiving {
 	// CraftBukkit start
 	@Override
 	protected boolean d(DamageSource damagesource, float f) { // void -> boolean
-		if (true) {
-			return super.d(damagesource, f);
-		}
+		return super.d(damagesource, f);
+		
 		// CraftBukkit end
-		if (!this.isInvulnerable(damagesource)) {
+		
+		// WindSpigot - remove dead code
+		/*if (!this.isInvulnerable(damagesource)) {
 			if (!damagesource.ignoresArmor() && this.isBlocking() && f > 0.0F) {
 				f = (1.0F + f) * this.world.paperSpigotConfig.playerBlockingDamageMultiplier; // PaperSpigot -
 																								// Configurable damage
@@ -936,8 +937,8 @@ public abstract class EntityHuman extends EntityLiving {
 				}
 
 			}
-		}
-		return false; // CraftBukkit
+		}*/
+		//return false; // CraftBukkit
 	}
 
 	public void openSign(TileEntitySign tileentitysign) {
