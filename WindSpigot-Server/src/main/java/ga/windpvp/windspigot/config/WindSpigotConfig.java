@@ -175,39 +175,43 @@ public class WindSpigotConfig {
 
 	private static void pearlPassthroughFenceGate() {
 		pearlPassthroughFenceGate = getBoolean("settings.pearl-passthrough.fence_gate", true);
-		c.addComment("settings.pearl-passthrough.fence_gate", "Allows ender pearls to pass through fences. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.fence_gate", "Allows pearls to pass through fences. (Credits to FlamePaper)");
 	}
 
 	public static boolean pearlPassthroughTripwire;
 
 	private static void pearlPassthroughTripwire() {
 		pearlPassthroughTripwire = getBoolean("settings.pearl-passthrough.tripwire", true);
-		c.addComment("settings.pearl-passthrough.tripwire", "Allows ender pearls to pass through tripwires. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.tripwire", "Allows pearls to pass through tripwires. (Credits to FlamePaper)");
 	}
 
 	public static boolean pearlPassthroughSlab;
 
 	private static void pearlPassthroughSlab() {
 		pearlPassthroughSlab = getBoolean("settings.pearl-passthrough.slab", true);
-		c.addComment("settings.pearl-passthrough.slab", "Allows ender pearls to pass through slabs. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.slab", "Allows pearls to pass through slabs. (Credits to FlamePaper)");
 	}
 
 	public static boolean pearlPassthroughCobweb;
 
 	private static void pearlPassthroughCobweb() {
 		pearlPassthroughCobweb = getBoolean("settings.pearl-passthrough.cobweb", true);
-		c.addComment("settings.pearl-passthrough.cobweb", "Allows ender pearls to pass through cobwebs. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.cobweb", "Allows pearls to pass through cobwebs. (Credits to FlamePaper)");
 	}
 
 	public static boolean pearlPassthroughBed;
 
 	private static void pearlPassthroughBed() {
 		pearlPassthroughBed = getBoolean("settings.pearl-passthrough.bed", false);
-		c.addComment("settings.pearl-passthrough.bed", "Allows ender pearls to pass through beds. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.bed", "Allows pearls to pass through beds. (Credits to FlamePaper)");
 	}
 	// FlamePaper end
 	
 	private static void async() {
 		c.addComment("settings.async", "Configuration for asynchronous things.");
+	}
+	
+	private static void pearlPassthrough() {
+		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks");
 	}
 }
