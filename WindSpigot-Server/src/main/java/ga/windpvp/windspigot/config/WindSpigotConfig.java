@@ -19,6 +19,8 @@ import com.google.common.base.Throwables;
 
 import ga.windpvp.windspigot.WindSpigot;
 import me.elier.nachospigot.config.NachoConfig;
+import ga.windpvp.windspigot.config.TimingsCheck;
+import ga.windpvp.windspigot.gui.AdminGui;
 
 public class WindSpigotConfig {
 
@@ -47,7 +49,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 13; // Update this every new configuration update
+		int configVersion = 14; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -300,4 +302,15 @@ public class WindSpigotConfig {
 		c.addComment("settings.show-player-ips", "Disabling this will prevent logging of player ips in console.");
 	}
 	
+	public static boolean adminGui;
+	public static AdminGui gui;
+
+	private static void adminGui() {
+		adminGui = getBoolean("settings.admin-gui", true);
+		if (adminGui) {
+			gui = new AdminGui();
+		}
+		c.addComment("settings.admin-gui",
+				"Enables the admin gui which allows easy access to utilities. The gui can be opened via /admingui and users require the permission windspigot.command.admingui");
+	}
 }
