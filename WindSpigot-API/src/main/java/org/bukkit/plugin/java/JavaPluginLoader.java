@@ -302,12 +302,14 @@ public final class JavaPluginLoader implements PluginLoader {
 					}
 				}
 			}, plugin, method, eventClass); // Spigot
-			if (false) { // Spigot - RL handles useTimings check now
-				eventSet.add(
-						new TimedRegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
-			} else {
-				eventSet.add(new RegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
-			}
+			// WindSpigot - remove dead code
+			// if (false) { // Spigot - RL handles useTimings check now
+			// eventSet.add(
+			// new TimedRegisteredListener(listener, executor, eh.priority(), plugin,
+			// eh.ignoreCancelled()));
+			// } else {
+			eventSet.add(new RegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
+
 		}
 		return ret;
 	}

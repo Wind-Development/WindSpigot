@@ -100,27 +100,29 @@ public class EntityLeash extends EntityHanging {
 			// this.die();
 			boolean die = true;
 			// CraftBukkit end
-			if (true || entityhuman.abilities.canInstantlyBuild) { // CraftBukkit - Process for non-creative as well
-				d0 = 7.0D;
-				list = this.world.a(EntityInsentient.class, new AxisAlignedBB(this.locX - d0, this.locY - d0,
-						this.locZ - d0, this.locX + d0, this.locY + d0, this.locZ + d0));
-				iterator = list.iterator();
+			
+			// WindSpigot - remove dead code
+			// if (true || entityhuman.abilities.canInstantlyBuild) { // CraftBukkit -
+			// Process for non-creative as well
+			d0 = 7.0D;
+			list = this.world.a(EntityInsentient.class, new AxisAlignedBB(this.locX - d0, this.locY - d0,
+					this.locZ - d0, this.locX + d0, this.locY + d0, this.locZ + d0));
+			iterator = list.iterator();
 
-				while (iterator.hasNext()) {
-					entityinsentient = (EntityInsentient) iterator.next();
-					if (entityinsentient.cc() && entityinsentient.getLeashHolder() == this) {
-						// CraftBukkit start
-						if (CraftEventFactory.callPlayerUnleashEntityEvent(entityinsentient, entityhuman)
-								.isCancelled()) {
-							die = false;
-							continue;
-						}
-						entityinsentient.unleash(true, !entityhuman.abilities.canInstantlyBuild); // false -> survival
-																									// mode boolean
-						// CraftBukkit end
+			while (iterator.hasNext()) {
+				entityinsentient = (EntityInsentient) iterator.next();
+				if (entityinsentient.cc() && entityinsentient.getLeashHolder() == this) {
+					// CraftBukkit start
+					if (CraftEventFactory.callPlayerUnleashEntityEvent(entityinsentient, entityhuman).isCancelled()) {
+						die = false;
+						continue;
 					}
+					entityinsentient.unleash(true, !entityhuman.abilities.canInstantlyBuild); // false -> survival
+																								// mode boolean
+					// CraftBukkit end
 				}
 			}
+
 			// CraftBukkit start
 			if (die) {
 				this.die();

@@ -567,13 +567,15 @@ public final class SimplePluginManager implements PluginManager {
 		}
 
 		executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Spigot
-		if (false) { // Spigot - RL handles useTimings check now
-			getEventListeners(event)
-					.register(new TimedRegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
-		} else {
-			getEventListeners(event)
-					.register(new RegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
-		}
+		// WindSpigot - remove dead code
+		// if (false) { // Spigot - RL handles useTimings check now
+		// getEventListeners(event)
+		// .register(new TimedRegisteredListener(listener, executor, priority, plugin,
+		// ignoreCancelled));
+		// } else {
+		getEventListeners(event)
+				.register(new RegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
+
 	}
 
 	private HandlerList getEventListeners(Class<? extends Event> type) {

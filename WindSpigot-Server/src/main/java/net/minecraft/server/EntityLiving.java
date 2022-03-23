@@ -757,12 +757,13 @@ public abstract class EntityLiving extends Entity {
 			} else if (damagesource.o() && this.hasEffect(MobEffectList.FIRE_RESISTANCE)) {
 				return false;
 			} else {
+				// WindSpigot - remove dead code
 				// CraftBukkit - Moved into d(DamageSource, float)
-				if (false && (damagesource == DamageSource.ANVIL || damagesource == DamageSource.FALLING_BLOCK)
+				/*if (false && (damagesource == DamageSource.ANVIL || damagesource == DamageSource.FALLING_BLOCK)
 						&& this.getEquipment(4) != null) {
 					this.getEquipment(4).damage((int) (f * 4.0F + this.random.nextFloat() * f * 2.0F), this);
 					f *= 0.75F;
-				}
+				}*/
 
 				this.aB = 1.5F;
 				boolean flag = true;
@@ -1099,12 +1100,12 @@ public abstract class EntityLiving extends Entity {
 			float f1;
 
 			// CraftBukkit - Moved to d(DamageSource, float)
-			if (false && this.hasEffect(MobEffectList.RESISTANCE) && damagesource != DamageSource.OUT_OF_WORLD) {
+			/*if (false && this.hasEffect(MobEffectList.RESISTANCE) && damagesource != DamageSource.OUT_OF_WORLD) {
 				i = (this.getEffect(MobEffectList.RESISTANCE).getAmplifier() + 1) * 5;
 				j = 25 - i;
 				f1 = f * j;
 				f = f1 / 25.0F;
-			}
+			}*/
 
 			if (f <= 0.0F) {
 				return 0.0F;
