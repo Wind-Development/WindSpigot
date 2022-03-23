@@ -2,7 +2,7 @@ package ga.windpvp.windspigot.config;
 
 public class TimingsCheck {
 
-	private static Boolean enableTimings;
+	private static boolean enableTimings;
 
 	protected static void setEnableTimings(boolean enableTimings) {
 		TimingsCheck.enableTimings = enableTimings;
