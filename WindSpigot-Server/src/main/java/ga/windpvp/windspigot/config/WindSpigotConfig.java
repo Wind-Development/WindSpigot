@@ -17,6 +17,7 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 import com.google.common.base.Throwables;
 
 import ga.windpvp.windspigot.config.TimingsCheck;
+import ga.windpvp.windspigot.gui.AdminGui;
 
 public class WindSpigotConfig {
 
@@ -213,5 +214,17 @@ public class WindSpigotConfig {
 	
 	private static void pearlPassthrough() {
 		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks");
+	}
+	
+	public static boolean adminGui;
+	public static AdminGui gui;
+
+	private static void adminGui() {
+		adminGui = getBoolean("settings.admin-gui", true);
+		if (adminGui) {
+			gui = new AdminGui();
+		}
+		c.addComment("settings.admin-gui",
+				"Enables the admin gui which allows easy access to utilities. The gui can be opened via /admingui and users require the permission windspigot.command.admingui");
 	}
 }
