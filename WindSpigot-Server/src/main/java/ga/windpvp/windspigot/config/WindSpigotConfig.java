@@ -16,7 +16,7 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
-import ga.windpvp.timings.TimingsCheck;
+import ga.windpvp.windspigot.config.TimingsCheck;
 
 public class WindSpigotConfig {
 
@@ -146,9 +146,9 @@ public class WindSpigotConfig {
 		// access server code, so we have to do this)
 		// Please open a PR if you know of a better method to do this.
 		if (parallelWorld == true) {
-			TimingsCheck.enableTimings = false;
+			TimingsCheck.setEnableTimings(false);
 		} else {
-			TimingsCheck.enableTimings = true;
+			TimingsCheck.setEnableTimings(true);
 		}
 		c.addComment("settings.async.parallel-world",
 				"Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this. Please take frequent backups whilst using this.");
