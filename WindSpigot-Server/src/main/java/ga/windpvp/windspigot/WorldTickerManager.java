@@ -40,27 +40,33 @@ public class WorldTickerManager {
 				worldTickers.add(new WorldTicker(world, isAsync));
 			}
 			
-			int amountOfWorldTickers = this.worldTickers.size();
-			
 			// Create latch to wait for world ticking to finish
 			if (latch == null) {
-				latch = new ReusableCountLatch(amountOfWorldTickers);
+				latch = new ReusableCountLatch(this.worldTickers.size());
 				return;
 			}
 			
 			// Reuse the latch 
-			if (latch.getCount() > amountOfWorldTickers) {
-				while (latch.getCount() > amountOfWorldTickers) {
-					// Decrease the thread count of the latch if it is too high
-					latch.decrement();
-				}
-			} else if (latch.getCount() < amountOfWorldTickers) {
-				while (latch.getCount() < amountOfWorldTickers) {
-					// Increase the thread count of the latch if it is too low
-					latch.increment();
-				}
+			this.reUseLatch();
+		}
+	}
+	
+	// Reuses the latch
+	private void reUseLatch() {
+		int amountOfWorldTickers = this.worldTickers.size();
+
+		if (latch.getCount() > amountOfWorldTickers) {
+			while (latch.getCount() > amountOfWorldTickers) {
+				// Decrease the thread count of the latch if it is too high
+				latch.decrement();
+			}
+		} else if (latch.getCount() < amountOfWorldTickers) {
+			while (latch.getCount() < amountOfWorldTickers) {
+				// Increase the thread count of the latch if it is too low
+				latch.increment();
 			}
 		}
+	
 	}
 
 	// Ticks all worlds
@@ -88,8 +94,9 @@ public class WorldTickerManager {
 				}
 
 				try {
-					// Wait for worlds to finish ticking
+					// Wait for worlds to finish ticking then reset latch
 					latch.waitTillZero();
+					this.reUseLatch();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
