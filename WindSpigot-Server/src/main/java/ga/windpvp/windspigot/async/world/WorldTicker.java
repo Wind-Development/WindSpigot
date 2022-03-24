@@ -96,7 +96,7 @@ public class WorldTicker implements Runnable {
 			worldserver.movementCache.clear(); // IonSpigot - Movement Cache
 
 			if (this.isAsync) {
-				WorldTickerManager.latch.countDown();
+				WorldTickerManager.latch.decrement();
 			}
 		}
 	}
