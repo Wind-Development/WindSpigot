@@ -183,11 +183,10 @@ public class EntityTracker {
 	public void updatePlayers() {
 		int offset = 0;
 		//final CountDownLatch latch = new CountDownLatch(trackerThreads);
+		// WindSpigot - async entity tracker from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
 		for (int i = 1; i <= trackerThreads; i++) {
 			final int localOffset = offset++;
-			// WindSpigot - async entity tracker from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-			Runnable runnable = () -> {
-				
+			Runnable runnable = () -> {	
 				/*
 				 * Loops the entire index hashset of registered entities. In this loop it
 				 * distributes the entities among the defined threads.
@@ -197,8 +196,6 @@ public class EntityTracker {
 				}
 
 				latch.decrement();
-				
-				// WindSpigot end
 			};
 
 			if (i < trackerThreads) {
@@ -218,6 +215,7 @@ public class EntityTracker {
 			 * this.c) { if (entry.getTracker() != entity) { entry.updatePlayer(entity); } }
 			 */
 		}
+		// WindSpigot end
 	}
 
 	public void a(EntityPlayer entityplayer) {
