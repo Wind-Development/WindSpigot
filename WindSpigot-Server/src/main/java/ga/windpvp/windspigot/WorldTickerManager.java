@@ -20,7 +20,7 @@ public class WorldTickerManager {
 	private List<WorldTicker> worldTickers = new ArrayList<>();
 
 	// Latch to wait for world tick completion
-	private volatile ReusableCountLatch latch = null;
+	private final ReusableCountLatch latch;
 
 	// Lock for ticking
 	public final static Object LOCK = new Object();
@@ -35,6 +35,13 @@ public class WorldTickerManager {
 	// Initializes the world ticker manager
 	public WorldTickerManager() {
 		worldTickerManagerInstance = this;
+		
+		// Initialize the world ticker latch
+		if (WindSpigotConfig.parallelWorld) {
+			this.latch = new ReusableCountLatch();
+		} else {
+			this.latch = null;
+		}
 	}
 
 	// Caches Runnables for less Object creation
@@ -46,12 +53,6 @@ public class WorldTickerManager {
 			// Create world tickers
 			for (WorldServer world : MinecraftServer.getServer().worlds) {
 				worldTickers.add(new WorldTicker(world, isAsync));
-			}
-			
-			// Create latch to wait for world ticking to finish
-			if (latch == null) {
-				latch = new ReusableCountLatch(this.worldTickers.size());
-				return;
 			}
 			
 			// Reuse the latch 
