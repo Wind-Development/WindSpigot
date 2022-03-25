@@ -847,7 +847,7 @@ public final class CraftServer implements Server {
 		org.github.paperspigot.PaperSpigotConfig.registerCommands(); // PaperSpigot
 		Nacho.get().registerCommands(); // NachoSpigot :: Commands
 		
-		MinecraftServer.getServer().windSpigot.reload(); // WindSpigot - reload
+		MinecraftServer.getServer().getWindSpigot().reload(); // WindSpigot - reload
 
 		overrideAllCommandBlockCommands = commandsConfiguration.getStringList("command-block-overrides").contains("*");
 

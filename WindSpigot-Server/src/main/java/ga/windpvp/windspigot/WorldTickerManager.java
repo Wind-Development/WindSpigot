@@ -20,14 +20,22 @@ public class WorldTickerManager {
 	private List<WorldTicker> worldTickers = new ArrayList<>();
 
 	// Latch to wait for world tick completion
-	public static volatile ReusableCountLatch latch = null;
+	private volatile ReusableCountLatch latch = null;
 
 	// Lock for ticking
-	public final static Object lock = new Object();
+	public final static Object LOCK = new Object();
 
 	// Executor for world ticking
 	private final Executor worldTickExecutor = Executors
 			.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("WindSpigot Parallel World Thread").build());
+	
+	// Instance
+	private static WorldTickerManager worldTickerManagerInstance;
+	
+	// Initializes the world ticker manager
+	public WorldTickerManager() {
+		worldTickerManagerInstance = this;
+	}
 
 	// Caches Runnables for less Object creation
 	private void cacheWorlds(boolean isAsync) {
@@ -107,8 +115,19 @@ public class WorldTickerManager {
 		}
 	}
 
+	// Gets the world tick executor
 	public Executor getExecutor() {
 		return this.worldTickExecutor;
+	}
+	
+	// Gets the count down latch for world ticking
+	public ReusableCountLatch getLatch() {
+		return this.latch;
+	}
+	
+	// Gets the world ticker manager instance
+	public static WorldTickerManager getInstance() {
+		return worldTickerManagerInstance;
 	}
 
 }
