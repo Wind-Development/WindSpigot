@@ -622,7 +622,7 @@ public class ScoreboardCommand extends VanillaCommand {
 		for (Objective objective : Bukkit.getScoreboardManager().getMainScoreboard().getObjectives()) {
 			list.add(objective.getName());
 		}
-		Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
+		list.sort(String.CASE_INSENSITIVE_ORDER);
 		return list;
 	}
 
@@ -631,7 +631,7 @@ public class ScoreboardCommand extends VanillaCommand {
 		for (String entry : Bukkit.getScoreboardManager().getMainScoreboard().getEntries()) {
 			list.add(entry);
 		}
-		Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
+		list.sort(String.CASE_INSENSITIVE_ORDER);
 		return list;
 	}
 
@@ -640,7 +640,7 @@ public class ScoreboardCommand extends VanillaCommand {
 		for (Team team : Bukkit.getScoreboardManager().getMainScoreboard().getTeams()) {
 			list.add(team.getName());
 		}
-		Collections.sort(list, String.CASE_INSENSITIVE_ORDER);
+		list.sort(String.CASE_INSENSITIVE_ORDER);
 		return list;
 	}
 }

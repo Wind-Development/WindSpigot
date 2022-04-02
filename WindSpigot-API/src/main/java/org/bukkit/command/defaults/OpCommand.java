@@ -69,7 +69,7 @@ public class OpCommand extends VanillaCommand {
 				}
 			}
 
-			Collections.sort(matchedPlayers, String.CASE_INSENSITIVE_ORDER);
+			matchedPlayers.sort(String.CASE_INSENSITIVE_ORDER);
 			return matchedPlayers;
 		}
 		return ImmutableList.of();
