@@ -14,7 +14,7 @@ public final class PluginCommand extends Command implements PluginIdentifiableCo
 	private CommandExecutor executor;
 	private TabCompleter completer;
 
-	protected PluginCommand(String name, Plugin owner) {
+	PluginCommand(String name, Plugin owner) {
 		super(name);
 		this.executor = owner;
 		this.owningPlugin = owner;
