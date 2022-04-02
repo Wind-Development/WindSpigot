@@ -62,7 +62,7 @@ public class WorldTicker implements Runnable {
 				throw new ReportedException(crashreport);
 			}
 
-			synchronized (WorldTickerManager.lock) {
+			synchronized (WorldTickerManager.LOCK) {
 				// this.methodProfiler.b();
 				// this.methodProfiler.a("tracker");
 				worldserver.timings.tracker.startTiming(); // Spigot
@@ -96,7 +96,7 @@ public class WorldTicker implements Runnable {
 			worldserver.movementCache.clear(); // IonSpigot - Movement Cache
 
 			if (this.isAsync) {
-				WorldTickerManager.latch.countDown();
+				WorldTickerManager.getInstance().getLatch().decrement();
 			}
 		}
 	}

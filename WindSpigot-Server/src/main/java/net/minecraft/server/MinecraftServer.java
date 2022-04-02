@@ -132,7 +132,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	public int autosavePeriod;
 	// CraftBukkit end
 
-	public WindSpigot windSpigot;
+	// WindSpigot - instance
+	protected WindSpigot windSpigot;
 
 	public MinecraftServer(OptionSet options, Proxy proxy, File file1) {
 		io.netty.util.ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED); // [Nacho-0040] Change
@@ -729,14 +730,14 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			}
 			Thread statisticsThread = null;
 			// WindSpigot - stop statistics connection
-			if (this.windSpigot.client.isConnected) {
+			if (this.getWindSpigot().client.isConnected) {
 				Runnable runnable = (() -> {
 					try {
 						// Signal that there is one less server
-						this.windSpigot.client.sendMessage("removed server");
+						this.getWindSpigot().client.sendMessage("removed server");
 						// This tells the server to stop listening for messages from this client
-						this.windSpigot.client.sendMessage(".");
-						this.windSpigot.client.stop();
+						this.getWindSpigot().client.sendMessage(".");
+						this.getWindSpigot().client.stop();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -761,7 +762,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			}
 			// WindSpigot - wait for statistics to finish stopping
 			try {
-				if (this.windSpigot.client.isConnected) {
+				if (this.getWindSpigot().client.isConnected) {
 					statisticsThread.join(1500);
 				}
 			} catch (Throwable ignored) {
@@ -941,7 +942,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		SpigotTimings.timeUpdateTimer.stopTiming(); // Spigot
 
 		// WindSpigot - parallel worlds
-		worldTickerManager.tick();
+		this.worldTickerManager.tick();
 
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot
@@ -1624,5 +1625,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 	public Thread aM() {
 		return this.serverThread;
+	}
+	
+	// WindSpigot - instance=
+	public WindSpigot getWindSpigot() {
+		return this.windSpigot;
 	}
 }

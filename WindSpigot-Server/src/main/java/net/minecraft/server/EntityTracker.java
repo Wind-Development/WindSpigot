@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import javafixes.concurrency.ReusableCountLatch;
 import me.elier.nachospigot.config.NachoConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
 import net.openhft.affinity.AffinityLock;
@@ -160,15 +161,32 @@ public class EntityTracker {
 			entry.a();
 		}
 	}
+	
+	// WindSpigot start - reusablecountdownlatch for async entity tracking
+	private final ReusableCountLatch latch = new ReusableCountLatch(trackerThreads);
+	
+	private void updateLatch() {
+		if (latch.getCount() > trackerThreads) {
+			while (latch.getCount() > trackerThreads) {
+				// Decrease the thread count of the latch if it is too high
+				latch.decrement();
+			}
+		} else if (latch.getCount() < trackerThreads) {
+			while (latch.getCount() < trackerThreads) {
+				// Increase the thread count of the latch if it is too low
+				latch.increment();
+			}
+		}
+	}
+	// WindSpigot end
 
 	public void updatePlayers() {
 		int offset = 0;
-		final CountDownLatch latch = new CountDownLatch(trackerThreads);
+		//final CountDownLatch latch = new CountDownLatch(trackerThreads);
+		// WindSpigot - async entity tracker from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
 		for (int i = 1; i <= trackerThreads; i++) {
 			final int localOffset = offset++;
-			// WindSpigot - async entity tracker from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-			Runnable runnable = () -> {
-				
+			Runnable runnable = () -> {	
 				/*
 				 * Loops the entire index hashset of registered entities. In this loop it
 				 * distributes the entities among the defined threads.
@@ -177,9 +195,7 @@ public class EntityTracker {
 					c.get(n).update();
 				}
 
-				latch.countDown();
-				
-				// WindSpigot end
+				latch.decrement();
 			};
 
 			if (i < trackerThreads) {
@@ -189,7 +205,9 @@ public class EntityTracker {
 			}
 		}
 		try {
-			latch.await();
+			// Wait for async entity tracking to finish then reset the latch
+			latch.waitTillZero();
+			this.updateLatch();
 		} catch (Exception e) {
 			e.printStackTrace();
 			/*
@@ -197,6 +215,7 @@ public class EntityTracker {
 			 * this.c) { if (entry.getTracker() != entity) { entry.updatePlayer(entity); } }
 			 */
 		}
+		// WindSpigot end
 	}
 
 	public void a(EntityPlayer entityplayer) {
