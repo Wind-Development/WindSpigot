@@ -44,7 +44,7 @@ final class TimingIdentifier {
 	 * Holds all groups. Autoloads on request for a group by name.
 	 */
 	static final Map<String, TimingGroup> GROUP_MAP = MRUMapCache
-			.of(LoadingMap.newIdentityHashMap(group -> new TimingGroup(group), 64));
+			.of(LoadingMap.newIdentityHashMap(TimingGroup::new, 64));
 	static final TimingGroup DEFAULT_GROUP = getGroup("Minecraft");
 	final String group;
 	final String name;

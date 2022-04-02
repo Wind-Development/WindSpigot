@@ -241,7 +241,7 @@ class TimingsExport extends Thread {
 	public void run() {
 		sender.sendMessage(ChatColor.GREEN + "Preparing Timings Report...");
 
-		out.put("data", toArrayMapper(history, input -> input.export()));
+		out.put("data", toArrayMapper(history, TimingHistory::export));
 
 		String response = null;
 		try {

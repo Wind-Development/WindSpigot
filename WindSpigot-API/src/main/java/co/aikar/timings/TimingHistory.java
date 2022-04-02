@@ -152,7 +152,7 @@ public class TimingHistory {
 						return null;
 					}
 					return entry.export();
-				})), pair("mp", toArrayMapper(minuteReports, input -> input.export())));
+				})), pair("mp", toArrayMapper(minuteReports, MinuteReport::export)));
 	}
 
 	static class MinuteReport {

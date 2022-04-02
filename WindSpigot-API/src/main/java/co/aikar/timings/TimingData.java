@@ -37,7 +37,7 @@ import com.google.common.base.Function;
  * This is broken out to reduce memory usage
  */
 class TimingData {
-	static Function<Integer, TimingData> LOADER = input -> new TimingData(input);
+	static Function<Integer, TimingData> LOADER = TimingData::new;
 	int id;
 	int count = 0;
 	int lagCount = 0;
