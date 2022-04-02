@@ -281,18 +281,17 @@ public final class JavaPluginLoader implements PluginLoader {
 				}
 			}
 
-			EventExecutor executor = new co.aikar.timings.TimedEventExecutor(new EventExecutor() { // Spigot
-				public void execute(Listener listener, Event event) throws EventException {
-					try {
-						if (!eventClass.isAssignableFrom(event.getClass())) {
-							return;
-						}
-						method.invoke(listener, event);
-					} catch (InvocationTargetException ex) {
-						throw new EventException(ex.getCause());
-					} catch (Throwable t) {
-						throw new EventException(t);
+			// Spigot
+			EventExecutor executor = new co.aikar.timings.TimedEventExecutor((listener1, event) -> {
+				try {
+					if (!eventClass.isAssignableFrom(event.getClass())) {
+						return;
 					}
+					method.invoke(listener1, event);
+				} catch (InvocationTargetException ex) {
+					throw new EventException(ex.getCause());
+				} catch (Throwable t) {
+					throw new EventException(t);
 				}
 			}, plugin, method, eventClass); // Spigot
 			// WindSpigot - remove dead code
