@@ -213,12 +213,8 @@ public final class JavaPluginLoader implements PluginLoader {
 			Method[] publicMethods = listener.getClass().getMethods();
 			Method[] privateMethods = listener.getClass().getDeclaredMethods();
 			methods = new HashSet<>(publicMethods.length + privateMethods.length, 1.0f);
-			for (Method method : publicMethods) {
-				methods.add(method);
-			}
-			for (Method method : privateMethods) {
-				methods.add(method);
-			}
+			Collections.addAll(methods, publicMethods);
+			Collections.addAll(methods, privateMethods);
 		} catch (NoClassDefFoundError e) {
 			plugin.getLogger()
 					.severe("Plugin " + plugin.getDescription().getFullName() + " has failed to register events for "
