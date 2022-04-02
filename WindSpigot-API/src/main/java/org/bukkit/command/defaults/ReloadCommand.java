@@ -1,11 +1,11 @@
 package org.bukkit.command.defaults;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import java.util.Collections;
 
 public class ReloadCommand extends BukkitCommand {
 	public ReloadCommand(String name) {
@@ -13,7 +13,7 @@ public class ReloadCommand extends BukkitCommand {
 		this.description = "Reloads the server configuration and plugins";
 		this.usageMessage = "/reload";
 		this.setPermission("bukkit.command.reload");
-		this.setAliases(Arrays.asList("rl"));
+		this.setAliases(Collections.singletonList("rl"));
 	}
 
 	@Override

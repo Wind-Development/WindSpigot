@@ -2,6 +2,7 @@ package org.bukkit.command.defaults;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
@@ -184,7 +185,7 @@ public class AchievementCommand extends VanillaCommand {
 		Validate.notNull(alias, "Alias cannot be null");
 
 		if (args.length == 1) {
-			return Arrays.asList("give");
+			return Collections.singletonList("give");
 		}
 
 		if (args.length == 2) {

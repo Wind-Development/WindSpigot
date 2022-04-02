@@ -1,11 +1,11 @@
 package org.bukkit.command.defaults;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
+
+import java.util.Collections;
 
 public class PluginsCommand extends BukkitCommand {
 	public PluginsCommand(String name) {
@@ -13,7 +13,7 @@ public class PluginsCommand extends BukkitCommand {
 		this.description = "Gets a list of plugins running on the server";
 		this.usageMessage = "/plugins";
 		this.setPermission("bukkit.command.plugins");
-		this.setAliases(Arrays.asList("pl"));
+		this.setAliases(Collections.singletonList("pl"));
 	}
 
 	@Override
