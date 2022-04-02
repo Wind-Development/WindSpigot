@@ -332,9 +332,7 @@ class TimingsExport extends Thread {
 	}
 
 	private String getResponse(HttpURLConnection con) throws IOException {
-		InputStream is = null;
-		try {
-			is = con.getInputStream();
+		try (InputStream is = con.getInputStream()) {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
 			byte[] b = new byte[1024];
@@ -348,10 +346,6 @@ class TimingsExport extends Thread {
 			sender.sendMessage(ChatColor.RED + "Error uploading timings, check your logs for more information");
 			Bukkit.getLogger().log(Level.WARNING, con.getResponseMessage(), ex);
 			return null;
-		} finally {
-			if (is != null) {
-				is.close();
-			}
 		}
 	}
 }

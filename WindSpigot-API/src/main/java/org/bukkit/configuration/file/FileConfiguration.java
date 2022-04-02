@@ -92,13 +92,9 @@ public abstract class FileConfiguration extends MemoryConfiguration {
 
 		String data = saveToString();
 
-		Writer writer = new OutputStreamWriter(new FileOutputStream(file),
-				UTF8_OVERRIDE && !UTF_BIG ? Charsets.UTF_8 : Charset.defaultCharset());
-
-		try {
+		try (Writer writer = new OutputStreamWriter(new FileOutputStream(file),
+				UTF8_OVERRIDE && !UTF_BIG ? Charsets.UTF_8 : Charset.defaultCharset())) {
 			writer.write(data);
-		} finally {
-			writer.close();
 		}
 	}
 
