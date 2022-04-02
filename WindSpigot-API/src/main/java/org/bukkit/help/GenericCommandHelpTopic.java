@@ -35,7 +35,7 @@ public class GenericCommandHelpTopic extends HelpTopic {
 		}
 
 		// Build full text
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		sb.append(ChatColor.GOLD);
 		sb.append("Description: ");
