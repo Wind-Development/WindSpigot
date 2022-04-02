@@ -1,26 +1,16 @@
 package org.bukkit.configuration.file;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.charset.Charset;
-
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This is a base class for all File based implementations of
@@ -58,7 +48,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
 		final Charset defaultCharset = Charset.defaultCharset();
 		final String resultString = new String(testBytes, defaultCharset);
 		final boolean trueUTF = defaultCharset.name().contains("UTF");
-		UTF8_OVERRIDE = !testString.equals(resultString) || defaultCharset.equals(Charset.forName("US-ASCII"));
+		UTF8_OVERRIDE = !testString.equals(resultString) || defaultCharset.equals(StandardCharsets.US_ASCII);
 		SYSTEM_UTF = trueUTF || UTF8_OVERRIDE;
 		UTF_BIG = trueUTF && UTF8_OVERRIDE;
 	}

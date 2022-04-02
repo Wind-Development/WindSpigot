@@ -41,6 +41,7 @@ import java.lang.management.RuntimeMXBean;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -297,7 +298,7 @@ class TimingsExport extends Thread {
 				}
 			};
 
-			request.write(JSONValue.toJSONString(out).getBytes("UTF-8"));
+			request.write(JSONValue.toJSONString(out).getBytes(StandardCharsets.UTF_8));
 			request.close();
 
 			response = getResponse(con);
