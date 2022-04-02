@@ -17,10 +17,10 @@ public class FullServerTickHandler extends TimingHandler {
 
 	@Override
 	public void startTiming() {
-		if (TimingsManager.needsFullReset) {
-			TimingsManager.resetTimings();
-		} else if (TimingsManager.needsRecheckEnabled) {
-			TimingsManager.recheckEnabled();
+		if (needsFullReset) {
+			resetTimings();
+		} else if (needsRecheckEnabled) {
+			recheckEnabled();
 		}
 		super.startTiming();
 	}
@@ -49,7 +49,7 @@ public class FullServerTickHandler extends TimingHandler {
 		}
 
 		long start = System.nanoTime();
-		TimingsManager.tick();
+		tick();
 		long diff = System.nanoTime() - start;
 		CURRENT = TIMINGS_TICK;
 		TIMINGS_TICK.addDiff(diff);
@@ -68,8 +68,8 @@ public class FullServerTickHandler extends TimingHandler {
 			minuteData.reset();
 		}
 		if (TimingHistory.timedTicks % Timings.getHistoryInterval() == 0) {
-			TimingsManager.HISTORY.add(new TimingHistory());
-			TimingsManager.resetTimings();
+			HISTORY.add(new TimingHistory());
+			resetTimings();
 		}
 	}
 

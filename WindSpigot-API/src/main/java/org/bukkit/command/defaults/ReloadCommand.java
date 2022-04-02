@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
+import java.util.List;
 
 public class ReloadCommand extends BukkitCommand {
 	public ReloadCommand(String name) {
@@ -33,9 +34,9 @@ public class ReloadCommand extends BukkitCommand {
 
 	// Spigot Start
 	@Override
-	public java.util.List<String> tabComplete(CommandSender sender, String alias, String[] args)
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args)
 			throws IllegalArgumentException {
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
 	}
 	// Spigot End
 }

@@ -110,7 +110,7 @@ public interface Entity extends Metadatable, CommandSender {
 	 * @param z 1/2 the size of the box along z axis
 	 * @return {@code List<Entity>} List of entities nearby
 	 */
-    List<org.bukkit.entity.Entity> getNearbyEntities(double x, double y, double z);
+    List<Entity> getNearbyEntities(double x, double y, double z);
 
 	/**
 	 * Returns a unique id for this entity

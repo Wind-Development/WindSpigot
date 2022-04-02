@@ -22,6 +22,15 @@ import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class VersionCommand extends BukkitCommand {
+
+	private static final String BRANCH = "master";
+	private final ReentrantLock versionLock = new ReentrantLock();
+	private final Set<CommandSender> versionWaiters = new HashSet<>();
+	private boolean hasVersion = false;
+	private String versionMessage = null;
+	private boolean versionTaskStarted = false;
+	private long lastCheck = 0;
+
 	public VersionCommand(String name) {
 		super(name);
 
@@ -138,13 +147,6 @@ public class VersionCommand extends BukkitCommand {
 		return ImmutableList.of();
 	}
 
-	private final ReentrantLock versionLock = new ReentrantLock();
-	private boolean hasVersion = false;
-	private String versionMessage = null;
-	private final Set<CommandSender> versionWaiters = new HashSet<>();
-	private boolean versionTaskStarted = false;
-	private long lastCheck = 0;
-
 	private void sendVersion(CommandSender sender) {
 		if (hasVersion) {
 			if (System.currentTimeMillis() - lastCheck > 21600000) {
@@ -220,7 +222,7 @@ public class VersionCommand extends BukkitCommand {
 			 * setVersionMessage("You are running the latest version"); } else {
 			 * setVersionMessage("You are " + (cbVersions + spigotVersions) +
 			 * " version(s) behind"); } }
-			 * 
+			 *
 			 * } else if (version.startsWith("git-Bukkit-")) { version =
 			 * version.substring("git-Bukkit-".length()); int cbVersions =
 			 * getDistance("craftbukkit", version.substring(0, version.indexOf(' '))); if
@@ -257,8 +259,6 @@ public class VersionCommand extends BukkitCommand {
 		currentVerInt = currentVerInt.replace("\"", "");
 		return getFromRepo(repo, currentVerInt);
 	}
-
-	private static final String BRANCH = "master";
 
 	private static int getFromRepo(String repo, String hash) {
 		try {

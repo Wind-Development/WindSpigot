@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Collections;
+import java.util.List;
 
 public class PluginsCommand extends BukkitCommand {
 	public PluginsCommand(String name) {
@@ -44,9 +45,9 @@ public class PluginsCommand extends BukkitCommand {
 
 	// Spigot Start
 	@Override
-	public java.util.List<String> tabComplete(CommandSender sender, String alias, String[] args)
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args)
 			throws IllegalArgumentException {
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
 	}
 	// Spigot End
 }
