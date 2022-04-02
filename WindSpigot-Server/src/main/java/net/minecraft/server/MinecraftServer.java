@@ -602,8 +602,12 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 	@Override
 	public void run() {
+		// Don't disable statistics if server failed to start
+		boolean disableStatistics = false;
 		try {
 			if (this.init()) {
+				//WindSpigot - statistics
+				disableStatistics = true;
 				// WindSpigot start - implement thread affinity
 				if (WindSpigotConfig.threadAffinity) {
 					MinecraftServer.LOGGER.info(" ");
@@ -730,20 +734,22 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			}
 			Thread statisticsThread = null;
 			// WindSpigot - stop statistics connection
-			if (this.getWindSpigot().client.isConnected) {
-				Runnable runnable = (() -> {
-					try {
-						// Signal that there is one less server
-						this.getWindSpigot().client.sendMessage("removed server");
-						// This tells the server to stop listening for messages from this client
-						this.getWindSpigot().client.sendMessage(".");
-						this.getWindSpigot().client.stop();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
-				statisticsThread = new Thread(runnable);
-				statisticsThread.start();
+			if (disableStatistics) {
+				if (this.getWindSpigot().client.isConnected) {
+					Runnable runnable = (() -> {
+						try {
+							// Signal that there is one less server
+							this.getWindSpigot().client.sendMessage("removed server");
+							// This tells the server to stop listening for messages from this client
+							this.getWindSpigot().client.sendMessage(".");
+							this.getWindSpigot().client.stop();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					});
+					statisticsThread = new Thread(runnable);
+					statisticsThread.start();
+				}
 			}
 			try {
 				org.spigotmc.WatchdogThread.doStop();
