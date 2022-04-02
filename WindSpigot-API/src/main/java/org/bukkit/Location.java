@@ -1,12 +1,12 @@
 package org.bukkit;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a 3-dimensional position in a world
@@ -508,10 +508,7 @@ public class Location implements Cloneable, ConfigurationSerializable {
 		if (Float.floatToIntBits(this.pitch) != Float.floatToIntBits(other.pitch)) {
 			return false;
 		}
-		if (Float.floatToIntBits(this.yaw) != Float.floatToIntBits(other.yaw)) {
-			return false;
-		}
-		return true;
+		return Float.floatToIntBits(this.yaw) == Float.floatToIntBits(other.yaw);
 	}
 
 	@Override

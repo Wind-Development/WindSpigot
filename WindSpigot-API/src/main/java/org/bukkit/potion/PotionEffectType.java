@@ -1,9 +1,9 @@
 package org.bukkit.potion;
 
+import org.apache.commons.lang.Validate;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang.Validate;
 
 /**
  * Represents a type of potion and its effect on an entity.
@@ -185,10 +185,7 @@ public abstract class PotionEffectType {
 			return false;
 		}
 		final PotionEffectType other = (PotionEffectType) obj;
-		if (this.id != other.id) {
-			return false;
-		}
-		return true;
+		return this.id == other.id;
 	}
 
 	@Override

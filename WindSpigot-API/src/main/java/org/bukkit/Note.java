@@ -1,10 +1,9 @@
 package org.bukkit;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 
-import com.google.common.collect.Maps;
+import java.util.Map;
 
 /**
  * A note class to store a specific note.
@@ -258,9 +257,7 @@ public class Note {
 		if (getClass() != obj.getClass())
 			return false;
 		Note other = (Note) obj;
-		if (note != other.note)
-			return false;
-		return true;
+		return note == other.note;
 	}
 
 	@Override
