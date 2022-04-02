@@ -188,8 +188,7 @@ public class ConversationFactory {
 		}
 
 		// Clone any initial session data
-		Map<Object, Object> copiedInitialSessionData = new HashMap<>();
-		copiedInitialSessionData.putAll(initialSessionData);
+		Map<Object, Object> copiedInitialSessionData = new HashMap<>(initialSessionData);
 
 		// Build and return a conversation
 		Conversation conversation = new Conversation(plugin, forWhom, firstPrompt, copiedInitialSessionData);
