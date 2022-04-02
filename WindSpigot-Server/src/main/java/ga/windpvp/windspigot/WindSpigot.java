@@ -15,7 +15,7 @@ import net.minecraft.server.MinecraftServer;
 
 public class WindSpigot {
 
-	public StatisticsClient client;
+	private StatisticsClient client;
 
 	public WindSpigot() {
 		this.init();
@@ -64,4 +64,8 @@ public class WindSpigot {
 		System.gc();
 	}
 
+	public StatisticsClient getClient() {
+		return this.client;
+	}
+	
 }

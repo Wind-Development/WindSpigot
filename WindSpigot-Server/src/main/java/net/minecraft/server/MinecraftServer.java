@@ -735,14 +735,14 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			Thread statisticsThread = null;
 			// WindSpigot - stop statistics connection
 			if (disableStatistics) {
-				if (this.getWindSpigot().client.isConnected) {
+				if (this.getWindSpigot().getClient().isConnected) {
 					Runnable runnable = (() -> {
 						try {
 							// Signal that there is one less server
-							this.getWindSpigot().client.sendMessage("removed server");
+							this.getWindSpigot().getClient().sendMessage("removed server");
 							// This tells the server to stop listening for messages from this client
-							this.getWindSpigot().client.sendMessage(".");
-							this.getWindSpigot().client.stop();
+							this.getWindSpigot().getClient().sendMessage(".");
+							this.getWindSpigot().getClient().stop();
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -768,7 +768,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			}
 			// WindSpigot - wait for statistics to finish stopping
 			try {
-				if (this.getWindSpigot().client.isConnected) {
+				if (this.getWindSpigot().getClient().isConnected) {
 					statisticsThread.join(1500);
 				}
 			} catch (Throwable ignored) {
