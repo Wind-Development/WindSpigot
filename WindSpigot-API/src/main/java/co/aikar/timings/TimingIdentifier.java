@@ -23,11 +23,11 @@
  */
 package co.aikar.timings;
 
-import java.util.ArrayDeque;
-import java.util.Map;
-
 import co.aikar.util.LoadingMap;
 import co.aikar.util.MRUMapCache;
+
+import java.util.ArrayDeque;
+import java.util.Map;
 
 /**
  * <p>

@@ -1,11 +1,10 @@
 package org.bukkit.event.player;
 
+import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
-
-import com.google.common.base.Preconditions;
 
 /**
  * Holds information for player movement events

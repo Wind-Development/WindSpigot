@@ -23,18 +23,16 @@
  */
 package co.aikar.timings;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
+import ga.windpvp.windspigot.config.TimingsCheck;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
-
-import ga.windpvp.windspigot.config.TimingsCheck;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimingsCommand extends BukkitCommand {
 	public static final List<String> TIMINGS_SUBCOMMANDS = ImmutableList.of("report", "reset", "on", "off", "paste",

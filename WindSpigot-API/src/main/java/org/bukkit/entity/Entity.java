@@ -1,8 +1,5 @@
 package org.bukkit.entity;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -12,6 +9,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.metadata.Metadatable;
 import org.bukkit.util.Vector;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a base entity in the world

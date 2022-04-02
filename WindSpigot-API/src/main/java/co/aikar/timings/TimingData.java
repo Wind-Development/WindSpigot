@@ -23,11 +23,11 @@
  */
 package co.aikar.timings;
 
-import static co.aikar.util.JSONUtil.toArray;
+import com.google.common.base.Function;
 
 import java.util.List;
 
-import com.google.common.base.Function;
+import static co.aikar.util.JSONUtil.toArray;
 
 /**
  * <p>

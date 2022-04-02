@@ -23,9 +23,9 @@
  */
 package co.aikar.timings;
 
-import static co.aikar.util.JSONUtil.toArrayMapper;
-
 import java.util.List;
+
+import static co.aikar.util.JSONUtil.toArrayMapper;
 
 class TimingHistoryEntry {
 	final TimingData data;

@@ -23,15 +23,14 @@
  */
 package co.aikar.timings;
 
-import java.util.Queue;
-import java.util.logging.Level;
-
+import com.google.common.base.Preconditions;
+import com.google.common.collect.EvictingQueue;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.EvictingQueue;
+import java.util.Queue;
+import java.util.logging.Level;
 
 @SuppressWarnings("UnusedDeclaration")
 public final class Timings {
