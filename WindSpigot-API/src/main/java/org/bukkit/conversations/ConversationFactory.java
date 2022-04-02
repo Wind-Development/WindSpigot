@@ -41,10 +41,10 @@ public class ConversationFactory {
 		localEchoEnabled = true;
 		prefix = new NullConversationPrefix();
 		firstPrompt = Prompt.END_OF_CONVERSATION;
-		initialSessionData = new HashMap<Object, Object>();
+		initialSessionData = new HashMap<>();
 		playerOnlyMessage = null;
-		cancellers = new ArrayList<ConversationCanceller>();
-		abandonedListeners = new ArrayList<ConversationAbandonedListener>();
+		cancellers = new ArrayList<>();
+		abandonedListeners = new ArrayList<>();
 	}
 
 	/**
@@ -188,7 +188,7 @@ public class ConversationFactory {
 		}
 
 		// Clone any initial session data
-		Map<Object, Object> copiedInitialSessionData = new HashMap<Object, Object>();
+		Map<Object, Object> copiedInitialSessionData = new HashMap<>();
 		copiedInitialSessionData.putAll(initialSessionData);
 
 		// Build and return a conversation

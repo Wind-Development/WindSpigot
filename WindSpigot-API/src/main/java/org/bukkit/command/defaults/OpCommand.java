@@ -58,7 +58,7 @@ public class OpCommand extends VanillaCommand {
 
 			Player senderPlayer = (Player) sender;
 
-			ArrayList<String> matchedPlayers = new ArrayList<String>();
+			ArrayList<String> matchedPlayers = new ArrayList<>();
 			for (Player player : sender.getServer().getOnlinePlayers()) {
 				String name = player.getName();
 				if (!senderPlayer.canSee(player) || player.isOp()) {

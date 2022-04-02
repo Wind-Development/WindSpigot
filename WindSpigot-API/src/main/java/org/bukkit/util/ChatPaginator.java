@@ -75,7 +75,7 @@ public class ChatPaginator {
 		char[] rawChars = (rawString + ' ').toCharArray(); // add a trailing space to trigger pagination
 		StringBuilder word = new StringBuilder();
 		StringBuilder line = new StringBuilder();
-		List<String> lines = new LinkedList<String>();
+		List<String> lines = new LinkedList<>();
 		int lineColorChars = 0;
 
 		for (int i = 0; i < rawChars.length; i++) {

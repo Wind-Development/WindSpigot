@@ -302,7 +302,7 @@ public abstract class ChunkGenerator {
 	 * @return List containing any amount of BlockPopulators
 	 */
 	public List<BlockPopulator> getDefaultPopulators(World world) {
-		return new ArrayList<BlockPopulator>();
+		return new ArrayList<>();
 	}
 
 	/**

@@ -378,7 +378,7 @@ public abstract class JavaPlugin extends PluginBase {
 	 * @return List of Classes that are Ebeans
 	 */
 	public List<Class<?>> getDatabaseClasses() {
-		return new ArrayList<Class<?>>();
+		return new ArrayList<>();
 	}
 
 	private String replaceDatabaseString(String input) {

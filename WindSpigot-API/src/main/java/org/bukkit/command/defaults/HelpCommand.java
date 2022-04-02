@@ -120,7 +120,7 @@ public class HelpCommand extends VanillaCommand {
 		Validate.notNull(alias, "Alias cannot be null");
 
 		if (args.length == 1) {
-			List<String> matchedTopics = new ArrayList<String>();
+			List<String> matchedTopics = new ArrayList<>();
 			String searchString = args[0];
 			for (HelpTopic topic : Bukkit.getServer().getHelpMap().getHelpTopics()) {
 				String trimmedTopic = topic.getName().startsWith("/") ? topic.getName().substring(1) : topic.getName();
@@ -136,7 +136,7 @@ public class HelpCommand extends VanillaCommand {
 
 	protected HelpTopic findPossibleMatches(String searchString) {
 		int maxDistance = (searchString.length() / 5) + 3;
-		Set<HelpTopic> possibleMatches = new TreeSet<HelpTopic>(HelpTopicComparator.helpTopicComparatorInstance());
+		Set<HelpTopic> possibleMatches = new TreeSet<>(HelpTopicComparator.helpTopicComparatorInstance());
 
 		if (searchString.startsWith("/")) {
 			searchString = searchString.substring(1);
@@ -203,7 +203,7 @@ public class HelpCommand extends VanillaCommand {
 			H[0][j + 1] = INF;
 		}
 
-		Map<Character, Integer> sd = new HashMap<Character, Integer>();
+		Map<Character, Integer> sd = new HashMap<>();
 		for (char Letter : (s1 + s2).toCharArray()) {
 			if (!sd.containsKey(Letter)) {
 				sd.put(Letter, 0);

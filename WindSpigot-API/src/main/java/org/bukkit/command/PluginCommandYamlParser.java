@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 public class PluginCommandYamlParser {
 
 	public static List<Command> parse(Plugin plugin) {
-		List<Command> pluginCmds = new ArrayList<Command>();
+		List<Command> pluginCmds = new ArrayList<>();
 
 		Map<String, Map<String, Object>> map = plugin.getDescription().getCommands();
 
@@ -41,7 +41,7 @@ public class PluginCommandYamlParser {
 			}
 
 			if (aliases != null) {
-				List<String> aliasList = new ArrayList<String>();
+				List<String> aliasList = new ArrayList<>();
 
 				if (aliases instanceof List) {
 					for (Object o : (List<?>) aliases) {

@@ -136,8 +136,8 @@ public abstract class Enchantment {
 	 */
 	public static final Enchantment LURE = new EnchantmentWrapper(62);
 
-	private static final Map<Integer, Enchantment> byId = new HashMap<Integer, Enchantment>();
-	private static final Map<String, Enchantment> byName = new HashMap<String, Enchantment>();
+	private static final Map<Integer, Enchantment> byId = new HashMap<>();
+	private static final Map<String, Enchantment> byName = new HashMap<>();
 	private static boolean acceptingNew = true;
 	private final int id;
 

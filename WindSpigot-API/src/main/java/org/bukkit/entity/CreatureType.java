@@ -29,8 +29,8 @@ public enum CreatureType {
 	private final Class<? extends Entity> clazz;
 	private final short typeId;
 
-	private static final Map<String, CreatureType> NAME_MAP = new HashMap<String, CreatureType>();
-	private static final Map<Short, CreatureType> ID_MAP = new HashMap<Short, CreatureType>();
+	private static final Map<String, CreatureType> NAME_MAP = new HashMap<>();
+	private static final Map<Short, CreatureType> ID_MAP = new HashMap<>();
 
 	static {
 		for (CreatureType type : EnumSet.allOf(CreatureType.class)) {

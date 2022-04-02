@@ -77,7 +77,7 @@ public class DifficultyCommand extends VanillaCommand {
 
 		if (args.length == 1) {
 			return StringUtil.copyPartialMatches(args[0], DIFFICULTY_NAMES,
-					new ArrayList<String>(DIFFICULTY_NAMES.size()));
+					new ArrayList<>(DIFFICULTY_NAMES.size()));
 		}
 
 		return ImmutableList.of();

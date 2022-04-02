@@ -376,7 +376,7 @@ public class ScoreboardCommand extends VanillaCommand {
 				if (team == null) {
 					sender.sendMessage(ChatColor.RED + "No team was found by the name '" + teamName + "'");
 				} else {
-					Set<String> addedPlayers = new HashSet<String>();
+					Set<String> addedPlayers = new HashSet<>();
 					if ((sender instanceof Player) && args.length == 3) {
 						team.addPlayer((Player) sender);
 						addedPlayers.add(sender.getName());
@@ -402,8 +402,8 @@ public class ScoreboardCommand extends VanillaCommand {
 					sender.sendMessage(ChatColor.RED + "/scoreboard teams leave [player...]");
 					return false;
 				}
-				Set<String> left = new HashSet<String>();
-				Set<String> noTeam = new HashSet<String>();
+				Set<String> left = new HashSet<>();
+				Set<String> noTeam = new HashSet<>();
 				if ((sender instanceof Player) && args.length == 2) {
 					Team team = mainScoreboard.getPlayerTeam((Player) sender);
 					if (team != null) {
@@ -506,35 +506,35 @@ public class ScoreboardCommand extends VanillaCommand {
 		Validate.notNull(alias, "Alias cannot be null");
 
 		if (args.length == 1) {
-			return StringUtil.copyPartialMatches(args[0], MAIN_CHOICES, new ArrayList<String>());
+			return StringUtil.copyPartialMatches(args[0], MAIN_CHOICES, new ArrayList<>());
 		}
 		if (args.length > 1) {
 			if (args[0].equalsIgnoreCase("objectives")) {
 				if (args.length == 2) {
-					return StringUtil.copyPartialMatches(args[1], OBJECTIVES_CHOICES, new ArrayList<String>());
+					return StringUtil.copyPartialMatches(args[1], OBJECTIVES_CHOICES, new ArrayList<>());
 				}
 				if (args[1].equalsIgnoreCase("add")) {
 					if (args.length == 4) {
-						return StringUtil.copyPartialMatches(args[3], OBJECTIVES_CRITERIA, new ArrayList<String>());
+						return StringUtil.copyPartialMatches(args[3], OBJECTIVES_CRITERIA, new ArrayList<>());
 					}
 				} else if (args[1].equalsIgnoreCase("remove")) {
 					if (args.length == 3) {
 						return StringUtil.copyPartialMatches(args[2], this.getCurrentObjectives(),
-								new ArrayList<String>());
+								new ArrayList<>());
 					}
 				} else if (args[1].equalsIgnoreCase("setdisplay")) {
 					if (args.length == 3) {
 						return StringUtil.copyPartialMatches(args[2], OBJECTIVES_DISPLAYSLOT.keySet(),
-								new ArrayList<String>());
+								new ArrayList<>());
 					}
 					if (args.length == 4) {
 						return StringUtil.copyPartialMatches(args[3], this.getCurrentObjectives(),
-								new ArrayList<String>());
+								new ArrayList<>());
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("players")) {
 				if (args.length == 2) {
-					return StringUtil.copyPartialMatches(args[1], PLAYERS_CHOICES, new ArrayList<String>());
+					return StringUtil.copyPartialMatches(args[1], PLAYERS_CHOICES, new ArrayList<>());
 				}
 				if (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("add")
 						|| args[1].equalsIgnoreCase("remove")) {
@@ -543,21 +543,21 @@ public class ScoreboardCommand extends VanillaCommand {
 					}
 					if (args.length == 4) {
 						return StringUtil.copyPartialMatches(args[3], this.getCurrentObjectives(),
-								new ArrayList<String>());
+								new ArrayList<>());
 					}
 				} else {
 					if (args.length == 3) {
 						return StringUtil.copyPartialMatches(args[2], this.getCurrentEntries(),
-								new ArrayList<String>());
+								new ArrayList<>());
 					}
 				}
 			} else if (args[0].equalsIgnoreCase("teams")) {
 				if (args.length == 2) {
-					return StringUtil.copyPartialMatches(args[1], TEAMS_CHOICES, new ArrayList<String>());
+					return StringUtil.copyPartialMatches(args[1], TEAMS_CHOICES, new ArrayList<>());
 				}
 				if (args[1].equalsIgnoreCase("join")) {
 					if (args.length == 3) {
-						return StringUtil.copyPartialMatches(args[2], this.getCurrentTeams(), new ArrayList<String>());
+						return StringUtil.copyPartialMatches(args[2], this.getCurrentTeams(), new ArrayList<>());
 					}
 					if (args.length >= 4) {
 						return super.tabComplete(sender, alias, args);
@@ -566,22 +566,22 @@ public class ScoreboardCommand extends VanillaCommand {
 					return super.tabComplete(sender, alias, args);
 				} else if (args[1].equalsIgnoreCase("option")) {
 					if (args.length == 3) {
-						return StringUtil.copyPartialMatches(args[2], this.getCurrentTeams(), new ArrayList<String>());
+						return StringUtil.copyPartialMatches(args[2], this.getCurrentTeams(), new ArrayList<>());
 					}
 					if (args.length == 4) {
-						return StringUtil.copyPartialMatches(args[3], TEAMS_OPTION_CHOICES, new ArrayList<String>());
+						return StringUtil.copyPartialMatches(args[3], TEAMS_OPTION_CHOICES, new ArrayList<>());
 					}
 					if (args.length == 5) {
 						if (args[3].equalsIgnoreCase("color")) {
 							return StringUtil.copyPartialMatches(args[4], TEAMS_OPTION_COLOR.keySet(),
-									new ArrayList<String>());
+									new ArrayList<>());
 						} else {
-							return StringUtil.copyPartialMatches(args[4], BOOLEAN, new ArrayList<String>());
+							return StringUtil.copyPartialMatches(args[4], BOOLEAN, new ArrayList<>());
 						}
 					}
 				} else {
 					if (args.length == 3) {
-						return StringUtil.copyPartialMatches(args[2], this.getCurrentTeams(), new ArrayList<String>());
+						return StringUtil.copyPartialMatches(args[2], this.getCurrentTeams(), new ArrayList<>());
 					}
 				}
 			}
@@ -618,7 +618,7 @@ public class ScoreboardCommand extends VanillaCommand {
 	}
 
 	private List<String> getCurrentObjectives() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		for (Objective objective : Bukkit.getScoreboardManager().getMainScoreboard().getObjectives()) {
 			list.add(objective.getName());
 		}
@@ -627,7 +627,7 @@ public class ScoreboardCommand extends VanillaCommand {
 	}
 
 	private List<String> getCurrentEntries() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		for (String entry : Bukkit.getScoreboardManager().getMainScoreboard().getEntries()) {
 			list.add(entry);
 		}
@@ -636,7 +636,7 @@ public class ScoreboardCommand extends VanillaCommand {
 	}
 
 	private List<String> getCurrentTeams() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		for (Team team : Bukkit.getScoreboardManager().getMainScoreboard().getTeams()) {
 			list.add(team.getName());
 		}

@@ -156,8 +156,8 @@ public enum EntityType {
 	private final boolean independent;
 	private boolean living;
 
-	private static final Map<String, EntityType> NAME_MAP = new HashMap<String, EntityType>();
-	private static final Map<Short, EntityType> ID_MAP = new HashMap<Short, EntityType>();
+	private static final Map<String, EntityType> NAME_MAP = new HashMap<>();
+	private static final Map<Short, EntityType> ID_MAP = new HashMap<>();
 
 	static {
 		for (EntityType type : values()) {

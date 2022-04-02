@@ -17,8 +17,8 @@ import org.bukkit.plugin.Plugin;
 public class PermissibleBase implements Permissible {
 	private ServerOperator opable = null;
 	private Permissible parent = this;
-	private final List<PermissionAttachment> attachments = new LinkedList<PermissionAttachment>();
-	private final Map<String, PermissionAttachmentInfo> permissions = new HashMap<String, PermissionAttachmentInfo>();
+	private final List<PermissionAttachment> attachments = new LinkedList<>();
+	private final Map<String, PermissionAttachmentInfo> permissions = new HashMap<>();
 
 	public PermissibleBase(ServerOperator opable) {
 		this.opable = opable;
@@ -233,7 +233,7 @@ public class PermissibleBase implements Permissible {
 	}
 
 	public Set<PermissionAttachmentInfo> getEffectivePermissions() {
-		return new HashSet<PermissionAttachmentInfo>(permissions.values());
+		return new HashSet<>(permissions.values());
 	}
 
 	private class RemoveAttachmentRunnable implements Runnable {

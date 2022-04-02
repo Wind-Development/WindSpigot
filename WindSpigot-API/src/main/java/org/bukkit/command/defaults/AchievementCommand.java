@@ -188,7 +188,7 @@ public class AchievementCommand extends VanillaCommand {
 		}
 
 		if (args.length == 2) {
-			return Bukkit.getUnsafe().tabCompleteInternalStatisticOrAchievementName(args[1], new ArrayList<String>());
+			return Bukkit.getUnsafe().tabCompleteInternalStatisticOrAchievementName(args[1], new ArrayList<>());
 		}
 
 		if (args.length == 3) {

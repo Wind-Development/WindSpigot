@@ -49,7 +49,7 @@ public abstract class Command {
 		this.description = description;
 		this.usageMessage = usageMessage;
 		this.aliases = aliases;
-		this.activeAliases = new ArrayList<String>(aliases);
+		this.activeAliases = new ArrayList<>(aliases);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public abstract class Command {
 
 		Player senderPlayer = sender instanceof Player ? (Player) sender : null;
 
-		ArrayList<String> matchedPlayers = new ArrayList<String>();
+		ArrayList<String> matchedPlayers = new ArrayList<>();
 		for (Player player : sender.getServer().getOnlinePlayers()) {
 			String name = player.getName();
 			if ((senderPlayer == null || senderPlayer.canSee(player))
@@ -294,7 +294,7 @@ public abstract class Command {
 	public boolean unregister(CommandMap commandMap) {
 		if (allowChangesFrom(commandMap)) {
 			this.commandMap = null;
-			this.activeAliases = new ArrayList<String>(this.aliases);
+			this.activeAliases = new ArrayList<>(this.aliases);
 			this.label = this.nextLabel;
 			return true;
 		}
@@ -364,7 +364,7 @@ public abstract class Command {
 	public Command setAliases(List<String> aliases) {
 		this.aliases = aliases;
 		if (!isRegistered()) {
-			this.activeAliases = new ArrayList<String>(aliases);
+			this.activeAliases = new ArrayList<>(aliases);
 		}
 		return this;
 	}

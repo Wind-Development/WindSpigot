@@ -46,8 +46,8 @@ import org.yaml.snakeyaml.error.YAMLException;
 public final class JavaPluginLoader implements PluginLoader {
 	final Server server;
 	private final Pattern[] fileFilters = new Pattern[] { Pattern.compile("\\.jar$"), };
-	private final Map<String, Class<?>> classes = new java.util.concurrent.ConcurrentHashMap<String, Class<?>>(); // Spigot
-	private final Map<String, PluginClassLoader> loaders = new LinkedHashMap<String, PluginClassLoader>();
+	private final Map<String, Class<?>> classes = new java.util.concurrent.ConcurrentHashMap<>(); // Spigot
+	private final Map<String, PluginClassLoader> loaders = new LinkedHashMap<>();
 
 	/**
 	 * This class was not meant to be constructed explicitly
@@ -222,12 +222,12 @@ public final class JavaPluginLoader implements PluginLoader {
 		Validate.notNull(listener, "Listener can not be null");
 
 		boolean useTimings = server.getPluginManager().useTimings();
-		Map<Class<? extends Event>, Set<RegisteredListener>> ret = new HashMap<Class<? extends Event>, Set<RegisteredListener>>();
+		Map<Class<? extends Event>, Set<RegisteredListener>> ret = new HashMap<>();
 		Set<Method> methods;
 		try {
 			Method[] publicMethods = listener.getClass().getMethods();
 			Method[] privateMethods = listener.getClass().getDeclaredMethods();
-			methods = new HashSet<Method>(publicMethods.length + privateMethods.length, 1.0f);
+			methods = new HashSet<>(publicMethods.length + privateMethods.length, 1.0f);
 			for (Method method : publicMethods) {
 				methods.add(method);
 			}
@@ -263,7 +263,7 @@ public final class JavaPluginLoader implements PluginLoader {
 			method.setAccessible(true);
 			Set<RegisteredListener> eventSet = ret.get(eventClass);
 			if (eventSet == null) {
-				eventSet = new HashSet<RegisteredListener>();
+				eventSet = new HashSet<>();
 				ret.put(eventClass, eventSet);
 			}
 

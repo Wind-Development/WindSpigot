@@ -52,7 +52,7 @@ public class Conversation {
 	 * @param firstPrompt The first prompt in the conversation graph.
 	 */
 	public Conversation(Plugin plugin, Conversable forWhom, Prompt firstPrompt) {
-		this(plugin, forWhom, firstPrompt, new HashMap<Object, Object>());
+		this(plugin, forWhom, firstPrompt, new HashMap<>());
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class Conversation {
 		this.modal = true;
 		this.localEchoEnabled = true;
 		this.prefix = new NullConversationPrefix();
-		this.cancellers = new ArrayList<ConversationCanceller>();
-		this.abandonedListeners = new ArrayList<ConversationAbandonedListener>();
+		this.cancellers = new ArrayList<>();
+		this.abandonedListeners = new ArrayList<>();
 	}
 
 	/**

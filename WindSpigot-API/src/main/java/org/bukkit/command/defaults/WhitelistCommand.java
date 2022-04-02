@@ -111,10 +111,10 @@ public class WhitelistCommand extends VanillaCommand {
 
 		if (args.length == 1) {
 			return StringUtil.copyPartialMatches(args[0], WHITELIST_SUBCOMMANDS,
-					new ArrayList<String>(WHITELIST_SUBCOMMANDS.size()));
+					new ArrayList<>(WHITELIST_SUBCOMMANDS.size()));
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("add")) {
-				List<String> completions = new ArrayList<String>();
+				List<String> completions = new ArrayList<>();
 				for (OfflinePlayer player : Bukkit.getOnlinePlayers()) { // Spigot - well maybe sometimes you haven't
 																			// turned the whitelist on just yet.
 					String name = player.getName();
@@ -124,7 +124,7 @@ public class WhitelistCommand extends VanillaCommand {
 				}
 				return completions;
 			} else if (args[0].equalsIgnoreCase("remove")) {
-				List<String> completions = new ArrayList<String>();
+				List<String> completions = new ArrayList<>();
 				for (OfflinePlayer player : Bukkit.getWhitelistedPlayers()) {
 					String name = player.getName();
 					if (StringUtil.startsWithIgnoreCase(name, args[1])) {

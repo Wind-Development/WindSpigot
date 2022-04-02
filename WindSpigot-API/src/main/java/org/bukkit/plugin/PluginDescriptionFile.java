@@ -1172,7 +1172,7 @@ public final class PluginDescriptionFile {
 		}
 
 		if (map.get("awareness") instanceof Iterable) {
-			Set<PluginAwareness> awareness = new HashSet<PluginAwareness>();
+			Set<PluginAwareness> awareness = new HashSet<>();
 			try {
 				for (Object o : (Iterable<?>) map.get("awareness")) {
 					awareness.add((PluginAwareness) o);
@@ -1215,7 +1215,7 @@ public final class PluginDescriptionFile {
 	}
 
 	private Map<String, Object> saveMap() {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 
 		map.put("name", name);
 		map.put("main", main);

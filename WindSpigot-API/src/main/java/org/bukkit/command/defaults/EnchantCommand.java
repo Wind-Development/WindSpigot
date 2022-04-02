@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableList;
 
 @Deprecated
 public class EnchantCommand extends VanillaCommand {
-	private static final List<String> ENCHANTMENT_NAMES = new ArrayList<String>();
+	private static final List<String> ENCHANTMENT_NAMES = new ArrayList<>();
 
 	public EnchantCommand() {
 		super("enchant");
@@ -142,7 +142,7 @@ public class EnchantCommand extends VanillaCommand {
 
 		if (args.length == 2) {
 			return StringUtil.copyPartialMatches(args[1], ENCHANTMENT_NAMES,
-					new ArrayList<String>(ENCHANTMENT_NAMES.size()));
+					new ArrayList<>(ENCHANTMENT_NAMES.size()));
 		}
 
 		if (args.length == 3 || args.length == 4) {

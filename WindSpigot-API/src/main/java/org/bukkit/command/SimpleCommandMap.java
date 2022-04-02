@@ -200,7 +200,7 @@ public class SimpleCommandMap implements CommandMap {
 		int spaceIndex = cmdLine.indexOf(' ');
 
 		if (spaceIndex == -1) {
-			ArrayList<String> completions = new ArrayList<String>();
+			ArrayList<String> completions = new ArrayList<>();
 			Map<String, Command> knownCommands = this.knownCommands;
 
 			final String prefix = (sender instanceof Player ? "/" : "");
@@ -263,7 +263,7 @@ public class SimpleCommandMap implements CommandMap {
 			}
 
 			String[] commandStrings = values.get(alias);
-			List<String> targets = new ArrayList<String>();
+			List<String> targets = new ArrayList<>();
 			StringBuilder bad = new StringBuilder();
 
 			for (String commandString : commandStrings) {

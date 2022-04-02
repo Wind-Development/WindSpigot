@@ -19,7 +19,7 @@ public enum PistonMoveReaction {
 	BLOCK(2);
 
 	private final int id;
-	private static final Map<Integer, PistonMoveReaction> byId = new HashMap<Integer, PistonMoveReaction>();
+	private static final Map<Integer, PistonMoveReaction> byId = new HashMap<>();
 	static {
 		for (PistonMoveReaction reaction : PistonMoveReaction.values()) {
 			byId.put(reaction.id, reaction);
