@@ -820,8 +820,7 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public String toString() {
 		Configuration root = getRoot();
-		return new StringBuilder().append(getClass().getSimpleName()).append("[path='").append(getCurrentPath())
-				.append("', root='").append(root == null ? null : root.getClass().getSimpleName()).append("']")
-				.toString();
+		return getClass().getSimpleName() + "[path='" + getCurrentPath() +
+				"', root='" + (root == null ? null : root.getClass().getSimpleName()) + "']";
 	}
 }
