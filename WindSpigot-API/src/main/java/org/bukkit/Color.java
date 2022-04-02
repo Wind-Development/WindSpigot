@@ -1,12 +1,11 @@
 package org.bukkit;
 
-import java.util.Map;
-
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 /**
  * A container for a color palette. This class is immutable; the set methods
@@ -316,7 +315,6 @@ public final class Color implements ConfigurationSerializable {
 		return ImmutableMap.<String, Object>of("RED", getRed(), "BLUE", getBlue(), "GREEN", getGreen());
 	}
 
-	@SuppressWarnings("javadoc")
 	public static Color deserialize(Map<String, Object> map) {
 		return fromRGB(asInt("RED", map), asInt("GREEN", map), asInt("BLUE", map));
 	}
