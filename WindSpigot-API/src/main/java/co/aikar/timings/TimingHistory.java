@@ -179,7 +179,7 @@ public class TimingHistory {
 		final long activatedEntity;
 
 		TicksRecord() {
-			timed = timedTicks - (TimingsManager.MINUTE_REPORTS.size() * 1200);
+			timed = timedTicks - (TimingsManager.MINUTE_REPORTS.size() * 1200L);
 			player = playerTicks;
 			entity = entityTicks;
 			tileEntity = tileEntityTicks;

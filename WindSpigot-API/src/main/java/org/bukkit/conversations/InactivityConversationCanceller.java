@@ -51,7 +51,7 @@ public class InactivityConversationCanceller implements ConversationCanceller {
 				conversation.abandon(
 						new ConversationAbandonedEvent(conversation, InactivityConversationCanceller.this));
 			}
-		}, timeoutSeconds * 20);
+		}, timeoutSeconds * 20L);
 	}
 
 	/**
