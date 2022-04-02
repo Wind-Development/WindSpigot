@@ -149,9 +149,9 @@ public class ChatPaginator {
 
 	public static class ChatPage {
 
-		private String[] lines;
-		private int pageNumber;
-		private int totalPages;
+		private final String[] lines;
+		private final int pageNumber;
+		private final int totalPages;
 
 		public ChatPage(String[] lines, int pageNumber, int totalPages) {
 			this.lines = lines;

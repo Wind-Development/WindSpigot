@@ -26,7 +26,7 @@ import org.bukkit.util.Vector;
 public class ConfigurationSerialization {
 	public static final String SERIALIZED_TYPE_KEY = "==";
 	private final Class<? extends ConfigurationSerializable> clazz;
-	private static Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<String, Class<? extends ConfigurationSerializable>>();
+	private static final Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<String, Class<? extends ConfigurationSerializable>>();
 
 	static {
 		registerClass(Vector.class);

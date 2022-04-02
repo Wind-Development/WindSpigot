@@ -17,7 +17,7 @@ import com.google.common.collect.ImmutableList;
 
 @Deprecated
 public class ClearCommand extends VanillaCommand {
-	private static List<String> materials;
+	private static final List<String> materials;
 	static {
 		ArrayList<String> materialList = new ArrayList<String>();
 		for (Material material : Material.values()) {

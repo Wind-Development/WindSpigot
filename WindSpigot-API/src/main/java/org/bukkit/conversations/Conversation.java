@@ -34,7 +34,7 @@ import org.bukkit.plugin.Plugin;
  */
 public class Conversation {
 
-	private Prompt firstPrompt;
+	private final Prompt firstPrompt;
 	private boolean abandoned;
 	protected Prompt currentPrompt;
 	protected ConversationContext context;

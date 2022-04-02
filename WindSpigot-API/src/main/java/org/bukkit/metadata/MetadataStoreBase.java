@@ -12,7 +12,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.plugin.Plugin;
 
 public abstract class MetadataStoreBase<T> {
-	private Map<String, Map<Plugin, MetadataValue>> metadataMap = new HashMap<String, Map<Plugin, MetadataValue>>();
+	private final Map<String, Map<Plugin, MetadataValue>> metadataMap = new HashMap<String, Map<Plugin, MetadataValue>>();
 
 	/**
 	 * Adds a metadata value to an object. Each metadata value is owned by a

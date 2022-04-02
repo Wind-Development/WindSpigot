@@ -237,7 +237,7 @@ public class PermissibleBase implements Permissible {
 	}
 
 	private class RemoveAttachmentRunnable implements Runnable {
-		private PermissionAttachment attachment;
+		private final PermissionAttachment attachment;
 
 		public RemoveAttachmentRunnable(PermissionAttachment attachment) {
 			this.attachment = attachment;
