@@ -195,39 +195,34 @@ import com.google.common.collect.ImmutableSet;
  * </blockquote>
  */
 public final class PluginDescriptionFile {
-	private static final ThreadLocal<Yaml> YAML = new ThreadLocal<Yaml>() {
-		@Override
-		protected Yaml initialValue() {
-			return new Yaml(new SafeConstructor() {
-				{
-					yamlConstructors.put(null, new AbstractConstruct() {
-						@Override
-						public Object construct(final Node node) {
-							if (!node.getTag().startsWith("!@")) {
-								// Unknown tag - will fail
-								return SafeConstructor.undefinedConstructor.construct(node);
-							}
-							// Unknown awareness - provide a graceful substitution
-							return new PluginAwareness() {
-								@Override
-								public String toString() {
-									return node.toString();
-								}
-							};
-						}
-					});
-					for (final PluginAwareness.Flags flag : PluginAwareness.Flags.values()) {
-						yamlConstructors.put(new Tag("!@" + flag.name()), new AbstractConstruct() {
-							@Override
-							public PluginAwareness.Flags construct(final Node node) {
-								return flag;
-							}
-						});
+	private static final ThreadLocal<Yaml> YAML = ThreadLocal.withInitial(() -> new Yaml(new SafeConstructor() {
+		{
+			yamlConstructors.put(null, new AbstractConstruct() {
+				@Override
+				public Object construct(final Node node) {
+					if (!node.getTag().startsWith("!@")) {
+						// Unknown tag - will fail
+						return SafeConstructor.undefinedConstructor.construct(node);
 					}
+					// Unknown awareness - provide a graceful substitution
+					return new PluginAwareness() {
+						@Override
+						public String toString() {
+							return node.toString();
+						}
+					};
 				}
 			});
+			for (final PluginAwareness.Flags flag : PluginAwareness.Flags.values()) {
+				yamlConstructors.put(new Tag("!@" + flag.name()), new AbstractConstruct() {
+					@Override
+					public PluginAwareness.Flags construct(final Node node) {
+						return flag;
+					}
+				});
+			}
 		}
-	};
+	}));
 	String rawName = null;
 	private String name = null;
 	private String main = null;
