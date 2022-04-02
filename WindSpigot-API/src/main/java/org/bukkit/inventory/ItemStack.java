@@ -400,7 +400,7 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
 	 * @return Map of enchantments.
 	 */
 	public Map<Enchantment, Integer> getEnchantments() {
-		return meta == null ? ImmutableMap.<Enchantment, Integer>of() : meta.getEnchants();
+		return meta == null ? ImmutableMap.of() : meta.getEnchants();
 	}
 
 	/**

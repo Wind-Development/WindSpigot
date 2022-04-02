@@ -23,7 +23,7 @@ public class EffectCommand extends VanillaCommand {
 	}
 
 	static {
-		ImmutableList.Builder<String> builder = ImmutableList.<String>builder();
+		ImmutableList.Builder<String> builder = ImmutableList.builder();
 
 		for (PotionEffectType type : PotionEffectType.values()) {
 			if (type != null) {

@@ -106,7 +106,7 @@ public class PotionEffect implements ConfigurationSerializable {
 	}
 
 	public Map<String, Object> serialize() {
-		return ImmutableMap.<String, Object>of(TYPE, type.getId(), DURATION, duration, AMPLIFIER, amplifier, AMBIENT,
+		return ImmutableMap.of(TYPE, type.getId(), DURATION, duration, AMPLIFIER, amplifier, AMBIENT,
 				ambient, PARTICLES, particles);
 	}
 
