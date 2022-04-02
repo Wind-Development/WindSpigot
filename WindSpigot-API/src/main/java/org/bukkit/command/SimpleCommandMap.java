@@ -181,8 +181,7 @@ public class SimpleCommandMap implements CommandMap {
 	}
 
 	public Command getCommand(String name) {
-		Command target = knownCommands.get(name.toLowerCase());
-		return target;
+		return knownCommands.get(name.toLowerCase());
 	}
 
 	public List<String> tabComplete(CommandSender sender, String cmdLine) {
