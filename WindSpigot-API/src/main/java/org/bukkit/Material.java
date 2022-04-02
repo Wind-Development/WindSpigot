@@ -1,63 +1,14 @@
 package org.bukkit;
 
-import java.lang.reflect.Constructor;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 import org.bukkit.map.MapView;
-import org.bukkit.material.Banner;
-import org.bukkit.material.Bed;
-import org.bukkit.material.Button;
-import org.bukkit.material.Cake;
-import org.bukkit.material.Cauldron;
-import org.bukkit.material.Chest;
-import org.bukkit.material.Coal;
-import org.bukkit.material.CocoaPlant;
-import org.bukkit.material.Command;
-import org.bukkit.material.Crops;
-import org.bukkit.material.DetectorRail;
-import org.bukkit.material.Diode;
-import org.bukkit.material.Dispenser;
-import org.bukkit.material.Door;
-import org.bukkit.material.Dye;
-import org.bukkit.material.EnderChest;
-import org.bukkit.material.FlowerPot;
-import org.bukkit.material.Furnace;
-import org.bukkit.material.Gate;
-import org.bukkit.material.Ladder;
-import org.bukkit.material.Lever;
-import org.bukkit.material.LongGrass;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.MonsterEggs;
-import org.bukkit.material.Mushroom;
-import org.bukkit.material.NetherWarts;
-import org.bukkit.material.PistonBaseMaterial;
-import org.bukkit.material.PistonExtensionMaterial;
-import org.bukkit.material.PoweredRail;
-import org.bukkit.material.PressurePlate;
-import org.bukkit.material.Pumpkin;
-import org.bukkit.material.Rails;
-import org.bukkit.material.RedstoneTorch;
-import org.bukkit.material.RedstoneWire;
-import org.bukkit.material.Sandstone;
-import org.bukkit.material.Sign;
-import org.bukkit.material.Skull;
-import org.bukkit.material.SmoothBrick;
-import org.bukkit.material.SpawnEgg;
-import org.bukkit.material.Stairs;
-import org.bukkit.material.Step;
-import org.bukkit.material.Torch;
-import org.bukkit.material.TrapDoor;
-import org.bukkit.material.Tree;
-import org.bukkit.material.Tripwire;
-import org.bukkit.material.TripwireHook;
-import org.bukkit.material.Vine;
-import org.bukkit.material.WoodenStep;
-import org.bukkit.material.Wool;
+import org.bukkit.material.*;
 import org.bukkit.potion.Potion;
 import org.bukkit.util.Java15Compat;
 
-import com.google.common.collect.Maps;
+import java.lang.reflect.Constructor;
+import java.util.Map;
 
 /**
  * An enum of all material IDs accepted by the official server and client
@@ -374,12 +325,10 @@ public enum Material {
 
 	static {
 		for (Material material : values()) {
-			if (byId.length > material.id) {
-				byId[material.id] = material;
-			} else {
+			if (byId.length <= material.id) {
 				byId = Java15Compat.Arrays_copyOfRange(byId, 0, material.id + 2);
-				byId[material.id] = material;
 			}
+			byId[material.id] = material;
 			BY_NAME.put(material.name(), material);
 		}
 	}

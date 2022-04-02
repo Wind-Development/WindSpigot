@@ -1,9 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Deprecated
 public class GameRuleCommand extends VanillaCommand {
@@ -50,13 +49,12 @@ public class GameRuleCommand extends VanillaCommand {
 				sender.sendMessage(ChatColor.RED + "No game rule called " + rule + " is available");
 			}
 
-			return true;
 		} else {
 			sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
 			sender.sendMessage("Rules: " + this.createString(getGameWorld(sender).getGameRules(), 0, ", "));
 
-			return true;
 		}
+		return true;
 	}
 
 	private World getGameWorld(CommandSender sender) {
