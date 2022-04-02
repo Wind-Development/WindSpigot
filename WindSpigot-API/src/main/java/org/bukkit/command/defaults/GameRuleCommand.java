@@ -78,12 +78,12 @@ public class GameRuleCommand extends VanillaCommand {
 
 		if (args.length == 1) {
 			return StringUtil.copyPartialMatches(args[0], Arrays.asList(getGameWorld(sender).getGameRules()),
-					new ArrayList<String>());
+					new ArrayList<>());
 		}
 
 		if (args.length == 2) {
 			return StringUtil.copyPartialMatches(args[1], GAMERULE_STATES,
-					new ArrayList<String>(GAMERULE_STATES.size()));
+					new ArrayList<>(GAMERULE_STATES.size()));
 		}
 
 		return ImmutableList.of();
