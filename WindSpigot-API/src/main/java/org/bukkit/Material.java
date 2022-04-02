@@ -310,7 +310,7 @@ public enum Material {
 
 		try {
 			result = getMaterial(Integer.parseInt(name));
-		} catch (NumberFormatException ex) {
+		} catch (NumberFormatException ignored) {
 		}
 
 		if (result == null) {

@@ -92,7 +92,7 @@ public class SimpleServicesManager implements ServicesManager {
 						it.remove();
 					}
 				}
-			} catch (NoSuchElementException e) {
+			} catch (NoSuchElementException ignored) {
 			}
 		}
 		for (ServiceUnregisterEvent event : unregisteredEvents) {
@@ -141,7 +141,7 @@ public class SimpleServicesManager implements ServicesManager {
 						it.remove();
 					}
 				}
-			} catch (NoSuchElementException e) {
+			} catch (NoSuchElementException ignored) {
 			}
 		}
 		for (ServiceUnregisterEvent event : unregisteredEvents) {
@@ -183,7 +183,7 @@ public class SimpleServicesManager implements ServicesManager {
 						it.remove();
 					}
 				}
-			} catch (NoSuchElementException e) {
+			} catch (NoSuchElementException ignored) {
 			}
 		}
 		for (ServiceUnregisterEvent event : unregisteredEvents) {

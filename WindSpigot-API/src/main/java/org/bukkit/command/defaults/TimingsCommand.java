@@ -100,7 +100,7 @@ public class TimingsCommand extends BukkitCommand {
 				sender.sendMessage("Timings written to " + timings.getPath());
 				if (separate)
 					sender.sendMessage("Names written to " + names.getPath());
-			} catch (IOException e) {
+			} catch (IOException ignored) {
 			} finally {
 				if (fileTimings != null) {
 					fileTimings.close();

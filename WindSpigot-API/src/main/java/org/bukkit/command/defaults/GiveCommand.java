@@ -65,7 +65,7 @@ public class GiveCommand extends VanillaCommand {
 					if (args.length >= 4) {
 						try {
 							data = Short.parseShort(args[3]);
-						} catch (NumberFormatException ex) {
+						} catch (NumberFormatException ignored) {
 						}
 					}
 				}

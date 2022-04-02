@@ -153,13 +153,13 @@ public final class JavaPluginLoader implements PluginLoader {
 			if (jar != null) {
 				try {
 					jar.close();
-				} catch (IOException e) {
+				} catch (IOException ignored) {
 				}
 			}
 			if (stream != null) {
 				try {
 					stream.close();
-				} catch (IOException e) {
+				} catch (IOException ignored) {
 				}
 			}
 		}
@@ -180,7 +180,7 @@ public final class JavaPluginLoader implements PluginLoader {
 
 				try {
 					cachedClass = loader.findClass(name, false);
-				} catch (ClassNotFoundException cnfe) {
+				} catch (ClassNotFoundException ignored) {
 				}
 				if (cachedClass != null) {
 					return cachedClass;
