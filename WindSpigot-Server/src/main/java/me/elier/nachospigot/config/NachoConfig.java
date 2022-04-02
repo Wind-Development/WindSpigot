@@ -1,12 +1,8 @@
 package me.elier.nachospigot.config;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.List;
-
+import com.google.common.base.Throwables;
+import dev.cobblesword.nachospigot.OldNachoConfig;
+import dev.cobblesword.nachospigot.commons.FileUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,10 +10,12 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
-import com.google.common.base.Throwables;
-
-import dev.cobblesword.nachospigot.OldNachoConfig;
-import dev.cobblesword.nachospigot.commons.FileUtils;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.List;
 
 public class NachoConfig {
 
@@ -37,7 +35,7 @@ public class NachoConfig {
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
 		try {
-			System.out.println("Loading NachoSpigot config from " + configFile.getName());
+			LOGGER.info("Loading NachoSpigot config from " + configFile.getName());
 			config.load(CONFIG_FILE);
 		} catch (IOException ignored) {
 		} catch (InvalidConfigurationException ex) {

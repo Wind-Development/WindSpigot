@@ -1,20 +1,19 @@
 package dev.cobblesword.nachospigot;
 
-import java.util.Set;
-
-import org.bukkit.command.defaults.nacho.SetMaxSlotCommand;
-import org.bukkit.command.defaults.nacho.SpawnMobCommand;
-
 import com.google.common.collect.Sets;
-
 import dev.cobblesword.nachospigot.knockback.KnockbackCommand;
 import dev.cobblesword.nachospigot.protocol.MovementListener;
 import dev.cobblesword.nachospigot.protocol.PacketListener;
 import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.MinecraftServer;
+import org.bukkit.Bukkit;
+import org.bukkit.command.defaults.nacho.SetMaxSlotCommand;
+import org.bukkit.command.defaults.nacho.SpawnMobCommand;
 import xyz.sculas.nacho.anticrash.AntiCrash;
 import xyz.sculas.nacho.async.AsyncExplosions;
 import xyz.sculas.nacho.patches.RuntimePatches;
+
+import java.util.Set;
 
 public class Nacho {
 
@@ -29,9 +28,9 @@ public class Nacho {
 		AsyncExplosions.initExecutor(NachoConfig.useFixedPoolForTNT, NachoConfig.fixedPoolSize);
 
 		if (NachoConfig.enableAntiCrash) {
-			System.out.println("[NS-AntiCrash] Activating Anti Crash.");
+			Bukkit.getLogger().info("[NS-AntiCrash] Activating Anti Crash.");
 			Nacho.get().registerPacketListener(new AntiCrash());
-			System.out.println("[NS-AntiCrash] Activated Anti Crash.");
+			Bukkit.getLogger().info("[NS-AntiCrash] Activated Anti Crash.");
 		}
 	}
 
