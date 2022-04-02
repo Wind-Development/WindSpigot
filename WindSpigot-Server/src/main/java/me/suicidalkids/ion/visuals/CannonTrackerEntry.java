@@ -15,17 +15,20 @@ import java.util.function.Consumer;
  */
 public class CannonTrackerEntry extends EntityTrackerEntry {
 
-	private boolean movingX;
-	private boolean movingY;
-	private boolean movingZ;
-
-	private double updateX;
-	private double updateY;
-	private double updateZ;
-
 	private final List<EntityPlayer> toRemove = new ArrayList<>();
 	private final EntityTracker entityTracker;
 	private final int addRemoveRate;
+	private final Consumer<EntityPlayer> addNearPlayersConsumer = entityPlayer -> {
+		if (!WindSpigotConfig.disableTracking || tracker.passenger == entityPlayer) {
+			updatePlayer(entityPlayer);
+		}
+	};
+	private boolean movingX;
+	private boolean movingY;
+	private boolean movingZ;
+	private double updateX;
+	private double updateY;
+	private double updateZ;
 	private int addRemoveCooldown;
 	private boolean withinNoTrack = false;
 
@@ -124,12 +127,6 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 		int noTrackDistanceSqrd = entityTracker.getNoTrackDistance() * entityTracker.getNoTrackDistance();
 		return noTrackDistanceSqrd != 0 && xDistSqrd <= noTrackDistanceSqrd && zDistSqrd <= noTrackDistanceSqrd;
 	}
-
-	private final Consumer<EntityPlayer> addNearPlayersConsumer = entityPlayer -> {
-		if (!WindSpigotConfig.disableTracking || tracker.passenger == entityPlayer) {
-			updatePlayer(entityPlayer);
-		}
-	};
 
 	@Override
 	public void track(List<EntityHuman> list) {
