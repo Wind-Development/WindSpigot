@@ -660,12 +660,7 @@ public final class SimplePluginManager implements PluginManager {
 
 	public void subscribeToPermission(String permission, Permissible permissible) {
 		String name = permission.toLowerCase();
-		Map<Permissible, Boolean> map = permSubs.get(name);
-
-		if (map == null) {
-			map = new WeakHashMap<>();
-			permSubs.put(name, map);
-		}
+		Map<Permissible, Boolean> map = permSubs.computeIfAbsent(name, k -> new WeakHashMap<>());
 
 		map.put(permissible, true);
 	}
@@ -695,12 +690,7 @@ public final class SimplePluginManager implements PluginManager {
 	}
 
 	public void subscribeToDefaultPerms(boolean op, Permissible permissible) {
-		Map<Permissible, Boolean> map = defSubs.get(op);
-
-		if (map == null) {
-			map = new WeakHashMap<>();
-			defSubs.put(op, map);
-		}
+		Map<Permissible, Boolean> map = defSubs.computeIfAbsent(op, k -> new WeakHashMap<>());
 
 		map.put(permissible, true);
 	}

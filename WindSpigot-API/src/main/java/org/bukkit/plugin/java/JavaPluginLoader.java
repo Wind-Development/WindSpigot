@@ -259,11 +259,7 @@ public final class JavaPluginLoader implements PluginLoader {
 			}
 			final Class<? extends Event> eventClass = checkClass.asSubclass(Event.class);
 			method.setAccessible(true);
-			Set<RegisteredListener> eventSet = ret.get(eventClass);
-			if (eventSet == null) {
-				eventSet = new HashSet<>();
-				ret.put(eventClass, eventSet);
-			}
+			Set<RegisteredListener> eventSet = ret.computeIfAbsent(eventClass, k -> new HashSet<>());
 
 			for (Class<?> clazz = eventClass; Event.class.isAssignableFrom(clazz); clazz = clazz.getSuperclass()) {
 				// This loop checks for extending deprecated events
