@@ -45,10 +45,10 @@ public class ChatPaginator {
 		String[] lines = wordWrap(unpaginatedString, lineLength);
 
 		int totalPages = lines.length / pageHeight + (lines.length % pageHeight == 0 ? 0 : 1);
-		int actualPageNumber = pageNumber <= totalPages ? pageNumber : totalPages;
+		int actualPageNumber = Math.min(pageNumber, totalPages);
 
 		int from = (actualPageNumber - 1) * pageHeight;
-		int to = from + pageHeight <= lines.length ? from + pageHeight : lines.length;
+		int to = Math.min(from + pageHeight, lines.length);
 		String[] selectedLines = Java15Compat.Arrays_copyOfRange(lines, from, to);
 
 		return new ChatPage(selectedLines, actualPageNumber, totalPages);
