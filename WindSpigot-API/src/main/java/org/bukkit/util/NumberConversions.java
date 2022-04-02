@@ -31,7 +31,7 @@ public final class NumberConversions {
 		}
 
 		try {
-			return Integer.valueOf(object.toString());
+			return Integer.parseInt(object.toString());
 		} catch (NumberFormatException ignored) {
 		} catch (NullPointerException ignored) {
 		}
@@ -44,7 +44,7 @@ public final class NumberConversions {
 		}
 
 		try {
-			return Float.valueOf(object.toString());
+			return Float.parseFloat(object.toString());
 		} catch (NumberFormatException ignored) {
 		} catch (NullPointerException ignored) {
 		}
@@ -57,7 +57,7 @@ public final class NumberConversions {
 		}
 
 		try {
-			return Double.valueOf(object.toString());
+			return Double.parseDouble(object.toString());
 		} catch (NumberFormatException ignored) {
 		} catch (NullPointerException ignored) {
 		}
@@ -70,7 +70,7 @@ public final class NumberConversions {
 		}
 
 		try {
-			return Long.valueOf(object.toString());
+			return Long.parseLong(object.toString());
 		} catch (NumberFormatException ignored) {
 		} catch (NullPointerException ignored) {
 		}
@@ -83,7 +83,7 @@ public final class NumberConversions {
 		}
 
 		try {
-			return Short.valueOf(object.toString());
+			return Short.parseShort(object.toString());
 		} catch (NumberFormatException ignored) {
 		} catch (NullPointerException ignored) {
 		}
@@ -96,7 +96,7 @@ public final class NumberConversions {
 		}
 
 		try {
-			return Byte.valueOf(object.toString());
+			return Byte.parseByte(object.toString());
 		} catch (NumberFormatException ignored) {
 		} catch (NullPointerException ignored) {
 		}
