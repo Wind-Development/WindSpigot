@@ -104,7 +104,7 @@ public class ConfigurationSerialization {
 		Validate.notNull(args, "Args must not be null");
 
 		ConfigurationSerializable result = null;
-		Method method = null;
+		Method method;
 
 		if (result == null) {
 			method = getMethod("deserialize", true);
@@ -166,7 +166,7 @@ public class ConfigurationSerialization {
 	 * @return New instance of the specified class
 	 */
 	public static ConfigurationSerializable deserializeObject(Map<String, ?> args) {
-		Class<? extends ConfigurationSerializable> clazz = null;
+		Class<? extends ConfigurationSerializable> clazz;
 
 		if (args.containsKey(SERIALIZED_TYPE_KEY)) {
 			try {

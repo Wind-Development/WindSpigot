@@ -31,7 +31,7 @@ public final class PluginCommand extends Command implements PluginIdentifiableCo
 	 */
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		boolean success = false;
+		boolean success;
 
 		if (!owningPlugin.isEnabled()) {
 			return false;

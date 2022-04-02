@@ -26,7 +26,7 @@ public abstract class Command {
 	private List<String> aliases;
 	private List<String> activeAliases;
 	private CommandMap commandMap = null;
-	protected String description = "";
+	protected String description;
 	protected String usageMessage;
 	private String permission;
 	private String permissionMessage;

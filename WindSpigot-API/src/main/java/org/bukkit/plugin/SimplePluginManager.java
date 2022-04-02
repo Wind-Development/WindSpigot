@@ -124,7 +124,7 @@ public final class SimplePluginManager implements PluginManager {
 			if (loader == null)
 				continue;
 
-			PluginDescriptionFile description = null;
+			PluginDescriptionFile description;
 			try {
 				description = loader.getPluginDescription(file);
 				String name = description.getName();
