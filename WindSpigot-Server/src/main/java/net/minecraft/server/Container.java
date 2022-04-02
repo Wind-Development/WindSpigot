@@ -606,7 +606,7 @@ public abstract class Container {
 	}
 
 	public static boolean a(int i, EntityHuman entityhuman) {
-		return i == 0 ? true : (i == 1 ? true : i == 2 && entityhuman.abilities.canInstantlyBuild);
+		return i == 0 || (i == 1 || i == 2 && entityhuman.abilities.canInstantlyBuild);
 	}
 
 	protected void d() {

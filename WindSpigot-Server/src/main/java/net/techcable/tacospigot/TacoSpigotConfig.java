@@ -1,5 +1,10 @@
 package net.techcable.tacospigot;
 
+import com.google.common.base.Throwables;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -7,12 +12,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.google.common.base.Throwables;
 
 public class TacoSpigotConfig {
 
@@ -93,7 +92,7 @@ public class TacoSpigotConfig {
 		return config.getInt(path, config.getInt(path));
 	}
 
-	private static <T> List getList(String path, T def) {
+	private static <T> List<?> getList(String path, T def) {
 		config.addDefault(path, def);
 		return config.getList(path, config.getList(path));
 	}

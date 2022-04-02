@@ -88,17 +88,16 @@ public class EntitySlice<T> extends AbstractSet<T> {
 
 	@Override
 	public boolean remove(Object object) {
-		Object object1 = object;
-		boolean flag = false;
+        boolean flag = false;
 		Iterator iterator = this.c.iterator();
 
 		while (iterator.hasNext()) {
 			Class oclass = (Class) iterator.next();
 
-			if (oclass.isAssignableFrom(object1.getClass())) {
+			if (oclass.isAssignableFrom(object.getClass())) {
 				List list = this.b.get(oclass);
 
-				if (list != null && list.remove(object1)) {
+				if (list != null && list.remove(object)) {
 					flag = true;
 				}
 			}

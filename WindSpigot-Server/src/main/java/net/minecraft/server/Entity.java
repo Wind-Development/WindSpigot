@@ -1,11 +1,13 @@
 package net.minecraft.server;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-
+import co.aikar.timings.SpigotTimings;
+import co.aikar.timings.Timing;
+import com.eatthepath.uuid.FastUUID;
+import dev.cobblesword.nachospigot.commons.Constants;
+import dev.cobblesword.nachospigot.commons.MCUtils;
+import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
+import ga.windpvp.windspigot.async.world.TeleportSafety;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import org.apache.logging.log4j.LogManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -29,21 +31,13 @@ import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleEnterEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.plugin.PluginManager;
-// CraftBukkit end
-// PaperSpigot start
 import org.spigotmc.event.entity.EntityDismountEvent;
-// PaperSpigot end
 
-// CraftBukkit start
-import com.eatthepath.uuid.FastUUID;
-
-import co.aikar.timings.SpigotTimings; // Spigot
-import co.aikar.timings.Timing; // Spigot
-import dev.cobblesword.nachospigot.commons.Constants;
-import dev.cobblesword.nachospigot.commons.MCUtils;
-import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
-import ga.windpvp.windspigot.async.world.TeleportSafety;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.Callable;
 
 public abstract class Entity implements ICommandListener {
 
@@ -1158,7 +1152,7 @@ public abstract class Entity implements ICommandListener {
 			float f1 = blockposition.getY() + 1 - f;
 			boolean flag = d0 < f1;
 
-			return !flag && this instanceof EntityHuman ? false : flag;
+			return (flag || !(this instanceof EntityHuman)) && flag;
 		} else {
 			return false;
 		}
@@ -1603,11 +1597,10 @@ public abstract class Entity implements ICommandListener {
 
 	protected NBTTagList a(double... adouble) {
 		NBTTagList nbttaglist = new NBTTagList();
-		double[] adouble1 = adouble;
 		int i = adouble.length;
 
 		for (int j = 0; j < i; ++j) {
-			double d0 = adouble1[j];
+			double d0 = adouble[j];
 
 			nbttaglist.add(new NBTTagDouble(d0));
 		}
@@ -1617,11 +1610,10 @@ public abstract class Entity implements ICommandListener {
 
 	protected NBTTagList a(float... afloat) {
 		NBTTagList nbttaglist = new NBTTagList();
-		float[] afloat1 = afloat;
 		int i = afloat.length;
 
 		for (int j = 0; j < i; ++j) {
-			float f = afloat1[j];
+			float f = afloat[j];
 
 			nbttaglist.add(new NBTTagFloat(f));
 		}
@@ -1668,7 +1660,7 @@ public abstract class Entity implements ICommandListener {
 					Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
 			for (int i = 0; i < 8; ++i) {
-				int j = MathHelper.floor(this.locY + ((i >> 0) % 2 - 0.5F) * 0.1F + this.getHeadHeight());
+				int j = MathHelper.floor(this.locY + ((i) % 2 - 0.5F) * 0.1F + this.getHeadHeight());
 				int k = MathHelper.floor(this.locX + ((i >> 1) % 2 - 0.5F) * this.width * 0.8F);
 				int l = MathHelper.floor(this.locZ + ((i >> 2) % 2 - 0.5F) * this.width * 0.8F);
 
@@ -1706,7 +1698,6 @@ public abstract class Entity implements ICommandListener {
 				this.as += this.vehicle.yaw - this.vehicle.lastYaw;
 
 				for (this.ar += this.vehicle.pitch - this.vehicle.lastPitch; this.as >= 180.0D; this.as -= 360.0D) {
-					;
 				}
 
 				while (this.as < -180.0D) {
@@ -2251,10 +2242,9 @@ public abstract class Entity implements ICommandListener {
 
 					// Create a runnable that is then run on the main thread
 					Runnable runnable = (() -> {
-						int i = worldserver1.dimension;
 						// CraftBukkit end
 
-						this.dimension = i;
+						this.dimension = worldserver1.dimension;
 						/*
 						 * CraftBukkit start - TODO: Check if we need this if (j == 1 && i == 1) {
 						 * worldserver1 = minecraftserver.getWorldServer(0); this.dimension = 0; } //
@@ -2320,10 +2310,9 @@ public abstract class Entity implements ICommandListener {
 		// ticking before teleporting the entity
 		synchronized (worldserver1) {
 
-			int i = worldserver1.dimension;
 			// CraftBukkit end
 
-			this.dimension = i;
+			this.dimension = worldserver1.dimension;
 			/*
 			 * CraftBukkit start - TODO: Check if we need this if (j == 1 && i == 1) {
 			 * worldserver1 = minecraftserver.getWorldServer(0); this.dimension = 0; } //

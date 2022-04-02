@@ -1,12 +1,11 @@
 package net.minecraft.server;
 
-import java.util.Arrays;
-import java.util.List;
-
-// CraftBukkit start
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.BrewEvent;
+
+import java.util.Arrays;
+import java.util.List;
 // CraftBukkit end
 
 public class TileEntityBrewingStand extends TileEntityContainer implements IUpdatePlayerListBox, IWorldInventory {
@@ -294,9 +293,8 @@ public class TileEntityBrewingStand extends TileEntityContainer implements IUpda
 
 	@Override
 	public boolean a(EntityHuman entityhuman) {
-		return this.world.getTileEntity(this.position) != this ? false
-				: entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
-						this.position.getZ() + 0.5D) <= 64.0D;
+		return this.world.getTileEntity(this.position) == this && entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
+				this.position.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -352,22 +350,16 @@ public class TileEntityBrewingStand extends TileEntityContainer implements IUpda
 
 	@Override
 	public int getProperty(int i) {
-		switch (i) {
-		case 0:
+		if (i == 0) {
 			return this.brewTime;
-
-		default:
-			return 0;
 		}
+		return 0;
 	}
 
 	@Override
 	public void b(int i, int j) {
-		switch (i) {
-		case 0:
+		if (i == 0) {
 			this.brewTime = j;
-
-		default:
 		}
 	}
 

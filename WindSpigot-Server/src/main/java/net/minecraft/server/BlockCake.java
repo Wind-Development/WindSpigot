@@ -92,7 +92,7 @@ public class BlockCake extends Block {
 
 	@Override
 	public boolean canPlace(World world, BlockPosition blockposition) {
-		return super.canPlace(world, blockposition) ? this.e(world, blockposition) : false;
+		return super.canPlace(world, blockposition) && this.e(world, blockposition);
 	}
 
 	@Override

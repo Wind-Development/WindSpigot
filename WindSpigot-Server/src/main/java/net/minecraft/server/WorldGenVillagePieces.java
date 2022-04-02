@@ -31,13 +31,13 @@ public class WorldGenVillagePieces {
 		arraylist.add(new WorldGenVillagePieces.WorldGenVillagePieceWeight(
 				WorldGenVillagePieces.WorldGenVillageHouse.class, 4, MathHelper.nextInt(random, 2 + i, 4 + i * 2)));
 		arraylist.add(new WorldGenVillagePieces.WorldGenVillagePieceWeight(
-				WorldGenVillagePieces.WorldGenVillageTemple.class, 20, MathHelper.nextInt(random, 0 + i, 1 + i)));
+				WorldGenVillagePieces.WorldGenVillageTemple.class, 20, MathHelper.nextInt(random, i, 1 + i)));
 		arraylist.add(new WorldGenVillagePieces.WorldGenVillagePieceWeight(
-				WorldGenVillagePieces.WorldGenVillageLibrary.class, 20, MathHelper.nextInt(random, 0 + i, 2 + i)));
+				WorldGenVillagePieces.WorldGenVillageLibrary.class, 20, MathHelper.nextInt(random, i, 2 + i)));
 		arraylist.add(new WorldGenVillagePieces.WorldGenVillagePieceWeight(
 				WorldGenVillagePieces.WorldGenVillageHut.class, 3, MathHelper.nextInt(random, 2 + i, 5 + i * 3)));
 		arraylist.add(new WorldGenVillagePieces.WorldGenVillagePieceWeight(
-				WorldGenVillagePieces.WorldGenVillageButcher.class, 15, MathHelper.nextInt(random, 0 + i, 2 + i)));
+				WorldGenVillagePieces.WorldGenVillageButcher.class, 15, MathHelper.nextInt(random, i, 2 + i)));
 		arraylist.add(new WorldGenVillagePieces.WorldGenVillagePieceWeight(
 				WorldGenVillagePieces.WorldGenVillageFarm2.class, 3, MathHelper.nextInt(random, 1 + i, 4 + i)));
 		arraylist.add(new WorldGenVillagePieces.WorldGenVillagePieceWeight(
@@ -45,7 +45,7 @@ public class WorldGenVillagePieces {
 		arraylist.add(new WorldGenVillagePieces.WorldGenVillagePieceWeight(
 				WorldGenVillagePieces.WorldGenVillageBlacksmith.class, 15, MathHelper.nextInt(random, 0, 1 + i)));
 		arraylist.add(new WorldGenVillagePieces.WorldGenVillagePieceWeight(
-				WorldGenVillagePieces.WorldGenVillageHouse2.class, 8, MathHelper.nextInt(random, 0 + i, 3 + i * 2)));
+				WorldGenVillagePieces.WorldGenVillageHouse2.class, 8, MathHelper.nextInt(random, i, 3 + i * 2)));
 		Iterator iterator = arraylist.iterator();
 
 		while (iterator.hasNext()) {
@@ -249,27 +249,23 @@ public class WorldGenVillagePieces {
 		static {
 			try {
 				WorldGenVillagePieces.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				WorldGenVillagePieces.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				WorldGenVillagePieces.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				WorldGenVillagePieces.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 		}
 	}

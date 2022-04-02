@@ -183,11 +183,10 @@ public class CommandSpreadPlayers extends CommandAbstract {
 			}
 
 			if (!flag1) {
-				CommandSpreadPlayers.Location2D[] acommandspreadplayers_location2d1 = acommandspreadplayers_location2d;
-				int i1 = acommandspreadplayers_location2d.length;
+                int i1 = acommandspreadplayers_location2d.length;
 
 				for (j = 0; j < i1; ++j) {
-					commandspreadplayers_location2d1 = acommandspreadplayers_location2d1[j];
+					commandspreadplayers_location2d1 = acommandspreadplayers_location2d[j];
 					if (!commandspreadplayers_location2d1.b(world)) {
 						commandspreadplayers_location2d1.a(random, d1, d2, d3, d4);
 						flag1 = true;

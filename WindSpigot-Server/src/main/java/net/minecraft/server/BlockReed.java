@@ -24,8 +24,7 @@ public class BlockReed extends Block {
 				int i;
 
 				for (i = 1; world.getType(blockposition.down(i)).getBlock() == this; ++i) {
-					;
-				}
+                }
 
 				if (i < world.paperSpigotConfig.reedMaxHeight) { // PaperSpigot - Configurable max growth height for
 																	// reed blocks) {

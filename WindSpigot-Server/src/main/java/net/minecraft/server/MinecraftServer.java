@@ -39,7 +39,6 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import co.aikar.timings.SpigotTimings; // Spigot
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.WorldTickerManager;
-import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
@@ -497,7 +496,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				this.v.u();
 				try {
 					Thread.sleep(100);
-				} catch (InterruptedException ex) {
+				} catch (InterruptedException ignored) {
 				} // CraftBukkit - SPIGOT-625 - give server at least a chance to send packets
 			}
 
@@ -1274,7 +1273,6 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	}
 
 	public void c(boolean flag) {
-		boolean M = flag;
 	}
 
 	public Convertable getConvertable() {

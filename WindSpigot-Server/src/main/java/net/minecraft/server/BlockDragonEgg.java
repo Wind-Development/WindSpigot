@@ -1,10 +1,9 @@
 package net.minecraft.server;
 
-import java.util.Random;
-
-import org.bukkit.event.block.BlockFromToEvent; // CraftBukkit
-
 import dev.cobblesword.nachospigot.commons.Constants;
+import org.bukkit.event.block.BlockFromToEvent;
+
+import java.util.Random;
 
 public class BlockDragonEgg extends Block {
 
@@ -47,8 +46,7 @@ public class BlockDragonEgg extends Block {
 
 				for (blockposition1 = blockposition; BlockFalling.canFall(world, blockposition1)
 						&& blockposition1.getY() > 0; blockposition1 = blockposition1.down()) {
-					;
-				}
+                }
 
 				if (blockposition1.getY() > 0) {
 					world.setTypeAndData(blockposition1, this.getBlockData(), 2);
@@ -102,11 +100,11 @@ public class BlockDragonEgg extends Block {
 							float f1 = (world.random.nextFloat() - 0.5F) * 0.2F;
 							float f2 = (world.random.nextFloat() - 0.5F) * 0.2F;
 							double d1 = blockposition1.getX() + (blockposition.getX() - blockposition1.getX()) * d0
-									+ (world.random.nextDouble() - 0.5D) * 1.0D + 0.5D;
+									+ (world.random.nextDouble() - 0.5D) + 0.5D;
 							double d2 = blockposition1.getY() + (blockposition.getY() - blockposition1.getY()) * d0
-									+ world.random.nextDouble() * 1.0D - 0.5D;
+									+ world.random.nextDouble() - 0.5D;
 							double d3 = blockposition1.getZ() + (blockposition.getZ() - blockposition1.getZ()) * d0
-									+ (world.random.nextDouble() - 0.5D) * 1.0D + 0.5D;
+									+ (world.random.nextDouble() - 0.5D) + 0.5D;
 
 							world.addParticle(EnumParticle.PORTAL, d1, d2, d3, f, f1, f2, Constants.EMPTY_ARRAY);
 						}

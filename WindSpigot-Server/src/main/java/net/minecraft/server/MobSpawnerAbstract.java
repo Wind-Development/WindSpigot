@@ -1,21 +1,17 @@
 package net.minecraft.server;
 
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import dev.cobblesword.nachospigot.commons.Constants;
+import me.elier.nachospigot.config.NachoConfig;
+import net.techcable.tacospigot.event.entity.SpawnerPreSpawnEvent;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
-// CraftBukkit end
 
-import com.google.common.collect.Lists;
-
-// CraftBukkit start
-import dev.cobblesword.nachospigot.commons.Constants;
-import me.elier.nachospigot.config.NachoConfig;
-import net.techcable.tacospigot.event.entity.SpawnerPreSpawnEvent;
+import java.util.Iterator;
+import java.util.List;
 
 public abstract class MobSpawnerAbstract {
 
@@ -45,7 +41,7 @@ public abstract class MobSpawnerAbstract {
 				this.mobName = "Pig";
 			}
 			// CraftBukkit end
-			if (this.mobName != null && "Minecart".equals(this.mobName)) {
+			if ("Minecart".equals(this.mobName)) {
 				this.mobName = "MinecartRideable";
 			}
 
@@ -273,12 +269,12 @@ public abstract class MobSpawnerAbstract {
 			NBTTagList nbttaglist = nbttagcompound.getList("SpawnPotentials", 10);
 
 			for (int i = 0; i < nbttaglist.size(); ++i) {
-				this.mobs.add(new MobSpawnerAbstract.a(nbttaglist.get(i)));
+				this.mobs.add(new a(nbttaglist.get(i)));
 			}
 		}
 
 		if (nbttagcompound.hasKeyOfType("SpawnData", 10)) {
-			this.a(new MobSpawnerAbstract.a(nbttagcompound.getCompound("SpawnData"), this.mobName));
+			this.a(new a(nbttagcompound.getCompound("SpawnData"), this.mobName));
 		} else {
 			this.a((MobSpawnerAbstract.a) null);
 		}
@@ -364,7 +360,7 @@ public abstract class MobSpawnerAbstract {
 
 	public abstract BlockPosition b();
 
-	public class a extends WeightedRandom.WeightedRandomChoice {
+	public static class a extends WeightedRandom.WeightedRandomChoice {
 
 		private final NBTTagCompound c;
 		private final String d;

@@ -84,11 +84,10 @@ public class EnchantmentManager {
 			return 0;
 		} else {
 			int j = 0;
-			ItemStack[] aitemstack1 = aitemstack;
-			int k = aitemstack.length;
+            int k = aitemstack.length;
 
 			for (int l = 0; l < k; ++l) {
-				ItemStack itemstack = aitemstack1[l];
+				ItemStack itemstack = aitemstack[l];
 				int i1 = getEnchantmentLevel(i, itemstack);
 
 				if (i1 > j) {
@@ -121,11 +120,10 @@ public class EnchantmentManager {
 
 	private static void a(EnchantmentManager.EnchantmentModifier enchantmentmanager_enchantmentmodifier,
 			ItemStack[] aitemstack) {
-		ItemStack[] aitemstack1 = aitemstack;
-		int i = aitemstack.length;
+        int i = aitemstack.length;
 
 		for (int j = 0; j < i; ++j) {
-			ItemStack itemstack = aitemstack1[j];
+			ItemStack itemstack = aitemstack[j];
 
 			a(enchantmentmanager_enchantmentmodifier, itemstack);
 		}

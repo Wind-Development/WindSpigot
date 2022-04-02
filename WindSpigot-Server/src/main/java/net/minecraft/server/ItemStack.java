@@ -1,11 +1,7 @@
 package net.minecraft.server;
 
-import java.text.DecimalFormat;
-// CraftBukkit start
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
@@ -14,11 +10,12 @@ import org.bukkit.craftbukkit.block.CraftBlockState;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.world.StructureGrowEvent;
-// CraftBukkit end
-import org.github.paperspigot.PaperSpigotConfig; // PaperSpigot
+import org.github.paperspigot.PaperSpigotConfig;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public final class ItemStack {
 
@@ -479,12 +476,7 @@ public final class ItemStack {
 
 	public static boolean equals(ItemStack itemstack, ItemStack itemstack1) {
 		return itemstack == null
-				&& itemstack1 == null
-						? true
-						: (itemstack != null && itemstack1 != null
-								? (itemstack.tag == null && itemstack1.tag != null ? false
-										: itemstack.tag == null || itemstack.tag.equals(itemstack1.tag))
-								: false);
+				&& itemstack1 == null || (itemstack != null && itemstack1 != null && ((itemstack.tag != null || itemstack1.tag == null) && (itemstack.tag == null || itemstack.tag.equals(itemstack1.tag))));
 	}
 
 	// Spigot Start
@@ -529,8 +521,7 @@ public final class ItemStack {
 	}
 
 	public static boolean c(ItemStack itemstack, ItemStack itemstack1) {
-		return itemstack == null && itemstack1 == null ? true
-				: (itemstack != null && itemstack1 != null ? itemstack.doMaterialsMatch(itemstack1) : false);
+		return itemstack == null && itemstack1 == null || (itemstack != null && itemstack.doMaterialsMatch(itemstack1));
 	}
 
 	public boolean doMaterialsMatch(ItemStack itemstack) {
@@ -649,9 +640,7 @@ public final class ItemStack {
 	}
 
 	public boolean hasName() {
-		return this.tag == null ? false
-				: (!this.tag.hasKeyOfType("display", 10) ? false
-						: this.tag.getCompound("display").hasKeyOfType("Name", 8));
+		return this.tag != null && (this.tag.hasKeyOfType("display", 10) && this.tag.getCompound("display").hasKeyOfType("Name", 8));
 	}
 
 	public EnumItemRarity u() {
@@ -659,7 +648,7 @@ public final class ItemStack {
 	}
 
 	public boolean v() {
-		return !this.getItem().f_(this) ? false : !this.hasEnchantments();
+		return this.getItem().f_(this) && !this.hasEnchantments();
 	}
 
 	public void addEnchantment(Enchantment enchantment, int i) {

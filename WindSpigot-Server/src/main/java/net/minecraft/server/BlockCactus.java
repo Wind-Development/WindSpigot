@@ -24,8 +24,7 @@ public class BlockCactus extends Block {
 			int i;
 
 			for (i = 1; world.getType(blockposition.down(i)).getBlock() == this; ++i) {
-				;
-			}
+            }
 
 			if (i < world.paperSpigotConfig.cactusMaxHeight) { // PaperSpigot - Configurable max growth height for
 																// cactus blocks) {
@@ -70,7 +69,7 @@ public class BlockCactus extends Block {
 
 	@Override
 	public boolean canPlace(World world, BlockPosition blockposition) {
-		return super.canPlace(world, blockposition) ? this.e(world, blockposition) : false;
+		return super.canPlace(world, blockposition) && this.e(world, blockposition);
 	}
 
 	@Override

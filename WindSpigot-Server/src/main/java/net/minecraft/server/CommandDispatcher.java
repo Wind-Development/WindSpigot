@@ -85,8 +85,7 @@ public class CommandDispatcher extends CommandHandler implements ICommandDispatc
 		chatmessage.getChatModifier().setItalic(Boolean.TRUE);
 		if (flag) {
 			for (EntityPlayer entityPlayer : minecraftserver.getPlayerList().v()) {
-				EntityHuman entityhuman = entityPlayer;
-				if (entityhuman != icommandlistener && minecraftserver.getPlayerList().isOp(entityhuman.getProfile())
+				if (entityPlayer != icommandlistener && minecraftserver.getPlayerList().isOp(entityPlayer.getProfile())
 						&& icommand.canUse(icommandlistener)) {
 					boolean flag1 = icommandlistener instanceof MinecraftServer && MinecraftServer.getServer().r();
 					boolean flag2 = icommandlistener instanceof RemoteControlCommandListener
@@ -94,7 +93,7 @@ public class CommandDispatcher extends CommandHandler implements ICommandDispatc
 
 					if (flag1 || flag2 || !(icommandlistener instanceof RemoteControlCommandListener)
 							&& !(icommandlistener instanceof MinecraftServer)) {
-						entityhuman.sendMessage(chatmessage);
+						((EntityHuman) entityPlayer).sendMessage(chatmessage);
 					}
 				}
 			}

@@ -63,11 +63,8 @@ public class WorldGenVillage extends StructureGenerator {
 		i1 += random.nextInt(this.g - this.h);
 		j1 += random.nextInt(this.g - this.h);
 		if (k == i1 && l == j1) {
-			boolean flag = this.c.getWorldChunkManager().a(k * 16 + 8, l * 16 + 8, 0, WorldGenVillage.d);
 
-			if (flag) {
-				return true;
-			}
+			return this.c.getWorldChunkManager().a(k * 16 + 8, l * 16 + 8, 0, WorldGenVillage.d);
 		}
 
 		return false;

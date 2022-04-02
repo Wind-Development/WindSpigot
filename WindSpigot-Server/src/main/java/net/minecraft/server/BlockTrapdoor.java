@@ -242,38 +242,34 @@ public class BlockTrapdoor extends Block {
 		static {
 			try {
 				BlockTrapdoor.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockTrapdoor.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockTrapdoor.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockTrapdoor.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}
 	}
 
-	public static enum EnumTrapdoorHalf implements INamable {
+	public enum EnumTrapdoorHalf implements INamable {
 
 		TOP("top"), BOTTOM("bottom");
 
 		private final String c;
 
-		private EnumTrapdoorHalf(String s) {
+		EnumTrapdoorHalf(String s) {
 			this.c = s;
 		}
 

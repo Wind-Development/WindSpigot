@@ -61,10 +61,7 @@ public class BlockSnow extends Block {
 		IBlockData iblockdata = world.getType(blockposition.down());
 		Block block = iblockdata.getBlock();
 
-		return block != Blocks.ICE && block != Blocks.PACKED_ICE ? (block.getMaterial() == Material.LEAVES ? true
-				: (block == this && iblockdata.get(BlockSnow.LAYERS).intValue() >= 7 ? true
-						: block.c() && block.material.isSolid()))
-				: false;
+		return block != Blocks.ICE && block != Blocks.PACKED_ICE && (block.getMaterial() == Material.LEAVES || (block == this && iblockdata.get(BlockSnow.LAYERS).intValue() >= 7 || block.c() && block.material.isSolid()));
 	}
 
 	@Override

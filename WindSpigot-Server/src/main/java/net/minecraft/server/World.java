@@ -1,19 +1,16 @@
 package net.minecraft.server;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-// PaperSpigot start
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import me.elier.nachospigot.config.NachoConfig;
+import me.elier.nachospigot.config.NachoWorldConfig;
+import me.rastrian.dev.OptimizedWorldTileEntitySet;
+import me.rastrian.dev.PlayerMap;
+import me.suicidalkids.ion.movement.MovementCache;
+import net.jafama.FastMath;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.CraftServer;
@@ -25,19 +22,10 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.generator.ChunkGenerator;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-// PaperSpigot end
-
-import me.elier.nachospigot.config.NachoConfig;
-import me.elier.nachospigot.config.NachoWorldConfig;
-import me.rastrian.dev.OptimizedWorldTileEntitySet;
-import me.rastrian.dev.PlayerMap;
-import me.suicidalkids.ion.movement.MovementCache;
-import net.jafama.FastMath;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 // CraftBukkit start
 // CraftBukkit end
@@ -368,7 +356,6 @@ public abstract class World implements IBlockAccess {
 
 		for (blockposition1 = new BlockPosition(blockposition.getX(), this.F(), blockposition.getZ()); !this
 				.isEmpty(blockposition1.up()); blockposition1 = blockposition1.up()) {
-			;
 		}
 
 		return this.getType(blockposition1).getBlock();
@@ -400,8 +387,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public boolean a(BlockPosition blockposition, boolean flag) {
-		return !this.isValidLocation(blockposition) ? false
-				: this.isChunkLoaded(blockposition.getX() >> 4, blockposition.getZ() >> 4, flag);
+		return this.isValidLocation(blockposition) && this.isChunkLoaded(blockposition.getX() >> 4, blockposition.getZ() >> 4, flag);
 	}
 
 	public boolean areChunksLoaded(BlockPosition blockposition, int i) {
@@ -829,10 +815,7 @@ public abstract class World implements IBlockAccess {
 				if (c(blockposition.south(), false) >= level) {
 					return true;
 				}
-				if (c(blockposition.north(), false) >= level) {
-					return true;
-				}
-				return false;
+				return c(blockposition.north(), false) >= level;
 			}
 
 			if (blockposition.getY() >= 256) {
@@ -842,10 +825,7 @@ public abstract class World implements IBlockAccess {
 			Chunk chunk = this.getChunkAtWorldCoords(blockposition);
 
 			return chunk.getLightSubtracted(blockposition, this.I) >= level;
-		} else if (blockposition.getY() < 0) {
-			return false;
-		}
-		return true;
+		} else return blockposition.getY() >= 0;
 	}
 
 	public int getLightLevel(BlockPosition blockposition) {
@@ -2447,15 +2427,10 @@ public abstract class World implements IBlockAccess {
 		Block block = iblockdata.getBlock();
 
 		return block.getMaterial().k()
-				&& block.d()
-						? true
-						: (block instanceof BlockStairs ? iblockdata.get(BlockStairs.HALF) == BlockStairs.EnumHalf.TOP
-								: (block instanceof BlockStepAbstract
-										? iblockdata.get(BlockStepAbstract.HALF) == BlockStepAbstract.EnumSlabHalf.TOP
-										: (block instanceof BlockHopper ? true
-												: (block instanceof BlockSnow
-														? iblockdata.get(BlockSnow.LAYERS).intValue() == 7
-														: false))));
+				&& block.d() || (block instanceof BlockStairs ? iblockdata.get(BlockStairs.HALF) == BlockStairs.EnumHalf.TOP
+				: (block instanceof BlockStepAbstract
+				? iblockdata.get(BlockStepAbstract.HALF) == BlockStepAbstract.EnumSlabHalf.TOP
+				: (block instanceof BlockHopper || (block instanceof BlockSnow && iblockdata.get(BlockSnow.LAYERS).intValue() == 7))));
 	}
 
 	public boolean d(BlockPosition blockposition, boolean flag) {
@@ -2710,9 +2685,7 @@ public abstract class World implements IBlockAccess {
 					boolean flag1 = this.F(blockposition.west()) && this.F(blockposition.east())
 							&& this.F(blockposition.north()) && this.F(blockposition.south());
 
-					if (!flag1) {
-						return true;
-					}
+					return !flag1;
 				}
 			}
 
@@ -2737,10 +2710,8 @@ public abstract class World implements IBlockAccess {
 					&& this.b(EnumSkyBlock.BLOCK, blockposition_x, blockposition_y, blockposition_z) < 10) {
 				Block block = this.getType(blockposition_x, blockposition_y, blockposition_z).getBlock();
 
-				if (block.getMaterial() == Material.AIR
-						&& Blocks.SNOW_LAYER.canPlace(this, blockposition_x, blockposition_y, blockposition_z)) {
-					return true;
-				}
+				return block.getMaterial() == Material.AIR
+						&& Blocks.SNOW_LAYER.canPlace(this, blockposition_x, blockposition_y, blockposition_z);
 			}
 
 			return false;
@@ -2760,9 +2731,7 @@ public abstract class World implements IBlockAccess {
 					&& this.b(EnumSkyBlock.BLOCK, blockposition) < 10) {
 				Block block = this.getType(blockposition).getBlock();
 
-				if (block.getMaterial() == Material.AIR && Blocks.SNOW_LAYER.canPlace(this, blockposition)) {
-					return true;
-				}
+				return block.getMaterial() == Material.AIR && Blocks.SNOW_LAYER.canPlace(this, blockposition);
 			}
 
 			return false;
@@ -3233,10 +3202,8 @@ public abstract class World implements IBlockAccess {
 		}
 
 		// CraftBukkit start - store default return
-		boolean defaultReturn = axisalignedbb != null && !this.a(axisalignedbb, entity) ? false
-				: (block1.getMaterial() == Material.ORIENTABLE && block == Blocks.ANVIL ? true
-						: block1.getMaterial().isReplaceable()
-								&& block.canPlace(this, blockposition, enumdirection, itemstack));
+		boolean defaultReturn = (axisalignedbb == null || this.a(axisalignedbb, entity)) && (block1.getMaterial() == Material.ORIENTABLE && block == Blocks.ANVIL || block1.getMaterial().isReplaceable()
+				&& block.canPlace(this, blockposition, enumdirection, itemstack));
 		BlockCanBuildEvent event = new BlockCanBuildEvent(
 				this.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ()),
 				CraftMagicNumbers.getId(block), defaultReturn);
@@ -3285,12 +3252,10 @@ public abstract class World implements IBlockAccess {
 						return i;
 					} else {
 						i = Math.max(i, this.getBlockPower(blockposition.west(), EnumDirection.WEST));
-						if (i >= 15) {
-							return i;
-						} else {
+						if (i < 15) {
 							i = Math.max(i, this.getBlockPower(blockposition.east(), EnumDirection.EAST));
-							return i >= 15 ? i : i;
 						}
+						return i;
 					}
 				}
 			}
@@ -3310,13 +3275,8 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public boolean isBlockIndirectlyPowered(BlockPosition blockposition) {
-		return this.getBlockFacePower(blockposition.down(), EnumDirection.DOWN) > 0 ? true
-				: (this.getBlockFacePower(blockposition.up(), EnumDirection.UP) > 0 ? true
-						: (this.getBlockFacePower(blockposition.north(), EnumDirection.NORTH) > 0 ? true
-								: (this.getBlockFacePower(blockposition.south(), EnumDirection.SOUTH) > 0 ? true
-										: (this.getBlockFacePower(blockposition.west(), EnumDirection.WEST) > 0 ? true
-												: this.getBlockFacePower(blockposition.east(),
-														EnumDirection.EAST) > 0))));
+		return this.getBlockFacePower(blockposition.down(), EnumDirection.DOWN) > 0 || (this.getBlockFacePower(blockposition.up(), EnumDirection.UP) > 0 || (this.getBlockFacePower(blockposition.north(), EnumDirection.NORTH) > 0 || (this.getBlockFacePower(blockposition.south(), EnumDirection.SOUTH) > 0 || (this.getBlockFacePower(blockposition.west(), EnumDirection.WEST) > 0 || this.getBlockFacePower(blockposition.east(),
+				EnumDirection.EAST) > 0))));
 	}
 
 	public int A(BlockPosition blockposition) {
@@ -3643,7 +3603,7 @@ public abstract class World implements IBlockAccess {
 		crashreportsystemdetails.a("Level name", this.worldData == null ? "????" : this.worldData.getName());
 		crashreportsystemdetails.a("All players", new Callable() {
 			public String a() {
-				return World.this.players.size() + " total; " + World.this.players.toString();
+				return World.this.players.size() + " total; " + World.this.players;
 			}
 
 			@Override
@@ -3741,7 +3701,6 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void d(int i) {
-		int J = i;
 	}
 
 	public boolean ad() {

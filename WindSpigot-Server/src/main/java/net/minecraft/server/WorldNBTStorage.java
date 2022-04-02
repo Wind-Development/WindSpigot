@@ -1,18 +1,13 @@
 package net.minecraft.server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-// CraftBukkit start
-import java.util.UUID;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.github.paperspigot.PaperSpigotConfig;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 // CraftBukkit end
 
 public class WorldNBTStorage implements IDataManager, IPlayerFileData {
@@ -228,7 +223,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
 																	// normal file
 			{
 				file = new File(this.playerDir,
-						UUID.nameUUIDFromBytes(("OfflinePlayer:" + entityhuman.getName()).getBytes("UTF-8")).toString()
+						UUID.nameUUIDFromBytes(("OfflinePlayer:" + entityhuman.getName()).getBytes(StandardCharsets.UTF_8))
 								+ ".dat");
 				if (file.exists()) {
 					usingWrongFile = true;

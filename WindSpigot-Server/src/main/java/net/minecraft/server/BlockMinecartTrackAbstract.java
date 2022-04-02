@@ -1,9 +1,9 @@
 package net.minecraft.server;
 
+import com.google.common.collect.Lists;
+
 import java.util.Iterator;
 import java.util.List;
-
-import com.google.common.collect.Lists;
 
 public abstract class BlockMinecartTrackAbstract extends Block {
 
@@ -83,11 +83,7 @@ public abstract class BlockMinecartTrackAbstract extends Block {
 		if (!world.isClientSide) {
 			BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = iblockdata
 					.get(this.n());
-			boolean flag = false;
-
-			if (!World.a(world, blockposition.down())) {
-				flag = true;
-			}
+			boolean flag = !World.a(world, blockposition.down());
 
 			if (blockminecarttrackabstract_enumtrackposition == BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_EAST
 					&& !World.a(world, blockposition.east())) {
@@ -151,77 +147,67 @@ public abstract class BlockMinecartTrackAbstract extends Block {
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH
 						.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.EAST_WEST
 						.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_EAST
 						.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_WEST
 						.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_NORTH
 						.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_SOUTH
 						.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror5) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_EAST
 						.ordinal()] = 7;
-			} catch (NoSuchFieldError nosuchfielderror6) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.SOUTH_WEST
 						.ordinal()] = 8;
-			} catch (NoSuchFieldError nosuchfielderror7) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_WEST
 						.ordinal()] = 9;
-			} catch (NoSuchFieldError nosuchfielderror8) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMinecartTrackAbstract.SyntheticClass_1.a[BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_EAST
 						.ordinal()] = 10;
-			} catch (NoSuchFieldError nosuchfielderror9) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}
 	}
 
-	public static enum EnumTrackPosition implements INamable {
+	public enum EnumTrackPosition implements INamable {
 
 		NORTH_SOUTH(0, "north_south"), EAST_WEST(1, "east_west"), ASCENDING_EAST(2, "ascending_east"),
 		ASCENDING_WEST(3, "ascending_west"), ASCENDING_NORTH(4, "ascending_north"),
@@ -232,7 +218,7 @@ public abstract class BlockMinecartTrackAbstract extends Block {
 		private final int l;
 		private final String m;
 
-		private EnumTrackPosition(int i, String s) {
+		EnumTrackPosition(int i, String s) {
 			this.l = i;
 			this.m = s;
 		}

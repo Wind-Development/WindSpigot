@@ -57,8 +57,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 					while (true) {
 						try {
 							Thread.sleep(2147483647L);
-						} catch (InterruptedException interruptedexception) {
-							;
+						} catch (InterruptedException ignored) {
 						}
 					}
 				}
@@ -726,8 +725,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 	private void aU() {
 		try {
 			Thread.sleep(5000L);
-		} catch (InterruptedException interruptedexception) {
-			;
+		} catch (InterruptedException ignored) {
 		}
 	}
 

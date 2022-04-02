@@ -86,10 +86,8 @@ public class BlockMushroom extends BlockPlant implements IBlockFragilePlantEleme
 		if (blockposition.getY() >= 0 && blockposition.getY() < 256) {
 			IBlockData iblockdata1 = world.getType(blockposition.down());
 
-			return iblockdata1.getBlock() == Blocks.MYCELIUM ? true
-					: (iblockdata1.getBlock() == Blocks.DIRT
-							&& iblockdata1.get(BlockDirt.VARIANT) == BlockDirt.EnumDirtVariant.PODZOL ? true
-									: world.k(blockposition) < 13 && this.c(iblockdata1.getBlock()));
+			return iblockdata1.getBlock() == Blocks.MYCELIUM || (iblockdata1.getBlock() == Blocks.DIRT
+                    && iblockdata1.get(BlockDirt.VARIANT) == BlockDirt.EnumDirtVariant.PODZOL || world.k(blockposition) < 13 && this.c(iblockdata1.getBlock()));
 		} else {
 			return false;
 		}

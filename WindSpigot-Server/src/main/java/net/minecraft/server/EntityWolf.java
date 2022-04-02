@@ -95,9 +95,9 @@ public class EntityWolf extends EntityTameableAnimal {
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(18, new Float(this.getHealth()));
-		this.datawatcher.a(19, new Byte((byte) 0));
-		this.datawatcher.a(20, new Byte((byte) EnumColor.RED.getColorIndex()));
+		this.datawatcher.a(18, this.getHealth());
+		this.datawatcher.a(19, (byte) 0);
+		this.datawatcher.a(20, (byte) EnumColor.RED.getColorIndex());
 	}
 
 	@Override
@@ -342,8 +342,7 @@ public class EntityWolf extends EntityTameableAnimal {
 
 	@Override
 	public boolean d(ItemStack itemstack) {
-		return itemstack == null ? false
-				: (!(itemstack.getItem() instanceof ItemFood) ? false : ((ItemFood) itemstack.getItem()).g());
+		return itemstack != null && (itemstack.getItem() instanceof ItemFood && ((ItemFood) itemstack.getItem()).g());
 	}
 
 	@Override
@@ -406,8 +405,7 @@ public class EntityWolf extends EntityTameableAnimal {
 		} else {
 			EntityWolf entitywolf = (EntityWolf) entityanimal;
 
-			return !entitywolf.isTamed() ? false
-					: (entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove());
+			return entitywolf.isTamed() && (!entitywolf.isSitting() && this.isInLove() && entitywolf.isInLove());
 		}
 	}
 
@@ -431,9 +429,8 @@ public class EntityWolf extends EntityTameableAnimal {
 				}
 			}
 
-			return entityliving instanceof EntityHuman && entityliving1 instanceof EntityHuman
-					&& !((EntityHuman) entityliving1).a((EntityHuman) entityliving) ? false
-							: !(entityliving instanceof EntityHorse) || !((EntityHorse) entityliving).isTame();
+			return (!(entityliving instanceof EntityHuman) || !(entityliving1 instanceof EntityHuman)
+                    || ((EntityHuman) entityliving1).a((EntityHuman) entityliving)) && (!(entityliving instanceof EntityHorse) || !((EntityHorse) entityliving).isTame());
 		} else {
 			return false;
 		}

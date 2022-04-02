@@ -1,14 +1,14 @@
 package net.minecraft.server;
 
 // CraftBukkit start
-import java.util.List;
 
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
-// CraftBukkit end
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.FurnaceBurnEvent;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
+
+import java.util.List;
 
 public class TileEntityFurnace extends TileEntityContainer implements IUpdatePlayerListBox, IWorldInventory {
 
@@ -287,13 +287,9 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
 			ItemStack itemstack = RecipesFurnace.getInstance().getResult(this.items[0]);
 
 			// CraftBukkit - consider resultant count instead of current count
-			return itemstack == null ? false
-					: (this.items[2] == null ? true
-							: (!this.items[2].doMaterialsMatch(itemstack) ? false
-									: (this.items[2].count + itemstack.count <= this.getMaxStackSize()
-											&& this.items[2].count < this.items[2].getMaxStackSize() ? true
-													: this.items[2].count + itemstack.count <= itemstack
-															.getMaxStackSize())));
+			return itemstack != null && (this.items[2] == null || (this.items[2].doMaterialsMatch(itemstack) && (this.items[2].count + itemstack.count <= this.getMaxStackSize()
+					&& this.items[2].count < this.items[2].getMaxStackSize() || this.items[2].count + itemstack.count <= itemstack
+					.getMaxStackSize())));
 		}
 	}
 
@@ -389,9 +385,8 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
 
 	@Override
 	public boolean a(EntityHuman entityhuman) {
-		return this.world.getTileEntity(this.position) != this ? false
-				: entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
-						this.position.getZ() + 0.5D) <= 64.0D;
+		return this.world.getTileEntity(this.position) == this && entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
+				this.position.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -404,7 +399,7 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
 
 	@Override
 	public boolean b(int i, ItemStack itemstack) {
-		return i == 2 ? false : (i != 1 ? true : isFuel(itemstack) || SlotFurnaceFuel.c_(itemstack));
+		return i != 2 && (i != 1 || isFuel(itemstack) || SlotFurnaceFuel.c_(itemstack));
 	}
 
 	@Override
@@ -423,9 +418,7 @@ public class TileEntityFurnace extends TileEntityContainer implements IUpdatePla
 		if (enumdirection == EnumDirection.DOWN && i == 1) {
 			Item item = itemstack.getItem();
 
-			if (item != Items.WATER_BUCKET && item != Items.BUCKET) {
-				return false;
-			}
+			return item == Items.WATER_BUCKET || item == Items.BUCKET;
 		}
 
 		return true;

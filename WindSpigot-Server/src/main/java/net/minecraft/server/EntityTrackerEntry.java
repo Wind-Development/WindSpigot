@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerVelocityEvent;
 // CraftBukkit end
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 
 public class EntityTrackerEntry {
 
@@ -123,12 +122,11 @@ public class EntityTrackerEntry {
 		// WindSpigot Start - get the entity's tracker from it's dimension
 		CraftServer server = (CraftServer) Bukkit.getServer();
 		WorldServer worldServer = server.getServer().getWorldServer(entity.dimension);
-		EntityTracker entityTracker = worldServer.getTracker();
 		// WindSpigot End
 
 		// Code from above constructor
 
-		this.entityTracker = entityTracker;
+		this.entityTracker = worldServer.getTracker();
 		this.tracker = entity;
 		this.b = b;
 		this.c = c;

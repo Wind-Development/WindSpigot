@@ -1,8 +1,8 @@
 package net.minecraft.server;
 
-import java.util.Iterator;
+import org.bukkit.event.block.BlockRedstoneEvent;
 
-import org.bukkit.event.block.BlockRedstoneEvent; // CraftBukkit
+import java.util.Iterator;
 
 public class BlockLever extends Block {
 
@@ -184,7 +184,7 @@ public class BlockLever extends Block {
 			BlockRedstoneEvent eventRedstone = new BlockRedstoneEvent(block, old, current);
 			world.getServer().getPluginManager().callEvent(eventRedstone);
 
-			if ((eventRedstone.getNewCurrent() > 0) != (!powered)) {
+			if ((eventRedstone.getNewCurrent() > 0) == (powered)) {
 				return true;
 			}
 			// CraftBukkit end
@@ -263,108 +263,92 @@ public class BlockLever extends Block {
 		static {
 			try {
 				BlockLever.SyntheticClass_1.c[EnumDirection.EnumAxis.X.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.c[EnumDirection.EnumAxis.Z.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			b = new int[BlockLever.EnumLeverPosition.values().length];
 
 			try {
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.EAST.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.WEST.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.SOUTH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.NORTH.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror5) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.UP_Z.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror6) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.UP_X.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror7) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.DOWN_X.ordinal()] = 7;
-			} catch (NoSuchFieldError nosuchfielderror8) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.b[BlockLever.EnumLeverPosition.DOWN_Z.ordinal()] = 8;
-			} catch (NoSuchFieldError nosuchfielderror9) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			a = new int[EnumDirection.values().length];
 
 			try {
 				BlockLever.SyntheticClass_1.a[EnumDirection.DOWN.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror10) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.a[EnumDirection.UP.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror11) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror12) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror13) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror14) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockLever.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror15) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}
 	}
 
-	public static enum EnumLeverPosition implements INamable {
+	public enum EnumLeverPosition implements INamable {
 
 		DOWN_X(0, "down_x", EnumDirection.DOWN), EAST(1, "east", EnumDirection.EAST),
 		WEST(2, "west", EnumDirection.WEST), SOUTH(3, "south", EnumDirection.SOUTH),
@@ -376,7 +360,7 @@ public class BlockLever extends Block {
 		private final String k;
 		private final EnumDirection l;
 
-		private EnumLeverPosition(int i, String s, EnumDirection enumdirection) {
+		EnumLeverPosition(int i, String s, EnumDirection enumdirection) {
 			this.j = i;
 			this.k = s;
 			this.l = enumdirection;

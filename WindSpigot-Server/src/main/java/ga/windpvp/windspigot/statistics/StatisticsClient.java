@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 // Statistics client for WindSpigot
 public class StatisticsClient {
@@ -17,7 +16,7 @@ public class StatisticsClient {
 	public boolean isConnected;
 
 	// Connects to the statistics server
-	public void start(String ip, int port) throws UnknownHostException, IOException {
+	public void start(String ip, int port) throws IOException {
 		this.socket = new Socket(ip, port);
 		this.out = new PrintWriter(socket.getOutputStream(), true);
 		this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -31,8 +30,7 @@ public class StatisticsClient {
 			this.out.println(msg);
 			
 			// Response from the server
-			String response = in.readLine();
-			return response;
+			return in.readLine();
 		} else {
 			return null;
 		}

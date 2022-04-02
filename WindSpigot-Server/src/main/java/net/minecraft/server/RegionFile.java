@@ -122,7 +122,7 @@ public class RegionFile {
 						return false;
 					}
 
-					this.c.seek(l * 4096);
+					this.c.seek(l * 4096L);
 					int j1 = this.c.readInt();
 
 					if (j1 > 4096 * i1 || j1 <= 0) {
@@ -160,7 +160,7 @@ public class RegionFile {
 					if (l + i1 > this.f.size()) {
 						return null;
 					} else {
-						this.c.seek(l * 4096);
+						this.c.seek(l * 4096L);
 						int j1 = this.c.readInt();
 
 						if (j1 > 4096 * i1) {
@@ -287,7 +287,7 @@ public class RegionFile {
 	}
 
 	private void a(int i, byte[] abyte, int j) throws IOException {
-		this.c.seek(i * 4096);
+		this.c.seek(i * 4096L);
 		this.c.writeInt(j + 1);
 		this.c.writeByte(2);
 		this.c.write(abyte, 0, j);
@@ -307,13 +307,13 @@ public class RegionFile {
 
 	private void a(int i, int j, int k) throws IOException {
 		this.d[i + j * 32] = k;
-		this.c.seek((i + j * 32) * 4);
+		this.c.seek((i + j * 32L) * 4);
 		this.c.writeInt(k);
 	}
 
 	private void b(int i, int j, int k) throws IOException {
 		this.e[i + j * 32] = k;
-		this.c.seek(4096 + (i + j * 32) * 4);
+		this.c.seek(4096 + (i + j * 32L) * 4);
 		this.c.writeInt(k);
 	}
 

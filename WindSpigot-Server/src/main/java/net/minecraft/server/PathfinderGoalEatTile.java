@@ -29,8 +29,7 @@ public class PathfinderGoalEatTile extends PathfinderGoal {
 		} else {
 			BlockPosition blockposition = new BlockPosition(this.c.locX, this.c.locY, this.c.locZ);
 
-			return PathfinderGoalEatTile.b.apply(this.d.getType(blockposition)) ? true
-					: this.d.getType(blockposition.down()).getBlock() == Blocks.GRASS;
+			return PathfinderGoalEatTile.b.apply(this.d.getType(blockposition)) || this.d.getType(blockposition.down()).getBlock() == Blocks.GRASS;
 		}
 	}
 

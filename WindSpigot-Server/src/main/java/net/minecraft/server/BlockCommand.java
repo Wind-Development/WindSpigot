@@ -65,9 +65,7 @@ public class BlockCommand extends BlockContainer {
 			EnumDirection enumdirection, float f, float f1, float f2) {
 		TileEntity tileentity = world.getTileEntity(blockposition);
 
-		return tileentity instanceof TileEntityCommand
-				? ((TileEntityCommand) tileentity).getCommandBlock().a(entityhuman)
-				: false;
+		return tileentity instanceof TileEntityCommand && ((TileEntityCommand) tileentity).getCommandBlock().a(entityhuman);
 	}
 
 	@Override

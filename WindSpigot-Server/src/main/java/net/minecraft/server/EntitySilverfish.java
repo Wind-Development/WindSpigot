@@ -150,7 +150,7 @@ public class EntitySilverfish extends EntityMonster {
 
 		@Override
 		public boolean b() {
-			return this.c ? false : super.b();
+			return !this.c && super.b();
 		}
 
 		@Override
@@ -212,9 +212,9 @@ public class EntitySilverfish extends EntityMonster {
 				Random random = this.silverfish.bc();
 				BlockPosition blockposition = new BlockPosition(this.silverfish);
 
-				for (int i = 0; i <= 5 && i >= -5; i = i <= 0 ? 1 - i : 0 - i) {
-					for (int j = 0; j <= 10 && j >= -10; j = j <= 0 ? 1 - j : 0 - j) {
-						for (int k = 0; k <= 10 && k >= -10; k = k <= 0 ? 1 - k : 0 - k) {
+				for (int i = 0; i <= 5 && i >= -5; i = i <= 0 ? 1 - i : -i) {
+					for (int j = 0; j <= 10 && j >= -10; j = j <= 0 ? 1 - j : -j) {
+						for (int k = 0; k <= 10 && k >= -10; k = k <= 0 ? 1 - k : -k) {
 							BlockPosition blockposition1 = blockposition.a(j, i, k);
 							IBlockData iblockdata = world.getType(blockposition1);
 

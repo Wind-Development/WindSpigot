@@ -18,20 +18,20 @@ public interface IBlockState<T extends Comparable<T>> {
 
 	// TacoSpigot start
 	@SuppressWarnings("Convert2Lambda") // We have to use anon for performance reasons :/
-	public static final Indexer<IBlockState> INDEXER = new Indexer<IBlockState>() {
+    Indexer<IBlockState> INDEXER = new Indexer<IBlockState>() {
 		@Override
 		public int getId(IBlockState state) {
 			return state.getId();
 		}
 	};
 
-	public default void tryInitId() {
+	default void tryInitId() {
 	}
 
-	public int getId();
+	int getId();
 
-	public int getValueId(T value);
+	int getValueId(T value);
 
-	public T getByValueId(int id);
+	T getByValueId(int id);
 	// TacoSpigot end
 }

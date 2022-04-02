@@ -45,9 +45,8 @@ public class PathfinderGoalTargetNearestPlayer extends PathfinderGoal {
 						d0 *= 0.7F * f;
 					}
 
-					return entity.g(PathfinderGoalTargetNearestPlayer.this.b) > d0 ? false
-							: PathfinderGoalTarget.a(PathfinderGoalTargetNearestPlayer.this.b, (EntityLiving) entity,
-									false, true);
+					return !(entity.g(PathfinderGoalTargetNearestPlayer.this.b) > d0) && PathfinderGoalTarget.a(PathfinderGoalTargetNearestPlayer.this.b, (EntityLiving) entity,
+                            false, true);
 				}
 			}
 
@@ -92,9 +91,8 @@ public class PathfinderGoalTargetNearestPlayer extends PathfinderGoal {
 			} else {
 				double d0 = this.f();
 
-				return this.b.h(entityliving) > d0 * d0 ? false
-						: !(entityliving instanceof EntityPlayer)
-								|| !((EntityPlayer) entityliving).playerInteractManager.isCreative();
+				return !(this.b.h(entityliving) > d0 * d0) && (!(entityliving instanceof EntityPlayer)
+                        || !((EntityPlayer) entityliving).playerInteractManager.isCreative());
 			}
 		}
 	}

@@ -67,8 +67,7 @@ public class BlockFalling extends Block {
 
 				for (blockposition1 = blockposition.down(); canFall(world, blockposition1)
 						&& blockposition1.getY() > 0; blockposition1 = blockposition1.down()) {
-					;
-				}
+                }
 
 				Block blockBelow = world.getType(blockposition1).getBlock();
 				if (blockBelow == Blocks.TORCH || blockBelow == Blocks.REDSTONE_TORCH) {

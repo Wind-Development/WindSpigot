@@ -79,7 +79,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 		this.datawatcher.a(16, Integer.valueOf(0));
 		this.datawatcher.a(19, Byte.valueOf((byte) 0));
 		this.datawatcher.a(20, Integer.valueOf(0));
-		this.datawatcher.a(21, String.valueOf(""));
+		this.datawatcher.a(21, "");
 		this.datawatcher.a(22, Integer.valueOf(0));
 	}
 
@@ -282,7 +282,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 	public boolean damageEntity(DamageSource damagesource, float f) {
 		Entity entity = damagesource.getEntity();
 
-		return this.passenger != null && this.passenger.equals(entity) ? false : super.damageEntity(damagesource, f);
+		return (this.passenger == null || !this.passenger.equals(entity)) && super.damageEntity(damagesource, f);
 	}
 
 	@Override
@@ -726,7 +726,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 
 	@Override
 	protected boolean bD() {
-		return this.passenger != null && this.cG() ? true : this.cy() || this.cz();
+		return this.passenger != null && this.cG() || this.cy() || this.cz();
 	}
 
 	public boolean cR() {

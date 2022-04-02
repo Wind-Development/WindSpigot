@@ -88,7 +88,7 @@ public class ChunkProviderFlat implements IChunkProvider {
 		}
 
 		world.b(j);
-		this.f = flag1 ? false : this.d.b().containsKey("decoration");
+		this.f = !flag1 && this.d.b().containsKey("decoration");
 	}
 
 	@Override

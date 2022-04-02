@@ -42,8 +42,7 @@ public class InventorySubcontainer implements IInventory {
 
 	@Override
 	public void setMaxStackSize(int i) {
-		int maxStack = i;
-	}
+    }
 
 	@Override
 	public org.bukkit.inventory.InventoryHolder getOwner() {

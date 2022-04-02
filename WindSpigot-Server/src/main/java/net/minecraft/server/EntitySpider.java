@@ -33,7 +33,7 @@ public class EntitySpider extends EntityMonster {
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(16, new Byte((byte) 0));
+		this.datawatcher.a(16, (byte) 0);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class EntitySpider extends EntityMonster {
 
 	@Override
 	public boolean d(MobEffect mobeffect) {
-		return mobeffect.getEffectId() == MobEffectList.POISON.id ? false : super.d(mobeffect);
+		return mobeffect.getEffectId() != MobEffectList.POISON.id && super.d(mobeffect);
 	}
 
 	public boolean n() {
@@ -172,7 +172,7 @@ public class EntitySpider extends EntityMonster {
 		public boolean a() {
 			float f = this.e.c(1.0F);
 
-			return f >= 0.5F ? false : super.a();
+			return !(f >= 0.5F) && super.a();
 		}
 	}
 

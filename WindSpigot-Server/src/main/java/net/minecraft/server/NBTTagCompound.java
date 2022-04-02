@@ -46,7 +46,7 @@ public class NBTTagCompound extends NBTBase {
 			byte var4;
 			while ((var4 = a(var1, var3)) != 0) {
 				String var5 = b(var1, var3);
-				var3.a(224 + 16 * var5.length());
+				var3.a(224 + 16L * var5.length());
 				NBTBase var6 = a(var4, var5, var1, var2 + 1, var3);
 				if (this.map.put(var5, var6) != null) {
 					var3.a(288L);

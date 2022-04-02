@@ -143,8 +143,8 @@ public class BlockStateList {
 			assert this.b.containsKey(iblockstate)
 					: "Cannot get property " + iblockstate + " as it does not exist in " + this.a.P();
 			Object value = this.b.get(iblockstate);
-			assert value == bAsImmutableMap.get(iblockstate) : "Array map gave data " + String.valueOf(value)
-					+ " and regular map gave data " + String.valueOf(bAsImmutableMap.get(iblockstate));
+			assert value == bAsImmutableMap.get(iblockstate) : "Array map gave data " + value
+					+ " and regular map gave data " + bAsImmutableMap.get(iblockstate);
 			assert value != null : "Null value for state " + iblockstate + " and data " + this;
 			assert iblockstate.b().isInstance(value) : "Value " + value + " for state " + iblockstate + " and data "
 					+ this + " not instanceof " + iblockstate.b().getTypeName();

@@ -407,7 +407,7 @@ public class EntityZombie extends EntityMonster {
 
 	@Override
 	protected boolean a(ItemStack itemstack) {
-		return itemstack.getItem() == Items.EGG && this.isBaby() && this.au() ? false : super.a(itemstack);
+		return (itemstack.getItem() != Items.EGG || !this.isBaby() || !this.au()) && super.a(itemstack);
 	}
 
 	@Override

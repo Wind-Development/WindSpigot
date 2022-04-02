@@ -1,17 +1,12 @@
 package net.minecraft.server;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.*;
 
 public abstract class BiomeBase {
 
@@ -260,7 +255,7 @@ public abstract class BiomeBase {
 	}
 
 	public boolean e() {
-		return this.j() ? false : this.ay;
+		return !this.j() && this.ay;
 	}
 
 	public boolean f() {
@@ -385,7 +380,7 @@ public abstract class BiomeBase {
 	}
 
 	public boolean a(BiomeBase biomebase) {
-		return biomebase == this ? true : (biomebase == null ? false : this.l() == biomebase.l());
+		return biomebase == this || (biomebase != null && this.l() == biomebase.l());
 	}
 
 	public EnumTemperature m() {
@@ -469,26 +464,22 @@ public abstract class BiomeBase {
 		static {
 			try {
 				SyntheticClass_1.switchMap[EnumCreatureType.MONSTER.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				SyntheticClass_1.switchMap[EnumCreatureType.CREATURE.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				SyntheticClass_1.switchMap[EnumCreatureType.WATER_CREATURE.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				SyntheticClass_1.switchMap[EnumCreatureType.AMBIENT.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}
@@ -527,10 +518,10 @@ public abstract class BiomeBase {
 		}
 	}
 
-	public static enum EnumTemperature {
+	public enum EnumTemperature {
 		OCEAN, COLD, MEDIUM, WARM;
 
-		private EnumTemperature() {
+		EnumTemperature() {
 		}
 	}
 }

@@ -681,8 +681,7 @@ public class WorldData {
 					case 19133:
 						s = "Anvil";
 					}
-				} catch (Throwable throwable) {
-					;
+				} catch (Throwable ignored) {
 				}
 
 				return String.format("0x%05X - %s", new Object[] { Integer.valueOf(WorldData.this.o), s });

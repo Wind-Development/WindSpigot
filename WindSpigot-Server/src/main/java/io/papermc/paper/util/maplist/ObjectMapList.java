@@ -1,13 +1,13 @@
 package io.papermc.paper.util.maplist;
 
-import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.AbstractReferenceList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
 import it.unimi.dsi.fastutil.objects.ObjectSpliterator;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * list with O(1) remove & contains
@@ -17,11 +17,11 @@ import it.unimi.dsi.fastutil.objects.ObjectSpliterator;
 @SuppressWarnings("unchecked")
 public final class ObjectMapList<T> extends AbstractReferenceList<T> implements Set<T> {
 
-	protected final Int2IntOpenHashMap objectToIndex;
+	private final Int2IntOpenHashMap objectToIndex;
 
-	protected static final Object[] EMPTY_LIST = new Object[0];
-	protected T[] elements = (T[]) EMPTY_LIST;
-	protected int count;
+	private static final Object[] EMPTY_LIST = new Object[0];
+	private T[] elements = (T[]) EMPTY_LIST;
+	private int count;
 
 	public ObjectMapList() {
 		this(2, 0.8f);

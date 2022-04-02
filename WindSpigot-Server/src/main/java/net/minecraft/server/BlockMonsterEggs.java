@@ -94,58 +94,50 @@ public class BlockMonsterEggs extends Block {
 		static {
 			try {
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.COBBLESTONE.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.STONEBRICK.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.MOSSY_STONEBRICK
 						.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.CRACKED_STONEBRICK
 						.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockMonsterEggs.SyntheticClass_1.a[BlockMonsterEggs.EnumMonsterEggVarient.CHISELED_STONEBRICK
 						.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}
 	}
 
-	public static enum EnumMonsterEggVarient implements INamable {
+	public enum EnumMonsterEggVarient implements INamable {
 
 		STONE(0, "stone") {
-			;
 			@Override
 			public IBlockData d() {
 				return Blocks.STONE.getBlockData().set(BlockStone.VARIANT, BlockStone.EnumStoneVariant.STONE);
 			}
 		},
 		COBBLESTONE(1, "cobblestone", "cobble") {
-			;
 			@Override
 			public IBlockData d() {
 				return Blocks.COBBLESTONE.getBlockData();
 			}
 		},
 		STONEBRICK(2, "stone_brick", "brick") {
-			;
 			@Override
 			public IBlockData d() {
 				return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT,
@@ -153,7 +145,6 @@ public class BlockMonsterEggs extends Block {
 			}
 		},
 		MOSSY_STONEBRICK(3, "mossy_brick", "mossybrick") {
-			;
 			@Override
 			public IBlockData d() {
 				return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT,
@@ -161,7 +152,6 @@ public class BlockMonsterEggs extends Block {
 			}
 		},
 		CRACKED_STONEBRICK(4, "cracked_brick", "crackedbrick") {
-			;
 			@Override
 			public IBlockData d() {
 				return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT,
@@ -169,7 +159,6 @@ public class BlockMonsterEggs extends Block {
 			}
 		},
 		CHISELED_STONEBRICK(5, "chiseled_brick", "chiseledbrick") {
-			;
 			@Override
 			public IBlockData d() {
 				return Blocks.STONEBRICK.getBlockData().set(BlockSmoothBrick.VARIANT,
@@ -182,11 +171,11 @@ public class BlockMonsterEggs extends Block {
 		private final String i;
 		private final String j;
 
-		private EnumMonsterEggVarient(int i, String s) {
+		EnumMonsterEggVarient(int i, String s) {
 			this(i, s, s);
 		}
 
-		private EnumMonsterEggVarient(int i, String s, String s1) {
+		EnumMonsterEggVarient(int i, String s, String s1) {
 			this.h = i;
 			this.i = s;
 			this.j = s1;

@@ -124,9 +124,8 @@ public class BlockRedstoneOre extends Block {
 	@Override
 	public int getExpDrop(World world, IBlockData data, int i) {
 		if (this.getDropType(data, world.random, i) != Item.getItemOf(this)) {
-			int j = 1 + world.random.nextInt(5);
 
-			return j;
+			return 1 + world.random.nextInt(5);
 		}
 		return 0;
 		// CraftBukkit end

@@ -1,11 +1,10 @@
 package net.minecraft.server;
 
-import java.util.List;
-import java.util.Random;
-
-// CraftBukkit start
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
+
+import java.util.List;
+import java.util.Random;
 // CraftBukkit end
 
 public abstract class BlockButtonAbstract extends Block {
@@ -158,7 +157,7 @@ public abstract class BlockButtonAbstract extends Block {
 			BlockRedstoneEvent eventRedstone = new BlockRedstoneEvent(block, old, current);
 			world.getServer().getPluginManager().callEvent(eventRedstone);
 
-			if ((eventRedstone.getNewCurrent() > 0) != (!powered)) {
+			if ((eventRedstone.getNewCurrent() > 0) == (!powered)) {
 				return true;
 			}
 			// CraftBukkit end
@@ -419,39 +418,33 @@ public abstract class BlockButtonAbstract extends Block {
 		static {
 			try {
 				BlockButtonAbstract.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockButtonAbstract.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockButtonAbstract.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockButtonAbstract.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockButtonAbstract.SyntheticClass_1.a[EnumDirection.UP.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockButtonAbstract.SyntheticClass_1.a[EnumDirection.DOWN.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror5) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 		}
 	}

@@ -129,11 +129,10 @@ public class EntityCreeper extends EntityMonster {
 		if (damagesource.getEntity() instanceof EntitySkeleton) {
 			int i = Item.getId(Items.RECORD_13);
 			int j = Item.getId(Items.RECORD_WAIT);
-			int k = i + this.random.nextInt(j - i + 1);
 
-			// CraftBukkit start - Store record for now, drop in dropDeathLoot
+            // CraftBukkit start - Store record for now, drop in dropDeathLoot
 			// this.a(Item.getById(k), 1);
-			this.record = k;
+			this.record = i + this.random.nextInt(j - i + 1);
 			// CraftBukkit end
 		} else if (damagesource.getEntity() instanceof EntityCreeper && damagesource.getEntity() != this
 				&& ((EntityCreeper) damagesource.getEntity()).isPowered()

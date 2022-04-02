@@ -393,10 +393,8 @@ public class EntitySlime extends EntityInsentient implements IMonster {
 		public boolean a() {
 			EntityLiving entityliving = this.a.getGoalTarget();
 
-			return entityliving == null ? false
-					: (!entityliving.isAlive() ? false
-							: !(entityliving instanceof EntityHuman)
-									|| !((EntityHuman) entityliving).abilities.isInvulnerable);
+			return entityliving != null && (entityliving.isAlive() && (!(entityliving instanceof EntityHuman)
+                    || !((EntityHuman) entityliving).abilities.isInvulnerable));
 		}
 
 		@Override
@@ -409,13 +407,9 @@ public class EntitySlime extends EntityInsentient implements IMonster {
 		public boolean b() {
 			EntityLiving entityliving = this.a.getGoalTarget();
 
-			return entityliving == null ? false
-					: (!entityliving
-							.isAlive()
-									? false
-									: (entityliving instanceof EntityHuman
-											&& ((EntityHuman) entityliving).abilities.isInvulnerable ? false
-													: --this.b > 0));
+			return entityliving != null && (entityliving
+                    .isAlive() && ((!(entityliving instanceof EntityHuman)
+                    || !((EntityHuman) entityliving).abilities.isInvulnerable) && --this.b > 0));
 		}
 
 		@Override

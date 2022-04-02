@@ -488,7 +488,7 @@ public class PlayerInventory implements IInventory {
 		} else {
 			ItemStack itemstack = this.getItem(this.itemInHandIndex);
 
-			return itemstack != null ? itemstack.b(block) : false;
+			return itemstack != null && itemstack.b(block);
 		}
 	}
 
@@ -566,7 +566,7 @@ public class PlayerInventory implements IInventory {
 
 	@Override
 	public boolean a(EntityHuman entityhuman) {
-		return this.player.dead ? false : entityhuman.h(this.player) <= 64.0D;
+		return !this.player.dead && entityhuman.h(this.player) <= 64.0D;
 	}
 
 	public boolean c(ItemStack itemstack) {

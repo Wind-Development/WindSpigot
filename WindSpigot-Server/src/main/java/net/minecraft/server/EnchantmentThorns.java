@@ -26,7 +26,7 @@ public class EnchantmentThorns extends Enchantment {
 
 	@Override
 	public boolean canEnchant(ItemStack itemstack) {
-		return itemstack.getItem() instanceof ItemArmor ? true : super.canEnchant(itemstack);
+		return itemstack.getItem() instanceof ItemArmor || super.canEnchant(itemstack);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class EnchantmentThorns extends Enchantment {
 	}
 
 	public static boolean a(int i, Random random) {
-		return i <= 0 ? false : random.nextFloat() < 0.15F * i;
+		return i > 0 && random.nextFloat() < 0.15F * i;
 	}
 
 	public static int b(int i, Random random) {

@@ -248,7 +248,6 @@ public class EntityFishingHook extends Entity {
 
 				for (this.pitch = (float) (MathHelper.b(this.motY, f1) * 180.0D / 3.1415927410125732D); this.pitch
 						- this.lastPitch < -180.0F; this.lastPitch -= 360.0F) {
-					;
 				}
 
 				while (this.pitch - this.lastPitch >= 180.0F) {

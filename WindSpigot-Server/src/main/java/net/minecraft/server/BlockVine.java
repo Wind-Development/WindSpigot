@@ -1,9 +1,9 @@
 package net.minecraft.server;
 
+import org.bukkit.craftbukkit.event.CraftEventFactory;
+
 import java.util.Iterator;
 import java.util.Random;
-
-import org.bukkit.craftbukkit.event.CraftEventFactory; // CraftBukkit
 
 public class BlockVine extends Block {
 
@@ -221,11 +221,10 @@ public class BlockVine extends Block {
 								|| iblockdata1.get(BlockVine.WEST).booleanValue()) {
 							// CraftBukkit start - Call BlockSpreadEvent
 							// world.setTypeAndData(blockposition1, iblockdata1, 2);
-							BlockPosition target = blockposition1;
 							org.bukkit.block.Block source = world.getWorld().getBlockAt(blockposition.getX(),
 									blockposition.getY(), blockposition.getZ());
-							org.bukkit.block.Block block = world.getWorld().getBlockAt(target.getX(), target.getY(),
-									target.getZ());
+							org.bukkit.block.Block block = world.getWorld().getBlockAt(blockposition1.getX(), blockposition1.getY(),
+									blockposition1.getZ());
 							CraftEventFactory.handleBlockSpreadEvent(block, source, this, toLegacyData(iblockdata1));
 							// CraftBukkit end
 						}
@@ -470,33 +469,28 @@ public class BlockVine extends Block {
 		static {
 			try {
 				BlockVine.SyntheticClass_1.a[EnumDirection.UP.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockVine.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockVine.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockVine.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockVine.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 		}
 	}

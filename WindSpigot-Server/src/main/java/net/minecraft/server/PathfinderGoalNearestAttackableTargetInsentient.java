@@ -34,10 +34,8 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
 					d0 *= 0.800000011920929D;
 				}
 
-				return entityliving.isInvisible() ? false
-						: (entityliving.g(PathfinderGoalNearestAttackableTargetInsentient.this.b) > d0 ? false
-								: PathfinderGoalTarget.a(PathfinderGoalNearestAttackableTargetInsentient.this.b,
-										entityliving, false, true));
+				return !entityliving.isInvisible() && (!(entityliving.g(PathfinderGoalNearestAttackableTargetInsentient.this.b) > d0) && PathfinderGoalTarget.a(PathfinderGoalNearestAttackableTargetInsentient.this.b,
+                        entityliving, false, true));
 			}
 
 			@Override
@@ -73,9 +71,8 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
 		} else {
 			double d0 = this.f();
 
-			return this.b.h(entityliving) > d0 * d0 ? false
-					: !(entityliving instanceof EntityPlayer)
-							|| !((EntityPlayer) entityliving).playerInteractManager.isCreative();
+			return !(this.b.h(entityliving) > d0 * d0) && (!(entityliving instanceof EntityPlayer)
+                    || !((EntityPlayer) entityliving).playerInteractManager.isCreative());
 		}
 	}
 

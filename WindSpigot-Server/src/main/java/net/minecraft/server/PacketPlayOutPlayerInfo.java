@@ -21,12 +21,11 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 
 	public PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction var1, EntityPlayer... var2) {
 		this.a = var1;
-		EntityPlayer[] var3 = var2;
 		int var4 = var2.length;
 
 		for (int var5 = 0; var5 < var4; ++var5) {
-			EntityPlayer var6 = var3[var5];
-			this.b.add(new PacketPlayOutPlayerInfo.PlayerInfoData(var6.getProfile(), var6.ping,
+			EntityPlayer var6 = var2[var5];
+			this.b.add(new PlayerInfoData(var6.getProfile(), var6.ping,
 					var6.playerInteractManager.getGameMode(), var6.getPlayerListName()));
 		}
 
@@ -38,7 +37,7 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 
 		while (var3.hasNext()) {
 			EntityPlayer var4 = (EntityPlayer) var3.next();
-			this.b.add(new PacketPlayOutPlayerInfo.PlayerInfoData(var4.getProfile(), var4.ping,
+			this.b.add(new PlayerInfoData(var4.getProfile(), var4.ping,
 					var4.playerInteractManager.getGameMode(), var4.getPlayerListName()));
 		}
 
@@ -106,7 +105,7 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 				var4 = new GameProfile(var1.g(), (String) null);
 			}
 
-			this.b.add(new PacketPlayOutPlayerInfo.PlayerInfoData(var4, var5, var6, var7));
+			this.b.add(new PlayerInfoData(var4, var5, var6, var7));
 		}
 
 	}
@@ -184,7 +183,7 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 		return Objects.toStringHelper(this).add("action", this.a).add("entries", this.b).toString();
 	}
 
-	public class PlayerInfoData {
+	public static class PlayerInfoData {
 		private final int b;
 		private final EnumGamemode c;
 		private final GameProfile d;
@@ -220,10 +219,10 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 		}
 	}
 
-	public static enum EnumPlayerInfoAction {
+	public enum EnumPlayerInfoAction {
 		ADD_PLAYER, UPDATE_GAME_MODE, UPDATE_LATENCY, UPDATE_DISPLAY_NAME, REMOVE_PLAYER;
 
-		private EnumPlayerInfoAction() {
+		EnumPlayerInfoAction() {
 		}
 	}
 }

@@ -55,12 +55,11 @@ public class PacketDecompressor extends ByteToMessageDecoder {
 					this.inflater.reset();
 					return;
 				}
-				int claimedUncompressedSize = var5; // OBFHELPER
-				ByteBuf compatibleIn = MoreByteBufUtils.ensureCompatible(var1.alloc(), this.compressor, var2);
+                ByteBuf compatibleIn = MoreByteBufUtils.ensureCompatible(var1.alloc(), this.compressor, var2);
 				ByteBuf uncompressed = MoreByteBufUtils.preferredBuffer(var1.alloc(), this.compressor,
-						claimedUncompressedSize);
+                        var5);
 				try {
-					this.compressor.inflate(compatibleIn, uncompressed, claimedUncompressedSize);
+					this.compressor.inflate(compatibleIn, uncompressed, var5);
 					var3.add(uncompressed);
 					var2.clear();
 				} catch (Exception e) {

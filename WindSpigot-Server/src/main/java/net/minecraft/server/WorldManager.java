@@ -37,21 +37,9 @@ public class WorldManager implements IWorldAccess {
 
 	@Override
 	public void a(EntityHuman entityhuman, String s, double d0, double d1, double d2, float f, float f1) {
-		if ("random.drink".equals(s) || s.contains("step") || s.contains("player") || "random.eat".equals(s)) {
-			// this.a.getPlayerList().sendPacketNearby(entityhuman, d0, d1, d2, f > 1.0F ?
-			// (double) (16.0F * f) : 16.0D, this.world.dimension, new
-			// PacketPlayOutNamedSoundEffect(s, d0, d1, d2, f, f1));
-			this.world.playerMap.sendPacketNearby((EntityPlayer) entityhuman, d0, d1, d2,
-					f > 1.0F ? (double) (16.0F * f) : 16.0D, new PacketPlayOutNamedSoundEffect(s, d0, d1, d2, f, f1),
-					false);
-		} else {
-			// this.a.getPlayerList().sendPacketNearbyIncludingSelf(entityhuman, d0, d1, d2,
-			// f > 1.0F ? (double) (16.0F * f) : 16.0D, this.world.dimension, new
-			// PacketPlayOutNamedSoundEffect(s, d0, d1, d2, f, f1));
-			this.world.playerMap.sendPacketNearby((EntityPlayer) entityhuman, d0, d1, d2,
-					f > 1.0F ? (double) (16.0F * f) : 16.0D, new PacketPlayOutNamedSoundEffect(s, d0, d1, d2, f, f1),
-					true);
-		}
+		this.world.playerMap.sendPacketNearby((EntityPlayer) entityhuman, d0, d1, d2,
+				f > 1.0F ? (double) (16.0F * f) : 16.0D, new PacketPlayOutNamedSoundEffect(s, d0, d1, d2, f, f1),
+				!"random.drink".equals(s) && !s.contains("step") && !s.contains("player") && !"random.eat".equals(s));
 	}
 
 	@Override
@@ -73,15 +61,9 @@ public class WorldManager implements IWorldAccess {
 
 	@Override
 	public void a(EntityHuman entityhuman, int i, BlockPosition blockposition, int j) {
-		if (i == 2001) {
-			this.world.playerMap.sendPacketNearby((EntityPlayer) entityhuman, blockposition.getX(),
-					blockposition.getY(), blockposition.getZ(), 64.0D,
-					new PacketPlayOutWorldEvent(i, blockposition, j, false), false);
-		} else {
-			this.world.playerMap.sendPacketNearby((EntityPlayer) entityhuman, blockposition.getX(),
-					blockposition.getY(), blockposition.getZ(), 64.0D,
-					new PacketPlayOutWorldEvent(i, blockposition, j, false), true);
-		}
+		this.world.playerMap.sendPacketNearby((EntityPlayer) entityhuman, blockposition.getX(),
+				blockposition.getY(), blockposition.getZ(), 64.0D,
+				new PacketPlayOutWorldEvent(i, blockposition, j, false), i != 2001);
 	}
 
 	@Override

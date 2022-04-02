@@ -32,7 +32,7 @@ public class NBTTagIntArray extends NBTBase {
 		int j = datainput.readInt();
 		com.google.common.base.Preconditions.checkArgument(j < 1 << 24);
 
-		nbtreadlimiter.a(32 * j);
+		nbtreadlimiter.a(32L * j);
 		this.data = new int[j];
 
 		for (int k = 0; k < j; ++k) {
@@ -71,7 +71,7 @@ public class NBTTagIntArray extends NBTBase {
 
 	@Override
 	public boolean equals(Object object) {
-		return super.equals(object) ? Arrays.equals(this.data, ((NBTTagIntArray) object).data) : false;
+		return super.equals(object) && Arrays.equals(this.data, ((NBTTagIntArray) object).data);
 	}
 
 	@Override

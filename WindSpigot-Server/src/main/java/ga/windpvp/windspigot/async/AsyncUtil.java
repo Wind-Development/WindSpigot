@@ -7,7 +7,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 public class AsyncUtil {
 
-	private static Executor executor = Executors
+	private static final Executor executor = Executors
 			.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("WindSpigot Async Executor Thread").build());
 
 	public static void run(Runnable runnable) {

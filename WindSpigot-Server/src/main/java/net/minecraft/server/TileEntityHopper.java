@@ -178,9 +178,8 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 
 	@Override
 	public boolean a(EntityHuman entityhuman) {
-		return this.world.getTileEntity(this.position) != this ? false
-				: entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
-						this.position.getZ() + 0.5D) <= 64.0D;
+		return this.world.getTileEntity(this.position) == this && entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
+                this.position.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -588,9 +587,8 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 	}
 
 	private static boolean a(IInventory iinventory, ItemStack itemstack, int i, EnumDirection enumdirection) {
-		return !iinventory.b(i, itemstack) ? false
-				: !(iinventory instanceof IWorldInventory)
-						|| ((IWorldInventory) iinventory).canPlaceItemThroughFace(i, itemstack, enumdirection);
+		return iinventory.b(i, itemstack) && (!(iinventory instanceof IWorldInventory)
+                || ((IWorldInventory) iinventory).canPlaceItemThroughFace(i, itemstack, enumdirection));
 	}
 
 	private static boolean b(IInventory iinventory, ItemStack itemstack, int i, EnumDirection enumdirection) {
@@ -706,10 +704,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 	// TacoSpigot end
 
 	private static boolean a(ItemStack itemstack, ItemStack itemstack1) {
-		return itemstack.getItem() != itemstack1.getItem() ? false
-				: (itemstack.getData() != itemstack1.getData() ? false
-						: (itemstack.count > itemstack.getMaxStackSize() ? false
-								: ItemStack.equals(itemstack, itemstack1)));
+		return itemstack.getItem() == itemstack1.getItem() && (itemstack.getData() == itemstack1.getData() && (itemstack.count <= itemstack.getMaxStackSize() && ItemStack.equals(itemstack, itemstack1)));
 	}
 
 	@Override

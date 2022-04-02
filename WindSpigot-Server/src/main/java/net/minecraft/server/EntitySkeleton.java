@@ -1,8 +1,8 @@
 package net.minecraft.server;
 
-import java.util.Calendar;
+import org.bukkit.event.entity.EntityCombustEvent;
 
-import org.bukkit.event.entity.EntityCombustEvent; // CraftBukkit
+import java.util.Calendar;
 
 public class EntitySkeleton extends EntityMonster implements IRangedEntity {
 
@@ -36,7 +36,7 @@ public class EntitySkeleton extends EntityMonster implements IRangedEntity {
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(13, new Byte((byte) 0));
+		this.datawatcher.a(13, (byte) 0);
 	}
 
 	@Override

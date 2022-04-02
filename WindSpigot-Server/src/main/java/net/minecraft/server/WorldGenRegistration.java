@@ -21,15 +21,13 @@ public class WorldGenRegistration {
 		static {
 			try {
 				WorldGenRegistration.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				WorldGenRegistration.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 		}
 	}
@@ -317,9 +315,9 @@ public class WorldGenRegistration {
 				this.a(world, Blocks.STONE_STAIRS.fromLegacyData(l), 7, 4, 5, structureboundingbox);
 
 				for (i1 = 0; i1 < 4; ++i1) {
-					this.a(world, Blocks.STONE_STAIRS.fromLegacyData(j), 5, 0 - i1, 6 + i1, structureboundingbox);
-					this.a(world, Blocks.STONE_STAIRS.fromLegacyData(j), 6, 0 - i1, 6 + i1, structureboundingbox);
-					this.a(world, structureboundingbox, 5, 0 - i1, 7 + i1, 6, 0 - i1, 9 + i1);
+					this.a(world, Blocks.STONE_STAIRS.fromLegacyData(j), 5, -i1, 6 + i1, structureboundingbox);
+					this.a(world, Blocks.STONE_STAIRS.fromLegacyData(j), 6, -i1, 6 + i1, structureboundingbox);
+					this.a(world, structureboundingbox, 5, -i1, 7 + i1, 6, -i1, 9 + i1);
 				}
 
 				this.a(world, structureboundingbox, 1, -3, 12, 10, -1, 13);

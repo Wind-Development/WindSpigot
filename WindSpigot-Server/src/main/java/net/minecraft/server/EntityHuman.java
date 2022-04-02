@@ -1852,7 +1852,7 @@ public abstract class EntityHuman extends EntityLiving {
 		} else {
 			ItemStack itemstack = this.bZ();
 
-			return itemstack != null && itemstack.hasName() ? itemstack.getName().equals(chestlock.b()) : false;
+			return itemstack != null && itemstack.hasName() && itemstack.getName().equals(chestlock.b());
 		}
 	}
 
@@ -1904,40 +1904,36 @@ public abstract class EntityHuman extends EntityLiving {
 		static {
 			try {
 				EntityHuman.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityHuman.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityHuman.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityHuman.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}
 	}
 
-	public static enum EnumBedResult {
+	public enum EnumBedResult {
 
 		OK, NOT_POSSIBLE_HERE, NOT_POSSIBLE_NOW, TOO_FAR_AWAY, OTHER_PROBLEM, NOT_SAFE;
 
-		private EnumBedResult() {
+		EnumBedResult() {
 		}
 	}
 
-	public static enum EnumChatVisibility {
+	public enum EnumChatVisibility {
 
 		FULL(0, "options.chat.visibility.full"), SYSTEM(1, "options.chat.visibility.system"),
 		HIDDEN(2, "options.chat.visibility.hidden");
@@ -1946,7 +1942,7 @@ public abstract class EntityHuman extends EntityLiving {
 		private final int e;
 		private final String f;
 
-		private EnumChatVisibility(int i, String s) {
+		EnumChatVisibility(int i, String s) {
 			this.e = i;
 			this.f = s;
 		}

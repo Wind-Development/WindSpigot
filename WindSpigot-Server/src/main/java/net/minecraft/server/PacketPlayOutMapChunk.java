@@ -95,11 +95,10 @@ public class PacketPlayOutMapChunk implements Packet<PacketListenerPlayOut> {
 		while (iterator.hasNext()) {
 			chunksection1 = (ChunkSection) iterator.next();
 			char[] achar = chunksection1.getIdArray();
-			char[] achar1 = achar;
-			int k = achar.length;
+            int k = achar.length;
 
 			for (int l = 0; l < k; ++l) {
-				char c0 = achar1[l];
+				char c0 = achar[l];
 
 				packetplayoutmapchunk_chunkmap.a[j++] = (byte) (c0 & 255);
 				packetplayoutmapchunk_chunkmap.a[j++] = (byte) (c0 >> 8 & 255);

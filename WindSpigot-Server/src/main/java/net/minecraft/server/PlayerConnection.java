@@ -165,7 +165,6 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 		// CraftBukkit start
 		for (int spam; (spam = this.chatThrottle) > 0 && !chatSpamField.compareAndSet(this, spam, spam - 1);) {
-			;
 			/*
 			 * Use thread-safe field access instead if (this.chatThrottle > 0) {
 			 * --this.chatThrottle; }
@@ -2635,22 +2634,19 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			try {
 				PlayerConnection.SyntheticClass_1.c[PacketPlayInClientCommand.EnumClientCommand.PERFORM_RESPAWN
 						.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.c[PacketPlayInClientCommand.EnumClientCommand.REQUEST_STATS
 						.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.c[PacketPlayInClientCommand.EnumClientCommand.OPEN_INVENTORY_ACHIEVEMENT
 						.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			b = new int[PacketPlayInEntityAction.EnumPlayerAction.values().length];
@@ -2658,93 +2654,80 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			try {
 				PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.EnumPlayerAction.START_SNEAKING
 						.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.EnumPlayerAction.STOP_SNEAKING
 						.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.EnumPlayerAction.START_SPRINTING
 						.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror5) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.EnumPlayerAction.STOP_SPRINTING
 						.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror6) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.EnumPlayerAction.STOP_SLEEPING
 						.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror7) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.EnumPlayerAction.RIDING_JUMP
 						.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror8) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.b[PacketPlayInEntityAction.EnumPlayerAction.OPEN_INVENTORY
 						.ordinal()] = 7;
-			} catch (NoSuchFieldError nosuchfielderror9) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			a = new int[PacketPlayInBlockDig.EnumPlayerDigType.values().length];
 
 			try {
 				PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.EnumPlayerDigType.DROP_ITEM.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror10) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.EnumPlayerDigType.DROP_ALL_ITEMS
 						.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror11) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.EnumPlayerDigType.RELEASE_USE_ITEM
 						.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror12) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.EnumPlayerDigType.START_DESTROY_BLOCK
 						.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror13) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.EnumPlayerDigType.ABORT_DESTROY_BLOCK
 						.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror14) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				PlayerConnection.SyntheticClass_1.a[PacketPlayInBlockDig.EnumPlayerDigType.STOP_DESTROY_BLOCK
 						.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror15) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}

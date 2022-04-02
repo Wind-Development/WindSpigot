@@ -60,7 +60,7 @@ public abstract class ExpirableListEntry<T> extends JsonListEntry<T> {
 
 	@Override
 	boolean hasExpired() {
-		return this.d == null ? false : this.d.before(new Date());
+		return this.d != null && this.d.before(new Date());
 	}
 
 	@Override

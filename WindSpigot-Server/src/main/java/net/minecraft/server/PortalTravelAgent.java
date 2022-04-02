@@ -501,7 +501,7 @@ public class PortalTravelAgent {
 		}
 	}
 
-	public class ChunkCoordinatesPortal extends BlockPosition {
+	public static class ChunkCoordinatesPortal extends BlockPosition {
 		public long c;
 
 		public ChunkCoordinatesPortal(BlockPosition blockposition, long i) {

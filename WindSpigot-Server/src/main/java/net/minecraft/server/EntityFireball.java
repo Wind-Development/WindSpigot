@@ -153,8 +153,7 @@ public abstract class EntityFireball extends Entity {
 
 			for (this.pitch = (float) (MathHelper.b(f1, this.motY) * 180.0D / 3.1415927410125732D) - 90.0F; this.pitch
 					- this.lastPitch < -180.0F; this.lastPitch -= 360.0F) {
-				;
-			}
+            }
 
 			while (this.pitch - this.lastPitch >= 180.0F) {
 				this.lastPitch += 360.0F;

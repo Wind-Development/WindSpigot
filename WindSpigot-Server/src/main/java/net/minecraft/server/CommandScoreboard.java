@@ -1066,7 +1066,7 @@ public class CommandScoreboard extends CommandAbstract {
 
 	@Override
 	public boolean isListStart(String[] astring, int i) {
-		return !"players".equalsIgnoreCase(astring[0]) ? ("teams".equalsIgnoreCase(astring[0]) ? i == 2 : false)
+		return !"players".equalsIgnoreCase(astring[0]) ? ("teams".equalsIgnoreCase(astring[0]) && i == 2)
 				: (astring.length > 1 && "operation".equalsIgnoreCase(astring[1]) ? i == 2 || i == 5 : i == 2);
 	}
 }

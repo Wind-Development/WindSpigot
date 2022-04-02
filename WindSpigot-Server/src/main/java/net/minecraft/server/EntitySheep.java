@@ -1,15 +1,12 @@
 package net.minecraft.server;
 
-import java.util.Map;
-import java.util.Random;
-
-// CraftBukkit start
+import com.google.common.collect.Maps;
 import org.bukkit.event.entity.SheepRegrowWoolEvent;
 import org.bukkit.event.player.PlayerShearEntityEvent;
 import org.bukkit.inventory.InventoryView;
-// CraftBukkit end
 
-import com.google.common.collect.Maps;
+import java.util.Map;
+import java.util.Random;
 
 public class EntitySheep extends EntityAnimal {
 
@@ -77,7 +74,7 @@ public class EntitySheep extends EntityAnimal {
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(16, new Byte((byte) 0));
+		this.datawatcher.a(16, (byte) 0);
 	}
 
 	@Override

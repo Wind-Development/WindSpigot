@@ -1,16 +1,13 @@
 package net.minecraft.server;
 
+import com.google.common.base.Joiner;
+import org.bukkit.craftbukkit.command.VanillaCommandWrapper;
+
 import java.text.SimpleDateFormat;
-// CraftBukkit start
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
-// CraftBukkit end
-
-import org.bukkit.craftbukkit.command.VanillaCommandWrapper;
-
-import com.google.common.base.Joiner;
 
 public abstract class CommandBlockListenerAbstract implements ICommandListener {
 
@@ -168,7 +165,7 @@ public abstract class CommandBlockListenerAbstract implements ICommandListener {
 			if (command.startsWith("/")) {
 				command = command.substring(1);
 			}
-			String as[] = command.split(" ");
+			String[] as = command.split(" ");
 			as = VanillaCommandWrapper.dropFirstArgument(as);
 			if (!((VanillaCommandWrapper) commandBlockCommand).testPermission(bSender)) {
 				return 0;
@@ -238,7 +235,7 @@ public abstract class CommandBlockListenerAbstract implements ICommandListener {
 							exception);
 				} else {
 					MinecraftServer.getServer().server.getLogger().log(Level.WARNING,
-							String.format("Unknown CommandBlock failed to handle command"), exception);
+							"Unknown CommandBlock failed to handle command", exception);
 				}
 			}
 		}

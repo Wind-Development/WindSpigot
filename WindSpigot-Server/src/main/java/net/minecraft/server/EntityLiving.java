@@ -1,14 +1,14 @@
 package net.minecraft.server;
 
 // PaperSpigot end
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import dev.cobblesword.nachospigot.commons.Constants;
+import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
+import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
+import net.jafama.FastMath;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.entity.LivingEntity;
@@ -19,14 +19,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.spigotmc.event.entity.EntityDismountEvent;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import dev.cobblesword.nachospigot.commons.Constants;
-import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
-import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
-import net.jafama.FastMath;
+import java.util.*;
 
 public abstract class EntityLiving extends Entity {
 
@@ -553,10 +546,10 @@ public abstract class EntityLiving extends Entity {
 				flag1 &= this.random.nextInt(5) == 0;
 			}
 
-			if (flag1 && i > 0) {
+			if (flag1) {
 				double d0 = (i >> 16 & 255) / 255.0D;
 				double d1 = (i >> 8 & 255) / 255.0D;
-				double d2 = (i >> 0 & 255) / 255.0D;
+				double d2 = (i & 255) / 255.0D;
 
 				this.world.addParticle(flag ? EnumParticle.SPELL_MOB_AMBIENT : EnumParticle.SPELL_MOB,
 						this.locX + (this.random.nextDouble() - 0.5D) * this.width,
@@ -642,9 +635,7 @@ public abstract class EntityLiving extends Entity {
 		if (this.getMonsterType() == EnumMonsterType.UNDEAD) {
 			int i = mobeffect.getEffectId();
 
-			if (i == MobEffectList.REGENERATION.id || i == MobEffectList.POISON.id) {
-				return false;
-			}
+			return i != MobEffectList.REGENERATION.id && i != MobEffectList.POISON.id;
 		}
 
 		return true;
@@ -1287,7 +1278,7 @@ public abstract class EntityLiving extends Entity {
 
 	private int n() {
 		return this.hasEffect(MobEffectList.FASTER_DIG)
-				? 6 - (1 + this.getEffect(MobEffectList.FASTER_DIG).getAmplifier()) * 1
+				? 6 - (1 + this.getEffect(MobEffectList.FASTER_DIG).getAmplifier())
 				: (this.hasEffect(MobEffectList.SLOWER_DIG)
 						? 6 + (1 + this.getEffect(MobEffectList.SLOWER_DIG).getAmplifier()) * 2
 						: 6);
@@ -1464,7 +1455,7 @@ public abstract class EntityLiving extends Entity {
 
 				if (f2 > 0.0F) {
 					f3 += (0.54600006F - f3) * f2 / 3.0F;
-					f4 += (this.bI() * 1.0F - f4) * f2 / 3.0F;
+					f4 += (this.bI() - f4) * f2 / 3.0F;
 				}
 
 				this.a(f, f1, f4);
@@ -1981,7 +1972,7 @@ public abstract class EntityLiving extends Entity {
 	}
 
 	public boolean a(ScoreboardTeamBase scoreboardteambase) {
-		return this.getScoreboardTeam() != null ? this.getScoreboardTeam().isAlly(scoreboardteambase) : false;
+		return this.getScoreboardTeam() != null && this.getScoreboardTeam().isAlly(scoreboardteambase);
 	}
 
 	public void enterCombat() {

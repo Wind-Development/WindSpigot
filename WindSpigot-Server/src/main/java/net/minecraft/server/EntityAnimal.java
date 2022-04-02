@@ -99,7 +99,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
 	}
 
 	public boolean d(ItemStack itemstack) {
-		return itemstack == null ? false : itemstack.getItem() == Items.WHEAT;
+		return itemstack != null && itemstack.getItem() == Items.WHEAT;
 	}
 
 	@Override
@@ -152,7 +152,6 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
 	}
 
 	public boolean mate(EntityAnimal entityanimal) {
-		return entityanimal == this ? false
-				: (entityanimal.getClass() != this.getClass() ? false : this.isInLove() && entityanimal.isInLove());
+		return entityanimal != this && (entityanimal.getClass() == this.getClass() && this.isInLove() && entityanimal.isInLove());
 	}
 }

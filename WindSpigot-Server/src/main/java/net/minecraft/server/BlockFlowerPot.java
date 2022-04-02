@@ -79,11 +79,9 @@ public class BlockFlowerPot extends BlockContainer {
 	}
 
 	private boolean a(Block block, int i) {
-		return block != Blocks.YELLOW_FLOWER && block != Blocks.RED_FLOWER && block != Blocks.CACTUS
-				&& block != Blocks.BROWN_MUSHROOM && block != Blocks.RED_MUSHROOM && block != Blocks.SAPLING
-				&& block != Blocks.DEADBUSH
-						? block == Blocks.TALLGRASS && i == BlockLongGrass.EnumTallGrassType.FERN.a()
-						: true;
+		return block == Blocks.YELLOW_FLOWER || block == Blocks.RED_FLOWER || block == Blocks.CACTUS
+				|| block == Blocks.BROWN_MUSHROOM || block == Blocks.RED_MUSHROOM || block == Blocks.SAPLING
+				|| block == Blocks.DEADBUSH || block == Blocks.TALLGRASS && i == BlockLongGrass.EnumTallGrassType.FERN.a();
 	}
 
 	@Override
@@ -344,100 +342,85 @@ public class BlockFlowerPot extends BlockContainer {
 		static {
 			try {
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.POPPY.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.BLUE_ORCHID.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.ALLIUM.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.HOUSTONIA.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.RED_TULIP.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.ORANGE_TULIP.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror5) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.WHITE_TULIP.ordinal()] = 7;
-			} catch (NoSuchFieldError nosuchfielderror6) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.PINK_TULIP.ordinal()] = 8;
-			} catch (NoSuchFieldError nosuchfielderror7) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.b[BlockFlowers.EnumFlowerVarient.OXEYE_DAISY.ordinal()] = 9;
-			} catch (NoSuchFieldError nosuchfielderror8) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			a = new int[BlockWood.EnumLogVariant.values().length];
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.OAK.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror9) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.SPRUCE.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror10) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.BIRCH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror11) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.JUNGLE.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror12) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.ACACIA.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror13) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockFlowerPot.SyntheticClass_1.a[BlockWood.EnumLogVariant.DARK_OAK.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror14) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}
 	}
 
-	public static enum EnumFlowerPotContents implements INamable {
+	public enum EnumFlowerPotContents implements INamable {
 
 		EMPTY("empty"), POPPY("rose"), BLUE_ORCHID("blue_orchid"), ALLIUM("allium"), HOUSTONIA("houstonia"),
 		RED_TULIP("red_tulip"), ORANGE_TULIP("orange_tulip"), WHITE_TULIP("white_tulip"), PINK_TULIP("pink_tulip"),
@@ -448,7 +431,7 @@ public class BlockFlowerPot extends BlockContainer {
 
 		private final String w;
 
-		private EnumFlowerPotContents(String s) {
+		EnumFlowerPotContents(String s) {
 			this.w = s;
 		}
 

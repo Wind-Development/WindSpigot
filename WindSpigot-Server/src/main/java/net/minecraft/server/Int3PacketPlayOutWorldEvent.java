@@ -62,7 +62,7 @@ public class Int3PacketPlayOutWorldEvent extends PacketPlayOutWorldEvent {
 		var1.writeInt(this.a);
 		var1.writeLong((this.blockPosition_x & BlockPosition.h) << BlockPosition.g
 				| (this.blockPosition_y & BlockPosition.i) << BlockPosition.f
-				| (this.blockPosition_z & BlockPosition.j) << 0);
+				| (this.blockPosition_z & BlockPosition.j));
 		var1.writeInt(this.c);
 		var1.writeBoolean(this.d);
 	}

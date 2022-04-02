@@ -1,30 +1,14 @@
 package me.suicidalkids.ion.blocks.redstone;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import net.minecraft.server.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.event.block.BlockRedstoneEvent;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
-import net.minecraft.server.BaseBlockPosition;
-import net.minecraft.server.Block;
-import net.minecraft.server.BlockDiodeAbstract;
-import net.minecraft.server.BlockDirectional;
-import net.minecraft.server.BlockPiston;
-import net.minecraft.server.BlockPosition;
-import net.minecraft.server.BlockRedstoneComparator;
-import net.minecraft.server.BlockRedstoneTorch;
-import net.minecraft.server.BlockRedstoneWire;
-import net.minecraft.server.BlockTorch;
-import net.minecraft.server.Blocks;
-import net.minecraft.server.EnumDirection;
-import net.minecraft.server.IBlockAccess;
-import net.minecraft.server.IBlockData;
-import net.minecraft.server.World;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /*
  * Based on https://gist.github.com/Panda4994/70ed6d39c89396570e062e4404a8d518
@@ -74,7 +58,9 @@ public class PandaRedstoneWire extends BlockRedstoneWire {
 
 			for (EnumDirection facing2 : facings) {
 				BaseBlockPosition v2 = ReflectUtil.getOfT(facing2, BaseBlockPosition.class);
-				set.add(new BlockPosition(v1.getX() + v2.getX(), v1.getY() + v2.getY(), v1.getZ() + v2.getZ()));
+				if (v1 != null && v2 != null) {
+					set.add(new BlockPosition(v1.getX() + v2.getX(), v1.getY() + v2.getY(), v1.getZ() + v2.getZ()));
+				}
 			}
 		}
 

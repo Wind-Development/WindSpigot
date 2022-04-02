@@ -61,9 +61,7 @@ public abstract class BlockFluids extends Block {
 	public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition, EnumDirection enumdirection) {
 		Material material = iblockaccess.getType(blockposition).getBlock().getMaterial();
 
-		return material == this.material ? false
-				: (enumdirection == EnumDirection.UP ? true
-						: (material == Material.ICE ? false : super.b(iblockaccess, blockposition, enumdirection)));
+		return material != this.material && (enumdirection == EnumDirection.UP || (material != Material.ICE && super.b(iblockaccess, blockposition, enumdirection)));
 	}
 
 	@Override

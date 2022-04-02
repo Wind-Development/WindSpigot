@@ -52,8 +52,7 @@ public class InventoryCrafting implements IInventory {
 
 	@Override
 	public void setMaxStackSize(int size) {
-		int maxStack = size;
-		resultInventory.setMaxStackSize(size);
+        resultInventory.setMaxStackSize(size);
 	}
 
 	public InventoryCrafting(Container container, int i, int j, EntityHuman player) {

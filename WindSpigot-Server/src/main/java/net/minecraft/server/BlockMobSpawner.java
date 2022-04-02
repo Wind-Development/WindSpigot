@@ -36,9 +36,8 @@ public class BlockMobSpawner extends BlockContainer {
 
 	@Override
 	public int getExpDrop(World world, IBlockData iblockdata, int enchantmentLevel) {
-		int j = 15 + world.random.nextInt(15) + world.random.nextInt(15);
 
-		return j;
+		return 15 + world.random.nextInt(15) + world.random.nextInt(15);
 		// CraftBukkit end
 	}
 

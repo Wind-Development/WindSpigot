@@ -370,11 +370,7 @@ public class BlockRedstoneWire extends Block {
 		boolean flag = block.isOccluding();
 		boolean flag1 = iblockaccess.getType(blockposition.up()).getBlock().isOccluding();
 
-		return !flag1 && flag && e(iblockaccess, blockposition1.up()) ? true
-				: (a(iblockdata, enumdirection) ? true
-						: (block == Blocks.POWERED_REPEATER && iblockdata.get(BlockDirectional.FACING) == enumdirection
-								? true
-								: !flag && e(iblockaccess, blockposition1.down())));
+		return !flag1 && flag && e(iblockaccess, blockposition1.up()) || (a(iblockdata, enumdirection) || (block == Blocks.POWERED_REPEATER && iblockdata.get(BlockDirectional.FACING) == enumdirection || !flag && e(iblockaccess, blockposition1.down())));
 	}
 
 	protected static boolean e(IBlockAccess iblockaccess, BlockPosition blockposition) {
@@ -420,13 +416,13 @@ public class BlockRedstoneWire extends Block {
 				BlockRedstoneWire.SOUTH, BlockRedstoneWire.WEST, BlockRedstoneWire.POWER });
 	}
 
-	static enum EnumRedstoneWireConnection implements INamable {
+	enum EnumRedstoneWireConnection implements INamable {
 
 		UP("up"), SIDE("side"), NONE("none");
 
 		private final String d;
 
-		private EnumRedstoneWireConnection(String s) {
+		EnumRedstoneWireConnection(String s) {
 			this.d = s;
 		}
 

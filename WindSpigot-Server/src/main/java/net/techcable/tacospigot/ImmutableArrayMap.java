@@ -1,16 +1,10 @@
 package net.techcable.tacospigot;
 
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.BiConsumer;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+
+import java.util.*;
+import java.util.function.BiConsumer;
 
 public class ImmutableArrayMap<K, V> extends AbstractMap<K, V> implements Map<K, V> {
 	private final Indexer<K> indexer;
@@ -112,7 +106,6 @@ public class ImmutableArrayMap<K, V> extends AbstractMap<K, V> implements Map<K,
 	@Override
 	public Set<Entry<K, V>> entrySet() {
 		return new AbstractSet<Entry<K, V>>() {
-			@SuppressWarnings("unchecked")
 			@Override
 			public Iterator<Entry<K, V>> iterator() {
 				return Arrays.asList(entries).iterator();
@@ -151,8 +144,7 @@ public class ImmutableArrayMap<K, V> extends AbstractMap<K, V> implements Map<K,
 		int largestRangeSize = 0;
 		int[] largestRange = new int[3];
 		for (int minIndex = 0; minIndex < ids.length; minIndex++) {
-			final int min = ids[minIndex];
-			int lastNum = min;
+			int lastNum = ids[minIndex];
 			int maxIndex;
 			for (maxIndex = minIndex + 1; maxIndex < ids.length; maxIndex++) {
 				final int max = ids[maxIndex];

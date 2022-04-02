@@ -1,22 +1,17 @@
 package net.minecraft.server;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicInteger; // PaperSpigot
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.bukkit.Bukkit; // CraftBukkit
-
 import com.google.common.base.Predicate;
-import com.google.common.collect.Lists; // CraftBukkit
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.bukkit.Bukkit;
+
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Chunk {
 
@@ -111,9 +106,9 @@ public class Chunk {
 		case 1:
 			final int mask =
 					// x z offset x z offset x z offset
-					(0x1 << (1 * 5 + 1 + 12)) | (0x1 << (0 * 5 + 1 + 12)) | (0x1 << (-1 * 5 + 1 + 12))
-							| (0x1 << (1 * 5 + 0 + 12)) | (0x1 << (0 * 5 + 0 + 12)) | (0x1 << (-1 * 5 + 0 + 12))
-							| (0x1 << (1 * 5 + -1 + 12)) | (0x1 << (0 * 5 + -1 + 12)) | (0x1 << (-1 * 5 + -1 + 12));
+					(0x1 << (5 + 1 + 12)) | (0x1 << (1 + 12)) | (0x1 << (-1 * 5 + 1 + 12))
+							| (0x1 << (5 + 12)) | (0x1 << (12)) | (0x1 << (-1 * 5 + 12))
+							| (0x1 << (5 - 1 + 12)) | (0x1 << (0 - 1 + 12)) | (0x1 << (-1 * 5 - 1 + 12));
 			return (this.neighbors & mask) == mask;
 		default:
 			throw new UnsupportedOperationException(String.valueOf(radius));
@@ -714,21 +709,20 @@ public class Chunk {
 
 	public int getBrightness(EnumSkyBlock enumskyblock, int blockposition_x, int blockposition_y, int blockposition_z) {
 		int i = blockposition_x & 15;
-		int j = blockposition_y;
 		int k = blockposition_z & 15;
-		ChunkSection chunksection = this.sections[j >> 4];
+		ChunkSection chunksection = this.sections[blockposition_y >> 4];
 
 		if (chunksection == null) {
-			if (j >= this.heightMap[(k) << 4 | (i)]) {
+			if (blockposition_y >= this.heightMap[(k) << 4 | (i)]) {
 				return enumskyblock.c;
 			}
 		} else if (enumskyblock == EnumSkyBlock.SKY) {
 			if (!this.world.worldProvider.o()) {
-				return chunksection.d(i, j & 15, k);
+				return chunksection.d(i, blockposition_y & 15, k);
 			}
 		} else {
 			if (enumskyblock == EnumSkyBlock.BLOCK) {
-				return chunksection.e(i, j & 15, k);
+				return chunksection.e(i, blockposition_y & 15, k);
 			} else {
 				return enumskyblock.c;
 			}
@@ -897,10 +891,9 @@ public class Chunk {
 
 	public boolean isBelowHeightMap(int blockposition_x, int blockposition_y, int blockposition_z) {
 		int i = blockposition_x & 15;
-		int j = blockposition_y;
 		int k = blockposition_z & 15;
 
-		return j >= this.heightMap[k << 4 | i];
+		return blockposition_y >= this.heightMap[k << 4 | i];
 	}
 
 	private TileEntity i(BlockPosition blockposition) {
@@ -1198,7 +1191,7 @@ public class Chunk {
 			if (this.r && this.world.getTime() != this.lastSaved || this.q) {
 				return true;
 			}
-		} else if (this.r && this.world.getTime() >= this.lastSaved + MinecraftServer.getServer().autosavePeriod * 4) { // Spigot
+		} else if (this.r && this.world.getTime() >= this.lastSaved + MinecraftServer.getServer().autosavePeriod * 4L) { // Spigot
 																														// -
 																														// Only
 																														// save
@@ -1218,8 +1211,8 @@ public class Chunk {
 	}
 
 	public Random a(long i) {
-		return new Random(this.world.getSeed() + this.locX * this.locX * 4987142 + this.locX * 5947611
-				+ this.locZ * this.locZ * 4392871L + this.locZ * 389711 ^ i);
+		return new Random(this.world.getSeed() + (long) this.locX * this.locX * 4987142 + this.locX * 5947611L
+				+ this.locZ * this.locZ * 4392871L + this.locZ * 389711L ^ i);
 	}
 
 	public boolean isEmpty() {
@@ -1399,9 +1392,7 @@ public class Chunk {
 			Chunk.c.warn("Could not set level chunk sections, array length is " + achunksection.length + " instead of "
 					+ this.sections.length);
 		} else {
-			for (int i = 0; i < this.sections.length; ++i) {
-				this.sections[i] = achunksection[i];
-			}
+			System.arraycopy(achunksection, 0, this.sections, 0, this.sections.length);
 
 		}
 	}
@@ -1448,9 +1439,7 @@ public class Chunk {
 			Chunk.c.warn("Could not set level chunk biomes, array length is " + abyte.length + " instead of "
 					+ this.e.length);
 		} else {
-			for (int i = 0; i < this.e.length; ++i) {
-				this.e[i] = abyte[i];
-			}
+			System.arraycopy(abyte, 0, this.e, 0, this.e.length);
 
 		}
 	}
@@ -1615,9 +1604,7 @@ public class Chunk {
 			Chunk.c.warn("Could not set level chunk heightmap, array length is " + aint.length + " instead of "
 					+ this.heightMap.length);
 		} else {
-			for (int i = 0; i < this.heightMap.length; ++i) {
-				this.heightMap[i] = aint[i];
-			}
+			System.arraycopy(aint, 0, this.heightMap, 0, this.heightMap.length);
 
 		}
 	}
@@ -1670,11 +1657,11 @@ public class Chunk {
 		this.u = i;
 	}
 
-	public static enum EnumTileEntityState {
+	public enum EnumTileEntityState {
 
 		IMMEDIATE, QUEUED, CHECK;
 
-		private EnumTileEntityState() {
+		EnumTileEntityState() {
 		}
 	}
 }

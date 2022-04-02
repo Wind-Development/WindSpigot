@@ -100,8 +100,7 @@ public class KnockbackCommand extends Command {
 			break;
 		}
 		case 3: {
-			switch (args[0].toLowerCase()) {
-			case "set": {
+			if ("set".equalsIgnoreCase(args[0])) {
 				KnockbackProfile profile = KnockbackConfig.getKbProfileByName(args[1]);
 				if (profile == null) {
 					sender.sendMessage("§cA profile with that name could not be found.");
@@ -113,8 +112,6 @@ public class KnockbackCommand extends Command {
 					return false;
 				}
 				target.setKnockbackProfile(profile);
-				break;
-			}
 			}
 			break;
 		}

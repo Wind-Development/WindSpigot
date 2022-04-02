@@ -248,9 +248,9 @@ public enum EnumProtocol {
 	private static final EnumProtocol[] STATES = new EnumProtocol[loginId - handshakeId + 1]; // 4
 
 	private final Map<EnumProtocolDirection, BiMap<Integer, Class<? extends Packet<?>>>> _protocolLibPacketShim = Maps
-			.newEnumMap(EnumProtocolDirection.class);;
+			.newEnumMap(EnumProtocolDirection.class);
 
-	private static final Map<Class<? extends Packet<?>>, EnumProtocol> packetClass2State = Maps.newHashMap();
+    private static final Map<Class<? extends Packet<?>>, EnumProtocol> packetClass2State = Maps.newHashMap();
 
 	private final Object2IntMap<Class<? extends Packet<?>>> packetClassToId = new Object2IntOpenHashMap<>(16, 0.5f);
 	private final Map<EnumProtocolDirection, IntObjectMap<Supplier<Packet<?>>>> packetMap = Maps

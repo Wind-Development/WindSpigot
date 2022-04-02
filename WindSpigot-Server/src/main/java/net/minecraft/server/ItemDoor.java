@@ -45,11 +45,7 @@ public class ItemDoor extends Item {
 				|| world.getType(blockposition2.up()).getBlock() == block;
 		boolean flag1 = world.getType(blockposition1).getBlock() == block
 				|| world.getType(blockposition1.up()).getBlock() == block;
-		boolean flag2 = false;
-
-		if (flag && !flag1 || j > i) {
-			flag2 = true;
-		}
+		boolean flag2 = flag && !flag1 || j > i;
 
 		BlockPosition blockposition3 = blockposition.up();
 		IBlockData iblockdata = block.getBlockData().set(BlockDoor.FACING, enumdirection).set(BlockDoor.HINGE,

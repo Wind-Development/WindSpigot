@@ -1,48 +1,32 @@
 package net.minecraft.server;
 
-import java.io.File;
-import java.net.SocketAddress;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
+import com.eatthepath.uuid.FastUUID;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.mojang.authlib.GameProfile;
+import io.netty.buffer.Unpooled;
+import me.elier.nachospigot.config.NachoConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.TravelAgent;
-// CraftBukkit start
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.chunkio.ChunkIOExecutor;
 import org.bukkit.craftbukkit.inventory.CraftInventoryView;
 import org.bukkit.craftbukkit.util.CraftChatMessage;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerPortalEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
-// CraftBukkit end
 
-import com.eatthepath.uuid.FastUUID;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.mojang.authlib.GameProfile;
-
-import io.netty.buffer.Unpooled;
-import me.elier.nachospigot.config.NachoConfig;
+import java.io.File;
+import java.net.SocketAddress;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public abstract class PlayerList {
 
@@ -638,15 +622,13 @@ public abstract class PlayerList {
 		 * this.server.getWorldServer(entityplayer.dimension),
 		 * entityplayer.getProfile(), (PlayerInteractManager) object); //
 		 */
-		EntityPlayer entityplayer1 = entityplayer;
 		org.bukkit.World fromWorld = entityplayer.getBukkitEntity().getWorld();
 		entityplayer.viewingCredits = false;
 		// CraftBukkit end
 
-		entityplayer1.playerConnection = entityplayer.playerConnection;
-		entityplayer1.copyTo(entityplayer, flag);
-		entityplayer1.d(entityplayer.getId());
-		entityplayer1.o(entityplayer);
+		entityplayer.copyTo(entityplayer, flag);
+		entityplayer.d(entityplayer.getId());
+		entityplayer.o(entityplayer);
 		// WorldServer worldserver = this.server.getWorldServer(entityplayer.dimension);
 		// // CraftBukkit - handled later
 
@@ -664,8 +646,8 @@ public abstract class PlayerList {
 					location = new Location(cworld, blockposition1.getX() + 0.5, blockposition1.getY(),
 							blockposition1.getZ() + 0.5);
 				} else {
-					entityplayer1.setRespawnPosition(null, true);
-					entityplayer1.playerConnection.sendPacket(new PacketPlayOutGameStateChange(0, 0.0F));
+					entityplayer.setRespawnPosition(null, true);
+					entityplayer.playerConnection.sendPacket(new PacketPlayOutGameStateChange(0, 0.0F));
 				}
 			}
 
@@ -676,7 +658,7 @@ public abstract class PlayerList {
 						blockposition.getZ() + 0.5);
 			}
 
-			Player respawnPlayer = cserver.getPlayer(entityplayer1);
+			Player respawnPlayer = cserver.getPlayer(entityplayer);
 			PlayerRespawnEvent respawnEvent = new PlayerRespawnEvent(respawnPlayer, location, isBedSpawn);
 			cserver.getPluginManager().callEvent(respawnEvent);
 			// Spigot Start
@@ -691,46 +673,46 @@ public abstract class PlayerList {
 			location.setWorld(server.getWorldServer(i).getWorld());
 		}
 		WorldServer worldserver = ((CraftWorld) location.getWorld()).getHandle();
-		entityplayer1.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(),
+		entityplayer.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(),
 				location.getPitch());
 		// CraftBukkit end
 
-		worldserver.chunkProviderServer.getChunkAt((int) entityplayer1.locX >> 4, (int) entityplayer1.locZ >> 4);
+		worldserver.chunkProviderServer.getChunkAt((int) entityplayer.locX >> 4, (int) entityplayer.locZ >> 4);
 
-		while (avoidSuffocation && !worldserver.getCubes(entityplayer1, entityplayer1.getBoundingBox()).isEmpty()
-				&& entityplayer1.locY < 256.0D) {
-			entityplayer1.setPosition(entityplayer1.locX, entityplayer1.locY + 1.0D, entityplayer1.locZ);
+		while (avoidSuffocation && !worldserver.getCubes(entityplayer, entityplayer.getBoundingBox()).isEmpty()
+				&& entityplayer.locY < 256.0D) {
+			entityplayer.setPosition(entityplayer.locX, entityplayer.locY + 1.0D, entityplayer.locZ);
 		}
 		// CraftBukkit start
 		byte actualDimension = (byte) (worldserver.getWorld().getEnvironment().getId());
 		// Force the client to refresh their chunk cache
 		if (fromWorld.getEnvironment() == worldserver.getWorld().getEnvironment()) {
-			entityplayer1.playerConnection.sendPacket(
+			entityplayer.playerConnection.sendPacket(
 					new PacketPlayOutRespawn((byte) (actualDimension >= 0 ? -1 : 0), worldserver.getDifficulty(),
 							worldserver.getWorldData().getType(), entityplayer.playerInteractManager.getGameMode()));
 		}
-		entityplayer1.playerConnection.sendPacket(new PacketPlayOutRespawn(actualDimension, worldserver.getDifficulty(),
-				worldserver.getWorldData().getType(), entityplayer1.playerInteractManager.getGameMode()));
-		entityplayer1.spawnIn(worldserver);
-		entityplayer1.dead = false;
-		entityplayer1.playerConnection.teleport(new Location(worldserver.getWorld(), entityplayer1.locX,
-				entityplayer1.locY, entityplayer1.locZ, entityplayer1.yaw, entityplayer1.pitch));
-		entityplayer1.setSneaking(false);
+		entityplayer.playerConnection.sendPacket(new PacketPlayOutRespawn(actualDimension, worldserver.getDifficulty(),
+				worldserver.getWorldData().getType(), entityplayer.playerInteractManager.getGameMode()));
+		entityplayer.spawnIn(worldserver);
+		entityplayer.dead = false;
+		entityplayer.playerConnection.teleport(new Location(worldserver.getWorld(), entityplayer.locX,
+				entityplayer.locY, entityplayer.locZ, entityplayer.yaw, entityplayer.pitch));
+		entityplayer.setSneaking(false);
 		blockposition1 = worldserver.getSpawn();
 		// entityplayer1.playerConnection.a(entityplayer1.locX, entityplayer1.locY,
 		// entityplayer1.locZ, entityplayer1.yaw, entityplayer1.pitch);
-		entityplayer1.playerConnection.sendPacket(new PacketPlayOutSpawnPosition(blockposition1));
-		entityplayer1.playerConnection.sendPacket(
-				new PacketPlayOutExperience(entityplayer1.exp, entityplayer1.expTotal, entityplayer1.expLevel));
-		this.b(entityplayer1, worldserver);
+		entityplayer.playerConnection.sendPacket(new PacketPlayOutSpawnPosition(blockposition1));
+		entityplayer.playerConnection.sendPacket(
+				new PacketPlayOutExperience(entityplayer.exp, entityplayer.expTotal, entityplayer.expLevel));
+		this.b(entityplayer, worldserver);
 
 		if (!entityplayer.playerConnection.isDisconnected()) {
-			worldserver.getPlayerChunkMap().addPlayer(entityplayer1);
-			worldserver.addEntity(entityplayer1);
-			this.players.add(entityplayer1);
-			this.playersByName.put(entityplayer1.getName(), entityplayer1); // Spigot
-			this.playerMap.put(entityplayer1.getName(), entityplayer1); // PaperSpigot
-			this.uuidMap.put(entityplayer1.getUniqueID(), entityplayer1);
+			worldserver.getPlayerChunkMap().addPlayer(entityplayer);
+			worldserver.addEntity(entityplayer);
+			this.players.add(entityplayer);
+			this.playersByName.put(entityplayer.getName(), entityplayer); // Spigot
+			this.playerMap.put(entityplayer.getName(), entityplayer); // PaperSpigot
+			this.uuidMap.put(entityplayer.getUniqueID(), entityplayer);
 		}
 		// Added from changeDimension
 		updateClient(entityplayer); // Update health, etc...
@@ -741,7 +723,7 @@ public abstract class PlayerList {
 		}
 		// entityplayer1.syncInventory();
 		// CraftBukkit end
-		entityplayer1.setHealth(entityplayer1.getHealth());
+		entityplayer.setHealth(entityplayer.getHealth());
 
 		// CraftBukkit start
 		// Don't fire on respawn
@@ -755,7 +737,7 @@ public abstract class PlayerList {
 			this.savePlayerFile(entityplayer);
 		}
 		// CraftBukkit end
-		return entityplayer1;
+		return entityplayer;
 	}
 
 	// CraftBukkit start - Replaced the standard handling of portals with a more

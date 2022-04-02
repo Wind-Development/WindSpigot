@@ -105,8 +105,7 @@ public class EntityIronGolem extends EntityGolem {
 
 	@Override
 	public boolean a(Class<? extends EntityLiving> oclass) {
-		return this.isPlayerCreated() && EntityHuman.class.isAssignableFrom(oclass) ? false
-				: (oclass == EntityCreeper.class ? false : super.a(oclass));
+		return (!this.isPlayerCreated() || !EntityHuman.class.isAssignableFrom(oclass)) && (oclass != EntityCreeper.class && super.a(oclass));
 	}
 
 	@Override

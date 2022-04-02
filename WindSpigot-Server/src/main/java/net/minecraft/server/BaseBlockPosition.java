@@ -30,8 +30,7 @@ public class BaseBlockPosition implements Comparable<BaseBlockPosition> {
 		} else {
 			BaseBlockPosition baseblockposition = (BaseBlockPosition) object;
 
-			return this.getX() != baseblockposition.getX() ? false
-					: (this.getY() != baseblockposition.getY() ? false : this.getZ() == baseblockposition.getZ());
+			return this.getX() == baseblockposition.getX() && (this.getY() == baseblockposition.getY() && this.getZ() == baseblockposition.getZ());
 		}
 	}
 

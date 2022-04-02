@@ -97,7 +97,7 @@ public class EntityPainting extends EntityHanging {
 		this.setPosition(blockposition.getX(), blockposition.getY(), blockposition.getZ());
 	}
 
-	public static enum EnumArt {
+	public enum EnumArt {
 
 		KEBAB("Kebab", 16, 16, 0, 0), AZTEC("Aztec", 16, 16, 16, 0), ALBAN("Alban", 16, 16, 32, 0),
 		AZTEC_2("Aztec2", 16, 16, 48, 0), BOMB("Bomb", 16, 16, 64, 0), PLANT("Plant", 16, 16, 80, 0),
@@ -117,7 +117,7 @@ public class EntityPainting extends EntityHanging {
 		public final int E;
 		public final int F;
 
-		private EnumArt(String s, int i, int j, int k, int l) {
+		EnumArt(String s, int i, int j, int k, int l) {
 			this.B = s;
 			this.C = i;
 			this.D = j;

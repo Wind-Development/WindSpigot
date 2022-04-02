@@ -1,9 +1,9 @@
 package me.elier.nachospigot.config;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.util.List;
 
 public class NachoWorldConfig {
 
@@ -58,7 +58,7 @@ public class NachoWorldConfig {
 				config.getFloat("world-settings.default." + path));
 	}
 
-	private <T> List getList(String path, T def) {
+	private <T> List<?> getList(String path, T def) {
 		config.addDefault("world-settings.default." + path, def);
 		return config.getList("world-settings." + worldName + "." + path,
 				config.getList("world-settings.default." + path));

@@ -340,8 +340,7 @@ public class ContainerAnvil extends Container {
 		if (!this.checkReachable) {
 			return true; // CraftBukkit
 		}
-		return this.i.getType(this.j).getBlock() != Blocks.ANVIL ? false
-				: entityhuman.e(this.j.getX() + 0.5D, this.j.getY() + 0.5D, this.j.getZ() + 0.5D) <= 64.0D;
+		return this.i.getType(this.j).getBlock() == Blocks.ANVIL && entityhuman.e(this.j.getX() + 0.5D, this.j.getY() + 0.5D, this.j.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override

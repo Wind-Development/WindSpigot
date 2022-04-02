@@ -123,7 +123,7 @@ public class TileEntityBanner extends TileEntity {
 		}
 	}
 
-	public static enum EnumBannerPatternType {
+	public enum EnumBannerPatternType {
 
 		BASE("base", "b"), SQUARE_BOTTOM_LEFT("square_bottom_left", "bl", "   ", "   ", "#  "),
 		SQUARE_BOTTOM_RIGHT("square_bottom_right", "br", "   ", "   ", "  #"),
@@ -158,23 +158,23 @@ public class TileEntityBanner extends TileEntity {
 		FLOWER("flower", "flo", new ItemStack(Blocks.RED_FLOWER, 1, BlockFlowers.EnumFlowerVarient.OXEYE_DAISY.b())),
 		MOJANG("mojang", "moj", new ItemStack(Items.GOLDEN_APPLE, 1, 1));
 
-		private String N;
-		private String O;
-		private String[] P;
+		private final String N;
+		private final String O;
+		private final String[] P;
 		private ItemStack Q;
 
-		private EnumBannerPatternType(String s, String s1) {
+		EnumBannerPatternType(String s, String s1) {
 			this.P = new String[3];
 			this.N = s;
 			this.O = s1;
 		}
 
-		private EnumBannerPatternType(String s, String s1, ItemStack itemstack) {
+		EnumBannerPatternType(String s, String s1, ItemStack itemstack) {
 			this(s, s1);
 			this.Q = itemstack;
 		}
 
-		private EnumBannerPatternType(String s, String s1, String s2, String s3, String s4) {
+		EnumBannerPatternType(String s, String s1, String s2, String s3, String s4) {
 			this(s, s1);
 			this.P[0] = s2;
 			this.P[1] = s3;

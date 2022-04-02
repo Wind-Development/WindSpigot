@@ -1,5 +1,7 @@
 package net.minecraft.server;
 
+import java.util.Collections;
+
 public class RecipesBanner {
 
 	public RecipesBanner() {
@@ -29,7 +31,7 @@ public class RecipesBanner {
 
 		// CraftBukkit start - Delegate to new parent class with bogus info
 		private AddRecipe() {
-			super(new ItemStack(Items.BANNER, 0, 0), java.util.Arrays.asList(new ItemStack(Items.BANNER)));
+			super(new ItemStack(Items.BANNER, 0, 0), Collections.singletonList(new ItemStack(Items.BANNER)));
 		}
 		// CraftBukkit end
 
@@ -231,7 +233,7 @@ public class RecipesBanner {
 
 		// CraftBukkit start - Delegate to new parent class with bogus info
 		private DuplicateRecipe() {
-			super(new ItemStack(Items.BANNER, 0, 0), java.util.Arrays.asList(new ItemStack(Items.DYE, 0, 5)));
+			super(new ItemStack(Items.BANNER, 0, 0), Collections.singletonList(new ItemStack(Items.DYE, 0, 5)));
 		}
 		// CraftBukkit end
 

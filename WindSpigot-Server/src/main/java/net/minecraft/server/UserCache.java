@@ -118,7 +118,7 @@ public class UserCache {
 		}
 
 		String s = gameprofile.getName().toLowerCase(Locale.ROOT);
-		UserCache.UserCacheEntry usercache_usercacheentry = new UserCache.UserCacheEntry(gameprofile, date, null);
+		UserCache.UserCacheEntry usercache_usercacheentry = new UserCacheEntry(gameprofile, date, null);
 
 		if (this.d.containsKey(uuid)) {
 			UserCache.UserCacheEntry usercache_usercacheentry1 = this.d.get(uuid);
@@ -229,9 +229,8 @@ public class UserCache {
 			return;
 		} catch (FileNotFoundException filenotfoundexception) {
 			return;
-		} catch (IOException ioexception) {
-			;
-		} finally {
+		} catch (IOException ignored) {
+        } finally {
 			IOUtils.closeQuietly(bufferedwriter);
 		}
 
@@ -254,7 +253,7 @@ public class UserCache {
 		return arraylist;
 	}
 
-	class UserCacheEntry {
+	static class UserCacheEntry {
 
 		private final GameProfile b;
 		private final Date c;
@@ -325,10 +324,8 @@ public class UserCache {
 							return null;
 						}
 
-						UserCache.UserCacheEntry usercache_usercacheentry = UserCache.this.new UserCacheEntry(
+						return new UserCacheEntry(
 								new GameProfile(uuid, s1), date, null);
-
-						return usercache_usercacheentry;
 					} else {
 						return null;
 					}

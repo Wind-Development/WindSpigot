@@ -100,11 +100,10 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 		var2.writeByte(255);
 		char[] var3 = var1.toCharArray();
 		var2.writeShort(var3.length);
-		char[] var4 = var3;
 		int var5 = var3.length;
 
 		for (int var6 = 0; var6 < var5; ++var6) {
-			char var7 = var4[var6];
+			char var7 = var3[var6];
 			var2.writeChar(var7);
 		}
 		return var2;

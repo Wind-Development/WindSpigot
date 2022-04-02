@@ -14,7 +14,7 @@ public class ContainerBeacon extends Container {
 	public ContainerBeacon(IInventory iinventory, IInventory iinventory1) {
 		player = (PlayerInventory) iinventory; // CraftBukkit - TODO: check this
 		this.beacon = iinventory1;
-		this.a(this.f = new ContainerBeacon.SlotBeacon(iinventory1, 0, 136, 110));
+		this.a(this.f = new SlotBeacon(iinventory1, 0, 136, 110));
 		byte b0 = 36;
 		short short0 = 137;
 
@@ -110,7 +110,7 @@ public class ContainerBeacon extends Container {
 		return itemstack;
 	}
 
-	class SlotBeacon extends Slot {
+	static class SlotBeacon extends Slot {
 
 		public SlotBeacon(IInventory iinventory, int i, int j, int k) {
 			super(iinventory, i, j, k);
@@ -118,9 +118,8 @@ public class ContainerBeacon extends Container {
 
 		@Override
 		public boolean isAllowed(ItemStack itemstack) {
-			return itemstack == null ? false
-					: itemstack.getItem() == Items.EMERALD || itemstack.getItem() == Items.DIAMOND
-							|| itemstack.getItem() == Items.GOLD_INGOT || itemstack.getItem() == Items.IRON_INGOT;
+			return itemstack != null && (itemstack.getItem() == Items.EMERALD || itemstack.getItem() == Items.DIAMOND
+                    || itemstack.getItem() == Items.GOLD_INGOT || itemstack.getItem() == Items.IRON_INGOT);
 		}
 
 		@Override

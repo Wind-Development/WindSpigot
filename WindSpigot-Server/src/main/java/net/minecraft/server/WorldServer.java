@@ -903,8 +903,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 
 				try {
 					this.a(crashreport);
-				} catch (Throwable throwable1) {
-					;
+				} catch (Throwable ignored) {
 				}
 
 				throw new ReportedException(crashreport);
@@ -1194,8 +1193,8 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 	private boolean a(BlockActionData blockactiondata) {
 		IBlockData iblockdata = this.getType(blockactiondata.a());
 
-		return iblockdata.getBlock() == blockactiondata.d() ? iblockdata.getBlock().a(this, blockactiondata.a(),
-				iblockdata, blockactiondata.b(), blockactiondata.c()) : false;
+		return iblockdata.getBlock() == blockactiondata.d() && iblockdata.getBlock().a(this, blockactiondata.a(),
+				iblockdata, blockactiondata.b(), blockactiondata.c());
 	}
 
 	public void saveLevel() {

@@ -78,8 +78,8 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 		}
 
 		f = 1.0F - f;
-		int j = this.bl - i * 1 & 63;
-		int k = this.bl - i * 1 - 1 & 63;
+		int j = this.bl - i & 63;
+		int k = this.bl - i - 1 & 63;
 		double[] adouble = new double[3];
 		double d0 = this.bk[j][0];
 		double d1 = MathHelper.g(this.bk[k][0] - d0);
@@ -216,8 +216,8 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 					}
 
 					this.bb *= 0.8F;
-					float f5 = MathHelper.sqrt(this.motX * this.motX + this.motZ * this.motZ) * 1.0F + 1.0F;
-					double d10 = Math.sqrt(this.motX * this.motX + this.motZ * this.motZ) * 1.0D + 1.0D;
+					float f5 = MathHelper.sqrt(this.motX * this.motX + this.motZ * this.motZ) + 1.0F;
+					double d10 = Math.sqrt(this.motX * this.motX + this.motZ * this.motZ) + 1.0D;
 
 					if (d10 > 40.0D) {
 						d10 = 40.0D;
@@ -287,7 +287,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 
 				this.bn.t_();
 				this.bn.setPositionRotation(this.locX + f3 * 5.5F * f2,
-						this.locY + (adouble1[1] - adouble[1]) * 1.0D + f9 * 5.5F, this.locZ - f13 * 5.5F * f2, 0.0F,
+						this.locY + (adouble1[1] - adouble[1]) + f9 * 5.5F, this.locZ - f13 * 5.5F * f2, 0.0F,
 						0.0F);
 
 				for (int j = 0; j < 3; ++j) {
@@ -307,7 +307,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 
 					double[] adouble2 = this.b(12 + j * 2, 1.0F);
 					float f14 = this.yaw * 3.1415927F / 180.0F
-							+ this.b(adouble2[0] - adouble[0]) * 3.1415927F / 180.0F * 1.0F;
+							+ this.b(adouble2[0] - adouble[0]) * 3.1415927F / 180.0F;
 					float f15 = MathHelper.sin(f14);
 					float f16 = MathHelper.cos(f14);
 					float f17 = 1.5F;
@@ -315,7 +315,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 
 					entitycomplexpart.t_();
 					entitycomplexpart.setPositionRotation(this.locX - (f11 * f17 + f15 * f18) * f2,
-							this.locY + (adouble2[1] - adouble[1]) * 1.0D - (f18 + f17) * f9 + 1.5D,
+							this.locY + (adouble2[1] - adouble[1]) - (f18 + f17) * f9 + 1.5D,
 							this.locZ + (f12 * f17 + f16 * f18) * f2, 0.0F, 0.0F);
 				}
 

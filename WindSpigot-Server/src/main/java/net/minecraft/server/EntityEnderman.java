@@ -1,20 +1,12 @@
 package net.minecraft.server;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
-
-import org.bukkit.Location;
-import org.bukkit.event.entity.EntityTeleportEvent;
-// CraftBukkit end
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
-
-// CraftBukkit start
 import dev.cobblesword.nachospigot.commons.Constants;
+import org.bukkit.Location;
+import org.bukkit.event.entity.EntityTeleportEvent;
+
+import java.util.*;
 
 public class EntityEnderman extends EntityMonster {
 
@@ -62,9 +54,9 @@ public class EntityEnderman extends EntityMonster {
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(16, new Short((short) 0));
-		this.datawatcher.a(17, new Byte((byte) 0));
-		this.datawatcher.a(18, new Byte((byte) 0));
+		this.datawatcher.a(16, (short) 0);
+		this.datawatcher.a(17, (byte) 0);
+		this.datawatcher.a(18, (byte) 0);
 	}
 
 	@Override
@@ -107,7 +99,7 @@ public class EntityEnderman extends EntityMonster {
 			vec3d1 = vec3d1.a();
 			double d1 = vec3d.b(vec3d1);
 
-			return d1 > 1.0D - 0.025D / d0 ? entityhuman.hasLineOfSight(this) : false;
+			return d1 > 1.0D - 0.025D / d0 && entityhuman.hasLineOfSight(this);
 		}
 	}
 
@@ -376,9 +368,7 @@ public class EntityEnderman extends EntityMonster {
 
 		@Override
 		public boolean a() {
-			return !this.enderman.world.getGameRules().getBoolean("mobGriefing") ? false
-					: (this.enderman.getCarried().getBlock().getMaterial() != Material.AIR ? false
-							: this.enderman.bc().nextInt(20) == 0);
+			return this.enderman.world.getGameRules().getBoolean("mobGriefing") && (this.enderman.getCarried().getBlock().getMaterial() == Material.AIR && this.enderman.bc().nextInt(20) == 0);
 		}
 
 		@Override
@@ -417,9 +407,7 @@ public class EntityEnderman extends EntityMonster {
 
 		@Override
 		public boolean a() {
-			return !this.a.world.getGameRules().getBoolean("mobGriefing") ? false
-					: (this.a.getCarried().getBlock().getMaterial() == Material.AIR ? false
-							: this.a.bc().nextInt(2000) == 0);
+			return this.a.world.getGameRules().getBoolean("mobGriefing") && (this.a.getCarried().getBlock().getMaterial() != Material.AIR && this.a.bc().nextInt(2000) == 0);
 		}
 
 		@Override
@@ -449,9 +437,7 @@ public class EntityEnderman extends EntityMonster {
 		}
 
 		private boolean a(World world, BlockPosition blockposition, Block block, Block block1, Block block2) {
-			return !block.canPlace(world, blockposition) ? false
-					: (block1.getMaterial() != Material.AIR ? false
-							: (block2.getMaterial() == Material.AIR ? false : block2.d()));
+			return block.canPlace(world, blockposition) && (block1.getMaterial() == Material.AIR && (block2.getMaterial() != Material.AIR && block2.d()));
 		}
 	}
 

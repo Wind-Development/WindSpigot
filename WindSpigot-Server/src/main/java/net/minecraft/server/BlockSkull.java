@@ -172,7 +172,7 @@ public class BlockSkull extends BlockContainer {
 
 	public boolean b(World world, BlockPosition blockposition, ItemStack itemstack) {
 		return itemstack.getData() == 1 && blockposition.getY() >= 2 && world.getDifficulty() != EnumDifficulty.PEACEFUL
-				&& !world.isClientSide ? this.l().a(world, blockposition) != null : false;
+                && !world.isClientSide && this.l().a(world, blockposition) != null;
 	}
 
 	public void a(World world, BlockPosition blockposition, TileEntitySkull tileentityskull) {
@@ -311,33 +311,28 @@ public class BlockSkull extends BlockContainer {
 		static {
 			try {
 				BlockSkull.SyntheticClass_1.a[EnumDirection.UP.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockSkull.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockSkull.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockSkull.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockSkull.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 		}
 	}

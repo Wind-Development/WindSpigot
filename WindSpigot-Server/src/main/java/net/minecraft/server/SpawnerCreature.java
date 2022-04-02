@@ -1,16 +1,13 @@
 package net.minecraft.server;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
+import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import org.bukkit.craftbukkit.util.LongHash;
 import org.bukkit.craftbukkit.util.LongHashSet;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-// CraftBukkit end
 
-// CraftBukkit start
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 public final class SpawnerCreature {
 
@@ -265,7 +262,7 @@ public final class SpawnerCreature {
 		}
 	}
 
-	protected static BlockPosition getRandomPosition(World world, int i, int j) {
+	private static BlockPosition getRandomPosition(World world, int i, int j) {
 		Chunk chunk = world.getChunkAt(i, j);
 		int k = i * 16 + world.random.nextInt(16);
 		int l = j * 16 + world.random.nextInt(16);

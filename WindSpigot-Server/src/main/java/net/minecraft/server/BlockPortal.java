@@ -31,8 +31,7 @@ public class BlockPortal extends BlockHalfTransparent {
 
 			for (blockposition1 = blockposition; !World.a(world, blockposition1)
 					&& blockposition1.getY() > 0; blockposition1 = blockposition1.down()) {
-				;
-			}
+            }
 
 			if (i > 0 && !world.getType(blockposition1.up()).getBlock().isOccluding()) {
 				// CraftBukkit - set spawn reason to NETHER_PORTAL
@@ -248,8 +247,7 @@ public class BlockPortal extends BlockHalfTransparent {
 			for (BlockPosition blockposition1 = blockposition; blockposition.getY() > blockposition1.getY() - 21
 					&& blockposition.getY() > 0
 					&& this.a(world.getType(blockposition.down()).getBlock()); blockposition = blockposition.down()) {
-				;
-			}
+            }
 
 			int i = this.a(blockposition, this.d) - 1;
 

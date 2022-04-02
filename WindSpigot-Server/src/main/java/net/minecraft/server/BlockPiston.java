@@ -1,15 +1,14 @@
 package net.minecraft.server;
 
 // CraftBukkit start
-import java.util.AbstractList;
-import java.util.List;
-
-import org.bukkit.craftbukkit.block.CraftBlock;
-import org.bukkit.event.block.BlockPistonExtendEvent;
-// CraftBukkit end
-import org.bukkit.event.block.BlockPistonRetractEvent;
 
 import com.google.common.collect.ImmutableList;
+import org.bukkit.craftbukkit.block.CraftBlock;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
+
+import java.util.AbstractList;
+import java.util.List;
 
 public class BlockPiston extends Block {
 
@@ -312,11 +311,7 @@ public class BlockPiston extends Block {
 					}
 
 					if (block.k() == 1) {
-						if (!flag) {
-							return false;
-						}
-
-						return true;
+						return flag;
 					}
 				} else if (world.getType(blockposition).get(BlockPiston.EXTENDED).booleanValue()) {
 					return false;
@@ -488,39 +483,33 @@ public class BlockPiston extends Block {
 		static {
 			try {
 				BlockPiston.SyntheticClass_1.a[EnumDirection.DOWN.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockPiston.SyntheticClass_1.a[EnumDirection.UP.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockPiston.SyntheticClass_1.a[EnumDirection.NORTH.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockPiston.SyntheticClass_1.a[EnumDirection.SOUTH.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockPiston.SyntheticClass_1.a[EnumDirection.WEST.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				BlockPiston.SyntheticClass_1.a[EnumDirection.EAST.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror5) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 		}
 	}

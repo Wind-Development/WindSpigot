@@ -895,7 +895,7 @@ public abstract class EntityInsentient extends EntityLiving {
 				}
 			}
 
-			return this.a(entityhuman) ? true : super.e(entityhuman);
+			return this.a(entityhuman) || super.e(entityhuman);
 		}
 	}
 
@@ -1030,11 +1030,11 @@ public abstract class EntityInsentient extends EntityLiving {
 		return this.datawatcher.getByte(15) != 0;
 	}
 
-	public static enum EnumEntityPositionType {
+	public enum EnumEntityPositionType {
 
 		ON_GROUND, IN_AIR, IN_WATER;
 
-		private EnumEntityPositionType() {
+		EnumEntityPositionType() {
 		}
 	}
 }

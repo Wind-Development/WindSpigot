@@ -101,9 +101,8 @@ public class PathfinderGoalSelector {
 
 	private boolean a(
 			PathfinderGoalSelector.PathfinderGoalSelectorItem pathfindergoalselector_pathfindergoalselectoritem) {
-		boolean flag = pathfindergoalselector_pathfindergoalselectoritem.a.b();
 
-		return flag;
+        return pathfindergoalselector_pathfindergoalselectoritem.a.b();
 	}
 
 	private boolean b(

@@ -170,7 +170,7 @@ public class LoginListener implements PacketLoginInListener, IUpdatePlayerListBo
 	public String d() {
 		String socketAddress = networkManager == null ? "null"
 				: (networkManager.getSocketAddress() == null ? "null" : networkManager.getSocketAddress().toString());
-		return this.i != null ? this.i.toString() + " (" + socketAddress + ")" : socketAddress;
+		return this.i != null ? this.i + " (" + socketAddress + ")" : socketAddress;
 	}
 
 	@Override
@@ -311,11 +311,11 @@ public class LoginListener implements PacketLoginInListener, IUpdatePlayerListBo
 		return new GameProfile(uuid, gameprofile.getName());
 	}
 
-	static enum EnumProtocolState {
+	enum EnumProtocolState {
 
 		HELLO, KEY, AUTHENTICATING, READY_TO_ACCEPT, e, ACCEPTED;
 
-		private EnumProtocolState() {
+		EnumProtocolState() {
 		}
 	}
 }

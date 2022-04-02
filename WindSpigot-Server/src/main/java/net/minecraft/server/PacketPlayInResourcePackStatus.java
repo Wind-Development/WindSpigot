@@ -27,11 +27,11 @@ public class PacketPlayInResourcePackStatus implements Packet<PacketListenerPlay
 		packetlistenerplayin.a(this);
 	}
 
-	public static enum EnumResourcePackStatus {
+	public enum EnumResourcePackStatus {
 
 		SUCCESSFULLY_LOADED, DECLINED, FAILED_DOWNLOAD, ACCEPTED;
 
-		private EnumResourcePackStatus() {
+		EnumResourcePackStatus() {
 		}
 	}
 }

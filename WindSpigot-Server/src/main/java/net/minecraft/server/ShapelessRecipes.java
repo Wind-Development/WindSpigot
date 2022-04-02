@@ -1,15 +1,12 @@
 package net.minecraft.server;
 
+import com.google.common.collect.Lists;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.inventory.CraftShapelessRecipe;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-// CraftBukkit start
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
-import org.bukkit.craftbukkit.inventory.CraftShapelessRecipe;
-// CraftBukkit end
-
-import com.google.common.collect.Lists;
 
 public class ShapelessRecipes implements IRecipe {
 
@@ -23,7 +20,6 @@ public class ShapelessRecipes implements IRecipe {
 
 	// CraftBukkit start
 	@Override
-	@SuppressWarnings("unchecked")
 	public org.bukkit.inventory.ShapelessRecipe toBukkitRecipe() {
 		CraftItemStack result = CraftItemStack.asCraftMirror(this.result);
 		CraftShapelessRecipe recipe = new CraftShapelessRecipe(result, this);

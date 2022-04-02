@@ -1,18 +1,15 @@
 package net.minecraft.server;
 
-import java.util.Iterator;
-import java.util.Map;
-
-// CraftBukkit start
+import com.google.common.collect.Maps;
 import org.bukkit.Location;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 import org.bukkit.util.Vector;
-// CraftBukkit end
 
-import com.google.common.collect.Maps;
+import java.util.Iterator;
+import java.util.Map;
 
 public abstract class EntityMinecartAbstract extends Entity implements INamableTileEntity {
 
@@ -79,12 +76,12 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 
 	@Override
 	protected void h() {
-		this.datawatcher.a(17, new Integer(0));
-		this.datawatcher.a(18, new Integer(1));
-		this.datawatcher.a(19, new Float(0.0F));
-		this.datawatcher.a(20, new Integer(0));
-		this.datawatcher.a(21, new Integer(6));
-		this.datawatcher.a(22, Byte.valueOf((byte) 0));
+		this.datawatcher.a(17, 0);
+		this.datawatcher.a(18, 1);
+		this.datawatcher.a(19, 0.0F);
+		this.datawatcher.a(20, 0);
+		this.datawatcher.a(21, 6);
+		this.datawatcher.a(22, (byte) 0);
 	}
 
 	@Override
@@ -918,76 +915,66 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.b[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_EAST
 						.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.b[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_WEST
 						.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.b[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_NORTH
 						.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.b[BlockMinecartTrackAbstract.EnumTrackPosition.ASCENDING_SOUTH
 						.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror3) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			a = new int[EntityMinecartAbstract.EnumMinecartType.values().length];
 
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.CHEST.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror4) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.FURNACE
 						.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror5) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.TNT.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror6) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.SPAWNER
 						.ordinal()] = 4;
-			} catch (NoSuchFieldError nosuchfielderror7) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.HOPPER.ordinal()] = 5;
-			} catch (NoSuchFieldError nosuchfielderror8) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				EntityMinecartAbstract.SyntheticClass_1.a[EntityMinecartAbstract.EnumMinecartType.COMMAND_BLOCK
 						.ordinal()] = 6;
-			} catch (NoSuchFieldError nosuchfielderror9) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}
 	}
 
-	public static enum EnumMinecartType {
+	public enum EnumMinecartType {
 
 		RIDEABLE(0, "MinecartRideable"), CHEST(1, "MinecartChest"), FURNACE(2, "MinecartFurnace"),
 		TNT(3, "MinecartTNT"), SPAWNER(4, "MinecartSpawner"), HOPPER(5, "MinecartHopper"),
@@ -997,7 +984,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 		private final int i;
 		private final String j;
 
-		private EnumMinecartType(int i, String s) {
+		EnumMinecartType(int i, String s) {
 			this.i = i;
 			this.j = s;
 		}

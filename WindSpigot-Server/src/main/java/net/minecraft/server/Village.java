@@ -332,7 +332,7 @@ public class Village {
 		Block block = iblockdata.getBlock();
 		// Paper end
 
-		return block instanceof BlockDoor ? block.getMaterial() == Material.WOOD : false;
+		return block instanceof BlockDoor && block.getMaterial() == Material.WOOD;
 	}
 
 	private void n() {

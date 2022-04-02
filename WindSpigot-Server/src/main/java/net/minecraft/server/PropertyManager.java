@@ -32,9 +32,8 @@ public class PropertyManager {
 				if (fileinputstream != null) {
 					try {
 						fileinputstream.close();
-					} catch (IOException ioexception) {
-						;
-					}
+					} catch (IOException ignored) {
+                    }
 				}
 
 			}
@@ -87,9 +86,8 @@ public class PropertyManager {
 			if (fileoutputstream != null) {
 				try {
 					fileoutputstream.close();
-				} catch (IOException ioexception) {
-					;
-				}
+				} catch (IOException ignored) {
+                }
 			}
 
 		}

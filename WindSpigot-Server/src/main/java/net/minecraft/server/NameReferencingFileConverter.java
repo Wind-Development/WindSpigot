@@ -1,21 +1,5 @@
 package net.minecraft.server;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.eatthepath.uuid.FastUUID;
 import com.google.common.base.Charsets;
 import com.google.common.base.Predicate;
@@ -27,6 +11,13 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.ProfileLookupCallback;
 import com.mojang.authlib.yggdrasil.ProfileNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.*;
 
 public class NameReferencingFileConverter {
 
@@ -72,11 +63,10 @@ public class NameReferencingFileConverter {
 			minecraftserver.getGameProfileRepository().findProfilesByNames(astring, Agent.MINECRAFT,
 					profilelookupcallback);
 		} else {
-			String[] astring1 = astring;
-			int i = astring.length;
+            int i = astring.length;
 
 			for (int j = 0; j < i; ++j) {
-				String s = astring1[j];
+				String s = astring[j];
 				UUID uuid = EntityHuman.a(new GameProfile((UUID) null, s));
 				GameProfile gameprofile = new GameProfile(uuid, s);
 
@@ -347,11 +337,10 @@ public class NameReferencingFileConverter {
 		if (file.exists() && file.isDirectory()) {
 			File[] afile = file.listFiles();
 			ArrayList arraylist = Lists.newArrayList();
-			File[] afile1 = afile;
-			int i = afile.length;
+            int i = afile.length;
 
 			for (int j = 0; j < i; ++j) {
-				File file3 = afile1[j];
+				File file3 = afile[j];
 				String s = file3.getName();
 
 				if (s.toLowerCase(Locale.ROOT).endsWith(".dat")) {
@@ -480,29 +469,13 @@ public class NameReferencingFileConverter {
 	}
 
 	private static boolean b(PropertyManager propertymanager) {
-		boolean flag = false;
+		boolean flag = NameReferencingFileConverter.b.exists() && NameReferencingFileConverter.b.isFile();
 
-		if (NameReferencingFileConverter.b.exists() && NameReferencingFileConverter.b.isFile()) {
-			flag = true;
-		}
+		boolean flag1 = NameReferencingFileConverter.a.exists() && NameReferencingFileConverter.a.isFile();
 
-		boolean flag1 = false;
+		boolean flag2 = NameReferencingFileConverter.c.exists() && NameReferencingFileConverter.c.isFile();
 
-		if (NameReferencingFileConverter.a.exists() && NameReferencingFileConverter.a.isFile()) {
-			flag1 = true;
-		}
-
-		boolean flag2 = false;
-
-		if (NameReferencingFileConverter.c.exists() && NameReferencingFileConverter.c.isFile()) {
-			flag2 = true;
-		}
-
-		boolean flag3 = false;
-
-		if (NameReferencingFileConverter.d.exists() && NameReferencingFileConverter.d.isFile()) {
-			flag3 = true;
-		}
+		boolean flag3 = NameReferencingFileConverter.d.exists() && NameReferencingFileConverter.d.isFile();
 
 		if (!flag && !flag1 && !flag2 && !flag3) {
 			return true;

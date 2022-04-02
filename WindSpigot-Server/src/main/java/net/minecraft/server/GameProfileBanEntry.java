@@ -41,7 +41,7 @@ public class GameProfileBanEntry extends ExpirableListEntry<GameProfile> {
 
 			try {
 				uuid = FastUUID.parseUUID(s);
-			} catch (Throwable throwable) {
+			} catch (Throwable ignored) {
 			}
 
 		}

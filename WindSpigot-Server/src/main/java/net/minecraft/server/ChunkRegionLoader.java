@@ -227,13 +227,12 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		ChunkSection[] achunksection = chunk.getSections();
 		NBTTagList nbttaglist = new NBTTagList();
 		boolean flag = !world.worldProvider.o();
-		ChunkSection[] achunksection1 = achunksection;
 		int i = achunksection.length;
 
 		NBTTagCompound nbttagcompound1;
 
 		for (int j = 0; j < i; ++j) {
-			ChunkSection chunksection = achunksection1[j];
+			ChunkSection chunksection = achunksection[j];
 
 			if (chunksection != null) {
 				nbttagcompound1 = new NBTTagCompound();
@@ -371,25 +370,23 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 				int i1 = l & 15;
 				int j1 = l >> 8 & 15;
 				int k1 = l >> 4 & 15;
-				int l1 = nibblearray1 != null ? nibblearray1.a(i1, j1, k1) : 0;
 
 				// CraftBukkit start - fix broken blocks
 				// achar[l] = (char) (l1 << 12 | (abyte[l] & 255) << 4 | nibblearray.a(i1, j1,
 				// k1));
 
-				int ex = l1;
 				int id = (abyte[l] & 255);
 				int data = nibblearray.a(i1, j1, k1);
-				int packed = ex << 12 | id << 4 | data;
+				int packed = (nibblearray1 != null ? nibblearray1.a(i1, j1, k1) : 0) << 12 | id << 4 | data;
 				if (Block.d.a(packed) == null) {
-					Block block = Block.getById(ex << 8 | id);
+					Block block = Block.getById((nibblearray1 != null ? nibblearray1.a(i1, j1, k1) : 0) << 8 | id);
 					if (block != null) {
 						try {
 							data = block.toLegacyData(block.fromLegacyData(data));
 						} catch (Exception ignored) {
 							data = block.toLegacyData(block.getBlockData());
 						}
-						packed = ex << 12 | id << 4 | data;
+						packed = (nibblearray1 != null ? nibblearray1.a(i1, j1, k1) : 0) << 12 | id << 4 | data;
 					}
 				}
 				achar[l] = (char) packed;

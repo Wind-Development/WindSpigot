@@ -196,8 +196,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			}
 			try {
 				packet.a(this.m);// packet.handle(PlayerConnection)
-			} catch (CancelledPacketHandleException cancelledpackethandleexception) {
-				;
+			} catch (CancelledPacketHandleException ignored) {
 			}
 		}
 	}
@@ -296,7 +295,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 					} catch (Exception e) {
 						LOGGER.error("NetworkException: " + getPlayer(), e);
 						close(new ChatMessage("disconnect.genericReason", "Internal Exception: " + e.getMessage()));
-						;
 					}
 				};
 			} else {
@@ -318,7 +316,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 					} catch (Exception e) {
 						LOGGER.error("NetworkException: " + getPlayer(), e);
 						close(new ChatMessage("disconnect.genericReason", "Internal Exception: " + e.getMessage()));
-						;
 					}
 				};
 			}

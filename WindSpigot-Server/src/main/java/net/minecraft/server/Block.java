@@ -530,18 +530,15 @@ public class Block {
 	}
 
 	private boolean a(Vec3D vec3d) {
-		return vec3d == null ? false
-				: vec3d.b >= this.minY && vec3d.b <= this.maxY && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
+		return vec3d != null && vec3d.b >= this.minY && vec3d.b <= this.maxY && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
 	}
 
 	private boolean b(Vec3D vec3d) {
-		return vec3d == null ? false
-				: vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
+		return vec3d != null && vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.c >= this.minZ && vec3d.c <= this.maxZ;
 	}
 
 	private boolean c(Vec3D vec3d) {
-		return vec3d == null ? false
-				: vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.b >= this.minY && vec3d.b <= this.maxY;
+		return vec3d != null && vec3d.a >= this.minX && vec3d.a <= this.maxX && vec3d.b >= this.minY && vec3d.b <= this.maxY;
 	}
 
 	public void wasExploded(World world, BlockPosition blockposition, Explosion explosion) {
@@ -743,7 +740,7 @@ public class Block {
 	}
 
 	public static boolean a(Block block, Block block1) {
-		return block != null && block1 != null ? (block == block1 ? true : block.b(block1)) : false;
+		return block != null && block1 != null && (block == block1 || block.b(block1));
 	}
 
 	public boolean isComplexRedstone() {

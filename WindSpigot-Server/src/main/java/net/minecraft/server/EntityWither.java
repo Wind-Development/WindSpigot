@@ -1,18 +1,14 @@
 package net.minecraft.server;
 
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import dev.cobblesword.nachospigot.commons.Constants;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
-// CraftBukkit end
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
-// CraftBukkit start
-import dev.cobblesword.nachospigot.commons.Constants;
+import java.util.Iterator;
+import java.util.List;
 
 public class EntityWither extends EntityMonster implements IRangedEntity {
 
@@ -54,10 +50,10 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(17, new Integer(0));
-		this.datawatcher.a(18, new Integer(0));
-		this.datawatcher.a(19, new Integer(0));
-		this.datawatcher.a(20, new Integer(0));
+		this.datawatcher.a(17, 0);
+		this.datawatcher.a(18, 0);
+		this.datawatcher.a(19, 0);
+		this.datawatcher.a(20, 0);
 	}
 
 	@Override
@@ -179,8 +175,8 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
 
 		if (this.cl() > 0) {
 			for (j = 0; j < 3; ++j) {
-				this.world.addParticle(EnumParticle.SPELL_MOB, this.locX + this.random.nextGaussian() * 1.0D,
-						this.locY + this.random.nextFloat() * 3.3F, this.locZ + this.random.nextGaussian() * 1.0D,
+				this.world.addParticle(EnumParticle.SPELL_MOB, this.locX + this.random.nextGaussian(),
+						this.locY + this.random.nextFloat() * 3.3F, this.locZ + this.random.nextGaussian(),
 						0.699999988079071D, 0.699999988079071D, 0.8999999761581421D, Constants.EMPTY_ARRAY);
 			}
 		}

@@ -46,10 +46,9 @@ public class ContainerPlayer extends Container {
 
 				@Override
 				public boolean isAllowed(ItemStack itemstack) {
-					return itemstack == null ? false
-							: (itemstack.getItem() instanceof ItemArmor ? ((ItemArmor) itemstack.getItem()).b == i
-									: (itemstack.getItem() != Item.getItemOf(Blocks.PUMPKIN)
-											&& itemstack.getItem() != Items.SKULL ? false : i == 0));
+					return itemstack != null && (itemstack.getItem() instanceof ItemArmor ? ((ItemArmor) itemstack.getItem()).b == i
+                            : ((itemstack.getItem() == Item.getItemOf(Blocks.PUMPKIN)
+                            || itemstack.getItem() == Items.SKULL) && i == 0));
 				}
 			});
 		}

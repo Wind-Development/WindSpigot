@@ -1,6 +1,7 @@
 package net.minecraft.server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.google.common.collect.Lists;
 
@@ -10,7 +11,7 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
 
 	// CraftBukkit start - Delegate to new parent class with bogus info
 	public RecipeFireworks() {
-		super(new ItemStack(Items.FIREWORKS, 0, 0), java.util.Arrays.asList(new ItemStack(Items.GUNPOWDER, 0, 5)));
+		super(new ItemStack(Items.FIREWORKS, 0, 0), Collections.singletonList(new ItemStack(Items.GUNPOWDER, 0, 5)));
 	}
 	// CraftBukkit end
 

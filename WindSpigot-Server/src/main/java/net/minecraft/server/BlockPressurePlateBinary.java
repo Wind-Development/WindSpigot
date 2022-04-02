@@ -106,24 +106,22 @@ public class BlockPressurePlateBinary extends BlockPressurePlateAbstract {
 			try {
 				BlockPressurePlateBinary.SyntheticClass_1.a[BlockPressurePlateBinary.EnumMobType.EVERYTHING
 						.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 			try {
 				BlockPressurePlateBinary.SyntheticClass_1.a[BlockPressurePlateBinary.EnumMobType.MOBS.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
+			} catch (NoSuchFieldError ignored) {
 			}
 
 		}
 	}
 
-	public static enum EnumMobType {
+	public enum EnumMobType {
 
 		EVERYTHING, MOBS;
 
-		private EnumMobType() {
+		EnumMobType() {
 		}
 	}
 }

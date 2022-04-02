@@ -92,11 +92,11 @@ public class PacketPlayOutTitle implements Packet<PacketListenerPlayOut> {
 	 */
 	// PaperSpigot end
 
-	public static enum EnumTitleAction {
+	public enum EnumTitleAction {
 
 		TITLE, SUBTITLE, TIMES, CLEAR, RESET;
 
-		private EnumTitleAction() {
+		EnumTitleAction() {
 		}
 
 		public static EnumTitleAction a(String s) {

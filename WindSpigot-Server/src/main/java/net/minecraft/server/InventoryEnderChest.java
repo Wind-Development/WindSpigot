@@ -98,7 +98,7 @@ public class InventoryEnderChest extends InventorySubcontainer {
 
 	@Override
 	public boolean a(EntityHuman entityhuman) {
-		return this.a != null && !this.a.a(entityhuman) ? false : super.a(entityhuman);
+		return (this.a == null || this.a.a(entityhuman)) && super.a(entityhuman);
 	}
 
 	@Override

@@ -605,11 +605,10 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
 
 		if (j >= 0 && j < aentityvillager_imerchantrecipeoption1.length) {
 			EntityVillager.IMerchantRecipeOption[] aentityvillager_imerchantrecipeoption2 = aentityvillager_imerchantrecipeoption1[j];
-			EntityVillager.IMerchantRecipeOption[] aentityvillager_imerchantrecipeoption3 = aentityvillager_imerchantrecipeoption2;
-			int k = aentityvillager_imerchantrecipeoption2.length;
+            int k = aentityvillager_imerchantrecipeoption2.length;
 
 			for (int l = 0; l < k; ++l) {
-				EntityVillager.IMerchantRecipeOption entityvillager_imerchantrecipeoption = aentityvillager_imerchantrecipeoption3[l];
+				EntityVillager.IMerchantRecipeOption entityvillager_imerchantrecipeoption = aentityvillager_imerchantrecipeoption2[l];
 
 				entityvillager_imerchantrecipeoption.a(this.br, this.random);
 			}

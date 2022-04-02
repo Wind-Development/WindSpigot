@@ -220,9 +220,8 @@ public class BlockDoor extends Block {
 
 	@Override
 	public boolean canPlace(World world, BlockPosition blockposition) {
-		return blockposition.getY() >= 255 ? false
-				: World.a(world, blockposition.down()) && super.canPlace(world, blockposition)
-						&& super.canPlace(world, blockposition.up());
+		return blockposition.getY() < 255 && World.a(world, blockposition.down()) && super.canPlace(world, blockposition)
+                && super.canPlace(world, blockposition.up());
 	}
 
 	@Override
@@ -358,11 +357,11 @@ public class BlockDoor extends Block {
 				BlockDoor.HINGE, BlockDoor.POWERED });
 	}
 
-	public static enum EnumDoorHinge implements INamable {
+	public enum EnumDoorHinge implements INamable {
 
 		LEFT, RIGHT;
 
-		private EnumDoorHinge() {
+		EnumDoorHinge() {
 		}
 
 		@Override
@@ -376,11 +375,11 @@ public class BlockDoor extends Block {
 		}
 	}
 
-	public static enum EnumDoorHalf implements INamable {
+	public enum EnumDoorHalf implements INamable {
 
 		UPPER, LOWER;
 
-		private EnumDoorHalf() {
+		EnumDoorHalf() {
 		}
 
 		@Override

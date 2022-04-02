@@ -47,7 +47,7 @@ public class NBTTagList extends NBTBase {
 		} else {
 			this.type = datainput.readByte();
 			int j = datainput.readInt();
-			nbtreadlimiter.a(j * 8); // CraftBukkit
+			nbtreadlimiter.a(j * 8L); // CraftBukkit
 
 			if (this.type == 0 && j > 0) {
 				throw new RuntimeException("Missing type on ListTag");

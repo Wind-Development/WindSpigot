@@ -338,9 +338,8 @@ public class ContainerEnchantTable extends Container {
 		if (!this.checkReachable) {
 			return true; // CraftBukkit
 		}
-		return this.world.getType(this.position).getBlock() != Blocks.ENCHANTING_TABLE ? false
-				: entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
-						this.position.getZ() + 0.5D) <= 64.0D;
+		return this.world.getType(this.position).getBlock() == Blocks.ENCHANTING_TABLE && entityhuman.e(this.position.getX() + 0.5D, this.position.getY() + 0.5D,
+                this.position.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override

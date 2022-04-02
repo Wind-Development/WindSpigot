@@ -1,7 +1,6 @@
 package net.minecraft.server;
 
-import java.util.List;
-
+import dev.cobblesword.nachospigot.commons.Constants;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.entity.Vehicle;
@@ -9,10 +8,8 @@ import org.bukkit.event.vehicle.VehicleDamageEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
-// CraftBukkit end
 
-// CraftBukkit start
-import dev.cobblesword.nachospigot.commons.Constants;
+import java.util.List;
 
 public class EntityBoat extends Entity {
 
@@ -62,9 +59,9 @@ public class EntityBoat extends Entity {
 
 	@Override
 	protected void h() {
-		this.datawatcher.a(17, new Integer(0));
-		this.datawatcher.a(18, new Integer(1));
-		this.datawatcher.a(19, new Float(0.0F));
+		this.datawatcher.a(17, 0);
+		this.datawatcher.a(18, 1);
+		this.datawatcher.a(19, 0.0F);
 	}
 
 	@Override
@@ -189,7 +186,7 @@ public class EntityBoat extends Entity {
 		double d0 = 0.0D;
 
 		for (int i = 0; i < b0; ++i) {
-			double d1 = this.getBoundingBox().b + (this.getBoundingBox().e - this.getBoundingBox().b) * (i + 0) / b0
+			double d1 = this.getBoundingBox().b + (this.getBoundingBox().e - this.getBoundingBox().b) * (i) / b0
 					- 0.125D;
 			double d2 = this.getBoundingBox().b + (this.getBoundingBox().e - this.getBoundingBox().b) * (i + 1) / b0
 					- 0.125D;

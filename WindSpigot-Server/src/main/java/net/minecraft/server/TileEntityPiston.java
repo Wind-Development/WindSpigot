@@ -21,7 +21,6 @@ public class TileEntityPiston extends TileEntity implements IUpdatePlayerListBox
 		this.a = iblockdata;
 		this.f = enumdirection;
 		this.g = flag;
-		boolean h = flag1;
 	}
 
 	public IBlockData b() {
@@ -159,21 +158,18 @@ public class TileEntityPiston extends TileEntity implements IUpdatePlayerListBox
 		static {
 			try {
 				TileEntityPiston.SyntheticClass_1.a[EnumDirection.EnumAxis.X.ordinal()] = 1;
-			} catch (NoSuchFieldError nosuchfielderror) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				TileEntityPiston.SyntheticClass_1.a[EnumDirection.EnumAxis.Y.ordinal()] = 2;
-			} catch (NoSuchFieldError nosuchfielderror1) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 			try {
 				TileEntityPiston.SyntheticClass_1.a[EnumDirection.EnumAxis.Z.ordinal()] = 3;
-			} catch (NoSuchFieldError nosuchfielderror2) {
-				;
-			}
+			} catch (NoSuchFieldError ignored) {
+            }
 
 		}
 	}

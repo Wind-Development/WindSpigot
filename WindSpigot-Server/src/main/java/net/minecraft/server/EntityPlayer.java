@@ -1,15 +1,12 @@
 package net.minecraft.server;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.mojang.authlib.GameProfile;
+import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-// CraftBukkit start
 import org.bukkit.Bukkit;
 import org.bukkit.WeatherType;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -18,14 +15,8 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-// CraftBukkit end
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.mojang.authlib.GameProfile;
-
-import io.netty.buffer.Unpooled;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import java.util.*;
 
 public class EntityPlayer extends EntityHuman implements ICrafting {
 
@@ -205,7 +196,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 	}
 
 	private long chunkToLong(int chunkX, int chunkZ) {
-		return (chunkX << 32L) + chunkZ - -2147483648L;
+		return ((long) chunkX << 32L) + chunkZ + 2147483648L;
 	}
 
 	@Override
