@@ -25,9 +25,9 @@ public enum CreatureType {
 	SNOWMAN("SnowMan", Snowman.class, 97), RABBIT("Rabbit", Rabbit.class, 101),
 	VILLAGER("Villager", Villager.class, 120);
 
-	private String name;
-	private Class<? extends Entity> clazz;
-	private short typeId;
+	private final String name;
+	private final Class<? extends Entity> clazz;
+	private final short typeId;
 
 	private static final Map<String, CreatureType> NAME_MAP = new HashMap<String, CreatureType>();
 	private static final Map<Short, CreatureType> ID_MAP = new HashMap<Short, CreatureType>();

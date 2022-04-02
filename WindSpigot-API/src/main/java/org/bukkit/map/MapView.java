@@ -15,7 +15,7 @@ public interface MapView {
 	enum Scale {
 		CLOSEST(0), CLOSE(1), NORMAL(2), FAR(3), FARTHEST(4);
 
-		private byte value;
+		private final byte value;
 
 		Scale(int value) {
 			this.value = (byte) value;

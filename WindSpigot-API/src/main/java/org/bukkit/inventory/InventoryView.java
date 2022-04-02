@@ -48,8 +48,8 @@ public abstract class InventoryView {
 		 */
 		ENCHANT_BUTTON3(2, InventoryType.ENCHANTING);
 
-		int id;
-		InventoryType style;
+		final int id;
+		final InventoryType style;
 
 		Property(int id, InventoryType appliesTo) {
 			this.id = id;

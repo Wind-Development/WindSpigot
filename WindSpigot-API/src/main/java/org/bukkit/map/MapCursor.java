@@ -153,7 +153,7 @@ public final class MapCursor {
 	public enum Type {
 		WHITE_POINTER(0), GREEN_POINTER(1), RED_POINTER(2), BLUE_POINTER(3), WHITE_CROSS(4);
 
-		private byte value;
+		private final byte value;
 
 		Type(int value) {
 			this.value = (byte) value;
