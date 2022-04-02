@@ -178,9 +178,7 @@ public class YamlConfiguration extends FileConfiguration {
 		try {
 			config.load(file);
 		} catch (FileNotFoundException ignored) {
-		} catch (IOException ex) {
-			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
-		} catch (InvalidConfigurationException ex) {
+		} catch (IOException | InvalidConfigurationException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
 		}
 
@@ -208,9 +206,7 @@ public class YamlConfiguration extends FileConfiguration {
 
 		try {
 			config.load(stream);
-		} catch (IOException ex) {
-			Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
-		} catch (InvalidConfigurationException ex) {
+		} catch (IOException | InvalidConfigurationException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
 		}
 
@@ -234,9 +230,7 @@ public class YamlConfiguration extends FileConfiguration {
 
 		try {
 			config.load(reader);
-		} catch (IOException ex) {
-			Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
-		} catch (InvalidConfigurationException ex) {
+		} catch (IOException | InvalidConfigurationException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
 		}
 

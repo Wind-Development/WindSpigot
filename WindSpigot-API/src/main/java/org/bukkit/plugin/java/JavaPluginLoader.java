@@ -144,9 +144,7 @@ public final class JavaPluginLoader implements PluginLoader {
 
 			return new PluginDescriptionFile(stream);
 
-		} catch (IOException ex) {
-			throw new InvalidDescriptionException(ex);
-		} catch (YAMLException ex) {
+		} catch (IOException | YAMLException ex) {
 			throw new InvalidDescriptionException(ex);
 		} finally {
 			if (jar != null) {
