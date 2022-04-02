@@ -67,7 +67,7 @@ public class WhitelistCommand extends VanillaCommand {
 					result.append(player.getName());
 				}
 
-				sender.sendMessage("White-listed players: " + result.toString());
+				sender.sendMessage("White-listed players: " + result);
 				return true;
 			}
 		} else if (args.length == 2) {

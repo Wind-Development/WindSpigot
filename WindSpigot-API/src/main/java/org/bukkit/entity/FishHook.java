@@ -12,7 +12,7 @@ public interface FishHook extends Projectile {
 	 *
 	 * @return chance the bite chance
 	 */
-	public double getBiteChance();
+    double getBiteChance();
 
 	/**
 	 * Sets the chance of a fish biting.
@@ -23,5 +23,5 @@ public interface FishHook extends Projectile {
 	 * @param chance the bite chance
 	 * @throws IllegalArgumentException if the bite chance is not between 0 and 1
 	 */
-	public void setBiteChance(double chance) throws IllegalArgumentException;
+    void setBiteChance(double chance) throws IllegalArgumentException;
 }

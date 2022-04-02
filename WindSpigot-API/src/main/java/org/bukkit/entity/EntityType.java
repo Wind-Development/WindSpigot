@@ -173,11 +173,11 @@ public enum EntityType {
 		}
 	}
 
-	private EntityType(String name, Class<? extends Entity> clazz, int typeId) {
+	EntityType(String name, Class<? extends Entity> clazz, int typeId) {
 		this(name, clazz, typeId, true);
 	}
 
-	private EntityType(String name, Class<? extends Entity> clazz, int typeId, boolean independent) {
+	EntityType(String name, Class<? extends Entity> clazz, int typeId, boolean independent) {
 		this.name = name;
 		this.clazz = clazz;
 		this.typeId = (short) typeId;

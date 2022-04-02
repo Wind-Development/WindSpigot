@@ -24,7 +24,7 @@ public class Note {
 		/** The number of tones including sharped tones. */
 		public static final byte TONES_COUNT = 12;
 
-		private Tone(int id, boolean sharpable) {
+		Tone(int id, boolean sharpable) {
 			this.id = (byte) (id % TONES_COUNT);
 			this.sharpable = sharpable;
 		}

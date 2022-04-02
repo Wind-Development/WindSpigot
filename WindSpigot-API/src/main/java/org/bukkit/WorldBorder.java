@@ -5,21 +5,21 @@ public interface WorldBorder {
 	/**
 	 * Resets the border to default values.
 	 */
-	public void reset();
+    void reset();
 
 	/**
 	 * Gets the current side length of the border.
 	 *
 	 * @return The current side length of the border.
 	 */
-	public double getSize();
+    double getSize();
 
 	/**
 	 * Sets the border to a square region with the specified side length in blocks.
 	 *
 	 * @param newSize The new size of the border.
 	 */
-	public void setSize(double newSize);
+    void setSize(double newSize);
 
 	/**
 	 * Sets the border to a square region with the specified side length in blocks.
@@ -28,14 +28,14 @@ public interface WorldBorder {
 	 * @param seconds The time in seconds in which the border grows or shrinks from
 	 *                the previous size to that being set.
 	 */
-	public void setSize(double newSize, long seconds);
+    void setSize(double newSize, long seconds);
 
 	/**
 	 * Gets the current border center.
 	 *
 	 * @return The current border center.
 	 */
-	public Location getCenter();
+    Location getCenter();
 
 	/**
 	 * Sets the new border center.
@@ -43,21 +43,21 @@ public interface WorldBorder {
 	 * @param x The new center x-coordinate.
 	 * @param z The new center z-coordinate.
 	 */
-	public void setCenter(double x, double z);
+    void setCenter(double x, double z);
 
 	/**
 	 * Sets the new border center.
 	 *
 	 * @param location The new location of the border center. (Only x/z used)
 	 */
-	public void setCenter(Location location);
+    void setCenter(Location location);
 
 	/**
 	 * Gets the current border damage buffer.
 	 *
 	 * @return The current border damage buffer.
 	 */
-	public double getDamageBuffer();
+    double getDamageBuffer();
 
 	/**
 	 * Sets the amount of blocks a player may safely be outside the border before
@@ -65,14 +65,14 @@ public interface WorldBorder {
 	 *
 	 * @param blocks The amount of blocks. (The default is 5 blocks.)
 	 */
-	public void setDamageBuffer(double blocks);
+    void setDamageBuffer(double blocks);
 
 	/**
 	 * Gets the current border damage amount.
 	 *
 	 * @return The current border damage amount.
 	 */
-	public double getDamageAmount();
+    double getDamageAmount();
 
 	/**
 	 * Sets the amount of damage a player takes when outside the border plus the
@@ -81,14 +81,14 @@ public interface WorldBorder {
 	 * @param damage The amount of damage. (The default is 0.2 damage per second per
 	 *               block.)
 	 */
-	public void setDamageAmount(double damage);
+    void setDamageAmount(double damage);
 
 	/**
 	 * Gets the current border warning time in seconds.
 	 *
 	 * @return The current border warning time in seconds.
 	 */
-	public int getWarningTime();
+    int getWarningTime();
 
 	/**
 	 * Sets the warning time that causes the screen to be tinted red when a
@@ -96,14 +96,14 @@ public interface WorldBorder {
 	 *
 	 * @param seconds The amount of time in seconds. (The default is 15 seconds.)
 	 */
-	public void setWarningTime(int seconds);
+    void setWarningTime(int seconds);
 
 	/**
 	 * Gets the current border warning distance.
 	 *
 	 * @return The current border warning distance.
 	 */
-	public int getWarningDistance();
+    int getWarningDistance();
 
 	/**
 	 * Sets the warning distance that causes the screen to be tinted red when the
@@ -111,5 +111,5 @@ public interface WorldBorder {
 	 *
 	 * @param distance The distance in blocks. (The default is 5 blocks.)
 	 */
-	public void setWarningDistance(int distance);
+    void setWarningDistance(int distance);
 }

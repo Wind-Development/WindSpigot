@@ -71,7 +71,7 @@ public enum InventoryType {
 	private final int size;
 	private final String title;
 
-	private InventoryType(int defaultSize, String defaultTitle) {
+	InventoryType(int defaultSize, String defaultTitle) {
 		size = defaultSize;
 		title = defaultTitle;
 	}
@@ -115,6 +115,6 @@ public enum InventoryType {
 		 * The fuel slot in a furnace inventory, or the ingredient slot in a brewing
 		 * stand inventory.
 		 */
-		FUEL;
+		FUEL
 	}
 }

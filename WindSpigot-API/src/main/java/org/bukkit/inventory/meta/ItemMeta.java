@@ -160,7 +160,7 @@ public interface ItemMeta extends Cloneable, ConfigurationSerializable {
 	ItemMeta clone();
 
 	// Spigot start
-	public class Spigot {
+    class Spigot {
 
 		/**
 		 * Sets the unbreakable tag

@@ -13,7 +13,7 @@ public enum CoalType {
 	private final byte data;
 	private final static Map<Byte, CoalType> BY_DATA = Maps.newHashMap();
 
-	private CoalType(final int data) {
+	CoalType(final int data) {
 		this.data = (byte) data;
 	}
 

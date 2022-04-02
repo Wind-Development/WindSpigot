@@ -10,14 +10,14 @@ public interface Boat extends Vehicle {
 	 *
 	 * @return The max speed.
 	 */
-	public double getMaxSpeed();
+    double getMaxSpeed();
 
 	/**
 	 * Sets the maximum speed of a boat. Must be nonnegative. Default is 0.4D.
 	 *
 	 * @param speed The max speed.
 	 */
-	public void setMaxSpeed(double speed);
+    void setMaxSpeed(double speed);
 
 	/**
 	 * Gets the deceleration rate (newSpeed = curSpeed * rate) of occupied boats.
@@ -25,7 +25,7 @@ public interface Boat extends Vehicle {
 	 *
 	 * @return The rate of deceleration
 	 */
-	public double getOccupiedDeceleration();
+    double getOccupiedDeceleration();
 
 	/**
 	 * Sets the deceleration rate (newSpeed = curSpeed * rate) of occupied boats.
@@ -34,7 +34,7 @@ public interface Boat extends Vehicle {
 	 *
 	 * @param rate deceleration rate
 	 */
-	public void setOccupiedDeceleration(double rate);
+    void setOccupiedDeceleration(double rate);
 
 	/**
 	 * Gets the deceleration rate (newSpeed = curSpeed * rate) of unoccupied boats.
@@ -43,7 +43,7 @@ public interface Boat extends Vehicle {
 	 *
 	 * @return The rate of deceleration
 	 */
-	public double getUnoccupiedDeceleration();
+    double getUnoccupiedDeceleration();
 
 	/**
 	 * Sets the deceleration rate (newSpeed = curSpeed * rate) of unoccupied boats.
@@ -53,19 +53,19 @@ public interface Boat extends Vehicle {
 	 *
 	 * @param rate deceleration rate
 	 */
-	public void setUnoccupiedDeceleration(double rate);
+    void setUnoccupiedDeceleration(double rate);
 
 	/**
 	 * Get whether boats can work on land.
 	 *
 	 * @return whether boats can work on land
 	 */
-	public boolean getWorkOnLand();
+    boolean getWorkOnLand();
 
 	/**
 	 * Set whether boats can work on land.
 	 *
 	 * @param workOnLand whether boats can work on land
 	 */
-	public void setWorkOnLand(boolean workOnLand);
+    void setWorkOnLand(boolean workOnLand);
 }

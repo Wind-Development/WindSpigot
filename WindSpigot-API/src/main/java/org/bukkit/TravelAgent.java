@@ -16,14 +16,14 @@ public interface TravelAgent {
 	 * @param radius the radius in which to search for a portal from the location
 	 * @return this travel agent
 	 */
-	public TravelAgent setSearchRadius(int radius);
+    TravelAgent setSearchRadius(int radius);
 
 	/**
 	 * Gets the search radius value for finding an available portal.
 	 *
 	 * @return the currently set search radius
 	 */
-	public int getSearchRadius();
+    int getSearchRadius();
 
 	/**
 	 * Sets the maximum radius from the given location to create a portal.
@@ -31,14 +31,14 @@ public interface TravelAgent {
 	 * @param radius the radius in which to create a portal from the location
 	 * @return this travel agent
 	 */
-	public TravelAgent setCreationRadius(int radius);
+    TravelAgent setCreationRadius(int radius);
 
 	/**
 	 * Gets the maximum radius from the given location to create a portal.
 	 *
 	 * @return the currently set creation radius
 	 */
-	public int getCreationRadius();
+    int getCreationRadius();
 
 	/**
 	 * Returns whether the TravelAgent will attempt to create a destination portal
@@ -46,7 +46,7 @@ public interface TravelAgent {
 	 *
 	 * @return whether the TravelAgent should create a destination portal or not
 	 */
-	public boolean getCanCreatePortal();
+    boolean getCanCreatePortal();
 
 	/**
 	 * Sets whether the TravelAgent should attempt to create a destination portal or
@@ -55,7 +55,7 @@ public interface TravelAgent {
 	 * @param create Sets whether the TravelAgent should create a destination portal
 	 *               or not
 	 */
-	public void setCanCreatePortal(boolean create);
+    void setCanCreatePortal(boolean create);
 
 	/**
 	 * Attempt to find a portal near the given location, if a portal is not found it
@@ -66,7 +66,7 @@ public interface TravelAgent {
 	 *         passed to the method if unsuccessful
 	 * @see #createPortal(Location)
 	 */
-	public Location findOrCreate(Location location);
+    Location findOrCreate(Location location);
 
 	/**
 	 * Attempt to find a portal near the given location.
@@ -74,7 +74,7 @@ public interface TravelAgent {
 	 * @param location the desired location of the portal
 	 * @return the location of the nearest portal to the location
 	 */
-	public Location findPortal(Location location);
+    Location findPortal(Location location);
 
 	/**
 	 * Attempt to create a portal near the given location.
@@ -88,5 +88,5 @@ public interface TravelAgent {
 	 * @param location the desired location of the portal
 	 * @return true if a portal was successfully created
 	 */
-	public boolean createPortal(Location location);
+    boolean createPortal(Location location);
 }

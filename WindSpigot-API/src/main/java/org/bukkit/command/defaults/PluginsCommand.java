@@ -39,7 +39,7 @@ public class PluginsCommand extends BukkitCommand {
 			pluginList.append(plugin.getDescription().getName());
 		}
 
-		return "(" + plugins.length + "): " + pluginList.toString();
+		return "(" + plugins.length + "): " + pluginList;
 	}
 
 	// Spigot Start

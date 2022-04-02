@@ -41,7 +41,7 @@ public enum CreatureType {
 		}
 	}
 
-	private CreatureType(String name, Class<? extends Entity> clazz, int typeId) {
+	CreatureType(String name, Class<? extends Entity> clazz, int typeId) {
 		this.name = name;
 		this.clazz = clazz;
 		this.typeId = (short) typeId;

@@ -78,7 +78,7 @@ public class ConfigurationSerialization {
 
 			if (result == null) {
 				Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '"
-						+ method.toString() + "' of " + clazz + " for deserialization: method returned null");
+						+ method + "' of " + clazz + " for deserialization: method returned null");
 			} else {
 				return result;
 			}
@@ -237,7 +237,6 @@ public class ConfigurationSerialization {
 	 */
 	public static void unregisterClass(Class<? extends ConfigurationSerializable> clazz) {
 		while (aliases.values().remove(clazz)) {
-			;
 		}
 	}
 
