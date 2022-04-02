@@ -35,7 +35,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.net.HttpURLConnection;
@@ -58,14 +57,10 @@ import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.EntityType;
-import org.bukkit.plugin.Plugin;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Sets;
-
-import co.aikar.util.JSONUtil.JSONPair;
 
 @SuppressWarnings({ "rawtypes", "SuppressionAnnotation" })
 class TimingsExport extends Thread {

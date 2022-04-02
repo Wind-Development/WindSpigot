@@ -37,7 +37,6 @@ import org.bukkit.command.Command;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.PluginClassLoader;
 
-import com.google.common.base.Function;
 import com.google.common.collect.EvictingQueue;
 
 import co.aikar.util.LoadingMap;

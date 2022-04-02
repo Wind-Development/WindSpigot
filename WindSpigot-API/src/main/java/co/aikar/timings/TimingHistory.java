@@ -39,9 +39,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -50,7 +48,6 @@ import org.bukkit.entity.Player;
 import com.google.common.base.Function;
 import com.google.common.collect.Sets;
 
-import co.aikar.util.JSONUtil.JSONPair;
 import co.aikar.util.LoadingMap;
 import co.aikar.util.MRUMapCache;
 
