@@ -125,6 +125,10 @@ public abstract class PotionEffectType {
 	 */
 	public static final PotionEffectType SATURATION = new PotionEffectTypeWrapper(23);
 
+	private static final PotionEffectType[] byId = new PotionEffectType[24];
+	private static final Map<String, PotionEffectType> byName = new HashMap<>();
+	// will break on updates.
+	private static boolean acceptingNew = true;
 	private final int id;
 
 	protected PotionEffectType(int id) {
@@ -197,11 +201,6 @@ public abstract class PotionEffectType {
 	public String toString() {
 		return "PotionEffectType[" + id + ", " + getName() + "]";
 	}
-
-	private static final PotionEffectType[] byId = new PotionEffectType[24];
-	private static final Map<String, PotionEffectType> byName = new HashMap<>();
-	// will break on updates.
-	private static boolean acceptingNew = true;
 
 	/**
 	 * Gets the effect type specified by the unique id.

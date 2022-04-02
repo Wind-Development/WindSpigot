@@ -37,7 +37,6 @@ public final class SimplePluginManager implements PluginManager {
 	private final Map<Boolean, Set<Permission>> defaultPerms = new LinkedHashMap<>();
 	private final Map<String, Map<Permissible, Boolean>> permSubs = new HashMap<>();
 	private final Map<Boolean, Map<Permissible, Boolean>> defSubs = new HashMap<>();
-	private final boolean useTimings = false;
 
 	public SimplePluginManager(Server instance, SimpleCommandMap commandMap) {
 		server = instance;
