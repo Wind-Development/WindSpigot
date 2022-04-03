@@ -210,7 +210,11 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 			// entityplayer.removeQueue.remove(Integer.valueOf(this.tracker.getId()));
 
 			this.trackedPlayerMap.put(entityplayer, true); // Paper
-			this.trackedPlayers.add(entityplayer);
+			//this.trackedPlayers.add(entityplayer);
+			
+			// WindSpigot - fix cannon tracker
+			//this.trackedPlayers = this.trackedPlayerMap.keySet();
+			
 			Packet<?> packet = this.c(); // IonSpigot
 			if (packet == null) {
 				return; // IonSpigot - If it's null don't update the client!
