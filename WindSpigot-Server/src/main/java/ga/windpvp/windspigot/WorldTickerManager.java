@@ -55,8 +55,10 @@ public class WorldTickerManager {
 				worldTickers.add(new WorldTicker(world, isAsync));
 			}
 			
-			// Reuse the latch 
-			this.reUseLatch();
+			if (this.latch != null) {
+				// Reuse the latch
+				this.reUseLatch();
+			}
 		}
 	}
 	
