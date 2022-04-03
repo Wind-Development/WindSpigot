@@ -213,7 +213,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 			//this.trackedPlayers.add(entityplayer);
 			
 			// WindSpigot - fix cannon tracker
-			this.trackedPlayers = this.trackedPlayerMap.keySet();
+			//this.trackedPlayers = this.trackedPlayerMap.keySet();
 			
 			Packet<?> packet = this.c(); // IonSpigot
 			if (packet == null) {
