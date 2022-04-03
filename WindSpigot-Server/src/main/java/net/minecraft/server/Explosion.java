@@ -71,13 +71,11 @@ public class Explosion {
 																									// calculating what
 																									// blocks to blow up
 																									// in water/lava
-			if (!world.nachoSpigotConfig.explosionProtectedRegions) {
-				it.unimi.dsi.fastutil.longs.LongSet set = new it.unimi.dsi.fastutil.longs.LongOpenHashSet();
-				searchForBlocks(set, chunk);
-				for (it.unimi.dsi.fastutil.longs.LongIterator iterator = set.iterator(); iterator.hasNext();) {
-					this.blocks.add(BlockPosition.fromLong(iterator.nextLong()));
-				}
-			}
+            it.unimi.dsi.fastutil.longs.LongSet set = new it.unimi.dsi.fastutil.longs.LongOpenHashSet();
+            searchForBlocks(set, chunk);
+            for (it.unimi.dsi.fastutil.longs.LongIterator iterator = set.iterator(); iterator.hasNext(); ) {
+                this.blocks.add(BlockPosition.fromLong(iterator.nextLong()));
+            }
 		}
 
 		// this.blocks.addAll(hashset);
@@ -213,20 +211,20 @@ public class Explosion {
 				}
 			}
 
-			boolean cancelled;
-			List<org.bukkit.block.Block> bukkitBlocks;
-			float yield;
+            boolean cancelled = false;
+            List<org.bukkit.block.Block> bukkitBlocks = blockList;
+            float yield = 0.3F; // default
 
 			if (explode != null) {
-				EntityExplodeEvent event = new EntityExplodeEvent(explode, location, blockList, 0.3F);
 				if (NachoConfig.fireEntityExplodeEvent) {
-					this.world.getServer().getPluginManager().callEvent(event);
-				}
-				cancelled = event.isCancelled();
-				bukkitBlocks = event.blockList();
-				yield = event.getYield();
+                    EntityExplodeEvent event = new EntityExplodeEvent(explode, location, blockList, yield);
+                    this.world.getServer().getPluginManager().callEvent(event);
+                    cancelled = event.isCancelled();
+                    bukkitBlocks = event.blockList();
+                    yield = event.getYield();
+                }
 			} else {
-				BlockExplodeEvent event = new BlockExplodeEvent(location.getBlock(), blockList, 0.3F);
+                BlockExplodeEvent event = new BlockExplodeEvent(location.getBlock(), blockList, yield);
 				this.world.getServer().getPluginManager().callEvent(event);
 				cancelled = event.isCancelled();
 				bukkitBlocks = event.blockList();
