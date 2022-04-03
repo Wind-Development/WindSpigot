@@ -1,13 +1,13 @@
 package org.bukkit.util;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Represents a mutable vector. Because the components of Vectors are mutable,
@@ -19,7 +19,7 @@ import org.bukkit.configuration.serialization.SerializableAs;
 public class Vector implements Cloneable, ConfigurationSerializable {
 	private static final long serialVersionUID = -2657651106777219169L;
 
-	private static Random random = new Random();
+	private static final Random random = new Random();
 
 	/**
 	 * Threshold for fuzzy equals().
@@ -638,7 +638,7 @@ public class Vector implements Cloneable, ConfigurationSerializable {
 	}
 
 	public Map<String, Object> serialize() {
-		Map<String, Object> result = new LinkedHashMap<String, Object>();
+		Map<String, Object> result = new LinkedHashMap<>();
 
 		result.put("x", getX());
 		result.put("y", getY());

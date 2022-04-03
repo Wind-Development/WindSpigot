@@ -1,23 +1,11 @@
 package me.suicidalkids.ion.visuals;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
+import net.minecraft.server.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import ga.windpvp.windspigot.config.WindSpigotConfig;
-import net.minecraft.server.DataWatcher;
-import net.minecraft.server.Entity;
-import net.minecraft.server.EntityArrow;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.EntityProjectile;
-import net.minecraft.server.EntityTracker;
-import net.minecraft.server.EntityTrackerEntry;
-import net.minecraft.server.Packet;
-import net.minecraft.server.PacketPlayOutAttachEntity;
-import net.minecraft.server.PacketPlayOutEntityMetadata;
-import net.minecraft.server.PacketPlayOutEntityTeleport;
-import net.minecraft.server.PacketPlayOutEntityVelocity;
 
 /*
  * This is a custom entity tracker made for the cannoning entities tnt and sand.
@@ -27,17 +15,20 @@ import net.minecraft.server.PacketPlayOutEntityVelocity;
  */
 public class CannonTrackerEntry extends EntityTrackerEntry {
 
+	private final List<EntityPlayer> toRemove = new ArrayList<>();
+	private final EntityTracker entityTracker;
+	private final int addRemoveRate;
+	private final Consumer<EntityPlayer> addNearPlayersConsumer = entityPlayer -> {
+		if (!WindSpigotConfig.disableTracking || tracker.passenger == entityPlayer) {
+			updatePlayer(entityPlayer);
+		}
+	};
 	private boolean movingX;
 	private boolean movingY;
 	private boolean movingZ;
-
 	private double updateX;
 	private double updateY;
 	private double updateZ;
-
-	private List<EntityPlayer> toRemove = new ArrayList<>();
-	private EntityTracker entityTracker;
-	private int addRemoveRate;
 	private int addRemoveCooldown;
 	private boolean withinNoTrack = false;
 
@@ -137,16 +128,6 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 		return noTrackDistanceSqrd != 0 && xDistSqrd <= noTrackDistanceSqrd && zDistSqrd <= noTrackDistanceSqrd;
 	}
 
-	private final Consumer<EntityPlayer> addNearPlayersConsumer = new Consumer<EntityPlayer>() {
-
-		@Override
-		public void accept(EntityPlayer entityPlayer) {
-			if (!WindSpigotConfig.disableTracking || tracker.passenger == entityPlayer) {
-				updatePlayer(entityPlayer);
-			}
-		}
-	};
-
 	@Override
 	public void track(List<EntityHuman> list) {
 		boolean motionX = this.tracker.motX != 0.0;
@@ -209,6 +190,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 
 			// entityplayer.removeQueue.remove(Integer.valueOf(this.tracker.getId()));
 
+			if (this.tracker instanceof EntityFallingBlock) return;
 			this.trackedPlayerMap.put(entityplayer, true); // Paper
 			//this.trackedPlayers.add(entityplayer);
 			

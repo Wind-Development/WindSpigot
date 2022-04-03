@@ -1,8 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -12,7 +10,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
 
 @Deprecated
 public class PardonCommand extends VanillaCommand {
@@ -44,7 +43,7 @@ public class PardonCommand extends VanillaCommand {
 		Validate.notNull(alias, "Alias cannot be null");
 
 		if (args.length == 1) {
-			List<String> completions = new ArrayList<String>();
+			List<String> completions = new ArrayList<>();
 			for (OfflinePlayer player : Bukkit.getBannedPlayers()) {
 				String name = player.getName();
 				if (StringUtil.startsWithIgnoreCase(name, args[0])) {

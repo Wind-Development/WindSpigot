@@ -1,8 +1,8 @@
 package org.bukkit;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 public enum Instrument {
 
@@ -31,7 +31,7 @@ public enum Instrument {
 	private final byte type;
 	private final static Map<Byte, Instrument> BY_DATA = Maps.newHashMap();
 
-	private Instrument(final int type) {
+	Instrument(final int type) {
 		this.type = (byte) type;
 	}
 

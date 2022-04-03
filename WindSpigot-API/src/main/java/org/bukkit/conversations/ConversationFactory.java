@@ -1,12 +1,12 @@
 package org.bukkit.conversations;
 
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 /**
  * A ConversationFactory is responsible for creating a {@link Conversation} from
@@ -41,10 +41,10 @@ public class ConversationFactory {
 		localEchoEnabled = true;
 		prefix = new NullConversationPrefix();
 		firstPrompt = Prompt.END_OF_CONVERSATION;
-		initialSessionData = new HashMap<Object, Object>();
+		initialSessionData = new HashMap<>();
 		playerOnlyMessage = null;
-		cancellers = new ArrayList<ConversationCanceller>();
-		abandonedListeners = new ArrayList<ConversationAbandonedListener>();
+		cancellers = new ArrayList<>();
+		abandonedListeners = new ArrayList<>();
 	}
 
 	/**
@@ -188,8 +188,7 @@ public class ConversationFactory {
 		}
 
 		// Clone any initial session data
-		Map<Object, Object> copiedInitialSessionData = new HashMap<Object, Object>();
-		copiedInitialSessionData.putAll(initialSessionData);
+		Map<Object, Object> copiedInitialSessionData = new HashMap<>(initialSessionData);
 
 		// Build and return a conversation
 		Conversation conversation = new Conversation(plugin, forWhom, firstPrompt, copiedInitialSessionData);

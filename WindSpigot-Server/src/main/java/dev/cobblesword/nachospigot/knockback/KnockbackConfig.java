@@ -1,11 +1,6 @@
 package dev.cobblesword.nachospigot.knockback;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.base.Throwables;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +8,11 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
-import com.google.common.base.Throwables;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class KnockbackConfig {
 	private static final Logger LOGGER = LogManager.getLogger(KnockbackConfig.class);
@@ -29,7 +28,7 @@ public class KnockbackConfig {
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
 		try {
-			System.out.println("Loading NachoSpigot knockback config from " + configFile.getName());
+			LOGGER.info("Loading NachoSpigot knockback config from " + configFile.getName());
 			config.load(CONFIG_FILE);
 		} catch (IOException ignored) {
 		} catch (InvalidConfigurationException ex) {

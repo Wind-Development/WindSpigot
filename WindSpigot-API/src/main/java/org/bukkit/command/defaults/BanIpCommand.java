@@ -1,8 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.List;
-import java.util.regex.Pattern;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.bukkit.BanList;
@@ -12,7 +10,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 @Deprecated
 public class BanIpCommand extends VanillaCommand {
@@ -35,7 +34,7 @@ public class BanIpCommand extends VanillaCommand {
 			return false;
 		}
 
-		String reason = args.length > 0 ? StringUtils.join(args, ' ', 1, args.length) : null;
+		String reason = StringUtils.join(args, ' ', 1, args.length);
 
 		if (ipValidity.matcher(args[0]).matches()) {
 			processIPBan(args[0], sender, reason);

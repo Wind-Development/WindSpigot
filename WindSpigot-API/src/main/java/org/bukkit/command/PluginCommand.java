@@ -1,10 +1,10 @@
 package org.bukkit.command;
 
-import java.util.List;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
+
+import java.util.List;
 
 /**
  * Represents a {@link Command} belonging to a plugin
@@ -14,7 +14,7 @@ public final class PluginCommand extends Command implements PluginIdentifiableCo
 	private CommandExecutor executor;
 	private TabCompleter completer;
 
-	protected PluginCommand(String name, Plugin owner) {
+	PluginCommand(String name, Plugin owner) {
 		super(name);
 		this.executor = owner;
 		this.owningPlugin = owner;
@@ -31,7 +31,7 @@ public final class PluginCommand extends Command implements PluginIdentifiableCo
 	 */
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		boolean success = false;
+		boolean success;
 
 		if (!owningPlugin.isEnabled()) {
 			return false;

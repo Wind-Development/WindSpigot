@@ -1,24 +1,23 @@
 package org.bukkit.plugin.messaging;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSet.Builder;
-
 /**
  * Standard implementation to {@link Messenger}
  */
 public class StandardMessenger implements Messenger {
-	private final Map<String, Set<PluginMessageListenerRegistration>> incomingByChannel = new HashMap<String, Set<PluginMessageListenerRegistration>>();
-	private final Map<Plugin, Set<PluginMessageListenerRegistration>> incomingByPlugin = new HashMap<Plugin, Set<PluginMessageListenerRegistration>>();
-	private final Map<String, Set<Plugin>> outgoingByChannel = new HashMap<String, Set<Plugin>>();
-	private final Map<Plugin, Set<String>> outgoingByPlugin = new HashMap<Plugin, Set<String>>();
+	private final Map<String, Set<PluginMessageListenerRegistration>> incomingByChannel = new HashMap<>();
+	private final Map<Plugin, Set<PluginMessageListenerRegistration>> incomingByPlugin = new HashMap<>();
+	private final Map<String, Set<Plugin>> outgoingByChannel = new HashMap<>();
+	private final Map<Plugin, Set<String>> outgoingByPlugin = new HashMap<>();
 	private final Object incomingLock = new Object();
 	private final Object outgoingLock = new Object();
 
@@ -28,12 +27,12 @@ public class StandardMessenger implements Messenger {
 			Set<String> channels = outgoingByPlugin.get(plugin);
 
 			if (plugins == null) {
-				plugins = new HashSet<Plugin>();
+				plugins = new HashSet<>();
 				outgoingByChannel.put(channel, plugins);
 			}
 
 			if (channels == null) {
-				channels = new HashSet<String>();
+				channels = new HashSet<>();
 				outgoingByPlugin.put(plugin, channels);
 			}
 
@@ -86,7 +85,7 @@ public class StandardMessenger implements Messenger {
 			Set<PluginMessageListenerRegistration> registrations = incomingByChannel.get(registration.getChannel());
 
 			if (registrations == null) {
-				registrations = new HashSet<PluginMessageListenerRegistration>();
+				registrations = new HashSet<>();
 				incomingByChannel.put(registration.getChannel(), registrations);
 			} else {
 				if (registrations.contains(registration)) {
@@ -99,7 +98,7 @@ public class StandardMessenger implements Messenger {
 			registrations = incomingByPlugin.get(registration.getPlugin());
 
 			if (registrations == null) {
-				registrations = new HashSet<PluginMessageListenerRegistration>();
+				registrations = new HashSet<>();
 				incomingByPlugin.put(registration.getPlugin(), registrations);
 			} else {
 				if (registrations.contains(registration)) {

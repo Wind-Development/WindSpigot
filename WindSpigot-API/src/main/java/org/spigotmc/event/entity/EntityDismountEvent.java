@@ -1,9 +1,7 @@
 package org.spigotmc.event.entity;
 
 import org.bukkit.entity.Entity;
-// PaperSpigot start
 import org.bukkit.event.Cancellable;
-// PaperSpigot end
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityEvent;
 

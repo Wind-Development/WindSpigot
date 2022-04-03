@@ -1,11 +1,12 @@
 package org.bukkit.command.defaults;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import java.util.Collections;
+import java.util.List;
 
 public class ReloadCommand extends BukkitCommand {
 	public ReloadCommand(String name) {
@@ -13,7 +14,7 @@ public class ReloadCommand extends BukkitCommand {
 		this.description = "Reloads the server configuration and plugins";
 		this.usageMessage = "/reload";
 		this.setPermission("bukkit.command.reload");
-		this.setAliases(Arrays.asList("rl"));
+		this.setAliases(Collections.singletonList("rl"));
 	}
 
 	@Override
@@ -33,9 +34,9 @@ public class ReloadCommand extends BukkitCommand {
 
 	// Spigot Start
 	@Override
-	public java.util.List<String> tabComplete(CommandSender sender, String alias, String[] args)
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args)
 			throws IllegalArgumentException {
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
 	}
 	// Spigot End
 }

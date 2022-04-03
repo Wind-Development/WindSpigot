@@ -12,7 +12,7 @@ public interface CommandMinecart extends Minecart, CommandSender {
 	 *
 	 * @return Command that this CommandMinecart will run when powered.
 	 */
-	public String getCommand();
+	String getCommand();
 
 	/**
 	 * Sets the command that this CommandMinecart will run when activated. Setting
@@ -20,7 +20,7 @@ public interface CommandMinecart extends Minecart, CommandSender {
 	 *
 	 * @param command Command that this CommandMinecart will run when activated.
 	 */
-	public void setCommand(String command);
+	void setCommand(String command);
 
 	/**
 	 * Sets the name of this CommandMinecart. The name is used with commands that
@@ -29,6 +29,6 @@ public interface CommandMinecart extends Minecart, CommandSender {
 	 *
 	 * @param name New name for this CommandMinecart.
 	 */
-	public void setName(String name);
+	void setName(String name);
 
 }

@@ -1,12 +1,12 @@
 package org.bukkit.event.block;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.HandlerList;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Called when a piston extends
@@ -49,7 +49,7 @@ public class BlockPistonExtendEvent extends BlockPistonEvent {
 	 */
 	public List<Block> getBlocks() {
 		if (blocks == null) {
-			ArrayList<Block> tmp = new ArrayList<Block>();
+			ArrayList<Block> tmp = new ArrayList<>();
 			for (int i = 0; i < this.getLength(); i++) {
 				tmp.add(block.getRelative(getDirection(), i + 1));
 			}

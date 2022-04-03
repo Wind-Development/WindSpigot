@@ -1,8 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,7 +9,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
 
 @Deprecated
 public class TimeCommand extends VanillaCommand {
@@ -81,10 +80,10 @@ public class TimeCommand extends VanillaCommand {
 
 		if (args.length == 1) {
 			return StringUtil.copyPartialMatches(args[0], TABCOMPLETE_ADD_SET,
-					new ArrayList<String>(TABCOMPLETE_ADD_SET.size()));
+					new ArrayList<>(TABCOMPLETE_ADD_SET.size()));
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("set")) {
 			return StringUtil.copyPartialMatches(args[1], TABCOMPLETE_DAY_NIGHT,
-					new ArrayList<String>(TABCOMPLETE_DAY_NIGHT.size()));
+					new ArrayList<>(TABCOMPLETE_DAY_NIGHT.size()));
 		}
 		return ImmutableList.of();
 	}

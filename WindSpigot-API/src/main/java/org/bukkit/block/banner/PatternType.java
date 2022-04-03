@@ -14,7 +14,7 @@ public enum PatternType {
 	GRADIENT_UP("gru"), BRICKS("bri"), SKULL("sku"), FLOWER("flo"), MOJANG("moj");
 
 	private final String identifier;
-	private static final Map<String, PatternType> byString = new HashMap<String, PatternType>();
+	private static final Map<String, PatternType> byString = new HashMap<>();
 
 	static {
 		for (PatternType p : values()) {
@@ -22,7 +22,7 @@ public enum PatternType {
 		}
 	}
 
-	private PatternType(String key) {
+	PatternType(String key) {
 		this.identifier = key;
 	}
 

@@ -1,13 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -22,14 +15,14 @@ import org.bukkit.help.HelpTopicComparator;
 import org.bukkit.help.IndexHelpTopic;
 import org.bukkit.util.ChatPaginator;
 
-import com.google.common.collect.ImmutableList;
+import java.util.*;
 
 public class HelpCommand extends VanillaCommand {
 	public HelpCommand() {
 		super("help");
 		this.description = "Shows the help menu";
 		this.usageMessage = "/help <pageNumber>\n/help <topic>\n/help <topic> <pageNumber>";
-		this.setAliases(Arrays.asList(new String[] { "?" }));
+		this.setAliases(Collections.singletonList("?"));
 		this.setPermission("bukkit.command.help");
 	}
 
@@ -120,7 +113,7 @@ public class HelpCommand extends VanillaCommand {
 		Validate.notNull(alias, "Alias cannot be null");
 
 		if (args.length == 1) {
-			List<String> matchedTopics = new ArrayList<String>();
+			List<String> matchedTopics = new ArrayList<>();
 			String searchString = args[0];
 			for (HelpTopic topic : Bukkit.getServer().getHelpMap().getHelpTopics()) {
 				String trimmedTopic = topic.getName().startsWith("/") ? topic.getName().substring(1) : topic.getName();
@@ -136,7 +129,7 @@ public class HelpCommand extends VanillaCommand {
 
 	protected HelpTopic findPossibleMatches(String searchString) {
 		int maxDistance = (searchString.length() / 5) + 3;
-		Set<HelpTopic> possibleMatches = new TreeSet<HelpTopic>(HelpTopicComparator.helpTopicComparatorInstance());
+		Set<HelpTopic> possibleMatches = new TreeSet<>(HelpTopicComparator.helpTopicComparatorInstance());
 
 		if (searchString.startsWith("/")) {
 			searchString = searchString.substring(1);
@@ -203,7 +196,7 @@ public class HelpCommand extends VanillaCommand {
 			H[0][j + 1] = INF;
 		}
 
-		Map<Character, Integer> sd = new HashMap<Character, Integer>();
+		Map<Character, Integer> sd = new HashMap<>();
 		for (char Letter : (s1 + s2).toCharArray()) {
 			if (!sd.containsKey(Letter)) {
 				sd.put(Letter, 0);

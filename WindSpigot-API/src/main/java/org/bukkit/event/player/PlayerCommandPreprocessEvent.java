@@ -1,12 +1,12 @@
 package org.bukkit.event.player;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This event is called whenever a player runs a command (by placing a slash at
@@ -52,7 +52,7 @@ public class PlayerCommandPreprocessEvent extends PlayerEvent implements Cancell
 
 	public PlayerCommandPreprocessEvent(final Player player, final String message) {
 		super(player);
-		this.recipients = new HashSet<Player>(player.getServer().getOnlinePlayers());
+		this.recipients = new HashSet<>(player.getServer().getOnlinePlayers());
 		this.message = message;
 	}
 

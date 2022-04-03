@@ -1,18 +1,14 @@
 package org.bukkit.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.minecart.CommandMinecart;
-import org.bukkit.entity.minecart.ExplosiveMinecart;
-import org.bukkit.entity.minecart.HopperMinecart;
 import org.bukkit.entity.minecart.PoweredMinecart;
-import org.bukkit.entity.minecart.RideableMinecart;
-import org.bukkit.entity.minecart.SpawnerMinecart;
 import org.bukkit.entity.minecart.StorageMinecart;
+import org.bukkit.entity.minecart.*;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum EntityType {
 
@@ -154,13 +150,14 @@ public enum EntityType {
 	 */
 	UNKNOWN(null, null, -1, false);
 
-	private String name;
-	private Class<? extends Entity> clazz;
-	private short typeId;
-	private boolean independent, living;
+	private final String name;
+	private final Class<? extends Entity> clazz;
+	private final short typeId;
+	private final boolean independent;
+	private boolean living;
 
-	private static final Map<String, EntityType> NAME_MAP = new HashMap<String, EntityType>();
-	private static final Map<Short, EntityType> ID_MAP = new HashMap<Short, EntityType>();
+	private static final Map<String, EntityType> NAME_MAP = new HashMap<>();
+	private static final Map<Short, EntityType> ID_MAP = new HashMap<>();
 
 	static {
 		for (EntityType type : values()) {
@@ -173,11 +170,11 @@ public enum EntityType {
 		}
 	}
 
-	private EntityType(String name, Class<? extends Entity> clazz, int typeId) {
+	EntityType(String name, Class<? extends Entity> clazz, int typeId) {
 		this(name, clazz, typeId, true);
 	}
 
-	private EntityType(String name, Class<? extends Entity> clazz, int typeId, boolean independent) {
+	EntityType(String name, Class<? extends Entity> clazz, int typeId, boolean independent) {
 		this.name = name;
 		this.clazz = clazz;
 		this.typeId = (short) typeId;

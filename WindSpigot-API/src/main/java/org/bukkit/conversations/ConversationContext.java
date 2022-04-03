@@ -1,8 +1,8 @@
 package org.bukkit.conversations;
 
-import java.util.Map;
-
 import org.bukkit.plugin.Plugin;
+
+import java.util.Map;
 
 /**
  * A ConversationContext provides continuity between nodes in the prompt graph
@@ -11,9 +11,9 @@ import org.bukkit.plugin.Plugin;
  * invocations.
  */
 public class ConversationContext {
-	private Conversable forWhom;
-	private Map<Object, Object> sessionData;
-	private Plugin plugin;
+	private final Conversable forWhom;
+	private final Map<Object, Object> sessionData;
+	private final Plugin plugin;
 
 	/**
 	 * @param plugin             The owning plugin.

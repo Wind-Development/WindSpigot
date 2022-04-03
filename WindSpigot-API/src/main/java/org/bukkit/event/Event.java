@@ -93,6 +93,6 @@ public abstract class Event {
 		 * possible, even if the server would not normally allow the action. Some
 		 * actions may not be allowed.
 		 */
-		ALLOW;
-	}
+		ALLOW
+    }
 }

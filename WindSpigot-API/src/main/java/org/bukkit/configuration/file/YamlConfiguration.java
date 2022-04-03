@@ -1,13 +1,5 @@
 package org.bukkit.configuration.file;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.util.Map;
-import java.util.logging.Level;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
@@ -17,6 +9,10 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.representer.Representer;
+
+import java.io.*;
+import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * An implementation of {@link Configuration} which saves all files in Yaml.
@@ -118,7 +114,7 @@ public class YamlConfiguration extends FileConfiguration {
 		if (options().copyHeader()) {
 			Configuration def = getDefaults();
 
-			if ((def != null) && (def instanceof FileConfiguration)) {
+			if (def instanceof FileConfiguration) {
 				FileConfiguration filedefaults = (FileConfiguration) def;
 				String defaultsHeader = filedefaults.buildHeader();
 
@@ -177,10 +173,8 @@ public class YamlConfiguration extends FileConfiguration {
 
 		try {
 			config.load(file);
-		} catch (FileNotFoundException ex) {
-		} catch (IOException ex) {
-			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
-		} catch (InvalidConfigurationException ex) {
+		} catch (FileNotFoundException ignored) {
+		} catch (IOException | InvalidConfigurationException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
 		}
 
@@ -208,9 +202,7 @@ public class YamlConfiguration extends FileConfiguration {
 
 		try {
 			config.load(stream);
-		} catch (IOException ex) {
-			Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
-		} catch (InvalidConfigurationException ex) {
+		} catch (IOException | InvalidConfigurationException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
 		}
 
@@ -234,9 +226,7 @@ public class YamlConfiguration extends FileConfiguration {
 
 		try {
 			config.load(reader);
-		} catch (IOException ex) {
-			Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
-		} catch (InvalidConfigurationException ex) {
+		} catch (IOException | InvalidConfigurationException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Cannot load configuration from stream", ex);
 		}
 

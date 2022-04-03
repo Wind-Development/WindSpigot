@@ -1,8 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
 
 @Deprecated
 public class GameModeCommand extends VanillaCommand {
@@ -49,7 +48,7 @@ public class GameModeCommand extends VanillaCommand {
 
 			try {
 				value = Integer.parseInt(modeArg);
-			} catch (NumberFormatException ex) {
+			} catch (NumberFormatException ignored) {
 			}
 
 			GameMode mode = GameMode.getByValue(value);
@@ -73,10 +72,10 @@ public class GameModeCommand extends VanillaCommand {
 					sender.sendMessage("Game mode change for " + player.getName() + " failed!");
 				} else {
 					if (player == sender) {
-						Command.broadcastCommandMessage(sender, "Set own game mode to " + mode.toString() + " mode");
+						Command.broadcastCommandMessage(sender, "Set own game mode to " + mode + " mode");
 					} else {
 						Command.broadcastCommandMessage(sender,
-								"Set " + player.getName() + "'s game mode to " + mode.toString() + " mode");
+								"Set " + player.getName() + "'s game mode to " + mode + " mode");
 					}
 				}
 			} else {
@@ -96,7 +95,7 @@ public class GameModeCommand extends VanillaCommand {
 		Validate.notNull(alias, "Alias cannot be null");
 
 		if (args.length == 1) {
-			return StringUtil.copyPartialMatches(args[0], GAMEMODE_NAMES, new ArrayList<String>(GAMEMODE_NAMES.size()));
+			return StringUtil.copyPartialMatches(args[0], GAMEMODE_NAMES, new ArrayList<>(GAMEMODE_NAMES.size()));
 		} else if (args.length == 2) {
 			return super.tabComplete(sender, alias, args);
 		}

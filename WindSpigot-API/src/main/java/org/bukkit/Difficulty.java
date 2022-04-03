@@ -1,8 +1,8 @@
 package org.bukkit;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * Represents the various difficulty levels that are available.
@@ -36,7 +36,7 @@ public enum Difficulty {
 	private final int value;
 	private final static Map<Integer, Difficulty> BY_ID = Maps.newHashMap();
 
-	private Difficulty(final int value) {
+	Difficulty(final int value) {
 		this.value = value;
 	}
 

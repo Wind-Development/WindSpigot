@@ -9,7 +9,7 @@ public interface CommandBlock extends BlockState {
 	 *
 	 * @return Command that this CommandBlock will run when powered.
 	 */
-	public String getCommand();
+    String getCommand();
 
 	/**
 	 * Sets the command that this CommandBlock will run when powered. Setting the
@@ -17,7 +17,7 @@ public interface CommandBlock extends BlockState {
 	 *
 	 * @param command Command that this CommandBlock will run when powered.
 	 */
-	public void setCommand(String command);
+    void setCommand(String command);
 
 	/**
 	 * Gets the name of this CommandBlock. The name is used with commands that this
@@ -25,7 +25,7 @@ public interface CommandBlock extends BlockState {
 	 *
 	 * @return Name of this CommandBlock.
 	 */
-	public String getName();
+    String getName();
 
 	/**
 	 * Sets the name of this CommandBlock. The name is used with commands that this
@@ -34,5 +34,5 @@ public interface CommandBlock extends BlockState {
 	 *
 	 * @param name New name for this CommandBlock.
 	 */
-	public void setName(String name);
+    void setName(String name);
 }

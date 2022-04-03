@@ -1,14 +1,10 @@
 package org.bukkit.event;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map.Entry;
-
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * A list of event handlers, stored per-event. Based on lahwran's fevents.
@@ -29,7 +25,7 @@ public class HandlerList {
 	/**
 	 * List of all HandlerLists which have been created, for use in bakeAll()
 	 */
-	private static final ArrayList<HandlerList> allLists = new ArrayList<HandlerList>();
+	private static final ArrayList<HandlerList> allLists = new ArrayList<>();
 
 	/**
 	 * Bake all handler lists. Best used just after all normal event registration is
@@ -180,7 +176,7 @@ public class HandlerList {
 	public synchronized void bake() {
 		if (handlers != null)
 			return; // don't re-bake when still valid
-		List<RegisteredListener> entries = new ArrayList<RegisteredListener>();
+		List<RegisteredListener> entries = new ArrayList<>();
 		for (Entry<EventPriority, ArrayList<RegisteredListener>> entry : handlerslots.entrySet()) {
 			entries.addAll(entry.getValue());
 		}
@@ -207,7 +203,7 @@ public class HandlerList {
 	 * @return the list of registered listeners
 	 */
 	public static ArrayList<RegisteredListener> getRegisteredListeners(Plugin plugin) {
-		ArrayList<RegisteredListener> listeners = new ArrayList<RegisteredListener>();
+		ArrayList<RegisteredListener> listeners = new ArrayList<>();
 		synchronized (allLists) {
 			for (HandlerList h : allLists) {
 				synchronized (h) {

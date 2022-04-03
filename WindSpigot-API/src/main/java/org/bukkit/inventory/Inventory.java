@@ -1,12 +1,12 @@
 package org.bukkit.inventory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Interface to the various inventories. Behavior relating to
@@ -19,14 +19,14 @@ public interface Inventory extends Iterable<ItemStack> {
 	 *
 	 * @return The size of the inventory
 	 */
-	public int getSize();
+    int getSize();
 
 	/**
 	 * Returns the maximum stack size for an ItemStack in this inventory.
 	 *
 	 * @return The maximum size for an ItemStack in this inventory.
 	 */
-	public int getMaxStackSize();
+    int getMaxStackSize();
 
 	/**
 	 * This method allows you to change the maximum stack size for an inventory.
@@ -43,14 +43,14 @@ public interface Inventory extends Iterable<ItemStack> {
 	 *
 	 * @param size The new maximum stack size for items in this inventory.
 	 */
-	public void setMaxStackSize(int size);
+    void setMaxStackSize(int size);
 
 	/**
 	 * Returns the name of the inventory
 	 *
 	 * @return The String with the name of the inventory
 	 */
-	public String getName();
+    String getName();
 
 	/**
 	 * Returns the ItemStack found in the slot at the given index
@@ -58,7 +58,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @param index The index of the Slot's ItemStack to return
 	 * @return The ItemStack in the slot
 	 */
-	public ItemStack getItem(int index);
+    ItemStack getItem(int index);
 
 	/**
 	 * Stores the ItemStack at the given index of the inventory.
@@ -66,7 +66,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @param index The index where to put the ItemStack
 	 * @param item  The ItemStack to set
 	 */
-	public void setItem(int index, ItemStack item);
+    void setItem(int index, ItemStack item);
 
 	/**
 	 * Stores the given ItemStacks in the inventory. This will try to fill existing
@@ -87,7 +87,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @return A HashMap containing items that didn't fit.
 	 * @throws IllegalArgumentException if items or any element in it is null
 	 */
-	public HashMap<Integer, ItemStack> addItem(ItemStack... items) throws IllegalArgumentException;
+    HashMap<Integer, ItemStack> addItem(ItemStack... items) throws IllegalArgumentException;
 
 	/**
 	 * Removes the given ItemStacks from the inventory.
@@ -104,14 +104,14 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @return A HashMap containing items that couldn't be removed.
 	 * @throws IllegalArgumentException if items is null
 	 */
-	public HashMap<Integer, ItemStack> removeItem(ItemStack... items) throws IllegalArgumentException;
+    HashMap<Integer, ItemStack> removeItem(ItemStack... items) throws IllegalArgumentException;
 
 	/**
 	 * Returns all ItemStacks from the inventory
 	 *
 	 * @return An array of ItemStacks from the inventory.
 	 */
-	public ItemStack[] getContents();
+    ItemStack[] getContents();
 
 	/**
 	 * Completely replaces the inventory's contents. Removes all existing contents
@@ -122,7 +122,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @throws IllegalArgumentException If the array has more items than the
 	 *                                  inventory.
 	 */
-	public void setContents(ItemStack[] items) throws IllegalArgumentException;
+    void setContents(ItemStack[] items) throws IllegalArgumentException;
 
 	/**
 	 * Checks if the inventory contains any ItemStacks with the given materialId
@@ -132,7 +132,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @deprecated Magic value
 	 */
 	@Deprecated
-	public boolean contains(int materialId);
+    boolean contains(int materialId);
 
 	/**
 	 * Checks if the inventory contains any ItemStacks with the given material.
@@ -141,7 +141,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @return true if an ItemStack is found with the given Material
 	 * @throws IllegalArgumentException if material is null
 	 */
-	public boolean contains(Material material) throws IllegalArgumentException;
+    boolean contains(Material material) throws IllegalArgumentException;
 
 	/**
 	 * Checks if the inventory contains any ItemStacks matching the given ItemStack.
@@ -153,7 +153,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @return false if item is null, true if any exactly matching ItemStacks were
 	 *         found
 	 */
-	public boolean contains(ItemStack item);
+    boolean contains(ItemStack item);
 
 	/**
 	 * Checks if the inventory contains any ItemStacks with the given materialId,
@@ -166,7 +166,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @deprecated Magic value
 	 */
 	@Deprecated
-	public boolean contains(int materialId, int amount);
+    boolean contains(int materialId, int amount);
 
 	/**
 	 * Checks if the inventory contains any ItemStacks with the given material,
@@ -178,7 +178,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 *         to add to the given amount
 	 * @throws IllegalArgumentException if material is null
 	 */
-	public boolean contains(Material material, int amount) throws IllegalArgumentException;
+    boolean contains(Material material, int amount) throws IllegalArgumentException;
 
 	/**
 	 * Checks if the inventory contains at least the minimum amount specified of
@@ -192,7 +192,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 *         exactly matching ItemStacks were found
 	 * @see #containsAtLeast(ItemStack, int)
 	 */
-	public boolean contains(ItemStack item, int amount);
+    boolean contains(ItemStack item, int amount);
 
 	/**
 	 * Checks if the inventory contains ItemStacks matching the given ItemStack
@@ -203,7 +203,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @return false if item is null, true if amount less than 1, true if enough
 	 *         ItemStacks were found to add to the given amount
 	 */
-	public boolean containsAtLeast(ItemStack item, int amount);
+    boolean containsAtLeast(ItemStack item, int amount);
 
 	/**
 	 * Returns a HashMap with all slots and ItemStacks in the inventory with given
@@ -218,7 +218,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @deprecated Magic value
 	 */
 	@Deprecated
-	public HashMap<Integer, ? extends ItemStack> all(int materialId);
+    HashMap<Integer, ? extends ItemStack> all(int materialId);
 
 	/**
 	 * Returns a HashMap with all slots and ItemStacks in the inventory with the
@@ -232,7 +232,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @return A HashMap containing the slot index, ItemStack pairs
 	 * @throws IllegalArgumentException if material is null
 	 */
-	public HashMap<Integer, ? extends ItemStack> all(Material material) throws IllegalArgumentException;
+    HashMap<Integer, ? extends ItemStack> all(Material material) throws IllegalArgumentException;
 
 	/**
 	 * Finds all slots in the inventory containing any ItemStacks with the given
@@ -246,7 +246,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @param item The ItemStack to match against
 	 * @return A map from slot indexes to item at index
 	 */
-	public HashMap<Integer, ? extends ItemStack> all(ItemStack item);
+    HashMap<Integer, ? extends ItemStack> all(ItemStack item);
 
 	/**
 	 * Finds the first slot in the inventory containing an ItemStack with the given
@@ -257,7 +257,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @deprecated Magic value
 	 */
 	@Deprecated
-	public int first(int materialId);
+    int first(int materialId);
 
 	/**
 	 * Finds the first slot in the inventory containing an ItemStack with the given
@@ -267,7 +267,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @return The slot index of the given Material or -1 if not found
 	 * @throws IllegalArgumentException if material is null
 	 */
-	public int first(Material material) throws IllegalArgumentException;
+    int first(Material material) throws IllegalArgumentException;
 
 	/**
 	 * Returns the first slot in the inventory containing an ItemStack with the
@@ -277,14 +277,14 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @param item The ItemStack to match against
 	 * @return The slot index of the given ItemStack or -1 if not found
 	 */
-	public int first(ItemStack item);
+    int first(ItemStack item);
 
 	/**
 	 * Returns the first empty Slot.
 	 *
 	 * @return The first empty Slot found, or -1 if no empty slots.
 	 */
-	public int firstEmpty();
+    int firstEmpty();
 
 	/**
 	 * Removes all stacks in the inventory matching the given materialId.
@@ -293,7 +293,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @deprecated Magic value
 	 */
 	@Deprecated
-	public void remove(int materialId);
+    void remove(int materialId);
 
 	/**
 	 * Removes all stacks in the inventory matching the given material.
@@ -301,7 +301,7 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @param material The material to remove
 	 * @throws IllegalArgumentException if material is null
 	 */
-	public void remove(Material material) throws IllegalArgumentException;
+    void remove(Material material) throws IllegalArgumentException;
 
 	/**
 	 * Removes all stacks in the inventory matching the given stack.
@@ -311,19 +311,19 @@ public interface Inventory extends Iterable<ItemStack> {
 	 *
 	 * @param item The ItemStack to match against
 	 */
-	public void remove(ItemStack item);
+    void remove(ItemStack item);
 
 	/**
 	 * Clears out a particular slot in the index.
 	 *
 	 * @param index The index to empty.
 	 */
-	public void clear(int index);
+    void clear(int index);
 
 	/**
 	 * Clears out the whole Inventory.
 	 */
-	public void clear();
+    void clear();
 
 	/**
 	 * Gets a list of players viewing the inventory. Note that a player is
@@ -335,31 +335,31 @@ public interface Inventory extends Iterable<ItemStack> {
 	 *
 	 * @return A list of HumanEntities who are viewing this Inventory.
 	 */
-	public List<HumanEntity> getViewers();
+    List<HumanEntity> getViewers();
 
 	/**
 	 * Returns the title of this inventory.
 	 *
 	 * @return A String with the title.
 	 */
-	public String getTitle();
+    String getTitle();
 
 	/**
 	 * Returns what type of inventory this is.
 	 *
 	 * @return The InventoryType representing the type of inventory.
 	 */
-	public InventoryType getType();
+    InventoryType getType();
 
 	/**
 	 * Gets the block or entity belonging to the open inventory
 	 *
 	 * @return The holder of the inventory; null if it has no holder.
 	 */
-	public InventoryHolder getHolder();
+    InventoryHolder getHolder();
 
 	@Override
-	public ListIterator<ItemStack> iterator();
+    ListIterator<ItemStack> iterator();
 
 	/**
 	 * Returns an iterator starting at the given index. If the index is positive,
@@ -370,5 +370,5 @@ public interface Inventory extends Iterable<ItemStack> {
 	 * @param index The index.
 	 * @return An iterator.
 	 */
-	public ListIterator<ItemStack> iterator(int index);
+    ListIterator<ItemStack> iterator(int index);
 }

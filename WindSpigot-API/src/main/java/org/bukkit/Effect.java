@@ -1,12 +1,11 @@
 package org.bukkit;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.bukkit.block.BlockFace;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.Potion;
 
-import com.google.common.collect.Maps;
+import java.util.Map;
 
 /**
  * A list of effects that the server is able to send to players.
@@ -232,25 +231,25 @@ public enum Effect {
 	private static final Map<String, Effect> BY_NAME = Maps.newHashMap();
 	private final String particleName;
 
-	private Effect(int id, Type type) {
+	Effect(int id, Type type) {
 		this(id, type, null);
 	}
 
-	private Effect(int id, Type type, Class<?> data) {
+	Effect(int id, Type type, Class<?> data) {
 		this.id = id;
 		this.type = type;
 		this.data = data;
 		particleName = null;
 	}
 
-	private Effect(String particleName, Type type, Class<?> data) {
+	Effect(String particleName, Type type, Class<?> data) {
 		this.particleName = particleName;
 		this.type = type;
 		id = 0;
 		this.data = data;
 	}
 
-	private Effect(String particleName, Type type) {
+	Effect(String particleName, Type type) {
 		this.particleName = particleName;
 		this.type = type;
 		id = 0;

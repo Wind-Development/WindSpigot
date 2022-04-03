@@ -1,10 +1,10 @@
 package org.bukkit;
 
-import java.util.List;
-
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
+
+import java.util.List;
 
 /**
  * Represents a chunk of blocks
@@ -123,5 +123,5 @@ public interface Chunk {
 	 */
 	boolean unload();
 
-	public List<Block> getBlocks(Material material);
+	List<Block> getBlocks(Material material);
 }

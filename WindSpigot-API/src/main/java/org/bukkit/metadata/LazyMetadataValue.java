@@ -1,10 +1,10 @@
 package org.bukkit.metadata;
 
-import java.lang.ref.SoftReference;
-import java.util.concurrent.Callable;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.plugin.Plugin;
+
+import java.lang.ref.SoftReference;
+import java.util.concurrent.Callable;
 
 /**
  * The LazyMetadataValue class implements a type of metadata that is not
@@ -44,7 +44,7 @@ public class LazyMetadataValue extends MetadataValueAdapter implements MetadataV
 		super(owningPlugin);
 		Validate.notNull(cacheStrategy, "cacheStrategy cannot be null");
 		Validate.notNull(lazyValue, "lazyValue cannot be null");
-		this.internalValue = new SoftReference<Object>(null);
+		this.internalValue = new SoftReference<>(null);
 		this.lazyValue = lazyValue;
 		this.cacheStrategy = cacheStrategy;
 	}
@@ -80,7 +80,7 @@ public class LazyMetadataValue extends MetadataValueAdapter implements MetadataV
 				if (value == null) {
 					value = ACTUALLY_NULL;
 				}
-				internalValue = new SoftReference<Object>(value);
+				internalValue = new SoftReference<>(value);
 			} catch (Exception e) {
 				throw new MetadataEvaluationException(e);
 			}

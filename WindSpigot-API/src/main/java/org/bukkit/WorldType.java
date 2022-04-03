@@ -1,8 +1,8 @@
 package org.bukkit;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * Represents various types of worlds that may exist
@@ -14,7 +14,7 @@ public enum WorldType {
 	private final static Map<String, WorldType> BY_NAME = Maps.newHashMap();
 	private final String name;
 
-	private WorldType(String name) {
+	WorldType(String name) {
 		this.name = name;
 	}
 

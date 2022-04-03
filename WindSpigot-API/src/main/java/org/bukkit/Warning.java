@@ -1,12 +1,12 @@
 package org.bukkit;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Map;
-
-import com.google.common.collect.ImmutableMap;
 
 /**
  * This designates the warning state for a specific item.
@@ -21,7 +21,7 @@ public @interface Warning {
 	/**
 	 * This represents the states that server verbose for warnings may be.
 	 */
-	public enum WarningState {
+    enum WarningState {
 
 		/**
 		 * Indicates all warnings should be printed for deprecated items.

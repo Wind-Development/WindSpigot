@@ -12,7 +12,7 @@ public interface ConversationCanceller extends Cloneable {
 	 *
 	 * @param conversation A conversation.
 	 */
-	public void setConversation(Conversation conversation);
+    void setConversation(Conversation conversation);
 
 	/**
 	 * Cancels a conversation based on user input.
@@ -21,7 +21,7 @@ public interface ConversationCanceller extends Cloneable {
 	 * @param input   The input text from the user.
 	 * @return True to cancel the conversation, False otherwise.
 	 */
-	public boolean cancelBasedOnInput(ConversationContext context, String input);
+    boolean cancelBasedOnInput(ConversationContext context, String input);
 
 	/**
 	 * Allows the {@link ConversationFactory} to duplicate this
@@ -31,5 +31,5 @@ public interface ConversationCanceller extends Cloneable {
 	 *
 	 * @return A clone.
 	 */
-	public ConversationCanceller clone();
+    ConversationCanceller clone();
 }

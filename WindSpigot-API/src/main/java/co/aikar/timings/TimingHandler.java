@@ -23,12 +23,11 @@
  */
 package co.aikar.timings;
 
-import java.util.logging.Level;
-
-import org.bukkit.Bukkit;
-
 import co.aikar.util.LoadingIntMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import org.bukkit.Bukkit;
+
+import java.util.logging.Level;
 
 class TimingHandler implements Timing {
 
@@ -38,7 +37,7 @@ class TimingHandler implements Timing {
 	final String name;
 	final boolean verbose;
 
-	final TIntObjectHashMap<TimingData> children = new LoadingIntMap<TimingData>(TimingData.LOADER);
+	final TIntObjectHashMap<TimingData> children = new LoadingIntMap<>(TimingData.LOADER);
 
 	final TimingData record;
 	final TimingHandler groupHandler;

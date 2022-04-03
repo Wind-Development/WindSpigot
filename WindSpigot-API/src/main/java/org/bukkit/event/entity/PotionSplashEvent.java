@@ -1,14 +1,14 @@
 package org.bukkit.event.entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Called when a splash potion hits an area
@@ -35,7 +35,7 @@ public class PotionSplashEvent extends ProjectileHitEvent implements Cancellable
 	 * @return The thrown potion entity
 	 */
 	public ThrownPotion getPotion() {
-		return (ThrownPotion) getEntity();
+		return getEntity();
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class PotionSplashEvent extends ProjectileHitEvent implements Cancellable
 	 * @return A fresh copy of the affected entity list
 	 */
 	public Collection<LivingEntity> getAffectedEntities() {
-		return new ArrayList<LivingEntity>(affectedEntities.keySet());
+		return new ArrayList<>(affectedEntities.keySet());
 	}
 
 	/**

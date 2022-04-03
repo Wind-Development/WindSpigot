@@ -10,7 +10,7 @@ public interface IronGolem extends Golem {
 	 *
 	 * @return Whether this iron golem was built by a player
 	 */
-	public boolean isPlayerCreated();
+    boolean isPlayerCreated();
 
 	/**
 	 * Sets whether this iron golem was built by a player or not.
@@ -19,5 +19,5 @@ public interface IronGolem extends Golem {
 	 *                      created, false if you want it to be a natural village
 	 *                      golem.
 	 */
-	public void setPlayerCreated(boolean playerCreated);
+    void setPlayerCreated(boolean playerCreated);
 }

@@ -1,9 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,13 +10,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Deprecated
 public class ClearCommand extends VanillaCommand {
-	private static List<String> materials;
+	private static final List<String> materials;
 	static {
-		ArrayList<String> materialList = new ArrayList<String>();
+		ArrayList<String> materialList = new ArrayList<>();
 		for (Material material : Material.values()) {
 			materialList.add(material.name());
 		}
@@ -101,7 +100,7 @@ public class ClearCommand extends VanillaCommand {
 				String material = materials.get(i);
 				if (StringUtil.startsWithIgnoreCase(material, arg)) {
 					if (completion == null) {
-						completion = new ArrayList<String>();
+						completion = new ArrayList<>();
 					}
 					completion.add(material);
 				} else {

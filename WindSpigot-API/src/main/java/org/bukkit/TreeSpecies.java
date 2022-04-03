@@ -1,8 +1,8 @@
 package org.bukkit;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * Represents the different species of trees regardless of size.
@@ -37,7 +37,7 @@ public enum TreeSpecies {
 	private final byte data;
 	private final static Map<Byte, TreeSpecies> BY_DATA = Maps.newHashMap();
 
-	private TreeSpecies(final int data) {
+	TreeSpecies(final int data) {
 		this.data = (byte) data;
 	}
 

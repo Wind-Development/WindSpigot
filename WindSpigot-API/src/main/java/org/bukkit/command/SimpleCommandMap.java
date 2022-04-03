@@ -1,26 +1,16 @@
 package org.bukkit.command;
 
-import static org.bukkit.util.Java15Compat.Arrays_copyOfRange;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Server;
-import org.bukkit.command.defaults.HelpCommand;
-import org.bukkit.command.defaults.PluginsCommand;
-import org.bukkit.command.defaults.ReloadCommand;
-import org.bukkit.command.defaults.VanillaCommand;
-import org.bukkit.command.defaults.VersionCommand;
+import org.bukkit.command.defaults.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
+
+import java.util.*;
+import java.util.regex.Pattern;
+
+import static org.bukkit.util.Java15Compat.Arrays_copyOfRange;
 
 public class SimpleCommandMap implements CommandMap {
 	private static final Pattern PATTERN_ON_SPACE = Pattern.compile(" ", Pattern.LITERAL);
@@ -181,8 +171,7 @@ public class SimpleCommandMap implements CommandMap {
 	}
 
 	public Command getCommand(String name) {
-		Command target = knownCommands.get(name.toLowerCase());
-		return target;
+		return knownCommands.get(name.toLowerCase());
 	}
 
 	public List<String> tabComplete(CommandSender sender, String cmdLine) {
@@ -201,7 +190,7 @@ public class SimpleCommandMap implements CommandMap {
 		int spaceIndex = cmdLine.indexOf(' ');
 
 		if (spaceIndex == -1) {
-			ArrayList<String> completions = new ArrayList<String>();
+			ArrayList<String> completions = new ArrayList<>();
 			Map<String, Command> knownCommands = this.knownCommands;
 
 			final String prefix = (sender instanceof Player ? "/" : "");
@@ -220,7 +209,7 @@ public class SimpleCommandMap implements CommandMap {
 				}
 			}
 
-			Collections.sort(completions, String.CASE_INSENSITIVE_ORDER);
+			completions.sort(String.CASE_INSENSITIVE_ORDER);
 			return completions;
 		}
 
@@ -235,7 +224,7 @@ public class SimpleCommandMap implements CommandMap {
 			return null;
 		}
 
-		String argLine = cmdLine.substring(spaceIndex + 1, cmdLine.length());
+		String argLine = cmdLine.substring(spaceIndex + 1);
 		String[] args = PATTERN_ON_SPACE.split(argLine, -1);
 
 		try {
@@ -264,7 +253,7 @@ public class SimpleCommandMap implements CommandMap {
 			}
 
 			String[] commandStrings = values.get(alias);
-			List<String> targets = new ArrayList<String>();
+			List<String> targets = new ArrayList<>();
 			StringBuilder bad = new StringBuilder();
 
 			for (String commandString : commandStrings) {

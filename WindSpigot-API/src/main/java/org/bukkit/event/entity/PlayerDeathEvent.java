@@ -1,18 +1,18 @@
 package org.bukkit.event.entity;
 
-import java.util.List;
-
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 /**
  * Thrown whenever a {@link Player} dies
  */
 public class PlayerDeathEvent extends EntityDeathEvent {
-	private int newExp = 0;
-	private String deathMessage = "";
-	private int newLevel = 0;
-	private int newTotalExp = 0;
+	private int newExp;
+	private String deathMessage;
+	private int newLevel;
+	private int newTotalExp;
 	private boolean keepLevel = false;
 	private boolean keepInventory = false;
 

@@ -1,8 +1,8 @@
 package org.bukkit.event.entity;
 
-import java.util.EnumMap;
-import java.util.Map;
-
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -10,9 +10,8 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.util.NumberConversions;
 
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
-import com.google.common.collect.ImmutableMap;
+import java.util.EnumMap;
+import java.util.Map;
 
 /**
  * Stores data for damage events
@@ -34,7 +33,7 @@ public class EntityDamageEvent extends EntityEvent implements Cancellable {
 
 	@Deprecated
 	public EntityDamageEvent(final Entity damagee, final DamageCause cause, final double damage) {
-		this(damagee, cause, new EnumMap<DamageModifier, Double>(ImmutableMap.of(DamageModifier.BASE, damage)),
+		this(damagee, cause, new EnumMap<>(ImmutableMap.of(DamageModifier.BASE, damage)),
 				new EnumMap<DamageModifier, Function<? super Double, Double>>(
 						ImmutableMap.of(DamageModifier.BASE, ZERO)));
 	}
@@ -48,7 +47,7 @@ public class EntityDamageEvent extends EntityEvent implements Cancellable {
 		Validate.isTrue(modifiers.keySet().equals(modifierFunctions.keySet()),
 				"Must have a modifier function for each DamageModifier");
 		Validate.noNullElements(modifierFunctions.values(), "Cannot have null modifier function");
-		this.originals = new EnumMap<DamageModifier, Double>(modifiers);
+		this.originals = new EnumMap<>(modifiers);
 		this.cause = cause;
 		this.modifiers = modifiers;
 		this.modifierFunctions = modifierFunctions;
@@ -273,7 +272,7 @@ public class EntityDamageEvent extends EntityEvent implements Cancellable {
 		/**
 		 * This represents the damage reduction caused by the absorption potion effect.
 		 */
-		ABSORPTION,;
+		ABSORPTION,
 	}
 
 	/**

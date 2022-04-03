@@ -1,9 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
 
 @Deprecated
 public class OpCommand extends VanillaCommand {
@@ -58,7 +56,7 @@ public class OpCommand extends VanillaCommand {
 
 			Player senderPlayer = (Player) sender;
 
-			ArrayList<String> matchedPlayers = new ArrayList<String>();
+			ArrayList<String> matchedPlayers = new ArrayList<>();
 			for (Player player : sender.getServer().getOnlinePlayers()) {
 				String name = player.getName();
 				if (!senderPlayer.canSee(player) || player.isOp()) {
@@ -69,7 +67,7 @@ public class OpCommand extends VanillaCommand {
 				}
 			}
 
-			Collections.sort(matchedPlayers, String.CASE_INSENSITIVE_ORDER);
+			matchedPlayers.sort(String.CASE_INSENSITIVE_ORDER);
 			return matchedPlayers;
 		}
 		return ImmutableList.of();

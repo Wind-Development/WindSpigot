@@ -1,10 +1,10 @@
 package org.bukkit.enchantments;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.command.defaults.EnchantCommand;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The various type of enchantments that may be added to armour or weapons
@@ -136,8 +136,8 @@ public abstract class Enchantment {
 	 */
 	public static final Enchantment LURE = new EnchantmentWrapper(62);
 
-	private static final Map<Integer, Enchantment> byId = new HashMap<Integer, Enchantment>();
-	private static final Map<String, Enchantment> byName = new HashMap<String, Enchantment>();
+	private static final Map<Integer, Enchantment> byId = new HashMap<>();
+	private static final Map<String, Enchantment> byName = new HashMap<>();
 	private static boolean acceptingNew = true;
 	private final int id;
 
@@ -212,10 +212,7 @@ public abstract class Enchantment {
 			return false;
 		}
 		final Enchantment other = (Enchantment) obj;
-		if (this.id != other.id) {
-			return false;
-		}
-		return true;
+		return this.id == other.id;
 	}
 
 	@Override

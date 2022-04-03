@@ -1,10 +1,10 @@
 package org.bukkit.material;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+
+import java.util.Arrays;
+import java.util.EnumSet;
 
 /**
  * Represents a vine
@@ -138,7 +138,7 @@ public class Vine extends MaterialData {
 		case UP:
 			break;
 		default:
-			throw new IllegalArgumentException("Vines can't go on face " + face.toString());
+			throw new IllegalArgumentException("Vines can't go on face " + face);
 		}
 	}
 
@@ -180,7 +180,7 @@ public class Vine extends MaterialData {
 		case UP:
 			break;
 		default:
-			throw new IllegalArgumentException("Vines can't go on face " + face.toString());
+			throw new IllegalArgumentException("Vines can't go on face " + face);
 		}
 	}
 

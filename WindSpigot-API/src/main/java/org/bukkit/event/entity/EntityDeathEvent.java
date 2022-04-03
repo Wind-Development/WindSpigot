@@ -1,10 +1,10 @@
 package org.bukkit.event.entity;
 
-import java.util.List;
-
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 /**
  * Thrown whenever a LivingEntity dies
@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 public class EntityDeathEvent extends EntityEvent {
 	private static final HandlerList handlers = new HandlerList();
 	private final List<ItemStack> drops;
-	private int dropExp = 0;
+	private int dropExp;
 
 	public EntityDeathEvent(final LivingEntity entity, final List<ItemStack> drops) {
 		this(entity, drops, 0);

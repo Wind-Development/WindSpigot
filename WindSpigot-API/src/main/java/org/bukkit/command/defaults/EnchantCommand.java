@@ -1,10 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -17,11 +13,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 @Deprecated
 public class EnchantCommand extends VanillaCommand {
-	private static final List<String> ENCHANTMENT_NAMES = new ArrayList<String>();
+	private static final List<String> ENCHANTMENT_NAMES = new ArrayList<>();
 
 	public EnchantCommand() {
 		super("enchant");
@@ -142,7 +141,7 @@ public class EnchantCommand extends VanillaCommand {
 
 		if (args.length == 2) {
 			return StringUtil.copyPartialMatches(args[1], ENCHANTMENT_NAMES,
-					new ArrayList<String>(ENCHANTMENT_NAMES.size()));
+					new ArrayList<>(ENCHANTMENT_NAMES.size()));
 		}
 
 		if (args.length == 3 || args.length == 4) {

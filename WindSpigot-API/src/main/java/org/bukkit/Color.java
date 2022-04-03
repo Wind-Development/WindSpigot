@@ -1,12 +1,11 @@
 package org.bukkit;
 
-import java.util.Map;
-
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 /**
  * A container for a color palette. This class is immutable; the set methods
@@ -144,7 +143,7 @@ public final class Color implements ConfigurationSerializable {
 	 */
 	public static Color fromRGB(int rgb) throws IllegalArgumentException {
 		Validate.isTrue((rgb >> 24) == 0, "Extrenuous data in: ", rgb);
-		return fromRGB(rgb >> 16 & BIT_MASK, rgb >> 8 & BIT_MASK, rgb >> 0 & BIT_MASK);
+		return fromRGB(rgb >> 16 & BIT_MASK, rgb >> 8 & BIT_MASK, rgb & BIT_MASK);
 	}
 
 	/**
@@ -157,7 +156,7 @@ public final class Color implements ConfigurationSerializable {
 	 */
 	public static Color fromBGR(int bgr) throws IllegalArgumentException {
 		Validate.isTrue((bgr >> 24) == 0, "Extrenuous data in: ", bgr);
-		return fromBGR(bgr >> 16 & BIT_MASK, bgr >> 8 & BIT_MASK, bgr >> 0 & BIT_MASK);
+		return fromBGR(bgr >> 16 & BIT_MASK, bgr >> 8 & BIT_MASK, bgr & BIT_MASK);
 	}
 
 	private Color(int red, int green, int blue) {
@@ -232,7 +231,7 @@ public final class Color implements ConfigurationSerializable {
 	 * @return An integer representation of this color, as 0xRRGGBB
 	 */
 	public int asRGB() {
-		return getRed() << 16 | getGreen() << 8 | getBlue() << 0;
+		return getRed() << 16 | getGreen() << 8 | getBlue();
 	}
 
 	/**
@@ -240,7 +239,7 @@ public final class Color implements ConfigurationSerializable {
 	 * @return An integer representation of this color, as 0xBBGGRR
 	 */
 	public int asBGR() {
-		return getBlue() << 16 | getGreen() << 8 | getRed() << 0;
+		return getBlue() << 16 | getGreen() << 8 | getRed();
 	}
 
 	/**
@@ -313,10 +312,9 @@ public final class Color implements ConfigurationSerializable {
 	}
 
 	public Map<String, Object> serialize() {
-		return ImmutableMap.<String, Object>of("RED", getRed(), "BLUE", getBlue(), "GREEN", getGreen());
+		return ImmutableMap.of("RED", getRed(), "BLUE", getBlue(), "GREEN", getGreen());
 	}
 
-	@SuppressWarnings("javadoc")
 	public static Color deserialize(Map<String, Object> map) {
 		return fromRGB(asInt("RED", map), asInt("GREEN", map), asInt("BLUE", map));
 	}

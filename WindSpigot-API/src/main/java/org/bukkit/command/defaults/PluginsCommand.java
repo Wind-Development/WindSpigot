@@ -1,11 +1,12 @@
 package org.bukkit.command.defaults;
 
-import java.util.Arrays;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
+
+import java.util.Collections;
+import java.util.List;
 
 public class PluginsCommand extends BukkitCommand {
 	public PluginsCommand(String name) {
@@ -13,7 +14,7 @@ public class PluginsCommand extends BukkitCommand {
 		this.description = "Gets a list of plugins running on the server";
 		this.usageMessage = "/plugins";
 		this.setPermission("bukkit.command.plugins");
-		this.setAliases(Arrays.asList("pl"));
+		this.setAliases(Collections.singletonList("pl"));
 	}
 
 	@Override
@@ -39,14 +40,14 @@ public class PluginsCommand extends BukkitCommand {
 			pluginList.append(plugin.getDescription().getName());
 		}
 
-		return "(" + plugins.length + "): " + pluginList.toString();
+		return "(" + plugins.length + "): " + pluginList;
 	}
 
 	// Spigot Start
 	@Override
-	public java.util.List<String> tabComplete(CommandSender sender, String alias, String[] args)
+	public List<String> tabComplete(CommandSender sender, String alias, String[] args)
 			throws IllegalArgumentException {
-		return java.util.Collections.emptyList();
+		return Collections.emptyList();
 	}
 	// Spigot End
 }

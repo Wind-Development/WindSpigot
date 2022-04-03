@@ -1,8 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
 
 @Deprecated
 public class DeopCommand extends VanillaCommand {
@@ -50,7 +49,7 @@ public class DeopCommand extends VanillaCommand {
 		Validate.notNull(alias, "Alias cannot be null");
 
 		if (args.length == 1) {
-			List<String> completions = new ArrayList<String>();
+			List<String> completions = new ArrayList<>();
 			for (OfflinePlayer player : Bukkit.getOperators()) {
 				String playerName = player.getName();
 				if (StringUtil.startsWithIgnoreCase(playerName, args[0])) {

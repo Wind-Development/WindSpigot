@@ -1,8 +1,8 @@
 package org.bukkit.plugin;
 
-import java.util.Set;
-
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Set;
 
 /**
  * Represents a concept that a plugin is aware of.
@@ -17,13 +17,13 @@ public interface PluginAwareness {
 	 * {@link PluginDescriptionFile#getAwareness()}.{@link Set#contains(Object)
 	 * contains(flag)}.
 	 */
-	public enum Flags implements PluginAwareness {
+    enum Flags implements PluginAwareness {
 		/**
 		 * This specifies that all (text) resources stored in a plugin's jar use UTF-8
 		 * encoding.
 		 *
 		 * @see JavaPlugin#getTextResource(String)
 		 */
-		UTF8,;
+		UTF8,
 	}
 }

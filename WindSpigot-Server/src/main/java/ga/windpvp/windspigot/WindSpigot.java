@@ -1,9 +1,5 @@
 package ga.windpvp.windspigot;
 
-import java.io.IOException;
-
-import org.bukkit.Bukkit;
-
 import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.world.TeleportSafety;
@@ -12,6 +8,9 @@ import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.MinecraftServer;
+import org.bukkit.Bukkit;
+
+import java.io.IOException;
 
 public class WindSpigot {
 
@@ -55,10 +54,7 @@ public class WindSpigot {
 
 		if (WindSpigotConfig.parallelWorld) {
 			Timings.setTimingsEnabled(false);
-			System.out.println(" ");
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
-					+ "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
-			System.out.println(" ");
+			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
 			TeleportSafety.init();
 		}
 		System.gc();

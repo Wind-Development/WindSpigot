@@ -23,36 +23,23 @@
  */
 package co.aikar.timings;
 
-import static co.aikar.timings.TimingsManager.FULL_SERVER_TICK;
-import static co.aikar.timings.TimingsManager.MINUTE_REPORTS;
-import static co.aikar.util.JSONUtil.createObject;
-import static co.aikar.util.JSONUtil.pair;
-import static co.aikar.util.JSONUtil.toArray;
-import static co.aikar.util.JSONUtil.toArrayMapper;
-import static co.aikar.util.JSONUtil.toObjectMapper;
-
-import java.lang.management.ManagementFactory;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import co.aikar.util.LoadingMap;
+import co.aikar.util.MRUMapCache;
+import com.google.common.base.Function;
+import com.google.common.collect.Sets;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Sets;
+import java.lang.management.ManagementFactory;
+import java.util.*;
 
-import co.aikar.util.JSONUtil.JSONPair;
-import co.aikar.util.LoadingMap;
-import co.aikar.util.MRUMapCache;
+import static co.aikar.timings.TimingsManager.FULL_SERVER_TICK;
+import static co.aikar.timings.TimingsManager.MINUTE_REPORTS;
+import static co.aikar.util.JSONUtil.*;
 
 @SuppressWarnings({ "deprecation", "SuppressionAnnotation" })
 public class TimingHistory {
@@ -63,12 +50,7 @@ public class TimingHistory {
 	public static long tileEntityTicks;
 	public static long activatedEntityTicks;
 	static int worldIdPool = 1;
-	static Map<String, Integer> worldMap = LoadingMap.newHashMap(new Function<String, Integer>() {
-		@Override
-		public Integer apply(String input) {
-			return worldIdPool++;
-		}
-	});
+	static Map<String, Integer> worldMap = LoadingMap.newHashMap(input -> worldIdPool++);
 	final long endTime;
 	final long startTime;
 	final long totalTicks;
@@ -107,48 +89,34 @@ public class TimingHistory {
 		final Map<Material, Counter> tileEntityCounts = MRUMapCache
 				.of(LoadingMap.of(new EnumMap<Material, Counter>(Material.class), Counter.LOADER));
 		// Information about all loaded chunks/entities
-		this.worlds = toObjectMapper(Bukkit.getWorlds(), new Function<World, JSONPair>() {
-			@Override
-			public JSONPair apply(World world) {
-				return pair(worldMap.get(world.getName()),
-						toArrayMapper(world.getLoadedChunks(), new Function<Chunk, Object>() {
-							@Override
-							public Object apply(Chunk chunk) {
-								entityCounts.clear();
-								tileEntityCounts.clear();
+		this.worlds = toObjectMapper(Bukkit.getWorlds(), world -> pair(worldMap.get(world.getName()),
+				toArrayMapper(world.getLoadedChunks(), chunk -> {
+					entityCounts.clear();
+					tileEntityCounts.clear();
 
-								for (Entity entity : chunk.getEntities()) {
-									entityCounts.get(entity.getType()).increment();
-								}
+					for (Entity entity : chunk.getEntities()) {
+						entityCounts.get(entity.getType()).increment();
+					}
 
-								for (BlockState tileEntity : chunk.getTileEntities()) {
-									tileEntityCounts.get(tileEntity.getBlock().getType()).increment();
-								}
+					for (BlockState tileEntity : chunk.getTileEntities()) {
+						tileEntityCounts.get(tileEntity.getBlock().getType()).increment();
+					}
 
-								if (tileEntityCounts.isEmpty() && entityCounts.isEmpty()) {
-									return null;
-								}
-								return toArray(chunk.getX(), chunk.getZ(), toObjectMapper(entityCounts.entrySet(),
-										new Function<Map.Entry<EntityType, Counter>, JSONPair>() {
-											@Override
-											public JSONPair apply(Map.Entry<EntityType, Counter> entry) {
-												entityTypeSet.add(entry.getKey());
-												return pair(String.valueOf(entry.getKey().getTypeId()),
-														entry.getValue().count());
-											}
-										}), toObjectMapper(tileEntityCounts.entrySet(),
-												new Function<Map.Entry<Material, Counter>, JSONPair>() {
-													@Override
-													public JSONPair apply(Map.Entry<Material, Counter> entry) {
-														tileEntityTypeSet.add(entry.getKey());
-														return pair(String.valueOf(entry.getKey().getId()),
-																entry.getValue().count());
-													}
-												}));
-							}
-						}));
-			}
-		});
+					if (tileEntityCounts.isEmpty() && entityCounts.isEmpty()) {
+						return null;
+					}
+					return toArray(chunk.getX(), chunk.getZ(), toObjectMapper(entityCounts.entrySet(),
+							entry -> {
+								entityTypeSet.add(entry.getKey());
+								return pair(String.valueOf(entry.getKey().getTypeId()),
+										entry.getValue().count());
+							}), toObjectMapper(tileEntityCounts.entrySet(),
+							entry -> {
+								tileEntityTypeSet.add(entry.getKey());
+								return pair(String.valueOf(entry.getKey().getId()),
+										entry.getValue().count());
+							}));
+				})));
 	}
 
 	public static void resetTicks(boolean fullReset) {
@@ -165,21 +133,13 @@ public class TimingHistory {
 
 	Object export() {
 		return createObject(pair("s", startTime), pair("e", endTime), pair("tk", totalTicks), pair("tm", totalTime),
-				pair("w", worlds), pair("h", toArrayMapper(entries, new Function<TimingHistoryEntry, Object>() {
-					@Override
-					public Object apply(TimingHistoryEntry entry) {
-						TimingData record = entry.data;
-						if (record.count == 0) {
-							return null;
-						}
-						return entry.export();
+				pair("w", worlds), pair("h", toArrayMapper(entries, entry -> {
+					TimingData record = entry.data;
+					if (record.count == 0) {
+						return null;
 					}
-				})), pair("mp", toArrayMapper(minuteReports, new Function<MinuteReport, Object>() {
-					@Override
-					public Object apply(MinuteReport input) {
-						return input.export();
-					}
-				})));
+					return entry.export();
+				})), pair("mp", toArrayMapper(minuteReports, MinuteReport::export)));
 	}
 
 	static class MinuteReport {
@@ -193,7 +153,7 @@ public class TimingHistory {
 		final double freeMemory = TimingsManager.FULL_SERVER_TICK.avgFreeMemory;
 		final double loadAvg = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
 
-		public List export() {
+		public List<?> export() {
 			return toArray(time, Math.round(tps * 100D) / 100D, Math.round(pingRecord.avg * 100D) / 100D, fst.export(),
 					toArray(ticksRecord.timed, ticksRecord.player, ticksRecord.entity, ticksRecord.activatedEntity,
 							ticksRecord.tileEntity),
@@ -209,7 +169,7 @@ public class TimingHistory {
 		final long activatedEntity;
 
 		TicksRecord() {
-			timed = timedTicks - (TimingsManager.MINUTE_REPORTS.size() * 1200);
+			timed = timedTicks - (TimingsManager.MINUTE_REPORTS.size() * 1200L);
 			player = playerTicks;
 			entity = entityTicks;
 			tileEntity = tileEntityTicks;

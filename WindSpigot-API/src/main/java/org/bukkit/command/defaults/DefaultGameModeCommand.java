@@ -1,8 +1,6 @@
 package org.bukkit.command.defaults;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -10,7 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.StringUtil;
 
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
 
 @Deprecated
 public class DefaultGameModeCommand extends VanillaCommand {
@@ -37,7 +36,7 @@ public class DefaultGameModeCommand extends VanillaCommand {
 
 		try {
 			value = Integer.parseInt(modeArg);
-		} catch (NumberFormatException ex) {
+		} catch (NumberFormatException ignored) {
 		}
 
 		GameMode mode = GameMode.getByValue(value);
@@ -65,7 +64,7 @@ public class DefaultGameModeCommand extends VanillaCommand {
 		Validate.notNull(alias, "Alias cannot be null");
 
 		if (args.length == 1) {
-			return StringUtil.copyPartialMatches(args[0], GAMEMODE_NAMES, new ArrayList<String>(GAMEMODE_NAMES.size()));
+			return StringUtil.copyPartialMatches(args[0], GAMEMODE_NAMES, new ArrayList<>(GAMEMODE_NAMES.size()));
 		}
 
 		return ImmutableList.of();

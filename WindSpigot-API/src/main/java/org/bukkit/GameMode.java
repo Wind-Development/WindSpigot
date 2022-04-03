@@ -1,10 +1,9 @@
 package org.bukkit;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.bukkit.entity.HumanEntity;
 
-import com.google.common.collect.Maps;
+import java.util.Map;
 
 /**
  * Represents the various type of game modes that {@link HumanEntity}s may have
@@ -36,7 +35,7 @@ public enum GameMode {
 	private final int value;
 	private final static Map<Integer, GameMode> BY_ID = Maps.newHashMap();
 
-	private GameMode(final int value) {
+	GameMode(final int value) {
 		this.value = value;
 	}
 

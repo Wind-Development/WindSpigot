@@ -1,8 +1,8 @@
 package org.bukkit;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * Represents the different types of grass.
@@ -25,7 +25,7 @@ public enum GrassSpecies {
 	private final byte data;
 	private final static Map<Byte, GrassSpecies> BY_DATA = Maps.newHashMap();
 
-	private GrassSpecies(final int data) {
+	GrassSpecies(final int data) {
 		this.data = (byte) data;
 	}
 

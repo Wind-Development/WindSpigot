@@ -23,11 +23,11 @@
  */
 package co.aikar.timings;
 
-import static co.aikar.util.JSONUtil.toArray;
+import com.google.common.base.Function;
 
 import java.util.List;
 
-import com.google.common.base.Function;
+import static co.aikar.util.JSONUtil.toArray;
 
 /**
  * <p>
@@ -37,12 +37,7 @@ import com.google.common.base.Function;
  * This is broken out to reduce memory usage
  */
 class TimingData {
-	static Function<Integer, TimingData> LOADER = new Function<Integer, TimingData>() {
-		@Override
-		public TimingData apply(Integer input) {
-			return new TimingData(input);
-		}
-	};
+	static Function<Integer, TimingData> LOADER = TimingData::new;
 	int id;
 	int count = 0;
 	int lagCount = 0;

@@ -23,41 +23,28 @@
  */
 package co.aikar.timings;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-
+import co.aikar.util.LoadingMap;
+import com.google.common.collect.EvictingQueue;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.PluginClassLoader;
 
-import com.google.common.base.Function;
-import com.google.common.collect.EvictingQueue;
-
-import co.aikar.util.LoadingMap;
+import java.util.*;
+import java.util.logging.Level;
 
 public final class TimingsManager {
 	static final Map<TimingIdentifier, TimingHandler> TIMING_MAP = Collections
-			.synchronizedMap(LoadingMap.newHashMap(new Function<TimingIdentifier, TimingHandler>() {
-				@Override
-				public TimingHandler apply(TimingIdentifier id) {
-					return (id.protect ? new UnsafeTimingHandler(id) : new TimingHandler(id));
-				}
-			}, 256, .5F));
+			.synchronizedMap(LoadingMap.newHashMap(id -> (id.protect ? new UnsafeTimingHandler(id) : new TimingHandler(id)), 256, .5F));
 	public static final FullServerTickHandler FULL_SERVER_TICK = new FullServerTickHandler();
 	public static final TimingHandler TIMINGS_TICK = Timings.ofSafe("Timings Tick", FULL_SERVER_TICK);
 	public static final Timing PLUGIN_GROUP_HANDLER = Timings.ofSafe("Plugins");
-	public static List<String> hiddenConfigs = new ArrayList<String>();
+	public static List<String> hiddenConfigs = new ArrayList<>();
 	public static boolean privacy = false;
 
-	static final Collection<TimingHandler> HANDLERS = new ArrayDeque<TimingHandler>();
-	static final ArrayDeque<TimingHistory.MinuteReport> MINUTE_REPORTS = new ArrayDeque<TimingHistory.MinuteReport>();
+	static final Collection<TimingHandler> HANDLERS = new ArrayDeque<>();
+	static final ArrayDeque<TimingHistory.MinuteReport> MINUTE_REPORTS = new ArrayDeque<>();
 
 	static EvictingQueue<TimingHistory> HISTORY = EvictingQueue.create(12);
 	static TimingHandler CURRENT;

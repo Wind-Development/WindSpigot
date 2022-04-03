@@ -1,10 +1,10 @@
 package org.bukkit.util.permissions;
 
-import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+
+import java.util.Map;
 
 public final class DefaultPermissions {
 	private static final String ROOT = "craftbukkit";
@@ -42,8 +42,7 @@ public final class DefaultPermissions {
 	}
 
 	public static Permission registerPermission(String name, String desc) {
-		Permission perm = registerPermission(new Permission(name, desc));
-		return perm;
+		return registerPermission(new Permission(name, desc));
 	}
 
 	public static Permission registerPermission(String name, String desc, Permission parent) {
@@ -53,8 +52,7 @@ public final class DefaultPermissions {
 	}
 
 	public static Permission registerPermission(String name, String desc, PermissionDefault def) {
-		Permission perm = registerPermission(new Permission(name, desc, def));
-		return perm;
+		return registerPermission(new Permission(name, desc, def));
 	}
 
 	public static Permission registerPermission(String name, String desc, PermissionDefault def, Permission parent) {
@@ -65,8 +63,7 @@ public final class DefaultPermissions {
 
 	public static Permission registerPermission(String name, String desc, PermissionDefault def,
 			Map<String, Boolean> children) {
-		Permission perm = registerPermission(new Permission(name, desc, def, children));
-		return perm;
+		return registerPermission(new Permission(name, desc, def, children));
 	}
 
 	public static Permission registerPermission(String name, String desc, PermissionDefault def,

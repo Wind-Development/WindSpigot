@@ -1,13 +1,13 @@
 package org.bukkit.event.player;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Warning;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Holds information for player chat and commands
@@ -32,7 +32,7 @@ public class PlayerChatEvent extends PlayerEvent implements Cancellable {
 		super(player);
 		this.message = message;
 		this.format = "<%1$s> %2$s";
-		this.recipients = new HashSet<Player>(player.getServer().getOnlinePlayers());
+		this.recipients = new HashSet<>(player.getServer().getOnlinePlayers());
 	}
 
 	public PlayerChatEvent(final Player player, final String message, final String format,

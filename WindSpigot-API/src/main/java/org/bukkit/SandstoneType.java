@@ -1,8 +1,8 @@
 package org.bukkit;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * Represents the three different types of Sandstone
@@ -13,7 +13,7 @@ public enum SandstoneType {
 	private final byte data;
 	private final static Map<Byte, SandstoneType> BY_DATA = Maps.newHashMap();
 
-	private SandstoneType(final int data) {
+	SandstoneType(final int data) {
 		this.data = (byte) data;
 	}
 
