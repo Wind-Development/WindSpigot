@@ -7,6 +7,7 @@ import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents a 3-dimensional position in a world
@@ -493,7 +494,7 @@ public class Location implements Cloneable, ConfigurationSerializable {
 		}
 		final Location other = (Location) obj;
 
-		if (this.world != other.world && (this.world == null || !this.world.equals(other.world))) {
+		if (!Objects.equals(this.world, other.world)) {
 			return false;
 		}
 		if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {

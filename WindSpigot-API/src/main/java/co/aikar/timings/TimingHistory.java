@@ -153,7 +153,7 @@ public class TimingHistory {
 		final double freeMemory = TimingsManager.FULL_SERVER_TICK.avgFreeMemory;
 		final double loadAvg = ManagementFactory.getOperatingSystemMXBean().getSystemLoadAverage();
 
-		public List export() {
+		public List<?> export() {
 			return toArray(time, Math.round(tps * 100D) / 100D, Math.round(pingRecord.avg * 100D) / 100D, fst.export(),
 					toArray(ticksRecord.timed, ticksRecord.player, ticksRecord.entity, ticksRecord.activatedEntity,
 							ticksRecord.tileEntity),

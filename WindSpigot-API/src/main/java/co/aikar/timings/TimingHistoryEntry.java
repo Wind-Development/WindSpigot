@@ -40,7 +40,7 @@ class TimingHistoryEntry {
 		}
 	}
 
-	List export() {
+	List<?> export() {
 		List result = data.export();
 		if (children.length > 0) {
 			result.add(toArrayMapper(children, TimingData::export));
