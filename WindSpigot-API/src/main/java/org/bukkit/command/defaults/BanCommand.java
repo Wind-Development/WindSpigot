@@ -30,7 +30,7 @@ public class BanCommand extends VanillaCommand {
 			return false;
 		}
 
-		String reason = args.length > 0 ? StringUtils.join(args, ' ', 1, args.length) : null;
+		String reason = StringUtils.join(args, ' ', 1, args.length);
 		Bukkit.getBanList(BanList.Type.NAME).addBan(args[0], reason, null, sender.getName());
 
 		Player player = Bukkit.getPlayer(args[0]);
