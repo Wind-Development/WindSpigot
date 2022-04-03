@@ -1,4 +1,4 @@
-# WindSpigot 
+# WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/build-windspigot.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip)
 
 #### WindSpigot is a 1.8.8 Minecraft server software based on a fork of NachoSpigot.
 
