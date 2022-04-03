@@ -136,15 +136,11 @@ public class NachoWorldConfig {
 	}
 
 	public boolean constantExplosions;
-	public boolean explosionProtectedRegions;
 	public boolean reducedDensityRays;
 
 	private void explosions() {
 		constantExplosions = getBoolean("explosions.constant-radius", false);
 		addComment("explosions.constant-explosions", "Changes the radius of explosions to be constant.");
-		explosionProtectedRegions = getBoolean("explosions.explode-protected-regions", true);
-		addComment("explosions.explode-protected-regions",
-				"Toggles whether explosions should explode protected regions");
 		reducedDensityRays = getBoolean("explosions.reduced-density-rays", true);
 		addComment("explosions.reduced-density-rays",
 				"Toggles whether the server should use reduced rays when calculating density");
