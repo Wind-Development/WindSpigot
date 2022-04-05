@@ -10,6 +10,6 @@ import org.bukkit.Bukkit;
 
 public final class Versioning {
 	public static String getBukkitVersion() {
-		return "1.8.8-R0.2-SNAPSHOT";
+		return "1.8.8-R0.1-SNAPSHOT";
 	}
 }
