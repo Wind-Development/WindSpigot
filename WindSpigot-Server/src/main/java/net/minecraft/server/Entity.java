@@ -2247,7 +2247,8 @@ public abstract class Entity implements ICommandListener {
 			synchronized (TeleportSafety.isWaitingOnTeleport) {
 
 				// Check if other worlds are waiting on teleporting
-				if (TeleportSafety.isWaitingOnTeleport.get(worldserver1)) {
+				if (TeleportSafety.isWaitingOnTeleport.get(worldserver1) != null
+						&& TeleportSafety.isWaitingOnTeleport.get(worldserver1)) {
 
 					// Create a runnable that is then run on the main thread
 					Runnable runnable = (() -> {
