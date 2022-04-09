@@ -82,12 +82,12 @@ public class Explosion {
 		float f3 = this.size * 2.0F;
 
 		// IonSpigot start - Faster Entity Iteration
-		i = MathHelper.floor(this.posX - f3 - 1.0D) >> 4;
-		j = MathHelper.floor(this.posX + f3 + 1.0D) >> 4;
-		int l = MathHelper.clamp(MathHelper.floor(this.posY - f3 - 1.0D) >> 4, 0, 15);
-		int i1 = MathHelper.clamp(MathHelper.floor(this.posY + f3 + 1.0D) >> 4, 0, 15);
-		int j1 = MathHelper.floor(this.posZ - f3 - 1.0D) >> 4;
-		int k1 = MathHelper.floor(this.posZ + f3 + 1.0D) >> 4;
+		i = MathHelper.floorNoFastMath(this.posX - f3 - 1.0D) >> 4;
+		j = MathHelper.floorNoFastMath(this.posX + f3 + 1.0D) >> 4;
+		int l = MathHelper.clamp(MathHelper.floorNoFastMath(this.posY - f3 - 1.0D) >> 4, 0, 15);
+		int i1 = MathHelper.clamp(MathHelper.floorNoFastMath(this.posY + f3 + 1.0D) >> 4, 0, 15);
+		int j1 = MathHelper.floorNoFastMath(this.posZ - f3 - 1.0D) >> 4;
+		int k1 = MathHelper.floorNoFastMath(this.posZ + f3 + 1.0D) >> 4;
 		// PaperSpigot start - Fix lag from explosions processing dead entities
 		// List<Entity> list = this.world.a(this.source, new AxisAlignedBB(i, l, j1, j,
 		// i1, k1), entity -> IEntitySelector.d.apply(entity) && !entity.dead);
@@ -119,7 +119,7 @@ public class Explosion {
 					double distanceSquared = d8 * d8 + d9 * d9 + d10 * d10;
 
 					if (distanceSquared <= 64.0D && distanceSquared != 0.0D) {
-						double d11 = MathHelper.sqrt(distanceSquared);
+						double d11 = MathHelper.sqrtNoFastMath(distanceSquared);
 						double d7 = d11 / f3;
 						d8 /= d11;
 						d9 /= d11;
@@ -335,8 +335,7 @@ public class Explosion {
 						double d0 = k / 15.0F * 2.0F - 1.0F;
 						double d1 = i / 15.0F * 2.0F - 1.0F;
 						double d2 = j / 15.0F * 2.0F - 1.0F;
-						double d3 = (NachoConfig.enableFastMath ? FastMath.sqrt(d0 * d0 + d1 * d1 + d2 * d2)
-								: Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2));
+						double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
 
 						d0 = (d0 / d3) * 0.30000001192092896D;
 						d1 = (d1 / d3) * 0.30000001192092896D;
@@ -366,15 +365,9 @@ public class Explosion {
 			double stepZ = this.posZ;
 
 			for (; f > 0.0F; f -= 0.22500001F) {
-				int floorX = (NachoConfig.enableFastMath
-						? FastMath.floorToInt((Double.doubleToRawLongBits(stepX) >>> 63))
-						: org.bukkit.util.NumberConversions.floor(stepX));
-				int floorY = (NachoConfig.enableFastMath
-						? FastMath.floorToInt((Double.doubleToRawLongBits(stepY) >>> 63))
-						: org.bukkit.util.NumberConversions.floor(stepY));
-				int floorZ = (NachoConfig.enableFastMath
-						? FastMath.floorToInt((Double.doubleToRawLongBits(stepZ) >>> 63))
-						: org.bukkit.util.NumberConversions.floor(stepZ));
+				int floorX = org.bukkit.util.NumberConversions.floor(stepX);
+				int floorY = org.bukkit.util.NumberConversions.floor(stepY);
+				int floorZ = org.bukkit.util.NumberConversions.floor(stepZ);
 
 				if (position.getX() != floorX || position.getY() != floorY || position.getZ() != floorZ) {
 					position.setValues(floorX, floorY, floorZ);
