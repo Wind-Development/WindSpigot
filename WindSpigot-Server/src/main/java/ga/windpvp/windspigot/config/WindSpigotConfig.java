@@ -45,7 +45,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 4; // Update this every new configuration update
+		int configVersion = 5; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
@@ -218,7 +218,7 @@ public class WindSpigotConfig {
 	public static boolean asyncTnt;
 
 	private static void asyncTnt() {
-		asyncTnt = getBoolean("settings.async-tnt", true);
-		c.addComment("settings.async-tnt", "Enables NachoSpigot's async tnt.");
+		asyncTnt = getBoolean("settings.async.tnt", true);
+		c.addComment("settings.async.tnt", "Enables NachoSpigot's async tnt.");
 	}
 }
