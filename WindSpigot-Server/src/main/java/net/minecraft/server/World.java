@@ -1766,7 +1766,9 @@ public abstract class World implements IBlockAccess {
 		CrashReport crashreport;
 		CrashReportSystemDetails crashreportsystemdetails;
 
-		if (!WindSpigotConfig.asyncEntities) {
+		if (WindSpigotConfig.asyncEntities) {
+			this.tickEntitiesAsync();
+		} else {
 			for (i = 0; i < this.k.size(); ++i) {
 				entity = this.k.get(i);
 				// CraftBukkit start - Fixed an NPE
@@ -1794,8 +1796,6 @@ public abstract class World implements IBlockAccess {
 					this.k.remove(i--);
 				}
 			}
-		} else {
-			this.tickEntitiesAsync();
 		}
 
 		this.methodProfiler.c("remove");
