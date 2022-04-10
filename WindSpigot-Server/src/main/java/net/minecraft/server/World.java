@@ -1744,15 +1744,21 @@ public abstract class World implements IBlockAccess {
 		}
 
 		for (List<Entity> entityTickLists : list) {
-			ForkJoinPool.commonPool().submit((() -> {
-				// TODO: Cache this like the parallel world tickers
+			if (list.size() == 1) {
 				new EntitiesTicker().tick(entityTickLists, this);
-			}));
+			} else {
+				ForkJoinPool.commonPool().submit((() -> {
+					// TODO: Cache this like the parallel world tickers
+					new EntitiesTicker().tick(entityTickLists, this);
+				}));
+			}
 		}
-		try {
-			latch.waitTillZero();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (list.size() != 1) {
+			try {
+				latch.waitTillZero();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		MinecraftServer.getServer().entityTickLists.remove(this);
 	}
