@@ -7,6 +7,12 @@ Java 17 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 
 **WindSpigot supports Java 8 to Java 17!**
 
+## What is done asynchronously?
+- Worlds (ticked parallel to each other)
+- The entity tracker (updated with multiple threads)
+- TNT (from NachoSpigot)
+- More to come soon
+
 ## Patches
 **All credit goes to the people that made these patches.**<br>
 *Give credit where credit is due!*
