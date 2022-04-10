@@ -649,6 +649,12 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						tickSection = start;
 				// PaperSpigot end
 
+				// WindSpigot start- async entities
+				for (World world : this.worlds) {
+					this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.entityList));
+				}
+				// WindSpigot end
+				
 				while (this.isRunning) {
 					curTime = System.nanoTime();
 					// PaperSpigot start - Further improve tick loop
