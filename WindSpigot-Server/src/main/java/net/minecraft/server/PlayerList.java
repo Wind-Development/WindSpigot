@@ -41,6 +41,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
+import dev.cobblesword.nachospigot.commons.MCUtils;
 import io.netty.buffer.Unpooled;
 import me.elier.nachospigot.config.NachoConfig;
 
@@ -725,8 +726,12 @@ public abstract class PlayerList {
 		this.b(entityplayer1, worldserver);
 
 		if (!entityplayer.playerConnection.isDisconnected()) {
-			worldserver.getPlayerChunkMap().addPlayer(entityplayer1);
-			worldserver.addEntity(entityplayer1);
+			// WindSpigot start - safe cross world player teleports
+			MCUtils.ensureMain(() -> {
+				worldserver.getPlayerChunkMap().addPlayer(entityplayer1);
+				worldserver.addEntity(entityplayer1);
+			});;
+			// WindSpigot end
 			this.players.add(entityplayer1);
 			this.playersByName.put(entityplayer1.getName(), entityplayer1); // Spigot
 			this.playerMap.put(entityplayer1.getName(), entityplayer1); // PaperSpigot
