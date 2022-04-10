@@ -7,6 +7,7 @@ import javax.annotation.concurrent.ThreadSafe;
 
 import com.google.common.collect.Lists;
 
+import net.jafama.FastMath;
 import net.minecraft.server.Entity;
 
 @ThreadSafe // Multiple worlds can group entities at the same time
@@ -42,8 +43,8 @@ public class EntityGrouper {
 					// Loop through each entity in the list
 					for (Entity entityInList : entityList) {
 	
-						if (entity.getBukkitEntity().getLocation()
-								.distanceSquared(entityInList.getBukkitEntity().getLocation()) <= 160) { // TODO: tweak based on set view distance, not default 
+						if (FastMath.sqrt(entity.getBukkitEntity().getLocation()
+								.distanceSquared(entityInList.getBukkitEntity().getLocation())) <= 160) { // TODO: tweak based on set view distance, not default 
 							// Checks if entity is within the default view distance
 	
 							// Group the entity in the same list if within the view distance
