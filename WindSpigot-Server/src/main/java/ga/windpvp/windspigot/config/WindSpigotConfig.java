@@ -214,4 +214,11 @@ public class WindSpigotConfig {
 	private static void pearlPassthrough() {
 		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks");
 	}
+	
+	public static boolean asyncTnt;
+
+	private static void asyncTnt() {
+		asyncTnt = getBoolean("settings.async-tnt", true);
+		c.addComment("settings.async-tnt", "Enables NachoSpigot's async tnt.");
+	}
 }
