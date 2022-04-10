@@ -214,4 +214,12 @@ public class WindSpigotConfig {
 	private static void pearlPassthrough() {
 		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks");
 	}
+	
+	public static boolean asyncEntities;
+
+	private static void asyncEntities() {
+		asyncEntities = getBoolean("settings.async-entities", true);
+		c.addComment("settings.async-entities",
+				"Enables async entity ticking. This is only effective if entities are distributed throughout the world.");
+	}
 }

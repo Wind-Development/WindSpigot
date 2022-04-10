@@ -10,6 +10,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 // PaperSpigot start
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,6 +34,10 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 // PaperSpigot end
 
+import ga.windpvp.windspigot.async.entity.EntitiesTicker;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
+import io.netty.util.internal.chmv8.ForkJoinPool;
+import javafixes.concurrency.ReusableCountLatch;
 import me.elier.nachospigot.config.NachoConfig;
 import me.elier.nachospigot.config.NachoWorldConfig;
 import me.rastrian.dev.OptimizedWorldTileEntitySet;
@@ -1712,6 +1718,44 @@ public abstract class World implements IBlockAccess {
 	public void b(BlockPosition blockposition, Block block, int i, int j) {
 	}
 
+	public volatile ReusableCountLatch latch = new ReusableCountLatch();
+	
+	private void tickEntitiesAsync() {
+		List<List<Entity>> list = null;
+		
+		try {
+			list = MinecraftServer.getServer().entityTickLists.get(this).get();
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+		
+		int size = list.size();
+		
+		if (latch.getCount() > size) {
+			while (latch.getCount() > size) {
+				// Decrease the thread count of the latch if it is too high
+				latch.decrement();
+			}
+		} else if (latch.getCount() < size) {
+			while (latch.getCount() < size) {
+				// Increase the thread count of the latch if it is too low
+				latch.increment();
+			}
+		}
+
+		for (List<Entity> entityTickLists : list) {
+			ForkJoinPool.commonPool().submit((() -> {
+				// TODO: Cache this like the parallel world tickers
+				new EntitiesTicker().tick(entityTickLists, this);
+			}));
+		}
+		try {
+			latch.waitTillZero();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void tickEntities() {
 		this.methodProfiler.a("entities");
 		this.methodProfiler.a("global");
@@ -1721,32 +1765,36 @@ public abstract class World implements IBlockAccess {
 		CrashReport crashreport;
 		CrashReportSystemDetails crashreportsystemdetails;
 
-		for (i = 0; i < this.k.size(); ++i) {
-			entity = this.k.get(i);
-			// CraftBukkit start - Fixed an NPE
-			if (entity == null) {
-				continue;
-			}
-			// CraftBukkit end
-
-			try {
-				++entity.ticksLived;
-				entity.t_();
-			} catch (Throwable throwable) {
-				crashreport = CrashReport.a(throwable, "Ticking entity");
-				crashreportsystemdetails = crashreport.a("Entity being ticked");
+		if (!WindSpigotConfig.asyncEntities) {
+			for (i = 0; i < this.k.size(); ++i) {
+				entity = this.k.get(i);
+				// CraftBukkit start - Fixed an NPE
 				if (entity == null) {
-					crashreportsystemdetails.a("Entity", "~~NULL~~");
-				} else {
-					entity.appendEntityCrashDetails(crashreportsystemdetails);
+					continue;
+				}
+				// CraftBukkit end
+
+				try {
+					++entity.ticksLived;
+					entity.t_();
+				} catch (Throwable throwable) {
+					crashreport = CrashReport.a(throwable, "Ticking entity");
+					crashreportsystemdetails = crashreport.a("Entity being ticked");
+					if (entity == null) {
+						crashreportsystemdetails.a("Entity", "~~NULL~~");
+					} else {
+						entity.appendEntityCrashDetails(crashreportsystemdetails);
+					}
+
+					throw new ReportedException(crashreport);
 				}
 
-				throw new ReportedException(crashreport);
+				if (entity.dead) {
+					this.k.remove(i--);
+				}
 			}
-
-			if (entity.dead) {
-				this.k.remove(i--);
-			}
+		} else {
+			this.tickEntitiesAsync();
 		}
 
 		this.methodProfiler.c("remove");

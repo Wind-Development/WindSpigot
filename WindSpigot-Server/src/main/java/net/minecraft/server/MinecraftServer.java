@@ -12,10 +12,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
@@ -28,6 +30,7 @@ import org.bukkit.craftbukkit.Main;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
@@ -40,6 +43,7 @@ import co.aikar.timings.SpigotTimings; // Spigot
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.WorldTickerManager;
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.entity.EntityGrouper;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
@@ -884,7 +888,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	}
 
 	private WorldTickerManager worldTickerManager;
-
+	protected Map<World, CompletableFuture<List<List<Entity>>>> entityTickLists = Maps.newHashMap();
+	
 	public void B() {
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
 		this.methodProfiler.a("jobs");
@@ -949,6 +954,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 		// WindSpigot - parallel worlds
 		this.worldTickerManager.tick();
+		
+		for (World world : this.worlds) {
+			this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.entityList));
+		}
 
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot
