@@ -727,10 +727,15 @@ public abstract class PlayerList {
 
 		if (!entityplayer.playerConnection.isDisconnected()) {
 			// WindSpigot start - safe cross world player teleports
-			MCUtils.ensureMain(() -> {
+			if (!Bukkit.isPrimaryThread()) {
+				MCUtils.ensureMain(() -> {
+					worldserver.getPlayerChunkMap().addPlayer(entityplayer1);
+					worldserver.addEntity(entityplayer1);
+				});
+			} else {
 				worldserver.getPlayerChunkMap().addPlayer(entityplayer1);
 				worldserver.addEntity(entityplayer1);
-			});;
+			}
 			// WindSpigot end
 			this.players.add(entityplayer1);
 			this.playersByName.put(entityplayer1.getName(), entityplayer1); // Spigot
