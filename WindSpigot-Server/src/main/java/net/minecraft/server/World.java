@@ -1754,6 +1754,7 @@ public abstract class World implements IBlockAccess {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		MinecraftServer.getServer().entityTickLists.remove(this);
 	}
 	
 	public void tickEntities() {
