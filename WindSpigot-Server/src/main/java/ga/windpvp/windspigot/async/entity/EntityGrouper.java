@@ -72,7 +72,7 @@ public class EntityGrouper {
 				count++;
 			}
 	
-			System.out.println(finalList.size()); // Debug purposes
+			//System.out.println(finalList.size()); // Debug purposes
 	
 			return finalList;
 		});
