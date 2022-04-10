@@ -728,6 +728,7 @@ public abstract class PlayerList {
 		if (!entityplayer.playerConnection.isDisconnected()) {
 			// WindSpigot start - safe cross world player teleports
 			if (!Bukkit.isPrimaryThread()) {
+				// Schedule this to run sync one tick later
 				MCUtils.ensureMain(() -> {
 					worldserver.getPlayerChunkMap().addPlayer(entityplayer1);
 					worldserver.addEntity(entityplayer1);
