@@ -961,9 +961,11 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		// WindSpigot - parallel worlds
 		this.worldTickerManager.tick();
 		
+		// WindSpigot start - async entities
 		for (World world : this.worlds) {
 			this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.entityList));
 		}
+		// WindSpigot end
 
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot
