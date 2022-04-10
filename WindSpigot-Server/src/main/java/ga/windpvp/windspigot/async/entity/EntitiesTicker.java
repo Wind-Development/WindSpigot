@@ -45,8 +45,9 @@ public class EntitiesTicker {
 			if (entity.dead) {
 				world.k.remove(i--);
 			}
-			world.latch.decrement();
 		}
+		
+		world.latch.decrement();
 		
 	}
 
