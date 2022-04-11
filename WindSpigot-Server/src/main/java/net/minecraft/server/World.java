@@ -1724,11 +1724,7 @@ public abstract class World implements IBlockAccess {
 	private void tickEntitiesAsync() {
 		List<List<Entity>> list = null;
 		
-		try {
-			list = MinecraftServer.getServer().entityTickLists.get(this).get();
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		}
+		list = MinecraftServer.getServer().entityTickLists.get(this);
 		
 		latch = new CountDownLatch(list.size());
 
