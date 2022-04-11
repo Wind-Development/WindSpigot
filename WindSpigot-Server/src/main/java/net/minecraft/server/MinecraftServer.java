@@ -907,7 +907,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	}
 
 	private WorldTickerManager worldTickerManager;
-	protected Map<World, CompletableFuture<List<List<Entity>>>> entityTickLists = Maps.newConcurrentMap();
+	protected Map<World, List<List<Entity>>> entityTickLists = Maps.newConcurrentMap();
 	
 	public void B() {
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
