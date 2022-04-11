@@ -216,4 +216,26 @@ public class WindSpigotConfig {
 	private static void pearlPassthrough() {
 		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
 	}
+	
+	// From
+	// https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
+	public static int nettyThreads;
+    public static int combatThreadTPS;
+
+    private static void nettyThreads() {
+        nettyThreads = getInt("settings.thread.netty-threads", 4);
+        c.addComment("settings.async.thread.netty-threads", "Number of netty threads");
+        combatThreadTPS = getInt("settings.thread.thread-tps", 40);
+        c.addComment("settings.async.thread.thread-tps", "Combat thread TPS");
+    }
+
+    public static boolean asyncHitDetection;
+    public static boolean asyncKnockback;
+
+    private static void asyncHitDetection() {
+        asyncHitDetection = getBoolean("settings.async.hit-detection", true);
+        c.addComment("settings.async.hit-detection", "Enables Async Hit Detection.");
+        asyncKnockback = getBoolean("settings.async.knockback", true);
+        c.addComment("settings.async.knockback", "Enables Async Knockback.");
+    }
 }

@@ -21,6 +21,8 @@ import com.velocitypowered.natives.util.Natives; // Paper
 
 import dev.cobblesword.nachospigot.Nacho; // Nacho
 import dev.cobblesword.nachospigot.exception.ExploitException; // Nacho
+import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -210,6 +212,15 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 	// sendPacket
 	public void handle(Packet packet) {
+        PacketPlayInUseEntity packetInUse;
+        if (WindSpigotConfig.asyncHitDetection && this.g() && packet instanceof PacketPlayInUseEntity && (packetInUse = (PacketPlayInUseEntity)packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
+        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
+            return;
+        }
+        if (WindSpigotConfig.asyncKnockback && this.g() && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
+        	WindSpigot.knockbackThread.addPacket(packet, this, null);
+            return;
+        }
 		if (this.isConnected()) {
 			this.sendPacketQueue();
 			this.dispatchPacket(packet, null, Boolean.TRUE);

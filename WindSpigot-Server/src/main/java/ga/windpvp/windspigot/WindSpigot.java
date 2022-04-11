@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 
 import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.thread.HitDetection;
+import ga.windpvp.windspigot.async.thread.Knockback;
 import ga.windpvp.windspigot.async.world.TeleportSafety;
 import ga.windpvp.windspigot.commands.MobAICommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
@@ -16,6 +18,9 @@ import net.minecraft.server.MinecraftServer;
 public class WindSpigot {
 
 	private StatisticsClient client;
+	
+    public static HitDetection hitDetectionThread;
+    public static Knockback knockbackThread;
 
 	public WindSpigot() {
 		this.init();
@@ -52,6 +57,16 @@ public class WindSpigot {
 	private void init() {
 		initCmds();
 		initStatistics();
+		
+		if (WindSpigotConfig.asyncHitDetection) {
+            hitDetectionThread = new HitDetection("Hit Detection Thread");
+        }
+        if (WindSpigotConfig.asyncKnockback) {
+            knockbackThread = new Knockback("Knockback Thread");
+        }
+        
+        System.setProperty( "io.netty.eventLoopThreads", Integer.toString(WindSpigotConfig.nettyThreads));
+
 
 		if (WindSpigotConfig.parallelWorld) {
 			Timings.setTimingsEnabled(false);
