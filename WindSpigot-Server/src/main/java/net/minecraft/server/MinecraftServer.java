@@ -966,7 +966,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		// WindSpigot start - async entities
 		if (WindSpigotConfig.asyncEntities) {
 			for (World world : this.worlds) {
-				this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.entityList));
+				this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.k));
 			}
 		}
 		// WindSpigot end
