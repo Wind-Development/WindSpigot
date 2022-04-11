@@ -73,7 +73,6 @@ public class EntitiesTicker {
 		}
 		
 		world.latch.countDown();
-		System.out.println(world.latch.getCount());
 		
 	}
 	
