@@ -53,11 +53,11 @@ public class WindSpigot {
 		initCmds();
 		initStatistics();
 
-		if (WindSpigotConfig.parallelWorld) {
+		if (WindSpigotConfig.parallelWorld || WindSpigotConfig.asyncEntities) {
 			Timings.setTimingsEnabled(false);
 			System.out.println(" ");
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
-					+ "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
+					+ "Timings disabled due to parallel worlds or async entities being enabled. Timings will break with these options enabled.");
 			System.out.println(" ");
 			TeleportSafety.init();
 		}
