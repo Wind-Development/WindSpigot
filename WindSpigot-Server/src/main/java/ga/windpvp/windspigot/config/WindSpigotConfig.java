@@ -115,11 +115,13 @@ public class WindSpigotConfig {
 	public static int trackingThreads;
 
 	private static void tracking() {
-		disableTracking = getBoolean("settings.async.entity-tracking.disable", false);
-		c.addComment("settings.async.entity-tracking.disable", "Disables asynchronous entity tracking");
+		disableTracking = !getBoolean("settings.async.entity-tracking.enable", true);
+		c.addComment("settings.async.entity-tracking.enable", "Enables asynchronous entity tracking");
 		trackingThreads = getInt("settings.async.entity-tracking.threads", 3);
 		c.addComment("settings.async.entity-tracking.threads",
 				"The amount of threads to use when asynchronous entity tracking is enabled.");
+		
+		c.addComment("settings.async.entity-tracking", "Configuration for the async entity tracker.");
 	}
 
 	public static boolean threadAffinity;
