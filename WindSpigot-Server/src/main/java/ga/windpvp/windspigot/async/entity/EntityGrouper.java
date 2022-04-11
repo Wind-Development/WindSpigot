@@ -9,6 +9,8 @@ import com.google.common.collect.Lists;
 
 import net.jafama.FastMath;
 import net.minecraft.server.Entity;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.World;
 
 @ThreadSafe // Multiple worlds can group entities at the same time
 
@@ -74,6 +76,14 @@ public class EntityGrouper {
 		//System.out.println(finalList.size()); // Debug purposes
 
 		return finalList;
+	}
+	
+	public static CompletableFuture<Void> prepareTick() {
+		return CompletableFuture.runAsync(() -> {
+			for (World world : MinecraftServer.getServer().worlds) {
+				MinecraftServer.getServer().entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.k));
+			}
+		});
 	}
 
 }

@@ -18,6 +18,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
@@ -899,9 +900,16 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	}
 
 	private WorldTickerManager worldTickerManager;
-	protected Map<World, List<List<Entity>>> entityTickLists = Maps.newConcurrentMap();
+	public Map<World, List<List<Entity>>> entityTickLists = Maps.newConcurrentMap();
+	
+	private CompletableFuture<Void> entityTickPreparation;
 	
 	public void B() {
+		// WindSpigot start - async entities
+		if (WindSpigotConfig.asyncEntities) {
+			this.entityTickPreparation = EntityGrouper.prepareTick();
+		}
+		// WindSpigot end
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
 		this.methodProfiler.a("jobs");
 
@@ -963,13 +971,12 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		}
 		SpigotTimings.timeUpdateTimer.stopTiming(); // Spigot
 		
-		// WindSpigot start - async entities
-		if (WindSpigotConfig.asyncEntities) {
-			for (World world : this.worlds) {
-				this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.k));
-			}
+		// WindSpigot - async entities
+		try {
+			this.entityTickPreparation.get();
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
 		}
-		// WindSpigot end
 
 		// WindSpigot - parallel worlds
 		this.worldTickerManager.tick();
