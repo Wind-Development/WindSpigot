@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 // PaperSpigot start
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockState;
@@ -36,7 +37,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.entity.EntitiesTicker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import io.netty.util.internal.chmv8.ForkJoinPool;
 import javafixes.concurrency.ReusableCountLatch;
 import me.elier.nachospigot.config.NachoConfig;
 import me.elier.nachospigot.config.NachoWorldConfig;
