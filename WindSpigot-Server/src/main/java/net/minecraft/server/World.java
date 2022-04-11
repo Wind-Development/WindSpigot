@@ -1749,7 +1749,7 @@ public abstract class World implements IBlockAccess {
 			} else {
 				ForkJoinPool.commonPool().submit((() -> {
 					// TODO: Cache this like the parallel world tickers
-					new EntitiesTicker().tick(entityTickLists, this);
+					EntitiesTicker.getInstance().tick(entityTickLists, this);
 				}));
 			}
 		}
