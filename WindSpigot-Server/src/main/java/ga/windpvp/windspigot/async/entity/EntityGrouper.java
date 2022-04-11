@@ -18,11 +18,12 @@ import net.minecraft.server.World;
 public class EntityGrouper {
 
 	// Gets lists of entities to tick on separate threads
-	public static List<List<Entity>> getGroupedEntities(List<Entity> entities) {
+	public static List<List<Entity>> getGroupedEntities(List<Entity> entities, World world) {
 				
 		List<List<Entity>> finalList = Lists.newArrayList();
 
 		int count = 0;
+		int distance = world.spigotConfig.viewDistance * 16; // View distance in blocks
 
 		for (Entity entity : entities) {
 			if (count == 0) {
@@ -36,15 +37,15 @@ public class EntityGrouper {
 			}
 
 			boolean shouldBreak = false;
-
+			
 			// Check if entity is close to another entity, then add it to that list if it is
 			for (List<Entity> entityList : finalList) {
 
 				// Loop through each entity in the list
 				for (Entity entityInList : entityList) {
-
+					
 					if (FastMath.sqrt(entity.getBukkitEntity().getLocation()
-							.distanceSquared(entityInList.getBukkitEntity().getLocation())) <= 160) { // TODO: tweak based on set view distance, not default 
+							.distanceSquared(entityInList.getBukkitEntity().getLocation())) <= distance) { // TODO: tweak based on set view distance, not default 
 						// Checks if entity is within the default view distance
 
 						// Group the entity in the same list if within the view distance
@@ -81,7 +82,7 @@ public class EntityGrouper {
 	public static CompletableFuture<Void> prepareTick() {
 		return CompletableFuture.runAsync(() -> {
 			for (World world : MinecraftServer.getServer().worlds) {
-				MinecraftServer.getServer().entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.k));
+				MinecraftServer.getServer().entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.k, world));
 			}
 		});
 	}
