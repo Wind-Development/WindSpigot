@@ -971,12 +971,15 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		}
 		SpigotTimings.timeUpdateTimer.stopTiming(); // Spigot
 		
-		// WindSpigot - async entities
-		try {
-			this.entityTickPreparation.get();
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
+		// WindSpigot start - async entities
+		if (WindSpigotConfig.asyncEntities) {
+			try {
+				this.entityTickPreparation.get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
 		}
+		// WindSpigot end
 
 		// WindSpigot - parallel worlds
 		this.worldTickerManager.tick();
