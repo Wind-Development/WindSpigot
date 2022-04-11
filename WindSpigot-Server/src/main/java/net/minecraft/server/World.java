@@ -1732,10 +1732,7 @@ public abstract class World implements IBlockAccess {
 			if (list.size() == 1) {
 				EntitiesTicker.getInstance().tick(entityTickLists, this);
 			} else {
-				ForkJoinPool.commonPool().submit((() -> {
-					// TODO: Cache this like the parallel world tickers
-					EntitiesTicker.getInstance().tick(entityTickLists, this);
-				}));
+				ForkJoinPool.commonPool().submit(EntitiesTicker.getInstance().getRunnable(this));
 			}
 		}
 		if (list.size() != 1) {
