@@ -14,6 +14,12 @@ import net.minecraft.server.World;
 
 public class EntitiesTicker {
 	
+	private static EntitiesTicker INSTANCE;
+	
+	public EntitiesTicker() {
+		INSTANCE = this;
+	}
+	
 	public void tick(List<Entity> entities, final World world) {
 		
 		CrashReport crashreport;
@@ -69,5 +75,21 @@ public class EntitiesTicker {
 		world.latch.decrement();
 		
 	}
+	
+	private Runnable runnable;
+	
+	public Runnable getRunnable(final World world) {
+		if (runnable == null) {
+			runnable = () -> {
+				// WIP: cache runnables
+				tick(null, world);
+			};
+		}
+		return runnable;
+	}
 
+	public static EntitiesTicker getInstance() {
+		return INSTANCE;
+	}
+	
 }

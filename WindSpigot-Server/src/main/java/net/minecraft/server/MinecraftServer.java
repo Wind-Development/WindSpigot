@@ -43,6 +43,7 @@ import co.aikar.timings.SpigotTimings; // Spigot
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.WorldTickerManager;
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.entity.EntitiesTicker;
 import ga.windpvp.windspigot.async.entity.EntityGrouper;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
@@ -603,6 +604,13 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	public AffinityLock getLock() {
 		return this.lock;
 	}
+	
+	private EntitiesTicker entitiesTicker;
+	
+	// WindSpigot - async entities
+	public EntitiesTicker entitiesTicker() {
+		return this.entitiesTicker;
+	}
 
 	@Override
 	public void run() {
@@ -634,6 +642,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 				// WindSpigot - parallel worlds
 				this.worldTickerManager = new WorldTickerManager();
+				
+				// WindSpigot - async entities
+				this.entitiesTicker = new EntitiesTicker();
 
 				this.ab = az();
 				this.r.setMOTD(new ChatComponentText(this.motd));
