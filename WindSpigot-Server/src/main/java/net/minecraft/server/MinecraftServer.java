@@ -644,8 +644,13 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				// WindSpigot - parallel worlds
 				this.worldTickerManager = new WorldTickerManager();
 				
-				// WindSpigot - async entities
+				// WindSpigot start - async entities
 				this.entitiesTicker = new EntitiesTicker();
+				
+				if (WindSpigotConfig.asyncEntities) {
+					this.entityTickPreparation = EntityGrouper.prepareTick();
+				}
+				// WindSpigot end
 
 				this.ab = az();
 				this.r.setMOTD(new ChatComponentText(this.motd));
@@ -905,11 +910,6 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	private CompletableFuture<Void> entityTickPreparation;
 	
 	public void B() {
-		// WindSpigot start - async entities
-		if (WindSpigotConfig.asyncEntities) {
-			this.entityTickPreparation = EntityGrouper.prepareTick();
-		}
-		// WindSpigot end
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
 		this.methodProfiler.a("jobs");
 
@@ -980,6 +980,12 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 		// WindSpigot - parallel worlds
 		this.worldTickerManager.tick();
+		
+		// WindSpigot start - async entities
+		if (WindSpigotConfig.asyncEntities) {
+			this.entityTickPreparation = EntityGrouper.prepareTick();
+		}
+		// WindSpigot end
 
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot
