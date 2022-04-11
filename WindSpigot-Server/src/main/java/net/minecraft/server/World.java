@@ -1718,7 +1718,7 @@ public abstract class World implements IBlockAccess {
 	public void b(BlockPosition blockposition, Block block, int i, int j) {
 	}
 
-	public volatile ReusableCountLatch latch = new ReusableCountLatch();
+	public final ReusableCountLatch latch = new ReusableCountLatch();
 	
 	private void tickEntitiesAsync() {
 		List<List<Entity>> list = null;
