@@ -1,9 +1,11 @@
 package ga.windpvp.windspigot.async.entity;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import dev.cobblesword.nachospigot.commons.MCUtils;
 import net.minecraft.server.CrashReport;
@@ -76,16 +78,16 @@ public class EntitiesTicker {
 		
 	}
 	
-	private Runnable runnable;
+	private ConcurrentMap<World, Runnable> runnableCache = Maps.newConcurrentMap();
 	
 	public Runnable getRunnable(final World world) {
-		if (runnable == null) {
-			runnable = () -> {
-				// WIP: cache runnables
+		if (runnableCache.get(world) == null) {
+			Runnable runnable = () -> {
 				tick(world.k, world);
 			};
+			runnableCache.put(world, runnable); 
 		}
-		return runnable;
+		return runnableCache.get(world);
 	}
 
 	public static EntitiesTicker getInstance() {
