@@ -72,7 +72,7 @@ public class EntitiesTicker {
 			});
 		}
 		
-		world.latch.decrement();
+		world.latch.countDown();
 		System.out.println(world.latch.getCount());
 		
 	}
