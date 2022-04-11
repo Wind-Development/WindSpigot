@@ -225,6 +225,6 @@ public class WindSpigotConfig {
 			TimingsCheck.setEnableTimings(true);
 		}
 		c.addComment("settings.async.entities",
-				"Enables async entity ticking. This is only effective if entities are distributed throughout the world.");
+				"Enables async entity ticking. There is little reason to uses this if entities are not distributed.");
 	}
 }
