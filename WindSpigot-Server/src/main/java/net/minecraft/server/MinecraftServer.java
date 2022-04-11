@@ -659,14 +659,6 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				long start = System.nanoTime(), lastTick = start - TICK_TIME, catchupTime = 0, curTime, wait,
 						tickSection = start;
 				// PaperSpigot end
-
-				// WindSpigot start- async entities
-				if (WindSpigotConfig.asyncEntities) {
-					for (World world : this.worlds) {
-						this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.entityList));
-					}
-				}
-				// WindSpigot end
 				
 				while (this.isRunning) {
 					curTime = System.nanoTime();
@@ -970,9 +962,6 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			}
 		}
 		SpigotTimings.timeUpdateTimer.stopTiming(); // Spigot
-
-		// WindSpigot - parallel worlds
-		this.worldTickerManager.tick();
 		
 		// WindSpigot start - async entities
 		if (WindSpigotConfig.asyncEntities) {
@@ -981,6 +970,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			}
 		}
 		// WindSpigot end
+
+		// WindSpigot - parallel worlds
+		this.worldTickerManager.tick();
 
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot
