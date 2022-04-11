@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 // PaperSpigot start
 import java.util.concurrent.ExecutorService;
@@ -1718,7 +1719,7 @@ public abstract class World implements IBlockAccess {
 	public void b(BlockPosition blockposition, Block block, int i, int j) {
 	}
 
-	public final ReusableCountLatch latch = new ReusableCountLatch();
+	public volatile CountDownLatch latch;
 	
 	private void tickEntitiesAsync() {
 		List<List<Entity>> list = null;
@@ -1729,19 +1730,7 @@ public abstract class World implements IBlockAccess {
 			e.printStackTrace();
 		}
 		
-		int size = list.size();
-		
-		if (latch.getCount() > size) {
-			while (latch.getCount() > size) {
-				// Decrease the thread count of the latch if it is too high
-				latch.decrement();
-			}
-		} else if (latch.getCount() < size) {
-			while (latch.getCount() < size) {
-				// Increase the thread count of the latch if it is too low
-				latch.increment();
-			}
-		}
+		latch = new CountDownLatch(list.size());
 
 		for (List<Entity> entityTickLists : list) {
 			if (list.size() == 1) {
@@ -1755,7 +1744,7 @@ public abstract class World implements IBlockAccess {
 		}
 		if (list.size() != 1) {
 			try {
-				latch.waitTillZero();
+				latch.await();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
