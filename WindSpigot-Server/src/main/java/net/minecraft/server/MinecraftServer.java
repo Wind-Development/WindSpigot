@@ -661,8 +661,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				// PaperSpigot end
 
 				// WindSpigot start- async entities
-				for (World world : this.worlds) {
-					this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.entityList));
+				if (WindSpigotConfig.asyncEntities) {
+					for (World world : this.worlds) {
+						this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.entityList));
+					}
 				}
 				// WindSpigot end
 				
@@ -973,8 +975,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		this.worldTickerManager.tick();
 		
 		// WindSpigot start - async entities
-		for (World world : this.worlds) {
-			this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.entityList));
+		if (WindSpigotConfig.asyncEntities) {
+			for (World world : this.worlds) {
+				this.entityTickLists.put(world, EntityGrouper.getGroupedEntities(world.entityList));
+			}
 		}
 		// WindSpigot end
 

@@ -20,7 +20,7 @@ public class EntitiesTicker {
 		INSTANCE = this;
 	}
 	
-	public void tick(List<Entity> entities, final World world) {
+	public void tick(List<Entity> entities, World world) {
 		
 		CrashReport crashreport;
 		CrashReportSystemDetails crashreportsystemdetails;
