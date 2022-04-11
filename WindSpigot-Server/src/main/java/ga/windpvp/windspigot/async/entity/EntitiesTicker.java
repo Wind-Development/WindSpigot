@@ -82,7 +82,7 @@ public class EntitiesTicker {
 		if (runnable == null) {
 			runnable = () -> {
 				// WIP: cache runnables
-				tick(null, world);
+				tick(world.k, world);
 			};
 		}
 		return runnable;
