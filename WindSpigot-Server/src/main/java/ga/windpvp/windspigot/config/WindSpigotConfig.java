@@ -218,13 +218,13 @@ public class WindSpigotConfig {
 	public static boolean asyncEntities;
 
 	private static void asyncEntities() {
-		asyncEntities = getBoolean("settings.async.entities", true);
+		asyncEntities = getBoolean("settings.async.entities", false);
 		if (asyncEntities) {
 			TimingsCheck.setEnableTimings(false);
 		} else {
 			TimingsCheck.setEnableTimings(true);
 		}
 		c.addComment("settings.async.entities",
-				"Enables async entity ticking. There is little reason to use this if entities are not distributed. This is more effective with lower view distances.");
+				"Enables async entity ticking. Don't use this unless you have entities distributed throughout the world (far apart).");
 	}
 }
