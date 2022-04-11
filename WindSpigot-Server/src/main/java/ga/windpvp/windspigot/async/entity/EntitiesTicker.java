@@ -2,6 +2,10 @@ package ga.windpvp.windspigot.async.entity;
 
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+
+import dev.cobblesword.nachospigot.commons.MCUtils;
 import net.minecraft.server.CrashReport;
 import net.minecraft.server.CrashReportSystemDetails;
 import net.minecraft.server.Entity;
@@ -10,7 +14,7 @@ import net.minecraft.server.World;
 
 public class EntitiesTicker {
 	
-	public void tick(List<Entity> entities, World world) {
+	public void tick(List<Entity> entities, final World world) {
 		
 		CrashReport crashreport;
 		CrashReportSystemDetails crashreportsystemdetails;
@@ -18,9 +22,11 @@ public class EntitiesTicker {
 		Entity entity;
 		
 		int i;
+		
+		List<Entity> removeQueue = null;
 				
-		for (i = 0; i < world.k.size(); ++i) {
-			entity = world.k.get(i);
+		for (i = 0; i < entities.size(); ++i) {
+			entity = entities.get(i);
 			// CraftBukkit start - Fixed an NPE
 			if (entity == null) {
 				continue;
@@ -43,8 +49,21 @@ public class EntitiesTicker {
 			}
 
 			if (entity.dead) {
-				world.k.remove(i--);
+				if (removeQueue == null) {
+					removeQueue = Lists.newArrayList();
+				}
+				removeQueue.add(entity);
+				//world.k.remove(i--);
 			}
+		}
+		
+		if (removeQueue != null) {
+			List<Entity> copy = ImmutableList.copyOf(removeQueue);
+			MCUtils.ensureMain(() -> {
+				for (Entity entityToRemove : copy) {
+					world.k.remove(entityToRemove);
+				}
+			});
 		}
 		
 		world.latch.decrement();
