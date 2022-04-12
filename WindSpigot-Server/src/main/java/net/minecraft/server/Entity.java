@@ -42,7 +42,7 @@ import co.aikar.timings.Timing; // Spigot
 import dev.cobblesword.nachospigot.commons.Constants;
 import dev.cobblesword.nachospigot.commons.MCUtils;
 import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
-import ga.windpvp.windspigot.async.world.TeleportSafety;
+import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 
 public abstract class Entity implements ICommandListener {
@@ -2244,11 +2244,11 @@ public abstract class Entity implements ICommandListener {
 		if (WindSpigotConfig.parallelWorld && worldserver != worldserver1) {
 
 			// Only one thread can access this at a time
-			synchronized (TeleportSafety.isWaitingOnTeleport) {
+			synchronized (TeleportRegistry.isWaitingOnTeleport) {
 
 				// Check if other worlds are waiting on teleporting
-				if (TeleportSafety.isWaitingOnTeleport.get(worldserver1) != null
-						&& TeleportSafety.isWaitingOnTeleport.get(worldserver1)) {
+				if (TeleportRegistry.isWaitingOnTeleport.get(worldserver1) != null
+						&& TeleportRegistry.isWaitingOnTeleport.get(worldserver1)) {
 
 					// Create a runnable that is then run on the main thread
 					Runnable runnable = (() -> {
@@ -2312,7 +2312,7 @@ public abstract class Entity implements ICommandListener {
 				}
 
 				// Register this teleport if no other teleports are waiting
-				TeleportSafety.isWaitingOnTeleport.put(worldserver, true);
+				TeleportRegistry.isWaitingOnTeleport.put(worldserver, true);
 			}
 		}
 		// WindSpigot end
@@ -2376,7 +2376,7 @@ public abstract class Entity implements ICommandListener {
 
 		// WindSpigot - no longer waiting to teleport
 		if (WindSpigotConfig.parallelWorld) {
-			TeleportSafety.isWaitingOnTeleport.remove(worldserver);
+			TeleportRegistry.isWaitingOnTeleport.remove(worldserver);
 		}
 
 	}

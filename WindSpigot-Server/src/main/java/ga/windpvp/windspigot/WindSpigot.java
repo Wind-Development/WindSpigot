@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.thread.CombatThread;
-import ga.windpvp.windspigot.async.world.TeleportSafety;
+import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.commands.MobAICommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
@@ -78,7 +78,7 @@ public class WindSpigot {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
 					+ "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
 			LOGGER.info(" ");
-			TeleportSafety.init();
+			TeleportRegistry.init();
 		}
 		System.gc();
 	}
