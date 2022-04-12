@@ -29,6 +29,7 @@ Java 17 is now natively supported, and [ViaVersion](https://github.com/ViaVersio
 [WindSpigot-0004] Parallel world ticking
 [WindSpigot-0005] Disable mob spawning if tps is not stable
 [WindSpigot-0006] Remove fastmath usage from explosions
+[WindSpigot-0007] Player ping command
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
