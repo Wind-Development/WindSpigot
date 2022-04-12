@@ -8,8 +8,7 @@ import org.bukkit.Bukkit;
 
 import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
-import ga.windpvp.windspigot.async.thread.HitDetection;
-import ga.windpvp.windspigot.async.thread.Knockback;
+import ga.windpvp.windspigot.async.thread.CombatThread;
 import ga.windpvp.windspigot.async.world.TeleportSafety;
 import ga.windpvp.windspigot.commands.MobAICommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
@@ -22,8 +21,8 @@ public class WindSpigot {
 	private StatisticsClient client;
 	public static final Logger LOGGER = LogManager.getLogger(WindSpigot.class);
   
-	public static HitDetection hitDetectionThread;
-	public static Knockback knockbackThread;
+	public static CombatThread hitDetectionThread;
+	public static CombatThread knockbackThread;
 
 	public WindSpigot() {
 		this.init();
@@ -62,11 +61,11 @@ public class WindSpigot {
 		initStatistics();
 		
 		if (WindSpigotConfig.asyncHitDetection) {
-            hitDetectionThread = new HitDetection("Hit Detection Thread");
+            hitDetectionThread = new CombatThread("Hit Detection Thread");
 			LOGGER.info("Successfully enabled async hit detection!");
         }
         if (WindSpigotConfig.asyncKnockback) {
-            knockbackThread = new Knockback("Knockback Thread");
+            knockbackThread = new CombatThread("Knockback Thread");
             LOGGER.info("Successfully enabled async knockback!");
         }
         

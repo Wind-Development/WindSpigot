@@ -2,8 +2,8 @@ package ga.windpvp.windspigot.async.thread;
 
 import ga.windpvp.windspigot.async.AsyncThread;
 
-public class Knockback extends AsyncThread {
-    public Knockback(String s) {
+public class CombatThread extends AsyncThread {
+    public CombatThread(String s) {
         super(s);
     }
 
