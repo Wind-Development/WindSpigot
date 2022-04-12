@@ -232,7 +232,7 @@ public class WindSpigotConfig {
     public static boolean asyncHitDetection;
     public static boolean asyncKnockback;
 
-    private static void asyncHitDetection() {
+    private static void asyncPackets() {
         asyncHitDetection = getBoolean("settings.async.hit-detection", true);
         //c.addComment("settings.async.hit-detection", "Enables Async Hit Detection.");
         asyncKnockback = getBoolean("settings.async.knockback", true);
