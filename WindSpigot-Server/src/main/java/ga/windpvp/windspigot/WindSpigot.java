@@ -11,6 +11,7 @@ import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.thread.CombatThread;
 import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.commands.MobAICommand;
+import ga.windpvp.windspigot.commands.PingCommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
 import net.md_5.bungee.api.ChatColor;
@@ -33,10 +34,14 @@ public class WindSpigot {
 	}
 
 	private void initCmds() {
-		// WindSpigot - mob ai cmd
 		if (WindSpigotConfig.mobAiCmd) {
 			MobAICommand mobAiCommand = new MobAICommand("mobai");
 			MinecraftServer.getServer().server.getCommandMap().register(mobAiCommand.getName(), "", mobAiCommand);
+		}
+		
+		if (WindSpigotConfig.pingCmd) {
+			PingCommand pingCommand = new PingCommand("ping");
+			MinecraftServer.getServer().server.getCommandMap().register(pingCommand.getName(), "", pingCommand);
 		}
 	}
 

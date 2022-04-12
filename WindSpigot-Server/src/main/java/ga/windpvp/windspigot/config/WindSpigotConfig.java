@@ -45,7 +45,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 5; // Update this every new configuration update
+		int configVersion = 6; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
@@ -135,8 +135,8 @@ public class WindSpigotConfig {
 	public static boolean mobAiCmd;
 
 	private static void mobAiCmd() {
-		mobAiCmd = getBoolean("settings.mob-ai-command", true);
-		c.addComment("settings.mob-ai-command",
+		mobAiCmd = getBoolean("settings.command.mob-ai", true);
+		c.addComment("settings.command.mob-ai",
 				"Enables the command \"/mobai\" which toggles mob ai. Users require the permission windspigot.command.mobai");
 	}
 
@@ -238,4 +238,12 @@ public class WindSpigotConfig {
         asyncKnockback = getBoolean("settings.async.knockback", true);
         c.addComment("settings.async.knockback", "Enables asynchronous knockback.");
     }
+    
+	public static boolean pingCmd;
+
+	private static void pingCmd() {
+		pingCmd = getBoolean("settings.ping-command", true);
+		c.addComment("settings.command.ping",
+				"Enables the command \"/ping <player>\" which shows player ping. Users require the permission windspigot.command.ping");
+	}
 }
