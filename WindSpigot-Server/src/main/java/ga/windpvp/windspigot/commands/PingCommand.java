@@ -33,7 +33,7 @@ public class PingCommand extends Command {
 			
 			Player pingPlayer = Bukkit.getPlayer(args[0]);
 			if (pingPlayer != null && Bukkit.getOnlinePlayers().contains(pingPlayer)) {
-				sender.sendMessage(ChatColor.DARK_AQUA + pingPlayer.getName() + "'s" + ChatColor.AQUA + " ping: " + ChatColor.DARK_AQUA + ((CraftPlayer) sender).getPing());
+				sender.sendMessage(ChatColor.DARK_AQUA + pingPlayer.getName() + "'s" + ChatColor.AQUA + " ping: " + ChatColor.DARK_AQUA + ((CraftPlayer) pingPlayer).getPing());
 			} else {
 				sender.sendMessage(ChatColor.RED + "Invalid player!");
 			}
