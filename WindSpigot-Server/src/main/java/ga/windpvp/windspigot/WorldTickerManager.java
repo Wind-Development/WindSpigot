@@ -27,7 +27,7 @@ public class WorldTickerManager {
 
 	// Executor for world ticking
 	private final Executor worldTickExecutor = Executors
-			.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("WindSpigot Parallel World Thread").build());
+			.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("WindSpigot Parallel World Thread %d").build());
 	
 	// Instance
 	private static WorldTickerManager worldTickerManagerInstance;
