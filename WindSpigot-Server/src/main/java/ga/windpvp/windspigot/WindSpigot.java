@@ -63,11 +63,11 @@ public class WindSpigot {
 		
 		if (WindSpigotConfig.asyncHitDetection) {
             hitDetectionThread = new HitDetection("Hit Detection Thread");
-			System.out.println("Successfully enabled async hit detection!");
+			LOGGER.info("Successfully enabled async hit detection!");
         }
         if (WindSpigotConfig.asyncKnockback) {
             knockbackThread = new Knockback("Knockback Thread");
-			System.out.println("Successfully enabled async knockback!");
+            LOGGER.info("Successfully enabled async knockback!");
         }
         
         System.setProperty( "io.netty.eventLoopThreads", Integer.toString(WindSpigotConfig.nettyThreads));
@@ -75,10 +75,10 @@ public class WindSpigot {
 
 		if (WindSpigotConfig.parallelWorld) {
 			Timings.setTimingsEnabled(false);
-			System.out.println(" ");
+			LOGGER.info(" ");
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
 					+ "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
-			System.out.println(" ");
+			LOGGER.info(" ");
 			TeleportSafety.init();
 		}
 		System.gc();
