@@ -8,15 +8,15 @@ Java 17 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 **WindSpigot supports Java 8 to Java 17!**
 
 ## Downloads
-You can download the latest Server dev build [here](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip).
+[Server](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip).
 
-You can download the latest API dev build [here](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-API.zip).
+[API](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-API.zip).
 
 ## What is done asynchronously?
 - Worlds (ticked parallel to each other)
 - The entity tracker (updated with multiple threads)
 - TNT (from NachoSpigot)
-- Hit detection and knockback (based on https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)
+- Hit detection and knockback (based on [this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit))
 - More to come soon
 
 ## Patches
