@@ -21,13 +21,11 @@ public abstract class AsyncThread {
 
     public AsyncThread(String s) {
         try (final AffinityLock al = AffinityLock.acquireLock();){
-            System.out.println("Lock found.");
             this.thread = new Thread(new Runnable(){
 
                 @Override
                 public void run() {
                     try (AffinityLock al2 = al.acquireLock(AffinityStrategies.SAME_SOCKET, AffinityStrategies.ANY);){
-                        System.out.println("Thread " + AsyncThread.this.thread.getId() + " locked");
                         AsyncThread.this.loop();
                     }
                 }
