@@ -111,7 +111,10 @@ You can download the latest API dev build [here](https://nightly.link/Wind-Devel
 [Nacho-0049] Option to disable Enchantment table ticking
 
 <--> by Rastrian
-[Nacho-????] Async entity tracker by Rastrian
+[Nacho-????] Async entity tracker
+[Nacho-????] Async knockback and hit detection packets
+[Nacho-????] Ticking fixes, tile optimization, and optional fast math
+[Nacho-????] Many more config options
 
 <--> by Sculas
 [Nacho-0034] Remove Java 8 message from TacoSpigot which made it so you couldn't run Java 8 or higher
@@ -140,6 +143,7 @@ You can download the latest API dev build [here](https://nightly.link/Wind-Devel
 [IonSpigot-0013] Implement PandaWire
 [IonSpigot-0014] Faster Chunk Entity List
 [IonSpigot-0020] Faster EntityTracker Collections
+[IonSpigot-0026] Lag Compensated Potions
 [IonSpigot-0035] Optimise Entity Collisions
 [IonSpigot-0037] Fast Cannon Entity Tracker
 
