@@ -226,7 +226,7 @@ public class WindSpigotConfig {
         nettyThreads = getInt("settings.async.netty-threads", 4);
         c.addComment("settings.async.netty-threads", "Number of netty threads.");
         combatThreadTPS = getInt("settings.async.combat-thread-tps", 40);
-        c.addComment("settings.async.combat-thread-tps", "Combat thread TPS if async knockback or hit detection is enabled.");
+        c.addComment("settings.async.combat-thread-tps", "Combat thread TPS for async knockback and hit detection.");
     }
 
     public static boolean asyncHitDetection;
@@ -234,8 +234,8 @@ public class WindSpigotConfig {
 
     private static void asyncPackets() {
         asyncHitDetection = getBoolean("settings.async.hit-detection", true);
-        c.addComment("settings.async.hit-detection", "Enables Async Hit Detection.");
+        c.addComment("settings.async.hit-detection", "Enables asynchronous hit detection.");
         asyncKnockback = getBoolean("settings.async.knockback", true);
-        c.addComment("settings.async.knockback", "Enables Async Knockback.");
+        c.addComment("settings.async.knockback", "Enables asynchronous knockback.");
     }
 }
