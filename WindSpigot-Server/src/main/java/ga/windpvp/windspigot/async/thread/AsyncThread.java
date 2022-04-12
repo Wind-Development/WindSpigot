@@ -31,7 +31,7 @@ public abstract class AsyncThread {
                         AsyncThread.this.loop();
                     }
                 }
-            });
+            }, s);
             this.thread.start();
         }
     }
