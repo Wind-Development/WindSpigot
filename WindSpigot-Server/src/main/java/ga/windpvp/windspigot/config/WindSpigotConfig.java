@@ -45,7 +45,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 4; // Update this every new configuration update
+		int configVersion = 5; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
