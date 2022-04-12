@@ -1,4 +1,4 @@
-package ga.windpvp.windspigot.async;
+package ga.windpvp.windspigot.async.thread;
 
 import io.netty.channel.Channel;
 import io.netty.util.concurrent.Future;
