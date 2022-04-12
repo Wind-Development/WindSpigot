@@ -212,16 +212,15 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 	// sendPacket
 	public void handle(Packet packet) {
-        PacketPlayInUseEntity packetInUse;
-        if (WindSpigotConfig.asyncHitDetection && this.g() && packet instanceof PacketPlayInUseEntity && (packetInUse = (PacketPlayInUseEntity)packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
-        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
-            return;
-        }
-        if (WindSpigotConfig.asyncKnockback && this.g() && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
-        	WindSpigot.knockbackThread.addPacket(packet, this, null);
-            return;
-        }
 		if (this.isConnected()) {
+	        if (WindSpigotConfig.asyncHitDetection && packet instanceof PacketPlayInUseEntity && ((PacketPlayInUseEntity)packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
+	        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
+	            return;
+	        }
+	        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
+	        	WindSpigot.knockbackThread.addPacket(packet, this, null);
+	            return;
+	        }
 			this.sendPacketQueue();
 			this.dispatchPacket(packet, null, Boolean.TRUE);
 		} else {
@@ -240,6 +239,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	public void a(Packet packet, GenericFutureListener<? extends Future<? super Void>> listener,
 			GenericFutureListener<? extends Future<? super Void>>... listeners) {
 		if (this.isConnected()) {
+	        if (WindSpigotConfig.asyncHitDetection && packet instanceof PacketPlayInUseEntity && ((PacketPlayInUseEntity)packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
+	        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
+	            return;
+	        }
+	        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
+	        	WindSpigot.knockbackThread.addPacket(packet, this, null);
+	            return;
+	        }
 			this.sendPacketQueue();
 			this.dispatchPacket(packet, ArrayUtils.insert(0, listeners, listener), Boolean.TRUE);
 		} else {
