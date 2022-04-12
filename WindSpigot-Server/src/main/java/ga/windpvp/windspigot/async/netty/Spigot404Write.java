@@ -1,3 +1,5 @@
+// From
+// https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
 package ga.windpvp.windspigot.async.netty;
 
 import com.google.common.collect.Queues;

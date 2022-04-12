@@ -1,3 +1,5 @@
+// From
+// https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
 package ga.windpvp.windspigot.async.thread;
 
 import io.netty.channel.Channel;
