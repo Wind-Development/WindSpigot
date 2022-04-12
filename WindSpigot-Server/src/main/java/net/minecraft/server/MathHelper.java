@@ -33,6 +33,12 @@ public class MathHelper {
 	public static float sqrt(double var0) {
 		return (float) (fastMathMode ? (FastMath.sqrt(var0)) : (Math.sqrt(var0)));
 	}
+	
+	// WindSpigot start - no fast math methods
+	public static float sqrtNoFastMath(double value) {
+		return (float) Math.sqrt(value);
+	}
+	// WindSpigot end
 
 	public static int d(float var0) {
 		if (fastMathMode) {
@@ -49,6 +55,13 @@ public class MathHelper {
 		int var2 = (int) var0;
 		return var0 < var2 ? var2 - 1 : var2;
 	}
+	
+	// WindSpigot start - no fast math methods
+	public static int floorNoFastMath(double value) {
+		int intValue = (int) value;
+		return value < intValue ? intValue - 1 : intValue;
+	}
+	// WindSpigot end
 
 	public static long d(double var0) {
 		long var2 = (long) var0;

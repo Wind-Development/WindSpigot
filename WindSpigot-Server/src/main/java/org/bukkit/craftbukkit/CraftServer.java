@@ -734,7 +734,8 @@ public final class CraftServer implements Server {
 		Validate.notNull(commandLine, "CommandLine cannot be null");
 
 		// PaperSpigot Start
-		if (!Bukkit.isPrimaryThread()) {
+		// WindSpigot - remove this
+		/*if (!Bukkit.isPrimaryThread()) {
 			final CommandSender fSender = sender;
 			final String fCommandLine = commandLine;
 			Bukkit.getLogger().log(Level.SEVERE, "Command Dispatched Async: " + commandLine);
@@ -756,7 +757,7 @@ public final class CraftServer implements Server {
 			} catch (Exception e) {
 				throw new RuntimeException("Exception processing dispatch command", e.getCause());
 			}
-		}
+		}*/
 		// PaperSpigot End
 
 		if (commandMap.dispatch(sender, commandLine)) {

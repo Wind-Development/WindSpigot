@@ -1,0 +1,25 @@
+# Eclipse
+.project
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+/target
+/dependency-reduced-pom.xml
+
+# Intellij
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+

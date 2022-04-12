@@ -45,7 +45,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 4; // Update this every new configuration update
+		int configVersion = 5; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
@@ -115,11 +115,13 @@ public class WindSpigotConfig {
 	public static int trackingThreads;
 
 	private static void tracking() {
-		disableTracking = getBoolean("settings.async.entity-tracking.disable", false);
-		c.addComment("settings.async.entity-tracking.disable", "Disables asynchronous entity tracking");
+		disableTracking = !getBoolean("settings.async.entity-tracking.enable", true);
+		c.addComment("settings.async.entity-tracking.enable", "Enables asynchronous entity tracking");
 		trackingThreads = getInt("settings.async.entity-tracking.threads", 3);
 		c.addComment("settings.async.entity-tracking.threads",
 				"The amount of threads to use when asynchronous entity tracking is enabled.");
+		
+		c.addComment("settings.async.entity-tracking", "Configuration for the async entity tracker.");
 	}
 
 	public static boolean threadAffinity;
@@ -175,35 +177,35 @@ public class WindSpigotConfig {
 
 	private static void pearlPassthroughFenceGate() {
 		pearlPassthroughFenceGate = getBoolean("settings.pearl-passthrough.fence_gate", true);
-		c.addComment("settings.pearl-passthrough.fence_gate", "Allows pearls to pass through fences. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.fence_gate", "Allows pearls to pass through fences.");
 	}
 
 	public static boolean pearlPassthroughTripwire;
 
 	private static void pearlPassthroughTripwire() {
 		pearlPassthroughTripwire = getBoolean("settings.pearl-passthrough.tripwire", true);
-		c.addComment("settings.pearl-passthrough.tripwire", "Allows pearls to pass through tripwires. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.tripwire", "Allows pearls to pass through tripwires.");
 	}
 
 	public static boolean pearlPassthroughSlab;
 
 	private static void pearlPassthroughSlab() {
 		pearlPassthroughSlab = getBoolean("settings.pearl-passthrough.slab", true);
-		c.addComment("settings.pearl-passthrough.slab", "Allows pearls to pass through slabs. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.slab", "Allows pearls to pass through slabs.");
 	}
 
 	public static boolean pearlPassthroughCobweb;
 
 	private static void pearlPassthroughCobweb() {
 		pearlPassthroughCobweb = getBoolean("settings.pearl-passthrough.cobweb", true);
-		c.addComment("settings.pearl-passthrough.cobweb", "Allows pearls to pass through cobwebs. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.cobweb", "Allows pearls to pass through cobwebs.");
 	}
 
 	public static boolean pearlPassthroughBed;
 
 	private static void pearlPassthroughBed() {
 		pearlPassthroughBed = getBoolean("settings.pearl-passthrough.bed", false);
-		c.addComment("settings.pearl-passthrough.bed", "Allows pearls to pass through beds. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.bed", "Allows pearls to pass through beds.");
 	}
 	// FlamePaper end
 	
@@ -212,6 +214,28 @@ public class WindSpigotConfig {
 	}
 	
 	private static void pearlPassthrough() {
-		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks");
+		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
 	}
+	
+	// From
+	// https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
+	public static int nettyThreads;
+    public static int combatThreadTPS;
+
+    private static void nettyThreads() {
+        nettyThreads = getInt("settings.async.netty-threads", 4);
+        c.addComment("settings.async.netty-threads", "Number of netty threads.");
+        combatThreadTPS = getInt("settings.async.combat-thread-tps", 40);
+        c.addComment("settings.async.combat-thread-tps", "Combat thread TPS if async knockback or hit detection is enabled.");
+    }
+
+    public static boolean asyncHitDetection;
+    public static boolean asyncKnockback;
+
+    private static void asyncPackets() {
+        asyncHitDetection = getBoolean("settings.async.hit-detection", true);
+        c.addComment("settings.async.hit-detection", "Enables Async Hit Detection.");
+        asyncKnockback = getBoolean("settings.async.knockback", true);
+        c.addComment("settings.async.knockback", "Enables Async Knockback.");
+    }
 }
