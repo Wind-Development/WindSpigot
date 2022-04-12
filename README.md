@@ -3,14 +3,14 @@
 #### WindSpigot is a 1.8.8 Minecraft server software based on a fork of NachoSpigot.
 
 ## Current State
-Java 17 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2/ProtocolLib), [ViaVersion](https://github.com/ViaVersion/ViaVersion), and [Citizens2](https://github.com/CitizensDev/Citizens2) are patched at runtime to work with Nacho's modifications.
+Java 17 is now natively supported, and [ViaVersion](https://github.com/ViaVersion/ViaVersion) is patched at runtime to work with Nacho's modifications.
 
 **WindSpigot supports Java 8 to Java 17!**
 
 ## Downloads
-[Server](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip).
+[Server](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip)
 
-[API](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-API.zip).
+[API](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-API.zip)
 
 ## What is done asynchronously?
 - Worlds (ticked parallel to each other)
