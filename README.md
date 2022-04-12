@@ -16,6 +16,7 @@ You can download the latest API dev build [here](https://nightly.link/Wind-Devel
 - Worlds (ticked parallel to each other)
 - The entity tracker (updated with multiple threads)
 - TNT (from NachoSpigot)
+- Hit detection and knockback (based on https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)
 - More to come soon
 
 ## Patches
