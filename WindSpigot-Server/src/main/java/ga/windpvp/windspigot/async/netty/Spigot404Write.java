@@ -12,7 +12,7 @@ import java.util.Queue;
 import net.minecraft.server.Packet;
 
 public class Spigot404Write {
-    private static Queue<PacketQueue> queue = Queues.newConcurrentLinkedQueue();
+    private static Queue<PacketQueue> packetsQueue = Queues.newConcurrentLinkedQueue();
     private static Tasks tasks = new Tasks();
     private Channel channel;
 
@@ -22,7 +22,7 @@ public class Spigot404Write {
 
     public static void writeThenFlush(Channel channel, Packet<?> value, GenericFutureListener<? extends Future<? super Void>>[] listener) {
         Spigot404Write writer = new Spigot404Write(channel);
-        queue.add(new PacketQueue(value, listener));
+        packetsQueue.add(new PacketQueue(value, listener));
         if (tasks.addTask()) {
             channel.pipeline().lastContext().executor().execute(writer::writeQueueAndFlush);
         }
@@ -30,8 +30,8 @@ public class Spigot404Write {
 
     public void writeQueueAndFlush() {
         while (tasks.fetchTask()) {
-            while (queue.size() > 0) {
-                PacketQueue messages = queue.poll();
+            while (packetsQueue.size() > 0) {
+                PacketQueue messages = packetsQueue.poll();
                 if (messages == null) continue;
                 ChannelFuture future = this.channel.write(messages.getPacket());
                 if (messages.getListener() != null) {
