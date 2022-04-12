@@ -22,8 +22,8 @@ public class WindSpigot {
 	private StatisticsClient client;
 	public static final Logger LOGGER = LogManager.getLogger(WindSpigot.class);
   
-  public static HitDetection hitDetectionThread;
-  public static Knockback knockbackThread;
+	public static HitDetection hitDetectionThread;
+	public static Knockback knockbackThread;
 
 	public WindSpigot() {
 		this.init();
