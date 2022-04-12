@@ -60,9 +60,11 @@ public class WindSpigot {
 		
 		if (WindSpigotConfig.asyncHitDetection) {
             hitDetectionThread = new HitDetection("Hit Detection Thread");
+			System.out.println("Successfully enabled async hit detection!");
         }
         if (WindSpigotConfig.asyncKnockback) {
             knockbackThread = new Knockback("Knockback Thread");
+			System.out.println("Successfully enabled async knockback!");
         }
         
         System.setProperty( "io.netty.eventLoopThreads", Integer.toString(WindSpigotConfig.nettyThreads));
