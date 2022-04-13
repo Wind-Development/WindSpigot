@@ -64,13 +64,18 @@ public class WindSpigot {
 		initCmds();
 		initStatistics();
 		
+		boolean hasConsoleSpace = false;
+		
 		if (WindSpigotConfig.asyncHitDetection) {
+            LOGGER.info(" ");
             hitDetectionThread = new CombatThread("Hit Detection Thread");
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async hit detection!");
         }
         if (WindSpigotConfig.asyncKnockback) {
             knockbackThread = new CombatThread("Knockback Thread");
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async knockback!");
+            LOGGER.info(" ");
+            hasConsoleSpace = true;
         }
         
         System.setProperty( "io.netty.eventLoopThreads", Integer.toString(WindSpigotConfig.nettyThreads));
@@ -78,7 +83,9 @@ public class WindSpigot {
 
 		if (WindSpigotConfig.parallelWorld) {
 			Timings.setTimingsEnabled(false);
-			LOGGER.info(" ");
+			if (hasConsoleSpace) {
+				LOGGER.info(" ");
+			}
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
 					+ "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
 			LOGGER.info(" ");
