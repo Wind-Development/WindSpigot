@@ -83,7 +83,7 @@ public class WindSpigot {
 
 		if (WindSpigotConfig.parallelWorld) {
 			Timings.setTimingsEnabled(false);
-			if (hasConsoleSpace) {
+			if (!hasConsoleSpace) {
 				LOGGER.info(" ");
 			}
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
