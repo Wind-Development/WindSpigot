@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.ResettableLatch;
 import ga.windpvp.windspigot.async.world.WorldTicker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import javafixes.concurrency.ReusableCountLatch;
@@ -20,7 +21,7 @@ public class WorldTickerManager {
 	private List<WorldTicker> worldTickers = new ArrayList<>();
 
 	// Latch to wait for world tick completion
-	private final ReusableCountLatch latch;
+	private final ResettableLatch latch;
 
 	// Lock for ticking
 	public final static Object LOCK = new Object();
@@ -38,7 +39,7 @@ public class WorldTickerManager {
 		
 		// Initialize the world ticker latch
 		if (WindSpigotConfig.parallelWorld) {
-			this.latch = new ReusableCountLatch();
+			this.latch = new ResettableLatch();
 		} else {
 			this.latch = null;
 		}
@@ -57,27 +58,9 @@ public class WorldTickerManager {
 			
 			if (this.latch != null) {
 				// Reuse the latch
-				this.reUseLatch();
+				this.latch.reset(this.worldTickers.size());
 			}
 		}
-	}
-	
-	// Reuses the latch
-	private void reUseLatch() {
-		int amountOfWorldTickers = this.worldTickers.size();
-
-		if (latch.getCount() > amountOfWorldTickers) {
-			while (latch.getCount() > amountOfWorldTickers) {
-				// Decrease the thread count of the latch if it is too high
-				latch.decrement();
-			}
-		} else if (latch.getCount() < amountOfWorldTickers) {
-			while (latch.getCount() < amountOfWorldTickers) {
-				// Increase the thread count of the latch if it is too low
-				latch.increment();
-			}
-		}
-	
 	}
 
 	// Ticks all worlds
@@ -107,7 +90,7 @@ public class WorldTickerManager {
 				try {
 					// Wait for worlds to finish ticking then reset latch
 					latch.waitTillZero();
-					this.reUseLatch();
+					this.latch.reset(this.worldTickers.size());;
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
