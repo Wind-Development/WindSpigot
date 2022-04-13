@@ -66,11 +66,11 @@ public class WindSpigot {
 		
 		if (WindSpigotConfig.asyncHitDetection) {
             hitDetectionThread = new CombatThread("Hit Detection Thread");
-			LOGGER.info("Successfully enabled async hit detection!");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async hit detection!");
         }
         if (WindSpigotConfig.asyncKnockback) {
             knockbackThread = new CombatThread("Knockback Thread");
-            LOGGER.info("Successfully enabled async knockback!");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async knockback!");
         }
         
         System.setProperty( "io.netty.eventLoopThreads", Integer.toString(WindSpigotConfig.nettyThreads));
