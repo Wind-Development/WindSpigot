@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
+
 // Implements a Mob AI toggle command
 public class PingCommand extends Command {
 
@@ -25,15 +27,19 @@ public class PingCommand extends Command {
 
 		// If sender is a player send the player their own ping
 		if ((args.length == 0) && sender instanceof Player) {
-			
-			sender.sendMessage(ChatColor.AQUA + "Your ping: " + ChatColor.DARK_AQUA + ((CraftPlayer) sender).getPing());
+			String finalString = ChatColor.translateAlternateColorCodes('&', WindSpigotConfig.pingSelfCmdString)
+					.replace("%ping%", ((Integer) ((CraftPlayer) sender).getPing()).toString());
+			sender.sendMessage(finalString);
 			
 			// Otherwise send the ping of the argument player if valid
 		} else if (args.length == 1) {
 			
 			Player pingPlayer = Bukkit.getPlayer(args[0]);
 			if (pingPlayer != null && Bukkit.getOnlinePlayers().contains(pingPlayer)) {
-				sender.sendMessage(ChatColor.DARK_AQUA + pingPlayer.getName() + "'s" + ChatColor.AQUA + " ping: " + ChatColor.DARK_AQUA + ((CraftPlayer) pingPlayer).getPing());
+				String finalString = ChatColor.translateAlternateColorCodes('&', WindSpigotConfig.pingOtherCmdString)
+						.replace("%player%", pingPlayer.getName())
+						.replace("%ping%", ((Integer) ((CraftPlayer) pingPlayer).getPing()).toString());
+				sender.sendMessage(finalString);
 			} else {
 				sender.sendMessage(ChatColor.RED + "Invalid player!");
 			}

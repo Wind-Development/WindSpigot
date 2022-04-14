@@ -241,11 +241,20 @@ public class WindSpigotConfig {
     }
     
 	public static boolean pingCmd;
+	public static String pingSelfCmdString;
+	public static String pingOtherCmdString;
 
 	private static void pingCmd() {
-		pingCmd = getBoolean("settings.ping-command", true);
-		c.addComment("settings.command.ping",
+		pingCmd = getBoolean("settings.command.ping.enable", true);
+		
+		pingSelfCmdString = getString("settings.command.ping.self-ping-msg", "&bYour ping: &3%ping%");
+		pingOtherCmdString = getString("settings.command.ping.other-ping-msg", "&3%player%'s &bping: &3%ping%");
+		
+		c.addComment("settings.command.ping.enable",
 				"Enables the command \"/ping <player>\" which shows player ping. Users require the permission windspigot.command.ping");
+		
+		c.addComment("settings.command.ping.self-ping-msg", "The message displayed for the /ping command");
+		c.addComment("settings.command.ping.other-ping-msg", "The message displayed for the /ping <player> command");
 	}
 	
 	public static boolean asyncTnt;
