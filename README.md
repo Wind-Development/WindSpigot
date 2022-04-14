@@ -3,19 +3,20 @@
 #### WindSpigot is a 1.8.8 Minecraft server software based on a fork of NachoSpigot.
 
 ## Current State
-Java 17 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2/ProtocolLib), [ViaVersion](https://github.com/ViaVersion/ViaVersion), and [Citizens2](https://github.com/CitizensDev/Citizens2) are patched at runtime to work with Nacho's modifications.
+Java 17 is now natively supported, and [ViaVersion](https://github.com/ViaVersion/ViaVersion) is patched at runtime to work with Nacho's modifications.
 
 **WindSpigot supports Java 8 to Java 17!**
 
 ## Downloads
-You can download the latest Server dev build [here](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip).
+[Server](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip)
 
-You can download the latest API dev build [here](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-API.zip).
+[API](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-API.zip)
 
 ## What is done asynchronously?
 - Worlds (ticked parallel to each other)
 - The entity tracker (updated with multiple threads)
 - TNT (from NachoSpigot)
+- Hit detection and knockback (based on [this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit))
 - More to come soon
 
 ## Patches
@@ -28,6 +29,7 @@ You can download the latest API dev build [here](https://nightly.link/Wind-Devel
 [WindSpigot-0004] Parallel world ticking
 [WindSpigot-0005] Disable mob spawning if tps is not stable
 [WindSpigot-0006] Remove fastmath usage from explosions
+[WindSpigot-0007] Player ping command
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
@@ -111,7 +113,10 @@ You can download the latest API dev build [here](https://nightly.link/Wind-Devel
 [Nacho-0049] Option to disable Enchantment table ticking
 
 <--> by Rastrian
-[Nacho-????] Async entity tracker by Rastrian
+[Nacho-????] Async entity tracker
+[Nacho-????] Async knockback and hit detection packets
+[Nacho-????] Ticking fixes, tile optimization, and optional fast math
+[Nacho-????] Many more config options
 
 <--> by Sculas
 [Nacho-0034] Remove Java 8 message from TacoSpigot which made it so you couldn't run Java 8 or higher
@@ -140,6 +145,7 @@ You can download the latest API dev build [here](https://nightly.link/Wind-Devel
 [IonSpigot-0013] Implement PandaWire
 [IonSpigot-0014] Faster Chunk Entity List
 [IonSpigot-0020] Faster EntityTracker Collections
+[IonSpigot-0026] Lag Compensated Potions
 [IonSpigot-0035] Optimise Entity Collisions
 [IonSpigot-0037] Fast Cannon Entity Tracker
 

@@ -2,12 +2,16 @@ package ga.windpvp.windspigot;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 
 import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
-import ga.windpvp.windspigot.async.world.TeleportSafety;
+import ga.windpvp.windspigot.async.thread.CombatThread;
+import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.commands.MobAICommand;
+import ga.windpvp.windspigot.commands.PingCommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
 import net.md_5.bungee.api.ChatColor;
@@ -16,6 +20,10 @@ import net.minecraft.server.MinecraftServer;
 public class WindSpigot {
 
 	private StatisticsClient client;
+	public static final Logger LOGGER = LogManager.getLogger(WindSpigot.class);
+  
+	public static CombatThread hitDetectionThread;
+	public static CombatThread knockbackThread;
 
 	public WindSpigot() {
 		this.init();
@@ -26,10 +34,14 @@ public class WindSpigot {
 	}
 
 	private void initCmds() {
-		// WindSpigot - mob ai cmd
 		if (WindSpigotConfig.mobAiCmd) {
 			MobAICommand mobAiCommand = new MobAICommand("mobai");
 			MinecraftServer.getServer().server.getCommandMap().register(mobAiCommand.getName(), "", mobAiCommand);
+		}
+		
+		if (WindSpigotConfig.pingCmd) {
+			PingCommand pingCommand = new PingCommand("ping");
+			MinecraftServer.getServer().server.getCommandMap().register(pingCommand.getName(), "", pingCommand);
 		}
 	}
 
@@ -43,7 +55,6 @@ public class WindSpigot {
 					client.sendMessage("new server");
 				}
 			} catch (IOException ignored) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "There was an error enabling WindSpigot statistics! This is usually safe to ignore.");
 			}
 		});
 		AsyncUtil.run(runnable);
@@ -52,14 +63,34 @@ public class WindSpigot {
 	private void init() {
 		initCmds();
 		initStatistics();
+		
+		boolean hasConsoleSpace = false;
+		
+		if (WindSpigotConfig.asyncHitDetection) {
+            LOGGER.info(" ");
+            hitDetectionThread = new CombatThread("Hit Detection Thread");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async hit detection!");
+        }
+        if (WindSpigotConfig.asyncKnockback) {
+            knockbackThread = new CombatThread("Knockback Thread");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async knockback!");
+            LOGGER.info(" ");
+            hasConsoleSpace = true;
+        }
+        
+        System.setProperty( "io.netty.eventLoopThreads", Integer.toString(WindSpigotConfig.nettyThreads));
+
 
 		if (WindSpigotConfig.parallelWorld || WindSpigotConfig.asyncEntities) {
 			Timings.setTimingsEnabled(false);
-			System.out.println(" ");
+			if (!hasConsoleSpace) {
+				LOGGER.info(" ");
+			}
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
-					+ "Timings disabled due to parallel worlds or async entities being enabled. Timings will break with these options enabled.");
-			System.out.println(" ");
-			TeleportSafety.init();
+					+ "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
+			LOGGER.info(" ");
+			TeleportRegistry.init();
+
 		}
 		System.gc();
 	}

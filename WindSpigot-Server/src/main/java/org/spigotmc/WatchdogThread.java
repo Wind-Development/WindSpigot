@@ -50,7 +50,7 @@ public class WatchdogThread extends Thread {
 				log.log(Level.SEVERE, "The server has stopped responding!");
 				log.log(Level.SEVERE, "Please report this to WindSpigot directly!");
 				log.log(Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports");
-				log.log(Level.SEVERE, "NachoSpigot version: " + Bukkit.getServer().getVersion());
+				log.log(Level.SEVERE, "WindSpigot version: " + Bukkit.getServer().getVersion());
 				//
 				if (net.minecraft.server.World.haveWeSilencedAPhysicsCrash) {
 					log.log(Level.SEVERE, "------------------------------");

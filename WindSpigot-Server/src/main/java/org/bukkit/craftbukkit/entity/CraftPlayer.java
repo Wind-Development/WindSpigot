@@ -1830,4 +1830,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 	public double getBlockReach() {
 		return getGameMode() == GameMode.CREATIVE ? 6 : 4.5;
 	}
+	
+	// WindSpigot start - more visible ping getting method
+	public int getPing() {
+		return this.spigot().getPing();
+	}
+	// WindSpigot end
 }
