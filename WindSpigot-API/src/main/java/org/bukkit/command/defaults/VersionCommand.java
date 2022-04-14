@@ -169,10 +169,10 @@ public class VersionCommand extends BukkitCommand {
 				return;
 			}
 			versionWaiters.add(sender);
-			sender.sendMessage("Checking version, please wait...");
+			//sender.sendMessage("Checking version, please wait...");
 			if (!versionTaskStarted) {
 				versionTaskStarted = true;
-				new Thread(this::obtainVersion).start();
+				this.obtainVersion();
 			}
 		} finally {
 			versionLock.unlock();
@@ -181,10 +181,13 @@ public class VersionCommand extends BukkitCommand {
 
 	private void obtainVersion() {
 		String version = Bukkit.getVersion();
-		if (version == null)
+		if (version == null) {
 			version = "Custom";
+		}
+		// WindSpigot - use manual versioning
+		setVersionMessage("You are running WindSpigot 2.0.2");
 		// TacoSpigot start
-		if (version.startsWith("git-NachoSpigot-")) {
+		/*if (version.startsWith("git-NachoSpigot-")) {
 			String[] parts = version.substring("git-NachoSpigot-".length()).split("[-\\s]");
 			int distance = getDistance("CobbleSword/NachoSpigot", parts[0]);
 			switch (distance) {
@@ -200,7 +203,7 @@ public class VersionCommand extends BukkitCommand {
 			default:
 				setVersionMessage("You are " + distance + " version(s) behind");
 			}
-			/*
+			 *
 			 * if (version.startsWith("git-TacoSpigot-")) { String[] parts =
 			 * version.substring("git-Tacospigot-".length()).split("[-\\s]"); int distance =
 			 * getDistance("TacoSpigot/TacoSpigot", parts[0]); switch (distance) { case -1:
@@ -236,11 +239,12 @@ public class VersionCommand extends BukkitCommand {
 			 * (cbVersions == 0) { setVersionMessage("You are running the latest version");
 			 * } else { setVersionMessage("You are " + cbVersions + " version(s) behind"); }
 			 * }
-			 */
+			 *
 			// TacoSpigot end
 		} else {
 			setVersionMessage("Unknown version, custom build?");
 		}
+		 */
 	}
 
 	private void setVersionMessage(String msg) {
