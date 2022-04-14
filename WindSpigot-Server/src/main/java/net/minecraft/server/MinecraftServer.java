@@ -20,6 +20,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.FutureTask;
 
 import javax.imageio.ImageIO;
@@ -648,7 +649,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				this.entitiesTicker = new EntitiesTicker();
 				
 				if (WindSpigotConfig.asyncEntities) {
-					this.entityTickPreparation = EntityGrouper.prepareTick();
+					this.entityTickPreparation = EntityGrouper.getInstance().prepareTick();
 				}
 				// WindSpigot end
 
@@ -907,7 +908,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	private WorldTickerManager worldTickerManager;
 	public Map<World, List<List<Entity>>> entityTickLists = Maps.newConcurrentMap();
 	
-	private CompletableFuture<Void> entityTickPreparation;
+	private ForkJoinTask<?> entityTickPreparation;
 	
 	public void B() {
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
@@ -986,7 +987,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		
 		// WindSpigot start - async entities
 		if (WindSpigotConfig.asyncEntities) {
-			this.entityTickPreparation = EntityGrouper.prepareTick();
+			this.entityTickPreparation = EntityGrouper.getInstance().prepareTick();
 		}
 		// WindSpigot end
 
