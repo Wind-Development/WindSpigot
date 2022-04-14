@@ -10,9 +10,13 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 // PaperSpigot start
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockState;
@@ -32,6 +36,9 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 // PaperSpigot end
 
+import ga.windpvp.windspigot.async.entity.EntitiesTicker;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
+import javafixes.concurrency.ReusableCountLatch;
 import me.elier.nachospigot.config.NachoConfig;
 import me.elier.nachospigot.config.NachoWorldConfig;
 import me.rastrian.dev.OptimizedWorldTileEntitySet;
@@ -1712,6 +1719,32 @@ public abstract class World implements IBlockAccess {
 	public void b(BlockPosition blockposition, Block block, int i, int j) {
 	}
 
+	public volatile CountDownLatch latch;
+	
+	private void tickEntitiesAsync() {
+		List<List<Entity>> list = null;
+		
+		list = MinecraftServer.getServer().entityTickLists.get(this);
+		
+		latch = new CountDownLatch(list.size());
+
+		for (List<Entity> entityTickLists : list) {
+			if (list.size() == 1) {
+				EntitiesTicker.getInstance().tick(entityTickLists, this);
+			} else {
+				ForkJoinPool.commonPool().submit(EntitiesTicker.getInstance().getRunnable(this));
+			}
+		}
+		if (list.size() != 1) {
+			try {
+				latch.await();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		MinecraftServer.getServer().entityTickLists.remove(this);
+	}
+	
 	public void tickEntities() {
 		this.methodProfiler.a("entities");
 		this.methodProfiler.a("global");
@@ -1721,31 +1754,35 @@ public abstract class World implements IBlockAccess {
 		CrashReport crashreport;
 		CrashReportSystemDetails crashreportsystemdetails;
 
-		for (i = 0; i < this.k.size(); ++i) {
-			entity = this.k.get(i);
-			// CraftBukkit start - Fixed an NPE
-			if (entity == null) {
-				continue;
-			}
-			// CraftBukkit end
-
-			try {
-				++entity.ticksLived;
-				entity.t_();
-			} catch (Throwable throwable) {
-				crashreport = CrashReport.a(throwable, "Ticking entity");
-				crashreportsystemdetails = crashreport.a("Entity being ticked");
+		if (WindSpigotConfig.asyncEntities) {
+			this.tickEntitiesAsync();
+		} else {
+			for (i = 0; i < this.k.size(); ++i) {
+				entity = this.k.get(i);
+				// CraftBukkit start - Fixed an NPE
 				if (entity == null) {
-					crashreportsystemdetails.a("Entity", "~~NULL~~");
-				} else {
-					entity.appendEntityCrashDetails(crashreportsystemdetails);
+					continue;
+				}
+				// CraftBukkit end
+
+				try {
+					++entity.ticksLived;
+					entity.t_();
+				} catch (Throwable throwable) {
+					crashreport = CrashReport.a(throwable, "Ticking entity");
+					crashreportsystemdetails = crashreport.a("Entity being ticked");
+					if (entity == null) {
+						crashreportsystemdetails.a("Entity", "~~NULL~~");
+					} else {
+						entity.appendEntityCrashDetails(crashreportsystemdetails);
+					}
+
+					throw new ReportedException(crashreport);
 				}
 
-				throw new ReportedException(crashreport);
-			}
-
-			if (entity.dead) {
-				this.k.remove(i--);
+				if (entity.dead) {
+					this.k.remove(i--);
+				}
 			}
 		}
 

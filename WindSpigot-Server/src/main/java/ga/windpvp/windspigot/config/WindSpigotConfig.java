@@ -246,4 +246,17 @@ public class WindSpigotConfig {
 		c.addComment("settings.command.ping",
 				"Enables the command \"/ping <player>\" which shows player ping. Users require the permission windspigot.command.ping");
 	}
+	
+	public static boolean asyncEntities;
+
+	private static void asyncEntities() {
+		asyncEntities = getBoolean("settings.async.entities", false);
+		if (asyncEntities) {
+			TimingsCheck.setEnableTimings(false);
+		} else {
+			TimingsCheck.setEnableTimings(true);
+		}
+		c.addComment("settings.async.entities",
+				"Enables async entity ticking. Don't use this unless you have entities distributed throughout the world (far apart).");
+	}
 }

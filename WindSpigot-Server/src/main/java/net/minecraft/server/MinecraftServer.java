@@ -12,11 +12,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.FutureTask;
 
 import javax.imageio.ImageIO;
@@ -28,6 +32,7 @@ import org.bukkit.craftbukkit.Main;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
@@ -40,6 +45,8 @@ import co.aikar.timings.SpigotTimings; // Spigot
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.WorldTickerManager;
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.entity.EntitiesTicker;
+import ga.windpvp.windspigot.async.entity.EntityGrouper;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
@@ -599,6 +606,13 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	public AffinityLock getLock() {
 		return this.lock;
 	}
+	
+	private EntitiesTicker entitiesTicker;
+	
+	// WindSpigot - async entities
+	public EntitiesTicker entitiesTicker() {
+		return this.entitiesTicker;
+	}
 
 	@Override
 	public void run() {
@@ -630,6 +644,14 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 				// WindSpigot - parallel worlds
 				this.worldTickerManager = new WorldTickerManager();
+				
+				// WindSpigot start - async entities
+				this.entitiesTicker = new EntitiesTicker();
+				
+				if (WindSpigotConfig.asyncEntities) {
+					this.entityTickPreparation = EntityGrouper.getInstance().prepareTick();
+				}
+				// WindSpigot end
 
 				this.ab = az();
 				this.r.setMOTD(new ChatComponentText(this.motd));
@@ -644,7 +666,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				long start = System.nanoTime(), lastTick = start - TICK_TIME, catchupTime = 0, curTime, wait,
 						tickSection = start;
 				// PaperSpigot end
-
+				
 				while (this.isRunning) {
 					curTime = System.nanoTime();
 					// PaperSpigot start - Further improve tick loop
@@ -884,7 +906,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	}
 
 	private WorldTickerManager worldTickerManager;
-
+	public Map<World, List<List<Entity>>> entityTickLists = Maps.newConcurrentMap();
+	
+	private ForkJoinTask<?> entityTickPreparation;
+	
 	public void B() {
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
 		this.methodProfiler.a("jobs");
@@ -946,9 +971,25 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 			}
 		}
 		SpigotTimings.timeUpdateTimer.stopTiming(); // Spigot
+		
+		// WindSpigot start - async entities
+		if (WindSpigotConfig.asyncEntities) {
+			try {
+				this.entityTickPreparation.get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+		// WindSpigot end
 
 		// WindSpigot - parallel worlds
 		this.worldTickerManager.tick();
+		
+		// WindSpigot start - async entities
+		if (WindSpigotConfig.asyncEntities) {
+			this.entityTickPreparation = EntityGrouper.getInstance().prepareTick();
+		}
+		// WindSpigot end
 
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot

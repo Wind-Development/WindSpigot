@@ -81,7 +81,7 @@ public class WindSpigot {
         System.setProperty( "io.netty.eventLoopThreads", Integer.toString(WindSpigotConfig.nettyThreads));
 
 
-		if (WindSpigotConfig.parallelWorld) {
+		if (WindSpigotConfig.parallelWorld || WindSpigotConfig.asyncEntities) {
 			Timings.setTimingsEnabled(false);
 			if (!hasConsoleSpace) {
 				LOGGER.info(" ");
@@ -90,6 +90,7 @@ public class WindSpigot {
 					+ "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
 			LOGGER.info(" ");
 			TeleportRegistry.init();
+
 		}
 		System.gc();
 	}
