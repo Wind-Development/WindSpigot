@@ -185,7 +185,7 @@ public class VersionCommand extends BukkitCommand {
 			version = "Custom";
 		}
 		// WindSpigot - use manual versioning
-		setVersionMessage("You are running WindSpigot 2.0.2");
+		setVersionMessage("You are running WindSpigot v2.1.0"); // Bump this every update
 		// TacoSpigot start
 		/*if (version.startsWith("git-NachoSpigot-")) {
 			String[] parts = version.substring("git-NachoSpigot-".length()).split("[-\\s]");
