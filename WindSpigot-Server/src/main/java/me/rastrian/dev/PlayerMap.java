@@ -2,6 +2,7 @@ package me.rastrian.dev;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -16,7 +17,44 @@ import net.minecraft.server.Packet;
 public class PlayerMap {
 
 	private static final int CHUNK_BITS = 5;
-	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectOpenHashMap<>();
+	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectOpenHashMap<List<EntityPlayer>>() {
+		
+		// Multiple threads can read at the same time
+		private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+		
+		@Override
+		public List<EntityPlayer> get(long key) {
+			lock.readLock().lock();
+			try {
+				return super.get(key);
+			} finally {
+				lock.readLock().unlock();
+			}
+		}
+		
+		@Override
+		public List<EntityPlayer> put(final long key, final List<EntityPlayer> list) {
+			lock.writeLock().lock();
+			try {
+				return super.put(key, list);
+			} finally {
+				lock.writeLock().unlock();
+			}
+		}
+		
+		@Override
+		public List<EntityPlayer> remove(long key) {
+			lock.writeLock().lock();
+			try {
+				return super.remove(key);
+			} finally {
+				lock.writeLock().unlock();
+			}
+		}
+		
+		// Synchronization is not required for other methods, they are not accessed
+		
+	};
 
 	private static long xzToKey(long x, long z) {
 		return (x << 32) + z - Integer.MIN_VALUE;
