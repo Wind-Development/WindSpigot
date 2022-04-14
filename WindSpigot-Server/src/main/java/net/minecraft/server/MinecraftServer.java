@@ -45,8 +45,8 @@ import co.aikar.timings.SpigotTimings; // Spigot
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.WorldTickerManager;
 import ga.windpvp.windspigot.async.AsyncUtil;
-import ga.windpvp.windspigot.async.entity.EntitiesTicker;
-import ga.windpvp.windspigot.async.entity.EntityGrouper;
+import ga.windpvp.windspigot.async.entity.EntityListTicker;
+import ga.windpvp.windspigot.async.entity.EntityBatcher;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
@@ -607,10 +607,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		return this.lock;
 	}
 	
-	private EntitiesTicker entitiesTicker;
+	private EntityListTicker entitiesTicker;
 	
 	// WindSpigot - async entities
-	public EntitiesTicker entitiesTicker() {
+	public EntityListTicker entitiesTicker() {
 		return this.entitiesTicker;
 	}
 
@@ -646,10 +646,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				this.worldTickerManager = new WorldTickerManager();
 				
 				// WindSpigot start - async entities
-				this.entitiesTicker = new EntitiesTicker();
+				this.entitiesTicker = new EntityListTicker();
 				
 				if (WindSpigotConfig.asyncEntities) {
-					this.entityTickPreparation = new EntityGrouper().prepareTick();
+					this.entityTickPreparation = new EntityBatcher().prepareTick();
 				}
 				// WindSpigot end
 
@@ -987,7 +987,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		
 		// WindSpigot start - async entities
 		if (WindSpigotConfig.asyncEntities) {
-			this.entityTickPreparation = EntityGrouper.getInstance().prepareTick();
+			this.entityTickPreparation = EntityBatcher.getInstance().prepareTick();
 		}
 		// WindSpigot end
 

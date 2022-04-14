@@ -14,11 +14,11 @@ import net.minecraft.server.Entity;
 import net.minecraft.server.ReportedException;
 import net.minecraft.server.World;
 
-public class EntitiesTicker {
+public class EntityListTicker {
 	
-	private static EntitiesTicker INSTANCE;
+	private static EntityListTicker INSTANCE;
 	
-	public EntitiesTicker() {
+	public EntityListTicker() {
 		INSTANCE = this;
 	}
 	
@@ -90,7 +90,7 @@ public class EntitiesTicker {
 		return runnableCache.get(world);
 	}
 
-	public static EntitiesTicker getInstance() {
+	public static EntityListTicker getInstance() {
 		return INSTANCE;
 	}
 	

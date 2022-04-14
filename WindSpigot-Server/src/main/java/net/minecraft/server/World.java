@@ -36,7 +36,7 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 // PaperSpigot end
 
-import ga.windpvp.windspigot.async.entity.EntitiesTicker;
+import ga.windpvp.windspigot.async.entity.EntityListTicker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import javafixes.concurrency.ReusableCountLatch;
 import me.elier.nachospigot.config.NachoConfig;
@@ -1730,9 +1730,9 @@ public abstract class World implements IBlockAccess {
 
 		for (List<Entity> entityTickLists : list) {
 			if (list.size() == 1) {
-				EntitiesTicker.getInstance().tick(entityTickLists, this);
+				EntityListTicker.getInstance().tick(entityTickLists, this);
 			} else {
-				ForkJoinPool.commonPool().submit(EntitiesTicker.getInstance().getRunnable(this));
+				ForkJoinPool.commonPool().submit(EntityListTicker.getInstance().getRunnable(this));
 			}
 		}
 		if (list.size() != 1) {

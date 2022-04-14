@@ -15,13 +15,13 @@ import net.minecraft.server.World;
 @ThreadSafe // Multiple worlds can group entities at the same time
 
 // This is a utility class to group entities for ticking on separate threads.
-public class EntityGrouper {
+public class EntityBatcher {
 	
 	// TODO: Simplify this a lot and try to use less looping
 	
-	private static EntityGrouper INSTANCE;
+	private static EntityBatcher INSTANCE;
 	
-	public EntityGrouper() {
+	public EntityBatcher() {
 		INSTANCE = this;
 	}
 	
@@ -197,7 +197,7 @@ public class EntityGrouper {
 		});
 	}
 	
-	public static EntityGrouper getInstance() {
+	public static EntityBatcher getInstance() {
 		return INSTANCE;
 	}
 
