@@ -45,8 +45,9 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 6; // Update this every new configuration update
-		version = getInt("config-version", configVersion);
+		int configVersion = 7; // Update this every new configuration update
+
+    version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
 		c.addComment("config-version", "Configuration version, do NOT modify this!");
@@ -245,5 +246,12 @@ public class WindSpigotConfig {
 		pingCmd = getBoolean("settings.ping-command", true);
 		c.addComment("settings.command.ping",
 				"Enables the command \"/ping <player>\" which shows player ping. Users require the permission windspigot.command.ping");
+	}
+	
+	public static boolean asyncTnt;
+
+	private static void asyncTnt() {
+		asyncTnt = getBoolean("settings.async.tnt", true);
+		c.addComment("settings.async.tnt", "Enables NachoSpigot's async tnt.");
 	}
 }
