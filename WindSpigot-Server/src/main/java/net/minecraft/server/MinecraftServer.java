@@ -649,7 +649,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				this.entitiesTicker = new EntitiesTicker();
 				
 				if (WindSpigotConfig.asyncEntities) {
-					this.entityTickPreparation = EntityGrouper.getInstance().prepareTick();
+					this.entityTickPreparation = new EntityGrouper().prepareTick();
 				}
 				// WindSpigot end
 
