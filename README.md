@@ -30,6 +30,7 @@ Java 17 is now natively supported, and [ViaVersion](https://github.com/ViaVersio
 [WindSpigot-0005] Disable mob spawning if tps is not stable
 [WindSpigot-0006] Remove fastmath usage from explosions
 [WindSpigot-0007] Player ping command
+[WindSpigot-0008] Make NachoSpigot's async TNT configurable
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
@@ -46,6 +47,7 @@ Java 17 is now natively supported, and [ViaVersion](https://github.com/ViaVersio
 [Paper-0093] Don't save empty scoreboard teams to scoreboard.dat by Aikar
 [Paper-0097] Faster redstone torch rapid clock removal by Martin Panzer
 [Paper-0100] Avoid blocking on Network Manager creation by Aikar
+[Paper-0102] Update log4j
 [Paper-0103] Add setting for proxy online mode status
 [Paper-0112] Reduce IO ops opening a new region file by Antony Riley
 [Paper-0122] Don't let fishinghooks use portals by Zach Brown
