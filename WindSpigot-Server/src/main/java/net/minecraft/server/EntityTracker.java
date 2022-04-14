@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import ga.windpvp.windspigot.async.ResettableLatch;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import javafixes.concurrency.ReusableCountLatch;
 import me.elier.nachospigot.config.NachoConfig;
@@ -162,23 +163,8 @@ public class EntityTracker {
 		}
 	}
 	
-	// WindSpigot start - reusablecountdownlatch for async entity tracking
-	private final ReusableCountLatch latch = new ReusableCountLatch(trackerThreads);
-	
-	private void updateLatch() {
-		if (latch.getCount() > trackerThreads) {
-			while (latch.getCount() > trackerThreads) {
-				// Decrease the thread count of the latch if it is too high
-				latch.decrement();
-			}
-		} else if (latch.getCount() < trackerThreads) {
-			while (latch.getCount() < trackerThreads) {
-				// Increase the thread count of the latch if it is too low
-				latch.increment();
-			}
-		}
-	}
-	// WindSpigot end
+	// WindSpigot - resettablelatch for async entity tracking
+	private final ResettableLatch latch = new ResettableLatch(trackerThreads);
 
 	public void updatePlayers() {
 		int offset = 0;
@@ -207,7 +193,7 @@ public class EntityTracker {
 		try {
 			// Wait for async entity tracking to finish then reset the latch
 			latch.waitTillZero();
-			this.updateLatch();
+			latch.reset(trackerThreads);
 		} catch (Exception e) {
 			e.printStackTrace();
 			/*

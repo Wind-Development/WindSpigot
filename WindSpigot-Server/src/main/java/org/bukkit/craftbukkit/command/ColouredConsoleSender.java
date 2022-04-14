@@ -10,6 +10,7 @@ import org.bukkit.craftbukkit.CraftServer;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.Attribute;
 
+import ga.windpvp.windspigot.WindSpigot;
 import jline.Terminal;
 
 public class ColouredConsoleSender extends CraftConsoleCommandSender {
@@ -60,7 +61,7 @@ public class ColouredConsoleSender extends CraftConsoleCommandSender {
 						result = result.replaceAll("(?i)" + color.toString(), "");
 					}
 				}
-				System.out.println(result + Ansi.ansi().reset().toString());
+				WindSpigot.LOGGER.info(result + Ansi.ansi().reset().toString());
 			}
 		} else {
 			super.sendMessage(message);

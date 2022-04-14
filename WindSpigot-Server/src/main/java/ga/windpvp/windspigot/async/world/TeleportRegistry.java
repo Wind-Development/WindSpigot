@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.server.WorldServer;
 
-public class TeleportSafety {
+public class TeleportRegistry {
 
 	public static Map<WorldServer, Boolean> isWaitingOnTeleport;
 

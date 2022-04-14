@@ -21,6 +21,8 @@ import com.velocitypowered.natives.util.Natives; // Paper
 
 import dev.cobblesword.nachospigot.Nacho; // Nacho
 import dev.cobblesword.nachospigot.exception.ExploitException; // Nacho
+import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -211,6 +213,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	// sendPacket
 	public void handle(Packet packet) {
 		if (this.isConnected()) {
+	        if (WindSpigotConfig.asyncHitDetection && packet instanceof PacketPlayInUseEntity && ((PacketPlayInUseEntity)packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
+	        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
+	            return;
+	        }
+	        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
+	        	WindSpigot.knockbackThread.addPacket(packet, this, null);
+	            return;
+	        }
 			this.sendPacketQueue();
 			this.dispatchPacket(packet, null, Boolean.TRUE);
 		} else {
@@ -229,6 +239,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	public void a(Packet packet, GenericFutureListener<? extends Future<? super Void>> listener,
 			GenericFutureListener<? extends Future<? super Void>>... listeners) {
 		if (this.isConnected()) {
+	        if (WindSpigotConfig.asyncHitDetection && packet instanceof PacketPlayInUseEntity && ((PacketPlayInUseEntity)packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
+	        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
+	            return;
+	        }
+	        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
+	        	WindSpigot.knockbackThread.addPacket(packet, this, null);
+	            return;
+	        }
 			this.sendPacketQueue();
 			this.dispatchPacket(packet, ArrayUtils.insert(0, listeners, listener), Boolean.TRUE);
 		} else {

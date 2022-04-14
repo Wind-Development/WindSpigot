@@ -45,8 +45,9 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 5; // Update this every new configuration update
-		version = getInt("config-version", configVersion);
+		int configVersion = 7; // Update this every new configuration update
+
+    version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
 		c.addComment("config-version", "Configuration version, do NOT modify this!");
@@ -115,11 +116,13 @@ public class WindSpigotConfig {
 	public static int trackingThreads;
 
 	private static void tracking() {
-		disableTracking = getBoolean("settings.async.entity-tracking.disable", false);
-		c.addComment("settings.async.entity-tracking.disable", "Disables asynchronous entity tracking");
+		disableTracking = !getBoolean("settings.async.entity-tracking.enable", true);
+		c.addComment("settings.async.entity-tracking.enable", "Enables asynchronous entity tracking");
 		trackingThreads = getInt("settings.async.entity-tracking.threads", 3);
 		c.addComment("settings.async.entity-tracking.threads",
 				"The amount of threads to use when asynchronous entity tracking is enabled.");
+		
+		c.addComment("settings.async.entity-tracking", "Configuration for the async entity tracker.");
 	}
 
 	public static boolean threadAffinity;
@@ -133,8 +136,8 @@ public class WindSpigotConfig {
 	public static boolean mobAiCmd;
 
 	private static void mobAiCmd() {
-		mobAiCmd = getBoolean("settings.mob-ai-command", true);
-		c.addComment("settings.mob-ai-command",
+		mobAiCmd = getBoolean("settings.command.mob-ai", true);
+		c.addComment("settings.command.mob-ai",
 				"Enables the command \"/mobai\" which toggles mob ai. Users require the permission windspigot.command.mobai");
 	}
 
@@ -175,35 +178,35 @@ public class WindSpigotConfig {
 
 	private static void pearlPassthroughFenceGate() {
 		pearlPassthroughFenceGate = getBoolean("settings.pearl-passthrough.fence_gate", true);
-		c.addComment("settings.pearl-passthrough.fence_gate", "Allows pearls to pass through fences. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.fence_gate", "Allows pearls to pass through fences.");
 	}
 
 	public static boolean pearlPassthroughTripwire;
 
 	private static void pearlPassthroughTripwire() {
 		pearlPassthroughTripwire = getBoolean("settings.pearl-passthrough.tripwire", true);
-		c.addComment("settings.pearl-passthrough.tripwire", "Allows pearls to pass through tripwires. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.tripwire", "Allows pearls to pass through tripwires.");
 	}
 
 	public static boolean pearlPassthroughSlab;
 
 	private static void pearlPassthroughSlab() {
 		pearlPassthroughSlab = getBoolean("settings.pearl-passthrough.slab", true);
-		c.addComment("settings.pearl-passthrough.slab", "Allows pearls to pass through slabs. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.slab", "Allows pearls to pass through slabs.");
 	}
 
 	public static boolean pearlPassthroughCobweb;
 
 	private static void pearlPassthroughCobweb() {
 		pearlPassthroughCobweb = getBoolean("settings.pearl-passthrough.cobweb", true);
-		c.addComment("settings.pearl-passthrough.cobweb", "Allows pearls to pass through cobwebs. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.cobweb", "Allows pearls to pass through cobwebs.");
 	}
 
 	public static boolean pearlPassthroughBed;
 
 	private static void pearlPassthroughBed() {
 		pearlPassthroughBed = getBoolean("settings.pearl-passthrough.bed", false);
-		c.addComment("settings.pearl-passthrough.bed", "Allows pearls to pass through beds. (Credits to FlamePaper)");
+		c.addComment("settings.pearl-passthrough.bed", "Allows pearls to pass through beds.");
 	}
 	// FlamePaper end
 	
@@ -212,7 +215,37 @@ public class WindSpigotConfig {
 	}
 	
 	private static void pearlPassthrough() {
-		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks");
+		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
+	}
+	
+	// From
+	// https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
+	public static int nettyThreads;
+    public static int combatThreadTPS;
+
+    private static void nettyThreads() {
+        nettyThreads = getInt("settings.async.netty-threads", 4);
+        c.addComment("settings.async.netty-threads", "Number of netty threads.");
+        combatThreadTPS = getInt("settings.async.combat-thread-tps", 40);
+        c.addComment("settings.async.combat-thread-tps", "Combat thread TPS for async knockback and hit detection.");
+    }
+
+    public static boolean asyncHitDetection;
+    public static boolean asyncKnockback;
+
+    private static void asyncPackets() {
+        asyncHitDetection = getBoolean("settings.async.hit-detection", true);
+        c.addComment("settings.async.hit-detection", "Enables asynchronous hit detection.");
+        asyncKnockback = getBoolean("settings.async.knockback", true);
+        c.addComment("settings.async.knockback", "Enables asynchronous knockback.");
+    }
+    
+	public static boolean pingCmd;
+
+	private static void pingCmd() {
+		pingCmd = getBoolean("settings.ping-command", true);
+		c.addComment("settings.command.ping",
+				"Enables the command \"/ping <player>\" which shows player ping. Users require the permission windspigot.command.ping");
 	}
 	
 	public static boolean asyncTnt;
