@@ -235,9 +235,9 @@ public class WindSpigotConfig {
 
     private static void asyncPackets() {
         asyncHitDetection = getBoolean("settings.async.hit-detection", true);
-        c.addComment("settings.async.hit-detection", "Enables asynchronous hit detection.");
+        c.addComment("settings.async.hit-detection", "Enables asynchronous hit detection. This increases overall cpu usage, but sends hit detection packets faster. Disable this if you do not run a pvp server.");
         asyncKnockback = getBoolean("settings.async.knockback", true);
-        c.addComment("settings.async.knockback", "Enables asynchronous knockback.");
+        c.addComment("settings.async.knockback", "Enables asynchronous knockback. This increases overall cpu usage, but sends knockback packets faster. Disable this if you do not run a pvp server.");
     }
     
 	public static boolean pingCmd;
