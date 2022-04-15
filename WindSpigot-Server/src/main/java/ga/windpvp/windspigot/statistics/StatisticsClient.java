@@ -25,17 +25,11 @@ public class StatisticsClient {
 	}
 
 	// Sends data to the statistics server
-	public String sendMessage(String msg) throws IOException {
+	public void sendMessage(String msg) throws IOException {
 		// Check if connected first
 		if (this.isConnected) {
 			this.out.println(msg);
-			
-			// Response from the server
-			String response = in.readLine();
-			return response;
-		} else {
-			return null;
-		}
+		} 
 	}
 
 	// Closes the connection
