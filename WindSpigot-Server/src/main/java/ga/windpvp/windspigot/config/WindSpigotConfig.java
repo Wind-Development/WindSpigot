@@ -45,7 +45,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 8; // Update this every new configuration update
+		int configVersion = 9; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -263,4 +263,13 @@ public class WindSpigotConfig {
 		asyncTnt = getBoolean("settings.async.tnt", true);
 		c.addComment("settings.async.tnt", "Enables NachoSpigot's async tnt.");
 	}
+	
+	public static boolean statistics;
+	
+	private static void statistics() {
+		statistics = getBoolean("settings.statistics", true);
+		c.addComment("settings.statistics",
+				"Enables WindSpigot statistics. This allows developers to see how many WindSpigot servers are running. This has no performance impact and is completely anonymous, but you can opt out of this if you want.");
+	}
+	
 }

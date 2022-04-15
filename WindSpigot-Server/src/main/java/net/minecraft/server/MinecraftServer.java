@@ -41,6 +41,7 @@ import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.WorldTickerManager;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.statistics.StatisticsClient;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -728,21 +729,24 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 			this.a(crashreport);
 		} finally {
+			// WindSpigot start - thread affinity
 			if (lock != null) {
 				lock.release();
 				MinecraftServer.LOGGER.info("Released CPU " + lock.cpuId() + " from server usage.");
 			}
+			// WindSpigot end
+			// WindSpigot start - stop statistics connection
 			Thread statisticsThread = null;
-			// WindSpigot - stop statistics connection
 			if (disableStatistics) {
-				if (this.getWindSpigot().getClient().isConnected) {
+				StatisticsClient client = this.getWindSpigot().getClient();
+				if (client != null && client.isConnected) {
 					Runnable runnable = (() -> {
 						try {
 							// Signal that there is one less server
-							this.getWindSpigot().getClient().sendMessage("removed server");
+							client.sendMessage("removed server");
 							// This tells the server to stop listening for messages from this client
-							this.getWindSpigot().getClient().sendMessage(".");
-							this.getWindSpigot().getClient().stop();
+							client.sendMessage(".");
+							client.stop();
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -751,6 +755,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 					statisticsThread.start();
 				}
 			}
+			// WindSpigot end
 			try {
 				org.spigotmc.WatchdogThread.doStop();
 				this.isStopped = true;
