@@ -1,6 +1,7 @@
 package ga.windpvp.windspigot;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,18 +47,32 @@ public class WindSpigot {
 	}
 
 	private void initStatistics() {
-		Runnable runnable = (() -> {
+		Runnable statsRunnable = (() -> {
 			client = new StatisticsClient();
 			try {
 				if (!client.isConnected) {
 					// Connect to the statistics server and notify that there is a new server
 					client.start("150.230.35.78", 500);
 					client.sendMessage("new server");
+					
+					while (true) {
+						try {
+							// Keep alive, this tells the statistics server that this server
+							// is still online
+							client.sendMessage("keep alive packet");
+							
+							// Statistics are sent every 30 secs.
+							TimeUnit.SECONDS.sleep(30);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
 				}
 			} catch (IOException ignored) {
 			}
 		});
-		AsyncUtil.run(runnable);
+		AsyncUtil.run(statsRunnable);
 	}
 
 	private void init() {
