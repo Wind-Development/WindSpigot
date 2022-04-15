@@ -73,8 +73,9 @@ public class WindSpigotConfig {
 		try {
 			config.save(CONFIG_FILE);
 			c.saveComments(CONFIG_FILE);
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
+			LOGGER.warn("Please regenerate your windspigot.yml file to prevent this issue! The server will run with the default config for now.");
 		}
 	}
 
