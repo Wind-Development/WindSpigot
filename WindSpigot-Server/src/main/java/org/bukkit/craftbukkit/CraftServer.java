@@ -224,7 +224,9 @@ public final class CraftServer implements Server {
 		this.playerList = (DedicatedPlayerList) playerList;
 		this.playerView = Collections.unmodifiableList(
 				Lists.transform(playerList.players, net.minecraft.server.EntityPlayer::getBukkitEntity));
-		this.serverVersion = CraftServer.class.getPackage().getImplementationVersion();
+		// WindSpigot - manual versioning
+		this.serverVersion = "WindSpigot Release v2.1.0"; // Bump this every release
+		//CraftServer.class.getPackage().getImplementationVersion();
 		online.value = console.getPropertyManager().getBoolean("online-mode", true);
 
 		Bukkit.setServer(this);
