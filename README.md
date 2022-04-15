@@ -1,22 +1,20 @@
 # WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/build-windspigot.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip)
 
-#### WindSpigot is a 1.8.8 Minecraft server software based on a fork of NachoSpigot.
+##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance. WindSpigot is based on a fork of NachoSpigot.
 
 ## Current State
-Java 17 is now natively supported, and [ViaVersion](https://github.com/ViaVersion/ViaVersion) is patched at runtime to work with Nacho's modifications.
+Java 17 is now natively supported, and **[ViaVersion](https://github.com/ViaVersion/ViaVersion)** is patched at runtime to work with Nacho's modifications.
 
 **WindSpigot supports Java 8 to Java 17!**
 
 ## Downloads
-[Server](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip)
-
-[API](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-API.zip)
+See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** tab for the latest release. Alternatively, you can download the latest build **[here](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip)**. The latest build may be unstable, but contains more features.
 
 ## What is done asynchronously?
 - Worlds (ticked parallel to each other)
 - The entity tracker (updated with multiple threads)
 - TNT (from NachoSpigot)
-- Hit detection and knockback (based on [this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit))
+- Hit detection and knockback (based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
 - More to come soon
 
 ## Patches
