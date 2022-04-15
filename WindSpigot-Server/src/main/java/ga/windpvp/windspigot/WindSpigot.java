@@ -62,6 +62,10 @@ public class WindSpigot {
 								// is still online
 								client.sendMessage("keep alive packet");
 								
+								// Online players, this tells the statistics server how many players
+								// are on
+								client.sendMessage("player count packet " + Bukkit.getOnlinePlayers().size());
+								
 								// Statistics are sent every 30 secs.
 								TimeUnit.SECONDS.sleep(30);
 							} catch (Exception e) {
