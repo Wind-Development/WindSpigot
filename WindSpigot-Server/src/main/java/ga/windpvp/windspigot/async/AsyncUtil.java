@@ -1,17 +1,12 @@
 package ga.windpvp.windspigot.async;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import java.util.concurrent.ForkJoinPool;
 
 public class AsyncUtil {
 
-	private static Executor executor = Executors
-			.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("WindSpigot Async Executor Thread").build());
-
 	public static void run(Runnable runnable) {
-		executor.execute(runnable);
+		ForkJoinPool.commonPool().execute(runnable);
 	}
 	
 	public static void run(Runnable runnable, Executor executor) {
