@@ -29,6 +29,7 @@ See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** 
 [WindSpigot-0006] Remove fastmath usage from explosions
 [WindSpigot-0007] Player ping command
 [WindSpigot-0008] Make NachoSpigot's async TNT configurable
+[WindSpigot-0009] Configurable entity hit delay
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
