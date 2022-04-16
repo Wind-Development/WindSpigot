@@ -570,7 +570,7 @@ public class CraftWorld implements World {
 			IBlockData iblockdata1 = Blocks.LOG.getBlockData().set(BlockLog1.VARIANT, BlockWood.EnumLogVariant.JUNGLE);
 			IBlockData iblockdata2 = Blocks.LEAVES.getBlockData()
 					.set(BlockLeaves1.VARIANT, BlockWood.EnumLogVariant.JUNGLE)
-					.set(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+					.set(BlockLeaves.CHECK_DECAY, false);
 			gen = new WorldGenJungleTree(true, 10, 20, iblockdata1, iblockdata2); // Magic values as in BlockSapling
 			break;
 		case SMALL_JUNGLE:

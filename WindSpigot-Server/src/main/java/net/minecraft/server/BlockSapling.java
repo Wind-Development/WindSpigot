@@ -126,7 +126,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
 			iblockdata1 = Blocks.LOG.getBlockData().set(BlockLog1.VARIANT, BlockWood.EnumLogVariant.JUNGLE);
 			IBlockData iblockdata2 = Blocks.LEAVES.getBlockData()
 					.set(BlockLeaves1.VARIANT, BlockWood.EnumLogVariant.JUNGLE)
-					.set(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+					.set(BlockLeaves.CHECK_DECAY, false);
 
 			label78: for (i = 0; i >= -1; --i) {
 				for (j = 0; j >= -1; --j) {

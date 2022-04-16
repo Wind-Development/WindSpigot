@@ -22,7 +22,7 @@ public class BlockPiston extends Block {
 	public BlockPiston(boolean flag) {
 		super(Material.PISTON);
 		this.j(this.blockStateList.getBlockData().set(BlockPiston.FACING, EnumDirection.NORTH).set(BlockPiston.EXTENDED,
-				Boolean.valueOf(false)));
+				false));
 		this.sticky = flag;
 		this.a(Block.i);
 		this.c(0.5F);
@@ -65,7 +65,7 @@ public class BlockPiston extends Block {
 	public IBlockData getPlacedState(World world, BlockPosition blockposition, EnumDirection enumdirection, float f,
 			float f1, float f2, int i, EntityLiving entityliving) {
 		return this.getBlockData().set(BlockPiston.FACING, a(world, blockposition, entityliving))
-				.set(BlockPiston.EXTENDED, Boolean.valueOf(false));
+				.set(BlockPiston.EXTENDED, false);
 	}
 
 	private void e(World world, BlockPosition blockposition, IBlockData iblockdata) {
@@ -90,7 +90,7 @@ public class BlockPiston extends Block {
 				}
 			}
 			// CraftBukkit end
-			world.setTypeAndData(blockposition, iblockdata.set(BlockPiston.EXTENDED, Boolean.valueOf(false)), 2);
+			world.setTypeAndData(blockposition, iblockdata.set(BlockPiston.EXTENDED, false), 2);
 			world.playBlockAction(blockposition, this, 1, enumdirection.a());
 		}
 
@@ -138,7 +138,7 @@ public class BlockPiston extends Block {
 			boolean flag = this.a(world, blockposition, enumdirection);
 
 			if (flag && i == 1) {
-				world.setTypeAndData(blockposition, iblockdata.set(BlockPiston.EXTENDED, Boolean.valueOf(true)), 2);
+				world.setTypeAndData(blockposition, iblockdata.set(BlockPiston.EXTENDED, true), 2);
 				return false;
 			}
 

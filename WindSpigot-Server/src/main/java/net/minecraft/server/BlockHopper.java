@@ -21,7 +21,7 @@ public class BlockHopper extends BlockContainer {
 	public BlockHopper() {
 		super(Material.ORE, MaterialMapColor.m);
 		this.j(this.blockStateList.getBlockData().set(BlockHopper.FACING, EnumDirection.DOWN).set(BlockHopper.ENABLED,
-				Boolean.valueOf(true)));
+				true));
 		this.a(CreativeModeTab.d);
 		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	}
@@ -59,7 +59,7 @@ public class BlockHopper extends BlockContainer {
 		}
 
 		return this.getBlockData().set(BlockHopper.FACING, enumdirection1).set(BlockHopper.ENABLED,
-				Boolean.valueOf(true));
+				true);
 	}
 
 	@Override

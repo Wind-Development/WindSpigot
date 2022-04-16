@@ -1307,7 +1307,7 @@ public abstract class EntityHuman extends EntityLiving {
 		IBlockData iblockdata = this.world.getType(this.bx);
 
 		if (this.bx != null && iblockdata.getBlock() == Blocks.BED) {
-			this.world.setTypeAndData(this.bx, iblockdata.set(BlockBed.OCCUPIED, Boolean.valueOf(false)), 4);
+			this.world.setTypeAndData(this.bx, iblockdata.set(BlockBed.OCCUPIED, false), 4);
 			BlockPosition blockposition = BlockBed.a(this.world, this.bx, 0);
 
 			if (blockposition == null) {

@@ -270,7 +270,7 @@ public class RegionFile {
 
 					for (j2 = 0; j2 < k1; ++j2) {
 						this.c.write(RegionFile.a);
-						this.f.add(Boolean.valueOf(false));
+						this.f.add(false);
 					}
 
 					this.g += 4096 * k1;

@@ -16,7 +16,7 @@ public class BlockGrass extends Block implements IBlockFragilePlantElement {
 
 	protected BlockGrass() {
 		super(Material.GRASS);
-		this.j(this.blockStateList.getBlockData().set(BlockGrass.SNOWY, Boolean.valueOf(false)));
+		this.j(this.blockStateList.getBlockData().set(BlockGrass.SNOWY, false));
 		this.a(true);
 		this.a(CreativeModeTab.b);
 	}

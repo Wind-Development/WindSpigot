@@ -136,6 +136,6 @@ public class BlockCommand extends BlockContainer {
 	@Override
 	public IBlockData getPlacedState(World world, BlockPosition blockposition, EnumDirection enumdirection, float f,
 			float f1, float f2, int i, EntityLiving entityliving) {
-		return this.getBlockData().set(BlockCommand.TRIGGERED, Boolean.valueOf(false));
+		return this.getBlockData().set(BlockCommand.TRIGGERED, false);
 	}
 }
