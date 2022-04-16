@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -73,7 +74,15 @@ public class WindSpigotConfig {
 			c.saveComments(CONFIG_FILE);
 		} catch (Exception ex) {
 			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
+			
 			LOGGER.warn("Please regenerate your windspigot.yml file to prevent this issue! The server will run with the default config for now.");
+			LOGGER.warn("Waiting for 5 seconds so this can be read...");
+			
+			try {
+				TimeUnit.SECONDS.sleep(5);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
