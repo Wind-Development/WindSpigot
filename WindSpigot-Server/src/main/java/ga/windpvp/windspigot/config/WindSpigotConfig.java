@@ -289,7 +289,7 @@ public class WindSpigotConfig {
 	
 	private static void potionSpeed() {
 		potionSpeed = getDouble("settings.potion-speed-offset", 0);
-		c.addComment("settings.potion-offset", "This sets the speed of pots, 0 is the default speed. Setting this higher makes potions splash faster. This config option accepts decimals.");
+		c.addComment("settings.potion-speed-offset", "This sets the speed of pots, 0 is the default speed. Setting this higher makes potions splash faster. This config option accepts decimals.");
 	}
 	
 }
