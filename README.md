@@ -1,6 +1,6 @@
 # WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/build-windspigot.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip)
 
-##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance. WindSpigot is based on a fork of NachoSpigot.
+##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance and pvp mechanics. WindSpigot is based on a fork of NachoSpigot.
 
 ## Current State
 Java 17 is now natively supported, and **[ViaVersion](https://github.com/ViaVersion/ViaVersion)** is patched at runtime to work with Nacho's modifications.
