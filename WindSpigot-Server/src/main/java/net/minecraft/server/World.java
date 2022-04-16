@@ -32,6 +32,7 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 // PaperSpigot end
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 import me.elier.nachospigot.config.NachoWorldConfig;
 import me.rastrian.dev.OptimizedWorldTileEntitySet;
@@ -1395,6 +1396,12 @@ public abstract class World implements IBlockAccess {
 			}
 			this.entityList.add(entity);
 			this.a(entity);
+			
+			// WindSpigot start - configurable entity hit delay
+			if (entity instanceof EntityLiving) {
+				((EntityLiving) entity).maxNoDamageTicks = WindSpigotConfig.hitDelay;
+			}
+			// WindSpigot end
 			return true;
 		}
 	}

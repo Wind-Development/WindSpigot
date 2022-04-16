@@ -43,7 +43,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 9; // Update this every new configuration update
+		int configVersion = 10; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -267,6 +267,13 @@ public class WindSpigotConfig {
 		statistics = getBoolean("settings.statistics", true);
 		c.addComment("settings.statistics",
 				"Enables WindSpigot statistics. This allows developers to see how many WindSpigot servers are running. This has no performance impact and is completely anonymous, but you can opt out of this if you want.");
+	}
+	
+	public static int hitDelay;
+	
+	private static void hitDelay() {
+		hitDelay = getInt("settings.hit-delay", 20);
+		c.addComment("settings.hit-delay", "This sets the delay between player attacks, 20 is the default. Setting this to 0 allows for no hit delay.");
 	}
 	
 }
