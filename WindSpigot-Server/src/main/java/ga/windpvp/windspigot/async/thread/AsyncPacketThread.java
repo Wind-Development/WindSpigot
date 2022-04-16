@@ -15,20 +15,20 @@ import net.minecraft.server.Packet;
 import net.openhft.affinity.AffinityLock;
 import net.openhft.affinity.AffinityStrategies;
 
-public abstract class AsyncThread {
+public abstract class AsyncPacketThread {
     private boolean running = true;
     private int TICK_TIME = 1000000000 / WindSpigotConfig.combatThreadTPS;
     private Thread thread;
     protected Queue<Runnable> packets = new ConcurrentLinkedQueue<Runnable>();
 
-    public AsyncThread(String s) {
+    public AsyncPacketThread(String s) {
         try (final AffinityLock al = AffinityLock.acquireLock();){
             this.thread = new Thread(new Runnable(){
 
                 @Override
                 public void run() {
                     try (AffinityLock al2 = al.acquireLock(AffinityStrategies.SAME_SOCKET, AffinityStrategies.ANY);){
-                        AsyncThread.this.loop();
+                        AsyncPacketThread.this.loop();
                     }
                 }
             }, s);
@@ -36,14 +36,18 @@ public abstract class AsyncThread {
         }
     }
 
+    // Loops scanning for new packets to send
     public void loop() {
+    	
         long lastTick = System.nanoTime();
         long catchupTime = 0L;
+        
         while (this.running) {
             long curTime = System.nanoTime();
             long wait = (long)this.TICK_TIME - (curTime - lastTick) - catchupTime;
             if (wait > 0L) {
                 try {
+                	// Wait a bit before checking for new packets
                     Thread.sleep(wait / 1000000L);
                 }
                 catch (InterruptedException e) {
@@ -53,13 +57,17 @@ public abstract class AsyncThread {
                 continue;
             }
             catchupTime = Math.min(1000000000L, Math.abs(wait));
+            
+            // Handle packets
             this.run();
+            
             lastTick = curTime;
         }
     }
 
     public abstract void run();
 
+    // Queue a packet
     public void addPacket(final Packet<?>  packet, final NetworkManager manager, final GenericFutureListener<? extends Future<? super Void>>[] agenericfuturelistener) {
         this.packets.add(new Runnable() {
 
@@ -74,6 +82,7 @@ public abstract class AsyncThread {
         return this.thread;
     }
 
+    // Store packet data
     public static class RunnableItem {
         private Channel channel;
         private Packet<?>  packet;

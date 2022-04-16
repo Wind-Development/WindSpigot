@@ -41,8 +41,10 @@ public class EntityTracker {
 	private int e;
 
 	// WindSpigot - parallel tracking from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-	private static int trackerThreads = WindSpigotConfig.trackingThreads; // <-- 3 non-this threads, one this
-	private static ExecutorService pool = Executors.newFixedThreadPool(trackerThreads - 1,
+	private static int trackerThreads = WindSpigotConfig.trackingThreads; 
+	
+	// All threads but one are handling a task, main thread runs a task once these tasks are started
+	private static ExecutorService trackingThreadPool = Executors.newFixedThreadPool(trackerThreads - 1, 
 			new ThreadFactoryBuilder().setNameFormat("Entity Tracker Thread %d").build());
 
 	public EntityTracker(WorldServer worldserver) {
@@ -168,7 +170,6 @@ public class EntityTracker {
 
 	public void updatePlayers() {
 		int offset = 0;
-		//final CountDownLatch latch = new CountDownLatch(trackerThreads);
 		// WindSpigot - async entity tracker from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
 		for (int i = 1; i <= trackerThreads; i++) {
 			final int localOffset = offset++;
@@ -184,8 +185,9 @@ public class EntityTracker {
 				latch.decrement();
 			};
 
+			// Handle all tasks but one on the tracking pool
 			if (i < trackerThreads) {
-				pool.execute(runnable);
+				trackingThreadPool.execute(runnable);
 			} else {
 				runnable.run();
 			}

@@ -16,8 +16,6 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
-import ga.windpvp.windspigot.config.TimingsCheck;
-
 public class WindSpigotConfig {
 
 	private static final Logger LOGGER = LogManager.getLogger(WindSpigotConfig.class);
@@ -155,7 +153,7 @@ public class WindSpigotConfig {
 			TimingsCheck.setEnableTimings(true);
 		}
 		c.addComment("settings.async.parallel-world",
-				"Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this. Please take frequent backups whilst using this.");
+				"Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this.");
 	}
 
 	public static boolean limitedMobSpawns;
@@ -262,7 +260,7 @@ public class WindSpigotConfig {
 
 	private static void asyncTnt() {
 		asyncTnt = getBoolean("settings.async.tnt", true);
-		c.addComment("settings.async.tnt", "Enables NachoSpigot's async tnt.");
+		c.addComment("settings.async.tnt", "Enables async tnt (Credits to NachoSpigot).");
 	}
 	
 	public static boolean statistics;

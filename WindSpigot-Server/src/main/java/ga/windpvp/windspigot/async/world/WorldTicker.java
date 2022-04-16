@@ -22,6 +22,7 @@ public class WorldTicker implements Runnable {
 		this.isAsync = isAsync;
 	}
 
+	// This is mostly copied code from world ticking
 	@Override
 	public void run() {
 		// Synchronize for safe teleportation
@@ -62,6 +63,7 @@ public class WorldTicker implements Runnable {
 				throw new ReportedException(crashreport);
 			}
 
+			// Synchronize
 			synchronized (WorldTickerManager.LOCK) {
 				// this.methodProfiler.b();
 				// this.methodProfiler.a("tracker");
