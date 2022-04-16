@@ -3,6 +3,8 @@
 package ga.windpvp.windspigot.async.netty;
 
 import com.google.common.collect.Queues;
+
+import ga.windpvp.windspigot.async.AsyncUtil;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -24,7 +26,7 @@ public class Spigot404Write {
         Spigot404Write writer = new Spigot404Write(channel);
         packetsQueue.add(new PacketQueue(value, listener));
         if (tasks.addTask()) {
-            channel.pipeline().lastContext().executor().execute(writer::writeQueueAndFlush);
+            AsyncUtil.run(writer::writeQueueAndFlush);
         }
     }
 
