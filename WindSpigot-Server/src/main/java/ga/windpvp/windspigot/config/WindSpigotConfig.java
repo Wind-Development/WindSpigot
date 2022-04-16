@@ -44,7 +44,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 10; // Update this every new configuration update
+		int configVersion = 11; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -283,6 +283,13 @@ public class WindSpigotConfig {
 	private static void hitDelay() {
 		hitDelay = getInt("settings.hit-delay", 20);
 		c.addComment("settings.hit-delay", "This sets the delay between player attacks, 20 is the default. Setting this to 0 allows for no hit delay.");
+	}
+	
+	public static double potionSpeed;
+	
+	private static void potionSpeed() {
+		potionSpeed = getDouble("settings.potion-speed-offset", 0);
+		c.addComment("settings.potion-offset", "This sets the speed of pots, 0 is the default speed. Setting this higher makes potions splash faster. This config option accepts decimals.");
 	}
 	
 }

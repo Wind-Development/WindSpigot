@@ -24,6 +24,7 @@ import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.util.Vector;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
@@ -1349,7 +1350,7 @@ public abstract class World implements IBlockAccess {
 			event = CraftEventFactory.callCreatureSpawnEvent((EntityLiving) entity, spawnReason);
 		} else if (entity instanceof EntityItem) {
 			event = CraftEventFactory.callItemSpawnEvent((EntityItem) entity);
-		} else if (entity.getBukkitEntity() instanceof org.bukkit.entity.Projectile) {
+		} else if (entity.getBukkitEntity() instanceof org.bukkit.entity.Projectile) {	
 			// Not all projectiles extend EntityProjectile, so check for Bukkit interface
 			// instead
 			event = CraftEventFactory.callProjectileLaunchEvent(entity);
@@ -1400,6 +1401,18 @@ public abstract class World implements IBlockAccess {
 			// WindSpigot start - configurable entity hit delay
 			if (entity instanceof EntityLiving) {
 				((EntityLiving) entity).maxNoDamageTicks = WindSpigotConfig.hitDelay;
+			}
+			// WindSpigot end
+			
+			// WindSpigot start - configurable potion speeds
+			if (entity instanceof EntityPotion) {
+				// Subtract the speed from the y value of the velocity, the potion will drop faster and will therefore splash faster
+				entity.motY -= WindSpigotConfig.potionSpeed;	
+				
+				// Mark velocity as changed only if potion speed is not default
+				if (!(WindSpigotConfig.potionSpeed == 0)) {
+					entity.velocityChanged = true;
+				}
 			}
 			// WindSpigot end
 			return true;
