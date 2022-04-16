@@ -117,7 +117,7 @@ public class WindSpigotConfig {
 	private static void tracking() {
 		disableTracking = !getBoolean("settings.async.entity-tracking.enable", true);
 		c.addComment("settings.async.entity-tracking.enable", "Enables asynchronous entity tracking");
-		trackingThreads = getInt("settings.async.entity-tracking.threads", 3);
+		trackingThreads = getInt("settings.async.entity-tracking.threads", 4);
 		c.addComment("settings.async.entity-tracking.threads",
 				"The amount of threads to use when asynchronous entity tracking is enabled.");
 		
@@ -250,7 +250,6 @@ public class WindSpigotConfig {
 		pingOtherCmdString = getString("settings.command.ping.other-ping-msg", "&3%player%'s &bping: &3%ping%");
 		c.addComment("settings.command.ping.enable",
 				"Enables the command \"/ping <player>\" which shows player ping. Users require the permission windspigot.command.ping");
-		
 		c.addComment("settings.command.ping.self-ping-msg", "The message displayed for the /ping command");
 		c.addComment("settings.command.ping.other-ping-msg", "The message displayed for the /ping <player> command");
 	}
