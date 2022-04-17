@@ -1,10 +1,10 @@
-name: WindSpigot Build
+name: WindSpigot Build and Upload
 
 on:
   push:
 
 jobs:
-  cleanup-and-build:
+  build-and-upload:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip]')"
     steps:
@@ -17,7 +17,7 @@ jobs:
         settings-path: ${{ github.workspace }}
 
     - name: Build with Maven
-      run: mvn clean package --file $GITHUB_WORKSPACE/pom.xml
+      run: mvn package --file $GITHUB_WORKSPACE/pom.xml
       
     - name: Upload Server Artifact
       uses: actions/upload-artifact@v2.2.0
