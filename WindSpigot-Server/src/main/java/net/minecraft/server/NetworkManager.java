@@ -214,7 +214,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	public void handle(Packet packet) {
 		if (this.isConnected()) {
 			this.sendPacketQueue();
-			
+			// WindSpigot start - async kb and hit detection
+			// based on https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
 	        if (WindSpigotConfig.asyncHitDetection && packet instanceof PacketPlayInUseEntity && ((PacketPlayInUseEntity)packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
 	        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
 	            return;
@@ -223,7 +224,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	        	WindSpigot.knockbackThread.addPacket(packet, this, null);
 	            return;
 	        }
-	        
+	        // WindSpigot end
 			this.dispatchPacket(packet, null, Boolean.TRUE);
 		} else {
 			this.j.writeLock().lock();
@@ -242,7 +243,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			GenericFutureListener<? extends Future<? super Void>>... listeners) {
 		if (this.isConnected()) {
 			this.sendPacketQueue();
-
+			// WindSpigot start - async kb and hit detection
+			// based on https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
 	        if (WindSpigotConfig.asyncHitDetection && packet instanceof PacketPlayInUseEntity && ((PacketPlayInUseEntity)packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
 	        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
 	            return;
@@ -251,7 +253,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	        	WindSpigot.knockbackThread.addPacket(packet, this, null);
 	            return;
 	        }
-	        
+	        // WindSpigot end
 			this.dispatchPacket(packet, ArrayUtils.insert(0, listeners, listener), Boolean.TRUE);
 		} else {
 			this.j.writeLock().lock();
