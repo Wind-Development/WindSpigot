@@ -22,8 +22,8 @@ public abstract class AsyncPacketThread {
     protected Queue<Runnable> packets = new ConcurrentLinkedQueue<Runnable>();
 
     public AsyncPacketThread(String s) {
-        try (final AffinityLock al = AffinityLock.acquireLock();){
-            this.thread = new Thread(new Runnable(){
+        try (final AffinityLock al = AffinityLock.acquireLock()) {
+            this.thread = new Thread(new Runnable() {
 
                 @Override
                 public void run() {
@@ -37,33 +37,32 @@ public abstract class AsyncPacketThread {
     }
 
     // Loops scanning for new packets to send
-    public void loop() {
-    	
-        long lastTick = System.nanoTime();
-        long catchupTime = 0L;
-        
-        while (this.running) {
-            long curTime = System.nanoTime();
-            long wait = (long)this.TICK_TIME - (curTime - lastTick) - catchupTime;
-            if (wait > 0L) {
-                try {
-                	// Wait a bit before checking for new packets
-                    Thread.sleep(wait / 1000000L);
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                catchupTime = 0L;
-                continue;
-            }
-            catchupTime = Math.min(1000000000L, Math.abs(wait));
-            
-            // Handle packets
-            this.run();
-            
-            lastTick = curTime;
-        }
-    }
+	public void loop() {
+
+		long lastTick = System.nanoTime();
+		long catchupTime = 0L;
+
+		while (this.running) {
+			long curTime = System.nanoTime();
+			long wait = (long) this.TICK_TIME - (curTime - lastTick) - catchupTime;
+			if (wait > 0L) {
+				try {
+					// Wait a bit before checking for new packets
+					Thread.sleep(wait / 1000000L);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				catchupTime = 0L;
+				continue;
+			}
+			catchupTime = Math.min(1000000000L, Math.abs(wait));
+
+			// Handle packets
+			this.run();
+
+			lastTick = curTime;
+		}
+	}
 
     public abstract void run();
 

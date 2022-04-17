@@ -11,7 +11,7 @@ public class CombatThread extends AsyncPacketThread {
     @Override
     public void run() {
         while (this.packets.size() > 0) {
-            ((Runnable)this.packets.poll()).run();
+            this.packets.poll().run();
         }
     }
 } 
