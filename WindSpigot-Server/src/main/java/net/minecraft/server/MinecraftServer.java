@@ -545,54 +545,58 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		this.isRunning = false;
 	}
 
-	// PaperSpigot start - Further improve tick loop
+	// Paper start - Further improve server tick loop
 	private static final int TPS = 20;
 	private static final long SEC_IN_NANO = 1000000000;
 	private static final long TICK_TIME = SEC_IN_NANO / TPS;
 	private static final long MAX_CATCHUP_BUFFER = TICK_TIME * TPS * 60L;
-	private static final int SAMPLE_INTERVAL = 20;
+    private static final int SAMPLE_INTERVAL = 20;
 	public final RollingAverage tps1 = new RollingAverage(60);
 	public final RollingAverage tps5 = new RollingAverage(60 * 5);
 	public final RollingAverage tps15 = new RollingAverage(60 * 15);
-	public double[] recentTps = new double[3]; // PaperSpigot - Fine have your darn compat with bad plugins
+    public double[] recentTps = new double[3]; // PaperSpigot - Fine have your darn compat with bad plugins
 
 	public static class RollingAverage {
-		private final int size;
-		private long time;
-		private double total;
-		private int index = 0;
-		private final double[] samples;
-		private final long[] times;
+	    private final int size;
+	    private long time;
+	    private java.math.BigDecimal total;
+	    private int index = 0;
+	    private final java.math.BigDecimal[] samples;
+	    private final long[] times;
 
-		RollingAverage(int size) {
-			this.size = size;
-			this.time = size * SEC_IN_NANO;
-			this.total = TPS * SEC_IN_NANO * size;
-			this.samples = new double[size];
-			this.times = new long[size];
-			for (int i = 0; i < size; i++) {
-				this.samples[i] = TPS;
-				this.times[i] = SEC_IN_NANO;
-			}
-		}
+	    RollingAverage(int size) {
+	        this.size = size;
+	        this.time = size * SEC_IN_NANO;
+	        this.total = dec(TPS).multiply(dec(SEC_IN_NANO)).multiply(dec(size));
+	        this.samples = new java.math.BigDecimal[size];
+	        this.times = new long[size];
+	        for (int i = 0; i < size; i++) {
+	            this.samples[i] = dec(TPS);
+	            this.times[i] = SEC_IN_NANO;
+	        }
+	    }
 
-		public void add(double x, long t) {
-			time -= times[index];
-			total -= samples[index] * times[index];
-			samples[index] = x;
-			times[index] = t;
-			time += t;
-			total += x * t;
-			if (++index == size) {
-				index = 0;
-			}
-		}
+	    private static java.math.BigDecimal dec(long t) {
+	        return new java.math.BigDecimal(t);
+	    }
+	    public void add(java.math.BigDecimal x, long t) {
+	        time -= times[index];
+	        total = total.subtract(samples[index].multiply(dec(times[index])));
+	        samples[index] = x;
+	        times[index] = t;
+	        time += t;
+	        total = total.add(x.multiply(dec(t)));
+	        if (++index == size) {
+	            index = 0;
+	        }
+	    }
 
-		public double getAverage() {
-			return total / time;
-		}
+	    public double getAverage() {
+	        return total.divide(dec(time), 30, java.math.RoundingMode.HALF_UP).doubleValue();
+	    }
 	}
-	// PaperSpigot End
+	private static final java.math.BigDecimal TPS_BASE = new java.math.BigDecimal(1E9).multiply(new java.math.BigDecimal(SAMPLE_INTERVAL));
+	// Paper End
 
 	private AffinityLock lock = null;
 
@@ -673,7 +677,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 					if (++MinecraftServer.currentTick % SAMPLE_INTERVAL == 0) {
 						final long diff = curTime - tickSection;
-						double currentTps = 1E9 / diff * SAMPLE_INTERVAL;
+						//double currentTps = 1E9 / diff * SAMPLE_INTERVAL;
+						java.math.BigDecimal currentTps = TPS_BASE.divide(new java.math.BigDecimal(diff), 30, java.math.RoundingMode.HALF_UP);
+
 						tps1.add(currentTps, diff);
 						tps5.add(currentTps, diff);
 						tps15.add(currentTps, diff);
