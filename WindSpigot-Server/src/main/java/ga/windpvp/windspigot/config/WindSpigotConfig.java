@@ -44,7 +44,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 11; // Update this every new configuration update
+		int configVersion = 12; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -228,13 +228,10 @@ public class WindSpigotConfig {
 	
 	// From
 	// https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
-	public static int nettyThreads;
     public static int combatThreadTPS;
 
-    private static void nettyThreads() {
-        nettyThreads = getInt("settings.async.netty-threads", 4);
+    private static void combatThread() {
         combatThreadTPS = getInt("settings.async.combat-thread-tps", 40);        
-        c.addComment("settings.async.netty-threads", "Number of netty threads.");
         c.addComment("settings.async.combat-thread-tps", "Combat thread TPS for async knockback and hit detection.");
     }
 

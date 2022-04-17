@@ -98,9 +98,6 @@ public class WindSpigot {
             LOGGER.info(" ");
             hasConsoleSpace = true;
         }
-        
-        System.setProperty( "io.netty.eventLoopThreads", Integer.toString(WindSpigotConfig.nettyThreads));
-
 
 		if (WindSpigotConfig.parallelWorld) {
 			Timings.setTimingsEnabled(false);
