@@ -213,6 +213,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	// sendPacket
 	public void handle(Packet packet) {
 		if (this.isConnected()) {
+			this.sendPacketQueue();
+			
 	        if (WindSpigotConfig.asyncHitDetection && packet instanceof PacketPlayInUseEntity && ((PacketPlayInUseEntity)packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
 	        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
 	            return;
@@ -221,7 +223,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	        	WindSpigot.knockbackThread.addPacket(packet, this, null);
 	            return;
 	        }
-			this.sendPacketQueue();
+	        
 			this.dispatchPacket(packet, null, Boolean.TRUE);
 		} else {
 			this.j.writeLock().lock();
