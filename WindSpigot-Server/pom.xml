@@ -26,7 +26,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>dev.cobblesword.nachospigot</groupId>
+			<groupId>ga.windpvp.windspigot</groupId>
 			<artifactId>api</artifactId>
 			<version>${project.version}</version>
 			<type>jar</type>
