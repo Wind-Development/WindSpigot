@@ -1688,8 +1688,13 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 						return;
 					}
 
-					this.player.attack(entity);
-
+					this.player.attack(entity);		
+                    // wuangg start - fix sword blocking desync
+                    if (this.player.isBlocking()) {
+                    	this.player.bU();
+                    }
+                    // wuangg end
+                    
 					// CraftBukkit start
 					if (itemInHand != null && itemInHand.count <= -1) {
 						this.player.updateInventory(this.player.activeContainer);
