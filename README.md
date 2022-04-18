@@ -178,6 +178,7 @@ See the patches list below.
 [SportPaper-0197] Optimize head rotation patch
 [SportPaper-0201] Cache block break animation packet
 [SportPaper-0203] Fix Teleport Invisibility
+[SportPaper-0204] Optimize toLegacyData removing unneeded sanity checks
 
 [PaperBin-????] WorldServer#everyoneDeeplySleeping optimization
 
