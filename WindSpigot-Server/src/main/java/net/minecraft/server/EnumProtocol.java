@@ -330,5 +330,10 @@ public enum EnumProtocol {
 	public Integer a(Packet<?> packet) {
 		return getPacketIdForPacket(packet);
 	}
+	
+    // Method for plugins to use
+    public Integer getPacketIdForPacket(EnumProtocolDirection dir, Packet<?> packet) {
+        return this.getPacketIdForPacket(packet);
+    }
 
 }
