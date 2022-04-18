@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>dev.cobblesword.nachospigot</groupId>
+        <groupId>ga.windpvp.windspigot</groupId>
         <artifactId>parent</artifactId>
         <version>dev-SNAPSHOT</version>
     </parent>

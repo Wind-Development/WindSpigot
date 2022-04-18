@@ -9,7 +9,7 @@
         <version>7</version>
     </parent>
 
-    <groupId>dev.cobblesword.nachospigot</groupId>
+    <groupId>ga.windpvp.windspigot</groupId>
     <artifactId>parent</artifactId>
     <version>dev-SNAPSHOT</version>
     <packaging>pom</packaging>

@@ -18,7 +18,7 @@
 	</properties>
 
 	<parent>
-		<groupId>dev.cobblesword.nachospigot</groupId>
+		<groupId>ga.windpvp.windspigot</groupId>
 		<artifactId>parent</artifactId>
 		<version>dev-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
