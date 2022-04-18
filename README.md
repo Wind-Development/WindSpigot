@@ -1,4 +1,4 @@
-# WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/windspigot-build-and-upload.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/build-windspigot/master/WindSpigot-server.zip)
+# WindSpigot 
 
 ##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance and pvp mechanics. WindSpigot is based on a fork of NachoSpigot.
 
@@ -8,14 +8,24 @@ Java 17 is now natively supported, and **[ViaVersion](https://github.com/ViaVers
 **WindSpigot supports Java 8 to Java 17!**
 
 ## Downloads
-See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** tab for the latest release. Alternatively, you can download the latest build **[here](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip)**. The latest build may be unstable, but contains more features.
+See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** tab for the latest release. Alternatively, you can download the latest build by clicking the green checkmark next to the latest commit. The latest build may be unstable, but contains more features.
 
-## What is done asynchronously?
+## FAQ
+
+#### What combat mechanics does WindSpigot improve on?
+WindSpigot makes potion speed and hit delay configurable. We also have NachoSpigot's configurable knockback.
+
+#### What does WindSpigot do to improve overall performance?
+WindSpigot moves heavy work off of the main server thread and splits up the server load.
+
+#### What is done asynchronously to achieve this?
 - Worlds (ticked parallel to each other)
-- The entity tracker (updated with multiple threads)
-- TNT (from NachoSpigot)
-- Hit detection and knockback (based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
-- More to come soon
+- TNT calculations (from NachoSpigot)
+- The entity tracker (updated with multiple threads, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**)
+- Hit detection and knockback (packets are sent with high priority, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
+
+#### What other modifications does WindSpigot have?
+See the patches list below.
 
 ## Patches
 **All credit goes to the people that made these patches.**<br>
