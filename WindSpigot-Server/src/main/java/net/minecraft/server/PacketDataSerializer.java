@@ -111,11 +111,9 @@ public class PacketDataSerializer extends ByteBuf {
 		this.b(oenum.ordinal());
 	}
 
-	public int e() {
-		return readVarInt();
-	} // Nacho - OBFHELPER
+	public int readVarInt() { return e(); } // Nacho - OBFHELPER
 
-	public int readVarInt() {
+	public int e() {
 		byte b0;
 		int i = 0;
 		int j = 0;
@@ -148,6 +146,8 @@ public class PacketDataSerializer extends ByteBuf {
 		this.writeLong(uuid.getLeastSignificantBits());
 	}
 
+    public UUID readUUID() { return g(); } // Nacho - OBFHELPER
+	
 	public UUID g() {
 		return new UUID(this.readLong(), this.readLong());
 	}
@@ -250,6 +250,8 @@ public class PacketDataSerializer extends ByteBuf {
 		return itemstack;
 	}
 
+	public String readUUID(int maxLength) { return c(maxLength); } // Nacho - OBFHELPER
+	
 	public String c(int i) {
 		int j = this.readVarInt();
 		if (j > i * 4) {
