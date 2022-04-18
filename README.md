@@ -12,7 +12,7 @@ See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** 
 
 ## FAQ
 
-#### What combat mechanics does WindSpigot improve on?
+#### What combat mechanics are improved on?
 WindSpigot makes potion speed and hit delay configurable. We also have NachoSpigot's configurable knockback.
 
 #### What does WindSpigot do to improve overall performance?
