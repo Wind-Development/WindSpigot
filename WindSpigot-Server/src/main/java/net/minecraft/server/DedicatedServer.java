@@ -371,7 +371,6 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 				 * thread1.setDaemon(true); thread1.start(); }
 				 */
 
-				Nacho.get().applyPatches(); // Nacho
 				this.windSpigot = new WindSpigot(); // WindSpigot
 
 				return true;
