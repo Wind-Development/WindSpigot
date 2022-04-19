@@ -44,7 +44,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 13; // Update this every new configuration update
+		int configVersion = 14; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -296,4 +296,14 @@ public class WindSpigotConfig {
 		c.addComment("settings.show-player-ips", "Disabling this will prevent logging of player ips in console.");
 	}
 	
+	public static boolean chunkThread;
+	public static int chunkThreadTps;
+		
+	private static void chunkThread() {
+		chunkThread = getBoolean("settings.async.chunk-thread.enabled", false);
+		chunkThreadTps = getInt("settings.async.chunk-thread.tps", 7);
+
+		c.addComment("settings.async.chunk-thread.enabled", "This enables a chunk packet thread. This does not improve server performance, this is made to help players with high ping.");
+		c.addComment("settings.async.chunk-thread.tps", "This is the TPS of the chunk thread. A lower setting helps players with high ping, but can send chunks slower. Setting this too low will allow the packet queue to build up, so this will have no effect.");
+	}
 }
