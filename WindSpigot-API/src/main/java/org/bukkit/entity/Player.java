@@ -1441,4 +1441,13 @@ public interface Player extends HumanEntity, Conversable, CommandSender, Offline
 	Unsafe unsafe();
 
 	double getBlockReach();
+	
+	// WindSpigot start - expose get ping method
+	/**
+	 * Gets the player's ping
+	 * 
+	 * @return the integer ping of the player
+	 */
+	int getPing();
+	// WindSpigot end
 }
