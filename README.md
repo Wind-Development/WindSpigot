@@ -41,6 +41,7 @@ See the patches list below.
 [WindSpigot-0008] Make NachoSpigot's async TNT configurable
 [WindSpigot-0009] Configurable entity hit delay
 [WindSpigot-0010] Configurable potion speeds
+[WindSpigot-0011] Make console display of player ips toggleable
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
