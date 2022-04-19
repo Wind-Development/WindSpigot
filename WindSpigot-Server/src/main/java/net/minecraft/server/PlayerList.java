@@ -263,7 +263,8 @@ public abstract class PlayerList {
 		
 		// WindSpigot start - toggleable player ip hiding
 		if (!WindSpigotConfig.showPlayerIps) {
-			s1 = "hidden_address";
+			// Replace the address before the ":port" part of the string
+			s1.replace(s1.substring(0, s1.indexOf(":")), "hidden-address");
 		}
 		// WindSpigot end
 
