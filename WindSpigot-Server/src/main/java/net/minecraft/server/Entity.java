@@ -44,6 +44,7 @@ import dev.cobblesword.nachospigot.commons.MCUtils;
 import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
 import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.random.FastRandom;
 
 public abstract class Entity implements ICommandListener {
 
@@ -169,7 +170,7 @@ public abstract class Entity implements ICommandListener {
 	public boolean inUnloadedChunk = false; // PaperSpigot - Remove entities in unloaded chunks
 	public boolean loadChunks = false; // PaperSpigot - Entities can load chunks they move through and keep them loaded
 
-	public static Random SHARED_RANDOM = new Random() {
+	public static Random SHARED_RANDOM = new FastRandom() {
 		private boolean locked = false;
 
 		@Override
