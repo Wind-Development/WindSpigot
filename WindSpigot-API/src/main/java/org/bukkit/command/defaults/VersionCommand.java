@@ -28,7 +28,7 @@ public class VersionCommand extends BukkitCommand {
 			return true;
 
 		if (args.length == 0) {
-			sender.sendMessage("This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion()
+			sender.sendMessage("This server is running " + Bukkit.getVersion()
 					+ " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
 		} else {
 			StringBuilder name = new StringBuilder();
