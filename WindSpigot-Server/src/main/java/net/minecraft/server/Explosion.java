@@ -19,14 +19,14 @@ import com.google.common.collect.Maps;
 import dev.cobblesword.nachospigot.commons.Constants;
 import dev.cobblesword.nachospigot.commons.MCUtils;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.random.FastRandom;
 import me.elier.nachospigot.config.NachoConfig;
 import net.jafama.FastMath;
 import xyz.sculas.nacho.async.AsyncExplosions;
-// CraftBukkit end
 
 public class Explosion {
 
-	public static final Random CACHED_RANDOM = new Random();
+	public static final Random CACHED_RANDOM = new FastRandom(); // AW-Spigot - fast random
 	private final boolean a;
 	private final boolean b;
 	private final Random c = CACHED_RANDOM;

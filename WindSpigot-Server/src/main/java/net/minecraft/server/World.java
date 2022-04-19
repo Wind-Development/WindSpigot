@@ -33,16 +33,16 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 // PaperSpigot end
 
+// WindSpigot start 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.random.FastRandom;
 import me.elier.nachospigot.config.NachoConfig;
 import me.elier.nachospigot.config.NachoWorldConfig;
 import me.rastrian.dev.OptimizedWorldTileEntitySet;
 import me.rastrian.dev.PlayerMap;
 import me.suicidalkids.ion.movement.MovementCache;
 import net.jafama.FastMath;
-
-// CraftBukkit start
-// CraftBukkit end
+// WindSpigot end
 
 public abstract class World implements IBlockAccess {
 
@@ -91,7 +91,7 @@ public abstract class World implements IBlockAccess {
 	protected float p;
 	protected float q;
 	protected float r;
-	public final Random random = new Random();
+	public final Random random = new FastRandom(); // AW-Spigot - fast random
 	public WorldProvider worldProvider; // CraftBukkit - remove final
 	protected List<IWorldAccess> u = Lists.newArrayList();
 	protected IChunkProvider chunkProvider;
