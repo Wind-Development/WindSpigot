@@ -289,4 +289,11 @@ public class WindSpigotConfig {
 		c.addComment("settings.potion-speed-offset", "This sets the speed of pots, 0 is the default speed. Setting this higher makes potions splash faster. This config option accepts decimals.");
 	}
 	
+	public static boolean showPlayerIps;
+	
+	private static void showPlayerIps() {
+		showPlayerIps = getBoolean("settings.show-player-ips", true);
+		c.addComment("settings.show-player-ips", "Disabling this will prevent logging of player ips in console.");
+	}
+	
 }

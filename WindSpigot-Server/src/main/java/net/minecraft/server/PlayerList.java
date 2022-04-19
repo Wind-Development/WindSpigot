@@ -42,6 +42,7 @@ import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.commons.MCUtils;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
 import me.elier.nachospigot.config.NachoConfig;
 
@@ -259,6 +260,12 @@ public abstract class PlayerList {
 				entity.attachedToPlayer = false;
 			}
 		}
+		
+		// WindSpigot start - toggleable player ip hiding
+		if (!WindSpigotConfig.showPlayerIps) {
+			s1 = "hidden_address";
+		}
+		// WindSpigot end
 
 		// CraftBukkit - Moved from above, added world
 		PlayerList.f.info(entityplayer.getName() + "[" + s1 + "] logged in with entity id " + entityplayer.getId()
