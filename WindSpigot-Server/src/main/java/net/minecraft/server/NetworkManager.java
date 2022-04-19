@@ -222,7 +222,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			if (!shouldCheckPacket) {
 				// Wait a bit before checking for combat packets to send with priority
 				// The priority packet writer uses the last context executor
-				if (this.packetWrites.get() > 5) {
+				if (this.packetWrites.get() > 3) {
 					shouldCheckPacket = true;
 				}
 			} else {
@@ -239,9 +239,16 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		        	WindSpigot.knockbackThread.addPacket(packet, this, null);
 		            return;
 		        }
+		        
+		        // Check if the packet is a chunk packet
+		        if (WindSpigotConfig.chunkThread && (packet instanceof PacketPlayOutMapChunk || packet instanceof PacketPlayOutMapChunkBulk)) {
+		        	// Delay/distribute chunk sending to help players with low ping
+		        	WindSpigot.chunkThread.addPacket(packet, this, null);
+		        	return;
+		        }
 			}
 	        // WindSpigot end
-			this.dispatchPacket(packet, null, Boolean.TRUE);
+			this.dispatchPacket(packet, null, true); // WindSpigot - Boolean.TRUE -> true
 		} else {
 			this.j.writeLock().lock();
 
@@ -347,7 +354,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 					} catch (Exception e) {
 						LOGGER.error("NetworkException: " + getPlayer(), e);
 						close(new ChatMessage("disconnect.genericReason", "Internal Exception: " + e.getMessage()));
-						;
 					}
 				};
 			}
@@ -358,7 +364,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
 	private void a(final Packet packet,
 			final GenericFutureListener<? extends Future<? super Void>>[] agenericfuturelistener) {
-		this.dispatchPacket(packet, agenericfuturelistener, Boolean.TRUE);
+		this.dispatchPacket(packet, agenericfuturelistener, Boolean.TRUE); 
 	}
 
 	private void sendPacketQueue() {

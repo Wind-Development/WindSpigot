@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 
 import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.thread.ChunkThread;
 import ga.windpvp.windspigot.async.thread.CombatThread;
 import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.commands.MobAICommand;
@@ -25,6 +26,8 @@ public class WindSpigot {
   
 	public static CombatThread hitDetectionThread;
 	public static CombatThread knockbackThread;
+	
+	public static ChunkThread chunkThread;
 
 	public WindSpigot() {
 		this.init();
@@ -95,10 +98,14 @@ public class WindSpigot {
         if (WindSpigotConfig.asyncKnockback) {
             knockbackThread = new CombatThread("Knockback Thread");
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async knockback!");
+        }
+		if (WindSpigotConfig.chunkThread) {
+            chunkThread = new ChunkThread("Chunk Thread");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled the chunk thread!");
             LOGGER.info(" ");
             hasConsoleSpace = true;
-        }
-
+		}
+		
 		if (WindSpigotConfig.parallelWorld) {
 			Timings.setTimingsEnabled(false);
 			if (!hasConsoleSpace) {

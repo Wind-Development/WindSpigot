@@ -9,7 +9,6 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import ga.windpvp.windspigot.async.netty.Spigot404Write;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet;
 import net.openhft.affinity.AffinityLock;
@@ -17,7 +16,7 @@ import net.openhft.affinity.AffinityStrategies;
 
 public abstract class AsyncPacketThread {
     private boolean running = true;
-    private int TICK_TIME = 1000000000 / WindSpigotConfig.combatThreadTPS;
+    protected int TICK_TIME;
     private Thread thread;
     protected Queue<Runnable> packets = new ConcurrentLinkedQueue<Runnable>();
 
