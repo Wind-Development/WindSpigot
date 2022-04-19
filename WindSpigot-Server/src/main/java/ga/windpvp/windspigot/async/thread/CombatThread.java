@@ -7,7 +7,7 @@ import ga.windpvp.windspigot.config.WindSpigotConfig;
 public class CombatThread extends AsyncPacketThread {
     public CombatThread(String s) {
         super(s);
-       TICK_TIME = 1000000000 / WindSpigotConfig.combatThreadTPS;
+       tickTime = 1000000000 / WindSpigotConfig.combatThreadTPS;
     }
 
     // Handle packets

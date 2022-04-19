@@ -16,7 +16,7 @@ import net.openhft.affinity.AffinityStrategies;
 
 public abstract class AsyncPacketThread {
     private boolean running = true;
-    protected int TICK_TIME;
+    protected int tickTime;
     private Thread thread;
     protected Queue<Runnable> packets = new ConcurrentLinkedQueue<Runnable>();
 
@@ -43,7 +43,7 @@ public abstract class AsyncPacketThread {
 
 		while (this.running) {
 			long curTime = System.nanoTime();
-			long wait = (long) this.TICK_TIME - (curTime - lastTick) - catchupTime;
+			long wait = (long) this.tickTime - (curTime - lastTick) - catchupTime;
 			if (wait > 0L) {
 				try {
 					// Wait a bit before checking for new packets
