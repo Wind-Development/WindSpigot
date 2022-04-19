@@ -6,7 +6,7 @@ public class ChunkThread extends AsyncPacketThread {
 	
 	public ChunkThread(String s) {
 		super(s);
-	    TICK_TIME = 1000000000 / WindSpigotConfig.chunkThreadTps;
+	    tickTime = 1000000000 / WindSpigotConfig.chunkThreadTps;
 	}
 
     // Handle chunk packets
