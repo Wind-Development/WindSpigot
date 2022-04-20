@@ -18,8 +18,8 @@ import net.minecraft.server.Packet;
 public class ChunkThread extends AsyncPacketThread {
 
 	// These do not need to be concurrent collections due to synchronization
-	private Map<NetworkManager, Queue<Packet<?>>> playerChunkPackets = Maps.newHashMap();
-	private Object2IntArrayMap<NetworkManager> playerChunkPacketSends = new Object2IntArrayMap<>();
+	private final static Map<NetworkManager, Queue<Packet<?>>> playerChunkPackets = Maps.newHashMap();
+	private final static Object2IntArrayMap<NetworkManager> playerChunkPacketSends = new Object2IntArrayMap<>();
 	
 	public ChunkThread(String s) {
 		super(s);
