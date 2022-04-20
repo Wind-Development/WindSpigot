@@ -300,14 +300,20 @@ public class WindSpigotConfig {
 	public static int chunkThreadTps;
 	
 	public static int maxChunkSends;
-		
+	public static boolean adaptive;
+	public static int chunkPingThreshold;
+	
 	private static void chunkThread() {
 		chunkThread = getBoolean("settings.async.chunk-thread.enabled", false);
 		chunkThreadTps = getInt("settings.async.chunk-thread.tps", 1);
 		maxChunkSends = getInt("settings.async.chunk-thread.max-chunk-sends", 5);
+		adaptive = getBoolean("settings.async.chunk-thread.adaptive", false);
+		chunkPingThreshold = getInt("settings.async.chunk-thread.ping-threshold", 120);
 		
 		c.addComment("settings.async.chunk-thread.enabled", "This enables a chunk packet thread. This does not improve server performance, this is made to help players with high ping.");
 		c.addComment("settings.async.chunk-thread.tps", "This is the TPS of the chunk thread. A lower setting helps players with high ping, but can send chunks slower.");
 		c.addComment("settings.async.chunk-thread.max-chunk-sends", "This is the maximum number of chunk packets that can be sent per chunk thread tick per player.");
-	}
+		c.addComment("settings.async.chunk-thread.adaptive", "This enables adaptive chunk packet sending, only laggy players will receive chunks slower.");
+		c.addComment("settings.async.chunk-thread.ping-threshold", "This is the threshold for players to be considered high ping. Only high ping players will receive chunk packets slower if adaptive mode is enabled.");
+}
 }

@@ -242,9 +242,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		        
 		        // Check if the packet is a chunk packet
 		        if (WindSpigotConfig.chunkThread && (packet instanceof PacketPlayOutMapChunk || packet instanceof PacketPlayOutMapChunkBulk)) {
-		        	// Delay/distribute chunk sending to help players with low ping
-		        	WindSpigot.chunkThread.addPacket(packet, this, null);
-		        	return;
+		        	// Check ping for adaptive chunk packets, otherwise batch all chunk packets
+		        	if (!WindSpigotConfig.adaptive || (this.getPlayer().ping >= WindSpigotConfig.chunkPingThreshold)) {
+			        	// Delay/distribute chunk sending to help players with high ping 
+			        	WindSpigot.chunkThread.addPacket(packet, this, null);
+			        	return;
+		        	}
 		        }
 			}
 	        // WindSpigot end
