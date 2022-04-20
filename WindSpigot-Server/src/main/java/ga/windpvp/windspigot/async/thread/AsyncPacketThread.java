@@ -73,6 +73,7 @@ public abstract class AsyncPacketThread {
             public void run() {
                 Spigot404Write.writeThenFlush(manager.channel, packet, agenericfuturelistener);
             }
+            
         });
     }
 
