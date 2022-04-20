@@ -184,8 +184,8 @@ public class WindSpigotConfig {
 	public static boolean pearlPassthroughFenceGate;
 
 	private static void pearlPassthroughFenceGate() {
-		pearlPassthroughFenceGate = getBoolean("pearl-passthrough.fence_gate", true);
-		c.addComment("pearl-passthrough.fence_gate", "Allows pearls to pass through fences.");
+		pearlPassthroughFenceGate = getBoolean("pearl-passthrough.fence-gate", true);
+		c.addComment("pearl-passthrough.fence-gate", "Allows pearls to pass through fences.");
 	}
 
 	public static boolean pearlPassthroughTripwire;
