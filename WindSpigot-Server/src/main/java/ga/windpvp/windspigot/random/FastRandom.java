@@ -3,11 +3,14 @@ package ga.windpvp.windspigot.random;
 
 import java.util.Random;
 
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * Implementation of George Marsaglia's elegant Xorshift random generator which is 
  * 30% faster and better quality than the built-in java.util.random see also see
  * http://www.javamex.com/tutorials/random_numbers/xorshift.shtml
  */
+@ThreadSafe // The fast random can be used with multiple threads
 public strictfp class FastRandom extends Random implements Cloneable {
 	
 	private static final long serialVersionUID = 1L;
