@@ -42,6 +42,7 @@ import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.commons.MCUtils;
+import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
 import me.elier.nachospigot.config.NachoConfig;
@@ -505,6 +506,12 @@ public abstract class PlayerList {
 			craftingManager.lastCraftView = null;
 			// KigPaper end
 		}
+		
+		// WindSpigot start - clear chunk thread cache
+		if (WindSpigotConfig.chunkThread) {
+			WindSpigot.chunkThread.removePlayer(entityplayer.playerConnection.getNetworkManager());
+		}
+		// WindSpigot end
 
 		return playerQuitEvent.getQuitMessage(); // CraftBukkit
 	}

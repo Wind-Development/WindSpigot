@@ -222,7 +222,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			if (!shouldCheckPacket) {
 				// Wait a bit before checking for combat packets to send with priority
 				// The priority packet writer uses the last context executor
-				if (this.packetWrites.get() > 3) {
+				if (this.packetWrites.get() > 1) {
 					shouldCheckPacket = true;
 				}
 			} else {
