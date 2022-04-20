@@ -303,11 +303,11 @@ public class WindSpigotConfig {
 		
 	private static void chunkThread() {
 		chunkThread = getBoolean("settings.async.chunk-thread.enabled", false);
-		chunkThreadTps = getInt("settings.async.chunk-thread.tps", 7);
+		chunkThreadTps = getInt("settings.async.chunk-thread.tps", 1);
 		maxChunkSends = getInt("settings.async.chunk-thread.max-chunk-sends", 5);
 		
 		c.addComment("settings.async.chunk-thread.enabled", "This enables a chunk packet thread. This does not improve server performance, this is made to help players with high ping.");
-		c.addComment("settings.async.chunk-thread.tps", "This is the TPS of the chunk thread. A lower setting helps players with high ping, but can send chunks slower. Setting this too low will allow the packet queue to build up, so this will have no effect.");
-		c.addComment("settings.async.chunk-thread.max-chunk-sends", "This is the maximum number of chunk packets that can be sent.");
+		c.addComment("settings.async.chunk-thread.tps", "This is the TPS of the chunk thread. A lower setting helps players with high ping, but can send chunks slower.");
+		c.addComment("settings.async.chunk-thread.max-chunk-sends", "This is the maximum number of chunk packets that can be sent per chunk thread tick per player.");
 	}
 }
