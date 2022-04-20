@@ -121,6 +121,7 @@ import org.bukkit.util.Vector;
 import com.google.common.base.Preconditions;
 
 import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.random.FastRandom;
 import me.elier.nachospigot.config.NachoConfig;
 import net.jafama.FastMath;
 import net.minecraft.server.*;
@@ -142,7 +143,7 @@ public class CraftWorld implements World {
 	private int chunkLoadCount = 0;
 	private int chunkGCTickCount;
 
-	private static final Random rand = new Random();
+	private static final Random rand = new FastRandom(); // WindSpigot - use more fast randoms
 
 	public CraftWorld(WorldServer world, ChunkGenerator gen, Environment env) {
 		this.world = world;

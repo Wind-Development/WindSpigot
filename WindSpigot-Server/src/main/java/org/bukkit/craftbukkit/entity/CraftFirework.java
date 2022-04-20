@@ -9,6 +9,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import ga.windpvp.windspigot.random.FastRandom;
 import net.minecraft.server.EntityFireworks;
 import net.minecraft.server.ItemStack;
 import net.minecraft.server.Items;
@@ -16,7 +17,7 @@ import net.minecraft.server.Items;
 public class CraftFirework extends CraftEntity implements Firework {
 	private static final int FIREWORK_ITEM_INDEX = 8;
 
-	private final Random random = new Random();
+	private final Random random = new FastRandom(); // WindSpigot - use more fast randoms
 	private final CraftItemStack item;
 
 	public CraftFirework(CraftServer server, EntityFireworks entity) {

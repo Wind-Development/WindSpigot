@@ -8,6 +8,7 @@ import org.bukkit.craftbukkit.block.CraftBlock;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
+import ga.windpvp.windspigot.random.FastRandom;
 import net.minecraft.server.BiomeBase;
 import net.minecraft.server.Block;
 import net.minecraft.server.BlockPosition;
@@ -23,7 +24,7 @@ import net.minecraft.server.WorldServer;
 public class CustomChunkGenerator extends InternalChunkGenerator {
 	private final ChunkGenerator generator;
 	private final WorldServer world;
-	private final Random random;
+	private final Random random; 
 	private final WorldGenStronghold strongholdGen = new WorldGenStronghold();
 
 	private static class CustomBiomeGrid implements BiomeGrid {
@@ -44,7 +45,7 @@ public class CustomChunkGenerator extends InternalChunkGenerator {
 		this.world = (WorldServer) world;
 		this.generator = generator;
 
-		this.random = new Random(seed);
+		this.random = new FastRandom(seed); // WindSpigot - use more fast randoms
 	}
 
 	@Override

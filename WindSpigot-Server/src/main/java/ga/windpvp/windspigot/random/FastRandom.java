@@ -65,6 +65,7 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	 * faster and better quality than the built-in java.util.random see also see
 	 * http://www.javamex.com/tutorials/random_numbers/xorshift.shtml
 	 */
+	@Override
 	protected int next(int nbits) {
 		long x = seed;
 		x ^= (x << 21);
@@ -72,7 +73,7 @@ public strictfp class FastRandom extends Random implements Cloneable {
 		x ^= (x << 4);
 		seed = x;
 		x &= ((1L << nbits) - 1);
-
+		
 		return (int) x;
 	}
 
