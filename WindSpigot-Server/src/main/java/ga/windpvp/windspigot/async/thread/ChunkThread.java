@@ -51,10 +51,10 @@ public class ChunkThread extends AsyncPacketThread {
 						}
 						
 						// Send the chunk packet
-						Spigot404Write.writeThenFlush(manager.channel, playerChunkPackets.get(manager).poll(), null);
+						manager.dispatchPacket(playerChunkPackets.get(manager).poll(), null, true);
 
 						// Register the chunk send count
-						playerChunkPacketSends.put(manager, playerChunkPacketSends.get(manager) + 1);
+						playerChunkPacketSends.put(manager, playerChunkPacketSends.getInt(manager) + 1);
 					}
 				}
 				
