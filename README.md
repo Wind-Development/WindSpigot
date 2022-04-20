@@ -1,4 +1,4 @@
-# WindSpigot 
+# WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/windspigot-build-and-upload.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip)
 
 ##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance and pvp mechanics. WindSpigot is based on a fork of NachoSpigot.
 
@@ -8,7 +8,7 @@ Java 17 is now natively supported, and **[ViaVersion](https://github.com/ViaVers
 **WindSpigot supports Java 8 to Java 17!**
 
 ## Downloads
-See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** tab for the latest release. Alternatively, you can download the latest build by clicking the green checkmark next to the latest commit. The latest build may be unstable, but contains more features.
+See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** tab for the latest release. Alternatively, you can download the latest build **[here](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip)**. The latest build may be unstable, but contains more features.
 
 ## FAQ
 
