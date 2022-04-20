@@ -124,35 +124,34 @@ public class WindSpigotConfig {
 	public static int trackingThreads;
 
 	private static void tracking() {
-		disableTracking = !getBoolean("settings.async.entity-tracking.enable", true);
-		c.addComment("settings.async.entity-tracking.enable", "Enables asynchronous entity tracking");
-		trackingThreads = getInt("settings.async.entity-tracking.threads", 4);
-		c.addComment("settings.async.entity-tracking.threads",
+		disableTracking = !getBoolean("async.entity-tracking.enable", true);
+		trackingThreads = getInt("async.entity-tracking.threads", 4);
+		c.addComment("async.entity-tracking.enable", "Enables asynchronous entity tracking");
+		c.addComment("async.entity-tracking.threads",
 				"The amount of threads to use when asynchronous entity tracking is enabled.");
-		
-		c.addComment("settings.async.entity-tracking", "Configuration for the async entity tracker.");
+		c.addComment("async.entity-tracking", "Configuration for the async entity tracker.");
 	}
 
 	public static boolean threadAffinity;
 
 	private static void threadAffinity() {
-		threadAffinity = getBoolean("settings.thread-affinity", false);
-		c.addComment("settings.thread-affinity",
+		threadAffinity = getBoolean("thread-affinity", false);
+		c.addComment("thread-affinity",
 				"Only switch to true if your OS is properly configured!! (See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus) When properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
 	}
 
 	public static boolean mobAiCmd;
 
 	private static void mobAiCmd() {
-		mobAiCmd = getBoolean("settings.command.mob-ai", true);
-		c.addComment("settings.command.mob-ai",
+		mobAiCmd = getBoolean("command.mob-ai", true);
+		c.addComment("command.mob-ai",
 				"Enables the command \"/mobai\" which toggles mob ai. Users require the permission windspigot.command.mobai");
 	}
 
 	public static boolean parallelWorld;
 
 	private static void parallelWorld() {
-		parallelWorld = getBoolean("settings.async.parallel-world", true);
+		parallelWorld = getBoolean("async.parallel-world", true);
 		// Disable timings by making timings check a variable (Code from api can't
 		// access server code, so we have to do this)
 		// Please open a PR if you know of a better method to do this.
@@ -161,23 +160,23 @@ public class WindSpigotConfig {
 		} else {
 			TimingsCheck.setEnableTimings(true);
 		}
-		c.addComment("settings.async.parallel-world",
+		c.addComment("async.parallel-world",
 				"Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this.");
 	}
 
 	public static boolean limitedMobSpawns;
 
 	private static void limitedMobSpawns() {
-		limitedMobSpawns = getBoolean("settings.limited-mob-spawns", false);
-		c.addComment("settings.limited-mob-spawns",
+		limitedMobSpawns = getBoolean("limited-mob-spawns", false);
+		c.addComment("limited-mob-spawns",
 				"Disables mob spawning if TPS is lower than the specified threshold.");
 	}
 
 	public static int limitedMobSpawnsThreshold;
 
 	private static void limitedMobSpawnsThreshold() {
-		limitedMobSpawnsThreshold = getInt("settings.limited-mob-spawns-threshold", 18);
-		c.addComment("settings.limited-mob-spawns-threshold",
+		limitedMobSpawnsThreshold = getInt("limited-mob-spawns-threshold", 18);
+		c.addComment("limited-mob-spawns-threshold",
 				"Threshold to disable mob spawning. Does not apply if limited mob spawns is not enabled.");
 	}
 	
@@ -185,45 +184,45 @@ public class WindSpigotConfig {
 	public static boolean pearlPassthroughFenceGate;
 
 	private static void pearlPassthroughFenceGate() {
-		pearlPassthroughFenceGate = getBoolean("settings.pearl-passthrough.fence_gate", true);
-		c.addComment("settings.pearl-passthrough.fence_gate", "Allows pearls to pass through fences.");
+		pearlPassthroughFenceGate = getBoolean("pearl-passthrough.fence_gate", true);
+		c.addComment("pearl-passthrough.fence_gate", "Allows pearls to pass through fences.");
 	}
 
 	public static boolean pearlPassthroughTripwire;
 
 	private static void pearlPassthroughTripwire() {
-		pearlPassthroughTripwire = getBoolean("settings.pearl-passthrough.tripwire", true);
-		c.addComment("settings.pearl-passthrough.tripwire", "Allows pearls to pass through tripwires.");
+		pearlPassthroughTripwire = getBoolean("pearl-passthrough.tripwire", true);
+		c.addComment("pearl-passthrough.tripwire", "Allows pearls to pass through tripwires.");
 	}
 
 	public static boolean pearlPassthroughSlab;
 
 	private static void pearlPassthroughSlab() {
-		pearlPassthroughSlab = getBoolean("settings.pearl-passthrough.slab", true);
-		c.addComment("settings.pearl-passthrough.slab", "Allows pearls to pass through slabs.");
+		pearlPassthroughSlab = getBoolean("pearl-passthrough.slab", true);
+		c.addComment("pearl-passthrough.slab", "Allows pearls to pass through slabs.");
 	}
 
 	public static boolean pearlPassthroughCobweb;
 
 	private static void pearlPassthroughCobweb() {
-		pearlPassthroughCobweb = getBoolean("settings.pearl-passthrough.cobweb", true);
-		c.addComment("settings.pearl-passthrough.cobweb", "Allows pearls to pass through cobwebs.");
+		pearlPassthroughCobweb = getBoolean("pearl-passthrough.cobweb", true);
+		c.addComment("pearl-passthrough.cobweb", "Allows pearls to pass through cobwebs.");
 	}
 
 	public static boolean pearlPassthroughBed;
 
 	private static void pearlPassthroughBed() {
-		pearlPassthroughBed = getBoolean("settings.pearl-passthrough.bed", false);
-		c.addComment("settings.pearl-passthrough.bed", "Allows pearls to pass through beds.");
+		pearlPassthroughBed = getBoolean("pearl-passthrough.bed", false);
+		c.addComment("pearl-passthrough.bed", "Allows pearls to pass through beds.");
 	}
 	// FlamePaper end
 	
 	private static void async() {
-		c.addComment("settings.async", "Configuration for asynchronous things.");
+		c.addComment("async", "Configuration for asynchronous things.");
 	}
 	
 	private static void pearlPassthrough() {
-		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
+		c.addComment("pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
 	}
 	
 	// From
@@ -231,18 +230,18 @@ public class WindSpigotConfig {
     public static int combatThreadTPS;
 
     private static void combatThread() {
-        combatThreadTPS = getInt("settings.async.combat-thread-tps", 40);        
-        c.addComment("settings.async.combat-thread-tps", "Combat thread TPS for async knockback and hit detection.");
+        combatThreadTPS = getInt("async.combat-thread-tps", 40);        
+        c.addComment("async.combat-thread-tps", "Combat thread TPS for async knockback and hit detection.");
     }
 
     public static boolean asyncHitDetection;
     public static boolean asyncKnockback;
 
     private static void asyncPackets() {
-        asyncHitDetection = getBoolean("settings.async.hit-detection", true);
-        asyncKnockback = getBoolean("settings.async.knockback", true);
-        c.addComment("settings.async.hit-detection", "Enables asynchronous hit detection. This increases overall cpu usage, but sends hit detection packets faster. Disable this if you do not run a pvp server.");
-        c.addComment("settings.async.knockback", "Enables asynchronous knockback. This increases overall cpu usage, but sends knockback packets faster. Disable this if you do not run a pvp server.");
+        asyncHitDetection = getBoolean("async.hit-detection", true);
+        asyncKnockback = getBoolean("async.knockback", true);
+        c.addComment("async.hit-detection", "Enables asynchronous hit detection. This increases overall cpu usage, but sends hit detection packets faster. Disable this if you do not run a pvp server.");
+        c.addComment("async.knockback", "Enables asynchronous knockback. This increases overall cpu usage, but sends knockback packets faster. Disable this if you do not run a pvp server.");
     }
     
 	public static boolean pingCmd;
@@ -250,50 +249,50 @@ public class WindSpigotConfig {
 	public static String pingOtherCmdString;
 
 	private static void pingCmd() {
-		pingCmd = getBoolean("settings.command.ping.enable", true);
+		pingCmd = getBoolean("command.ping.enable", true);
 		
-		pingSelfCmdString = getString("settings.command.ping.self-ping-msg", "&bYour ping: &3%ping%");
-		pingOtherCmdString = getString("settings.command.ping.other-ping-msg", "&3%player%'s &bping: &3%ping%");
-		c.addComment("settings.command.ping.enable",
+		pingSelfCmdString = getString("command.ping.self-ping-msg", "&bYour ping: &3%ping%");
+		pingOtherCmdString = getString("command.ping.other-ping-msg", "&3%player%'s &bping: &3%ping%");
+		c.addComment("command.ping.enable",
 				"Enables the command \"/ping <player>\" which shows player ping. Users require the permission windspigot.command.ping");
-		c.addComment("settings.command.ping.self-ping-msg", "The message displayed for the /ping command");
-		c.addComment("settings.command.ping.other-ping-msg", "The message displayed for the /ping <player> command");
+		c.addComment("command.ping.self-ping-msg", "The message displayed for the /ping command");
+		c.addComment("command.ping.other-ping-msg", "The message displayed for the /ping <player> command");
 	}
 	
 	public static boolean asyncTnt;
 
 	private static void asyncTnt() {
-		asyncTnt = getBoolean("settings.async.tnt", true);
-		c.addComment("settings.async.tnt", "Enables async tnt (Credits to NachoSpigot).");
+		asyncTnt = getBoolean("async.tnt", true);
+		c.addComment("async.tnt", "Enables async tnt (Credits to NachoSpigot).");
 	}
 	
 	public static boolean statistics;
 	
 	private static void statistics() {
-		statistics = getBoolean("settings.statistics", true);
-		c.addComment("settings.statistics",
+		statistics = getBoolean("statistics", true);
+		c.addComment("statistics",
 				"Enables WindSpigot statistics. This allows developers to see how many WindSpigot servers are running. This has no performance impact and is completely anonymous, but you can opt out of this if you want.");
 	}
 	
 	public static int hitDelay;
 	
 	private static void hitDelay() {
-		hitDelay = getInt("settings.hit-delay", 20);
-		c.addComment("settings.hit-delay", "This sets the delay between player attacks, 20 is the default. Setting this to 0 allows for no hit delay.");
+		hitDelay = getInt("hit-delay", 20);
+		c.addComment("hit-delay", "This sets the delay between player attacks, 20 is the default. Setting this to 0 allows for no hit delay.");
 	}
 	
 	public static double potionSpeed;
 	
 	private static void potionSpeed() {
-		potionSpeed = getDouble("settings.potion-speed-offset", 0);
-		c.addComment("settings.potion-speed-offset", "This sets the speed of pots, 0 is the default speed. Setting this higher makes potions splash faster. This config option accepts decimals.");
+		potionSpeed = getDouble("potion-speed-offset", 0);
+		c.addComment("potion-speed-offset", "This sets the speed of pots, 0 is the default speed. Setting this higher makes potions splash faster. This config option accepts decimals.");
 	}
 	
 	public static boolean showPlayerIps;
 	
 	private static void showPlayerIps() {
-		showPlayerIps = getBoolean("settings.show-player-ips", true);
-		c.addComment("settings.show-player-ips", "Disabling this will prevent logging of player ips in console.");
+		showPlayerIps = getBoolean("show-player-ips", true);
+		c.addComment("show-player-ips", "Disabling this will prevent logging of player ips in console.");
 	}
 	
 	public static boolean chunkThread;
@@ -304,16 +303,16 @@ public class WindSpigotConfig {
 	public static int chunkPingThreshold;
 	
 	private static void chunkThread() {
-		chunkThread = getBoolean("settings.async.chunk-thread.enabled", false);
-		chunkThreadTps = getInt("settings.async.chunk-thread.tps", 1);
-		maxChunkSends = getInt("settings.async.chunk-thread.max-chunk-sends", 5);
-		adaptive = getBoolean("settings.async.chunk-thread.adaptive", false);
-		chunkPingThreshold = getInt("settings.async.chunk-thread.ping-threshold", 120);
+		chunkThread = getBoolean("async.chunk-thread.enabled", false);
+		chunkThreadTps = getInt("async.chunk-thread.tps", 1);
+		maxChunkSends = getInt("async.chunk-thread.max-chunk-sends", 5);
+		adaptive = getBoolean("async.chunk-thread.adaptive", false);
+		chunkPingThreshold = getInt("async.chunk-thread.ping-threshold", 120);
 		
-		c.addComment("settings.async.chunk-thread.enabled", "This enables a chunk packet thread. This does not improve server performance, this is made to help players with high ping.");
-		c.addComment("settings.async.chunk-thread.tps", "This is the TPS of the chunk thread. A lower setting helps players with high ping, but can send chunks slower.");
-		c.addComment("settings.async.chunk-thread.max-chunk-sends", "This is the maximum number of chunk packets that can be sent per chunk thread tick per player.");
-		c.addComment("settings.async.chunk-thread.adaptive", "This enables adaptive chunk packet sending, only laggy players will receive chunks slower.");
-		c.addComment("settings.async.chunk-thread.ping-threshold", "This is the threshold for players to be considered high ping. Only high ping players will receive chunk packets slower if adaptive mode is enabled.");
+		c.addComment("async.chunk-thread.enabled", "This enables a chunk packet thread. This does not improve server performance, this is made to help players with high ping.");
+		c.addComment("async.chunk-thread.tps", "This is the TPS of the chunk thread. A lower setting helps players with high ping, but can send chunks slower.");
+		c.addComment("async.chunk-thread.max-chunk-sends", "This is the maximum number of chunk packets that can be sent per chunk thread tick per player.");
+		c.addComment("async.chunk-thread.adaptive", "This enables adaptive chunk packet sending, only laggy players will receive chunks slower.");
+		c.addComment("async.chunk-thread.ping-threshold", "This is the threshold for players to be considered high ping. Only high ping players will receive chunk packets slower if adaptive mode is enabled.");
 }
 }
