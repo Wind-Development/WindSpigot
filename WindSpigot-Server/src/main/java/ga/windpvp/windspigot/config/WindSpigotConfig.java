@@ -304,8 +304,8 @@ public class WindSpigotConfig {
 	
 	private static void chunkThread() {
 		chunkThread = getBoolean("async.chunk-packet-batching.enabled", false);
-		chunkThreadTps = getInt("async.chunk-packet-batching.tps", 7);
-		maxChunkSends = getInt("async.chunk-packet-batching.max-chunk-sends", 3);
+		chunkThreadTps = getInt("async.chunk-packet-batching.tps", 10);
+		maxChunkSends = getInt("async.chunk-packet-batching.max-chunk-sends", 2);
 		adaptive = getBoolean("async.chunk-packet-batching.adaptive", true);
 		chunkPingThreshold = getInt("async.chunk-packet-batching.ping-threshold", 120);
 		
