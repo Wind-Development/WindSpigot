@@ -27,7 +27,7 @@ public abstract class AsyncPacketThread {
                 @Override
                 public void run() {
                     try (AffinityLock al2 = al.acquireLock(AffinityStrategies.SAME_SOCKET, AffinityStrategies.ANY);){
-                        AsyncPacketThread.this.loop();
+                        loop();
                     }
                 }
             }, s);
