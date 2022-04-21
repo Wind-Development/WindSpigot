@@ -50,6 +50,8 @@ public class ChunkThread extends AsyncPacketThread {
 						
 						// Send the chunk packet
 						manager.dispatchPacket(playerChunkPackets.get(manager).poll(), null, true);
+						
+						System.out.println("Chunk sent");
 
 						// Register the chunk send count
 						playerChunkPacketSends.put(manager, playerChunkPacketSends.getInt(manager) + 1);
