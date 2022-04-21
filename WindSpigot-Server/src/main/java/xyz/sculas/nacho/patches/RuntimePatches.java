@@ -1,7 +1,5 @@
 package xyz.sculas.nacho.patches;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 

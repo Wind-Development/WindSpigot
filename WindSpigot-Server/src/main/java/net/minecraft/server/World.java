@@ -24,7 +24,6 @@ import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.util.Vector;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;

@@ -3,11 +3,9 @@ package ga.windpvp.windspigot.async.thread;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.google.common.collect.Maps;
 
-import ga.windpvp.windspigot.async.netty.Spigot404Write;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;

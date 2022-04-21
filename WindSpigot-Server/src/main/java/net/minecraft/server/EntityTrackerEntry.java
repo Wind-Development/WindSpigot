@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerVelocityEvent;
 // CraftBukkit end
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 
 public class EntityTrackerEntry {
 

@@ -2,13 +2,13 @@
 // https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
 package ga.windpvp.windspigot.async.thread;
 
-import io.netty.channel.Channel;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import ga.windpvp.windspigot.async.netty.Spigot404Write;
+import io.netty.channel.Channel;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet;
 import net.openhft.affinity.AffinityLock;

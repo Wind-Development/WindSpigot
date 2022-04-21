@@ -1,6 +1,5 @@
 package net.minecraft.server;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -8,11 +7,8 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.ResettableLatch;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import javafixes.concurrency.ReusableCountLatch;
 import me.elier.nachospigot.config.NachoConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
-import net.openhft.affinity.AffinityLock;
-import net.openhft.affinity.AffinityStrategies;
 
 public class EntityTracker {
 

@@ -39,7 +39,6 @@ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import co.aikar.timings.SpigotTimings; // Spigot
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.WorldTickerManager;
-import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
 import io.netty.buffer.ByteBuf;
@@ -53,10 +52,9 @@ import io.netty.util.ResourceLeakDetector;
 import jline.console.ConsoleReader;
 import joptsimple.OptionSet;
 import me.elier.nachospigot.config.NachoConfig;
+import net.openhft.affinity.AffinityLock; // WindSpigot
 import xyz.sculas.nacho.async.AsyncExplosions;
 // CraftBukkit end
-
-import net.openhft.affinity.AffinityLock; // WindSpigot
 
 public abstract class MinecraftServer implements Runnable, ICommandListener, IAsyncTaskHandler, IMojangStatistics {
 

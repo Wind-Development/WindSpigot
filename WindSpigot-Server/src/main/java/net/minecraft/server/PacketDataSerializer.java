@@ -1,15 +1,5 @@
 package net.minecraft.server;
 
-import com.google.common.base.Charsets;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.ByteBufProcessor;
-import io.netty.handler.codec.DecoderException;
-import io.netty.handler.codec.EncoderException;
-import io.netty.util.ByteProcessor;
-
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -25,6 +15,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import org.bukkit.craftbukkit.inventory.CraftItemStack; // CraftBukkit
+
+import com.google.common.base.Charsets;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.ByteBufProcessor;
+import io.netty.handler.codec.DecoderException;
+import io.netty.handler.codec.EncoderException;
+import io.netty.util.ByteProcessor;
 // TacoSpigot start
 import net.techcable.tacospigot.CompatHacks;
 // TacoSpigot end

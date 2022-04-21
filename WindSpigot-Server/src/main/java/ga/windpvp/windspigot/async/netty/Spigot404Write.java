@@ -2,6 +2,8 @@
 // https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
 package ga.windpvp.windspigot.async.netty;
 
+import java.util.Queue;
+
 import com.google.common.collect.Queues;
 
 import io.netty.channel.Channel;
@@ -9,7 +11,6 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import java.util.Queue;
 import net.minecraft.server.Packet;
 
 public class Spigot404Write {
