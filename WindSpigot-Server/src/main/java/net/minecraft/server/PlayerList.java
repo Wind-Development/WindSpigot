@@ -44,6 +44,7 @@ import com.mojang.authlib.GameProfile;
 import dev.cobblesword.nachospigot.commons.MCUtils;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import me.elier.nachospigot.config.NachoConfig;
 
 public abstract class PlayerList {
@@ -61,7 +62,7 @@ public abstract class PlayerList {
 																									// Iterator safety
 	// private final Map<UUID, EntityPlayer> j = Maps.newHashMap();
 	// PaperSpigot start - Player lookup improvements
-	public final Map<String, EntityPlayer> playerMap = new java.util.HashMap<String, EntityPlayer>() {
+	public final Map<String, EntityPlayer> playerMap = new Object2ObjectArrayMap<String, EntityPlayer>() {
 		@Override
 		public EntityPlayer put(String key, EntityPlayer value) {
 			return super.put(key.toLowerCase(), value);
@@ -84,7 +85,7 @@ public abstract class PlayerList {
 			return super.remove(key instanceof String ? ((String) key).toLowerCase() : key);
 		}
 	};
-	public final Map<UUID, EntityPlayer> uuidMap = new java.util.HashMap<UUID, EntityPlayer>() {
+	public final Map<UUID, EntityPlayer> uuidMap = new Object2ObjectArrayMap<UUID, EntityPlayer>() {
 		@Override
 		public EntityPlayer get(Object key) {
 			// put the .playerConnection check done in other places here
