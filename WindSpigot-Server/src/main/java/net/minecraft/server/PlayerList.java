@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,16 +63,31 @@ public abstract class PlayerList {
 	// private final Map<UUID, EntityPlayer> j = Maps.newHashMap();
 	// PaperSpigot start - Player lookup improvements
 	public final Map<String, EntityPlayer> playerMap = new java.util.HashMap<String, EntityPlayer>() {
+		
+		private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+		
 		@Override
 		public EntityPlayer put(String key, EntityPlayer value) {
-			return super.put(key.toLowerCase(), value);
+			lock.writeLock().lock();
+			// WindSpigot - synchronize player map
+			try {
+				return super.put(key.toLowerCase(), value);
+			} finally {
+				lock.writeLock().unlock();
+			}
 		}
 
 		@Override
 		public EntityPlayer get(Object key) {
-			// put the .playerConnection check done in other places here
-			EntityPlayer player = super.get(key instanceof String ? ((String) key).toLowerCase() : key);
-			return (player != null && player.playerConnection != null) ? player : null;
+			// WindSpigot - synchronize player map
+			lock.readLock().lock();
+			try {
+				// put the .playerConnection check done in other places here
+				EntityPlayer player = super.get(key instanceof String ? ((String) key).toLowerCase() : key);
+				return (player != null && player.playerConnection != null) ? player : null;
+			} finally {
+				lock.readLock().unlock();
+			}
 		}
 
 		@Override
@@ -81,15 +97,58 @@ public abstract class PlayerList {
 
 		@Override
 		public EntityPlayer remove(Object key) {
-			return super.remove(key instanceof String ? ((String) key).toLowerCase() : key);
+			// WindSpigot - synchronize player map
+			lock.writeLock().lock();
+			try {
+				return super.remove(key instanceof String ? ((String) key).toLowerCase() : key);
+			} finally {
+				lock.writeLock().unlock();
+			}
 		}
 	};
 	public final Map<UUID, EntityPlayer> uuidMap = new java.util.HashMap<UUID, EntityPlayer>() {
+		
+		private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
 		@Override
 		public EntityPlayer get(Object key) {
-			// put the .playerConnection check done in other places here
-			EntityPlayer player = super.get(key instanceof String ? ((String) key).toLowerCase() : key);
-			return (player != null && player.playerConnection != null) ? player : null;
+			// WindSpigot - synchronize uuid map
+			lock.readLock().lock();
+			try {
+				// put the .playerConnection check done in other places here
+				EntityPlayer player = super.get(key instanceof String ? ((String) key).toLowerCase() : key);
+				return (player != null && player.playerConnection != null) ? player : null;
+			} finally {
+				lock.readLock().unlock();
+			}
+		}
+		
+		@Override
+		public EntityPlayer put(UUID key, EntityPlayer value) {
+			lock.writeLock().lock();
+			// WindSpigot - synchronize uuid map
+			try {
+				return super.put(key, value);
+			} finally {
+				lock.writeLock().unlock();
+			}
+		}
+
+		@Override
+		public boolean containsKey(Object key) {
+			// WindSpigot - synchronize uuid map
+			return get(key) != null;
+		}
+
+		@Override
+		public EntityPlayer remove(Object key) {
+			// WindSpigot - synchronize uuid map
+			lock.writeLock().lock();
+			try {
+				return super.remove(key);
+			} finally {
+				lock.writeLock().unlock();
+			}
 		}
 	};
 	// PaperSpigot end
