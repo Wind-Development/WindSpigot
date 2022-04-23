@@ -1,4 +1,4 @@
-# WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/windspigot-build-and-upload.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip)
+# WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/windspigot-build-and-upload.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c5ee8d2ef324d23ab085d89139ea0e7)](https://www.codacy.com/gh/Wind-Development/WindSpigot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Wind-Development/WindSpigot&amp;utm_campaign=Badge_Grade)
 
 ##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance and pvp mechanics. WindSpigot is based on a **[fork of NachoSpigot](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**.
 
