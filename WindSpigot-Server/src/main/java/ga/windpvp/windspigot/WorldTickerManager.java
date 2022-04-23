@@ -75,28 +75,27 @@ public class WorldTickerManager {
 				ticker.run();
 			}
 		} else {
-			// Cache world tick runnables if not cached
+			// Cache world tick runnables if not cached already
 			this.cacheWorlds(true);
 
-			// Only use multiple threads if there are multiple worlds
-			if (this.worldTickers.size() != 1) {
-				//latch = new CountDownLatch(worldTickers.size());
-
-				// Tick each world on a reused thread 
-				for (WorldTicker ticker : this.worldTickers) {
-					AsyncUtil.run(ticker, this.worldTickExecutor);
+			// Tick each world with a reused runnable
+			for (int index = 0; index < this.worldTickers.size(); index++) { 
+				// Tick all worlds but one on a separate thread
+				if (index < this.worldTickers.size() - 1) {
+					AsyncUtil.run(this.worldTickers.get(index), this.worldTickExecutor);
+				} else {
+					// Run the last ticker on the main thread, no need to schedule it async as all
+					// other tickers are running already
+					this.worldTickers.get(index).run();
 				}
+			}
 
-				try {
-					// Wait for worlds to finish ticking then reset latch
-					latch.waitTillZero();
-					this.latch.reset(this.worldTickers.size());;
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			} else {
-				// Tick only world on one thread
-				this.worldTickers.get(0).run();
+			try {
+				// Wait for worlds to finish ticking then reset latch
+				latch.waitTillZero();
+				this.latch.reset(this.worldTickers.size());;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
