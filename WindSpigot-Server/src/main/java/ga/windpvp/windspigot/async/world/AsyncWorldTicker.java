@@ -7,11 +7,8 @@ import net.minecraft.server.WorldServer;
 // This is just a world ticker, but async
 public class AsyncWorldTicker extends WorldTicker {
 
-	public final WorldServer worldserver;
-
 	public AsyncWorldTicker(WorldServer worldServer) {
 		super(worldServer);
-		this.worldserver = worldServer;
 	}
 
 	@Override
