@@ -17,6 +17,7 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
+import ga.windpvp.windspigot.WindSpigot;
 import me.elier.nachospigot.config.NachoConfig;
 
 public class WindSpigotConfig {
@@ -37,7 +38,7 @@ public class WindSpigotConfig {
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
 		try {
-			System.out.println("Loading WindSpigot config from " + configFile.getName());
+			WindSpigot.LOGGER.info("Loading WindSpigot config from " + configFile.getName());
 			config.load(CONFIG_FILE);
 		} catch (IOException ignored) {
 		} catch (InvalidConfigurationException ex) {

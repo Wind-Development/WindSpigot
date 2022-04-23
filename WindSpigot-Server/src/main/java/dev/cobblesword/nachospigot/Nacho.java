@@ -10,6 +10,7 @@ import com.google.common.collect.Sets;
 import dev.cobblesword.nachospigot.knockback.KnockbackCommand;
 import dev.cobblesword.nachospigot.protocol.MovementListener;
 import dev.cobblesword.nachospigot.protocol.PacketListener;
+import ga.windpvp.windspigot.WindSpigot;
 import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.MinecraftServer;
 import xyz.sculas.nacho.anticrash.AntiCrash;
@@ -29,9 +30,9 @@ public class Nacho {
 		AsyncExplosions.initExecutor(NachoConfig.useFixedPoolForTNT, NachoConfig.fixedPoolSize);
 
 		if (NachoConfig.enableAntiCrash) {
-			System.out.println("[NS-AntiCrash] Activating Anti Crash.");
+			WindSpigot.LOGGER.info("[NS-AntiCrash] Activating Anti Crash.");
 			Nacho.get().registerPacketListener(new AntiCrash());
-			System.out.println("[NS-AntiCrash] Activated Anti Crash.");
+			WindSpigot.LOGGER.info("[NS-AntiCrash] Activated Anti Crash.");
 		}
 	}
 
