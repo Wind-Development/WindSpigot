@@ -84,27 +84,18 @@ public class WindSpigot {
 	private void init() {
 		initCmds();
 		initStatistics();
-		
-		boolean hasConsoleSpace = false;
-		
-        if (WindSpigotConfig.asyncKnockback) {
-            knockbackThread = new CombatThread("Knockback Thread");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async knockback!");
-            LOGGER.info(" ");
-            hasConsoleSpace = true;
-        }
+
 
 		if (WindSpigotConfig.parallelWorld) {
+			LOGGER.info(" ");
+
 			Timings.setTimingsEnabled(false);
-			if (!hasConsoleSpace) {
-				LOGGER.info(" ");
-			}
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
 					+ "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
+			
 			LOGGER.info(" ");
 			TeleportRegistry.init();
 		}
-		System.gc();
 	}
 
 	public StatisticsClient getClient() {
