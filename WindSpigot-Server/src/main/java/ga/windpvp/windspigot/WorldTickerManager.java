@@ -65,38 +65,45 @@ public class WorldTickerManager {
 
 	// Ticks all worlds
 	public void tick() {
-		if (!WindSpigotConfig.parallelWorld) {
-
-			// Cache world tick runnables if not cached
-			this.cacheWorlds(false);
-
-			// Tick each world on one thread
-			for (WorldTicker ticker : this.worldTickers) {
-				ticker.run();
-			}
+		if (WindSpigotConfig.parallelWorld) {
+			tickAsync();
 		} else {
-			// Cache world tick runnables if not cached already
-			this.cacheWorlds(true);
+			tickSync();
+		}
+	}
+	
+	private void tickSync() {
+		// Cache world tick runnables if not cached
+		this.cacheWorlds(false);
 
-			// Tick each world with a reused runnable
-			for (int index = 0; index < this.worldTickers.size(); index++) { 
-				// Tick all worlds but one on a separate thread
-				if (index < this.worldTickers.size() - 1) {
-					AsyncUtil.run(this.worldTickers.get(index), this.worldTickExecutor);
-				} else {
-					// Run the last ticker on the main thread, no need to schedule it async as all
-					// other tickers are running already
-					this.worldTickers.get(index).run();
-				}
-			}
+		// Tick each world on one thread
+		for (WorldTicker ticker : this.worldTickers) {
+			ticker.run();
+		}
+	}
+	
+	private void tickAsync() {
+		// Cache world tick runnables if not cached already
+		this.cacheWorlds(true);
 
-			try {
-				// Wait for worlds to finish ticking then reset latch
-				latch.waitTillZero();
-				this.latch.reset(this.worldTickers.size());;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		// Tick each world with a reused runnable
+		for (int index = 0; index < this.worldTickers.size(); index++) { 
+			// Tick all worlds but one on a separate thread
+			if (index < this.worldTickers.size() - 1) {
+				AsyncUtil.run(this.worldTickers.get(index), this.worldTickExecutor);
+			} else {
+				// Run the last ticker on the main thread, no need to schedule it async as all
+				// other tickers are running already
+				this.worldTickers.get(index).run();
 			}
+		}
+
+		try {
+			// Wait for worlds to finish ticking then reset latch
+			latch.waitTillZero();
+			this.latch.reset(this.worldTickers.size());;
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
