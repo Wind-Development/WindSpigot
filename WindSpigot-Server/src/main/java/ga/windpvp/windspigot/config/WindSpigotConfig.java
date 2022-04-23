@@ -244,7 +244,7 @@ public class WindSpigotConfig {
     	// We use Nacho's implementation of instant interactions for async hit detection
         NachoConfig.instantPlayInUseEntity = getBoolean("settings.async.hit-detection", true);
         asyncKnockback = getBoolean("settings.async.knockback", true);
-        c.addComment("settings.async.hit-detection", "Enables instant hit detection (Credits to NachoSpigot). This increases overall cpu usage, but sends hit detection packets faster. Disable this if you do not run a pvp server.");
+        c.addComment("settings.async.hit-detection", "Enables instant hit detection (Credits to NachoSpigot).");
         c.addComment("settings.async.knockback", "Enables asynchronous knockback. This increases overall cpu usage, but sends knockback packets faster. Disable this if you do not run a pvp server.");
     }
     
