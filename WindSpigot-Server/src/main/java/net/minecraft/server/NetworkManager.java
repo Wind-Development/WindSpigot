@@ -74,7 +74,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	private IChatBaseComponent n;
 	private boolean o;
 	
-	// WindSpigot - async kb and hit detection
+	// WindSpigot - async kb 
 	private boolean shouldCheckPacket = false;
 
 	public boolean isEncrypted() {
@@ -217,7 +217,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	public void handle(Packet packet) {
 		if (this.isConnected()) {
 			this.sendPacketQueue();
-			// WindSpigot start - async kb and hit detection
+			// WindSpigot start - async kb
 			// based on https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit		
 			if (!shouldCheckPacket) {
 				// Wait a bit before checking for combat packets to send with priority
@@ -225,14 +225,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 				if (this.packetWrites.get() > 5) {
 					shouldCheckPacket = true;
 				}
-			} else {
-				// Check if the packet is a hit detection packet
-		        if (WindSpigotConfig.asyncHitDetection && packet instanceof PacketPlayInUseEntity && ((PacketPlayInUseEntity) packet).a() == PacketPlayInUseEntity.EnumEntityUseAction.ATTACK) {
-		        	// Send it with high priority
-		        	WindSpigot.hitDetectionThread.addPacket(packet, this, null);
-		            return;
-		        }
-		        
+			} else {   
 				// Check if the packet is a knockback packet
 		        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
 		        	// Send it with high priority

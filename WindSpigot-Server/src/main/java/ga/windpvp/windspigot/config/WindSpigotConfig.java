@@ -17,6 +17,8 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
+import me.elier.nachospigot.config.NachoConfig;
+
 public class WindSpigotConfig {
 
 	private static final Logger LOGGER = LogManager.getLogger(WindSpigotConfig.class);
@@ -235,13 +237,14 @@ public class WindSpigotConfig {
         c.addComment("settings.async.combat-thread-tps", "Combat thread TPS for async knockback and hit detection.");
     }
 
-    public static boolean asyncHitDetection;
+    // public static boolean asyncHitDetection;
     public static boolean asyncKnockback;
 
     private static void asyncPackets() {
-        asyncHitDetection = getBoolean("settings.async.hit-detection", true);
+    	// We use Nacho's implementation of instant interactions for async hit detection
+        NachoConfig.instantPlayInUseEntity = getBoolean("settings.async.hit-detection", true);
         asyncKnockback = getBoolean("settings.async.knockback", true);
-        c.addComment("settings.async.hit-detection", "Enables asynchronous hit detection. This increases overall cpu usage, but sends hit detection packets faster. Disable this if you do not run a pvp server.");
+        c.addComment("settings.async.hit-detection", "Enables instant hit detection (Credits to NachoSpigot). This increases overall cpu usage, but sends hit detection packets faster. Disable this if you do not run a pvp server.");
         c.addComment("settings.async.knockback", "Enables asynchronous knockback. This increases overall cpu usage, but sends knockback packets faster. Disable this if you do not run a pvp server.");
     }
     

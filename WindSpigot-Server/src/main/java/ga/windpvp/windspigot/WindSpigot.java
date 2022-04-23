@@ -87,11 +87,6 @@ public class WindSpigot {
 		
 		boolean hasConsoleSpace = false;
 		
-		if (WindSpigotConfig.asyncHitDetection) {
-            LOGGER.info(" ");
-            hitDetectionThread = new CombatThread("Hit Detection Thread");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async hit detection!");
-        }
         if (WindSpigotConfig.asyncKnockback) {
             knockbackThread = new CombatThread("Knockback Thread");
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async knockback!");
