@@ -23,8 +23,8 @@ public class WindSpigot {
 	private StatisticsClient client;
 	public static final Logger LOGGER = LogManager.getLogger(WindSpigot.class);
   
-	public static CombatThread hitDetectionThread;
 	public static CombatThread knockbackThread;
+	private volatile boolean statisticsEnabled = false;
 
 	public WindSpigot() {
 		this.init();
@@ -47,10 +47,12 @@ public class WindSpigot {
 	}
 
 	private void initStatistics() {
-		if (WindSpigotConfig.statistics) {
+		if (WindSpigotConfig.statistics && !statisticsEnabled) {
 			Runnable statsRunnable = (() -> {
 				client = new StatisticsClient();
 				try {
+					statisticsEnabled = true;
+					
 					if (!client.isConnected) {
 						// Connect to the statistics server and notify that there is a new server
 						client.start("150.230.35.78", 500);
