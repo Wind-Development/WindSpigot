@@ -102,7 +102,7 @@ public class NachoConfig {
 		set("world-settings.default.disable-sponge-absorption", nachoJson.disableSpongeAbsorption);
 		set("settings.fix-eat-while-running", nachoJson.fixEatWhileRunning);
 		set("settings.hide-projectiles-from-hidden-players", nachoJson.hideProjectilesFromHiddenPlayers);
-		set("settings.instant-use-entity", nachoJson.hideProjectilesFromHiddenPlayers);
+		set("settings.instant-use-entity", false);
 
 		old_config.delete();
 	}
