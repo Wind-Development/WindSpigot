@@ -87,7 +87,9 @@ public class WindSpigot {
 		initCmds();
 		initStatistics();
 
-
+		if (WindSpigotConfig.asyncKnockback) {
+			knockbackThread = new CombatThread("Knockback Thread");
+		}
 		if (WindSpigotConfig.parallelWorld) {
 			LOGGER.info(" ");
 
