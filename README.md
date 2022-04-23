@@ -22,7 +22,7 @@ WindSpigot moves heavy work off of the main server thread and splits up the serv
 - Worlds (ticked parallel to each other)
 - TNT calculations (from NachoSpigot)
 - The entity tracker (updated with multiple threads, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**)
-- Hit detection and knockback (packets are sent with high priority, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
+- Knockback (packets are sent with high priority, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
 
 #### What other modifications does WindSpigot have?
 See the patches list below.
