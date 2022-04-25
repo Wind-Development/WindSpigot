@@ -20,7 +20,7 @@ import com.google.common.base.Throwables;
 import ga.windpvp.windspigot.WindSpigot;
 import me.elier.nachospigot.config.NachoConfig;
 import ga.windpvp.windspigot.config.TimingsCheck;
-import ga.windpvp.windspigot.gui.AdminGui;
+import ga.windpvp.windspigot.gui.admingui.AdminGui;
 
 public class WindSpigotConfig {
 

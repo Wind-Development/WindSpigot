@@ -1,12 +1,17 @@
-package ga.windpvp.windspigot.gui;
+package ga.windpvp.windspigot.gui.admingui;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import ga.windpvp.windspigot.gui.BaseGui;
+
 public class AdminGui extends BaseGui {
+	
+	private ClickHandler handler;
 	
 	public AdminGui() {
 		super("WindSpigot Admin GUI");
+		handler = new ClickHandler();
 	}
 
 	@Override
@@ -36,4 +41,8 @@ public class AdminGui extends BaseGui {
 		inventory.setItem(16, serverPerformanceButton);
 	}
 
+	public ClickHandler getHandler() {
+		return handler;
+	}
+	
 }
