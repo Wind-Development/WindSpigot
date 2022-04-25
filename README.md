@@ -1,4 +1,4 @@
-# WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/windspigot-build-and-upload.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip)
+# WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/windspigot-build-and-upload.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c5ee8d2ef324d23ab085d89139ea0e7)](https://www.codacy.com/gh/Wind-Development/WindSpigot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Wind-Development/WindSpigot&amp;utm_campaign=Badge_Grade)
 
 ##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance and pvp mechanics. WindSpigot is based on a **[fork of NachoSpigot](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**.
 
@@ -22,7 +22,7 @@ WindSpigot moves heavy work off of the main server thread and splits up the serv
 - Worlds (ticked parallel to each other)
 - TNT calculations (from NachoSpigot)
 - The entity tracker (updated with multiple threads, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**)
-- Hit detection and knockback (packets are sent with high priority, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
+- Knockback (packets are sent with high priority, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
 
 #### What other modifications does WindSpigot have?
 See the patches list below.

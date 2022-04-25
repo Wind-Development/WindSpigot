@@ -23,8 +23,8 @@ public class WindSpigot {
 	private StatisticsClient client;
 	public static final Logger LOGGER = LogManager.getLogger(WindSpigot.class);
   
-	public static CombatThread hitDetectionThread;
 	public static CombatThread knockbackThread;
+	private volatile boolean statisticsEnabled = false;
 
 	public WindSpigot() {
 		this.init();
@@ -47,10 +47,12 @@ public class WindSpigot {
 	}
 
 	private void initStatistics() {
-		if (WindSpigotConfig.statistics) {
+		if (WindSpigotConfig.statistics && !statisticsEnabled) {
 			Runnable statsRunnable = (() -> {
 				client = new StatisticsClient();
 				try {
+					statisticsEnabled = true;
+					
 					if (!client.isConnected) {
 						// Connect to the statistics server and notify that there is a new server
 						client.start("150.230.35.78", 500);
@@ -84,32 +86,20 @@ public class WindSpigot {
 	private void init() {
 		initCmds();
 		initStatistics();
-		
-		boolean hasConsoleSpace = false;
-		
-		if (WindSpigotConfig.asyncHitDetection) {
-            LOGGER.info(" ");
-            hitDetectionThread = new CombatThread("Hit Detection Thread");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async hit detection!");
-        }
-        if (WindSpigotConfig.asyncKnockback) {
-            knockbackThread = new CombatThread("Knockback Thread");
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successfully enabled async knockback!");
-            LOGGER.info(" ");
-            hasConsoleSpace = true;
-        }
 
+		if (WindSpigotConfig.asyncKnockback) {
+			knockbackThread = new CombatThread("Knockback Thread");
+		}
 		if (WindSpigotConfig.parallelWorld) {
+			LOGGER.info(" ");
+
 			Timings.setTimingsEnabled(false);
-			if (!hasConsoleSpace) {
-				LOGGER.info(" ");
-			}
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
-					+ "Timings disabled due to parallel worlds enabled. Timings will break with parallel worlds.");
+					+ "Timings disabled due to parallel worlds being enabled. Timings will break with parallel worlds.");
+			
 			LOGGER.info(" ");
 			TeleportRegistry.init();
 		}
-		System.gc();
 	}
 
 	public StatisticsClient getClient() {

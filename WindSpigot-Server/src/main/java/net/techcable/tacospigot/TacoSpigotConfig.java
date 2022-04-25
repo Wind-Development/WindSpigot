@@ -14,6 +14,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.google.common.base.Throwables;
 
+import ga.windpvp.windspigot.WindSpigot;
+
 public class TacoSpigotConfig {
 
 	private static File CONFIG_FILE;
@@ -31,7 +33,7 @@ public class TacoSpigotConfig {
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
 		try {
-			System.out.println("Loading TacoSpigot config from " + configFile.getName());
+			WindSpigot.LOGGER.info("Loading TacoSpigot config from " + configFile.getName());
 			config.load(CONFIG_FILE);
 		} catch (IOException ignored) {
 		} catch (InvalidConfigurationException ex) {

@@ -15,6 +15,8 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
+import ga.windpvp.windspigot.WindSpigot;
+
 public class KnockbackConfig {
 	private static final Logger LOGGER = LogManager.getLogger(KnockbackConfig.class);
 	private static File CONFIG_FILE;
@@ -29,7 +31,7 @@ public class KnockbackConfig {
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
 		try {
-			System.out.println("Loading NachoSpigot knockback config from " + configFile.getName());
+			WindSpigot.LOGGER.info("Loading NachoSpigot knockback config from " + configFile.getName());
 			config.load(CONFIG_FILE);
 		} catch (IOException ignored) {
 		} catch (InvalidConfigurationException ex) {

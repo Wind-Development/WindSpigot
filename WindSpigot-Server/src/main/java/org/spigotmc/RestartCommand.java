@@ -4,6 +4,7 @@ import java.io.File;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import ga.windpvp.windspigot.WindSpigot;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
@@ -37,7 +38,7 @@ public class RestartCommand extends Command {
 		AsyncCatcher.enabled = false; // Disable async catcher incase it interferes with us
 		try {
 			if (script.isFile()) {
-				System.out.println("Attempting to restart with " + SpigotConfig.restartScript);
+				WindSpigot.LOGGER.info("Attempting to restart with " + SpigotConfig.restartScript);
 
 				// Disable Watchdog
 				WatchdogThread.doStop();
@@ -86,7 +87,7 @@ public class RestartCommand extends Command {
 				shutdownHook.setDaemon(true);
 				Runtime.getRuntime().addShutdownHook(shutdownHook);
 			} else {
-				System.out.println(
+				WindSpigot.LOGGER.info(
 						"Startup script '" + SpigotConfig.restartScript + "' does not exist! Stopping server.");
 			}
 			System.exit(0);

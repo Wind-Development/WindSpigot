@@ -9,8 +9,9 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.ResettableLatch;
-import ga.windpvp.windspigot.async.world.WorldTicker;
+import ga.windpvp.windspigot.async.world.AsyncWorldTicker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.world.WorldTicker;
 import javafixes.concurrency.ReusableCountLatch;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
@@ -53,9 +54,16 @@ public class WorldTickerManager {
 						
 			// Create world tickers
 			for (WorldServer world : MinecraftServer.getServer().worlds) {
-				worldTickers.add(new WorldTicker(world, isAsync));
+				
+				// Decide between creating sync/async world tickers
+				if (isAsync) {
+					worldTickers.add(new AsyncWorldTicker(world)); 
+				} else {
+					worldTickers.add(new WorldTicker(world));
+				}
+				
 			}
-			
+			// Null check to prevent resetting the latch when not using parallel worlds
 			if (this.latch != null) {
 				// Reuse the latch
 				this.latch.reset(this.worldTickers.size());
@@ -65,53 +73,65 @@ public class WorldTickerManager {
 
 	// Ticks all worlds
 	public void tick() {
-		if (!WindSpigotConfig.parallelWorld) {
-
-			// Cache world tick runnables if not cached
-			this.cacheWorlds(false);
-
-			// Tick each world on one thread
-			for (WorldTicker ticker : this.worldTickers) {
-				ticker.run();
-			}
+		if (WindSpigotConfig.parallelWorld) {
+			tickAsync();
 		} else {
-			// Cache world tick runnables if not cached
-			this.cacheWorlds(true);
+			tickSync();
+		}
+	}
+	
+	private void tickSync() {
+		// Cache world tick runnables if not cached already
+		this.cacheWorlds(false); // Cache them as sync world tickers
 
-			// Only use multiple threads if there are multiple worlds
-			if (this.worldTickers.size() != 1) {
-				//latch = new CountDownLatch(worldTickers.size());
+		// Tick each world on one thread
+		for (WorldTicker ticker : this.worldTickers) {
+			ticker.run();
+		}
+	}
+	
+	private void tickAsync() {
+		// Cache world tick runnables if not cached already
+		this.cacheWorlds(true); // Cache them as async world tickers
 
-				// Tick each world on a reused thread 
-				for (WorldTicker ticker : this.worldTickers) {
-					AsyncUtil.run(ticker, this.worldTickExecutor);
-				}
-
-				try {
-					// Wait for worlds to finish ticking then reset latch
-					latch.waitTillZero();
-					this.latch.reset(this.worldTickers.size());;
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		// Tick each world with a reused runnable on its own thread, except the last ticker (that one is run sync)
+		for (int index = 0; index < this.worldTickers.size(); index++) { 
+			// Tick all worlds but one on a separate thread
+			if (index < this.worldTickers.size() - 1) {
+				AsyncUtil.run(this.worldTickers.get(index), this.worldTickExecutor);
 			} else {
-				// Tick only world on one thread
-				this.worldTickers.get(0).run();
+				// Run the last ticker on the main thread, no need to schedule it async as all
+				// other tickers are running already
+				this.worldTickers.get(index).run();
 			}
+		}
+
+		try {
+			// Wait for worlds to finish ticking then reset latch
+			latch.waitTillZero();
+			this.latch.reset(this.worldTickers.size());;
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
-	// Gets the world tick executor
+	/**
+	 * @return The world tick executor
+	 */
 	public Executor getExecutor() {
 		return this.worldTickExecutor;
 	}
 	
-	// Gets the count down latch for world ticking
+	/**
+	 * @return The count down latch for world ticking
+	 */
 	public ReusableCountLatch getLatch() {
 		return this.latch;
 	}
 	
-	// Gets the world ticker manager instance
+	/**
+	 * @return The world ticker manager instance
+	 */
 	public static WorldTickerManager getInstance() {
 		return worldTickerManagerInstance;
 	}
