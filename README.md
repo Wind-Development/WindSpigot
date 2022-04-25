@@ -160,6 +160,9 @@ Java 17 is now natively supported, and [ProtocolLib](https://github.com/dmulloy2
 [KigPaper-0172] NBT no-op for block place packet
 [KigPaper-0191] Don't calculate initial light if not requested
 
+[FlamePaper-0032] Dont load chunks for chests
+[FlamePaper-0033] Dont check occluding hoppers
+[FlamePaper-0034] Hopper item lookup optimizations
 [FlamePaper-0102] Fixed chunk memory leak
 [FlamePaper-0103] Limit CraftChatMessage iterations
 [FlamePaper-0104] Return last slot by default
