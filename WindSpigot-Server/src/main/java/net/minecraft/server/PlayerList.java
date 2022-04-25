@@ -45,6 +45,7 @@ import com.mojang.authlib.GameProfile;
 import dev.cobblesword.nachospigot.commons.MCUtils;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import me.elier.nachospigot.config.NachoConfig;
 
 public abstract class PlayerList {
@@ -62,7 +63,7 @@ public abstract class PlayerList {
 																									// Iterator safety
 	// private final Map<UUID, EntityPlayer> j = Maps.newHashMap();
 	// PaperSpigot start - Player lookup improvements
-	public final Map<String, EntityPlayer> playerMap = new java.util.HashMap<String, EntityPlayer>() {
+	public final Map<String, EntityPlayer> playerMap = new Object2ObjectArrayMap<String, EntityPlayer>() {
 		
 		private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 		
@@ -106,7 +107,7 @@ public abstract class PlayerList {
 			}
 		}
 	};
-	public final Map<UUID, EntityPlayer> uuidMap = new java.util.HashMap<UUID, EntityPlayer>() {
+	public final Map<UUID, EntityPlayer> uuidMap = new Object2ObjectArrayMap<UUID, EntityPlayer>() {
 		
 		private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 

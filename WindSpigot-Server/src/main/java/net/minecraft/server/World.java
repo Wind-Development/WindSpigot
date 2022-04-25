@@ -36,6 +36,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 // WindSpigot start 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.elier.nachospigot.config.NachoConfig;
 import me.elier.nachospigot.config.NachoWorldConfig;
 import me.rastrian.dev.OptimizedWorldTileEntitySet;
@@ -49,7 +50,7 @@ public abstract class World implements IBlockAccess {
 	private int a = 63;
 	protected boolean e;
 	// Spigot start - guard entity list from removals
-	public final List<Entity> entityList = new java.util.ArrayList<Entity>() {
+	public final List<Entity> entityList = new ObjectArrayList<Entity>() { // WindSpigot - ArrayList -> ObjectArrayList 
 		@Override
 		public Entity remove(int index) {
 			guard();
@@ -80,8 +81,8 @@ public abstract class World implements IBlockAccess {
 		return c;
 	}// Paper
 
-	public final List<EntityHuman> players = Lists.newArrayList();
-	public final List<Entity> k = Lists.newArrayList();
+	public final List<EntityHuman> players = new ObjectArrayList<>(); // WindSpigot - ArrayList -> ObjectArrayList 
+	public final List<Entity> k = new ObjectArrayList<>(); // WindSpigot - ArrayList -> ObjectArrayList 
 	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
 	private long d = 16777215L;
 	private int I;
