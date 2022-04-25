@@ -25,6 +25,7 @@ public class AdminGuiCommand extends Command {
 		
 		if (!(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.RED + "Only players can use this command.");
+			return true;
 		}
 
 		((Player) sender).openInventory(WindSpigotConfig.gui.getInventory());
