@@ -20,7 +20,7 @@ public class AdminGui extends BaseGui {
 		
 		glassBackground.getItemMeta().setDisplayName("");
 		
-		for (int slot = 0; slot < 37; ++slot) {
+		for (int slot = 0; slot < 36; ++slot) {
 			inventory.setItem(slot, glassBackground);
 		}
 		
