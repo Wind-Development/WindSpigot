@@ -313,4 +313,16 @@ public class WindSpigotConfig {
 		c.addComment("settings.admin-gui",
 				"Enables the admin gui which allows easy access to utilities. The gui can be opened via /admingui and users require the permission windspigot.command.admingui");
 	}
+	
+	public static boolean adminGui;
+	public static AdminGui gui;
+
+	private static void adminGui() {
+		adminGui = getBoolean("settings.admin-gui", true);
+		if (adminGui) {
+			gui = new AdminGui();
+		}
+		c.addComment("settings.admin-gui",
+				"Enables the admin gui which allows easy access to utilities. The gui can be opened via /admingui and users require the permission windspigot.command.admingui");
+	}
 }
