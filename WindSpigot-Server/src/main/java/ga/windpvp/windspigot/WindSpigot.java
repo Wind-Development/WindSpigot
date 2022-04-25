@@ -11,6 +11,7 @@ import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.thread.CombatThread;
 import ga.windpvp.windspigot.async.world.TeleportRegistry;
+import ga.windpvp.windspigot.commands.AdminGuiCommand;
 import ga.windpvp.windspigot.commands.MobAICommand;
 import ga.windpvp.windspigot.commands.PingCommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
@@ -43,6 +44,11 @@ public class WindSpigot {
 		if (WindSpigotConfig.pingCmd) {
 			PingCommand pingCommand = new PingCommand("ping");
 			MinecraftServer.getServer().server.getCommandMap().register(pingCommand.getName(), "", pingCommand);
+		}
+		
+		if (WindSpigotConfig.adminGui) {
+			AdminGuiCommand guiCommand = new AdminGuiCommand("admingui");
+			MinecraftServer.getServer().server.getCommandMap().register(guiCommand.getName(), "", guiCommand);
 		}
 	}
 
