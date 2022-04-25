@@ -680,7 +680,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 			}
 		}
 
-		if (object == null && searchForEntities) {
+		if (object == null && !org.bukkit.craftbukkit.util.CraftMagicNumbers.getMaterial(block).isOccluding() && searchForEntities) {
 			List list = world.a((Entity) null,
 					new AxisAlignedBB(d0 - 0.5D, d1 - 0.5D, d2 - 0.5D, d0 + 0.5D, d1 + 0.5D, d2 + 0.5D),
 					IEntitySelector.c);
