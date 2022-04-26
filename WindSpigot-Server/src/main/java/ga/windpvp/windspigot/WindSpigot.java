@@ -1,11 +1,15 @@
 package ga.windpvp.windspigot;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
+
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
@@ -24,6 +28,10 @@ public class WindSpigot {
 	public static final Logger LOGGER = LogManager.getLogger(WindSpigot.class);
   
 	public static CombatThread knockbackThread;
+	
+	private final Executor statisticsExecutor = Executors
+			.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Statistics Thread")
+			.build());
 	private volatile boolean statisticsEnabled = false;
 
 	public WindSpigot() {
@@ -48,7 +56,7 @@ public class WindSpigot {
 
 	private void initStatistics() {
 		if (WindSpigotConfig.statistics && !statisticsEnabled) {
-			Runnable statsRunnable = (() -> {
+			Runnable statisticsRunnable = (() -> {
 				client = new StatisticsClient();
 				try {
 					statisticsEnabled = true;
@@ -74,7 +82,7 @@ public class WindSpigot {
 					}
 				} catch (Exception ignored) {}
 			});
-			AsyncUtil.run(statsRunnable);
+			AsyncUtil.run(statisticsRunnable, statisticsExecutor);
 		}
 	}
 
