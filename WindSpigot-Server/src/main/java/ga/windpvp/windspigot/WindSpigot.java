@@ -67,8 +67,8 @@ public class WindSpigot {
 							// are on
 							client.sendMessage("player count packet " + Bukkit.getOnlinePlayers().size());
 
-							// Statistics are sent every 30 secs.
-							TimeUnit.SECONDS.sleep(30);
+							// Statistics are sent every 40 secs.
+							TimeUnit.SECONDS.sleep(40);
 						}
 
 					}
