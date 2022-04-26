@@ -42,6 +42,7 @@ import co.aikar.timings.Timing; // Spigot
 import dev.cobblesword.nachospigot.commons.Constants;
 import dev.cobblesword.nachospigot.commons.MCUtils;
 import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
+import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
@@ -2308,7 +2309,7 @@ public abstract class Entity implements ICommandListener {
 					});
 
 					// Run this runnable on the main thread on the next tick
-					MCUtils.ensureMain(runnable);
+					AsyncUtil.runSyncNextTick(runnable);
 					return;
 				}
 

@@ -43,6 +43,7 @@ import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.commons.MCUtils;
+import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -798,7 +799,7 @@ public abstract class PlayerList {
 			// WindSpigot start - safe cross world player teleports
 			if (!Bukkit.isPrimaryThread()) {
 				// Schedule this to run sync one tick later
-				MCUtils.ensureMain(() -> {
+				AsyncUtil.runSyncNextTick(() -> {
 					worldserver.getPlayerChunkMap().addPlayer(entityplayer1);
 					worldserver.addEntity(entityplayer1);
 				});

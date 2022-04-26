@@ -18,6 +18,7 @@ import com.google.common.collect.Maps;
 
 import dev.cobblesword.nachospigot.commons.Constants;
 import dev.cobblesword.nachospigot.commons.MCUtils;
+import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
 import me.elier.nachospigot.config.NachoConfig;
@@ -135,7 +136,7 @@ public class Explosion {
 						// WindSpigot start - toggleable async explosions
 						if (WindSpigotConfig.asyncTnt) {
 							this.getBlockDensityAsync(vec3d, entity.getBoundingBox())
-									.thenAccept((d12) -> MCUtils.ensureMain(() -> {
+									.thenAccept((d12) -> AsyncUtil.runSyncNextTick(() -> {
 										processEntityKnockback(entity, d7, finalD, finalD1, finalD11, f3, d12);
 									}));
 						} else {
