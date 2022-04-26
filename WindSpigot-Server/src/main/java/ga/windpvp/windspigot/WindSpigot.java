@@ -52,32 +52,27 @@ public class WindSpigot {
 				client = new StatisticsClient();
 				try {
 					statisticsEnabled = true;
-					
+
 					if (!client.isConnected) {
 						// Connect to the statistics server and notify that there is a new server
 						client.start("150.230.35.78", 500);
 						client.sendMessage("new server");
-						
+
 						while (true) {
-							try {
-								// Keep alive, this tells the statistics server that this server
-								// is still online
-								client.sendMessage("keep alive packet");
-								
-								// Online players, this tells the statistics server how many players
-								// are on
-								client.sendMessage("player count packet " + Bukkit.getOnlinePlayers().size());
-								
-								// Statistics are sent every 30 secs.
-								TimeUnit.SECONDS.sleep(30);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							// Keep alive, this tells the statistics server that this server
+							// is still online
+							client.sendMessage("keep alive packet");
+
+							// Online players, this tells the statistics server how many players
+							// are on
+							client.sendMessage("player count packet " + Bukkit.getOnlinePlayers().size());
+
+							// Statistics are sent every 30 secs.
+							TimeUnit.SECONDS.sleep(30);
 						}
-						
+
 					}
-				} catch (IOException ignored) {
-				}
+				} catch (Exception ignored) {}
 			});
 			AsyncUtil.run(statsRunnable);
 		}
