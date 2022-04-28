@@ -140,29 +140,32 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		this.h = false;
 		++this.e;
 
-		// Feather start back port 1.12.2 keepalive handling
-		/*
-		 * this.minecraftServer.methodProfiler.a("keepAlive"); if ((long) this.e -
-		 * this.k > 40L) { this.k = (long) this.e; this.j = this.d(); this.i = (int)
-		 * this.j; this.sendPacket(new PacketPlayOutKeepAlive(this.i)); }
-		 * 
-		 * this.minecraftServer.methodProfiler.b();
-		 */
-
-		final long currentTime = this.getCurrentMillis();
-		final long elapsedTime = currentTime - this.getLastPing();
-		if (isPendingPing) {
-			if (!this.processedDisconnect && elapsedTime >= KEEPALIVE_LIMIT) {
-				this.disconnect("Timed out");
-				return;
+		// Feather start - back port 1.12.2 keepalive handling
+		if (WindSpigotConfig.modernKeepalive) {
+			final long currentTime = this.getCurrentMillis();
+			final long elapsedTime = currentTime - this.getLastPing();
+			if (isPendingPing) {
+				if (!this.processedDisconnect && elapsedTime >= KEEPALIVE_LIMIT) {
+					this.disconnect("Timed out");
+					return;
+				}
+			} else if (elapsedTime >= 15000L) {
+				isPendingPing = true;
+				this.setLastPing(currentTime);
+				this.setKeepAliveID((int) /* casting to an integer is the vanilla behavior */ currentTime);
+				this.sendPacket(new PacketPlayOutKeepAlive(this.getKeepAliveID()));
 			}
-		} else if (elapsedTime >= 15000L) {
-			isPendingPing = true;
-			this.setLastPing(currentTime);
-			this.setKeepAliveID((int) /* casting to an integer is the vanilla behavior */ currentTime);
-			this.sendPacket(new PacketPlayOutKeepAlive(this.getKeepAliveID()));
+			// Feather end
+		} else {
+			this.minecraftServer.methodProfiler.a("keepAlive");
+			if ((long) this.e - this.k > 40L) {
+				this.k = (long) this.e;
+				this.j = this.d();
+				this.i = (int) this.j;
+				this.sendPacket(new PacketPlayOutKeepAlive(this.i));
+			}
+			this.minecraftServer.methodProfiler.b();
 		}
-		// Feather end
 
 		// CraftBukkit start
 		for (int spam; (spam = this.chatThrottle) > 0 && !chatSpamField.compareAndSet(this, spam, spam - 1);) {
