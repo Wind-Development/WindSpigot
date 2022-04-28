@@ -103,7 +103,6 @@ public class NachoConfig {
 		set("world-settings.default.disable-sponge-absorption", nachoJson.disableSpongeAbsorption);
 		set("settings.fix-eat-while-running", nachoJson.fixEatWhileRunning);
 		set("settings.hide-projectiles-from-hidden-players", nachoJson.hideProjectilesFromHiddenPlayers);
-		set("settings.instant-use-entity", false);
 
 		old_config.delete();
 	}
@@ -357,14 +356,6 @@ public class NachoConfig {
 	private static void enableFastMath() {
 		enableFastMath = getBoolean("settings.enable-fastmath", true);
 		c.addComment("settings.enable-fastmath", "Enable Fast Math usage.");
-	}
-
-	public static boolean enableFastMathCosSin;
-
-	private static void enableFastMathCosSin() {
-		enableFastMathCosSin = getBoolean("settings.enable-fastmath-cos-sin", false);
-		c.addComment("settings.enable-fastmath-cos-sin",
-				"Enable Fast Math usage with cos() and sin() methods, this may break anticheats and server-side calculations.");
 	}
 
 	public static int tileEntityTickingTime;
