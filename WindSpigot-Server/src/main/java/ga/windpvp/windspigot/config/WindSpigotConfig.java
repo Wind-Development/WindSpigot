@@ -300,4 +300,11 @@ public class WindSpigotConfig {
 		c.addComment("settings.show-player-ips", "Disabling this will prevent logging of player ips in console.");
 	}
 	
+	public static boolean modernKeepalive;
+	
+	private static void modernKeepalive() {
+		modernKeepalive = getBoolean("settings.modern-keep-alive", false);
+		c.addComment("settings.modern-keep-alive", "This enables keep alive handling from modern Minecraft. This may break some plugins.");
+	}
+	
 }

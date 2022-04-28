@@ -59,6 +59,7 @@ import co.aikar.timings.SpigotTimings; // Spigot
 // CraftBukkit end
 import dev.cobblesword.nachospigot.Nacho;
 import dev.cobblesword.nachospigot.events.PlayerIllegalBehaviourEvent;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -203,21 +204,29 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	// Feather start
 	@Override
 	public void a(PacketPlayInKeepAlive packetplayinkeepalive) {
-		if (noKeepalives) {
-			return;
-		}
-		if (isPendingPing && packetplayinkeepalive.a() == getKeepAliveID()) {
-			int i = (int) (this.d() - getLastPing());
-			this.player.ping = (this.player.ping * 3 + i) / 4;
-			isPendingPing = false;
-			isDownloading = false;
-		} else if (packetplayinkeepalive.a() == 0) {
-			isDownloading = true;
+		if (WindSpigotConfig.modernKeepalive) {
+			if (noKeepalives) {
+				return;
+			}
+			if (isPendingPing && packetplayinkeepalive.a() == getKeepAliveID()) {
+				int i = (int) (this.d() - getLastPing());
+				this.player.ping = (this.player.ping * 3 + i) / 4;
+				isPendingPing = false;
+				isDownloading = false;
+			} else if (packetplayinkeepalive.a() == 0) {
+				isDownloading = true;
+			} else {
+				noKeepalives = true;
+				c.warn("{} sent an invalid keepalive! pending keepalive: {} got id: {} expected id: {}",
+						this.player.getName(), isPendingPing, packetplayinkeepalive.a(), this.getKeepAliveID());
+				this.minecraftServer.postToMainThread(() -> disconnect("invalid keepalive"));
+			}
 		} else {
-			noKeepalives = true;
-			c.warn("{} sent an invalid keepalive! pending keepalive: {} got id: {} expected id: {}",
-					this.player.getName(), isPendingPing, packetplayinkeepalive.a(), this.getKeepAliveID());
-			this.minecraftServer.postToMainThread(() -> disconnect("invalid keepalive"));
+			// Old keepalive handling
+	        if (packetplayinkeepalive.a() == this.i) {
+	            int i = (int) (this.d() - this.j);
+	            this.player.ping = (this.player.ping * 3 + i) / 4;
+	        }
 		}
 	}
 	// Feather end
