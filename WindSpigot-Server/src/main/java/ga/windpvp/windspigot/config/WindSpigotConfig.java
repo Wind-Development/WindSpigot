@@ -129,7 +129,7 @@ public class WindSpigotConfig {
 	private static void tracking() {
 		disableTracking = !getBoolean("settings.async.entity-tracking.enable", true);
 		c.addComment("settings.async.entity-tracking.enable", "Enables asynchronous entity tracking");
-		trackingThreads = getInt("settings.async.entity-tracking.threads", 4);
+		trackingThreads = getInt("settings.async.entity-tracking.threads", 5);
 		c.addComment("settings.async.entity-tracking.threads",
 				"The amount of threads to use when asynchronous entity tracking is enabled.");
 		
@@ -188,28 +188,28 @@ public class WindSpigotConfig {
 	public static boolean pearlPassthroughFenceGate;
 
 	private static void pearlPassthroughFenceGate() {
-		pearlPassthroughFenceGate = getBoolean("settings.pearl-passthrough.fence_gate", true);
-		c.addComment("settings.pearl-passthrough.fence_gate", "Allows pearls to pass through fences.");
+		pearlPassthroughFenceGate = getBoolean("settings.pearl-passthrough.fence-gate", false);
+		c.addComment("settings.pearl-passthrough.fence-gate", "Allows pearls to pass through fences.");
 	}
 
 	public static boolean pearlPassthroughTripwire;
 
 	private static void pearlPassthroughTripwire() {
-		pearlPassthroughTripwire = getBoolean("settings.pearl-passthrough.tripwire", true);
+		pearlPassthroughTripwire = getBoolean("settings.pearl-passthrough.tripwire", false);
 		c.addComment("settings.pearl-passthrough.tripwire", "Allows pearls to pass through tripwires.");
 	}
 
 	public static boolean pearlPassthroughSlab;
 
 	private static void pearlPassthroughSlab() {
-		pearlPassthroughSlab = getBoolean("settings.pearl-passthrough.slab", true);
+		pearlPassthroughSlab = getBoolean("settings.pearl-passthrough.slab", false);
 		c.addComment("settings.pearl-passthrough.slab", "Allows pearls to pass through slabs.");
 	}
 
 	public static boolean pearlPassthroughCobweb;
 
 	private static void pearlPassthroughCobweb() {
-		pearlPassthroughCobweb = getBoolean("settings.pearl-passthrough.cobweb", true);
+		pearlPassthroughCobweb = getBoolean("settings.pearl-passthrough.cobweb", false);
 		c.addComment("settings.pearl-passthrough.cobweb", "Allows pearls to pass through cobwebs.");
 	}
 
@@ -235,7 +235,7 @@ public class WindSpigotConfig {
 
     private static void combatThread() {
         combatThreadTPS = getInt("settings.async.combat-thread-tps", 40);        
-        c.addComment("settings.async.combat-thread-tps", "Combat thread TPS for async knockback and hit detection.");
+        c.addComment("settings.async.combat-thread-tps", "Combat thread TPS for async knockback.");
     }
 
     // public static boolean asyncHitDetection;
