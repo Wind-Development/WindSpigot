@@ -3,6 +3,7 @@ import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
 import net.minecraft.server.PathEntity;
 
+//This is based on Minetick's async path searching
 public class SearchCacheEntryEntity extends SearchCacheEntry {
 
     private Entity target;

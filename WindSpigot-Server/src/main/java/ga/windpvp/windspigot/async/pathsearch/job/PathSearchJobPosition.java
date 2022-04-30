@@ -5,6 +5,7 @@ import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
 import net.minecraft.server.BlockPosition;
 import net.minecraft.server.NavigationAbstract;
 
+//This is based on Minetick's async path searching
 public class PathSearchJobPosition extends PathSearchJob {
 
 	private PositionPathSearchType type;

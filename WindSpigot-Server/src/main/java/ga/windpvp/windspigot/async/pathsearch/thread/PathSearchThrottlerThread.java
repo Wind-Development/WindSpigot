@@ -14,6 +14,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJob;
 
+// This is based on Minetick's async path searching
 public class PathSearchThrottlerThread extends ThreadPoolExecutor {
 
 	private int queueLimit;

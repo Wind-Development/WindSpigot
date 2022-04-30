@@ -7,6 +7,7 @@ import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryEntity;
 import net.minecraft.server.Entity;
 import net.minecraft.server.NavigationAbstract;
 
+//This is based on Minetick's async path searching
 public class PathSearchJobEntity extends PathSearchJob {
 
 	public Entity target;

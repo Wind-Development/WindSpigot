@@ -4,6 +4,7 @@ import net.minecraft.server.ChunkCache;
 import net.minecraft.server.NavigationAbstract;
 import net.minecraft.server.PathEntity;
 
+//This is based on Minetick's async path searching
 public abstract class PathSearchJob implements Runnable {
 
 	public NavigationAbstract navigation;

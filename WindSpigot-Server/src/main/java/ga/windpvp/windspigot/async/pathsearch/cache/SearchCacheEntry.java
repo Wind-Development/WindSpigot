@@ -6,6 +6,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.PathPoint;
 
+//This is based on Minetick's async path searching
 public class SearchCacheEntry {
     protected long tick;
     protected BlockPosition positionStart;

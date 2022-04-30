@@ -3,6 +3,7 @@ package ga.windpvp.windspigot.async.pathsearch;
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJob;
 import ga.windpvp.windspigot.async.pathsearch.thread.PathSearchThrottlerThread;
 
+//This is based on Minetick's async path searching
 public class AsyncPathSearchManager {
 	
 	private static AsyncPathSearchManager INSTANCE;

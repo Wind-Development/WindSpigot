@@ -4,6 +4,7 @@ import net.minecraft.server.BlockPosition;
 import net.minecraft.server.EntityInsentient;
 import net.minecraft.server.PathEntity;
 
+//This is based on Minetick's async path searching
 public class SearchCacheEntryPosition extends SearchCacheEntry {
     
     public SearchCacheEntryPosition(EntityInsentient entity, BlockPosition blockposition, PathEntity path) {

@@ -23,6 +23,7 @@ import net.minecraft.server.Navigation;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.World;
 
+//This is based on Minetick's async path searching
 public class AsyncNavigation extends Navigation {
 
 	private Map<UUID, SearchCacheEntry> searchCache;
