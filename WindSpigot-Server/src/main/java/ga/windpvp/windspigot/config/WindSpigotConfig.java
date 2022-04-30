@@ -129,7 +129,14 @@ public class WindSpigotConfig {
 		config.addDefault(path, def);
 		return config.getString(path, config.getString(path));
 	}
-
+	
+	// General header comments
+	private static void comments() {
+		c.addComment("settings.async", "Configuration for asynchronous things.");
+		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
+		c.addComment("settings.command", "Configuration for WindSpigot's commands");
+	}
+	
 	public static boolean disableTracking;
 	public static int trackingThreads;
 
@@ -228,14 +235,6 @@ public class WindSpigotConfig {
 	}
 	// FlamePaper end
 	
-	private static void async() {
-		c.addComment("settings.async", "Configuration for asynchronous things.");
-	}
-	
-	private static void pearlPassthrough() {
-		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
-	}
-	
 	// From
 	// https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
     public static int combatThreadTPS;
@@ -252,7 +251,7 @@ public class WindSpigotConfig {
     	// We use Nacho's implementation of instant interactions for async hit detection
         NachoConfig.instantPlayInUseEntity = getBoolean("settings.async.hit-detection", true);
         asyncKnockback = getBoolean("settings.async.knockback", true);
-        c.addComment("settings.async.hit-detection", "Enables instant hit detection (Credits to NachoSpigot).");
+        c.addComment("settings.async.hit-detection", "Enables instant hit detection. This overrides the \"instant-interaction\" setting in nacho.yml (Credits to NachoSpigot).");
         c.addComment("settings.async.knockback", "Enables asynchronous knockback. This increases overall cpu usage, but sends knockback packets faster. Disable this if you do not run a pvp server.");
     }
     
@@ -297,7 +296,7 @@ public class WindSpigotConfig {
 	
 	private static void potionSpeed() {
 		potionSpeed = getDouble("settings.potion-speed-offset", 0);
-		c.addComment("settings.potion-speed-offset", "This sets the speed of pots, 0 is the default speed. Setting this higher makes potions splash faster. This config option accepts decimals.");
+		c.addComment("settings.potion-speed-offset", "This sets the speed offset of splash potions, 0 is the default speed. Setting this higher makes potions splash faster. This config option accepts decimals.");
 	}
 	
 	public static boolean showPlayerIps;
@@ -322,10 +321,10 @@ public class WindSpigotConfig {
 		
 		if (asyncPathSearches) {
 	
-			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 8);
+			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 10);
 			AsyncNavigation.setMinimumDistanceForOffloading(distanceToAsync);
 			
-			if (distanceToAsync < 4) {
+			if (distanceToAsync < 5) {
 				LOGGER.warn("The \"distance-to-async\" setting in windspigot.yml is very low! Having this too low will result in no performance gain as small calculations will be done async!");
 				
 				makeReadable();
@@ -333,9 +332,9 @@ public class WindSpigotConfig {
 			
 		} 
 		c.addComment("settings.async.path-searches.enabled", "Enables async path searching for entities. (Credits to Minetick)");
-		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is targeting to handle it async.");
+		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is targeting to handle it async. It is recommended to use the default value.");
 		
 		c.addComment("settings.async.path-searches", "Configuration for async entity path searches");
 	}
-	
+
 }
