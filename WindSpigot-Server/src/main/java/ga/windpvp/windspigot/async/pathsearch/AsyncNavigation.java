@@ -2,9 +2,13 @@ package ga.windpvp.windspigot.async.pathsearch;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import org.bukkit.entity.EntityType;
+
 import java.util.Map.Entry;
 
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntry;
@@ -23,12 +27,12 @@ import net.minecraft.server.Navigation;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.World;
 
-//This is based on Minetick's async path searching
+// This is based on Minetick's async path searching
 public class AsyncNavigation extends Navigation {
 
 	private Map<UUID, SearchCacheEntry> searchCache;
 	private Map<PositionPathSearchType, SearchCacheEntryPosition> positionSearchCache;
-	private static double minimumDistanceForOffloadingSquared = 0.0D;
+	
 	private int cleanUpDelay = 0;
 	private PathSearchJob lastQueuedJob;
 
@@ -36,7 +40,10 @@ public class AsyncNavigation extends Navigation {
 	private final ReentrantReadWriteLock positionSearchCacheLock;
 
 	private final ReentrantReadWriteLock jobLock;
-
+	
+	private static double minimumDistanceForOffloadingSquared = 0.0D;
+	private static List<EntityType> offloadedEntities;
+	
 	public AsyncNavigation(EntityInsentient entityinsentient, World world) {
 		super(entityinsentient, world);
 		this.searchCache = new HashMap<UUID, SearchCacheEntry>();
@@ -53,6 +60,30 @@ public class AsyncNavigation extends Navigation {
 
 			jobLock = null;
 		}
+	}
+	
+	static {
+		offloadedEntities.add(EntityType.BAT);
+		offloadedEntities.add(EntityType.BLAZE);
+		offloadedEntities.add(EntityType.CHICKEN);
+		offloadedEntities.add(EntityType.COW);
+		offloadedEntities.add(EntityType.CREEPER);
+		offloadedEntities.add(EntityType.ENDERMAN);
+		offloadedEntities.add(EntityType.HORSE);
+		offloadedEntities.add(EntityType.IRON_GOLEM);
+		offloadedEntities.add(EntityType.MAGMA_CUBE);
+		offloadedEntities.add(EntityType.MUSHROOM_COW);
+		offloadedEntities.add(EntityType.PIG);
+		offloadedEntities.add(EntityType.PIG_ZOMBIE);
+		offloadedEntities.add(EntityType.RABBIT);
+		offloadedEntities.add(EntityType.SHEEP);
+		offloadedEntities.add(EntityType.SKELETON);
+		offloadedEntities.add(EntityType.SILVERFISH);
+		offloadedEntities.add(EntityType.SLIME);
+		offloadedEntities.add(EntityType.SNOWMAN);
+		offloadedEntities.add(EntityType.SQUID);
+		offloadedEntities.add(EntityType.WITCH);
+		offloadedEntities.add(EntityType.ZOMBIE);
 	}
 
 	public static void setMinimumDistanceForOffloading(double distance) {
@@ -254,13 +285,8 @@ public class AsyncNavigation extends Navigation {
 	}
 
 	public void cleanUpExpiredSearches() {
-		if (!offloadSearches()) {
-			cleanUpExpiredSearchesSync();
-			return;
-		}
-		
 		this.cleanUpDelay++;
-		if (this.cleanUpDelay > 100) {
+		if (this.cleanUpDelay > 125) { // Clear cache every 125 ticks
 			this.cleanUpDelay = 0;
 
 			searchCacheLock.writeLock().lock();
@@ -298,38 +324,10 @@ public class AsyncNavigation extends Navigation {
 		}
 	}
 
-	public void cleanUpExpiredSearchesSync() {
-		this.cleanUpDelay++;
-		if (this.cleanUpDelay > 100) {
-			this.cleanUpDelay = 0;
-
-			Iterator<Entry<UUID, SearchCacheEntry>> searchIterator = this.searchCache.entrySet().iterator();
-			while (searchIterator.hasNext()) {
-				SearchCacheEntry entry = searchIterator.next().getValue();
-				if (entry.hasExpired()) {
-					searchIterator.remove();
-					entry.cleanup();
-				} else {
-					break;
-				}
-			}
-
-			Iterator<Entry<PositionPathSearchType, SearchCacheEntryPosition>> positionIterator = this.positionSearchCache
-					.entrySet().iterator();
-			while (positionIterator.hasNext()) {
-				SearchCacheEntryPosition entry = positionIterator.next().getValue();
-				if (entry.hasExpired()) {
-					positionIterator.remove();
-					entry.cleanup();
-				} else {
-					break;
-				}
-			}
-
-		}
-	}
-
 	private boolean offloadSearches() {
-		return WindSpigotConfig.asyncPathSearches;
+		if (WindSpigotConfig.asyncPathSearches) {
+			return offloadedEntities.contains(b.getBukkitEntity().getType());
+		} 
+		return false;
 	}
 }
