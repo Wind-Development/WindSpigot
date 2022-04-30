@@ -48,7 +48,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 15; // Update this every new configuration update
+		int configVersion = 16; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -335,6 +335,13 @@ public class WindSpigotConfig {
 		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is targeting to handle it async. It is recommended to use the default value.");
 		
 		c.addComment("settings.async.path-searches", "Configuration for async entity path searches");
+	}
+	
+	public static boolean debugMode;
+	
+	private static void debugMode() {
+		debugMode = getBoolean("settings.debug-mode", false);
+		c.addComment("settings.debug-mode", "This outputs information to developers in the console. There is no need to enable this.");
 	}
 
 }

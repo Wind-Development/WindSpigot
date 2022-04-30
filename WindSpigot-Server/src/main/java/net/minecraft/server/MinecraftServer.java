@@ -629,6 +629,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						MinecraftServer.LOGGER.error("An error occured whilst enabling thread affinity!");
 						MinecraftServer.LOGGER.error(" ");
 					}
+					
+					WindSpigot.debug(AffinityLock.dumpLocks());
 
 				}
 				// WindSpigot end

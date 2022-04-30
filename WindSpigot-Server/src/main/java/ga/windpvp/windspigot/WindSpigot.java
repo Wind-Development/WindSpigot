@@ -26,7 +26,9 @@ public class WindSpigot {
 
 	private StatisticsClient client;
 	
-	public static final Logger LOGGER = LogManager.getLogger(WindSpigot.class);
+	public static final Logger LOGGER = LogManager.getLogger();
+	public static final Logger DEBUG_LOGGER = LogManager.getLogger();
+	
 	public static CombatThread knockbackThread;
 	
 	private final Executor statisticsExecutor = Executors
@@ -115,6 +117,11 @@ public class WindSpigot {
 
 	public StatisticsClient getClient() {
 		return this.client;
+	}
+	
+	public static void debug(String msg) {
+		if (WindSpigotConfig.debugMode)
+			DEBUG_LOGGER.info(msg);
 	}
 	
 }

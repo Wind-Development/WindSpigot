@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJob;
 
 // This is based on Minetick's async path searching
@@ -54,6 +55,7 @@ public class PathSearchThrottlerThread extends ThreadPoolExecutor {
 					if (jobToExecute != null) {
 						this.activeSearchHashes.add(jobToExecute.getSearchHash());
 						this.execute(jobToExecute);
+						WindSpigot.debug("Executing async path search...");
 					}
 					if (newJob != null) {
 						break;
