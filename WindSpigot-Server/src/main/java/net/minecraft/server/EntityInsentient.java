@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityUnleashEvent.UnleashReason;
 
 import dev.cobblesword.nachospigot.commons.Constants;
 import ga.windpvp.windspigot.async.pathsearch.AsyncNavigation;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 
 public abstract class EntityInsentient extends EntityLiving {
 
@@ -88,8 +89,10 @@ public abstract class EntityInsentient extends EntityLiving {
 	}
 
 	protected NavigationAbstract b(World world) {
-		//return new Navigation(this, world);
-		return new AsyncNavigation(this, world);
+		if (WindSpigotConfig.asyncPathSearches) {
+			return new AsyncNavigation(this, world);
+		}
+		return new Navigation(this, world);
 	}
 
 	public ControllerLook getControllerLook() {
