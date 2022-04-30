@@ -9,6 +9,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.bukkit.entity.EntityType;
 
+import com.google.common.collect.Lists;
+
 import java.util.Map.Entry;
 
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntry;
@@ -42,7 +44,7 @@ public class AsyncNavigation extends Navigation {
 	private final ReentrantReadWriteLock jobLock;
 	
 	private static double minimumDistanceForOffloadingSquared = 0.0D;
-	private static List<EntityType> offloadedEntities;
+	private static final List<EntityType> offloadedEntities = Lists.newArrayList();
 	
 	public AsyncNavigation(EntityInsentient entityinsentient, World world) {
 		super(entityinsentient, world);
