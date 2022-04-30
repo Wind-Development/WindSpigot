@@ -615,19 +615,19 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				disableStatistics = true;
 				// WindSpigot start - implement thread affinity
 				if (WindSpigotConfig.threadAffinity) {
-					MinecraftServer.LOGGER.info(" ");
-					MinecraftServer.LOGGER.info("Enabling Thread Affinity...");
+					LOGGER.info(" ");
+					LOGGER.info("Enabling Thread Affinity...");
 					lock = AffinityLock.acquireLock();
 					if (lock.cpuId() != -1) {
-						MinecraftServer.LOGGER.info("CPU " + lock.cpuId() + " locked for server usage.");
-						MinecraftServer.LOGGER.info("This will boost the server's performance if configured properly.");
-						MinecraftServer.LOGGER.info("If not it will most likely decrease performance.");
-						MinecraftServer.LOGGER.info(
+						LOGGER.info("CPU " + lock.cpuId() + " locked for server usage.");
+						LOGGER.info("This will boost the server's performance if configured properly.");
+						LOGGER.info("If not it will most likely decrease performance.");
+						LOGGER.info(
 								"See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus for configuration!");
-						MinecraftServer.LOGGER.info(" ");
+						LOGGER.info(" ");
 					} else {
-						MinecraftServer.LOGGER.error("An error occured whilst enabling thread affinity!");
-						MinecraftServer.LOGGER.error(" ");
+						LOGGER.error("An error occured whilst enabling thread affinity!");
+						LOGGER.error(" ");
 					}
 					
 					WindSpigot.debug(AffinityLock.dumpLocks());
