@@ -18,6 +18,7 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 import com.google.common.base.Throwables;
 
 import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.async.pathsearch.AsyncNavigation;
 import me.elier.nachospigot.config.NachoConfig;
 
 public class WindSpigotConfig {
@@ -47,13 +48,24 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 14; // Update this every new configuration update
+		int configVersion = 15; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
 		c.addComment("config-version", "Configuration version, do NOT modify this!");
 		readConfig(WindSpigotConfig.class, null);
+	}
+	
+	// Not private as the config is read by calling all private methods with 0 params
+	static void makeReadable() {
+		LOGGER.warn("Waiting for 5 seconds so this can be read...");
+		
+		try {
+			TimeUnit.SECONDS.sleep(5);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	static void readConfig(Class<?> clazz, Object instance) {
@@ -79,13 +91,8 @@ public class WindSpigotConfig {
 			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
 			
 			LOGGER.warn("Please regenerate your windspigot.yml file to prevent this issue! The server will run with the default config for now.");
-			LOGGER.warn("Waiting for 5 seconds so this can be read...");
-			
-			try {
-				TimeUnit.SECONDS.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+
+			makeReadable();
 		}
 	}
 
@@ -305,6 +312,30 @@ public class WindSpigotConfig {
 	private static void modernKeepalive() {
 		modernKeepalive = getBoolean("settings.modern-keep-alive", false);
 		c.addComment("settings.modern-keep-alive", "This enables keep alive handling from modern Minecraft. This may break some plugins.");
+	}
+	
+	public static boolean asyncPathSearches;
+	public static int distanceToAsync;
+	
+	private static void asyncPathSearches() {
+		asyncPathSearches = getBoolean("settings.async.path-searches.enabled", true);
+		
+		if (asyncPathSearches) {
+	
+			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 8);
+			AsyncNavigation.setMinimumDistanceForOffloading(distanceToAsync);
+			
+			if (distanceToAsync < 4) {
+				LOGGER.warn("The \"distance-to-async\" setting in windspigot.yml is very low! Having this too low will result in no performance gain as small calculations will be done async!");
+				
+				makeReadable();
+			}
+			
+		} 
+		c.addComment("settings.async.path-searches.enabled", "Enables async path searching for entities. (Credits to Minetick)");
+		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is targeting to handle it async.");
+		
+		c.addComment("settings.async.path-searches", "Configuration for async entity path searches");
 	}
 	
 }

@@ -1,5 +1,7 @@
 package net.minecraft.server;
 
+import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
+
 public class PathfinderGoalTame extends PathfinderGoal {
 
 	private EntityHorse entity;
@@ -34,7 +36,7 @@ public class PathfinderGoalTame extends PathfinderGoal {
 
 	@Override
 	public void c() {
-		this.entity.getNavigation().a(this.c, this.d, this.e, this.b);
+		 this.entity.getNavigation().a(this.c, this.d, this.e, this.b, PositionPathSearchType.TAME); // MinetickMod
 	}
 
 	@Override

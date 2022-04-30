@@ -3,6 +3,10 @@ package net.minecraft.server;
 import java.util.Iterator;
 import java.util.List;
 
+import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobEntity;
+import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobPosition;
+import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
+
 public abstract class NavigationAbstract {
 
 	protected EntityInsentient b;
@@ -22,7 +26,54 @@ public abstract class NavigationAbstract {
 		this.a = entityinsentient.getAttributeInstance(GenericAttributes.FOLLOW_RANGE);
 		this.j = this.a();
 	}
+	
+    // MinetickMod start - async path finding
+    public EntityInsentient getEntity() {
+        return this.b;
+    }
 
+    @Override
+    public int hashCode() {
+        return this.b.getUniqueID().hashCode();
+    }
+
+    public void cleanUpExpiredSearches() {}
+
+    public void setSearchResult(PathSearchJobEntity pathSearch) { }
+
+    public void setSearchResult(PathSearchJobPosition pathSearch) { }
+
+    public boolean a(double d0, double d1, double d2, double d3, PositionPathSearchType type) {
+        return this.a(d0, d1, d2, d3);
+    }
+
+    public PathEntity a(double d0, double d1, double d2, PositionPathSearchType type) {
+        return this.a(d0, d1, d2);
+    }
+
+    public ChunkCache createChunkCache(boolean forEntitySearch) {
+        if (this.b()) {
+            float f = this.i();
+            BlockPosition blockposition1 = new BlockPosition(this.b);
+            int i = (int) (f + (forEntitySearch ? 16.0F : 8.0F));
+            return new ChunkCache(this.c, blockposition1.a(-i, -i, -i), blockposition1.a(i, i, i), 0);
+        }
+        return null;
+    }
+
+    public PathEntity doPathSearch(ChunkCache chunkcache, BlockPosition blockposition) {
+        if (this.b()) {
+            float f = this.i();
+            return this.j.a((IBlockAccess) chunkcache, (Entity) this.b, blockposition, f);
+        }
+        return null;
+    }
+
+    public PathEntity doPathSearch(ChunkCache chunkcache, Entity entity) {
+        return this.doPathSearch(chunkcache, (new BlockPosition(entity)).up());
+    }
+    // MinetickMod end
+	
 	protected abstract Pathfinder a();
 
 	public void a(double d0) {
