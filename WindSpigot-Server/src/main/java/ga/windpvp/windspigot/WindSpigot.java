@@ -13,6 +13,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.pathsearch.AsyncPathSearchManager;
 import ga.windpvp.windspigot.async.thread.CombatThread;
 import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.commands.MobAICommand;
@@ -25,14 +26,17 @@ import net.minecraft.server.MinecraftServer;
 public class WindSpigot {
 
 	private StatisticsClient client;
+	
 	public static final Logger LOGGER = LogManager.getLogger(WindSpigot.class);
-  
 	public static CombatThread knockbackThread;
 	
 	private final Executor statisticsExecutor = Executors
 			.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Statistics Thread")
 			.build());
+	
 	private volatile boolean statisticsEnabled = false;
+	
+	private AsyncPathSearchManager pathSearchManager;
 
 	public WindSpigot() {
 		this.init();
@@ -89,7 +93,12 @@ public class WindSpigot {
 	private void init() {
 		initCmds();
 		initStatistics();
-
+		
+		// We do not want to initialize this again after a reload
+		if (pathSearchManager == null) {
+			pathSearchManager = new AsyncPathSearchManager(WindSpigotConfig.pathSearchThreads);
+		}
+		
 		if (WindSpigotConfig.asyncKnockback) {
 			knockbackThread = new CombatThread("Knockback Thread");
 		}

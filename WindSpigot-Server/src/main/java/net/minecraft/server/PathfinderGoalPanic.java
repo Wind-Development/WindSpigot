@@ -1,5 +1,7 @@
 package net.minecraft.server;
 
+import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
+
 public class PathfinderGoalPanic extends PathfinderGoal {
 
 	private EntityCreature b;
@@ -34,7 +36,7 @@ public class PathfinderGoalPanic extends PathfinderGoal {
 
 	@Override
 	public void c() {
-		this.b.getNavigation().a(this.c, this.d, this.e, this.a);
+		this.b.getNavigation().a(this.c, this.d, this.e, this.a, PositionPathSearchType.PANIC); // MinetickMod
 	}
 
 	@Override

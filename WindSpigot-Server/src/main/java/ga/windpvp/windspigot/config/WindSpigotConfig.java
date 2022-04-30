@@ -18,6 +18,7 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 import com.google.common.base.Throwables;
 
 import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.async.pathsearch.AsyncNavigation;
 import me.elier.nachospigot.config.NachoConfig;
 
 public class WindSpigotConfig {
@@ -305,6 +306,27 @@ public class WindSpigotConfig {
 	private static void modernKeepalive() {
 		modernKeepalive = getBoolean("settings.modern-keep-alive", false);
 		c.addComment("settings.modern-keep-alive", "This enables keep alive handling from modern Minecraft. This may break some plugins.");
+	}
+	
+	public static boolean asyncPathSearches;
+	public static int pathSearchThreads;
+	public static int distanceToAsync;
+	
+	private static void asyncPathSearches() {
+		asyncPathSearches = getBoolean("settings.async.path-searches.enabled", true);
+		
+		if (asyncPathSearches) {
+			int threadCount = getInt("settings.async.path-searches.threads", 4);
+			pathSearchThreads = Math.max(1, Math.min(threadCount, 32)); // Set to 1 if negative/zero
+	
+			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 3);
+			AsyncNavigation.setMinimumDistanceForOffloading(distanceToAsync);
+		} 
+		
+		c.addComment("settings.async.path-searches.enabled", "Enables async path searching for entities. (Credits to Minetick)");
+		c.addComment("settings.async.path-searches.threads", "The max usable threads for async path searching.");
+		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is going to do it async.");
+		
 	}
 	
 }
