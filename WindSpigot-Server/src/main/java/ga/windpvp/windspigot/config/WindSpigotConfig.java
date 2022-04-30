@@ -56,6 +56,17 @@ public class WindSpigotConfig {
 		c.addComment("config-version", "Configuration version, do NOT modify this!");
 		readConfig(WindSpigotConfig.class, null);
 	}
+	
+	// Not private as the config is read by calling all private methods with 0 params
+	static void makeReadable() {
+		LOGGER.warn("Waiting for 5 seconds so this can be read...");
+		
+		try {
+			TimeUnit.SECONDS.sleep(5);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	static void readConfig(Class<?> clazz, Object instance) {
 		for (Method method : clazz.getDeclaredMethods()) {
@@ -80,13 +91,8 @@ public class WindSpigotConfig {
 			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
 			
 			LOGGER.warn("Please regenerate your windspigot.yml file to prevent this issue! The server will run with the default config for now.");
-			LOGGER.warn("Waiting for 5 seconds so this can be read...");
-			
-			try {
-				TimeUnit.SECONDS.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+
+			makeReadable();
 		}
 	}
 
@@ -322,13 +328,7 @@ public class WindSpigotConfig {
 			if (distanceToAsync < 4) {
 				LOGGER.warn("The \"distance-to-async\" setting in windspigot.yml is very low! Having this too low will result in no performance gain as small calculations will be done async!");
 				
-				LOGGER.warn("Waiting for 5 seconds so this can be read...");
-				
-				try {
-					TimeUnit.SECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				makeReadable();
 			}
 			
 		} 
