@@ -22,13 +22,13 @@ public class Spigot404Write {
     }
 
     public static void writeThenFlush(Channel channel, Packet<?> value, GenericFutureListener<? extends Future<? super Void>>[] listener) {
-    	
-    	if (channel.pipeline().lastContext() == null) return;
-    	
+    	    	
         Spigot404Write writer = new Spigot404Write(channel);
         packetsQueue.add(new PacketQueue(value, listener));
         if (tasks.addTask()) {
-            channel.pipeline().lastContext().executor().execute(writer::writeQueueAndFlush);
+        	try {
+        		channel.pipeline().lastContext().executor().execute(writer::writeQueueAndFlush);
+        	} catch (NullPointerException ignored) {} // The player might leave right before the packet is sent 
         }
     }
 
