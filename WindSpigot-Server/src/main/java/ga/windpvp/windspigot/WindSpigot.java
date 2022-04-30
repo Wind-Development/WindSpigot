@@ -108,7 +108,7 @@ public class WindSpigot {
 
 			Timings.setTimingsEnabled(false);
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
-					+ "Timings disabled due to parallel worlds being enabled. Timings will break with parallel worlds.");
+					+ "Timings have been disabled due to parallel worlds being enabled. Timings will break with parallel worlds.");
 			
 			LOGGER.info(" ");
 			TeleportRegistry.init();
