@@ -1,5 +1,4 @@
 package ga.windpvp.windspigot.async.pathsearch.cache;
-import net.minecraft.server.BlockPosition;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
 import net.minecraft.server.PathEntity;

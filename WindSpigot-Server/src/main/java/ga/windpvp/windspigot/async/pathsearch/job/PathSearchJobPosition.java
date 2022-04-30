@@ -3,9 +3,7 @@ package ga.windpvp.windspigot.async.pathsearch.job;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryPosition;
 import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
 import net.minecraft.server.BlockPosition;
-import net.minecraft.server.EntityInsentient;
 import net.minecraft.server.NavigationAbstract;
-import net.minecraft.server.PathEntity;
 
 public class PathSearchJobPosition extends PathSearchJob {
 
