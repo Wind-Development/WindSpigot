@@ -208,6 +208,7 @@ See the patches list below.
 [MineTick-0006] Fix Occasional Client Side Unloading of Chunk 0 0
 [MineTick-0011] Optimize Idle Furnaces
 [MineTick-0017] Fix Insane Nether Portal Lag
+[MineTick-0028] Async path searching
 
 [Migot-0009] Prevent Creature Spawning in Unloaded Chunks
 
