@@ -318,6 +318,19 @@ public class WindSpigotConfig {
 	
 			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 8);
 			AsyncNavigation.setMinimumDistanceForOffloading(distanceToAsync);
+			
+			if (distanceToAsync < 4) {
+				LOGGER.warn("The \"distance-to-async\" setting in windspigot.yml is very low! Having this too low will result in no performance gain as small calculations will be done async!");
+				
+				LOGGER.warn("Waiting for 5 seconds so this can be read...");
+				
+				try {
+					TimeUnit.SECONDS.sleep(5);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
 		} 
 		c.addComment("settings.async.path-searches.enabled", "Enables async path searching for entities. (Credits to Minetick)");
 		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is targeting to handle it async.");
