@@ -10,6 +10,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJob;
 
 public class PathSearchThrottlerThread extends ThreadPoolExecutor {
@@ -20,7 +22,8 @@ public class PathSearchThrottlerThread extends ThreadPoolExecutor {
 	private static PathSearchThrottlerThread INSTANCE;
 
 	public PathSearchThrottlerThread(int poolSize) {
-		super(poolSize, poolSize, 1L, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>());
+		super(poolSize, poolSize, 1L, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(),
+				new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Path Search Thread %d").build());
 		INSTANCE = this;
 		adjustPoolSize(poolSize);
 		this.filter = new LinkedHashMap<PathSearchJob, PathSearchJob>();
