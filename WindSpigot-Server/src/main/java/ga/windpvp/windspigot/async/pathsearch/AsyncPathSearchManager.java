@@ -7,7 +7,7 @@ public class AsyncPathSearchManager {
 	
 	private static AsyncPathSearchManager INSTANCE;
 	private PathSearchThrottlerThread pathSearchThrottler;
-	
+
 	public AsyncPathSearchManager(int poolSize) {
 		INSTANCE = this;
 		this.pathSearchThrottler = new PathSearchThrottlerThread(poolSize);
