@@ -316,10 +316,10 @@ public class WindSpigotConfig {
 		asyncPathSearches = getBoolean("settings.async.path-searches.enabled", true);
 		
 		if (asyncPathSearches) {
-			int threadCount = getInt("settings.async.path-searches.threads", 4);
+			int threadCount = getInt("settings.async.path-searches.threads", 1);
 			pathSearchThreads = Math.max(1, Math.min(threadCount, 32)); // Set to 1 if negative/zero
 	
-			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 3);
+			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 8);
 			AsyncNavigation.setMinimumDistanceForOffloading(distanceToAsync);
 		} 
 		c.addComment("settings.async.path-searches.enabled", "Enables async path searching for entities. (Credits to Minetick)");
