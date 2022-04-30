@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.Map.Entry;
 
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntry;
@@ -28,13 +29,29 @@ public class AsyncNavigation extends Navigation {
 	private Map<PositionPathSearchType, SearchCacheEntryPosition> positionSearchCache;
 	private static double minimumDistanceForOffloadingSquared = 0.0D;
 	private int cleanUpDelay = 0;
-	private final Object jobLock = new Object();
 	private PathSearchJob lastQueuedJob;
+	
+	private final ReentrantReadWriteLock searchCacheLock;
+	private final ReentrantReadWriteLock positionSearchCacheLock;
+	
+	private final ReentrantReadWriteLock jobLock;
 
 	public AsyncNavigation(EntityInsentient entityinsentient, World world) {
 		super(entityinsentient, world);
 		this.searchCache = new HashMap<UUID, SearchCacheEntry>();
 		this.positionSearchCache = new HashMap<PositionPathSearchType, SearchCacheEntryPosition>();
+		
+		if (WindSpigotConfig.asyncPathSearches) {
+			searchCacheLock = new ReentrantReadWriteLock();
+			positionSearchCacheLock = new ReentrantReadWriteLock();
+			
+			jobLock = new ReentrantReadWriteLock();
+		} else {
+			searchCacheLock = null;
+			positionSearchCacheLock = null;
+			
+			jobLock = null;
+		}
 	}
 
 	public static void setMinimumDistanceForOffloading(double distance) {
@@ -42,16 +59,22 @@ public class AsyncNavigation extends Navigation {
 	}
 
 	private boolean hasAsyncSearchIssued() {
-		synchronized (this.jobLock) {
+		jobLock.readLock().lock();
+		try {
 			return this.lastQueuedJob != null;
+		} finally {
+			jobLock.readLock().unlock();
 		}
 	}
 
 	private void queueSearch(PathSearchJob job) {
-		synchronized (this.jobLock) {
+		jobLock.writeLock().lock();
+		try {
 			if (AsyncPathSearchManager.queuePathSearch(job)) {
 				this.lastQueuedJob = job;
 			}
+		} finally {
+			jobLock.writeLock().unlock();
 		}
 	}
 
@@ -65,34 +88,52 @@ public class AsyncNavigation extends Navigation {
 
 	@Override
 	public void setSearchResult(PathSearchJobEntity pathSearch) {
-		synchronized (this.jobLock) {
+		jobLock.writeLock().lock();
+		try {
 			if (this.lastQueuedJob == pathSearch) {
 				this.lastQueuedJob = null;
 			}
+		} finally {
+			jobLock.writeLock().unlock();
 		}
+		
 		SearchCacheEntry entry = pathSearch.getCacheEntryValue();
 		if (entry != null && entry.didSearchSucceed()) {
-			synchronized (this.searchCache) {
-				UUID key = pathSearch.getCacheEntryKey();
+			
+			UUID key = pathSearch.getCacheEntryKey();
+			
+			searchCacheLock.writeLock().lock();
+			try {
 				this.searchCache.remove(key);
 				this.searchCache.put(key, entry);
+			} finally {
+				searchCacheLock.writeLock().unlock();
 			}
 		}
 	}
 
 	@Override
 	public void setSearchResult(PathSearchJobPosition pathSearch) {
-		synchronized (this.jobLock) {
+		jobLock.writeLock().lock();
+		try {
 			if (this.lastQueuedJob == pathSearch) {
 				this.lastQueuedJob = null;
 			}
+		} finally {
+			jobLock.writeLock().unlock();
 		}
+		
 		SearchCacheEntryPosition entry = pathSearch.getCacheEntryValue();
+		
 		if (entry != null && entry.didSearchSucceed()) {
-			synchronized (this.positionSearchCache) {
+			
+			positionSearchCacheLock.writeLock().lock();
+			try {
 				PositionPathSearchType key = pathSearch.getCacheEntryKey();
 				this.positionSearchCache.remove(key);
 				this.positionSearchCache.put(key, entry);
+			} finally {
+				positionSearchCacheLock.writeLock().unlock();
 			}
 		}
 	}
@@ -107,11 +148,17 @@ public class AsyncNavigation extends Navigation {
 		}
 		SearchCacheEntry entry = null;
 		UUID id = entity.getUniqueID();
-		synchronized (this.searchCache) {
+		
+		// We use a read lock so multiple threads can read without blocking
+		searchCacheLock.readLock().lock();
+		try {
 			if (this.searchCache.containsKey(id)) {
 				entry = this.searchCache.get(id);
 			}
+		} finally {
+			searchCacheLock.readLock().unlock();
 		}
+		
 		PathEntity resultPath = null;
 		if (entry != null) {
 			resultPath = entry.getAdjustedPathEntity();
@@ -123,8 +170,14 @@ public class AsyncNavigation extends Navigation {
 			resultPath = super.a(entity);
 			if (resultPath != null) {
 				entry = new SearchCacheEntryEntity(this.b, entity, resultPath);
-				synchronized (this.searchCache) {
-					SearchCacheEntry oldEntry = this.searchCache.put(id, entry);
+				
+				SearchCacheEntry oldEntry = null;
+				
+				searchCacheLock.writeLock().lock();
+				try {
+					oldEntry = this.searchCache.put(id, entry);
+				} finally {
+					searchCacheLock.writeLock().unlock();
 					if (oldEntry != null) {
 						oldEntry.cleanup();
 					}
@@ -148,10 +201,14 @@ public class AsyncNavigation extends Navigation {
 		}
 
 		SearchCacheEntryPosition entry = null;
-		synchronized (this.positionSearchCache) {
+		
+		positionSearchCacheLock.readLock().lock();
+		try {
 			if (this.positionSearchCache.containsKey(type)) {
 				entry = this.positionSearchCache.get(type);
 			}
+		} finally {
+			positionSearchCacheLock.readLock().unlock();
 		}
 
 		PathEntity resultPath = null;
@@ -165,8 +222,14 @@ public class AsyncNavigation extends Navigation {
 			resultPath = super.a(blockposition);
 			if (resultPath != null) {
 				entry = new SearchCacheEntryPosition(this.b, blockposition, resultPath);
-				synchronized (this.positionSearchCache) {
-					SearchCacheEntry oldEntry = this.positionSearchCache.put(type, entry);
+				
+				SearchCacheEntry oldEntry = null;
+				
+				positionSearchCacheLock.writeLock().lock();
+				try {
+					oldEntry = this.positionSearchCache.put(type, entry);
+				} finally {
+					positionSearchCacheLock.writeLock().unlock();
 					if (oldEntry != null) {
 						oldEntry.cleanup();
 					}
@@ -193,7 +256,9 @@ public class AsyncNavigation extends Navigation {
 		this.cleanUpDelay++;
 		if (this.cleanUpDelay > 100) {
 			this.cleanUpDelay = 0;
-			synchronized (this.searchCache) {
+			
+			searchCacheLock.writeLock().lock();
+			try {
 				Iterator<Entry<UUID, SearchCacheEntry>> iterator = this.searchCache.entrySet().iterator();
 				while (iterator.hasNext()) {
 					SearchCacheEntry entry = iterator.next().getValue();
@@ -204,8 +269,12 @@ public class AsyncNavigation extends Navigation {
 						break;
 					}
 				}
+			} finally {
+				searchCacheLock.writeLock().unlock();
 			}
-			synchronized (this.positionSearchCache) {
+			
+			positionSearchCacheLock.writeLock().lock();
+			try {
 				Iterator<Entry<PositionPathSearchType, SearchCacheEntryPosition>> iterator = this.positionSearchCache
 						.entrySet().iterator();
 				while (iterator.hasNext()) {
@@ -217,6 +286,8 @@ public class AsyncNavigation extends Navigation {
 						break;
 					}
 				}
+			} finally {
+				positionSearchCacheLock.writeLock().unlock();
 			}
 		}
 	}
