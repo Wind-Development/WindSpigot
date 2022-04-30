@@ -190,12 +190,12 @@ public class WindSpigotConfig {
 				"Disables mob spawning if TPS is lower than the specified threshold.");
 	}
 
-	public static int limitedMobSpawnsThreshold;
+	public static double limitedMobSpawnsThreshold;
 
 	private static void limitedMobSpawnsThreshold() {
-		limitedMobSpawnsThreshold = getInt("settings.limited-mob-spawns-threshold", 18);
+		limitedMobSpawnsThreshold = getDouble("settings.limited-mob-spawns-threshold", 18);
 		c.addComment("settings.limited-mob-spawns-threshold",
-				"Threshold to disable mob spawning. Does not apply if limited mob spawns is not enabled.");
+				"Threshold to disable mob spawning. This does not apply if limited mob spawns is not enabled. This option accepts decimals.");
 	}
 	
 	// FlamePaper start - 0117-Pearl-through-blocks
