@@ -136,6 +136,12 @@ public class BlockPosition extends BaseBlockPosition {
 	public BlockPosition a(int i, int j, int k) {
 		return i == 0 && j == 0 && k == 0 ? this : new BlockPosition(this.getX() + i, this.getY() + j, this.getZ() + k);
 	}
+	
+	// WindSpigot start - obfuscation helper
+	public BlockPosition add(int x, int y, int z) {
+		return a(x, y, z);
+	}
+	// WindSpigot end
 
 	public BlockPosition a(BaseBlockPosition baseblockposition) {
 		return baseblockposition.getX() == 0 && baseblockposition.getY() == 0 && baseblockposition.getZ() == 0 ? this

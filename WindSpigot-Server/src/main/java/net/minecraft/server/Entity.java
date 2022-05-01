@@ -1271,8 +1271,20 @@ public abstract class Entity implements ICommandListener {
 	}
 
 	public double c(BlockPosition blockposition) {
-		return blockposition.d(this.locX, this.locY, this.locZ);
+		//return blockposition.d(this.locX, this.locY, this.locZ); <- for reference
+		// WindSpigot - reduce usage of block position
+		return distanceSquared(blockposition.getX(), blockposition.getY(), blockposition.getZ());
 	}
+	
+	// WindSpigot start - reduce usage of blockposition
+	public double distanceSquared(double x, double y, double z) {
+		double d3 = x + 0.5D - locX;
+		double d4 = y + 0.5D - locY;
+		double d5 = z + 0.5D - locZ;
+
+		return d3 * d3 + d4 * d4 + d5 * d5;
+	}
+	// WindSpigot end
 
 	public double f(double d0, double d1, double d2) {
 		double d3 = this.locX - d0;
