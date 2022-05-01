@@ -9,12 +9,31 @@ import net.minecraft.server.NavigationAbstract;
 public class PathSearchJobPosition extends PathSearchJob {
 
 	private PositionPathSearchType type;
-	private BlockPosition blockposition;
+	//private BlockPosition blockposition;
+	
+	private int x;
+	private int y;
+	private int z;
 
 	public PathSearchJobPosition(NavigationAbstract navigation, BlockPosition blockposition,
 			PositionPathSearchType type) {
 		super(navigation);
-		this.blockposition = blockposition;
+		
+		//this.blockposition = blockposition;
+		this.x = blockposition.getX();
+		this.y = blockposition.getY();
+		this.z = blockposition.getZ();
+		
+		this.type = type;
+	}
+	
+	public PathSearchJobPosition(NavigationAbstract navigation, int x, int y, int z, PositionPathSearchType type) {
+		super(navigation);
+		
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		
 		this.type = type;
 	}
 
@@ -22,7 +41,7 @@ public class PathSearchJobPosition extends PathSearchJob {
 	public void run() {
 		if (!this.issued) {
 			this.issued = true;
-			this.pathEntity = this.navigation.doPathSearch(this.chunkCache, this.blockposition);
+			this.pathEntity = this.navigation.doPathSearch(this.chunkCache, x, y, z);
 			this.navigation.setSearchResult(this);
 			this.cleanup();
 		}
@@ -34,7 +53,7 @@ public class PathSearchJobPosition extends PathSearchJob {
 
 	public SearchCacheEntryPosition getCacheEntryValue() {
 		if (this.pathEntity != null) {
-			return new SearchCacheEntryPosition(this.navigation.getEntity(), this.blockposition, this.pathEntity);
+			return new SearchCacheEntryPosition(this.navigation.getEntity(), x, y, z, this.pathEntity);
 		}
 		return null;
 	}
@@ -56,6 +75,6 @@ public class PathSearchJobPosition extends PathSearchJob {
 	@Override
 	public void cleanup() {
 		super.cleanup();
-		this.blockposition = null;
+		//this.blockposition = null;
 	}
 }

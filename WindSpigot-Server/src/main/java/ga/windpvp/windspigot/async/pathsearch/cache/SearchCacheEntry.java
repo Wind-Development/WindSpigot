@@ -2,6 +2,7 @@ package ga.windpvp.windspigot.async.pathsearch.cache;
 import net.minecraft.server.BlockPosition;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
+import net.minecraft.server.MathHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.PathPoint;
@@ -9,14 +10,29 @@ import net.minecraft.server.PathPoint;
 //This is based on Minetick's async path searching
 public class SearchCacheEntry {
     protected long tick;
-    protected BlockPosition positionStart;
-    protected BlockPosition positionTarget;
+    
+    //protected BlockPosition positionStart;
+    //protected BlockPosition positionTarget;
+    
+    int startX;
+    int startY;
+    int startZ;
+    
+    int targetX;
+    int targetY;
+    int targetZ;
+    
     protected EntityInsentient entity;
     private PathEntity path;
 
     public SearchCacheEntry(EntityInsentient entity, PathEntity path) {
         this.entity = entity;
-        this.positionStart = this.getBlockPosition(this.entity);
+        //this.positionStart = this.getBlockPosition(this.entity);
+        
+        this.startX = MathHelper.floor(this.entity.locX);
+        this.startY = MathHelper.floor(this.entity.locY) + 1;
+        this.startZ = MathHelper.floor(this.entity.locZ);
+        
         this.path = path;
         this.tick = this.getCurrentTick();
     }
@@ -68,8 +84,8 @@ public class SearchCacheEntry {
     }
 
     public void cleanup() {
-        this.positionStart = null;
-        this.positionTarget = null;
+        //this.positionStart = null;
+        //this.positionTarget = null;
         this.entity = null;
         this.path = null;
     }

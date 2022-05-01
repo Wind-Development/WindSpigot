@@ -116,8 +116,14 @@ public class AsyncNavigation extends Navigation {
 		this.queueSearch(new PathSearchJobEntity(this, target));
 	}
 
+	/*
 	private void issueSearch(BlockPosition blockposition, PositionPathSearchType type) {
-		this.queueSearch(new PathSearchJobPosition(this, blockposition, type));
+		//this.queueSearch(new PathSearchJobPosition(this, blockposition, type));
+		this.issueSearch(blockposition.getX(), blockposition.getY(), blockposition.getZ(), type);
+	}*/
+	
+	private void issueSearch(double x, double y, double z, PositionPathSearchType type) {
+		this.queueSearch(new PathSearchJobPosition(this, MathHelper.floor(x), (int) y, MathHelper.floor(z), type));
 	}
 
 	@Override
@@ -223,12 +229,17 @@ public class AsyncNavigation extends Navigation {
 
 	@Override
 	public PathEntity a(BlockPosition blockposition) {
-		return this.a(blockposition, PositionPathSearchType.ANYOTHER);
+		return this.a(blockposition.getX(), blockposition.getY(), blockposition.getZ(), PositionPathSearchType.ANYOTHER);
+	}
+	
+	@Override
+	public PathEntity a(int x, int y, int z) {
+		return this.a(x, y, z, PositionPathSearchType.ANYOTHER);
 	}
 
-	public PathEntity a(BlockPosition blockposition, PositionPathSearchType type) {
-		if (!this.offloadSearches() || this.b.c(blockposition) < minimumDistanceForOffloadingSquared) {
-			return super.a(blockposition);
+	public PathEntity a(int x, int y, int z, PositionPathSearchType type) {
+		if (!this.offloadSearches() || this.b.distanceSquared(x, y, z) < minimumDistanceForOffloadingSquared) {
+			return super.a(x, y, z);
 		}
 		if (!this.b()) {
 			return null;
@@ -249,13 +260,13 @@ public class AsyncNavigation extends Navigation {
 		if (entry != null) {
 			resultPath = entry.getAdjustedPathEntity();
 			if (!entry.isStillValid()) {
-				this.issueSearch(blockposition, type);
+				this.issueSearch(x, y, z, type);
 			}
 		}
 		if (entry == null && !this.hasAsyncSearchIssued()) {
-			resultPath = super.a(blockposition);
+			resultPath = super.a(x, y, z);
 			if (resultPath != null) {
-				entry = new SearchCacheEntryPosition(this.b, blockposition, resultPath);
+				entry = new SearchCacheEntryPosition(this.b, x, y, z, resultPath);
 
 				SearchCacheEntry oldEntry = null;
 
@@ -273,10 +284,12 @@ public class AsyncNavigation extends Navigation {
 		return resultPath;
 	}
 
+	/*
 	@Override
 	public PathEntity a(double d0, double d1, double d2, PositionPathSearchType type) {
 		return this.a(new BlockPosition(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2)), type);
 	}
+	*/
 
 	@Override
 	public boolean a(double d0, double d1, double d2, double d3, PositionPathSearchType type) {
