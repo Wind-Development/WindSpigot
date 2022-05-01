@@ -50,18 +50,21 @@ public abstract class NavigationAbstract {
     public PathEntity a(double d0, double d1, double d2, PositionPathSearchType type) {
         return this.a(d0, d1, d2);
     }
-
+    
+    // WindSpigot start - reduce usage of blockposition
     public ChunkCache createChunkCache(boolean forEntitySearch) {
         if (this.b()) {
             float f = this.i();
-            BlockPosition blockposition1 = new BlockPosition(this.b);
+            //BlockPosition blockposition1 = new BlockPosition(this.b);
             int i = (int) (f + (forEntitySearch ? 16.0F : 8.0F));
-            return new ChunkCache(this.c, blockposition1.a(-i, -i, -i), blockposition1.a(i, i, i), 0);
+            //return new ChunkCache(this.c, blockposition1.a(-i, -i, -i), blockposition1.a(i, i, i), 0);
+			return new ChunkCache(this.c, MathHelper.floor(b.locX) - i, MathHelper.floor(b.locY) - i,
+					MathHelper.floor(b.locZ) - i, MathHelper.floor(b.locX) + i, MathHelper.floor(b.locY) + i,
+					MathHelper.floor(b.locZ) + i, 0);
         }
         return null;
     }
 
-    // WindSpigot start - reduce usage of blockposition
     public PathEntity doPathSearch(ChunkCache chunkcache, BlockPosition blockposition) {
         return this.doPathSearch(chunkcache, blockposition.getX(), blockposition.getY(), blockposition.getZ());
     }
@@ -109,9 +112,9 @@ public abstract class NavigationAbstract {
 
 			int i = (int) (f + 8.0F);
 			
-			ChunkCache chunkcache = new ChunkCache(this.c, MathHelper.floor(b.locX - i), MathHelper.floor(b.locY - i),
-					MathHelper.floor(b.locZ - i), MathHelper.floor(b.locX + i), MathHelper.floor(b.locY + i),
-					MathHelper.floor(b.locZ + i), 0);
+			ChunkCache chunkcache = new ChunkCache(this.c, MathHelper.floor(b.locX) - i, MathHelper.floor(b.locY) - i,
+					MathHelper.floor(b.locZ) - i, MathHelper.floor(b.locX) + i, MathHelper.floor(b.locY) + i,
+					MathHelper.floor(b.locZ) + i, 0);
 
 			PathEntity pathentity = this.j.a(chunkcache, this.b, MathHelper.floor(d0), MathHelper.floor(d1), MathHelper.floor(d2), f);
 
