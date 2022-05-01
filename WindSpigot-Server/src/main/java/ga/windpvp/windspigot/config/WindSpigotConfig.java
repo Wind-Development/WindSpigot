@@ -48,7 +48,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 16; // Update this every new configuration update
+		int configVersion = 17; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -316,6 +316,8 @@ public class WindSpigotConfig {
 	public static boolean asyncPathSearches;
 	public static int distanceToAsync;
 	
+	public static int pathSearchThreads;
+	
 	private static void asyncPathSearches() {
 		asyncPathSearches = getBoolean("settings.async.path-searches.enabled", true);
 		
@@ -324,15 +326,20 @@ public class WindSpigotConfig {
 			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 10);
 			AsyncNavigation.setMinimumDistanceForOffloading(distanceToAsync);
 			
+			pathSearchThreads = getInt("settings.async.path-searches.threads", 2);
+			
 			if (distanceToAsync < 5) {
 				LOGGER.warn("The \"distance-to-async\" setting in windspigot.yml is very low! Having this too low will result in no performance gain as small calculations will be done async!");
-				
+				makeReadable();
+			} else if (pathSearchThreads > 3) {
+				LOGGER.warn("The \"threads\" setting in windspigot.yml is very high! Having this too high will result in no performance gain as there are unused threads!");
 				makeReadable();
 			}
 			
 		} 
 		c.addComment("settings.async.path-searches.enabled", "Enables async path searching for entities. (Credits to Minetick)");
 		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is targeting to handle it async. It is recommended to use the default value.");
+		c.addComment("settings.async.path-searches.threads", "The threads used for path searches. It is recommended to use the default value.");
 		
 		c.addComment("settings.async.path-searches", "Configuration for async entity path searches");
 	}

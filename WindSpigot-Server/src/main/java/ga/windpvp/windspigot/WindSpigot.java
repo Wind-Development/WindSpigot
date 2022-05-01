@@ -97,7 +97,7 @@ public class WindSpigot {
 		
 		// We do not want to initialize this again after a reload
 		if (pathSearchManager == null && WindSpigotConfig.asyncPathSearches) {
-			pathSearchManager = new AsyncPathSearchManager(1);
+			pathSearchManager = new AsyncPathSearchManager(WindSpigotConfig.pathSearchThreads); 
 		}
 		
 		if (WindSpigotConfig.asyncKnockback) {
