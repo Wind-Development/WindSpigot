@@ -35,7 +35,7 @@ public class AsyncNavigation extends Navigation {
 	private Map<UUID, SearchCacheEntry> searchCache;
 	private Map<PositionPathSearchType, SearchCacheEntryPosition> positionSearchCache;
 	
-	private int cleanUpDelay = 0;
+	private volatile int cleanUpDelay = 0;
 	private PathSearchJob lastQueuedJob;
 
 	private final ReentrantReadWriteLock searchCacheLock;
@@ -287,7 +287,7 @@ public class AsyncNavigation extends Navigation {
 	}
 
 	public void cleanUpExpiredSearches() {
-		this.cleanUpDelay++;
+		this.cleanUpDelay = this.cleanUpDelay + 1;
 		if (this.cleanUpDelay > 125) { // Clear cache every 125 ticks
 			this.cleanUpDelay = 0;
 
