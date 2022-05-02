@@ -323,15 +323,12 @@ public class WindSpigotConfig {
 		
 		if (asyncPathSearches) {
 	
-			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 10);
+			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 3);
 			AsyncNavigation.setMinimumDistanceForOffloading(distanceToAsync);
 			
-			pathSearchThreads = getInt("settings.async.path-searches.threads", 2);
+			pathSearchThreads = getInt("settings.async.path-searches.threads", 3);
 			
-			if (distanceToAsync < 5) {
-				LOGGER.warn("The \"distance-to-async\" setting in windspigot.yml is very low! Having this too low will result in no performance gain as small calculations will be done async!");
-				makeReadable();
-			} else if (pathSearchThreads > 3) {
+			if (pathSearchThreads > 4) {
 				LOGGER.warn("The \"threads\" setting in windspigot.yml is very high! Having this too high will result in no performance gain as there are unused threads!");
 				makeReadable();
 			}
