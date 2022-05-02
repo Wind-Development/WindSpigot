@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -54,7 +56,7 @@ public class PathSearchThrottlerThread extends ThreadPoolExecutor {
 					iter.remove();
 					if (jobToExecute != null) {
 						this.activeSearchHashes.add(jobToExecute.getSearchHash());
-						this.execute(jobToExecute);
+						this.submit(jobToExecute);
 						WindSpigot.debug("Executing async path search...");
 					}
 					if (newJob != null) {
@@ -74,14 +76,22 @@ public class PathSearchThrottlerThread extends ThreadPoolExecutor {
 
 	@Override
 	protected void afterExecute(Runnable runnable, Throwable throwable) {
-		super.afterExecute(runnable, throwable);
-		if (runnable instanceof PathSearchJob) {
-			PathSearchJob job = (PathSearchJob) runnable;
-			synchronized (this.filter) {
-				this.activeSearchHashes.remove(job.getSearchHash());
-			}
-		}
-		this.queuePathSearch(null);
+	    super.afterExecute(runnable, throwable);
+	    if(runnable instanceof FutureTask) {
+	        FutureTask<PathSearchJob> task = (FutureTask<PathSearchJob>) runnable;
+	        PathSearchJob job = null;
+	        
+            try {
+				job = task.get();
+			} catch (InterruptedException | ExecutionException ignored) {}
+
+	        if(job != null) {
+	            synchronized(this.filter) {
+	                this.activeSearchHashes.remove(job.getSearchHash());
+	            }
+	        }
+	    }
+	    this.queuePathSearch(null);
 	}
 
 	public static void adjustPoolSize(int size) {

@@ -18,13 +18,14 @@ public class PathSearchJobEntity extends PathSearchJob {
 	}
 
 	@Override
-	public void run() {
+	public PathSearchJob call() {
 		if (!this.issued) {
 			this.issued = true;
 			this.pathEntity = this.navigation.doPathSearch(this.chunkCache, this.target);
 			this.navigation.setSearchResult(this);
 			this.cleanup();
 		}
+		return this;
 	}
 
 	@Override

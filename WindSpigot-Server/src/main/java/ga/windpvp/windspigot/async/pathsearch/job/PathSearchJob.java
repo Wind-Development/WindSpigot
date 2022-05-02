@@ -1,11 +1,13 @@
 package ga.windpvp.windspigot.async.pathsearch.job;
 
+import java.util.concurrent.Callable;
+
 import net.minecraft.server.ChunkCache;
 import net.minecraft.server.NavigationAbstract;
 import net.minecraft.server.PathEntity;
 
 //This is based on Minetick's async path searching
-public abstract class PathSearchJob implements Runnable {
+public abstract class PathSearchJob implements Callable<PathSearchJob> {
 
 	public NavigationAbstract navigation;
 	protected ChunkCache chunkCache;

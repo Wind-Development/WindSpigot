@@ -102,13 +102,13 @@ public class AsyncNavigation extends Navigation {
 	}
 
 	private void queueSearch(PathSearchJob job) {
-		jobLock.writeLock().lock();
-		try {
-			if (AsyncPathSearchManager.queuePathSearch(job)) {
-				this.lastQueuedJob = job;
+		if (AsyncPathSearchManager.queuePathSearch(job)) {
+			jobLock.writeLock().lock();
+			try {
+			this.lastQueuedJob = job;
+			} finally {
+				jobLock.writeLock().unlock();
 			}
-		} finally {
-			jobLock.writeLock().unlock();
 		}
 	}
 

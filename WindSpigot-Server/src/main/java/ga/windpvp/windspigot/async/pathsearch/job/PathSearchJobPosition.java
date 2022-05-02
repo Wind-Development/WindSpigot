@@ -38,13 +38,14 @@ public class PathSearchJobPosition extends PathSearchJob {
 	}
 
 	@Override
-	public void run() {
+	public PathSearchJob call() {
 		if (!this.issued) {
 			this.issued = true;
 			this.pathEntity = this.navigation.doPathSearch(this.chunkCache, x, y, z);
 			this.navigation.setSearchResult(this);
 			this.cleanup();
 		}
+		return this;
 	}
 
 	public PositionPathSearchType getCacheEntryKey() {
