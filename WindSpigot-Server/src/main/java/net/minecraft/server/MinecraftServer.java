@@ -58,8 +58,8 @@ import net.openhft.affinity.AffinityLock;
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
-// WindSpigot end
 import ga.windpvp.windspigot.world.WorldTickerManager;
+// WindSpigot end
 
 public abstract class MinecraftServer implements Runnable, ICommandListener, IAsyncTaskHandler, IMojangStatistics {
 
