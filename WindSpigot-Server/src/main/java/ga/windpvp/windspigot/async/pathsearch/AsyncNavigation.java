@@ -51,17 +51,10 @@ public class AsyncNavigation extends Navigation {
 		this.searchCache = new HashMap<UUID, SearchCacheEntry>();
 		this.positionSearchCache = new HashMap<PositionPathSearchType, SearchCacheEntryPosition>();
 
-		if (WindSpigotConfig.asyncPathSearches) {
-			searchCacheLock = new ReentrantReadWriteLock();
-			positionSearchCacheLock = new ReentrantReadWriteLock();
+		searchCacheLock = new ReentrantReadWriteLock();
+		positionSearchCacheLock = new ReentrantReadWriteLock();
 
-			jobLock = new ReentrantReadWriteLock();
-		} else {
-			searchCacheLock = null;
-			positionSearchCacheLock = null;
-
-			jobLock = null;
-		}
+		jobLock = new ReentrantReadWriteLock();
 	}
 	
 	static {
@@ -340,9 +333,6 @@ public class AsyncNavigation extends Navigation {
 	}
 
 	private boolean offloadSearches() {
-		if (WindSpigotConfig.asyncPathSearches) {
-			return offloadedEntities.contains(b.getBukkitEntity().getType());
-		} 
-		return false;
+		return offloadedEntities.contains(b.getBukkitEntity().getType());
 	}
 }
