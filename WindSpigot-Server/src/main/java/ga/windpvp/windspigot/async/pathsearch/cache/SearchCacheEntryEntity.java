@@ -21,8 +21,7 @@ public class SearchCacheEntryEntity extends SearchCacheEntry {
     @Override
     public boolean isStillValid() {
         if(super.isStillValid()) {
-            //return this.getBlockPosition(this.target).equals(this.positionTarget);
-        	return (MathHelper.floor(target.locX) == startX && MathHelper.floor(target.locY) == startY + 1 && MathHelper.floor(target.locZ) == startZ);
+        	return (MathHelper.floor(target.locX) == targetX && MathHelper.floor(target.locY) == targetY + 1 && MathHelper.floor(target.locZ) == targetZ);
         }
         return false;
     }

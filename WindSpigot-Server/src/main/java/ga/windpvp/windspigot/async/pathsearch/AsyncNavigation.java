@@ -20,7 +20,6 @@ import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJob;
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobEntity;
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobPosition;
 import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.BlockPosition;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
@@ -108,12 +107,6 @@ public class AsyncNavigation extends Navigation {
 	private void issueSearch(Entity target) {
 		this.queueSearch(new PathSearchJobEntity(this, target));
 	}
-
-	/*
-	private void issueSearch(BlockPosition blockposition, PositionPathSearchType type) {
-		//this.queueSearch(new PathSearchJobPosition(this, blockposition, type));
-		this.issueSearch(blockposition.getX(), blockposition.getY(), blockposition.getZ(), type);
-	}*/
 	
 	private void issueSearch(double x, double y, double z, PositionPathSearchType type) {
 		this.queueSearch(new PathSearchJobPosition(this, MathHelper.floor(x), (int) y, MathHelper.floor(z), type));
