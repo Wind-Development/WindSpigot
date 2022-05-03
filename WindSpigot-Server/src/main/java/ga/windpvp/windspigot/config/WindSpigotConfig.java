@@ -13,12 +13,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.EntityType;
 import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.async.pathsearch.AsyncNavigation;
+import ga.windpvp.windspigot.entity.EntityTickLimiter;
 import me.elier.nachospigot.config.NachoConfig;
 
 public class WindSpigotConfig {
@@ -48,7 +51,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 17; // Update this every new configuration update
+		int configVersion = 18; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -348,4 +351,32 @@ public class WindSpigotConfig {
 		c.addComment("settings.debug-mode", "This outputs information to developers in the console. There is no need to enable this.");
 	}
 
+	public static int tileMaxTickTime;
+	public static int entityMaxTickTime;
+
+	private static void maxTickTimes() {
+		entityMaxTickTime = getInt("settings.max-tick-time.entity", 25);
+		tileMaxTickTime = 1000; // We do not re-implement the tile entity tick cap, so we disable it by setting it to 1000
+		
+		c.addComment("settings.max-tick-time.entity", "The maximum time that entities can take to tick before moving on. This may break some gameplay, so set to 1000 to disable. \nFor reference, there are 20 ms in a tick.");
+	}
+	
+	@SuppressWarnings({ "unchecked", "deprecation" })
+	private static void skippableEntities() {
+		List<String> skippableEntities = getList("settings.skippable-entities",
+				Lists.newArrayList("BAT", "BLAZE", "CHICKEN", "COW", "CREEPER", "ENDERMAN", "HORSE", "IRON_GOLEM",
+						"MAGMA_CUBE", "MUSHROOM_COW", "PIG", "PIG_ZOMBIE", "RABBIT", "SHEEP", "SKELETON", "SILVERFISH",
+						"SLIME", "SNOWMAN", "SQUID", "WITCH", "ZOMBIE"));
+		
+		List<EntityType> finalEntities = Lists.newArrayList();
+		
+		for (String entityName : skippableEntities) {
+			finalEntities.add(EntityType.fromName(entityName));
+		}
+		
+		EntityTickLimiter.addSkippableEntities(finalEntities);
+		
+		c.addComment("settings.skippable-entities", "The entity types that can be skipped when ticking. They will only be skipped if the server is lagging based on the set threshold. \nRemove entities from this list if their vanilla behavior is absolutely needed on your server.");
+	}
+	
 }

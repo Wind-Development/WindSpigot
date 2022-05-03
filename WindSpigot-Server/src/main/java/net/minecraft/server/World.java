@@ -35,6 +35,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 // WindSpigot start 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.entity.EntityTickLimiter;
 import ga.windpvp.windspigot.random.FastRandom;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.elier.nachospigot.config.NachoConfig;
@@ -293,8 +294,9 @@ public abstract class World implements IBlockAccess {
 		this.keepSpawnInMemory = this.paperSpigotConfig.keepSpawnInMemory; // PaperSpigot
 		timings = new co.aikar.timings.WorldTimingsHandler(this); // Spigot - code below can generate new world and
 																	// access timings
-		this.entityLimiter = new org.spigotmc.TickLimiter(spigotConfig.entityMaxTickTime);
-		this.tileLimiter = new org.spigotmc.TickLimiter(spigotConfig.tileMaxTickTime);
+		// WindSpigot - re-implement Spigot's entity max tick time, but only for certain entities
+		this.entityLimiter = new ga.windpvp.windspigot.entity.EntityTickLimiter(WindSpigotConfig.entityMaxTickTime); //new org.spigotmc.TickLimiter(spigotConfig.entityMaxTickTime);
+		this.tileLimiter = new org.spigotmc.TickLimiter(WindSpigotConfig.tileMaxTickTime);
 	}
 
 	public World b() {
@@ -1803,12 +1805,21 @@ public abstract class World implements IBlockAccess {
 		int entitiesThisCycle = 0;
 		// PaperSpigot start - Disable tick limiters
 		// if (tickPosition < 0) tickPosition = 0;
-		entityLimiter.initTick(); // WindSpigot - add back tick limiters, but only for certain entities
+		entityLimiter.initTick(); // WindSpigot - re-implement Spigot's entity max tick time, but only for certain entities
 		for (tickPosition = 0; tickPosition < entityList.size(); tickPosition++) {
 			// PaperSpigot end
 			tickPosition = (tickPosition < entityList.size()) ? tickPosition : 0;
 			entity = this.entityList.get(this.tickPosition);
 			// CraftBukkit end
+			
+			// WindSpigot start - re-implement Spigot's entity max tick time, but only for certain entities
+			if (!entityLimiter.shouldContinue()) {
+				if (((EntityTickLimiter) entityLimiter).canSkip(entity)) {
+					continue;
+				}
+			}
+			// WindSpigot end
+			
 			if (entity.vehicle != null) {
 				if (!entity.vehicle.dead && entity.vehicle.passenger == entity) {
 					continue;
