@@ -1803,6 +1803,7 @@ public abstract class World implements IBlockAccess {
 		int entitiesThisCycle = 0;
 		// PaperSpigot start - Disable tick limiters
 		// if (tickPosition < 0) tickPosition = 0;
+		entityLimiter.initTick(); // WindSpigot - add back tick limiters, but only for certain entities
 		for (tickPosition = 0; tickPosition < entityList.size(); tickPosition++) {
 			// PaperSpigot end
 			tickPosition = (tickPosition < entityList.size()) ? tickPosition : 0;

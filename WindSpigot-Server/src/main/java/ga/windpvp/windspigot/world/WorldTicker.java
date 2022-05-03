@@ -2,7 +2,6 @@ package ga.windpvp.windspigot.world;
 
 import java.util.List;
 
-import ga.windpvp.windspigot.WorldTickerManager;
 import net.minecraft.server.CrashReport;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MinecraftServer;

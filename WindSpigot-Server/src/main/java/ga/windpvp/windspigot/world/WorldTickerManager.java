@@ -1,4 +1,4 @@
-package ga.windpvp.windspigot;
+package ga.windpvp.windspigot.world;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,6 @@ import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.ResettableLatch;
 import ga.windpvp.windspigot.async.world.AsyncWorldTicker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import ga.windpvp.windspigot.world.WorldTicker;
 import javafixes.concurrency.ReusableCountLatch;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;

@@ -1,7 +1,7 @@
 package ga.windpvp.windspigot.async.world;
 
-import ga.windpvp.windspigot.WorldTickerManager;
 import ga.windpvp.windspigot.world.WorldTicker;
+import ga.windpvp.windspigot.world.WorldTickerManager;
 import net.minecraft.server.WorldServer;
 
 // This is just a world ticker, but async
