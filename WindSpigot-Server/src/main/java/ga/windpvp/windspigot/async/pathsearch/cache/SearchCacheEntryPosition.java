@@ -2,6 +2,7 @@ package ga.windpvp.windspigot.async.pathsearch.cache;
 
 import net.minecraft.server.BlockPosition;
 import net.minecraft.server.EntityInsentient;
+import net.minecraft.server.MathHelper;
 import net.minecraft.server.PathEntity;
 
 //This is based on Minetick's async path searching
@@ -25,7 +26,7 @@ public class SearchCacheEntryPosition extends SearchCacheEntry {
     public boolean isStillValid() {
         if (super.isStillValid()) {
             //return this.getBlockPosition(this.entity).equals(this.positionStart);
-        	return (entity.locX == startX && entity.locY == startY + 1 && entity.locZ == startZ);
+        	return (MathHelper.floor(entity.locX) == startX && MathHelper.floor(entity.locY) == startY + 1 && MathHelper.floor(entity.locZ) == startZ);
         }
         return false;
     }

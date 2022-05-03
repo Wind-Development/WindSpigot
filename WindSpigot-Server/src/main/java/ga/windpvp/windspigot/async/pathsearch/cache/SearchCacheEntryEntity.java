@@ -22,7 +22,7 @@ public class SearchCacheEntryEntity extends SearchCacheEntry {
     public boolean isStillValid() {
         if(super.isStillValid()) {
             //return this.getBlockPosition(this.target).equals(this.positionTarget);
-        	return (target.locX == startX && target.locY == startY + 1 && target.locZ == startZ);
+        	return (MathHelper.floor(target.locX) == startX && MathHelper.floor(target.locY) == startY + 1 && MathHelper.floor(target.locZ) == startZ);
         }
         return false;
     }
