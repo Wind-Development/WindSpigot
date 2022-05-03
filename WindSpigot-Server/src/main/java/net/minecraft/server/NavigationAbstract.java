@@ -3,6 +3,7 @@ package net.minecraft.server;
 import java.util.Iterator;
 import java.util.List;
 
+import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobEntity;
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobPosition;
 import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
@@ -103,6 +104,8 @@ public abstract class NavigationAbstract {
 	
 	public PathEntity a(int d0, int d1, int d2) { // remove final modifier
 		//return this.a(new BlockPosition(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2)));
+		// debug msgs
+		WindSpigot.debug("Executing sync path search...");
 		if (!this.b()) {
 			return null;
 		} else {
