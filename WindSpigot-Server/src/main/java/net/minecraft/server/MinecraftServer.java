@@ -37,11 +37,6 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 
 import co.aikar.timings.SpigotTimings; // Spigot
-import ga.windpvp.windspigot.WindSpigot;
-import ga.windpvp.windspigot.WorldTickerManager;
-import ga.windpvp.windspigot.async.AsyncUtil;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
-import ga.windpvp.windspigot.statistics.StatisticsClient;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -49,14 +44,22 @@ import io.netty.handler.codec.base64.Base64;
 import io.netty.util.ResourceLeakDetector;
 
 // CraftBukkit start
-
 import jline.console.ConsoleReader;
 import joptsimple.OptionSet;
-import me.elier.nachospigot.config.NachoConfig;
-import xyz.sculas.nacho.async.AsyncExplosions;
 // CraftBukkit end
 
-import net.openhft.affinity.AffinityLock; // WindSpigot
+// NachoSpigot start
+import me.elier.nachospigot.config.NachoConfig;
+import xyz.sculas.nacho.async.AsyncExplosions;
+// NachoSpigot end
+
+// WindSpigot start
+import net.openhft.affinity.AffinityLock;
+import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.WorldTickerManager;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.statistics.StatisticsClient;
+// WindSpigot end
 
 public abstract class MinecraftServer implements Runnable, ICommandListener, IAsyncTaskHandler, IMojangStatistics {
 
@@ -1646,7 +1649,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		return this.serverThread;
 	}
 	
-	// WindSpigot - instance=
+	// WindSpigot - instance
 	public WindSpigot getWindSpigot() {
 		return this.windSpigot;
 	}
