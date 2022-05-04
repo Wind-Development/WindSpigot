@@ -62,10 +62,10 @@ public class WindSpigotConfig {
 	
 	// Not private as the config is read by calling all private methods with 0 params
 	static void makeReadable() {
-		LOGGER.warn("Waiting for 5 seconds so this can be read...");
+		LOGGER.warn("Waiting for 10 seconds so this can be read...");
 		
 		try {
-			TimeUnit.SECONDS.sleep(5);
+			TimeUnit.SECONDS.sleep(10);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -254,7 +254,7 @@ public class WindSpigotConfig {
     private static void asyncPackets() {
     	// We use Nacho's implementation of instant interactions for async hit detection
         NachoConfig.instantPlayInUseEntity = getBoolean("settings.async.hit-detection", true);
-        asyncKnockback = getBoolean("settings.async.knockback", true);
+        asyncKnockback = getBoolean("settings.async.knockback", false);
         c.addComment("settings.async.hit-detection", "Enables instant hit detection. This overrides the \"instant-interaction\" setting in nacho.yml (Credits to NachoSpigot).");
         c.addComment("settings.async.knockback", "Enables asynchronous knockback. This increases overall cpu usage, but sends knockback packets faster. Disable this if you do not run a pvp server.");
     }
@@ -307,7 +307,7 @@ public class WindSpigotConfig {
 	
 	private static void showPlayerIps() {
 		showPlayerIps = getBoolean("settings.show-player-ips", true);
-		c.addComment("settings.show-player-ips", "Disabling this will prevent logging of player ips in console.");
+		c.addComment("settings.show-player-ips", "Disabling this will prevent display of player ips in the console.");
 	}
 	
 	public static boolean modernKeepalive;
@@ -359,7 +359,7 @@ public class WindSpigotConfig {
 		entityMaxTickTime = getInt("settings.max-tick-time.entity", 25);
 		tileMaxTickTime = 1000; // We do not re-implement the tile entity tick cap, so we disable it by setting it to 1000
 		
-		c.addComment("settings.max-tick-time.entity", "The maximum time that entities can take to tick before moving on. This may break some gameplay, so set to 1000 to disable. \nFor reference, there are 20 ms in a tick.");
+		c.addComment("settings.max-tick-time.entity", "The maximum time that entities can take to tick before moving on. This may break some gameplay, so set to 1000 to disable. \nFor reference, there are 50 ms in a tick. This setting makes it so that entities can only take up half the tick.");
 	}
 	
 	public static boolean stopMobSpawnsDuringOverload;
@@ -376,10 +376,9 @@ public class WindSpigotConfig {
 		for (String entityName : skippableEntities) {
 			finalEntities.add(EntityType.fromName(entityName));
 		}
-		
 		EntityTickLimiter.addSkippableEntities(finalEntities);
 		
-		stopMobSpawnsDuringOverload = getBoolean("settings.max-tick-time.limit-on-overload", true);
+		stopMobSpawnsDuringOverload = getBoolean("settings.max-tick-time.limit-on-overload", false);
 		
 		c.addComment("settings.max-tick-time.skippable-entities", "The entity types that can be skipped when ticking. They will only be skipped if the server is lagging based on the set threshold. \nRemove entities from this list if their vanilla behavior is absolutely needed on your server.");
 		c.addComment("settings.max-tick-time.limit-on-overload", "If the server should stop mob spawns when there are too many mobs to handle and some have to be skipped.");
