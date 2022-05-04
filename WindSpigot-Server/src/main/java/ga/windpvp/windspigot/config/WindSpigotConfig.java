@@ -51,7 +51,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 18; // Update this every new configuration update
+		int configVersion = 19; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -362,6 +362,8 @@ public class WindSpigotConfig {
 		c.addComment("settings.max-tick-time.entity", "The maximum time that entities can take to tick before moving on. This may break some gameplay, so set to 1000 to disable. \nFor reference, there are 20 ms in a tick.");
 	}
 	
+	public static boolean stopMobSpawnsDuringOverload;
+	
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	private static void skippableEntities() {
 		List<String> skippableEntities = getList("settings.max-tick-time.skippable-entities",
@@ -377,7 +379,10 @@ public class WindSpigotConfig {
 		
 		EntityTickLimiter.addSkippableEntities(finalEntities);
 		
+		stopMobSpawnsDuringOverload = getBoolean("settings.max-tick-time.limit-on-overload", true);
+		
 		c.addComment("settings.max-tick-time.skippable-entities", "The entity types that can be skipped when ticking. They will only be skipped if the server is lagging based on the set threshold. \nRemove entities from this list if their vanilla behavior is absolutely needed on your server.");
+		c.addComment("settings.max-tick-time.limit-on-overload", "If the server should stop mob spawns when there are too many mobs to handle and some have to be skipped.");
 	}
 	
 }

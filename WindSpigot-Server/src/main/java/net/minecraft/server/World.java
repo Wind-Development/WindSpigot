@@ -115,6 +115,8 @@ public abstract class World implements IBlockAccess {
 	private final WorldBorder N;
 	int[] H;
 
+	protected boolean lastTickOverload = false; // WindSpigot
+	
 	// CraftBukkit start Added the following
 	private final CraftWorld world;
 	public boolean pvpMode;
@@ -1736,6 +1738,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void tickEntities() {
+		boolean tickOverload = false; // WindSpigot
 		this.methodProfiler.a("entities");
 		this.methodProfiler.a("global");
 
@@ -1814,10 +1817,11 @@ public abstract class World implements IBlockAccess {
 			
 			// WindSpigot start - re-implement Spigot's entity max tick time, but only for certain entities
 			if (!entityLimiter.shouldContinue()) {
+				tickOverload = true; // indicate that the last tick overloaded the server
 				if (((EntityTickLimiter) entityLimiter).canSkip(entity)) {
 					continue;
 				}
-			}
+			} 
 			// WindSpigot end
 			
 			if (entity.vehicle != null) {
@@ -1978,6 +1982,8 @@ public abstract class World implements IBlockAccess {
 
 		this.methodProfiler.b();
 		this.methodProfiler.b();
+		
+		lastTickOverload = tickOverload; // WindSpigot
 	}
 
 	public boolean a(TileEntity tileentity) {

@@ -245,8 +245,11 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		if (this.getGameRules().getBoolean("doMobSpawning")
 				&& this.worldData.getType() != WorldType.DEBUG_ALL_BLOCK_STATES
 				&& (this.allowMonsters || this.allowAnimals) && this.players.size() > 0) {
-			// WindSpigot - disable mob spawning based on tps
-			if (!(WindSpigotConfig.limitedMobSpawns && MinecraftServer.getServer().recentTps[1] < WindSpigotConfig.limitedMobSpawnsThreshold)) {
+			// WindSpigot start - disable mob spawning based on tps and server load
+			if (!(WindSpigotConfig.limitedMobSpawns
+					&& MinecraftServer.getServer().recentTps[0] < WindSpigotConfig.limitedMobSpawnsThreshold) // check if tps is low 
+					&& !(WindSpigotConfig.stopMobSpawnsDuringOverload && lastTickOverload)) { // check if server is overloaded
+				// WindSpigot end
 				timings.mobSpawn.startTiming(); // Spigot
 				this.R.a(this,
 						this.allowMonsters
