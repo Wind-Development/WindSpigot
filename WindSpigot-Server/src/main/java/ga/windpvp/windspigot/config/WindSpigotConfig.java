@@ -159,7 +159,7 @@ public class WindSpigotConfig {
 	private static void threadAffinity() {
 		threadAffinity = getBoolean("settings.thread-affinity", false);
 		c.addComment("settings.thread-affinity",
-				"Only switch to true if your OS is properly configured!! (See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus) When properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
+				"Only switch to true if your OS is properly configured!! (See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus) \nWhen properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
 	}
 
 	public static boolean mobAiCmd;
@@ -286,7 +286,7 @@ public class WindSpigotConfig {
 	private static void statistics() {
 		statistics = getBoolean("settings.statistics", true);
 		c.addComment("settings.statistics",
-				"Enables WindSpigot statistics. This allows developers to see how many WindSpigot servers are running. This has no performance impact and is completely anonymous, but you can opt out of this if you want.");
+				"Enables WindSpigot statistics. This allows developers to see how many WindSpigot servers are running. \nThis has no performance impact and is completely anonymous, but you can opt out of this if you want.");
 	}
 	
 	public static int hitDelay;
@@ -300,7 +300,7 @@ public class WindSpigotConfig {
 	
 	private static void potionSpeed() {
 		potionSpeed = getDouble("settings.potion-speed-offset", 0);
-		c.addComment("settings.potion-speed-offset", "This sets the speed offset of splash potions, 0 is the default speed. Setting this higher makes potions splash faster. This config option accepts decimals.");
+		c.addComment("settings.potion-speed-offset", "This sets the speed offset of splash potions, 0 is the default speed. Setting this higher makes potions splash faster. \nThis config option accepts decimals.");
 	}
 	
 	public static boolean showPlayerIps;
