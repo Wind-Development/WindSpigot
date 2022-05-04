@@ -138,6 +138,7 @@ public class WindSpigotConfig {
 		c.addComment("settings.async", "Configuration for asynchronous things.");
 		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
 		c.addComment("settings.command", "Configuration for WindSpigot's commands");
+		c.addComment("settings.max-tick-time", "Configuration for maximum entity tick time");
 	}
 	
 	public static boolean disableTracking;
@@ -363,7 +364,7 @@ public class WindSpigotConfig {
 	
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	private static void skippableEntities() {
-		List<String> skippableEntities = getList("settings.skippable-entities",
+		List<String> skippableEntities = getList("settings.max-tick-time.skippable-entities",
 				Lists.newArrayList("BAT", "BLAZE", "CHICKEN", "COW", "CREEPER", "ENDERMAN", "HORSE", "IRON_GOLEM",
 						"MAGMA_CUBE", "MUSHROOM_COW", "PIG", "PIG_ZOMBIE", "RABBIT", "SHEEP", "SKELETON", "SILVERFISH",
 						"SLIME", "SNOWMAN", "SQUID", "WITCH", "ZOMBIE"));
@@ -376,7 +377,7 @@ public class WindSpigotConfig {
 		
 		EntityTickLimiter.addSkippableEntities(finalEntities);
 		
-		c.addComment("settings.skippable-entities", "The entity types that can be skipped when ticking. They will only be skipped if the server is lagging based on the set threshold. \nRemove entities from this list if their vanilla behavior is absolutely needed on your server.");
+		c.addComment("settings.max-tick-time.skippable-entities", "The entity types that can be skipped when ticking. They will only be skipped if the server is lagging based on the set threshold. \nRemove entities from this list if their vanilla behavior is absolutely needed on your server.");
 	}
 	
 }
