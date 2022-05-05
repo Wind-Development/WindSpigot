@@ -89,6 +89,7 @@ public class KnockbackConfig {
 		}
 		currentKb = getKbProfileByName(getString("knockback.current", "kohi"));
 		if (currentKb == null) {
+			WindSpigot.LOGGER.warn("Knockback profile 'default' was not found, using profile 'kohi' for now!");
 			currentKb = kohiProfile;
 		}
 	}
