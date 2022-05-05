@@ -43,10 +43,10 @@ public class KnockbackConfig {
 
 		save();
 
-		final KnockbackProfile defaultProfile = new CraftKnockbackProfile("Default");
+		final KnockbackProfile kohiProfile = new CraftKnockbackProfile("kohi");
+		kohiProfile.save();
 
-		kbProfiles = new HashSet<>();
-		kbProfiles.add(defaultProfile);
+		kbProfiles.add(kohiProfile);
 
 		for (String key : getKeys("knockback.profiles")) {
 			final String path = "knockback.profiles." + key;
@@ -76,9 +76,9 @@ public class KnockbackConfig {
 			profile.setEggHorizontal(getDouble(path + ".projectiles.egg.horizontal", 0.4D));
 			profile.setEggVertical(getDouble(path + ".projectiles.egg.vertical", 0.4D));
 		}
-		currentKb = getKbProfileByName(getString("knockback.current", "default"));
+		currentKb = getKbProfileByName(getString("knockback.current", "kohi"));
 		if (currentKb == null) {
-			currentKb = defaultProfile;
+			currentKb = kohiProfile;
 		}
 	}
 
