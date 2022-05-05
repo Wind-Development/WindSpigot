@@ -56,9 +56,6 @@ public class KnockbackConfig {
 		defaultProfile.setExtraVertical(0.085);
 		defaultProfile.save(true);
 
-		kbProfiles.add(kohiProfile);
-		kbProfiles.add(defaultProfile);
-
 		for (String key : getKeys("knockback.profiles")) {
 			final String path = "knockback.profiles." + key;
 			CraftKnockbackProfile profile = (CraftKnockbackProfile) getKbProfileByName(key);
