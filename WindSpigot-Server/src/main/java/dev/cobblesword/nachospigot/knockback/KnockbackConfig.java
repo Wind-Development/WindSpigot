@@ -45,8 +45,19 @@ public class KnockbackConfig {
 
 		final KnockbackProfile kohiProfile = new CraftKnockbackProfile("kohi");
 		kohiProfile.save();
+		
+		final KnockbackProfile defaultProfile = new CraftKnockbackProfile("vanilla"); 
+		// Generated profiles are based on kohi kb values, not vanilla, so we set the values here
+		defaultProfile.setFrictionHorizontal(2.0);
+		defaultProfile.setFrictionVertical(2.0);
+		defaultProfile.setHorizontal(0.35);
+		defaultProfile.setVertical(0.35);
+		defaultProfile.setExtraHorizontal(0.425);
+		defaultProfile.setExtraVertical(0.085);
+		defaultProfile.save();
 
 		kbProfiles.add(kohiProfile);
+		kbProfiles.add(defaultProfile);
 
 		for (String key : getKeys("knockback.profiles")) {
 			final String path = "knockback.profiles." + key;
