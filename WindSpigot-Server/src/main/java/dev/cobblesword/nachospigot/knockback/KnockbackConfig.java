@@ -53,12 +53,12 @@ public class KnockbackConfig {
 		if (!keys.contains("vanilla")) {
 			final KnockbackProfile defaultProfile = new CraftKnockbackProfile("vanilla"); 
 			// Generated profiles are based on kohi kb values, not vanilla, so we set the values here
-			defaultProfile.setFrictionHorizontal(2.0);
-			defaultProfile.setFrictionVertical(2.0);
-			defaultProfile.setHorizontal(0.35);
-			defaultProfile.setVertical(0.35);
-			defaultProfile.setExtraHorizontal(0.425);
-			defaultProfile.setExtraVertical(0.085);
+			defaultProfile.setFrictionHorizontal(1.0);
+			defaultProfile.setFrictionVertical(1.0);
+			defaultProfile.setHorizontal(0.4);
+			defaultProfile.setVertical(0.4);
+			defaultProfile.setExtraHorizontal(0.0);
+			defaultProfile.setExtraVertical(0.0);
 			defaultProfile.save(true);
 		}
 		
