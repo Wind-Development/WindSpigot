@@ -18,6 +18,7 @@ import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.commands.MobAICommand;
 import ga.windpvp.windspigot.commands.PingCommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.hitdetection.LagCompensator;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.MinecraftServer;
@@ -27,9 +28,10 @@ public class WindSpigot {
 	private StatisticsClient client;
 	
 	public static final Logger LOGGER = LogManager.getLogger();
-	public static final Logger DEBUG_LOGGER = LogManager.getLogger();
+	private static final Logger DEBUG_LOGGER = LogManager.getLogger();
+	private static WindSpigot INSTANCE;
 	
-	public static CombatThread knockbackThread;
+	private CombatThread knockbackThread;
 	
 	private final Executor statisticsExecutor = Executors
 			.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Statistics Thread")
@@ -38,8 +40,10 @@ public class WindSpigot {
 	private volatile boolean statisticsEnabled = false;
 	
 	private AsyncPathSearchManager pathSearchManager;
+	private LagCompensator lagCompensator;
 
 	public WindSpigot() {
+		INSTANCE = this;
 		this.init();
 	}
 
@@ -113,15 +117,30 @@ public class WindSpigot {
 			LOGGER.info(" ");
 			TeleportRegistry.init();
 		}
+		if (WindSpigotConfig.improvedHitDetection) {
+			lagCompensator = new LagCompensator();
+		}
 	}
 
 	public StatisticsClient getClient() {
 		return this.client;
 	}
 	
+	public CombatThread getKnockbackThread() {
+		return knockbackThread;
+	}
+	
+    public LagCompensator getLagCompensator() {
+        return lagCompensator;
+    }
+	
 	public static void debug(String msg) {
 		if (WindSpigotConfig.debugMode)
 			DEBUG_LOGGER.info(msg);
+	}
+	
+	public static WindSpigot getInstance() {
+		return INSTANCE;
 	}
 	
 }

@@ -59,6 +59,7 @@ import co.aikar.timings.SpigotTimings; // Spigot
 // CraftBukkit end
 import dev.cobblesword.nachospigot.Nacho;
 import dev.cobblesword.nachospigot.events.PlayerIllegalBehaviourEvent;
+import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
 import io.netty.util.concurrent.Future;
@@ -413,7 +414,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					this.lastPosZ = to.getZ();
 					this.lastYaw = to.getYaw();
 					this.lastPitch = to.getPitch();
-
+					
 					// Skip the first time we do this
 					if (NachoConfig.firePlayerMoveEvent) { // Spigot - don't skip any move events
 						Location oldTo = to.clone();
@@ -422,6 +423,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 						// If the event is cancelled we move the player back to their old location.
 						if (event.isCancelled()) {
+		                    WindSpigot.getInstance().getLagCompensator().registerMovement(player, to); // Nacho
 							this.player.playerConnection.sendPacket(new PacketPlayOutPosition(from.getX(), from.getY(),
 									from.getZ(), from.getYaw(), from.getPitch(),
 									Collections.<PacketPlayOutPosition.EnumPlayerTeleportFlags>emptySet()));
@@ -449,6 +451,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 							return;
 						}
 					}
+                    WindSpigot.getInstance().getLagCompensator().registerMovement(player, to); // Nacho - register movement
 				}
 
 				if (this.checkMovement && !this.player.dead) {
@@ -674,6 +677,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		}
 
 		Location to = new Location(this.getPlayer().getWorld(), x, y, z, yaw, pitch);
+		
 		PlayerTeleportEvent event = new PlayerTeleportEvent(player, from.clone(), to.clone(),
 				PlayerTeleportEvent.TeleportCause.UNKNOWN);
 		this.server.getPluginManager().callEvent(event);
@@ -687,7 +691,8 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			f = to.getYaw();
 			f1 = to.getPitch();
 		}
-
+		
+        WindSpigot.getInstance().getLagCompensator().registerMovement(player, to); // Nacho
 		this.internalTeleport(d0, d1, d2, f, f1, set);
 	}
 
@@ -1634,10 +1639,11 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			double d0 = 36.0D;
 
 			if (!flag) {
-				d0 = 9.0D;
-			}
+                // Nacho - Increase the no player-player vision maximum reach
+                d0 = (WindSpigotConfig.improvedHitDetection) ? 12.75D : 9.0D;
+            }
 
-			if (this.player.h(entity) < d0) {
+            if (this.player.h(entity) <= d0) { // Nacho - <  ->  <=
 				ItemStack itemInHand = this.player.inventory.getItemInHand(); // CraftBukkit
 
 				if (packetplayinuseentity.a() == PacketPlayInUseEntity.EnumEntityUseAction.INTERACT

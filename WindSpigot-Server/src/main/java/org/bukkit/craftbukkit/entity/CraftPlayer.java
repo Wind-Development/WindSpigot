@@ -70,6 +70,7 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.WindSpigot;
 import io.netty.buffer.Unpooled;
 import me.elier.nachospigot.config.NachoConfig;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -624,6 +625,8 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 		if (event.isCancelled()) {
 			return false;
 		}
+		
+        WindSpigot.getInstance().getLagCompensator().registerMovement(this, to); // Nacho
 
 		// If this player is riding another entity, we must dismount before teleporting.
 		entity.mount(null);

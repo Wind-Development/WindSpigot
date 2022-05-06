@@ -43,6 +43,7 @@ import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.commons.MCUtils;
+import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
@@ -567,6 +568,8 @@ public abstract class PlayerList {
 			// KigPaper end
 		}
 
+		WindSpigot.getInstance().getLagCompensator().clearCache(bukkit); // Nacho
+		
 		return playerQuitEvent.getQuitMessage(); // CraftBukkit
 	}
 
@@ -748,6 +751,7 @@ public abstract class PlayerList {
 			}
 
 			Player respawnPlayer = cserver.getPlayer(entityplayer1);
+			
 			PlayerRespawnEvent respawnEvent = new PlayerRespawnEvent(respawnPlayer, location, isBedSpawn);
 			cserver.getPluginManager().callEvent(respawnEvent);
 			// Spigot Start
@@ -756,6 +760,7 @@ public abstract class PlayerList {
 			}
 			// Spigot End
 
+            WindSpigot.getInstance().getLagCompensator().registerMovement(respawnPlayer, location); // Nacho
 			location = respawnEvent.getRespawnLocation();
 			entityplayer.reset();
 		} else {
@@ -827,6 +832,8 @@ public abstract class PlayerList {
 		// CraftBukkit start
 		// Don't fire on respawn
 		if (fromWorld != location.getWorld()) {
+			// Nacho
+            WindSpigot.getInstance().getLagCompensator().registerMovement(entityplayer.getBukkitEntity(), entityplayer.getBukkitEntity().getLocation());
 			PlayerChangedWorldEvent event = new PlayerChangedWorldEvent(entityplayer.getBukkitEntity(), fromWorld);
 			server.server.getPluginManager().callEvent(event);
 		}
@@ -893,7 +900,9 @@ public abstract class PlayerList {
 			return;
 		}
 		exitWorld = ((CraftWorld) exit.getWorld()).getHandle();
-
+		
+		WindSpigot.getInstance().getLagCompensator().registerMovement(entityplayer.getBukkitEntity(), exit); // Nacho
+		
 		org.bukkit.event.player.PlayerTeleportEvent tpEvent = new org.bukkit.event.player.PlayerTeleportEvent(
 				entityplayer.getBukkitEntity(), enter, exit, cause);
 		Bukkit.getServer().getPluginManager().callEvent(tpEvent);

@@ -5,6 +5,7 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 
@@ -109,6 +110,7 @@ public class EntityEnderPearl extends EntityProjectile {
 
 					}
 					// Nacho end
+										
 					PlayerTeleportEvent teleEvent = new PlayerTeleportEvent(player, player.getLocation(), location,
 							PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
 					Bukkit.getPluginManager().callEvent(teleEvent);
@@ -129,6 +131,7 @@ public class EntityEnderPearl extends EntityProjectile {
 						}
 
 						entityplayer.playerConnection.teleport(teleEvent.getTo());
+						WindSpigot.getInstance().getLagCompensator().registerMovement(player, location); // Nacho
 						entityliving.fallDistance = 0.0F;
 						CraftEventFactory.entityDamage = this;
 						entityliving.damageEntity(DamageSource.FALL, 5.0F);

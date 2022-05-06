@@ -52,7 +52,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 19; // Update this every new configuration update
+		int configVersion = 20; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -383,6 +383,13 @@ public class WindSpigotConfig {
 		
 		c.addComment("settings.max-tick-time.skippable-entities", "The entity types that can be skipped when ticking. They will only be skipped if the server is lagging based on the set threshold. \nRemove entities from this list if their vanilla behavior is absolutely needed on your server.");
 		c.addComment("settings.max-tick-time.limit-on-overload", "If the server should stop mob spawns when there are too many mobs to handle and some have to be skipped.");
+	}
+	
+	public static boolean improvedHitDetection;
+
+	private static void hitReg() {
+		improvedHitDetection = getBoolean("settings.improved-hit-detection", true);
+		c.addComment("settings.improved-hit-detection", "Enables the usage of an improved hit registration based on lag compensation and small other details. (Credits to NachoSpigot and the original plugin)");
 	}
 	
 }
