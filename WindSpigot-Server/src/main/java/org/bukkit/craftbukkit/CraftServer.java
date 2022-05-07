@@ -117,6 +117,7 @@ import com.google.common.collect.MapMaker;
 import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.Nacho;
+import dev.cobblesword.nachospigot.commons.PluginUtils;
 import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBuf;
@@ -167,7 +168,6 @@ import net.minecraft.server.WorldServer;
 import net.minecraft.server.WorldSettings;
 import net.minecraft.server.WorldType;
 import xyz.sculas.nacho.malware.AntiMalware;
-import xyz.sculas.nacho.patches.RuntimePatches;
 
 public final class CraftServer implements Server {
 	private static final Player[] EMPTY_PLAYER_ARRAY = new Player[0];
@@ -354,33 +354,37 @@ public final class CraftServer implements Server {
 						AntiMalware.find(plugin);
 					}
 					// Nacho end
-					String message = String.format("Loading %s", plugin.getDescription().getFullName());
-					// Nacho start - [Nacho-0043] Fix ProtocolLib
-					if (plugin.getDescription().getFullName().contains("ProtocolLib") && NachoConfig.patchProtocolLib) {
-						boolean val = RuntimePatches.applyProtocolLibPatch(plugin).join();
-						if (val) {
-							Logger.getLogger(CraftServer.class.getName()).log(Level.INFO,
-									"Callback returned a good state, ProtocolLib patch was successful and ProtocolLib is now loading.");
-						} else {
-							Logger.getLogger(CraftServer.class.getName()).log(Level.SEVERE,
-									"An error occurred trying to patch ProtocolLib, the plugin will not work as expected!");
+
+					// Nacho start - Add notice for older ProtocolLib versions
+					if (plugin.getDescription().getFullName().contains("ProtocolLib")) {
+						String[] tmp = plugin.getDescription().getVersion().split("\\.");
+						if (Integer.parseInt(tmp[0]) <= 4 && Integer.parseInt(tmp[1]) <= 6) {
+							logger.warning("Please update to ProtocolLib version 4.7.0 or higher!\n"
+									+ "In version 4.6.0 and lower, ProtocolLib does not work as expected due to a netty update.\n"
+									+ "So.. once again, please update!\n"
+									+ "You can download the latest version with this link: "
+									+ "https://github.com/dmulloy2/ProtocolLib/releases/latest\n"
+									+ "Sleeping for 10s so this message can be read.");
+							Thread.sleep(10000);
 						}
 					}
 					// Nacho end
-					// Nacho start - [Nacho-0044] Fix Citizens
-					else if ("Citizens".equals(plugin.getDescription().getFullName())) {
-						boolean val = RuntimePatches.applyCitizensPatch(plugin).join();
-						if (val) {
-							Logger.getLogger(CraftServer.class.getName()).log(Level.INFO,
-									"Callback returned a good state, Citizens patch was successful and Citizens is now loading.");
-						} else {
-							Logger.getLogger(CraftServer.class.getName()).log(Level.SEVERE,
-									"An error occurred trying to patch Citizens, the plugin will not work as expected!");
+
+					// Nacho start - Add notice for older Citizens versions
+					else if (plugin.getDescription().getFullName().contains("Citizens")) {
+						if (PluginUtils.getCitizensBuild(plugin) < 2396) {
+							logger.warning("Please update to Citizens 2.0.28 #7 or higher!\n"
+									+ "Previously, there was a fix for older versions, but that has been removed.\n"
+									+ "So, if you want Citizens to work, please update!\n"
+									+ "You can download the latest version with this link: "
+									+ "https://ci.citizensnpcs.co/job/Citizens2/\n"
+									+ "Sleeping for 10s so this message can be read.");
+							Thread.sleep(10000);
 						}
 					}
 					// Nacho end
-					plugin.getLogger().info(message);
-					plugin.onLoad();
+
+					plugin.getLogger().info(String.format("Loading %s", plugin.getDescription().getFullName()));
 				} catch (Throwable ex) {
 					Logger.getLogger(CraftServer.class.getName()).log(Level.SEVERE, ex.getMessage() + " initializing "
 							+ plugin.getDescription().getFullName() + " (Is it up to date?)", ex);

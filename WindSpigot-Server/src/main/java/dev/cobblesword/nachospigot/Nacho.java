@@ -15,7 +15,6 @@ import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.MinecraftServer;
 import xyz.sculas.nacho.anticrash.AntiCrash;
 import xyz.sculas.nacho.async.AsyncExplosions;
-import xyz.sculas.nacho.patches.RuntimePatches;
 
 public class Nacho {
 
