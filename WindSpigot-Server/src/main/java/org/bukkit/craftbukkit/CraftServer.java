@@ -385,6 +385,7 @@ public final class CraftServer implements Server {
 					// Nacho end
 
 					plugin.getLogger().info(String.format("Loading %s", plugin.getDescription().getFullName()));
+					plugin.onLoad();
 				} catch (Throwable ex) {
 					Logger.getLogger(CraftServer.class.getName()).log(Level.SEVERE, ex.getMessage() + " initializing "
 							+ plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
