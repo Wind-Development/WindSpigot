@@ -178,6 +178,7 @@ public class AsyncNavigation extends Navigation {
 		// We use a read lock so multiple threads can read without blocking
 		searchCacheLock.readLock().lock();
 		try {
+			// Check if async search has finished, then read it from the cache if it has finished
 			if (this.searchCache.containsKey(id)) {
 				entry = this.searchCache.get(id);
 			}
@@ -188,11 +189,14 @@ public class AsyncNavigation extends Navigation {
 		PathEntity resultPath = null;
 		if (entry != null) {
 			resultPath = entry.getAdjustedPathEntity();
+			
+			// Make sure the path is still valid
+			// (in case the target entity has changed position)
 			if (!entry.isStillValid()) {
 				this.issueSearch(entity);
 			}
-		}
-		if (entry == null && !this.hasAsyncSearchIssued()) {
+		} else if (!this.hasAsyncSearchIssued()) {
+			// Calculate result sync if not calculated and cached already
 			resultPath = super.a(entity);
 			if (resultPath != null) {
 				entry = new SearchCacheEntryEntity(this.b, entity, resultPath);
@@ -235,6 +239,7 @@ public class AsyncNavigation extends Navigation {
 
 		positionSearchCacheLock.readLock().lock();
 		try {
+			// Check if async search has finished, then read it from the cache if it has finished
 			if (this.positionSearchCache.containsKey(type)) {
 				entry = this.positionSearchCache.get(type);
 			}
@@ -245,11 +250,13 @@ public class AsyncNavigation extends Navigation {
 		PathEntity resultPath = null;
 		if (entry != null) {
 			resultPath = entry.getAdjustedPathEntity();
+			
+			// Make sure the path is still valid
 			if (!entry.isStillValid()) {
 				this.issueSearch(x, y, z, type);
 			}
-		}
-		if (entry == null && !this.hasAsyncSearchIssued()) {
+		} else if (!this.hasAsyncSearchIssued()) {
+			// Calculate result sync if not calculated and cached already
 			resultPath = super.a(x, y, z);
 			if (resultPath != null) {
 				entry = new SearchCacheEntryPosition(this.b, x, y, z, resultPath);
@@ -269,13 +276,6 @@ public class AsyncNavigation extends Navigation {
 		}
 		return resultPath;
 	}
-
-	/*
-	@Override
-	public PathEntity a(double d0, double d1, double d2, PositionPathSearchType type) {
-		return this.a(new BlockPosition(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2)), type);
-	}
-	*/
 
 	@Override
 	public boolean a(double d0, double d1, double d2, double d3, PositionPathSearchType type) {
