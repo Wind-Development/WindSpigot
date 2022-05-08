@@ -777,4 +777,11 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
 		return spigot;
 	}
 	// Spigot end
+
+	// WindSpigot start 
+	@Override
+	public void setInvulnerable(boolean invulnerable) {
+		this.getHandle().invulnerable = invulnerable;
+	}
+	// WindSpigot end
 }

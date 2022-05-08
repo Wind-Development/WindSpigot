@@ -162,7 +162,7 @@ public abstract class Entity implements ICommandListener {
 	protected BlockPosition an;
 	protected Vec3D ao;
 	protected EnumDirection ap;
-	private boolean invulnerable;
+	public boolean invulnerable; // WindSpigot - private -> public
 	protected UUID uniqueID;
 	private final CommandObjectiveExecutor au;
 	public boolean valid; // CraftBukkit

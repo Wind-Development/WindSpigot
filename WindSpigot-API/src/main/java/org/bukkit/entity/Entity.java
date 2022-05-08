@@ -348,4 +348,8 @@ public interface Entity extends Metadatable, CommandSender {
 
 	Spigot spigot();
 	// Spigot End
+	
+	// WindSpigot start
+	public void setInvulnerable(boolean invulnerable);
+	// WindSpigot end
 }
