@@ -53,16 +53,29 @@ public class KnockbackConfig {
 		if (!keys.contains("windpvp")) {
 			final KnockbackProfile windpvpProfile = new CraftKnockbackProfile("windpvp");
 			
-			windpvpProfile.setHorizontal(1.1);
-			windpvpProfile.setVertical(0.25);
+			// Base configuration for knockback 
+			windpvpProfile.setHorizontal(1.1); // Slightly higher than vanilla, but is compensated for by friction
 			
+			// Limit the allowed amount of vertical knockback
 			windpvpProfile.setVerticalMax(0.35);
 			
-			windpvpProfile.setFrictionHorizontal(2.0);
-			windpvpProfile.setFrictionVertical(1.5);
+			// The values knockback is divided by before calculations (this reduces knockback when increased)
+			windpvpProfile.setFrictionHorizontal(2.5);
+			windpvpProfile.setFrictionVertical(2.7);
 			
-			windpvpProfile.setExtraHorizontal(0.25);
-			windpvpProfile.setExtraVertical(0.085);
+			// Extra knockback multiplier for player entities 
+			windpvpProfile.setExtraHorizontal(0.65);
+			windpvpProfile.setExtraVertical(0.18);
+			
+			// Make projectiles / fishing rods deal more knockback than normal
+			windpvpProfile.setRodHorizontal(1.5);
+			windpvpProfile.setRodVertical(0.65); 
+			
+			windpvpProfile.setSnowballHorizontal(1.5);
+			windpvpProfile.setSnowballVertical(0.65);
+			
+			windpvpProfile.setEggHorizontal(1.5);
+			windpvpProfile.setEggVertical(0.65);
 			
 			windpvpProfile.save(true);
 		}
