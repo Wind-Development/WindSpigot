@@ -354,6 +354,22 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
+				case "wtap-extra-horizontal": {
+					if (!NumberUtils.isNumber(args[3])) {
+						player.sendMessage("§4" + args[3] + " §c is not a number.");
+						return false;
+					}
+					double value = Double.parseDouble(args[3]);
+					profile.setWTapExtraHorizontal(value);
+				}
+				case "wtap-extra-vertical": {
+					if (!NumberUtils.isNumber(args[3])) {
+						player.sendMessage("§4" + args[3] + " §c is not a number.");
+						return false;
+					}
+					double value = Double.parseDouble(args[3]);
+					profile.setWTapExtraVertical(value);
+				}
 				}
 			}
 			break;

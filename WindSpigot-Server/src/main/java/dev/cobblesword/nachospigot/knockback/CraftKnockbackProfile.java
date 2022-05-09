@@ -25,6 +25,9 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 	private double snowballVertical = 0.4D;
 	private double eggHorizontal = 0.4D;
 	private double eggVertical = 0.4D;
+	
+	private double wTapHorizontal = 0.4;
+	private double wTapVertical = 0.4;
 
 	public CraftKnockbackProfile(String name) {
 		this.name = name;
@@ -48,7 +51,10 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 		KnockbackConfig.set(path + ".vertical-min", this.verticalMin);
 		KnockbackConfig.set(path + ".extra-horizontal", this.extraHorizontal);
 		KnockbackConfig.set(path + ".extra-vertical", this.extraVertical);
-
+		
+		KnockbackConfig.set(path + ".wtap-extra-horizontal", this.wTapHorizontal);
+		KnockbackConfig.set(path + ".wtap-extra-vertical", this.wTapVertical);
+		
 		if (projectiles) {
 			KnockbackConfig.set(path + ".projectiles.rod.horizontal", this.rodHorizontal);
 			KnockbackConfig.set(path + ".projectiles.rod.vertical", this.rodVertical);
@@ -271,7 +277,8 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 				"Vertical-Max§7: " + this.verticalMax, "Vertical-Min§7: " + this.verticalMin,
 				"Extra-Horizontal§7: " + this.extraHorizontal, "Extra-Vertical§7: " + this.extraVertical,
 				"Friction-Horizontal§7: " + this.frictionHorizontal, "Friction-Vertical§7: " + this.frictionVertical,
-				"Stop-Sprint§7: " + this.stopSprint, };
+				"Stop-Sprint§7: " + this.stopSprint, "Wtap-Extra-Horizontal§7: " + this.wTapHorizontal,
+				"Wtap-Extra-Vertical§7: " + this.wTapVertical };
 	}
 
 	@Override
@@ -281,5 +288,25 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 				"Pearl-Horizontal§7: " + this.pearlHorizontal, "Pearl-Vertical§7: " + this.pearlVertical,
 				"Snowball-Horizontal§7: " + this.snowballHorizontal, "Snowball-Vertical§7: " + this.snowballVertical,
 				"Egg-Horizontal§7: " + this.eggHorizontal, "Egg-Vertical§7: " + this.eggVertical, };
+	}
+
+	@Override
+	public double getWTapExtraHorizontal() {
+		return wTapHorizontal;
+	}
+
+	@Override
+	public void setWTapExtraHorizontal(double wtapHorizontal) {
+		this.wTapHorizontal = wtapHorizontal;
+	}
+
+	@Override
+	public double getWTapExtraVertical() {
+		return wTapVertical;
+	}
+
+	@Override
+	public void setWTapExtraVertical(double wTapVertical) {
+		this.wTapVertical = wTapVertical;
 	}
 }

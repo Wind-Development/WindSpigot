@@ -85,6 +85,14 @@ public interface KnockbackProfile {
 	double getEggVertical();
 
 	void setEggVertical(double eggVertical);
+	
+	double getWTapExtraHorizontal();
+	
+	void setWTapExtraHorizontal(double wTapHorizontal);
+	
+	double getWTapExtraVertical();
+	
+	void setWTapExtraVertical(double wTapVertical);
 
 	String[] getKnockbackValues();
 

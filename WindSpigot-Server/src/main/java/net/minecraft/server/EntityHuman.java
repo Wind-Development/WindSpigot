@@ -1070,11 +1070,19 @@ public abstract class EntityHuman extends EntityLiving {
 							KnockbackProfile profile = (entity.getKnockbackProfile() == null)
 									? KnockbackConfig.getCurrentKb()
 									: entity.getKnockbackProfile();
-							entity.g(
-									(-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i
-											* profile.getExtraHorizontal()),
-									profile.getExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
-											* i * profile.getExtraHorizontal()));
+							if (this.isExtraKnockback()) {
+								entity.g(
+										(-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i
+												* profile.getExtraHorizontal()),
+										profile.getExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
+												* i * profile.getExtraHorizontal()));
+							} else {
+								entity.g(
+										(-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i
+												* profile.getWTapExtraHorizontal()),
+										profile.getWTapExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
+												* i * profile.getWTapExtraHorizontal()));	
+							}
 							this.motX *= 0.6D;
 							this.motZ *= 0.6D;
 							if (profile.isStopSprint()) {

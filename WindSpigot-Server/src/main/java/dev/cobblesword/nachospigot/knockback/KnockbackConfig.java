@@ -77,6 +77,11 @@ public class KnockbackConfig {
 			windpvpProfile.setEggHorizontal(1.5);
 			windpvpProfile.setEggVertical(0.75);
 			
+			// Increase knockback for w taps (this replaces "setExtraHorizontal/setExtraVertical" when 
+			// a player is attacking whilst sprinting)
+			windpvpProfile.setWTapExtraHorizontal(0.75);
+			windpvpProfile.setWTapExtraVertical(0.18); // Unchanged vertical value
+			
 			windpvpProfile.save(true);
 		}
 		
@@ -98,8 +103,8 @@ public class KnockbackConfig {
 				kbProfiles.add(profile);
 			}
 			profile.setStopSprint(getBoolean(path + ".stop-sprint", true));
-			profile.setFrictionHorizontal(getDouble(path + ".friction-horizontal", 0.5D));
-			profile.setFrictionVertical(getDouble(path + ".friction-vertical", 0.5D));
+			profile.setFrictionHorizontal(getDouble(path + ".friction-horizontal", 2.0D));
+			profile.setFrictionVertical(getDouble(path + ".friction-vertical", 2.0D));
 			profile.setHorizontal(getDouble(path + ".horizontal", 0.4D));
 			profile.setVertical(getDouble(path + ".vertical", 0.4D));
 			profile.setVerticalMax(getDouble(path + ".vertical-max", 0.4D));
@@ -107,6 +112,9 @@ public class KnockbackConfig {
 			profile.setExtraHorizontal(getDouble(path + ".extra-horizontal", 0.5D));
 			profile.setExtraVertical(getDouble(path + ".extra-vertical", 0.05D));
 
+			profile.setWTapExtraHorizontal(getDouble(path + ".wtap-extra-horizontal", 0.4));
+			profile.setWTapExtraVertical(getDouble(path + ".wtap-extra-vertical", 0.4));
+			
 			profile.setRodHorizontal(getDouble(path + ".projectiles.rod.horizontal", 0.4D));
 			profile.setRodVertical(getDouble(path + ".projectiles.rod.vertical", 0.4D));
 			profile.setArrowHorizontal(getDouble(path + ".projectiles.arrow.horizontal", 0.4D));
