@@ -983,7 +983,7 @@ public abstract class EntityLiving extends Entity {
 			this.motX /= kb.getFrictionHorizontal();
 			this.motY /= kb.getFrictionVertical();
 			this.motZ /= kb.getFrictionHorizontal();
-			// WindSPigot end
+			// WindSpigot end
 
 			this.motX -= x / magnitude * horizontal;
 			this.motY += vertical;
