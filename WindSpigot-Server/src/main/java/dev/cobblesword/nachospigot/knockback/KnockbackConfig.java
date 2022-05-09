@@ -55,8 +55,6 @@ public class KnockbackConfig {
 			// Generated profiles are based on kohi kb values, not vanilla, so we set the values here
 			defaultProfile.setFrictionHorizontal(1.0);
 			defaultProfile.setFrictionVertical(1.0);
-			defaultProfile.setHorizontal(0.4);
-			defaultProfile.setVertical(0.4);
 			defaultProfile.setExtraHorizontal(0.0);
 			defaultProfile.setExtraVertical(0.0);
 			defaultProfile.save(true);
