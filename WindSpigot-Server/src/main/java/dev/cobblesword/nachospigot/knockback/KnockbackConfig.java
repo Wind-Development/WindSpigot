@@ -69,13 +69,13 @@ public class KnockbackConfig {
 			
 			// Make projectiles / fishing rods deal more knockback than normal
 			windpvpProfile.setRodHorizontal(1.5);
-			windpvpProfile.setRodVertical(0.65); 
+			windpvpProfile.setRodVertical(0.75); 
 			
 			windpvpProfile.setSnowballHorizontal(1.5);
-			windpvpProfile.setSnowballVertical(0.65);
+			windpvpProfile.setSnowballVertical(0.75);
 			
 			windpvpProfile.setEggHorizontal(1.5);
-			windpvpProfile.setEggVertical(0.65);
+			windpvpProfile.setEggVertical(0.75);
 			
 			windpvpProfile.save(true);
 		}
