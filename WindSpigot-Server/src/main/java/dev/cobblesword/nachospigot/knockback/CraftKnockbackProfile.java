@@ -10,8 +10,8 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 	private double verticalMax = 0.4D;
 	private double extraHorizontal = 0.5D;
 	private double extraVertical = 0.1D;
-	private double frictionHorizontal = 0.5D;
-	private double frictionVertical = 0.5D;
+	private double frictionHorizontal = 2.0D;
+	private double frictionVertical = 2.0D;
 
 	private boolean stopSprint = true;
 
