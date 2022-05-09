@@ -50,6 +50,23 @@ public class KnockbackConfig {
 			kohiProfile.save(true);
 		}
 		
+		if (!keys.contains("windpvp")) {
+			final KnockbackProfile windpvpProfile = new CraftKnockbackProfile("windpvp");
+			
+			windpvpProfile.setHorizontal(1.1);
+			windpvpProfile.setVertical(0.25);
+			
+			windpvpProfile.setVerticalMax(0.35);
+			
+			windpvpProfile.setFrictionHorizontal(2.0);
+			windpvpProfile.setFrictionVertical(1.5);
+			
+			windpvpProfile.setExtraHorizontal(0.25);
+			windpvpProfile.setExtraVertical(0.085);
+			
+			windpvpProfile.save(true);
+		}
+		
 		if (!keys.contains("vanilla")) {
 			final KnockbackProfile defaultProfile = new CraftKnockbackProfile("vanilla"); 
 			// Generated profiles are based on kohi kb values, not vanilla, so we set the values here
