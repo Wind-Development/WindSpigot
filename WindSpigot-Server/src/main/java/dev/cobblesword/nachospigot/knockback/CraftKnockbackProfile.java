@@ -26,8 +26,8 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 	private double eggHorizontal = 0.4D;
 	private double eggVertical = 0.4D;
 	
-	private double wTapHorizontal = 0.4;
-	private double wTapVertical = 0.4;
+	private double wTapHorizontal = 0.5;
+	private double wTapVertical = 0.1;
 
 	public CraftKnockbackProfile(String name) {
 		this.name = name;
