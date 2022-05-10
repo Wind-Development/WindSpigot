@@ -3,6 +3,7 @@ package dev.cobblesword.nachospigot.knockback;
 public class CraftKnockbackProfile implements KnockbackProfile {
 
 	private String name;
+	private final String saveProfilePath;
 
 	private double horizontal = 0.4D;
 	private double vertical = 0.4D;
@@ -34,44 +35,48 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 
 	public CraftKnockbackProfile(String name) {
 		this.name = name;
+		this.saveProfilePath = "knockback.profiles." + this.name;
 	}
 
 	@Override
 	public void save() {
 		save(false);
 	}
+	
+	private void set(String savePath, Object value) {
+		KnockbackConfig.set(saveProfilePath + savePath, value);
+	}
 
 	@Override
 	public void save(boolean projectiles) {
-		final String path = "knockback.profiles." + this.name;
 
-		KnockbackConfig.set(path + ".stop-sprint", this.stopSprint);
-		KnockbackConfig.set(path + ".friction-horizontal", this.frictionHorizontal);
-		KnockbackConfig.set(path + ".friction-vertical", this.frictionVertical);
-		KnockbackConfig.set(path + ".horizontal", this.horizontal);
-		KnockbackConfig.set(path + ".vertical", this.vertical);
-		KnockbackConfig.set(path + ".vertical-max", this.verticalMax);
-		KnockbackConfig.set(path + ".vertical-min", this.verticalMin);
-		KnockbackConfig.set(path + ".extra-horizontal", this.extraHorizontal);
-		KnockbackConfig.set(path + ".extra-vertical", this.extraVertical);
+		set(".stop-sprint", this.stopSprint);
+		set(".friction-horizontal", this.frictionHorizontal);
+		set(".friction-vertical", this.frictionVertical);
+		set(".horizontal", this.horizontal);
+		set(".vertical", this.vertical);
+		set(".vertical-max", this.verticalMax);
+		set(".vertical-min", this.verticalMin);
+		set(".extra-horizontal", this.extraHorizontal);
+		set(".extra-vertical", this.extraVertical);
 		
-		KnockbackConfig.set(path + ".wtap-extra-horizontal", this.wTapHorizontal);
-		KnockbackConfig.set(path + ".wtap-extra-vertical", this.wTapVertical);
+		set(".wtap-extra-horizontal", this.wTapHorizontal);
+		set(".wtap-extra-vertical", this.wTapVertical);
 		
-		KnockbackConfig.set(path + "add-horizontal", this.addHorizontal);
-		KnockbackConfig.set(path + "add-vertical", this.addVertical);
+		set("add-horizontal", this.addHorizontal);
+		set("add-vertical", this.addVertical);
 		
 		if (projectiles) {
-			KnockbackConfig.set(path + ".projectiles.rod.horizontal", this.rodHorizontal);
-			KnockbackConfig.set(path + ".projectiles.rod.vertical", this.rodVertical);
-			KnockbackConfig.set(path + ".projectiles.arrow.horizontal", this.arrowHorizontal);
-			KnockbackConfig.set(path + ".projectiles.arrow.vertical", this.arrowVertical);
-			KnockbackConfig.set(path + ".projectiles.pearl.horizontal", this.pearlHorizontal);
-			KnockbackConfig.set(path + ".projectiles.pearl.vertical", this.pearlVertical);
-			KnockbackConfig.set(path + ".projectiles.snowball.horizontal", this.snowballHorizontal);
-			KnockbackConfig.set(path + ".projectiles.snowball.vertical", this.snowballVertical);
-			KnockbackConfig.set(path + ".projectiles.egg.horizontal", this.eggHorizontal);
-			KnockbackConfig.set(path + ".projectiles.egg.vertical", this.eggVertical);
+			set(".projectiles.rod.horizontal", this.rodHorizontal);
+			set(".projectiles.rod.vertical", this.rodVertical);
+			set(".projectiles.arrow.horizontal", this.arrowHorizontal);
+			set(".projectiles.arrow.vertical", this.arrowVertical);
+			set(".projectiles.pearl.horizontal", this.pearlHorizontal);
+			set(".projectiles.pearl.vertical", this.pearlVertical);
+			set(".projectiles.snowball.horizontal", this.snowballHorizontal);
+			set(".projectiles.snowball.vertical", this.snowballVertical);
+			set(".projectiles.egg.horizontal", this.eggHorizontal);
+			set(".projectiles.egg.vertical", this.eggVertical);
 		}
 
 		KnockbackConfig.save();
