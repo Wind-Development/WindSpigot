@@ -1070,6 +1070,8 @@ public abstract class EntityHuman extends EntityLiving {
 							KnockbackProfile profile = (entity.getKnockbackProfile() == null)
 									? KnockbackConfig.getCurrentKb()
 									: entity.getKnockbackProfile();
+							
+							// WindSpigot start - more configurable knockback
 							if (this.isExtraKnockback()) {
 								entity.g(
 										(-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i
@@ -1083,6 +1085,7 @@ public abstract class EntityHuman extends EntityLiving {
 										profile.getWTapExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
 												* i * profile.getWTapExtraHorizontal()));	
 							}
+							// WindSpigot end
 							this.motX *= 0.6D;
 							this.motZ *= 0.6D;
 							if (profile.isStopSprint()) {
