@@ -988,6 +988,13 @@ public abstract class EntityLiving extends Entity {
 			this.motX -= x / magnitude * horizontal;
 			this.motY += vertical;
 			this.motZ -= z / magnitude * horizontal;
+			
+			// WindSpigot start - knockback addition config
+			this.motX += kb.getAddHorizontal();
+			this.motY += kb.getAddVertical();
+			this.motZ += kb.getAddHorizontal();
+			// WindSpigot end
+			
 			if (this.motY > kb.getVerticalMax()) {
 				this.motY = kb.getVerticalMax();
 			}

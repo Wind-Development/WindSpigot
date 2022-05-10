@@ -28,6 +28,9 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 	
 	private double wTapHorizontal = 0.5;
 	private double wTapVertical = 0.1;
+	
+	private double addHorizontal = 0;
+	private double addVertical = 0;
 
 	public CraftKnockbackProfile(String name) {
 		this.name = name;
@@ -54,6 +57,9 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 		
 		KnockbackConfig.set(path + ".wtap-extra-horizontal", this.wTapHorizontal);
 		KnockbackConfig.set(path + ".wtap-extra-vertical", this.wTapVertical);
+		
+		KnockbackConfig.set(path + "add-horizontal", this.addHorizontal);
+		KnockbackConfig.set(path + "add-vertical", this.addVertical);
 		
 		if (projectiles) {
 			KnockbackConfig.set(path + ".projectiles.rod.horizontal", this.rodHorizontal);
@@ -278,7 +284,8 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 				"Extra-Horizontal§7: " + this.extraHorizontal, "Extra-Vertical§7: " + this.extraVertical,
 				"Friction-Horizontal§7: " + this.frictionHorizontal, "Friction-Vertical§7: " + this.frictionVertical,
 				"Stop-Sprint§7: " + this.stopSprint, "Wtap-Extra-Horizontal§7: " + this.wTapHorizontal,
-				"Wtap-Extra-Vertical§7: " + this.wTapVertical };
+				"Wtap-Extra-Vertical§7: " + this.wTapVertical, "Add-Horizontal§7: " + this.addHorizontal,
+				"Add-Vertical§7: " + this.addVertical };
 	}
 
 	@Override
@@ -308,5 +315,25 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 	@Override
 	public void setWTapExtraVertical(double wTapVertical) {
 		this.wTapVertical = wTapVertical;
+	}
+
+	@Override
+	public double getAddHorizontal() {
+		return addHorizontal;
+	}
+
+	@Override
+	public void setAddHorizontal(double addHorizontal) {
+		this.addHorizontal = addHorizontal;
+	}
+
+	@Override
+	public double getAddVertical() {
+		return addVertical;
+	}
+
+	@Override
+	public void setAddVertical(double addVertical) {
+		this.addVertical = addVertical;
 	}
 }

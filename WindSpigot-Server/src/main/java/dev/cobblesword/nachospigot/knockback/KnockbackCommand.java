@@ -370,6 +370,22 @@ public class KnockbackCommand extends Command {
 					double value = Double.parseDouble(args[3]);
 					profile.setWTapExtraVertical(value);
 				}
+				case "add-horizontal": {
+					if (!NumberUtils.isNumber(args[3])) {
+						player.sendMessage("§4" + args[3] + " §c is not a number.");
+						return false;
+					}
+					double value = Double.parseDouble(args[3]);
+					profile.setAddHorizontal(value);
+				}
+				case "add-vertical": {
+					if (!NumberUtils.isNumber(args[3])) {
+						player.sendMessage("§4" + args[3] + " §c is not a number.");
+						return false;
+					}
+					double value = Double.parseDouble(args[3]);
+					profile.setAddVertical(value);
+				}
 				}
 			}
 			break;

@@ -21,7 +21,7 @@ public class KnockbackConfig {
 	private static final Logger LOGGER = LogManager.getLogger(KnockbackConfig.class);
 	private static File CONFIG_FILE;
 	protected static final YamlCommenter c = new YamlCommenter();
-	private static final String HEADER = "This is the knockback configuration file for NachoSpigot.\n";
+	private static final String HEADER = "This is the knockback configuration file for WindSpigot.\n";
 	static YamlConfiguration config;
 
 	private static KnockbackProfile currentKb;
@@ -31,7 +31,7 @@ public class KnockbackConfig {
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
 		try {
-			WindSpigot.LOGGER.info("Loading NachoSpigot knockback config from " + configFile.getName());
+			WindSpigot.LOGGER.info("Loading WindSpigot knockback config from " + configFile.getName());
 			config.load(CONFIG_FILE);
 		} catch (IOException ignored) {
 		} catch (InvalidConfigurationException ex) {
@@ -51,6 +51,7 @@ public class KnockbackConfig {
 		}
 		
 		if (!keys.contains("windpvp")) {
+			// WIP custom profile
 			final KnockbackProfile windpvpProfile = new CraftKnockbackProfile("windpvp");
 			
 			// Base configuration for knockback 
@@ -60,8 +61,8 @@ public class KnockbackConfig {
 			windpvpProfile.setVerticalMax(0.35);
 			
 			// The values knockback is divided by before calculations (this reduces knockback when increased)
-			windpvpProfile.setFrictionHorizontal(2.5);
-			windpvpProfile.setFrictionVertical(2.7);
+			windpvpProfile.setFrictionHorizontal(2.7);
+			windpvpProfile.setFrictionVertical(3.0);
 			
 			// Extra knockback multiplier for player entities 
 			windpvpProfile.setExtraHorizontal(0.65);
@@ -81,6 +82,10 @@ public class KnockbackConfig {
 			// a player is attacking whilst sprinting)
 			windpvpProfile.setWTapExtraHorizontal(0.75);
 			windpvpProfile.setWTapExtraVertical(0.18); // Unchanged vertical value
+			
+			// Add to knockback after calculations to make it more consistent
+			windpvpProfile.setAddHorizontal(0.5);
+			windpvpProfile.setAddVertical(0.08);
 			
 			windpvpProfile.save(true);
 		}
@@ -117,6 +122,9 @@ public class KnockbackConfig {
 			profile.setWTapExtraHorizontal(getDouble(path + ".wtap-extra-horizontal", 0.4));
 			profile.setWTapExtraVertical(getDouble(path + ".wtap-extra-vertical", 0.4));
 			
+			profile.setAddHorizontal(getDouble(path + ".add-horizontal", 0));
+			profile.setAddVertical(getDouble(path + ".add-vertical", 0));
+
 			profile.setRodHorizontal(getDouble(path + ".projectiles.rod.horizontal", 0.4D));
 			profile.setRodVertical(getDouble(path + ".projectiles.rod.vertical", 0.4D));
 			profile.setArrowHorizontal(getDouble(path + ".projectiles.arrow.horizontal", 0.4D));
