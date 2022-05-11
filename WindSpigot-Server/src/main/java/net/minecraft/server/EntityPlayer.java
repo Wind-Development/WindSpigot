@@ -29,7 +29,7 @@ import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 
 public class EntityPlayer extends EntityHuman implements ICrafting {
 
-	private static final Logger bH = LogManager.getLogger();
+	//private static final Logger bH = LogManager.getLogger(); // WindSpigot - remove unused logger
 	public String locale = "en_US"; // Spigot
 	public PlayerConnection playerConnection;
 	public final MinecraftServer server;
