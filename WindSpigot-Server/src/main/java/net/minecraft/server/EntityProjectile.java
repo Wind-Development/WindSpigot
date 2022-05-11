@@ -123,8 +123,10 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 		Vec3D vec3d1 = new Vec3D(this.locX + this.motX, this.locY + this.motY, this.locZ + this.motZ);
 		MovingObjectPosition movingobjectposition = this.world.rayTrace(vec3d, vec3d1);
 
-		vec3d = new Vec3D(this.locX, this.locY, this.locZ);
-		vec3d1 = new Vec3D(this.locX + this.motX, this.locY + this.motY, this.locZ + this.motZ);
+		// WindSpigot - remove these
+		//vec3d = new Vec3D(this.locX, this.locY, this.locZ);
+		//vec3d1 = new Vec3D(this.locX + this.motX, this.locY + this.motY, this.locZ + this.motZ);
+		
 		if (movingobjectposition != null) {
 			vec3d1 = new Vec3D(movingobjectposition.pos.a, movingobjectposition.pos.b, movingobjectposition.pos.c);
 		}
@@ -222,9 +224,9 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 		float f3 = this.m();
 
 		if (this.V()) {
+			final float f4 = 0.25F; // WindSpigot - move this out of for loop and make final
+			
 			for (int j = 0; j < 4; ++j) {
-				float f4 = 0.25F;
-
 				this.world.addParticle(EnumParticle.WATER_BUBBLE, this.locX - this.motX * f4,
 						this.locY - this.motY * f4, this.locZ - this.motZ * f4, this.motX, this.motY, this.motZ,
 						Constants.EMPTY_ARRAY);
