@@ -139,6 +139,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 
 	// WindSpigot - instance
 	protected WindSpigot windSpigot;
+	
+	// WindSpigot - MSPT for tps command
+	private double lastMspt;
 
 	public MinecraftServer(OptionSet options, Proxy proxy, File file1) {
 		io.netty.util.ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED); // [Nacho-0040] Change
@@ -704,9 +707,11 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 					this.A();
 					long endTime = System.nanoTime();
 					long remaining = (TICK_TIME - (endTime - lastTick)) - catchupTime;
+					// WindSpigot - MSPT for tps command
+					this.lastMspt = (endTime - lastTick) / 1000000D;
 					this.server.getPluginManager()
-							.callEvent(new com.destroystokyo.paper.event.server.ServerTickEndEvent(this.ticks,
-									((endTime - lastTick) / 1000000D), remaining));
+							.callEvent(new com.destroystokyo.paper.event.server.ServerTickEndEvent(this.ticks, lastMspt,
+									remaining));
 					// NachoSpigot end
 					this.Q = true;
 				}
@@ -1659,5 +1664,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	// WindSpigot - instance
 	public WindSpigot getWindSpigot() {
 		return this.windSpigot;
+	}
+	
+	// WindSpigot - MSPT (milliseconds per tick)
+	public double getLastMspt() {
+		return this.lastMspt;
 	}
 }
