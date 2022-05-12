@@ -63,8 +63,8 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 		set(".wtap-extra-horizontal", this.wTapHorizontal);
 		set(".wtap-extra-vertical", this.wTapVertical);
 		
-		set("add-horizontal", this.addHorizontal);
-		set("add-vertical", this.addVertical);
+		set(".add-horizontal", this.addHorizontal);
+		set(".add-vertical", this.addVertical);
 		
 		if (projectiles) {
 			set(".projectiles.rod.horizontal", this.rodHorizontal);
