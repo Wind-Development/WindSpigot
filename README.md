@@ -23,7 +23,7 @@ WindSpigot moves heavy work off of the main server thread and splits up the serv
 - TNT calculations (from NachoSpigot)
 - The entity tracker (updated with multiple threads, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**)
 - Knockback (packets are sent with high priority, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
-- Entity path searching (entity AI calculations are done async)
+- Entity path searching (entity AI calculations are done async, from Minetick)
 
 #### What other modifications does WindSpigot have?
 See the patches list below.
@@ -44,6 +44,7 @@ See the patches list below.
 [WindSpigot-0010] Configurable potion speeds
 [WindSpigot-0011] Make console display of player ips toggleable
 [WindSpigot-0012] Re-implement Spigot's max tick time for certain configurable entities
+[WindSpigot-0013] More configuration for knockback
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
