@@ -14,7 +14,6 @@ import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.pathsearch.AsyncPathSearchManager;
 import ga.windpvp.windspigot.async.thread.CombatThread;
-import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.commands.MobAICommand;
 import ga.windpvp.windspigot.commands.PingCommand;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
@@ -115,7 +114,6 @@ public class WindSpigot {
 					+ "Timings have been disabled due to parallel worlds being enabled. Timings will break with parallel worlds.");
 			
 			LOGGER.info(" ");
-			TeleportRegistry.init();
 		}
 		if (WindSpigotConfig.improvedHitDetection) {
 			lagCompensator = new LagCompensator();

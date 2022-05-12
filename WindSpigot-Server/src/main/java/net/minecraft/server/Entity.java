@@ -44,7 +44,6 @@ import dev.cobblesword.nachospigot.commons.MCUtils;
 import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.async.AsyncUtil;
-import ga.windpvp.windspigot.async.world.TeleportRegistry;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
 
@@ -2278,87 +2277,8 @@ public abstract class Entity implements ICommandListener {
 		final WorldServer worldserver = ((CraftWorld) getBukkitEntity().getLocation().getWorld()).getHandle();
 		final WorldServer worldserver1 = ((CraftWorld) exit.getWorld()).getHandle();
 
-		// Check if using parallel worlds and if teleporting is between worlds
-		if (WindSpigotConfig.parallelWorld && worldserver != worldserver1) {
-
-			// Only one thread can access this at a time
-			synchronized (TeleportRegistry.isWaitingOnTeleport) {
-
-				// Check if other worlds are waiting on teleporting
-				if (TeleportRegistry.isWaitingOnTeleport.get(worldserver1) != null
-						&& TeleportRegistry.isWaitingOnTeleport.get(worldserver1)) {
-
-					// Create a runnable that is then run on the main thread
-					Runnable runnable = (() -> {
-						int i = worldserver1.dimension;
-						// CraftBukkit end
-
-						this.dimension = i;
-						/*
-						 * CraftBukkit start - TODO: Check if we need this if (j == 1 && i == 1) {
-						 * worldserver1 = minecraftserver.getWorldServer(0); this.dimension = 0; } //
-						 * CraftBukkit end
-						 */
-
-						this.world.kill(this);
-						this.dead = false;
-						this.world.methodProfiler.a("reposition");
-						// CraftBukkit start - Ensure chunks are loaded in case TravelAgent is not used
-						// which would initially cause chunks to load during find/create
-						// minecraftserver.getPlayerList().changeWorld(this, j, worldserver,
-						// worldserver1);
-						boolean before = worldserver1.chunkProviderServer.forceChunkLoad;
-						worldserver1.chunkProviderServer.forceChunkLoad = true;
-						worldserver1.getMinecraftServer().getPlayerList().repositionEntity(this, exit, portal);
-						worldserver1.chunkProviderServer.forceChunkLoad = before;
-						// CraftBukkit end
-						this.world.methodProfiler.c("reloading");
-						Entity entity = EntityTypes.createEntityByName(EntityTypes.b(this), worldserver1);
-
-						if (entity != null) {
-							entity.n(this);
-							/*
-							 * CraftBukkit start - We need to do this... if (j == 1 && i == 1) {
-							 * BlockPosition blockposition = this.world.r(worldserver1.getSpawn());
-							 * 
-							 * entity.setPositionRotation(blockposition, entity.yaw, entity.pitch); } //
-							 * CraftBukkit end
-							 */
-
-							worldserver1.addEntity(entity);
-							// CraftBukkit start - Forward the CraftEntity to the new entity
-							this.getBukkitEntity().setHandle(entity);
-							entity.bukkitEntity = this.getBukkitEntity();
-
-							if (this instanceof EntityInsentient) {
-								((EntityInsentient) this).unleash(true, false); // Unleash to prevent duping of
-																				// leads.
-							}
-							// CraftBukkit end
-						}
-
-						this.dead = true;
-						this.world.methodProfiler.b();
-						worldserver.j();
-						worldserver1.j();
-						this.world.methodProfiler.b();
-					});
-
-					// Run this runnable on the main thread after the current tick
-					AsyncUtil.runPostTick(runnable);
-					return;
-				}
-
-				// Register this teleport if no other teleports are waiting
-				TeleportRegistry.isWaitingOnTeleport.put(worldserver, true);
-			}
-		}
-		// WindSpigot end
-
-		// WindSpigot - synchronize on the WorldServer to wait for the world to finish
-		// ticking before teleporting the entity
-		synchronized (worldserver1) {
-
+		// Create a runnable that is then run on the main thread
+		Runnable teleportTask = (() -> {
 			int i = worldserver1.dimension;
 			// CraftBukkit end
 
@@ -2400,7 +2320,8 @@ public abstract class Entity implements ICommandListener {
 				entity.bukkitEntity = this.getBukkitEntity();
 
 				if (this instanceof EntityInsentient) {
-					((EntityInsentient) this).unleash(true, false); // Unleash to prevent duping of leads.
+					((EntityInsentient) this).unleash(true, false); // Unleash to prevent duping of
+																	// leads.
 				}
 				// CraftBukkit end
 			}
@@ -2410,13 +2331,16 @@ public abstract class Entity implements ICommandListener {
 			worldserver.j();
 			worldserver1.j();
 			this.world.methodProfiler.b();
-		}
+		});
 
-		// WindSpigot - no longer waiting to teleport
 		if (WindSpigotConfig.parallelWorld) {
-			TeleportRegistry.isWaitingOnTeleport.remove(worldserver);
+			// Run this runnable on the main thread after the current tick
+			AsyncUtil.runPostTick(teleportTask);
+		} else {
+			// Run on the current thread
+			teleportTask.run();
 		}
-
+		// WindSpigot end
 	}
 
 	public float a(Explosion explosion, World world, BlockPosition blockposition, IBlockData iblockdata) {
