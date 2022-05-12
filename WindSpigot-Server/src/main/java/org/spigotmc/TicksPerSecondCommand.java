@@ -56,8 +56,8 @@ public class TicksPerSecondCommand extends Command {
 		sender.sendMessage(ChatColor.AQUA + "Entity Count: " + ChatColor.GREEN + entityCount);
 		sender.sendMessage(ChatColor.AQUA + "Tile Entity Count: " + ChatColor.GREEN + tileEntityCount);
 		sender.sendMessage(ChatColor.AQUA + "Mob AI: " + ChatColor.GREEN + MinecraftServer.getServer().worlds.get(0).nachoSpigotConfig.enableMobAI);
-		sender.sendMessage(ChatColor.AQUA + "Milliseconds to Run Last Tick: " + ChatColor.GREEN + MinecraftServer.getServer().getLastMspt());
-
+		sender.sendMessage(ChatColor.AQUA + "Milliseconds to Run Last Tick: " + ChatColor.GREEN + Math.round(MinecraftServer.getServer().getLastMspt() * 100.0) / 100.0);
+		
 		return true;
 	}
 
