@@ -31,5 +31,14 @@ public class AsyncUtil {
 	public static void runSyncNextTick(Runnable runnable) {
 		MinecraftServer.getServer().processQueue.add(runnable);
 	}
+	
+	/**
+	 * Runs a given task after the current tick on the main thread
+	 * @param runnable The task to run
+	 */
+	public static void runPostTick(Runnable runnable) {
+		MinecraftServer.getServer().priorityProcessQueue.add(runnable);
+	}
+
 
 }

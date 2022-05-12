@@ -136,7 +136,7 @@ public class Explosion {
 						// WindSpigot start - toggleable async explosions
 						if (WindSpigotConfig.asyncTnt) {
 							this.getBlockDensityAsync(vec3d, entity.getBoundingBox())
-									.thenAccept((d12) -> AsyncUtil.runSyncNextTick(() -> {
+									.thenAccept((d12) -> AsyncUtil.runPostTick(() -> {
 										processEntityKnockback(entity, d7, finalD, finalD1, finalD11, f3, d12);
 									}));
 						} else {

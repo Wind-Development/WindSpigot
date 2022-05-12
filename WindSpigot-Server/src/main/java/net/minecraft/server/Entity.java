@@ -2344,8 +2344,8 @@ public abstract class Entity implements ICommandListener {
 						this.world.methodProfiler.b();
 					});
 
-					// Run this runnable on the main thread on the next tick
-					AsyncUtil.runSyncNextTick(runnable);
+					// Run this runnable on the main thread after the current tick
+					AsyncUtil.runPostTick(runnable);
 					return;
 				}
 

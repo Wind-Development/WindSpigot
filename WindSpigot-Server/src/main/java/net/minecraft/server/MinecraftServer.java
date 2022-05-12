@@ -133,6 +133,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	public static int currentTick = 0; // PaperSpigot - Further improve tick loop
 	public final Thread primaryThread;
 	public java.util.Queue<Runnable> processQueue = new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();
+	public java.util.Queue<Runnable> priorityProcessQueue = new java.util.concurrent.ConcurrentLinkedQueue<Runnable>(); // WindSpigot
 	public int autosavePeriod;
 	// CraftBukkit end
 
@@ -966,6 +967,12 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		// WindSpigot - parallel worlds
 		this.worldTickerManager.tick();
 
+		// WindSpigot start - priority process queue
+		while (!priorityProcessQueue.isEmpty()) {
+			priorityProcessQueue.poll().run();
+		}
+		// WindSpigot end
+		
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot
 		this.aq().c();

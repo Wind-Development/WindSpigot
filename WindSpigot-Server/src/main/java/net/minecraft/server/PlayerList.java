@@ -804,7 +804,7 @@ public abstract class PlayerList {
 			// WindSpigot start - safe cross world player teleports
 			if (!Bukkit.isPrimaryThread()) {
 				// Schedule this to run sync one tick later
-				AsyncUtil.runSyncNextTick(() -> {
+				AsyncUtil.runPostTick(() -> {
 					worldserver.getPlayerChunkMap().addPlayer(entityplayer1);
 					worldserver.addEntity(entityplayer1);
 				});
