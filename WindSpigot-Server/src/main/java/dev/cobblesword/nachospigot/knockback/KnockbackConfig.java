@@ -21,7 +21,8 @@ public class KnockbackConfig {
 	private static final Logger LOGGER = LogManager.getLogger(KnockbackConfig.class);
 	private static File CONFIG_FILE;
 	protected static final YamlCommenter c = new YamlCommenter();
-	private static final String HEADER = "This is the knockback configuration file for WindSpigot.\n";
+	private static final String HEADER = "This is the knockback configuration file for WindSpigot.\n"
+			+ "For configuration info see this: https://github.com/Wind-Development/WindSpigot/wiki/Knockback-Configuration";
 	static YamlConfiguration config;
 
 	private static KnockbackProfile currentKb;
