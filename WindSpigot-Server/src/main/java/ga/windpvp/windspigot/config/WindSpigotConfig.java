@@ -36,7 +36,7 @@ public class WindSpigotConfig {
 			+ "If you need help with the configuration or have any questions related to WindSpigot,\n"
 			+ "join us in our Discord.\n" + "\n" + "Discord: https://discord.gg/kAbTsFkbmN\n";
 
-	static YamlConfiguration config;
+	public static YamlConfiguration config;
 	static int version;
 
 	public static void init(File configFile) {

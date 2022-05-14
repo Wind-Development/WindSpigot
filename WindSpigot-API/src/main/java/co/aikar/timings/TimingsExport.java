@@ -184,7 +184,8 @@ class TimingsExport extends Thread {
 		parent.put("config",
 				createObject(pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
 						pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
-						pair("paperspigot", mapAsJSON(Bukkit.spigot().getPaperSpigotConfig(), null))));
+						pair("paperspigot", mapAsJSON(Bukkit.spigot().getPaperSpigotConfig(), null)),
+						 pair("windspigot", mapAsJSON(Bukkit.spigot().getWindSpigotConfig(), null)))); // WindSpigot - add configuration to timings
 
 		new TimingsExport(sender, parent, history).start();
 	}

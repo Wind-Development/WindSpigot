@@ -970,6 +970,12 @@ public interface Server extends PluginMessageRecipient {
 		public org.bukkit.configuration.file.YamlConfiguration getPaperSpigotConfig() {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}
+		
+		// WindSpigot start
+		public org.bukkit.configuration.file.YamlConfiguration getWindSpigotConfig() {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+		// WindSpigot end
 
 		/**
 		 * Sends the component to the player

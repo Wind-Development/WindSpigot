@@ -1993,6 +1993,13 @@ public final class CraftServer implements Server {
 		public YamlConfiguration getPaperSpigotConfig() {
 			return org.github.paperspigot.PaperSpigotConfig.config;
 		}
+		
+		// WindSpigot start
+		@Override
+		public YamlConfiguration getWindSpigotConfig() {
+			return ga.windpvp.windspigot.config.WindSpigotConfig.config;
+		}
+		// WindSpigot end
 
 		@Override
 		public void restart() {
