@@ -52,7 +52,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 20; // Update this every new configuration update
+		int configVersion = 21; // Update this every new configuration update
 
     version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -322,6 +322,7 @@ public class WindSpigotConfig {
 	public static int distanceToAsync;
 	
 	public static int pathSearchThreads;
+	public static boolean ensurePathSearchAccuracy;
 	
 	private static void asyncPathSearches() {
 		asyncPathSearches = getBoolean("settings.async.path-searches.enabled", true);
@@ -338,10 +339,14 @@ public class WindSpigotConfig {
 				makeReadable();
 			}
 			
+			ensurePathSearchAccuracy = getBoolean("settings.async.path-searches.ensure-accuracy", true);
+			
 		} 
 		c.addComment("settings.async.path-searches.enabled", "Enables async path searching for entities. (Credits to Minetick)");
 		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is targeting to handle it async. It is recommended to use the default value.");
 		c.addComment("settings.async.path-searches.threads", "The threads used for path searches. It is recommended to use the default value.");
+		
+		c.addComment("settings.async.path-searches.ensure-accuracy", "Ensures accuracy of async path searches, disabling this will result in possibly inaccurate targeting, but higher performance.");
 		
 		c.addComment("settings.async.path-searches", "Configuration for async entity path searches");
 	}

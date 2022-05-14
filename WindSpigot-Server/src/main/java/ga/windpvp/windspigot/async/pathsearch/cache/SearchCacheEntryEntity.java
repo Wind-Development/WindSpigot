@@ -1,4 +1,5 @@
 package ga.windpvp.windspigot.async.pathsearch.cache;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
 import net.minecraft.server.MathHelper;
@@ -21,6 +22,9 @@ public class SearchCacheEntryEntity extends SearchCacheEntry {
     @Override
     public boolean isStillValid() {
         if(super.isStillValid()) {
+        	if (!WindSpigotConfig.ensurePathSearchAccuracy) {
+        		return true;
+        	}
         	return (MathHelper.floor(target.locX) == targetX && MathHelper.floor(target.locY) == targetY + 1 && MathHelper.floor(target.locZ) == targetZ);
         }
         return false;
