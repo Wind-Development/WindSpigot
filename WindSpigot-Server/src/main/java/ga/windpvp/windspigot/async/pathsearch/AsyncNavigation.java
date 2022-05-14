@@ -14,7 +14,6 @@ import com.google.common.collect.Lists;
 import java.util.Map.Entry;
 
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntry;
-import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryEntity;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryPosition;
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJob;
 import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobEntity;
@@ -196,23 +195,7 @@ public class AsyncNavigation extends Navigation {
 				this.issueSearch(entity);
 			}
 		} else if (!this.hasAsyncSearchIssued()) {
-			// Calculate result sync if not calculated and cached already
-			resultPath = super.a(entity);
-			if (resultPath != null) {
-				entry = new SearchCacheEntryEntity(this.b, entity, resultPath);
-
-				SearchCacheEntry oldEntry = null;
-
-				searchCacheLock.writeLock().lock();
-				try {
-					oldEntry = this.searchCache.put(id, entry);
-				} finally {
-					searchCacheLock.writeLock().unlock();
-					if (oldEntry != null) {
-						oldEntry.cleanup();
-					}
-				}
-			}
+			this.issueSearch(entity);
 		}
 		return resultPath;
 	}
@@ -256,23 +239,7 @@ public class AsyncNavigation extends Navigation {
 				this.issueSearch(x, y, z, type);
 			}
 		} else if (!this.hasAsyncSearchIssued()) {
-			// Calculate result sync if not calculated and cached already
-			resultPath = super.a(x, y, z);
-			if (resultPath != null) {
-				entry = new SearchCacheEntryPosition(this.b, x, y, z, resultPath);
-
-				SearchCacheEntry oldEntry = null;
-
-				positionSearchCacheLock.writeLock().lock();
-				try {
-					oldEntry = this.positionSearchCache.put(type, entry);
-				} finally {
-					positionSearchCacheLock.writeLock().unlock();
-					if (oldEntry != null) {
-						oldEntry.cleanup();
-					}
-				}
-			}
+			this.issueSearch(x, y, z, type);
 		}
 		return resultPath;
 	}
