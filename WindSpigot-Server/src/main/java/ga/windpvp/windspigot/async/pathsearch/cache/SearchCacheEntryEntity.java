@@ -8,16 +8,10 @@ import net.minecraft.server.PathEntity;
 public class SearchCacheEntryEntity extends SearchCacheEntry {
 	
 	private final Entity target;
-	private final EntityInsentient targetingEntity;
 	
 	public SearchCacheEntryEntity(Entity target, EntityInsentient targetingEntity, PathEntity path) {
-		super(path);
+		super(targetingEntity, path);
 		this.target = target;
-		this.targetingEntity = targetingEntity;
-	}
-
-	public EntityInsentient getTargetingEntity() {
-		return targetingEntity;
 	}
 
 	public Entity getTarget() {
