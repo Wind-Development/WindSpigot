@@ -16,11 +16,13 @@ public class KnockbackCommand extends Command {
 
 	public KnockbackCommand(String name) {
 		super(name);
+		this.description = "Assists in knockback configuration.";
+		this.setPermission("windspigot.command.knockback");
 	}
 
 	@Override
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-		if (!sender.isOp() || !(sender instanceof Player)) {
+		if (!testPermission(sender) || !(sender instanceof Player)) {
 			return false;
 		}
 		Player player = (Player) sender;
