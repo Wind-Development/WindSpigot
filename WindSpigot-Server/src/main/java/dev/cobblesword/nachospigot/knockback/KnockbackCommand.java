@@ -363,6 +363,10 @@ public class KnockbackCommand extends Command {
 					}
 					double value = Double.parseDouble(args[3]);
 					profile.setWTapExtraHorizontal(value);
+				
+					knockbackCommandView(player, profile);
+					player.sendMessage("§aValue edited and saved.");
+					break;
 				}
 				case "wtap-extra-vertical": {
 					if (!NumberUtils.isNumber(args[3])) {
@@ -371,6 +375,10 @@ public class KnockbackCommand extends Command {
 					}
 					double value = Double.parseDouble(args[3]);
 					profile.setWTapExtraVertical(value);
+					
+					knockbackCommandView(player, profile);
+					player.sendMessage("§aValue edited and saved.");
+					break;
 				}
 				case "add-horizontal": {
 					if (!NumberUtils.isNumber(args[3])) {
@@ -379,6 +387,10 @@ public class KnockbackCommand extends Command {
 					}
 					double value = Double.parseDouble(args[3]);
 					profile.setAddHorizontal(value);
+					
+					knockbackCommandView(player, profile);
+					player.sendMessage("§aValue edited and saved.");
+					break;
 				}
 				case "add-vertical": {
 					if (!NumberUtils.isNumber(args[3])) {
@@ -387,6 +399,10 @@ public class KnockbackCommand extends Command {
 					}
 					double value = Double.parseDouble(args[3]);
 					profile.setAddVertical(value);
+					
+					knockbackCommandView(player, profile);
+					player.sendMessage("§aValue edited and saved.");
+					break;
 				}
 				}
 			}
