@@ -7,7 +7,9 @@ import org.bukkit.entity.EntityType;
 
 import com.google.common.collect.Lists;
 
+import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntry;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryEntity;
+import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryPosition;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
 import net.minecraft.server.Navigation;
@@ -18,6 +20,8 @@ import net.minecraft.server.World;
 public class AsyncNavigation extends Navigation {
 
 	private final List<SearchCacheEntryEntity> searchCache = Lists.newCopyOnWriteArrayList();
+	private final List<SearchCacheEntryPosition> positionSearchCache = Lists.newCopyOnWriteArrayList();
+	
 	public final AtomicBoolean isSearching = new AtomicBoolean(false);
 	
 	private int ticksSinceCleanup = 0;
@@ -57,41 +61,70 @@ public class AsyncNavigation extends Navigation {
 		SearchHandler.getInstance().issueSearch(targetEntity, this);
 	}
 	
+	private void issueSearch(int x, int y, int z) {
+		SearchHandler.getInstance().issueSearch(x, y, z, this);
+	}
+	
 	@Override
 	public PathEntity a(Entity targetEntity) {
 		if (!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || this.b.h(targetEntity) < minimumDistanceForOffloadingSquared && !this.isSearching.get()) {
 			return super.a(targetEntity);
 		}
-		
-		boolean wasFound = false;
-		
+				
 		PathEntity finalPath = null;
 		
 		for (SearchCacheEntryEntity cacheEntry : this.searchCache) {
 			if (cacheEntry.getTargetingEntity() == this.getEntity()) {
-				wasFound = true;
 				finalPath = cacheEntry.getPath();
 				break;
 			}
 		}
 		
-		if (!wasFound && !this.isSearching.get()) {
+		if (finalPath == null && !this.isSearching.get()) {
 			this.issueSearch(targetEntity);
 		}
 		
 		return finalPath;
 	}
 	
-	public void addEntry(SearchCacheEntryEntity cacheEntry) {
-		this.searchCache.add(cacheEntry);
+	@Override
+	public PathEntity a(int x, int y, int z) {
+		if (!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || this.b.distanceSquared(x, y, z) < minimumDistanceForOffloadingSquared && !this.isSearching.get()) {
+			return super.a(x, y, z);
+		}
+				
+		PathEntity finalPath = null;
+		
+		for (SearchCacheEntryPosition cacheEntry : this.positionSearchCache) {
+			if (cacheEntry.getTargetingEntity() == this.getEntity()) {
+				finalPath = cacheEntry.getPath();
+				break;
+			}
+		}
+		
+		if (finalPath == null && !this.isSearching.get()) {
+			this.issueSearch(x, y, z);
+		}
+		
+		return finalPath;
+	}
+	
+	public void addEntry(SearchCacheEntry cacheEntry) {
+		if (cacheEntry instanceof SearchCacheEntryEntity) {
+			this.searchCache.add((SearchCacheEntryEntity) cacheEntry);
+		} else {
+			this.positionSearchCache.add((SearchCacheEntryPosition) cacheEntry);
+		}
 	}
 	
 	@Override
 	public void cleanUpExpiredSearches() {
 		this.ticksSinceCleanup++;
-		if (this.ticksSinceCleanup >= 150) {
+		if (this.ticksSinceCleanup == 150) {
 			this.ticksSinceCleanup = 0;
+			
 			this.searchCache.clear();
+			this.positionSearchCache.clear();
 		}
 	}
 
