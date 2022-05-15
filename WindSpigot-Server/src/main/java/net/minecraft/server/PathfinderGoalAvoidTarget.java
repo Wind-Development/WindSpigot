@@ -3,8 +3,6 @@ package net.minecraft.server;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
-import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
-
 import java.util.List;
 
 public class PathfinderGoalAvoidTarget<T extends Entity> extends PathfinderGoal {
@@ -64,7 +62,7 @@ public class PathfinderGoalAvoidTarget<T extends Entity> extends PathfinderGoal 
 			return false;
 		if (this.b.e(vec3D.a, vec3D.b, vec3D.c) < this.b.h(this.a))
 			return false;
-		this.g = this.h.a(vec3D.a, vec3D.b, vec3D.c, PositionPathSearchType.AVOIDTARGET); // MinetickMod
+		this.g = this.h.a(vec3D.a, vec3D.b, vec3D.c); 
 		if (this.g == null)
 			return false;
 		if (!this.g.b(vec3D))

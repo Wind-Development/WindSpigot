@@ -2,8 +2,6 @@ package net.minecraft.server;
 
 import java.util.Random;
 
-import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
-
 public class PathfinderGoalFleeSun extends PathfinderGoal {
 	private EntityCreature a;
 	private double b;
@@ -44,7 +42,7 @@ public class PathfinderGoalFleeSun extends PathfinderGoal {
 	}
 
 	public void c() {
-		this.a.getNavigation().a(this.b, this.c, this.d, this.e, PositionPathSearchType.FLEESUN); // MinetickMod
+		this.a.getNavigation().a(this.b, this.c, this.d, this.e);
 	}
 
 	private Vec3D f() {
