@@ -21,10 +21,10 @@ public class SearchHandler {
 	}
 
 	public void issueSearch(Entity targetEntity, AsyncNavigation navigation) {
+		navigation.isSearching.set(true);
+
 		AsyncUtil.run(() -> {
-
-			navigation.isSearching.set(true);
-
+			
 			PathEntity path = navigation.doPathSearch(navigation.createChunkCache(true),
 					MathHelper.floor(targetEntity.locX), MathHelper.floor(targetEntity.locY) + 1,
 					MathHelper.floor(targetEntity.locZ));
