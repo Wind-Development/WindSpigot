@@ -55,39 +55,17 @@ public class KnockbackConfig {
 			// WIP custom profile
 			final KnockbackProfile windpvpProfile = new CraftKnockbackProfile("windpvp");
 			
-			// Base configuration for knockback 
-			windpvpProfile.setHorizontal(1.1); // Slightly higher than vanilla, but is compensated for by friction
-			
-			// Limit the allowed amount of vertical knockback
-			windpvpProfile.setVerticalMax(0.35);
-			
-			// The values knockback is divided by before calculations (this reduces knockback when increased)
-			windpvpProfile.setFrictionHorizontal(2.7);
-			windpvpProfile.setFrictionVertical(3.0);
-			
-			// Extra knockback multiplier for player entities 
-			windpvpProfile.setExtraHorizontal(0.65);
-			windpvpProfile.setExtraVertical(0.18);
-			
 			// Make projectiles / fishing rods deal more knockback than normal
-			windpvpProfile.setRodHorizontal(1.5);
-			windpvpProfile.setRodVertical(0.75); 
+			windpvpProfile.setRodHorizontal(0.7);
 			
-			windpvpProfile.setSnowballHorizontal(1.5);
-			windpvpProfile.setSnowballVertical(0.75);
+			windpvpProfile.setSnowballHorizontal(0.7);
 			
-			windpvpProfile.setEggHorizontal(1.5);
-			windpvpProfile.setEggVertical(0.75);
+			windpvpProfile.setEggHorizontal(0.7);
 			
 			// Increase knockback for w taps (this replaces "setExtraHorizontal/setExtraVertical" when 
 			// a player is attacking whilst sprinting)
-			windpvpProfile.setWTapExtraHorizontal(0.75);
-			windpvpProfile.setWTapExtraVertical(0.18); // Unchanged vertical value
-			
-			// Add to knockback after calculations to make it more consistent
-			windpvpProfile.setAddHorizontal(0.5);
-			windpvpProfile.setAddVertical(0.08);
-			
+			windpvpProfile.setWTapExtraHorizontal(0.55);
+
 			windpvpProfile.save(true);
 		}
 		
