@@ -12,7 +12,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
-import ga.windpvp.windspigot.async.pathsearch.AsyncPathSearchManager;
+import ga.windpvp.windspigot.async.pathsearch.SearchHandler;
 import ga.windpvp.windspigot.async.thread.CombatThread;
 import ga.windpvp.windspigot.commands.MobAICommand;
 import ga.windpvp.windspigot.commands.PingCommand;
@@ -38,7 +38,7 @@ public class WindSpigot {
 	
 	private volatile boolean statisticsEnabled = false;
 	
-	private AsyncPathSearchManager pathSearchManager;
+	private SearchHandler searchHandler;
 	private LagCompensator lagCompensator;
 
 	public WindSpigot() {
@@ -99,8 +99,8 @@ public class WindSpigot {
 		initStatistics();
 		
 		// We do not want to initialize this again after a reload
-		if (pathSearchManager == null && WindSpigotConfig.asyncPathSearches) {
-			pathSearchManager = new AsyncPathSearchManager(WindSpigotConfig.pathSearchThreads); 
+		if (searchHandler == null && WindSpigotConfig.asyncPathSearches) {
+			searchHandler = new SearchHandler();
 		}
 		
 		if (WindSpigotConfig.asyncKnockback) {
@@ -132,6 +132,10 @@ public class WindSpigot {
         return lagCompensator;
     }
 	
+    public SearchHandler getSearchHandler() {
+    	return searchHandler;
+    }
+    
 	public static void debug(String msg) {
 		if (WindSpigotConfig.debugMode)
 			DEBUG_LOGGER.info(msg);
