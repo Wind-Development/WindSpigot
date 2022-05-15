@@ -7,7 +7,6 @@ import org.bukkit.entity.EntityType;
 
 import com.google.common.collect.Lists;
 
-import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryEntity;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
@@ -23,17 +22,44 @@ public class AsyncNavigation extends Navigation {
 	
 	private int ticksSinceCleanup = 0;
 	
+	private static List<EntityType> offloadedEntities = Lists.newArrayList();
+	private static int minimumDistanceForOffloadingSquared = 0;
+
 	public AsyncNavigation(EntityInsentient var1, World var2) {
 		super(var1, var2);
 	}
 	
+	static {
+		offloadedEntities.add(EntityType.BAT);
+		offloadedEntities.add(EntityType.BLAZE);
+		offloadedEntities.add(EntityType.CHICKEN);
+		offloadedEntities.add(EntityType.COW);
+		offloadedEntities.add(EntityType.CREEPER);
+		offloadedEntities.add(EntityType.ENDERMAN);
+		offloadedEntities.add(EntityType.HORSE);
+		offloadedEntities.add(EntityType.IRON_GOLEM);
+		offloadedEntities.add(EntityType.MAGMA_CUBE);
+		offloadedEntities.add(EntityType.MUSHROOM_COW);
+		offloadedEntities.add(EntityType.PIG);
+		offloadedEntities.add(EntityType.PIG_ZOMBIE);
+		offloadedEntities.add(EntityType.RABBIT);
+		offloadedEntities.add(EntityType.SHEEP);
+		offloadedEntities.add(EntityType.SKELETON);
+		offloadedEntities.add(EntityType.SILVERFISH);
+		offloadedEntities.add(EntityType.SLIME);
+		offloadedEntities.add(EntityType.SNOWMAN);
+		offloadedEntities.add(EntityType.SQUID);
+		offloadedEntities.add(EntityType.WITCH);
+		offloadedEntities.add(EntityType.ZOMBIE);
+	}
+	
 	private void issueSearch(Entity targetEntity) {
-		WindSpigot.getInstance().getSearchHandler().issueSearch(targetEntity, this);
+		SearchHandler.getInstance().issueSearch(targetEntity, this);
 	}
 	
 	@Override
 	public PathEntity a(Entity targetEntity) {
-		if (!offLoadedSearches(this.getEntity().getBukkitEntity().getType())) {
+		if (!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || this.b.h(targetEntity) < minimumDistanceForOffloadingSquared) {
 			return super.a(targetEntity);
 		}
 		
@@ -69,14 +95,12 @@ public class AsyncNavigation extends Navigation {
 		}
 	}
 
-	// TODO: implement this
+	// TODO: add configuration for this
 	private static boolean offLoadedSearches(EntityType type) {
-		return true;
+		return offloadedEntities.contains(type);
 	}
 
-	// TODO: implement this
 	public static void setMinimumDistanceForOffloading(int distanceToAsync) {
-		
+		minimumDistanceForOffloadingSquared = distanceToAsync;
 	}	
-	
 }
