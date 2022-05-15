@@ -17,12 +17,12 @@ import net.minecraft.server.World;
 // WIP: a replacement for normal entity navigation that is async
 public class AsyncNavigation extends Navigation {
 
-	private List<SearchCacheEntryEntity> searchCache = Lists.newCopyOnWriteArrayList();
-	public AtomicBoolean isSearching = new AtomicBoolean(false);
+	private final List<SearchCacheEntryEntity> searchCache = Lists.newCopyOnWriteArrayList();
+	public final AtomicBoolean isSearching = new AtomicBoolean(false);
 	
 	private int ticksSinceCleanup = 0;
 	
-	private static List<EntityType> offloadedEntities = Lists.newArrayList();
+	private static final List<EntityType> offloadedEntities = Lists.newArrayList();
 	private static int minimumDistanceForOffloadingSquared = 0;
 
 	public AsyncNavigation(EntityInsentient var1, World var2) {
