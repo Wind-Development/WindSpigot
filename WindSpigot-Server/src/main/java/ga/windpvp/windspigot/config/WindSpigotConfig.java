@@ -334,11 +334,6 @@ public class WindSpigotConfig {
 			
 			pathSearchThreads = getInt("settings.async.path-searches.threads", 3);
 			
-			if (pathSearchThreads > 4) {
-				LOGGER.warn("The \"threads\" setting in windspigot.yml is very high! Having this too high will result in no performance gain as there are unused threads!");
-				makeReadable();
-			}
-			
 			ensurePathSearchAccuracy = getBoolean("settings.async.path-searches.ensure-accuracy", true);
 			
 		} 
