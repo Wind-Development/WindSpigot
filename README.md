@@ -20,10 +20,10 @@ WindSpigot moves heavy work off of the main server thread and splits up the serv
 
 #### What is done asynchronously to achieve this?
 - Worlds (ticked parallel to each other)
+- Entity path searching (entity AI calculations are done async)
 - TNT calculations (from NachoSpigot)
 - The entity tracker (updated with multiple threads, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**)
 - Knockback (packets are sent with high priority, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
-- Entity path searching (entity AI calculations are done async, from Minetick)
 
 #### What other modifications does WindSpigot have?
 See the patches list below.
@@ -32,8 +32,8 @@ See the patches list below.
 **All credit goes to the people that made these patches.**<br>
 *Give credit where credit is due!*
 ```
-[WindSpigot-0001] Thread Affinity
-[WindSpigot-0002] WindSpigot Config
+[WindSpigot-0001] Thread affinity
+[WindSpigot-0002] WindSpigot config
 [WindSpigot-0003] Mob AI toggle command
 [WindSpigot-0004] Parallel world ticking
 [WindSpigot-0005] Disable mob spawning if tps is not stable
@@ -45,6 +45,7 @@ See the patches list below.
 [WindSpigot-0011] Make console display of player ips toggleable
 [WindSpigot-0012] Re-implement Spigot's max tick time for certain configurable entities
 [WindSpigot-0013] More configuration for knockback
+[WindSpigot-0014] Async entity path searching
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
@@ -211,7 +212,6 @@ See the patches list below.
 [MineTick-0006] Fix Occasional Client Side Unloading of Chunk 0 0
 [MineTick-0011] Optimize Idle Furnaces
 [MineTick-0017] Fix Insane Nether Portal Lag
-[MineTick-0028] Async path searching
 
 [Migot-0009] Prevent Creature Spawning in Unloaded Chunks
 
