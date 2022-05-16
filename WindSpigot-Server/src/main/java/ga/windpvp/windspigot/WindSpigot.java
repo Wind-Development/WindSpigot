@@ -38,7 +38,6 @@ public class WindSpigot {
 	
 	private volatile boolean statisticsEnabled = false;
 	
-	private SearchHandler searchHandler;
 	private LagCompensator lagCompensator;
 
 	public WindSpigot() {
@@ -99,8 +98,8 @@ public class WindSpigot {
 		initStatistics();
 		
 		// We do not want to initialize this again after a reload
-		if (searchHandler == null && WindSpigotConfig.asyncPathSearches) {
-			searchHandler = new SearchHandler();
+		if (WindSpigotConfig.asyncPathSearches && SearchHandler.getInstance() != null) {
+			new SearchHandler();
 		}
 		
 		if (WindSpigotConfig.asyncKnockback) {
@@ -130,10 +129,6 @@ public class WindSpigot {
 	
     public LagCompensator getLagCompensator() {
         return lagCompensator;
-    }
-	
-    public SearchHandler getSearchHandler() {
-    	return searchHandler;
     }
     
 	public static void debug(String msg) {
