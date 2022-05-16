@@ -320,7 +320,6 @@ public class WindSpigotConfig {
 	
 	public static boolean asyncPathSearches;
 	public static int distanceToAsync;
-	
 	public static int pathSearchThreads;
 	public static boolean ensurePathSearchAccuracy;
 	
@@ -333,14 +332,12 @@ public class WindSpigotConfig {
 			AsyncNavigation.setMinimumDistanceForOffloading(distanceToAsync);
 			
 			pathSearchThreads = getInt("settings.async.path-searches.threads", 4);
-			
 			ensurePathSearchAccuracy = getBoolean("settings.async.path-searches.ensure-accuracy", true);
 			
 		} 
 		c.addComment("settings.async.path-searches.enabled", "Enables async path searching for entities.");
 		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is targeting to handle it async. Tune this based on how many entities your server will has.");
 		c.addComment("settings.async.path-searches.threads", "The threads used for path searches. Tune this based on how many entities your server will has.");
-		
 		c.addComment("settings.async.path-searches.ensure-accuracy", "Ensures accuracy of async path searches, disabling this will result in possibly inaccurate targeting, but higher performance.");
 		
 		c.addComment("settings.async.path-searches", "Configuration for async entity path searches");
