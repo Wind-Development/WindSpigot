@@ -3,6 +3,8 @@ package ga.windpvp.windspigot.async.pathsearch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryEntity;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryPosition;
@@ -15,7 +17,8 @@ import net.minecraft.server.PathEntity;
 public class SearchHandler {
 
 	private static SearchHandler INSTANCE;
-	private final ExecutorService executor = Executors.newFixedThreadPool(WindSpigotConfig.pathSearchThreads);
+	private final ExecutorService executor = Executors.newFixedThreadPool(WindSpigotConfig.pathSearchThreads,
+			new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Path Search Thread %d").build());
 
 	public SearchHandler() {
 		INSTANCE = this;
