@@ -13,7 +13,6 @@ import net.minecraft.server.Entity;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.PathEntity;
 
-// WIP: async entity path searches
 public class SearchHandler {
 
 	private static SearchHandler INSTANCE;

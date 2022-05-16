@@ -17,7 +17,20 @@ import net.minecraft.server.Navigation;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.World;
 
-// WIP: a replacement for normal entity navigation that is async
+/*
+ *  A replacement for normal entity navigation that performs path searching async
+ *  
+ *  This is way faster than sync navigation (can handle thousands of entities with full AI), but has a few disadvantages.
+ *  Entities' AI can be delayed for up to 2 ticks (very unlikely, but possible), so the cached target path might become inaccurate 
+ *  after this time period, but most servers do not need to have perfectly accurate entity navigation. I believe the enhanced
+ *  performance is worth it.
+ *  
+ *  This system performs an async calculation without using it when a entity should perform and use a sync calculation. We start an async
+ *  calculation task when a path search is requested, then we return the result of the earlier calculation when a path search is requested again.
+ *  This means that the entity does not do anything in terms of targeting for the first tick. If the calculations were not completed within
+ *  2 ticks, the server will perform the path search on the main thread.
+ *  
+ */
 public class AsyncNavigation extends Navigation {
 
 	private final List<SearchCacheEntryEntity> searchCache = Lists.newCopyOnWriteArrayList();
