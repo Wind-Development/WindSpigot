@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntry;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryEntity;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryPosition;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
 import net.minecraft.server.Navigation;
@@ -76,6 +77,15 @@ public class AsyncNavigation extends Navigation {
 		for (SearchCacheEntryEntity cacheEntry : this.searchCache) {
 			if (cacheEntry.getTargetingEntity() == this.getEntity()) {
 				finalPath = cacheEntry.getPath();
+				
+				if (WindSpigotConfig.ensurePathSearchAccuracy) {
+					
+					// Perform sync if server cannot process an accurate async pathfind in time
+					if (!cacheEntry.isAccurate()) {
+						return super.a(targetEntity);
+					}
+				}
+				
 				break;
 			}
 		}
@@ -98,6 +108,15 @@ public class AsyncNavigation extends Navigation {
 		for (SearchCacheEntryPosition cacheEntry : this.positionSearchCache) {
 			if (cacheEntry.getTargetingEntity() == this.getEntity()) {
 				finalPath = cacheEntry.getPath();
+				
+				if (WindSpigotConfig.ensurePathSearchAccuracy) {
+					
+					// Perform sync if server cannot process an accurate async pathfind in time
+					if (!cacheEntry.isAccurate()) {
+						return super.a(x, y, z);
+					}
+				}
+				
 				break;
 			}
 		}
