@@ -524,9 +524,7 @@ public abstract class Entity implements ICommandListener {
 
 	public void move(double d0, double d1, double d2) {
 		// Check if we're moving
-		// WindSpigot - smoother mob ai disable
-		if ((d0 == 0 && d1 == 0 && d2 == 0 && this.vehicle == null && this.passenger == null)
-				|| (!this.getWorld().nachoSpigotConfig.enableMobAI && this instanceof EntityInsentient)) {
+		if ((d0 == 0 && d1 == 0 && d2 == 0 && this.vehicle == null && this.passenger == null)) {
 			return;
 		}
 		if (this.loadChunks) {

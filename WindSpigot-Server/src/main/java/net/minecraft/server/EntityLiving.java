@@ -95,6 +95,10 @@ public abstract class EntityLiving extends Entity {
 	ArrayList<org.bukkit.inventory.ItemStack> drops = null;
 
 	// CraftBukkit end
+	
+	// WindSpigot
+	private boolean hasDisabledMovement = false;
+	
 	// Spigot start
 	@Override
 	public void inactiveTick() {
@@ -1774,6 +1778,7 @@ public abstract class EntityLiving extends Entity {
 
 		this.world.methodProfiler.b();
 		this.world.methodProfiler.a("jump");
+				
 		if (this.aY) {
 			if (this.V()) {
 				this.bG();
@@ -1786,6 +1791,19 @@ public abstract class EntityLiving extends Entity {
 		} else {
 			this.bn = 0;
 		}
+		
+		// WindSpigot start - smoother mob AI disable
+		if (this instanceof EntityInsentient) {
+			if (getWorld().nachoSpigotConfig.enableMobAI) {
+				hasDisabledMovement = false; // Mark movement as enabled again
+			} else if (!hasDisabledMovement) {
+				motX = 0;
+				motY = 0;
+				motZ = 0;
+				hasDisabledMovement = true;
+			}
+		}
+		// WindSpigot end
 
 		this.world.methodProfiler.b();
 		this.world.methodProfiler.a("travel");
