@@ -26,6 +26,7 @@ public class Pathfinder {
 	
 
 	private PathEntity a(IBlockAccess var1, Entity var2, double var3, double var5, double var7, float var9) {
+		// WindSpigot - synchronize
 		synchronized (var2) {
 			this.a.a();
 			this.c.a(var1, var2);
