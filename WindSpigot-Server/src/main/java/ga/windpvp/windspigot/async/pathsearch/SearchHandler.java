@@ -49,7 +49,7 @@ public class SearchHandler {
 	public void issueSearch(int x, int y, int z, AsyncNavigation navigation) {
 		navigation.isSearching.set(true);
 
-		final ChunkCache chunkCache = navigation.createChunkCache(true);
+		final ChunkCache chunkCache = navigation.createChunkCache(false);
 		
 		AsyncUtil.run(() -> {
 			
