@@ -81,10 +81,12 @@ public class AsyncNavigation extends Navigation {
 	
 	@Override
 	public PathEntity a(Entity targetEntity) {
-		if (!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || this.b.h(targetEntity) < minimumDistanceForOffloadingSquared && !this.isSearching.get()) {
+		
+		//if (!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || this.b.h(targetEntity) < minimumDistanceForOffloadingSquared && !this.isSearching.get()) {
 			return super.a(targetEntity);
-		}
+		//}
 				
+		/*
 		PathEntity finalPath = null;
 		
 		for (SearchCacheEntryEntity cacheEntry : this.searchCache) {
@@ -108,6 +110,7 @@ public class AsyncNavigation extends Navigation {
 		}
 		
 		return finalPath;
+		*/
 	}
 	
 	@Override
