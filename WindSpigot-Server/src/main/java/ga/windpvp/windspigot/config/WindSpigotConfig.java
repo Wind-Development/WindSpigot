@@ -54,7 +54,7 @@ public class WindSpigotConfig {
 
 		int configVersion = 21; // Update this every new configuration update
 
-    version = getInt("config-version", configVersion);
+		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
 		c.addComment("config-version", "Configuration version, do NOT modify this!");
