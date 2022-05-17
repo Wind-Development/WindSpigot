@@ -152,6 +152,7 @@ public class KnockbackConfig {
 	public static void save() {
 		try {
 			config.save(CONFIG_FILE);
+			c.saveComments(CONFIG_FILE);
 		} catch (IOException ex) {
 			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
 		}
