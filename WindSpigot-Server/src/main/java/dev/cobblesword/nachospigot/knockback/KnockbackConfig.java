@@ -80,6 +80,11 @@ public class KnockbackConfig {
 		}
 		
 		save();
+		try {
+			c.saveComments(CONFIG_FILE);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		for (String key : keys) {
 			final String path = "knockback.profiles." + key;
@@ -152,7 +157,6 @@ public class KnockbackConfig {
 	public static void save() {
 		try {
 			config.save(CONFIG_FILE);
-			c.saveComments(CONFIG_FILE);
 		} catch (IOException ex) {
 			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
 		}
