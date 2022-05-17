@@ -162,7 +162,11 @@ public class AsyncNavigation extends Navigation {
 
 	// TODO: add configuration for this
 	private static boolean offLoadedSearches(EntityType type) {
-		return offloadedEntities.contains(type);
+		if (WindSpigotConfig.asyncPathSearches) {
+			return offloadedEntities.contains(type);
+		} else {
+			return false;
+		}
 	}
 
 	public static void setMinimumDistanceForOffloading(int distanceToAsync) {
