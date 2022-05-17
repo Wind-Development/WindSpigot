@@ -1,59 +1,50 @@
 package ga.windpvp.windspigot.async.pathsearch;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bukkit.entity.EntityType;
 
 import com.google.common.collect.Lists;
 
-import java.util.Map.Entry;
-
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntry;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryEntity;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryPosition;
-import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJob;
-import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobEntity;
-import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobPosition;
-import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
-import net.minecraft.server.BlockPosition;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
-import net.minecraft.server.MathHelper;
 import net.minecraft.server.Navigation;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.World;
 
-// This is based on Minetick's async path searching
+/*
+ *  A replacement for normal entity navigation that performs path searching async
+ *  
+ *  This is way faster than sync navigation (can handle thousands of entities with full AI), but has a few disadvantages.
+ *  Entities' AI can be delayed for up to 2 ticks (very unlikely, but possible), so the cached target path might become inaccurate 
+ *  after this time period, but most servers do not need to have perfectly accurate entity navigation. I believe the enhanced
+ *  performance is worth it.
+ *  
+ *  This system performs an async calculation without using it when a entity should perform and use a sync calculation. We start an async
+ *  calculation task when a path search is requested, then we return the result of the earlier calculation when a path search is requested again.
+ *  This means that the entity does not do anything in terms of targeting for the first tick. If the calculations were not completed within
+ *  2 ticks, the server will perform the path search on the main thread.
+ *  
+ */
 public class AsyncNavigation extends Navigation {
 
-	private Map<UUID, SearchCacheEntry> searchCache;
-	private Map<PositionPathSearchType, SearchCacheEntryPosition> positionSearchCache;
+	private final List<SearchCacheEntryEntity> searchCache = Lists.newCopyOnWriteArrayList();
+	private final List<SearchCacheEntryPosition> positionSearchCache = Lists.newCopyOnWriteArrayList();
 	
-	private int cleanUpDelay = 0;
-	private PathSearchJob lastQueuedJob;
-
-	private final ReentrantReadWriteLock searchCacheLock;
-	private final ReentrantReadWriteLock positionSearchCacheLock;
-
-	private final ReentrantReadWriteLock jobLock;
+	public final AtomicBoolean isSearching = new AtomicBoolean(false);
 	
-	private static double minimumDistanceForOffloadingSquared = 0.0D;
+	private int ticksSinceCleanup = 0;
+	
 	private static final List<EntityType> offloadedEntities = Lists.newArrayList();
-	
-	public AsyncNavigation(EntityInsentient entityinsentient, World world) {
-		super(entityinsentient, world);
-		this.searchCache = new HashMap<UUID, SearchCacheEntry>();
-		this.positionSearchCache = new HashMap<PositionPathSearchType, SearchCacheEntryPosition>();
+	private static int minimumDistanceForOffloadingSquared = 0;
 
-		searchCacheLock = new ReentrantReadWriteLock();
-		positionSearchCacheLock = new ReentrantReadWriteLock();
-
-		jobLock = new ReentrantReadWriteLock();
+	public AsyncNavigation(EntityInsentient var1, World var2) {
+		super(var1, var2);
 	}
 	
 	static {
@@ -79,253 +70,106 @@ public class AsyncNavigation extends Navigation {
 		offloadedEntities.add(EntityType.WITCH);
 		offloadedEntities.add(EntityType.ZOMBIE);
 	}
-
-	public static void setMinimumDistanceForOffloading(double distance) {
-		minimumDistanceForOffloadingSquared = distance * distance;
-	}
-
-	private boolean hasAsyncSearchIssued() {
-		jobLock.readLock().lock();
-		try {
-			return this.lastQueuedJob != null;
-		} finally {
-			jobLock.readLock().unlock();
-		}
-	}
-
-	private void queueSearch(PathSearchJob job) {
-		if (AsyncPathSearchManager.queuePathSearch(job)) {
-			jobLock.writeLock().lock();
-			try {
-			this.lastQueuedJob = job;
-			} finally {
-				jobLock.writeLock().unlock();
-			}
-		}
-	}
-
-	private void issueSearch(Entity target) {
-		this.queueSearch(new PathSearchJobEntity(this, target));
+	
+	private void issueSearch(Entity targetEntity) {
+		SearchHandler.getInstance().issueSearch(targetEntity, this);
 	}
 	
-	private void issueSearch(double x, double y, double z, PositionPathSearchType type) {
-		this.queueSearch(new PathSearchJobPosition(this, MathHelper.floor(x), (int) y, MathHelper.floor(z), type));
+	private void issueSearch(int x, int y, int z) {
+		SearchHandler.getInstance().issueSearch(x, y, z, this);
 	}
-
+	
 	@Override
-	public void setSearchResult(PathSearchJobEntity pathSearch) {
-		jobLock.writeLock().lock();
-		try {
-			if (this.lastQueuedJob == pathSearch) {
-				this.lastQueuedJob = null;
-			}
-		} finally {
-			jobLock.writeLock().unlock();
+	public PathEntity a(Entity targetEntity) {
+		if (!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || this.b.h(targetEntity) < minimumDistanceForOffloadingSquared && !this.isSearching.get()) {
+			return super.a(targetEntity);
 		}
-
-		SearchCacheEntry entry = pathSearch.getCacheEntryValue();
-		if (entry != null && entry.didSearchSucceed()) {
-
-			UUID key = pathSearch.getCacheEntryKey();
-
-			searchCacheLock.writeLock().lock();
-			try {
-				this.searchCache.remove(key);
-				this.searchCache.put(key, entry);
-			} finally {
-				searchCacheLock.writeLock().unlock();
-			}
-		}
-	}
-
-	@Override
-	public void setSearchResult(PathSearchJobPosition pathSearch) {
-		jobLock.writeLock().lock();
-		try {
-			if (this.lastQueuedJob == pathSearch) {
-				this.lastQueuedJob = null;
-			}
-		} finally {
-			jobLock.writeLock().unlock();
-		}
-
-		SearchCacheEntryPosition entry = pathSearch.getCacheEntryValue();
-
-		if (entry != null && entry.didSearchSucceed()) {
-
-			positionSearchCacheLock.writeLock().lock();
-			try {
-				PositionPathSearchType key = pathSearch.getCacheEntryKey();
-				this.positionSearchCache.remove(key);
-				this.positionSearchCache.put(key, entry);
-			} finally {
-				positionSearchCacheLock.writeLock().unlock();
-			}
-		}
-	}
-
-	@Override
-	public PathEntity a(Entity entity) {
-		if (!this.offloadSearches() || this.b.h(entity) < minimumDistanceForOffloadingSquared) {
-			return super.a(entity);
-		}
-		if (!this.b()) {
-			return null;
-		}
-		SearchCacheEntry entry = null;
-		UUID id = entity.getUniqueID();
-
-		// We use a read lock so multiple threads can read without blocking
-		searchCacheLock.readLock().lock();
-		try {
-			// Check if async search has finished, then read it from the cache if it has finished
-			if (this.searchCache.containsKey(id)) {
-				entry = this.searchCache.get(id);
-			}
-		} finally {
-			searchCacheLock.readLock().unlock();
-		}
-
-		PathEntity resultPath = null;
-		if (entry != null) {
-			resultPath = entry.getAdjustedPathEntity();
-			
-			// Make sure the path is still valid
-			// (in case the target entity has changed position)
-			if (!entry.isStillValid()) {
-				this.issueSearch(entity);
-			}
-		} else if (!this.hasAsyncSearchIssued()) {
-			// Calculate result sync if not calculated and cached already
-			resultPath = super.a(entity);
-			if (resultPath != null) {
-				entry = new SearchCacheEntryEntity(this.b, entity, resultPath);
-
-				SearchCacheEntry oldEntry = null;
-
-				searchCacheLock.writeLock().lock();
-				try {
-					oldEntry = this.searchCache.put(id, entry);
-				} finally {
-					searchCacheLock.writeLock().unlock();
-					if (oldEntry != null) {
-						oldEntry.cleanup();
+				
+		PathEntity finalPath = null;
+		
+		for (SearchCacheEntryEntity cacheEntry : this.searchCache) {
+			if (cacheEntry.getTargetingEntity() == this.getEntity()) {
+				finalPath = cacheEntry.getPath();
+				
+				if (WindSpigotConfig.ensurePathSearchAccuracy) {
+					
+					// Perform sync if server cannot process an accurate async pathfind in time
+					if (!cacheEntry.isAccurate()) {
+						return super.a(targetEntity);
 					}
 				}
+				
+				break;
 			}
 		}
-		return resultPath;
-	}
-
-	@Override
-	public PathEntity a(BlockPosition blockposition) {
-		return this.a(blockposition.getX(), blockposition.getY(), blockposition.getZ(), PositionPathSearchType.ANYOTHER);
+		
+		if (finalPath == null && !this.isSearching.get()) {
+			this.issueSearch(targetEntity);
+		}
+		
+		return finalPath;
 	}
 	
 	@Override
 	public PathEntity a(int x, int y, int z) {
-		return this.a(x, y, z, PositionPathSearchType.ANYOTHER);
-	}
-
-	public PathEntity a(int x, int y, int z, PositionPathSearchType type) {
-		if (!this.offloadSearches() || this.b.distanceSquared(x, y, z) < minimumDistanceForOffloadingSquared) {
+		if (!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || this.b.distanceSquared(x, y, z) < minimumDistanceForOffloadingSquared && !this.isSearching.get()) {
 			return super.a(x, y, z);
 		}
-		if (!this.b()) {
-			return null;
-		}
-
-		SearchCacheEntryPosition entry = null;
-
-		positionSearchCacheLock.readLock().lock();
-		try {
-			// Check if async search has finished, then read it from the cache if it has finished
-			if (this.positionSearchCache.containsKey(type)) {
-				entry = this.positionSearchCache.get(type);
-			}
-		} finally {
-			positionSearchCacheLock.readLock().unlock();
-		}
-
-		PathEntity resultPath = null;
-		if (entry != null) {
-			resultPath = entry.getAdjustedPathEntity();
-			
-			// Make sure the path is still valid
-			if (!entry.isStillValid()) {
-				this.issueSearch(x, y, z, type);
-			}
-		} else if (!this.hasAsyncSearchIssued()) {
-			// Calculate result sync if not calculated and cached already
-			resultPath = super.a(x, y, z);
-			if (resultPath != null) {
-				entry = new SearchCacheEntryPosition(this.b, x, y, z, resultPath);
-
-				SearchCacheEntry oldEntry = null;
-
-				positionSearchCacheLock.writeLock().lock();
-				try {
-					oldEntry = this.positionSearchCache.put(type, entry);
-				} finally {
-					positionSearchCacheLock.writeLock().unlock();
-					if (oldEntry != null) {
-						oldEntry.cleanup();
+				
+		PathEntity finalPath = null;
+		
+		for (SearchCacheEntryPosition cacheEntry : this.positionSearchCache) {
+			if (cacheEntry.getTargetingEntity() == this.getEntity()) {
+				finalPath = cacheEntry.getPath();
+				
+				if (WindSpigotConfig.ensurePathSearchAccuracy) {
+					
+					// Perform sync if server cannot process an accurate async pathfind in time
+					if (!cacheEntry.isAccurate()) {
+						return super.a(x, y, z);
 					}
 				}
+				
+				break;
 			}
 		}
-		return resultPath;
+		
+		if (finalPath == null && !this.isSearching.get()) {
+			this.issueSearch(x, y, z);
+		}
+		
+		return finalPath;
 	}
-
+	
+	public void addEntry(SearchCacheEntry cacheEntry) {
+		if (cacheEntry instanceof SearchCacheEntryEntity) {
+			this.searchCache.add((SearchCacheEntryEntity) cacheEntry);
+		} else {
+			this.positionSearchCache.add((SearchCacheEntryPosition) cacheEntry);
+		}
+	}
+	
 	@Override
-	public boolean a(double d0, double d1, double d2, double d3, PositionPathSearchType type) {
-		PathEntity pathentity = this.a((double) MathHelper.floor(d0), (double) ((int) d1),
-				(double) MathHelper.floor(d2), type);
-
-		return this.a(pathentity, d3);
-	}
-
 	public void cleanUpExpiredSearches() {
-		this.cleanUpDelay++;
-		if (this.cleanUpDelay > 125) { // Clear cache every 125 ticks
-			this.cleanUpDelay = 0;
-
-			searchCacheLock.writeLock().lock();
-			try {
-				Iterator<Entry<UUID, SearchCacheEntry>> iterator = this.searchCache.entrySet().iterator();
-				while (iterator.hasNext()) {
-					SearchCacheEntry entry = iterator.next().getValue();
-					if (entry.hasExpired()) {
-						iterator.remove();
-						entry.cleanup();
-					} else {
-						break;
-					}
-				}
-			} finally {
-				searchCacheLock.writeLock().unlock();
-			}
-
-			positionSearchCacheLock.writeLock().lock();
-			try {
-				Iterator<Entry<PositionPathSearchType, SearchCacheEntryPosition>> iterator = this.positionSearchCache
-						.entrySet().iterator();
-				while (iterator.hasNext()) {
-					SearchCacheEntryPosition entry = iterator.next().getValue();
-					if (entry.hasExpired()) {
-						iterator.remove();
-						entry.cleanup();
-					} else {
-						break;
-					}
-				}
-			} finally {
-				positionSearchCacheLock.writeLock().unlock();
-			}
+		this.ticksSinceCleanup++;
+		if (this.ticksSinceCleanup == 150) {
+			this.ticksSinceCleanup = 0;
+			
+			this.searchCache.clear();
+			this.positionSearchCache.clear();
 		}
 	}
 
-	private boolean offloadSearches() {
-		return offloadedEntities.contains(b.getBukkitEntity().getType());
+	// TODO: add configuration for this
+	private static boolean offLoadedSearches(EntityType type) {
+		if (WindSpigotConfig.asyncPathSearches) {
+			return offloadedEntities.contains(type);
+		} else {
+			return false;
+		}
 	}
+
+	public static void setMinimumDistanceForOffloading(int distanceToAsync) {
+		minimumDistanceForOffloadingSquared = distanceToAsync;
+	}	
 }

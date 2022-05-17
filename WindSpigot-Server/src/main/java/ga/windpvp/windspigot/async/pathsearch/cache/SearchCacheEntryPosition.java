@@ -1,28 +1,32 @@
 package ga.windpvp.windspigot.async.pathsearch.cache;
 
-import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.EntityInsentient;
-import net.minecraft.server.MathHelper;
 import net.minecraft.server.PathEntity;
 
-//This is based on Minetick's async path searching
+// A cache entry for positional targeting to use after an async path search
 public class SearchCacheEntryPosition extends SearchCacheEntry {
-    
-    public SearchCacheEntryPosition(EntityInsentient entity, int x, int y, int z, PathEntity path) {
-		super(entity, path);
-		this.targetX = x;
-		this.targetY = y;
-		this.targetZ = z;
+	
+	private final int x;
+	private final int y;
+	private final int z;
+
+	public SearchCacheEntryPosition(int x, int y, int z, EntityInsentient targetingEntity, PathEntity path) {
+		super(targetingEntity, path);
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 
-    @Override
-    public boolean isStillValid() {
-        if (super.isStillValid()) {
-        	if (!WindSpigotConfig.ensurePathSearchAccuracy) {
-        		return true;
-        	}
-        	return (MathHelper.floor(entity.locX) == startX && MathHelper.floor(entity.locY) == startY + 1 && MathHelper.floor(entity.locZ) == startZ);
-        }
-        return false;
-    }
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getZ() {
+		return z;
+	}
+
 }

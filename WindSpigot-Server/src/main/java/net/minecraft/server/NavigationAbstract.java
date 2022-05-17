@@ -4,9 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import ga.windpvp.windspigot.WindSpigot;
-import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobEntity;
-import ga.windpvp.windspigot.async.pathsearch.job.PathSearchJobPosition;
-import ga.windpvp.windspigot.async.pathsearch.position.PositionPathSearchType;
 
 public abstract class NavigationAbstract {
 
@@ -28,7 +25,7 @@ public abstract class NavigationAbstract {
 		this.j = this.a();
 	}
 	
-    // MinetickMod start - async path finding
+    // WindSpigot start - async path finding
     public EntityInsentient getEntity() {
         return this.b;
     }
@@ -39,18 +36,6 @@ public abstract class NavigationAbstract {
     }
 
     public void cleanUpExpiredSearches() {}
-
-    public void setSearchResult(PathSearchJobEntity pathSearch) { }
-
-    public void setSearchResult(PathSearchJobPosition pathSearch) { }
-
-    public boolean a(double d0, double d1, double d2, double d3, PositionPathSearchType type) {
-        return this.a(d0, d1, d2, d3);
-    }
-
-    public PathEntity a(double d0, double d1, double d2, PositionPathSearchType type) {
-        return this.a(d0, d1, d2);
-    }
     
     // WindSpigot start - reduce usage of blockposition
     public ChunkCache createChunkCache(boolean forEntitySearch) {
@@ -85,7 +70,7 @@ public abstract class NavigationAbstract {
     }
     // WindSpigot end
 
-    // MinetickMod end
+    // WindSpigot end
 	
 	protected abstract Pathfinder a();
 
@@ -119,7 +104,7 @@ public abstract class NavigationAbstract {
 					MathHelper.floor(b.locZ) - i, MathHelper.floor(b.locX) + i, MathHelper.floor(b.locY) + i,
 					MathHelper.floor(b.locZ) + i, 0);
 
-			PathEntity pathentity = this.j.a(chunkcache, this.b, MathHelper.floor(d0), MathHelper.floor(d1), MathHelper.floor(d2), f);
+			PathEntity pathentity = this.j.a(chunkcache, this.b, d0, d1, d2, f);
 
 			this.c.methodProfiler.b();
 			return pathentity;

@@ -1826,58 +1826,61 @@ public abstract class World implements IBlockAccess {
 			entity = this.entityList.get(this.tickPosition);
 			// CraftBukkit end
 			
-			// WindSpigot start - re-implement Spigot's entity max tick time, but only for certain entities
-			if (!entityLimiter.shouldContinue()) {
-				tickOverload = true; // indicate that the last tick overloaded the server
-				if (((EntityTickLimiter) entityLimiter).canSkip(entity)) {
-					continue;
+			// WindSpigot - synchronize
+			synchronized (entity) {
+				// WindSpigot start - re-implement Spigot's entity max tick time, but only for certain entities
+				if (!entityLimiter.shouldContinue()) {
+					tickOverload = true; // indicate that the last tick overloaded the server
+					if (((EntityTickLimiter) entityLimiter).canSkip(entity)) {
+						continue;
+					}
+				} 
+				// WindSpigot end
+				
+				if (entity.vehicle != null) {
+					if (!entity.vehicle.dead && entity.vehicle.passenger == entity) {
+						continue;
+					}
+	
+					entity.vehicle.passenger = null;
+					entity.vehicle = null;
 				}
-			} 
-			// WindSpigot end
-			
-			if (entity.vehicle != null) {
-				if (!entity.vehicle.dead && entity.vehicle.passenger == entity) {
-					continue;
+	
+				this.methodProfiler.a("tick");
+				if (!entity.dead) {
+					try {
+						entity.tickTimer.startTiming(); // Spigot
+						this.g(entity);
+						entity.tickTimer.stopTiming(); // Spigot
+					} catch (Throwable throwable1) {
+						// PaperSpigot start - Prevent tile entity and entity crashes
+						entity.tickTimer.stopTiming();
+						System.err.println("Entity threw exception at " + entity.world.getWorld().getName() + ":"
+								+ entity.locX + "," + entity.locY + "," + entity.locZ);
+						throwable1.printStackTrace();
+						entity.dead = true;
+						continue;
+						// PaperSpigot end
+					}
 				}
-
-				entity.vehicle.passenger = null;
-				entity.vehicle = null;
+	
+				this.methodProfiler.b();
+				this.methodProfiler.a("remove");
+				if (entity.dead) {
+					j = entity.ae;
+					k = entity.ag;
+					if (entity.ad && this.isChunkLoaded(j, k, true)) {
+						this.getChunkAt(j, k).b(entity);
+					}
+	
+					guardEntityList = false; // Spigot
+					this.entityList.remove(this.tickPosition--); // CraftBukkit - Use field for loop variable
+					guardEntityList = true; // Spigot
+					this.b(entity);
+				}
+	
+				this.methodProfiler.b();
 			}
-
-			this.methodProfiler.a("tick");
-			if (!entity.dead) {
-				try {
-					entity.tickTimer.startTiming(); // Spigot
-					this.g(entity);
-					entity.tickTimer.stopTiming(); // Spigot
-				} catch (Throwable throwable1) {
-					// PaperSpigot start - Prevent tile entity and entity crashes
-					entity.tickTimer.stopTiming();
-					System.err.println("Entity threw exception at " + entity.world.getWorld().getName() + ":"
-							+ entity.locX + "," + entity.locY + "," + entity.locZ);
-					throwable1.printStackTrace();
-					entity.dead = true;
-					continue;
-					// PaperSpigot end
-				}
-			}
-
-			this.methodProfiler.b();
-			this.methodProfiler.a("remove");
-			if (entity.dead) {
-				j = entity.ae;
-				k = entity.ag;
-				if (entity.ad && this.isChunkLoaded(j, k, true)) {
-					this.getChunkAt(j, k).b(entity);
-				}
-
-				guardEntityList = false; // Spigot
-				this.entityList.remove(this.tickPosition--); // CraftBukkit - Use field for loop variable
-				guardEntityList = true; // Spigot
-				this.b(entity);
-			}
-
-			this.methodProfiler.b();
 		}
 		guardEntityList = false; // Spigot
 

@@ -26,13 +26,16 @@ public class Pathfinder {
 	
 
 	private PathEntity a(IBlockAccess var1, Entity var2, double var3, double var5, double var7, float var9) {
-		this.a.a();
-		this.c.a(var1, var2);
-		PathPoint var10 = this.c.a(var2);
-		PathPoint var11 = this.c.a(var2, var3, var5, var7);
-		PathEntity var12 = this.a(var2, var10, var11, var9);
-		this.c.a();
-		return var12;
+		// WindSpigot - synchronize
+		synchronized (var2) {
+			this.a.a();
+			this.c.a(var1, var2);
+			PathPoint var10 = this.c.a(var2);
+			PathPoint var11 = this.c.a(var2, var3, var5, var7);
+			PathEntity var12 = this.a(var2, var10, var11, var9);
+			this.c.a();
+			return var12;
+		}
 	}
 
 	private PathEntity a(Entity var1, PathPoint var2, PathPoint var3, float var4) {

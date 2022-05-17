@@ -520,7 +520,7 @@ public abstract class EntityInsentient extends EntityLiving {
 	@Override
 	protected final void doTick() {
 		++this.ticksFarFromPlayer;
-		this.navigation.cleanUpExpiredSearches(); // MinetickMod
+		this.navigation.cleanUpExpiredSearches(); // WindSpigot
 		this.world.methodProfiler.a("checkDespawn");
 		this.D();
 		this.world.methodProfiler.b();
