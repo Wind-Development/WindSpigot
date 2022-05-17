@@ -53,7 +53,7 @@ public class SearchHandler {
 		
 		AsyncUtil.run(() -> {
 			
-			PathEntity path = navigation.doPathSearch(chunkCache, x, y + 1, z);
+			PathEntity path = navigation.doPathSearch(chunkCache, x, y, z);
 			SearchCacheEntryPosition cache = new SearchCacheEntryPosition(x, y, z, navigation.getEntity(), path);
 
 			navigation.addEntry(cache);
