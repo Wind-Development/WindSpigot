@@ -42,8 +42,6 @@ public class KnockbackConfig {
 		config.options().copyDefaults(true);
 		c.setHeader(HEADER);
 
-		save();
-
 		Set<String> keys = getKeys("knockback.profiles");
 		
 		if (!keys.contains("kohi")) {
@@ -80,6 +78,8 @@ public class KnockbackConfig {
 			defaultProfile.setWTapExtraVertical(1.0);
 			defaultProfile.save(true);
 		}
+		
+		save();
 		
 		for (String key : keys) {
 			final String path = "knockback.profiles." + key;
