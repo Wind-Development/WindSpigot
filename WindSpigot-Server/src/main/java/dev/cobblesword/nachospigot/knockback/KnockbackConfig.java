@@ -25,8 +25,8 @@ public class KnockbackConfig {
 			+ "For configuration info see this: https://github.com/Wind-Development/WindSpigot/wiki/Knockback-Configuration";
 	static YamlConfiguration config;
 
-	private static KnockbackProfile currentKb;
-	private static Set<KnockbackProfile> kbProfiles = new HashSet<>();
+	private static volatile KnockbackProfile currentKb;
+	private static volatile Set<KnockbackProfile> kbProfiles = new HashSet<>();
 
 	public static void init(File configFile) {
 		CONFIG_FILE = configFile;
