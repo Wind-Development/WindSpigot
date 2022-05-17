@@ -9,6 +9,7 @@ import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryEntity;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryPosition;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import net.minecraft.server.ChunkCache;
 import net.minecraft.server.Entity;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.PathEntity;
@@ -25,12 +26,13 @@ public class SearchHandler {
 
 	public void issueSearch(Entity targetEntity, AsyncNavigation navigation) {
 		navigation.isSearching.set(true);
+		
+		final ChunkCache chunkCache = navigation.createChunkCache(true);
 
 		AsyncUtil.run(() -> {
 			
-			PathEntity path = navigation.doPathSearch(navigation.createChunkCache(true),
-					MathHelper.floor(targetEntity.locX), MathHelper.floor(targetEntity.locY) + 1,
-					MathHelper.floor(targetEntity.locZ));
+			PathEntity path = navigation.doPathSearch(chunkCache, MathHelper.floor(targetEntity.locX),
+					MathHelper.floor(targetEntity.locY) + 1, MathHelper.floor(targetEntity.locZ));
 			SearchCacheEntryEntity cache = new SearchCacheEntryEntity(targetEntity, navigation.getEntity(), path);
 
 			navigation.addEntry(cache);
@@ -47,9 +49,11 @@ public class SearchHandler {
 	public void issueSearch(int x, int y, int z, AsyncNavigation navigation) {
 		navigation.isSearching.set(true);
 
+		final ChunkCache chunkCache = navigation.createChunkCache(true);
+		
 		AsyncUtil.run(() -> {
 			
-			PathEntity path = navigation.doPathSearch(navigation.createChunkCache(true), x, y + 1, z);
+			PathEntity path = navigation.doPathSearch(chunkCache, x, y + 1, z);
 			SearchCacheEntryPosition cache = new SearchCacheEntryPosition(x, y, z, navigation.getEntity(), path);
 
 			navigation.addEntry(cache);
