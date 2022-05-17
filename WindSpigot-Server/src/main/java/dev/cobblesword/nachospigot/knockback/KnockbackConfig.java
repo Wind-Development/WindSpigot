@@ -126,6 +126,9 @@ public class KnockbackConfig {
 	}
 
 	public static KnockbackProfile getCurrentKb() {
+		if (currentKb == null) {
+			setCurrentKb(getKbProfileByName("vanilla"));
+		}
 		return currentKb;
 	}
 
