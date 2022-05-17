@@ -104,7 +104,7 @@ public abstract class NavigationAbstract {
 					MathHelper.floor(b.locZ) - i, MathHelper.floor(b.locX) + i, MathHelper.floor(b.locY) + i,
 					MathHelper.floor(b.locZ) + i, 0);
 
-			PathEntity pathentity = this.j.a(chunkcache, this.b, MathHelper.floor(d0), MathHelper.floor(d1), MathHelper.floor(d2), f);
+			PathEntity pathentity = this.j.a(chunkcache, this.b, d0, d1, d2, f);
 
 			this.c.methodProfiler.b();
 			return pathentity;
