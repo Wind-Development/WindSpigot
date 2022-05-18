@@ -52,7 +52,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 21; // Update this every new configuration update
+		int configVersion = 22; // Update this every new configuration update
 
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -401,6 +401,17 @@ public class WindSpigotConfig {
 	private static void hitReg() {
 		improvedHitDetection = getBoolean("settings.improved-hit-detection", true);
 		c.addComment("settings.improved-hit-detection", "Enables the usage of an improved hit registration based on lag compensation and small other details. (Credits to NachoSpigot and the original plugin)");
+	}
+	
+	public static boolean explosionAnimation;
+	public static boolean explosionSounds;
+	
+	private static void explosions() {
+		explosionAnimation = getBoolean("settings.explosion-animation", true);
+		explosionSounds = getBoolean("settings.explosion-sound", true);
+		
+		c.addComment("settings.explosion-animation", "Enables explosion animations.");
+		c.addComment("settings.explosion-sound", "Enables explosion sounds.");
 	}
 	
 }

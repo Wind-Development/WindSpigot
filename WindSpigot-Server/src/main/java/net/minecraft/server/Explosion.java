@@ -196,16 +196,27 @@ public class Explosion {
 	public void a(boolean flag) {
 		// PaperSpigot start - Configurable TNT explosion volume.
 		float volume = source instanceof EntityTNTPrimed ? world.paperSpigotConfig.tntExplosionVolume : 4.0F;
-		this.world.makeSound(this.posX, this.posY, this.posZ, "random.explode", volume,
-				(1.0F + (this.world.random.nextFloat() - this.world.random.nextFloat()) * 0.2F) * 0.7F);
-		// PaperSpigot end
-		if (this.size >= 2.0F && this.b) {
-			this.world.addParticle(EnumParticle.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D,
-					Constants.EMPTY_ARRAY);
-		} else {
-			this.world.addParticle(EnumParticle.EXPLOSION_LARGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D,
-					Constants.EMPTY_ARRAY);
+		
+		// WindSpigot start - configurable explosion sounds
+		if (WindSpigotConfig.explosionSounds) {
+			this.world.makeSound(this.posX, this.posY, this.posZ, "random.explode", volume,
+					(1.0F + (this.world.random.nextFloat() - this.world.random.nextFloat()) * 0.2F) * 0.7F);
 		}
+		// WindSpigot end
+		
+		// PaperSpigot end
+		
+		// WindSpigot start - configurable explosion animations
+		if (WindSpigotConfig.explosionAnimation) {
+			if (this.size >= 2.0F && this.b) {
+				this.world.addParticle(EnumParticle.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D,
+						Constants.EMPTY_ARRAY);
+			} else {
+				this.world.addParticle(EnumParticle.EXPLOSION_LARGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D,
+						Constants.EMPTY_ARRAY);
+			}
+		}
+		// WindSpigot end
 
 		Iterator iterator;
 		BlockPosition blockposition;
