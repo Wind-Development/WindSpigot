@@ -25,9 +25,14 @@ public class SearchHandler {
 	}
 
 	public void issueSearch(Entity targetEntity, AsyncNavigation navigation) {
-		navigation.isSearching.set(true);
 		
 		final ChunkCache chunkCache = navigation.createChunkCache(true);
+		
+		if (chunkCache == null) {
+			return;
+		}
+		
+		navigation.isSearching.set(true);
 
 		AsyncUtil.run(() -> {
 			
@@ -47,9 +52,14 @@ public class SearchHandler {
 	}
 
 	public void issueSearch(int x, int y, int z, AsyncNavigation navigation) {
-		navigation.isSearching.set(true);
 
 		final ChunkCache chunkCache = navigation.createChunkCache(false);
+		
+		if (chunkCache == null) {
+			return;
+		}
+		
+		navigation.isSearching.set(true);
 		
 		AsyncUtil.run(() -> {
 			
