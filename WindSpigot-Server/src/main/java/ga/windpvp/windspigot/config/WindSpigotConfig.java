@@ -354,10 +354,10 @@ public class WindSpigotConfig {
 	public static int entityMaxTickTime;
 
 	private static void maxTickTimes() {
-		entityMaxTickTime = getInt("settings.max-tick-time.entity", 25);
+		entityMaxTickTime = getInt("settings.max-tick-time.entity", 35);
 		tileMaxTickTime = 1000; // We do not re-implement the tile entity tick cap, so we disable it by setting it to 1000
 		
-		c.addComment("settings.max-tick-time.entity", "The maximum time that entities can take to tick before moving on. This may break some gameplay, so set to 1000 to disable. \nFor reference, there are 50 ms in a tick. The default setting makes it so that entities can only take up half the tick.");
+		c.addComment("settings.max-tick-time.entity", "The maximum time that entities can take to tick before moving on. This may break some gameplay, so set to 1000 to disable. \nFor reference, there are 50 ms in a tick.");
 	}
 	
 	public static boolean stopMobSpawnsDuringOverload;
