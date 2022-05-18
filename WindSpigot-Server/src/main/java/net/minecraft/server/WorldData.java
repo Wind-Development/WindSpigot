@@ -6,6 +6,8 @@ import java.util.concurrent.Callable;
 import org.bukkit.Bukkit;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
+
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 // CraftBukkit end
 
 public class WorldData {
@@ -433,6 +435,15 @@ public class WorldData {
 		// CraftBukkit start
 		org.bukkit.World world = Bukkit.getWorld(getName());
 		if (world != null) {
+			
+			// WindSpigot start - toggleable weather change
+			if (!WindSpigotConfig.weatherChange) {
+				setThundering(false);
+				setWeatherDuration(0);
+				return;
+			}
+			// WindSpigot end
+			
 			WeatherChangeEvent weather = new WeatherChangeEvent(world, flag);
 			Bukkit.getServer().getPluginManager().callEvent(weather);
 			if (weather.isCancelled()) {

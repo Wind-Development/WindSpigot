@@ -52,7 +52,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 22; // Update this every new configuration update
+		int configVersion = 23; // Update this every new configuration update
 
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -414,4 +414,11 @@ public class WindSpigotConfig {
 		c.addComment("settings.explosion-sound", "Enables explosion sounds.");
 	}
 	
+	public static boolean weatherChange;
+	
+	private static void weatherChange() {
+		weatherChange = getBoolean("settings.weather-change", true);
+		
+		c.addComment("settings.weather-change", "Enables changing of weather.");
+	}
 }
