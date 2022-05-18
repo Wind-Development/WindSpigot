@@ -47,28 +47,8 @@ public class AsyncNavigation extends Navigation {
 		super(var1, var2);
 	}
 	
-	static {
-		offloadedEntities.add(EntityType.BAT);
-		offloadedEntities.add(EntityType.BLAZE);
-		offloadedEntities.add(EntityType.CHICKEN);
-		offloadedEntities.add(EntityType.COW);
-		offloadedEntities.add(EntityType.CREEPER);
-		offloadedEntities.add(EntityType.ENDERMAN);
-		offloadedEntities.add(EntityType.HORSE);
-		offloadedEntities.add(EntityType.IRON_GOLEM);
-		offloadedEntities.add(EntityType.MAGMA_CUBE);
-		offloadedEntities.add(EntityType.MUSHROOM_COW);
-		offloadedEntities.add(EntityType.PIG);
-		offloadedEntities.add(EntityType.PIG_ZOMBIE);
-		offloadedEntities.add(EntityType.RABBIT);
-		offloadedEntities.add(EntityType.SHEEP);
-		offloadedEntities.add(EntityType.SKELETON);
-		offloadedEntities.add(EntityType.SILVERFISH);
-		offloadedEntities.add(EntityType.SLIME);
-		offloadedEntities.add(EntityType.SNOWMAN);
-		offloadedEntities.add(EntityType.SQUID);
-		offloadedEntities.add(EntityType.WITCH);
-		offloadedEntities.add(EntityType.ZOMBIE);
+	public static void addOffloadedEntities(List<EntityType> entities) {
+		offloadedEntities.addAll(entities);
 	}
 	
 	private void issueSearch(Entity targetEntity) {

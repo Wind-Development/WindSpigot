@@ -323,11 +323,24 @@ public class WindSpigotConfig {
 	public static int pathSearchThreads;
 	public static boolean ensurePathSearchAccuracy;
 	
+	@SuppressWarnings("unchecked")
 	private static void asyncPathSearches() {
 		asyncPathSearches = getBoolean("settings.async.path-searches.enabled", true);
 		
 		if (asyncPathSearches) {
-	
+			List<String> asyncSearchEntities = getList("settings.async.path-searches.entities",
+					Lists.newArrayList("BAT", "BLAZE", "CHICKEN", "COW", "CREEPER", "ENDERMAN", "HORSE", "IRON_GOLEM",
+							"MAGMA_CUBE", "MUSHROOM_COW", "PIG", "PIG_ZOMBIE", "RABBIT", "SHEEP", "SKELETON", "SILVERFISH",
+							"SLIME", "SNOWMAN", "SQUID", "WITCH", "ZOMBIE"));
+			
+			List<EntityType> finalEntities = Lists.newArrayList();
+			
+			for (String entityName : asyncSearchEntities) {
+				finalEntities.add(EntityType.fromName(entityName));
+			}
+			
+			AsyncNavigation.addOffloadedEntities(finalEntities);
+			
 			distanceToAsync = getInt("settings.async.path-searches.distance-to-async", 0);
 			AsyncNavigation.setMinimumDistanceForOffloading(distanceToAsync);
 			
@@ -336,6 +349,7 @@ public class WindSpigotConfig {
 			
 		} 
 		c.addComment("settings.async.path-searches.enabled", "Enables async path searching for entities.");
+		c.addComment("settings.async.path-searches.entities", "A list of entities that utilize async path searches. Removing entities from this list will ensure 100% vanilla behavior, but worse performance.");
 		c.addComment("settings.async.path-searches.distance-to-async", "The mininum distance an entity is targeting to handle it async. Tune this based on how many entities your server will has.");
 		c.addComment("settings.async.path-searches.threads", "The threads used for path searches. Tune this based on how many entities your server will has.");
 		c.addComment("settings.async.path-searches.ensure-accuracy", "Ensures accuracy of async path searches, disabling this will result in possibly inaccurate targeting, but higher performance.");
