@@ -46,6 +46,8 @@ See the patches list below.
 [WindSpigot-0012] Re-implement Spigot's max tick time for certain configurable entities
 [WindSpigot-0013] More configuration for knockback
 [WindSpigot-0014] Async entity path searching
+[WindSpigot-0015] Configurable explosion animations and sound
+[WindSpigot-0016] Configurable weather changes
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
