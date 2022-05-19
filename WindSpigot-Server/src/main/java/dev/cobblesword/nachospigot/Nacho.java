@@ -26,7 +26,7 @@ public class Nacho {
 	public Nacho() {
 		INSTANCE = this;
 
-		AsyncExplosions.initExecutor(NachoConfig.useFixedPoolForTNT, NachoConfig.fixedPoolSize);
+		AsyncExplosions.initExecutor(NachoConfig.fixedPoolSize);
 
 		if (NachoConfig.enableAntiCrash) {
 			WindSpigot.LOGGER.info("[NS-AntiCrash] Activating Anti Crash.");

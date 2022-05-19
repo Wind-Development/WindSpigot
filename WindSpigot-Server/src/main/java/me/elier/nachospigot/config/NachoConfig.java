@@ -284,12 +284,9 @@ public class NachoConfig {
 		c.addComment("settings.use-tcp-nodelay", "Enables the TCP_NODELAY socket option");
 	}
 
-	public static boolean useFixedPoolForTNT;
 	public static int fixedPoolSize;
 
 	private static void fixedPools() {
-		useFixedPoolForTNT = getBoolean("settings.fixed-pools.use-fixed-pools-for-explosions", true);
-		c.addComment("settings.fixed-pools.use-fixed-pools-for-explosions", "Enables fixed thread pool for explosions");
 		fixedPoolSize = getInt("settings.fixed-pools.size", 3);
 		c.addComment("settings.fixed-pools.size", "The size for the fixed thread pool for explosions.");
 	}

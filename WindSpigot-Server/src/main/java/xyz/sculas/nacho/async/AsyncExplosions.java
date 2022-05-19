@@ -6,12 +6,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class AsyncExplosions {
 	public static ThreadPoolExecutor EXECUTOR;
 
-	public static void initExecutor(boolean fixed, int size) {
-		if (fixed) {
-			EXECUTOR = (ThreadPoolExecutor) Executors.newFixedThreadPool(size);
-		} else {
-			EXECUTOR = (ThreadPoolExecutor) Executors.newCachedThreadPool();
-		}
+	public static void initExecutor(int size) {
+		EXECUTOR = (ThreadPoolExecutor) Executors.newFixedThreadPool(size);
 	}
 
 	public static void stopExecutor() {
