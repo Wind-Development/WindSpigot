@@ -13,16 +13,10 @@ public class Pathfinder {
 		return this.a(var1, var2, var3.locX, var3.getBoundingBox().b, var3.locZ, var4);
 	}
 
-	// WindSpigot start - reduce blockposition usage
 	public PathEntity a(IBlockAccess var1, Entity var2, BlockPosition var3, float var4) {
-		return this.a(var1, var2, var3.getX(), var3.getY(), var3.getZ(), var4);
+		return this.a(var1, var2, (double) ((float) var3.getX() + 0.5F), (double) ((float) var3.getY() + 0.5F),
+				(double) ((float) var3.getZ() + 0.5F), var4);
 	}
-	
-	public PathEntity a(IBlockAccess var1, Entity var2, int x, int y, int z, float var4) {
-		return this.a(var1, var2, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F),
-				(double) ((float) z + 0.5F), var4);
-	}
-	// WindSpigot end
 	
 
 	private PathEntity a(IBlockAccess var1, Entity var2, double var3, double var5, double var7, float var9) {
