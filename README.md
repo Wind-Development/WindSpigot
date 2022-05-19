@@ -2,9 +2,6 @@
 
 ##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance and pvp mechanics. WindSpigot is based on a **[fork of NachoSpigot](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**.
 
-## Current State
-Java 17 is now natively supported, and **[ViaVersion](https://github.com/ViaVersion/ViaVersion)** is patched at runtime to work with Nacho's modifications.
-
 **WindSpigot supports Java 8 to Java 17!**
 
 ## Downloads
@@ -21,7 +18,6 @@ WindSpigot moves heavy work off of the main server thread and splits up the serv
 #### What is done asynchronously to achieve this?
 - Worlds (ticked parallel to each other)
 - Entity path searching (entity AI calculations are done async)
-- TNT calculations (from NachoSpigot)
 - The entity tracker (updated with multiple threads, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**)
 - Knockback (packets are sent with high priority, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
 
