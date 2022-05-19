@@ -358,14 +358,6 @@ public class NachoConfig {
 		c.addComment("settings.enable-fastmath", "Enable Fast Math usage.");
 	}
 
-	public static int tileEntityTickingTime;
-
-	private static void tileEntityTickingTime() {
-		tileEntityTickingTime = getInt("settings.tile-entity-ticking-time", 20);
-		c.addComment("settings.tile-entity-ticking-time",
-				"Ticking time (20 ticks per second) for usage on tile entity operations.");
-	}
-
 	public static int itemDirtyTicks;
 
 	private static void itemDirtyTicks() {

@@ -7,7 +7,6 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.EntityType;
 
-import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.TileEntityMobSpawner;
 
 public class CraftCreatureSpawner extends CraftBlockState implements CreatureSpawner {
@@ -79,12 +78,12 @@ public class CraftCreatureSpawner extends CraftBlockState implements CreatureSpa
 
 	@Override
 	public int getDelay() {
-		return spawner.getSpawner().spawnDelay * NachoConfig.tileEntityTickingTime;
+		return spawner.getSpawner().spawnDelay;
 	}
 
 	@Override
 	public void setDelay(int delay) {
-		spawner.getSpawner().spawnDelay = delay / NachoConfig.tileEntityTickingTime;
+		spawner.getSpawner().spawnDelay = delay;
 	}
 
 	@Override
