@@ -128,7 +128,8 @@ public class EntityPotion extends EntityProjectile {
 
 					EntityLiving entityliving = ((CraftLivingEntity) victim).getHandle();
 
-					if (entityliving instanceof EntityPlayer && !((EntityPlayer) entityliving).getBukkitEntity()
+					// WindSpigot - null check
+					if (this.getShooter() != null && entityliving instanceof EntityPlayer && !((EntityPlayer) entityliving).getBukkitEntity()
 							.canSee(this.getShooter().getBukkitEntity())) {
 						continue;
 					}
