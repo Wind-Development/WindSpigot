@@ -135,7 +135,7 @@ public class WindSpigotConfig {
 	}
 	
 	// General header comments
-	private static void comments() {
+	private static void headerComments() {
 		c.addComment("settings.async", "Configuration for asynchronous things.");
 		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
 		c.addComment("settings.command", "Configuration for WindSpigot's commands");
