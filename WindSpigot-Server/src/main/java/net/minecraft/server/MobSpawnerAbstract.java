@@ -6,6 +6,7 @@ import java.util.List;
 
 // CraftBukkit start
 import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.techcable.tacospigot.event.entity.SpawnerPreSpawnEvent;
 
 import org.bukkit.Location;
@@ -79,8 +80,14 @@ public abstract class MobSpawnerAbstract {
 				double d2 = (double) ((float) blockposition.getY() + this.a().random.nextFloat());
 
 				d0 = (double) ((float) blockposition.getZ() + this.a().random.nextFloat());
-				this.a().addParticle(EnumParticle.SMOKE_NORMAL, d1, d2, d0, 0.0D, 0.0D, 0.0D, Constants.EMPTY_ARRAY);
-				this.a().addParticle(EnumParticle.FLAME, d1, d2, d0, 0.0D, 0.0D, 0.0D, Constants.EMPTY_ARRAY);
+				
+				// WindSpigot start - configurable spawner animations
+				if (WindSpigotConfig.spawnerAnimation) {
+					this.a().addParticle(EnumParticle.SMOKE_NORMAL, d1, d2, d0, 0.0D, 0.0D, 0.0D, Constants.EMPTY_ARRAY);
+					this.a().addParticle(EnumParticle.FLAME, d1, d2, d0, 0.0D, 0.0D, 0.0D, Constants.EMPTY_ARRAY);
+				}
+				// WindSpigot end
+				
 				if (this.spawnDelay > 0) {
 					this.spawnDelay -= tickDelay; // PaperSpigot
 				}

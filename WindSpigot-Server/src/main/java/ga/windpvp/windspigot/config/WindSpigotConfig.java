@@ -52,7 +52,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 23; // Update this every new configuration update
+		int configVersion = 24; // Update this every new configuration update
 
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -406,12 +406,18 @@ public class WindSpigotConfig {
 	public static boolean explosionAnimation;
 	public static boolean explosionSounds;
 	
-	private static void explosions() {
+	public static boolean spawnerAnimation;
+	
+	private static void particles() {
 		explosionAnimation = getBoolean("settings.explosion-animation", true);
 		explosionSounds = getBoolean("settings.explosion-sound", true);
 		
+		spawnerAnimation = getBoolean("settings.spawner-animation", true);
+		
 		c.addComment("settings.explosion-animation", "Enables explosion animations.");
 		c.addComment("settings.explosion-sound", "Enables explosion sounds.");
+		
+		c.addComment("settings.spawner-animation", "Enables mob spawner particles.");
 	}
 	
 	public static boolean weatherChange;
