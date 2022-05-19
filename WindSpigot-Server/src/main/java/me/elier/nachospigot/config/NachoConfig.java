@@ -304,7 +304,7 @@ public class NachoConfig {
 	public static boolean fixEatWhileRunning;
 
 	private static void fixEatWhileRunning() {
-		fixEatWhileRunning = getBoolean("settings.fix-eat-while-running", false);
+		fixEatWhileRunning = getBoolean("settings.fix-eat-while-running", true);
 		c.addComment("settings.fix-eat-while-running", "Fixes the eating while running bug");
 	}
 
