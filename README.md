@@ -35,7 +35,7 @@ See the patches list below.
 [WindSpigot-0005] Disable mob spawning if tps is not stable
 [WindSpigot-0006] Remove fastmath usage from explosions
 [WindSpigot-0007] Player ping command
-[WindSpigot-0008-REMOVED] Make NachoSpigot's async TNT configurable
+[WindSpigot-0008] Make NachoSpigot's async TNT configurable
 [WindSpigot-0009] Configurable entity hit delay
 [WindSpigot-0010] Configurable potion speeds
 [WindSpigot-0011] Make console display of player ips toggleable
