@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 
 public class BlockFalling extends Block {
@@ -46,7 +47,7 @@ public class BlockFalling extends Block {
 		if (canFall(world, blockposition.down()) && blockposition.getY() >= 0) {
 			byte b0 = 32;
 
-			if (!NachoConfig.disabledFallBlockAnimation && !BlockFalling.instaFall
+			if (!WindSpigotConfig.disabledFallBlockAnimation && !BlockFalling.instaFall
 					&& world.areChunksLoadedBetween(blockposition.a(-b0, -b0, -b0), blockposition.a(b0, b0, b0))) {
 				if (!world.isClientSide) {
 					// PaperSpigot start - Add FallingBlock source location API

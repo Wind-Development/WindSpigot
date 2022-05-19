@@ -2,6 +2,7 @@ package net.minecraft.server;
 
 import java.io.IOException;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.handler.codec.DecoderException;
 import me.elier.nachospigot.config.NachoConfig;
 
@@ -42,7 +43,7 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn> {
 
 		// KigPaper-0172 start - don't parse itemstack
 
-		if (!NachoConfig.stopDecodingItemStackOnPlace) {
+		if (!WindSpigotConfig.stopDecodingItemStackOnPlace) {
 			this.d = serializer.decodeItemStack();
 		} else {
 			// Consume everything and leave 3 bytes at the end

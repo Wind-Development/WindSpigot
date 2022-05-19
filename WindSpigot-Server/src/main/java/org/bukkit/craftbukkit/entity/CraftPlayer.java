@@ -71,6 +71,7 @@ import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.commons.Constants;
 import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
 import me.elier.nachospigot.config.NachoConfig;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -1130,7 +1131,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 		}
 
 		// Projectiles from hidden players
-		if (NachoConfig.hideProjectilesFromHiddenPlayers) {
+		if (WindSpigotConfig.hideProjectilesFromHiddenPlayers) {
 			if (nmsEntity instanceof EntityProjectile) {
 				EntityProjectile entityProjectile = (EntityProjectile) nmsEntity;
 

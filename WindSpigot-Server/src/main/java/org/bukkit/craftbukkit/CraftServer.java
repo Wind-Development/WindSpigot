@@ -307,7 +307,7 @@ public final class CraftServer implements Server {
 		// enablePlugins(PluginLoadOrder.STARTUP);
 		// Spigot End
 
-		this.serverName = NachoConfig.serverBrandName;
+		this.serverName = WindSpigotConfig.serverBrandName;
 	}
 
 	public boolean getCommandBlockOverride(String command) {
@@ -350,7 +350,7 @@ public final class CraftServer implements Server {
 			for (Plugin plugin : plugins) {
 				try {
 					// Nacho start - [Nacho-0047] Little anti-malware
-					if (NachoConfig.checkForMalware) {
+					if (WindSpigotConfig.checkForMalware) {
 						AntiMalware.find(plugin);
 					}
 					// Nacho end
@@ -1648,17 +1648,17 @@ public final class CraftServer implements Server {
 
 	@Override
 	public boolean versionCommandEnabled() {
-		return NachoConfig.enableVersionCommand;
+		return WindSpigotConfig.enableVersionCommand;
 	}
 
 	@Override
 	public boolean reloadCommandEnabled() {
-		return NachoConfig.enableReloadCommand;
+		return WindSpigotConfig.enableReloadCommand;
 	}
 
 	@Override
 	public boolean pluginsCommandEnabled() {
-		return NachoConfig.enablePluginsCommand;
+		return WindSpigotConfig.enablePluginsCommand;
 	}
 
 	public EntityMetadataStore getEntityMetadata() {

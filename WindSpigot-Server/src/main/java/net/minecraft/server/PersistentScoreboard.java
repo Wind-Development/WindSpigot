@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.IScoreboardCriteria.EnumScoreboardHealthDisplay;
 import net.minecraft.server.ScoreboardTeamBase.EnumNameTagVisibility;
@@ -171,7 +172,7 @@ public class PersistentScoreboard extends PersistentBase {
 
 		while (var3.hasNext()) {
 			ScoreboardTeam scoreboardteam = (ScoreboardTeam) var3.next();
-			if (!NachoConfig.saveEmptyScoreboardTeams && scoreboardteam.getPlayerNameSet().isEmpty()) {
+			if (!WindSpigotConfig.saveEmptyScoreboardTeams && scoreboardteam.getPlayerNameSet().isEmpty()) {
 				continue; // Paper
 			}
 			NBTTagCompound nbttagcompound = new NBTTagCompound();

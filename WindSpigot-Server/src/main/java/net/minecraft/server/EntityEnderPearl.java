@@ -86,7 +86,7 @@ public class EntityEnderPearl extends EntityProjectile {
 
 					// Nacho start - Anti ender pearl glitch
 
-					if (NachoConfig.antiEnderPearlGlitch) {
+					if (WindSpigotConfig.antiEnderPearlGlitch) {
 
 						double diffX = location.getBlockX() - player.getLocation().getBlockX();
 						double diffY = location.getBlockY() - player.getLocation().getBlockY();

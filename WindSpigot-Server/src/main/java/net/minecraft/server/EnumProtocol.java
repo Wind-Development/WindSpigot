@@ -7,6 +7,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Maps;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.util.collection.IntObjectHashMap;
 import io.netty.util.collection.IntObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -274,7 +275,7 @@ public enum EnumProtocol {
 		this.packetClassToId.put(clazz, packetId);
 		map.put(packetId, packet);
 
-		if (NachoConfig.enableProtocolLibShim) {
+		if (WindSpigotConfig.enableProtocolLibShim) {
 			this._protocolLibRegisterShim(dir, clazz);
 		}
 	}

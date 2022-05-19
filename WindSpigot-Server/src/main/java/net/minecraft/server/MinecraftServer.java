@@ -1152,7 +1152,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	}
 
 	public String getServerModName() {
-		return NachoConfig.serverBrandName; // [Nacho-0035] // NachoSpigot - NachoSpigot > // TacoSpigot - TacoSpigot //
+		return WindSpigotConfig.serverBrandName; // [Nacho-0035] // NachoSpigot - NachoSpigot > // TacoSpigot - TacoSpigot //
 											// PaperSpigot - PaperSpigot > // Spigot - Spigot > // CraftBukkit - cb >
 											// vanilla!
 	}

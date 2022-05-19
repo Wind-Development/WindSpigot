@@ -142,7 +142,7 @@ public class EntityTracker {
 
 	// IonSpigot start
 	private EntityTrackerEntry createTracker(Entity entity, int i, int j, boolean flag) {
-		if (entity.isCannoningEntity && NachoConfig.useFasterCannonTracker) {
+		if (entity.isCannoningEntity && WindSpigotConfig.useFasterCannonTracker) {
 			return new me.suicidalkids.ion.visuals.CannonTrackerEntry(this, entity, i, j, flag);
 		} else {
 			return new EntityTrackerEntry(this, entity, i, j, flag);

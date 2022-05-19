@@ -5,6 +5,7 @@ import java.util.List;
 import com.eatthepath.uuid.FastUUID;
 
 import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 
 public abstract class EntityProjectile extends Entity implements IProjectile {
@@ -147,7 +148,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 					MovingObjectPosition movingobjectposition1 = axisalignedbb.a(vec3d, vec3d1);
 
 					// IonSpigot start - Smooth Potting
-					if (this instanceof EntityPotion && NachoConfig.smoothPotting && movingobjectposition1 == null
+					if (this instanceof EntityPotion && WindSpigotConfig.smoothPotting && movingobjectposition1 == null
 							&& getBoundingBox().b(entity1.getBoundingBox())) {
 						movingobjectposition1 = new MovingObjectPosition(entity1);
 					}

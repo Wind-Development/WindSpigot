@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 import me.suicidalkids.ion.blocks.redstone.PandaRedstoneWire;
 
@@ -846,7 +847,7 @@ public class Block {
 				(new BlockStairs(block1.getBlockData().set(BlockWood.VARIANT, BlockWood.EnumLogVariant.OAK)))
 						.c("stairsWood"));
 		a(54, "chest", (new BlockChest(0)).c(2.5F).a(Block.f).c("chest"));
-		a(55, "redstone_wire", (NachoConfig.usePandaWire ? new PandaRedstoneWire() : new BlockRedstoneWire()).c(0.0F)
+		a(55, "redstone_wire", (WindSpigotConfig.usePandaWire ? new PandaRedstoneWire() : new BlockRedstoneWire()).c(0.0F)
 				.a(Block.e).c("redstoneDust").K());
 		a(56, "diamond_ore", (new BlockOre()).c(3.0F).b(5.0F).a(Block.i).c("oreDiamond"));
 		a(57, "diamond_block", (new Block(Material.ORE, MaterialMapColor.G)).c(5.0F).b(10.0F).a(Block.j)

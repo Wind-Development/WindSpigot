@@ -2,15 +2,15 @@ package org.bukkit.craftbukkit.chunkio;
 
 import org.bukkit.craftbukkit.util.AsynchronousExecutor;
 
-import me.elier.nachospigot.config.NachoConfig;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.Chunk;
 import net.minecraft.server.ChunkProviderServer;
 import net.minecraft.server.ChunkRegionLoader;
 import net.minecraft.server.World;
 
 public class ChunkIOExecutor {
-	static final int BASE_THREADS = NachoConfig.chunkThreads;
-	static final int PLAYERS_PER_THREAD = NachoConfig.playersPerThread;
+	static final int BASE_THREADS = WindSpigotConfig.chunkThreads;
+	static final int PLAYERS_PER_THREAD = WindSpigotConfig.playersPerThread;
 
 	private static final AsynchronousExecutor<QueuedChunk, Chunk, Runnable, RuntimeException> instance = new AsynchronousExecutor<QueuedChunk, Chunk, Runnable, RuntimeException>(
 			new ChunkIOProvider(), BASE_THREADS);

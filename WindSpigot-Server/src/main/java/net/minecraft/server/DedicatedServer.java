@@ -45,7 +45,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 	public DedicatedServer(joptsimple.OptionSet options) {
 		super(options, Proxy.NO_PROXY, MinecraftServer.a);
 		// CraftBukkit end
-		if (!NachoConfig.disableInfiniSleeperThreadUsage) {
+		if (!WindSpigotConfig.disableInfiniSleeperThreadUsage) {
 			Thread thread = new Thread("Server Infinisleeper") {
 				{
 					this.setDaemon(true);
@@ -235,7 +235,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 							"Whilst this makes it possible to use BungeeCord, unless access to your server is properly restricted, it also opens up the ability for hackers to connect with any username they choose.");
 					DedicatedServer.LOGGER
 							.warn("Please see http://www.spigotmc.org/wiki/firewall-guide/ for further information.");
-					if (!NachoConfig.stopNotifyBungee) {
+					if (!WindSpigotConfig.stopNotifyBungee) {
 						DedicatedServer.LOGGER
 								.warn("---------------------------- NachoSpigot Checker ----------------------------");
 						DedicatedServer.LOGGER.warn(

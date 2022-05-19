@@ -242,7 +242,7 @@ public class Explosion {
 
 			if (explode != null) {
                 EntityExplodeEvent event = new EntityExplodeEvent(explode, location, blockList, yield);
-				if (NachoConfig.fireEntityExplodeEvent) {
+				if (WindSpigotConfig.fireEntityExplodeEvent) {
                     this.world.getServer().getPluginManager().callEvent(event);
                 }
                 cancelled = event.isCancelled();
@@ -490,9 +490,9 @@ public class Explosion {
 		double d0 = 1.0D / ((aabb.d - aabb.a) * 2.0D + 1.0D);
 		double d1 = 1.0D / ((aabb.e - aabb.b) * 2.0D + 1.0D);
 		double d2 = 1.0D / ((aabb.f - aabb.c) * 2.0D + 1.0D);
-		double d3 = (1.0D - ((NachoConfig.enableFastMath ? FastMath.floor(1.0D / d0) : Math.floor(1.0D / d0)) * d0))
+		double d3 = (1.0D - ((WindSpigotConfig.enableFastMath ? FastMath.floor(1.0D / d0) : Math.floor(1.0D / d0)) * d0))
 				/ 2.0D;
-		double d4 = (1.0D - ((NachoConfig.enableFastMath ? FastMath.floor(1.0D / d2) : Math.floor(1.0D / d2)) * d2))
+		double d4 = (1.0D - ((WindSpigotConfig.enableFastMath ? FastMath.floor(1.0D / d2) : Math.floor(1.0D / d2)) * d2))
 				/ 2.0D;
 
 		if (d0 < 0.0 || d1 < 0.0 || d2 < 0.0) {

@@ -52,7 +52,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 24; // Update this every new configuration update
+		int configVersion = 25; // Update this every new configuration update
 
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -254,9 +254,9 @@ public class WindSpigotConfig {
 
     private static void asyncPackets() {
     	// We use Nacho's implementation of instant interactions for async hit detection
-        NachoConfig.instantPlayInUseEntity = getBoolean("settings.async.hit-detection", true);
+    	instantPlayInUseEntity = getBoolean("settings.async.hit-detection", true);
         asyncKnockback = getBoolean("settings.async.knockback", false);
-        c.addComment("settings.async.hit-detection", "Enables instant hit detection. This overrides the \"instant-interaction\" setting in nacho.yml (Credits to NachoSpigot).");
+        c.addComment("settings.async.hit-detection", "Enables instant hit detection. This overrides the \"instant-interaction\" setting (Credits to NachoSpigot).");
         c.addComment("settings.async.knockback", "Enables asynchronous knockback. This increases overall cpu usage, but sends knockback packets faster. Disable this if you do not run a pvp server. \nThis may be incompatible with a few plugins that listen to knockback packets. Test before using in production.");
     }
     
@@ -426,5 +426,233 @@ public class WindSpigotConfig {
 		weatherChange = getBoolean("settings.weather-change", true);
 		
 		c.addComment("settings.weather-change", "Enables changing of weather.");
+	}
+	
+	public static boolean saveEmptyScoreboardTeams;
+
+	private static void saveEmptyScoreboardTeams() {
+		saveEmptyScoreboardTeams = getBoolean("settings.save-empty-scoreboard-teams", false);
+		c.addComment("settings.save-empty-scoreboard-teams",
+				"Toggles whether or not the server should save empty scoreboard teams");
+	}
+
+	public static boolean enableVersionCommand;
+	public static boolean enablePluginsCommand;
+	public static boolean enableReloadCommand;
+
+	private static void commands() {
+		enableVersionCommand = getBoolean("settings.commands.enable-version-command", true);
+		c.addComment("settings.commands.enable-version-command", "Toggles the /version command");
+		enablePluginsCommand = getBoolean("settings.commands.enable-plugins-command", true);
+		c.addComment("settings.commands.enable-plugins-command", "Toggles the /plugins command");
+		enableReloadCommand = getBoolean("settings.commands.enable-reload-command", false);
+		c.addComment("settings.commands.enable-reload-command", "Toggles the /reload command");
+	}
+
+	public static boolean useFastOperators;
+
+	private static void useFastOperators() {
+		useFastOperators = getBoolean("settings.fast-operators", true);
+		c.addComment("settings.fast-operators",
+				"Enables Fast Operators, which uses a faster method for managing operators");
+	}
+
+	public static boolean patchProtocolLib;
+
+	private static void patchProtocolLib() {
+		patchProtocolLib = getBoolean("settings.patch-protocollib", true);
+		c.addComment("settings.patch-protocollib",
+				"Enables the ProtocolLib runtime patch (not required on ProtocolLib version 4.7+)");
+	}
+
+	public static boolean stopNotifyBungee;
+
+	private static void stopNotifyBungee() {
+		stopNotifyBungee = getBoolean("settings.stop-notify-bungee", false);
+		c.addComment("settings.stop-notify-bungee", "Disables the firewall check when running BungeeCord");
+	}
+
+	public static boolean checkForMalware;
+
+	private static void antiMalware() {
+		checkForMalware = getBoolean("settings.anti-malware", true);
+		c.addComment("settings.anti-malware", "Enables the built-in anti malware feature");
+	}
+
+	public static boolean kickOnIllegalBehavior;
+
+	private static void kickOnIllegalBehavior() {
+		kickOnIllegalBehavior = getBoolean("settings.kick-on-illegal-behavior", true);
+		c.addComment("settings.kick-on-illegal-behavior",
+				"Kicks players if they try to do an illegal action (e.g. using a creative mode action while not in creative mode.)");
+	}
+
+	public static boolean usePandaWire;
+
+	private static void usePandaWire() {
+		usePandaWire = getBoolean("settings.panda-wire", true);
+		c.addComment("settings.panda-wire", "Optimizes redstone wires.");
+	}
+
+	public static boolean fireEntityExplodeEvent;
+	public static boolean firePlayerMoveEvent;
+	public static boolean leavesDecayEvent;
+
+	private static void fireEntityExplodeEvent() {
+		fireEntityExplodeEvent = getBoolean("settings.event.fire-entity-explode-event", true);
+		c.addComment("settings.event.fire-entity-explode-event", "Toggles the entity explode event");
+		firePlayerMoveEvent = getBoolean("settings.event.fire-player-move-event", true);
+		c.addComment("settings.event.fire-player-move-event", "Toggles the player move event");
+		leavesDecayEvent = getBoolean("settings.event.fire-leaf-decay-event", true);
+		c.addComment("settings.event.fire-leaf-decay-event", "Toggles the leaf decay event");
+	}
+
+	public static String serverBrandName;
+
+	private static void serverBrandName() {
+		serverBrandName = getString("settings.brand-name", "WindSpigot");
+		c.addComment("settings.brand-name",
+				"Changes the brand name of the server.\nThis will show in statistics, server lists, client crashes,\n and in the client debug screen. (accessed by pressing F3)");
+	}
+
+	public static boolean stopDecodingItemStackOnPlace;
+
+	private static void stopDecodingItemStackOnPlace() {
+		stopDecodingItemStackOnPlace = getBoolean("settings.stop-decoding-itemstack-on-place", true);
+		c.addComment("settings.stop-decoding-itemstack-on-place", "Disables decoding itemstacks when not needed");
+	}
+
+	public static boolean enableAntiCrash;
+
+	private static void enableAntiCrash() {
+		enableAntiCrash = getBoolean("settings.anti-crash", true);
+		c.addComment("settings.anti-crash",
+				"Kicks players if they try to do an action that would/might crash the server");
+	}
+
+	public static int chunkThreads; // PaperSpigot - Bumped value
+	public static int playersPerThread;
+
+	private static void chunk() {
+		chunkThreads = getInt("settings.chunk.threads", 2);
+		c.addComment("settings.chunk.threads", "The amount of threads used for chunks");
+		playersPerThread = getInt("settings.chunk.players-per-thread", 50);
+		c.addComment("settings.chunk.players-per-thread", "The amount of players for each thread");
+	}
+
+	public static boolean enableTCPNODELAY;
+
+	private static void enableTCPNODELAY() {
+		enableTCPNODELAY = getBoolean("settings.use-tcp-nodelay", true);
+		c.addComment("settings.use-tcp-nodelay", "Enables the TCP_NODELAY socket option");
+	}
+
+	public static int fixedPoolSize;
+
+	private static void fixedPools() {
+		fixedPoolSize = getInt("settings.fixed-pools.size", 3);
+		c.addComment("settings.fixed-pools.size", "The size for the fixed thread pool for explosions.");
+	}
+
+	public static boolean useFasterCannonTracker;
+
+	private static void useFasterCannonTracker() {
+		useFasterCannonTracker = getBoolean("settings.faster-cannon-tracker", true);
+		c.addComment("settings.faster-cannon-tracker", "Enables a faster cannon entity tracker");
+	}
+
+	public static boolean fixEatWhileRunning;
+
+	private static void fixEatWhileRunning() {
+		fixEatWhileRunning = getBoolean("settings.fix-eat-while-running", true);
+		c.addComment("settings.fix-eat-while-running", "Fixes the eating while running bug");
+	}
+
+	public static boolean hideProjectilesFromHiddenPlayers;
+
+	private static void hideProjectilesFromHiddenPlayers() {
+		hideProjectilesFromHiddenPlayers = getBoolean("settings.hide-projectiles-from-hidden-players", false);
+		c.addComment("settings.hide-projectiles-from-hidden-players", "Hides projectiles from hidden players");
+	}
+
+	public static boolean lagCompensatedPotions;
+
+	private static void lagCompensatedPotions() {
+		lagCompensatedPotions = getBoolean("settings.lag-compensated-potions", true);
+		c.addComment("settings.lag-compensated-potions", "Enables lag compesation throwing potions");
+	}
+
+	public static boolean smoothPotting;
+
+	private static void smoothPotting() {
+		smoothPotting = getBoolean("settings.smooth-potting", true);
+		c.addComment("settings.smooth-potting", "Make potion throwing smoother");
+	}
+
+	public static boolean antiEnderPearlGlitch;
+
+	private static void antiEnderPearlGlitch() {
+		antiEnderPearlGlitch = getBoolean("settings.anti-enderpearl-glitch", true);
+		c.addComment("settings.anti-enderpearl-glitch", "Enables anti enderpearl glitch");
+	}
+
+	public static boolean disabledFallBlockAnimation;
+
+	private static void disableFallAnimation() {
+		disabledFallBlockAnimation = getBoolean("settings.disabled-block-fall-animation", false);
+		c.addComment("settings.disabled-block-fall-animation", "Disables the fall animation for blocks");
+	}
+
+	public static boolean disableInfiniSleeperThreadUsage;
+
+	private static void disableInfiniSleeperThreadUsage() {
+		disableInfiniSleeperThreadUsage = getBoolean("settings.disable-infinisleeper-thread-usage", false);
+		c.addComment("settings.disable-infinisleeper-thread-usage",
+				"Disable infinisleeper thread usage, just enable this if you know what are you doing.");
+	}
+
+	public static boolean enableFastMath;
+
+	private static void enableFastMath() {
+		enableFastMath = getBoolean("settings.enable-fastmath", true);
+		c.addComment("settings.enable-fastmath", "Enable Fast Math usage.");
+	}
+
+	public static int itemDirtyTicks;
+
+	private static void itemDirtyTicks() {
+		itemDirtyTicks = getInt("settings.item-dirty-ticks", 20);
+		c.addComment("settings.item-dirty-ticks",
+				"Controls the interval for the item-dirty check. Minecraft checks an item every tick to see if it was changed. This can be expensive because it also needs to check all NBT data. Spigot only checks for basic count/data/type data and does a deep check every 20 ticks by default.");
+	}
+
+	public static boolean enableTcpFastOpen;
+
+	private static void enableTcpFastOpen() {
+		enableTcpFastOpen = getBoolean("settings.use-tcp-fastopen", true);
+		c.addComment("settings.use-tcp-fastopen", "Enables the TCP_FASTOPEN socket option");
+	}
+
+	public static int modeTcpFastOpen;
+
+	private static void modeTcpFastOpen() {
+		modeTcpFastOpen = getInt("settings.tcp-fastopen-mode", 1);
+		c.addComment("settings.use-tcp-fastopen",
+				"Options: 0 - Disabled.; 1 - TFO is enabled for outgoing connections (clients).; 2 - TFO is enabled for incoming connections (servers).; 3 - TFO is enabled for both clients and servers.");
+	}
+
+	public static boolean enableProtocolLibShim;
+
+	private static void enableProtocolLibShim() {
+		enableProtocolLibShim = getBoolean("settings.enable-protocollib-shim", true);
+		c.addComment("settings.enable-protocollib-shim",
+				"Enable ProtocolLib network shim. Allows ProtocolLib to work, but requires extra memory. Disable this if you don't use ProtocolLib!");
+	}
+
+	public static boolean instantPlayInUseEntity;
+
+	private static void instantPlayInUseEntity() {
+		instantPlayInUseEntity = getBoolean("settings.instant-interaction", false);
+		c.addComment("settings.instant-interaction", "Disables delay of all interactions");
 	}
 }

@@ -416,7 +416,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					this.lastPitch = to.getPitch();
 					
 					// Skip the first time we do this
-					if (NachoConfig.firePlayerMoveEvent) { // Spigot - don't skip any move events
+					if (WindSpigotConfig.firePlayerMoveEvent) { // Spigot - don't skip any move events
 						Location oldTo = to.clone();
 						PlayerMoveEvent event = new PlayerMoveEvent(player, from, to);
 						this.server.getPluginManager().callEvent(event);
@@ -958,7 +958,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				}
 
 				// SportPaper end
-			} else if (MinecraftServer.currentTick - lastDropTick > 1 && NachoConfig.fixEatWhileRunning) {
+			} else if (MinecraftServer.currentTick - lastDropTick > 1 && WindSpigotConfig.fixEatWhileRunning) {
 				this.player.playerInteractManager.useItem(this.player, this.player.world, itemstack);
 			}
 
@@ -1031,7 +1031,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			// CraftBukkit - TODO CHECK IF NEEDED -- new if structure might not need
 			// 'always'. Kept it in for now, but may be able to remove in future
 			// KigPaper-0172
-			if (NachoConfig.stopDecodingItemStackOnPlace
+			if (WindSpigotConfig.stopDecodingItemStackOnPlace
 					? (!ItemStack.matches(this.player.inventory.getItemInHand(), itemstack) || always // KigPaper - use
 																										// saved
 																										// itemstack
@@ -2271,7 +2271,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					entityitem.j();
 				}
 			}
-		} else if (NachoConfig.kickOnIllegalBehavior) {
+		} else if (WindSpigotConfig.kickOnIllegalBehavior) {
 			PlayerIllegalBehaviourEvent event = new PlayerIllegalBehaviourEvent(this.server.getPlayer(this.player),
 					PlayerIllegalBehaviourEvent.IllegalType.CREATIVE_ACTION_NOT_IN_CREATIVE);
 			this.server.getPluginManager().callEvent(event);

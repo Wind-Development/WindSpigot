@@ -121,6 +121,7 @@ import org.bukkit.util.Vector;
 import com.google.common.base.Preconditions;
 
 import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
 import me.elier.nachospigot.config.NachoConfig;
 import net.jafama.FastMath;
@@ -454,7 +455,7 @@ public class CraftWorld implements World {
 		double prevY = loc.getY();
 		double prevZ = loc.getZ();
 		loc.add(xs, ys, zs);
-		if (NachoConfig.enableFastMath) {
+		if (WindSpigotConfig.enableFastMath) {
 			if (loc.getX() < FastMath.floor(prevX)) {
 				loc.setX(FastMath.floor(prevX));
 			}

@@ -11,6 +11,7 @@ import dev.cobblesword.nachospigot.knockback.KnockbackCommand;
 import dev.cobblesword.nachospigot.protocol.MovementListener;
 import dev.cobblesword.nachospigot.protocol.PacketListener;
 import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.MinecraftServer;
 import xyz.sculas.nacho.anticrash.AntiCrash;
@@ -26,9 +27,9 @@ public class Nacho {
 	public Nacho() {
 		INSTANCE = this;
 
-		AsyncExplosions.initExecutor(NachoConfig.fixedPoolSize);
+		AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);
 
-		if (NachoConfig.enableAntiCrash) {
+		if (WindSpigotConfig.enableAntiCrash) {
 			WindSpigot.LOGGER.info("[NS-AntiCrash] Activating Anti Crash.");
 			Nacho.get().registerPacketListener(new AntiCrash());
 			WindSpigot.LOGGER.info("[NS-AntiCrash] Activated Anti Crash.");

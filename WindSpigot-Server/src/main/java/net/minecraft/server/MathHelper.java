@@ -3,6 +3,7 @@ package net.minecraft.server;
 import java.util.Random;
 import java.util.UUID;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 import net.jafama.FastMath;
 
@@ -13,7 +14,7 @@ public class MathHelper {
 	private static final double d;
 	private static final double[] e;
 	private static final double[] f;
-	private static final boolean fastMathMode = NachoConfig.enableFastMath;
+	private static final boolean fastMathMode = WindSpigotConfig.enableFastMath;
 
 	public static float sin(float var0) {
 		return b[(int) (var0 * 10430.378F) & '\uffff'];
