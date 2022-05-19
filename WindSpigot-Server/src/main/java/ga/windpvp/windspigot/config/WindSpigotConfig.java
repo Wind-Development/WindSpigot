@@ -427,4 +427,14 @@ public class WindSpigotConfig {
 		
 		c.addComment("settings.weather-change", "Enables changing of weather.");
 	}
+
+	public static int maxBookPageSize;
+	public static double maxBookTotalSizeMultiplier;
+
+	private static void limitBookSizes() {
+		maxBookPageSize = getInt("settings.limit-book-sizes.max-book-page-size", 2560);
+		maxBookTotalSizeMultiplier = getDouble("settings.limit-book-sizes.max-book-total-size-multiplier", 0.98D);
+
+		c.addComment("settings.limit-book-sizes", "Configuration for book pages size limit.");
+	}
 }

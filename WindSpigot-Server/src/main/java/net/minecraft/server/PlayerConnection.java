@@ -1,6 +1,7 @@
 package net.minecraft.server;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -2407,6 +2408,44 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		this.player.a(packetplayinsettings);
 	}
 
+	// WindSpigot start
+    private boolean validateBook(ItemStack itemStack) {
+		NBTTagList pageList = itemStack.getTag().getList("pages", 8);
+		long byteTotal = 0;
+		int maxBookPageSize = WindSpigotConfig.maxBookPageSize;
+		double multiplier = Math.max(0.3D, Math.min(1D, WindSpigotConfig.maxBookTotalSizeMultiplier));
+		long byteAllowed = maxBookPageSize;
+		for (int i = 0; i < pageList.size(); ++i) {
+			String testString = pageList.getString(i);
+			int byteLength = testString.getBytes(StandardCharsets.UTF_8).length;
+			byteTotal += byteLength;
+
+			int length = testString.length();
+			int multibytes = 0;
+			if (length != byteLength) {
+				for (char c : testString.toCharArray()) {
+					if (c > 127) {
+						multibytes++;
+					}
+				}
+			}
+			byteAllowed += (maxBookPageSize * Math.min(1, Math.max(0.1D, (double) length / 255D))) * multiplier;
+
+			if (multibytes > 1) {
+				byteAllowed -= multibytes;
+			}
+		}
+
+		if (byteTotal > byteAllowed) {
+			PlayerConnection.c.warn(this.player.getName() + " tried to send too large of a book. Book Size: " + byteTotal + " - Allowed:  "+ byteAllowed + " - Pages: " + pageList.size());
+			minecraftServer.postToMainThread(() -> this.disconnect("Book too large!"));
+			return false;
+		}
+
+		return true;
+	}
+    // WindSpigot end
+
 	@Override
 	public void a(PacketPlayInCustomPayload packetplayincustompayload) {
 		PlayerConnectionUtils.ensureMainThread(packetplayincustompayload, this, this.player.u());
@@ -2457,6 +2496,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					itemstack1 = this.player.inventory.getItemInHand();
 					if (itemstack1 != null) {
 						if (itemstack.getItem() == Items.WRITABLE_BOOK && itemstack.getItem() == itemstack1.getItem()) {
+							if (!validateBook(itemstack)) return; // WindSpigot
 							itemstack1 = new ItemStack(Items.WRITABLE_BOOK); // CraftBukkit
 							itemstack1.a("pages", itemstack.getTag().getList("pages", 8));
 							CraftEventFactory.handleEditBookEvent(player, itemstack1); // CraftBukkit
@@ -2493,6 +2533,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					itemstack1 = this.player.inventory.getItemInHand();
 					if (itemstack1 != null) {
 						if (itemstack.getItem() == Items.WRITTEN_BOOK && itemstack1.getItem() == Items.WRITABLE_BOOK) {
+							if (!validateBook(itemstack)) return; // WindSpigot
 							// CraftBukkit start
 							itemstack1 = new ItemStack(Items.WRITTEN_BOOK);
 							itemstack1.a("author", (new NBTTagString(this.player.getName())));
