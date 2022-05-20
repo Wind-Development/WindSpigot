@@ -185,6 +185,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 			if (this.R() < 0) {
 				this.setPort(this.propertyManager.getInt("server-port", 25565));
 			}
+                        NachoConfig.init((File) options.valueOf("nacho-settings")); // TODO: remove this when migration to windspigot.yml is complete
 			KnockbackConfig.init((File) options.valueOf("knockback-settings"));
 			
 			// WindSpigot start - config
