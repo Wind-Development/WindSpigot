@@ -28,7 +28,7 @@ import me.elier.nachospigot.config.NachoConfig;
 public class WindSpigotConfig {
 
 	private static final Logger LOGGER = LogManager.getLogger(WindSpigotConfig.class);
-	private static File CONFIG_FILE;
+	public static File CONFIG_FILE;
 	protected static final YamlCommenter c = new YamlCommenter();
 	private static final String HEADER = "This is the main configuration file for WindSpigot.\n"
 			+ "As you can see, there's tons to configure. Some options may impact gameplay, so use\n"
@@ -59,6 +59,25 @@ public class WindSpigotConfig {
 		c.setHeader(HEADER);
 		c.addComment("config-version", "Configuration version, do NOT modify this!");
 		readConfig(WindSpigotConfig.class, null);
+		
+		// Move nacho config options to our config
+		if (!NachoConfig.hasMigrated) {
+			LOGGER.info("Successfully loaded nacho.yml into memory!");
+			LOGGER.warn("Loading of nacho.yml will be removed in the future, so transfer the config options into windspigot.yml, then delete nacho.yml");
+			makeReadable();
+		}
+
+		try {
+			config.save(CONFIG_FILE);
+			c.saveComments(CONFIG_FILE);
+		} catch (Exception ex) {
+			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
+			
+			LOGGER.warn("Please regenerate your windspigot.yml file to prevent this issue! The server will run with the default config for now.");
+
+			makeReadable();
+		}
+		
 	}
 	
 	// Not private as the config is read by calling all private methods with 0 params
@@ -86,17 +105,6 @@ public class WindSpigotConfig {
 					}
 				}
 			}
-		}
-
-		try {
-			config.save(CONFIG_FILE);
-			c.saveComments(CONFIG_FILE);
-		} catch (Exception ex) {
-			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
-			
-			LOGGER.warn("Please regenerate your windspigot.yml file to prevent this issue! The server will run with the default config for now.");
-
-			makeReadable();
 		}
 	}
 
@@ -276,10 +284,14 @@ public class WindSpigotConfig {
 	}
 	
 	public static boolean asyncTnt;
+	public static int fixedPoolSize;
 
 	private static void asyncTnt() {
-		asyncTnt = getBoolean("settings.async.tnt", true);
-		c.addComment("settings.async.tnt", "Enables async tnt (Credits to NachoSpigot).");
+		asyncTnt = getBoolean("settings.async.tnt.enable", true);
+		fixedPoolSize = getInt("settings.async.tnt.pool-size", 3);
+		
+		c.addComment("settings.async.tnt.enable", "Enables async tnt (Credits to NachoSpigot).");
+		c.addComment("settings.async.tnt.pool-size", "The size for the fixed thread pool for explosions.");
 	}
 	
 	public static boolean statistics;
@@ -408,14 +420,14 @@ public class WindSpigotConfig {
 	
 	public static boolean spawnerAnimation;
 	
-	private static void particles() {
-		explosionAnimation = getBoolean("settings.explosion-animation", true);
-		explosionSounds = getBoolean("settings.explosion-sound", true);
+	private static void particlesAndSounds() {
+		explosionAnimation = getBoolean("settings.async.tnt.animation", true);
+		explosionSounds = getBoolean("settings.async.tnt.sound", true);
 		
 		spawnerAnimation = getBoolean("settings.spawner-animation", true);
 		
-		c.addComment("settings.explosion-animation", "Enables explosion animations.");
-		c.addComment("settings.explosion-sound", "Enables explosion sounds.");
+		c.addComment("settings.async.tnt.animation", "Enables explosion animations.");
+		c.addComment("settings.async.tnt.sound", "Enables explosion sounds.");
 		
 		c.addComment("settings.spawner-animation", "Enables mob spawner particles.");
 	}
@@ -428,6 +440,12 @@ public class WindSpigotConfig {
 		c.addComment("settings.weather-change", "Enables changing of weather.");
 	}
 	
+	
+	
+	
+
+	
+	// Below are NachoSpigot config options
 	public static boolean saveEmptyScoreboardTeams;
 
 	private static void saveEmptyScoreboardTeams() {
@@ -441,20 +459,20 @@ public class WindSpigotConfig {
 	public static boolean enableReloadCommand;
 
 	private static void commands() {
-		enableVersionCommand = getBoolean("settings.commands.enable-version-command", true);
-		c.addComment("settings.commands.enable-version-command", "Toggles the /version command");
-		enablePluginsCommand = getBoolean("settings.commands.enable-plugins-command", true);
-		c.addComment("settings.commands.enable-plugins-command", "Toggles the /plugins command");
-		enableReloadCommand = getBoolean("settings.commands.enable-reload-command", false);
-		c.addComment("settings.commands.enable-reload-command", "Toggles the /reload command");
+		enableVersionCommand = getBoolean("settings.command.version", true);
+		c.addComment("settings.command.version", "Toggles the /version command");
+		enablePluginsCommand = getBoolean("settings.command.plugins", true);
+		c.addComment("settings.command.plugins", "Toggles the /plugins command");
+		enableReloadCommand = getBoolean("settings.command.reload", false);
+		c.addComment("settings.command.reload", "Toggles the /reload command (It is recommended to not use /reload)");
 	}
 
 	public static boolean useFastOperators;
 
 	private static void useFastOperators() {
-		useFastOperators = getBoolean("settings.fast-operators", true);
+		useFastOperators = getBoolean("settings.fast-operators", false);
 		c.addComment("settings.fast-operators",
-				"Enables Fast Operators, which uses a faster method for managing operators");
+				"Enables Fast Operators, which deops operators on server restarts");
 	}
 
 	public static boolean patchProtocolLib;
@@ -547,13 +565,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.use-tcp-nodelay", "Enables the TCP_NODELAY socket option");
 	}
 
-	public static int fixedPoolSize;
-
-	private static void fixedPools() {
-		fixedPoolSize = getInt("settings.fixed-pools.size", 3);
-		c.addComment("settings.fixed-pools.size", "The size for the fixed thread pool for explosions.");
-	}
-
 	public static boolean useFasterCannonTracker;
 
 	private static void useFasterCannonTracker() {
@@ -599,8 +610,8 @@ public class WindSpigotConfig {
 	public static boolean disabledFallBlockAnimation;
 
 	private static void disableFallAnimation() {
-		disabledFallBlockAnimation = getBoolean("settings.disabled-block-fall-animation", false);
-		c.addComment("settings.disabled-block-fall-animation", "Disables the fall animation for blocks");
+		disabledFallBlockAnimation = getBoolean("settings.disable-block-fall-animation", false);
+		c.addComment("settings.disable-block-fall-animation", "Disables the fall animation for blocks");
 	}
 
 	public static boolean disableInfiniSleeperThreadUsage;
@@ -637,7 +648,7 @@ public class WindSpigotConfig {
 
 	private static void modeTcpFastOpen() {
 		modeTcpFastOpen = getInt("settings.tcp-fastopen-mode", 1);
-		c.addComment("settings.use-tcp-fastopen",
+		c.addComment("settings.tcp-fastopen-mode",
 				"Options: 0 - Disabled.; 1 - TFO is enabled for outgoing connections (clients).; 2 - TFO is enabled for incoming connections (servers).; 3 - TFO is enabled for both clients and servers.");
 	}
 
