@@ -263,10 +263,7 @@ public class WindSpigotConfig {
     public static boolean asyncKnockback;
 
     private static void asyncPackets() {
-    	// We use Nacho's implementation of instant interactions for async hit detection
-    	instantPlayInUseEntity = getBoolean("settings.async.hit-detection", true);
         asyncKnockback = getBoolean("settings.async.knockback", false);
-        c.addComment("settings.async.hit-detection", "Enables instant hit detection. This overrides the \"instant-interaction\" setting (Credits to NachoSpigot).");
         c.addComment("settings.async.knockback", "Enables asynchronous knockback. This increases overall cpu usage, but sends knockback packets faster. Disable this if you do not run a pvp server. \nThis may be incompatible with a few plugins that listen to knockback packets. Test before using in production.");
     }
     
@@ -462,11 +459,11 @@ public class WindSpigotConfig {
 
 	private static void commands() {
 		enableVersionCommand = getBoolean("settings.command.version", true);
-		c.addComment("settings.command.version", "Toggles the /version command");
+		c.addComment("settings.command.version", "Enables the /version command");
 		enablePluginsCommand = getBoolean("settings.command.plugins", true);
-		c.addComment("settings.command.plugins", "Toggles the /plugins command");
+		c.addComment("settings.command.plugins", "Enables the /plugins command");
 		enableReloadCommand = getBoolean("settings.command.reload", false);
-		c.addComment("settings.command.reload", "Toggles the /reload command (It is recommended to not use /reload)");
+		c.addComment("settings.command.reload", "Enables the /reload command (It is recommended to not use /reload)");
 	}
 
 	public static boolean useFastOperators;
@@ -474,7 +471,7 @@ public class WindSpigotConfig {
 	private static void useFastOperators() {
 		useFastOperators = getBoolean("settings.fast-operators", false);
 		c.addComment("settings.fast-operators",
-				"Enables Fast Operators, which deops operators on server restarts");
+				"Disables storage of operators, which deops all operators on server restarts");
 	}
 
 	public static boolean patchProtocolLib;
@@ -520,11 +517,11 @@ public class WindSpigotConfig {
 
 	private static void fireEntityExplodeEvent() {
 		fireEntityExplodeEvent = getBoolean("settings.event.fire-entity-explode-event", true);
-		c.addComment("settings.event.fire-entity-explode-event", "Toggles the entity explode event");
-		firePlayerMoveEvent = getBoolean("settings.event.fire-player-move-event", true);
-		c.addComment("settings.event.fire-player-move-event", "Toggles the player move event");
+		c.addComment("settings.event.fire-entity-explode-event", "Enables the entity explode event.");
+		firePlayerMoveEvent = getBoolean("settings.event.fire-player-move-event.", true);
+		c.addComment("settings.event.fire-player-move-event", "Enables the player move event.");
 		leavesDecayEvent = getBoolean("settings.event.fire-leaf-decay-event", true);
-		c.addComment("settings.event.fire-leaf-decay-event", "Toggles the leaf decay event");
+		c.addComment("settings.event.fire-leaf-decay-event", "Enables the leaf decay event.");
 	}
 
 	public static String serverBrandName;
@@ -539,7 +536,7 @@ public class WindSpigotConfig {
 
 	private static void stopDecodingItemStackOnPlace() {
 		stopDecodingItemStackOnPlace = getBoolean("settings.stop-decoding-itemstack-on-place", true);
-		c.addComment("settings.stop-decoding-itemstack-on-place", "Disables decoding itemstacks when not needed");
+		c.addComment("settings.stop-decoding-itemstack-on-place", "Disables decoding itemstacks when not needed.");
 	}
 
 	public static boolean enableAntiCrash;
@@ -547,7 +544,7 @@ public class WindSpigotConfig {
 	private static void enableAntiCrash() {
 		enableAntiCrash = getBoolean("settings.anti-crash", true);
 		c.addComment("settings.anti-crash",
-				"Kicks players if they try to do an action that would/might crash the server");
+				"Kicks players if they try to do an action that would/might crash the server.");
 	}
 
 	public static int chunkThreads; // PaperSpigot - Bumped value
@@ -555,65 +552,65 @@ public class WindSpigotConfig {
 
 	private static void chunk() {
 		chunkThreads = getInt("settings.chunk.threads", 2);
-		c.addComment("settings.chunk.threads", "The amount of threads used for chunks");
+		c.addComment("settings.chunk.threads", "The amount of threads used for chunks.");
 		playersPerThread = getInt("settings.chunk.players-per-thread", 50);
-		c.addComment("settings.chunk.players-per-thread", "The amount of players for each thread");
+		c.addComment("settings.chunk.players-per-thread", "The amount of players for each thread.");
 	}
 
 	public static boolean enableTCPNODELAY;
 
 	private static void enableTCPNODELAY() {
 		enableTCPNODELAY = getBoolean("settings.use-tcp-nodelay", true);
-		c.addComment("settings.use-tcp-nodelay", "Enables the TCP_NODELAY socket option");
+		c.addComment("settings.use-tcp-nodelay", "Enables the TCP_NODELAY socket option.");
 	}
 
 	public static boolean useFasterCannonTracker;
 
 	private static void useFasterCannonTracker() {
 		useFasterCannonTracker = getBoolean("settings.faster-cannon-tracker", true);
-		c.addComment("settings.faster-cannon-tracker", "Enables a faster cannon entity tracker");
+		c.addComment("settings.faster-cannon-tracker", "Enables a faster cannon entity tracker.");
 	}
 
 	public static boolean fixEatWhileRunning;
 
 	private static void fixEatWhileRunning() {
 		fixEatWhileRunning = getBoolean("settings.fix-eat-while-running", true);
-		c.addComment("settings.fix-eat-while-running", "Fixes the eating while running bug");
+		c.addComment("settings.fix-eat-while-running", "Fixes the eating while running bug.");
 	}
 
 	public static boolean hideProjectilesFromHiddenPlayers;
 
 	private static void hideProjectilesFromHiddenPlayers() {
 		hideProjectilesFromHiddenPlayers = getBoolean("settings.hide-projectiles-from-hidden-players", false);
-		c.addComment("settings.hide-projectiles-from-hidden-players", "Hides projectiles from hidden players");
+		c.addComment("settings.hide-projectiles-from-hidden-players", "Hides projectiles from hidden players.");
 	}
 
 	public static boolean lagCompensatedPotions;
 
 	private static void lagCompensatedPotions() {
 		lagCompensatedPotions = getBoolean("settings.lag-compensated-potions", true);
-		c.addComment("settings.lag-compensated-potions", "Enables lag compesation throwing potions");
+		c.addComment("settings.lag-compensated-potions", "Enables lag compesation for thrown potions.");
 	}
 
 	public static boolean smoothPotting;
 
 	private static void smoothPotting() {
 		smoothPotting = getBoolean("settings.smooth-potting", true);
-		c.addComment("settings.smooth-potting", "Make potion throwing smoother");
+		c.addComment("settings.smooth-potting", "Makes potion throwing smoother.");
 	}
 
 	public static boolean antiEnderPearlGlitch;
 
 	private static void antiEnderPearlGlitch() {
 		antiEnderPearlGlitch = getBoolean("settings.anti-enderpearl-glitch", true);
-		c.addComment("settings.anti-enderpearl-glitch", "Enables anti enderpearl glitch");
+		c.addComment("settings.anti-enderpearl-glitch", "Blocks enderpearl glitching.");
 	}
 
 	public static boolean disabledFallBlockAnimation;
 
 	private static void disableFallAnimation() {
 		disabledFallBlockAnimation = getBoolean("settings.disable-block-fall-animation", false);
-		c.addComment("settings.disable-block-fall-animation", "Disables the fall animation for blocks");
+		c.addComment("settings.disable-block-fall-animation", "Disables the fall animation for blocks.");
 	}
 
 	public static boolean disableInfiniSleeperThreadUsage;
@@ -621,14 +618,14 @@ public class WindSpigotConfig {
 	private static void disableInfiniSleeperThreadUsage() {
 		disableInfiniSleeperThreadUsage = getBoolean("settings.disable-infinisleeper-thread-usage", false);
 		c.addComment("settings.disable-infinisleeper-thread-usage",
-				"Disable infinisleeper thread usage, just enable this if you know what are you doing.");
+				"Disable infinisleeper thread usage, only enable this if you know what are you doing.");
 	}
 
 	public static boolean enableFastMath;
 
 	private static void enableFastMath() {
 		enableFastMath = getBoolean("settings.enable-fastmath", true);
-		c.addComment("settings.enable-fastmath", "Enable Fast Math usage.");
+		c.addComment("settings.enable-fastmath", "Enables usage of a fast math library. Sin/Cos calculations are excluded to maintain anticheat compatibility.");
 	}
 
 	public static int itemDirtyTicks;
@@ -642,15 +639,15 @@ public class WindSpigotConfig {
 	public static boolean enableTcpFastOpen;
 
 	private static void enableTcpFastOpen() {
-		enableTcpFastOpen = getBoolean("settings.use-tcp-fastopen", true);
-		c.addComment("settings.use-tcp-fastopen", "Enables the TCP_FASTOPEN socket option");
+		enableTcpFastOpen = getBoolean("settings.tcp-fast-open.enabled", true);
+		c.addComment("settings.tcp-fast-open.enabled", "Enables the TCP_FASTOPEN socket option.");
 	}
 
 	public static int modeTcpFastOpen;
 
 	private static void modeTcpFastOpen() {
-		modeTcpFastOpen = getInt("settings.tcp-fastopen-mode", 1);
-		c.addComment("settings.tcp-fastopen-mode",
+		modeTcpFastOpen = getInt("settings.tcp-fast-open.mode", 1);
+		c.addComment("settings.tcp-fast-open.mode",
 				"Options: 0 - Disabled.; 1 - TFO is enabled for outgoing connections (clients).; 2 - TFO is enabled for incoming connections (servers).; 3 - TFO is enabled for both clients and servers.");
 	}
 
@@ -659,13 +656,13 @@ public class WindSpigotConfig {
 	private static void enableProtocolLibShim() {
 		enableProtocolLibShim = getBoolean("settings.enable-protocollib-shim", true);
 		c.addComment("settings.enable-protocollib-shim",
-				"Enable ProtocolLib network shim. Allows ProtocolLib to work, but requires extra memory. Disable this if you don't use ProtocolLib!");
+				"Enable ProtocolLib network shim. This allows ProtocolLib to work, but requires extra memory. Disable this if you don't use ProtocolLib!");
 	}
 
 	public static boolean instantPlayInUseEntity;
 
 	private static void instantPlayInUseEntity() {
 		instantPlayInUseEntity = getBoolean("settings.instant-interaction", false);
-		c.addComment("settings.instant-interaction", "Disables delay of all interactions");
+		c.addComment("settings.instant-interaction", "Disables delay of all interactions.");
 	}
 }
