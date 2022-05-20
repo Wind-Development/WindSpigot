@@ -515,7 +515,7 @@ public class WindSpigotConfig {
 	private static void fireEntityExplodeEvent() {
 		fireEntityExplodeEvent = getBoolean("settings.event.fire-entity-explode-event", true);
 		c.addComment("settings.event.fire-entity-explode-event", "Enables the entity explode event.");
-		firePlayerMoveEvent = getBoolean("settings.event.fire-player-move-event.", true);
+		firePlayerMoveEvent = getBoolean("settings.event.fire-player-move-event", true);
 		c.addComment("settings.event.fire-player-move-event", "Enables the player move event.");
 		leavesDecayEvent = getBoolean("settings.event.fire-leaf-decay-event", true);
 		c.addComment("settings.event.fire-leaf-decay-event", "Enables the leaf decay event.");
