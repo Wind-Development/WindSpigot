@@ -61,11 +61,13 @@ public class WindSpigotConfig {
 		readConfig(WindSpigotConfig.class, null);
 		
 		// Move nacho config options to our config
-		if (!NachoConfig.hasMigrated) {
+		/*if (!NachoConfig.hasMigrated) {
+			// TODO: finish config migration/loading
+			//NachoConfig.moveToWindSpigotConfig(NachoConfig.class, WindSpigotConfig.class);
 			LOGGER.info("Successfully loaded nacho.yml into memory!");
 			LOGGER.warn("Loading of nacho.yml will be removed in the future, so transfer the config options into windspigot.yml, then delete nacho.yml");
 			makeReadable();
-		}
+		}*/
 
 		try {
 			config.save(CONFIG_FILE);
