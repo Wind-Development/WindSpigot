@@ -158,7 +158,6 @@ public class AsyncNavigation extends Navigation {
 		}
 	}
 
-	// TODO: add configuration for this
 	private static boolean offLoadedSearches(EntityType type) {
 		if (WindSpigotConfig.asyncPathSearches) {
 			return offloadedEntities.contains(type);
