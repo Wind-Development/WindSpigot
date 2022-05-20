@@ -382,13 +382,6 @@ public class NachoConfig {
 				"Disable infinisleeper thread usage, just enable this if you know what are you doing.");
 	}
 
-	public static boolean enableFastMath;
-
-	private static void enableFastMath() {
-		enableFastMath = getBoolean("settings.enable-fastmath", true);
-		c.addComment("settings.enable-fastmath", "Enable Fast Math usage.");
-	}
-
 	public static int itemDirtyTicks;
 
 	private static void itemDirtyTicks() {

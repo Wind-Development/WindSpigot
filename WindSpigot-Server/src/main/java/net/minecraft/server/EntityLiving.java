@@ -27,7 +27,6 @@ import dev.cobblesword.nachospigot.commons.Constants;
 import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
 import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import net.jafama.FastMath;
 
 public abstract class EntityLiving extends Entity {
 
@@ -950,7 +949,7 @@ public abstract class EntityLiving extends Entity {
 		if (this.random.nextDouble() >= this.getAttributeInstance(GenericAttributes.c).getValue()) {
 			this.ai = true;
 
-			double magnitude = FastMath.sqrt(FastMath.pow(x, 2) + FastMath.pow(z, 2));
+			double magnitude = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
 			double horizontal = 0.4D;
 			double vertical = 0.4D;
 

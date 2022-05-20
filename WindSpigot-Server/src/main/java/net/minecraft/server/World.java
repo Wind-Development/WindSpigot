@@ -43,7 +43,6 @@ import me.elier.nachospigot.config.NachoWorldConfig;
 import me.rastrian.dev.OptimizedWorldTileEntitySet;
 import me.rastrian.dev.PlayerMap;
 import me.suicidalkids.ion.movement.MovementCache;
-import net.jafama.FastMath;
 // WindSpigot end
 
 public abstract class World implements IBlockAccess {
@@ -2345,10 +2344,11 @@ public abstract class World implements IBlockAccess {
 		double d0 = 1.0D / ((axisalignedbb.d - axisalignedbb.a) * 2.0D + 1.0D);
 		double d1 = 1.0D / ((axisalignedbb.e - axisalignedbb.b) * 2.0D + 1.0D);
 		double d2 = 1.0D / ((axisalignedbb.f - axisalignedbb.c) * 2.0D + 1.0D);
-		double d3 = (1.0D - ((WindSpigotConfig.enableFastMath ? FastMath.floor(1.0D / d0) : Math.floor(1.0D / d0)) * d0))
-				/ 2.0D;
-		double d4 = (1.0D - ((WindSpigotConfig.enableFastMath ? FastMath.floor(1.0D / d2) : Math.floor(1.0D / d2)) * d2))
-				/ 2.0D;
+		
+		// WindSpigot start - switch to mathhelper instead of Java math
+		double d3 = (1.0D - MathHelper.floor(1.0D / d0)) * d0 / 2.0D;
+		double d4 = (1.0D - MathHelper.floor(1.0D / d2)) * d2 / 2.0D;
+		// WindSpigot end
 
 		if (d0 >= 0.0D && d1 >= 0.0D && d2 >= 0.0D) {
 			int i = 0;

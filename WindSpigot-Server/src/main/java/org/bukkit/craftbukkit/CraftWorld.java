@@ -124,7 +124,6 @@ import dev.cobblesword.nachospigot.commons.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
 import me.elier.nachospigot.config.NachoConfig;
-import net.jafama.FastMath;
 import net.minecraft.server.*;
 
 public class CraftWorld implements World {
@@ -455,44 +454,23 @@ public class CraftWorld implements World {
 		double prevY = loc.getY();
 		double prevZ = loc.getZ();
 		loc.add(xs, ys, zs);
-		if (WindSpigotConfig.enableFastMath) {
-			if (loc.getX() < FastMath.floor(prevX)) {
-				loc.setX(FastMath.floor(prevX));
-			}
-			if (loc.getX() >= FastMath.ceil(prevX)) {
-				loc.setX(FastMath.ceil(prevX - 0.01));
-			}
-			if (loc.getY() < FastMath.floor(prevY)) {
-				loc.setY(FastMath.floor(prevY));
-			}
-			if (loc.getY() >= FastMath.ceil(prevY)) {
-				loc.setY(FastMath.ceil(prevY - 0.01));
-			}
-			if (loc.getZ() < FastMath.floor(prevZ)) {
-				loc.setZ(FastMath.floor(prevZ));
-			}
-			if (loc.getZ() >= Math.ceil(prevZ)) {
-				loc.setZ(FastMath.ceil(prevZ - 0.01));
-			}
-		} else {
-			if (loc.getX() < Math.floor(prevX)) {
-				loc.setX(Math.floor(prevX));
-			}
-			if (loc.getX() >= Math.ceil(prevX)) {
-				loc.setX(Math.ceil(prevX - 0.01));
-			}
-			if (loc.getY() < Math.floor(prevY)) {
-				loc.setY(Math.floor(prevY));
-			}
-			if (loc.getY() >= Math.ceil(prevY)) {
-				loc.setY(Math.ceil(prevY - 0.01));
-			}
-			if (loc.getZ() < Math.floor(prevZ)) {
-				loc.setZ(Math.floor(prevZ));
-			}
-			if (loc.getZ() >= Math.ceil(prevZ)) {
-				loc.setZ(Math.ceil(prevZ - 0.01));
-			}
+		if (loc.getX() < Math.floor(prevX)) {
+			loc.setX(Math.floor(prevX));
+		}
+		if (loc.getX() >= Math.ceil(prevX)) {
+			loc.setX(Math.ceil(prevX - 0.01));
+		}
+		if (loc.getY() < Math.floor(prevY)) {
+			loc.setY(Math.floor(prevY));
+		}
+		if (loc.getY() >= Math.ceil(prevY)) {
+			loc.setY(Math.ceil(prevY - 0.01));
+		}
+		if (loc.getZ() < Math.floor(prevZ)) {
+			loc.setZ(Math.floor(prevZ));
+		}
+		if (loc.getZ() >= Math.ceil(prevZ)) {
+			loc.setZ(Math.ceil(prevZ - 0.01));
 		}
 	}
 

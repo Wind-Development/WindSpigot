@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
-import net.jafama.FastMath;
 
 public class MathHelper {
 	public static final float a = c(2.0F);
@@ -14,7 +13,6 @@ public class MathHelper {
 	private static final double d;
 	private static final double[] e;
 	private static final double[] f;
-	private static final boolean fastMathMode = WindSpigotConfig.enableFastMath;
 
 	public static float sin(float var0) {
 		return b[(int) (var0 * 10430.378F) & '\uffff'];
@@ -25,41 +23,22 @@ public class MathHelper {
 	}
 
 	public static float c(float var0) {
-		return (float) (fastMathMode ? (FastMath.sqrt(var0)) : (Math.sqrt(var0)));
+		return (float) (Math.sqrt(var0));
 	}
 
 	public static float sqrt(double var0) {
-		return (float) (fastMathMode ? (FastMath.sqrt(var0)) : (Math.sqrt(var0)));
+		return (float) (Math.sqrt(var0));
 	}
-	
-	// WindSpigot start - no fast math methods
-	public static float sqrtNoFastMath(double value) {
-		return (float) Math.sqrt(value);
-	}
-	// WindSpigot end
 
 	public static int d(float var0) {
-		if (fastMathMode) {
-			return (FastMath.floorToInt(var0));
-		}
 		int var1 = (int) var0;
 		return var0 < var1 ? var1 - 1 : var1;
 	}
 
 	public static int floor(double var0) {
-		if (fastMathMode) {
-			return (FastMath.floorToInt(var0));
-		}
 		int var2 = (int) var0;
 		return var0 < var2 ? var2 - 1 : var2;
 	}
-	
-	// WindSpigot start - no fast math methods
-	public static int floorNoFastMath(double value) {
-		int intValue = (int) value;
-		return value < intValue ? intValue - 1 : intValue;
-	}
-	// WindSpigot end
 
 	public static long d(double var0) {
 		long var2 = (long) var0;
@@ -75,17 +54,11 @@ public class MathHelper {
 	}
 
 	public static int f(float var0) {
-		if (fastMathMode) {
-			return (FastMath.ceilToInt(var0));
-		}
 		int var1 = (int) var0;
 		return var0 > var1 ? var1 + 1 : var1;
 	}
 
 	public static int f(double var0) {
-		if (fastMathMode) {
-			return (FastMath.ceilToInt(var0));
-		}
 		int var2 = (int) var0;
 		return var0 > var2 ? var2 + 1 : var2;
 	}
@@ -110,7 +83,7 @@ public class MathHelper {
 		if (var0 < var2) {
 			return var2;
 		} else {
-			return (fastMathMode ? (FastMath.min(var0, var4)) : (Math.min(var0, var4)));
+			return (Math.min(var0, var4));
 		}
 	}
 
@@ -191,7 +164,7 @@ public class MathHelper {
 	}
 
 	public static int a(String var0, int var1, int var2) {
-		return (fastMathMode ? (FastMath.max(var2, a(var0, var1))) : (Math.max(var2, a(var0, var1))));
+		return Math.max(var2, a(var0, var1));
 	}
 
 	public static double a(String var0, double var1) {
@@ -289,11 +262,11 @@ public class MathHelper {
 			double var22 = (6.0D + var20 * var20) * var20 * 0.16666666666666666D;
 			double var24 = var14 + var22;
 			if (var8) {
-				var24 = (fastMathMode ? (FastMath.PI / 2) : (1.5707963267948966D)) - var24;
+				var24 = 1.5707963267948966D - var24;
 			}
 
 			if (var7) {
-				var24 = (fastMathMode ? (FastMath.PI) : (3.141592653589793D)) - var24;
+				var24 = 3.141592653589793D - var24;
 			}
 
 			if (var6) {

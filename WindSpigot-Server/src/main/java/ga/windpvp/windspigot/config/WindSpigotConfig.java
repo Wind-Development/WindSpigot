@@ -618,13 +618,6 @@ public class WindSpigotConfig {
 				"Disable infinisleeper thread usage, only enable this if you know what are you doing.");
 	}
 
-	public static boolean enableFastMath;
-
-	private static void enableFastMath() {
-		enableFastMath = getBoolean("settings.enable-fastmath", true);
-		c.addComment("settings.enable-fastmath", "Enables usage of a fast math library. Sin/Cos calculations are excluded to maintain anticheat compatibility.");
-	}
-
 	public static int itemDirtyTicks;
 
 	private static void itemDirtyTicks() {

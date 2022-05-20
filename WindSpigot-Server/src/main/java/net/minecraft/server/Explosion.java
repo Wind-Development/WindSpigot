@@ -22,7 +22,6 @@ import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
 import me.elier.nachospigot.config.NachoConfig;
-import net.jafama.FastMath;
 import xyz.sculas.nacho.async.AsyncExplosions;
 
 public class Explosion {
@@ -84,12 +83,12 @@ public class Explosion {
 		float f3 = this.size * 2.0F;
 
 		// IonSpigot start - Faster Entity Iteration
-		i = MathHelper.floorNoFastMath(this.posX - f3 - 1.0D) >> 4;
-		j = MathHelper.floorNoFastMath(this.posX + f3 + 1.0D) >> 4;
-		int l = MathHelper.clamp(MathHelper.floorNoFastMath(this.posY - f3 - 1.0D) >> 4, 0, 15);
-		int i1 = MathHelper.clamp(MathHelper.floorNoFastMath(this.posY + f3 + 1.0D) >> 4, 0, 15);
-		int j1 = MathHelper.floorNoFastMath(this.posZ - f3 - 1.0D) >> 4;
-		int k1 = MathHelper.floorNoFastMath(this.posZ + f3 + 1.0D) >> 4;
+		i = MathHelper.floor(this.posX - f3 - 1.0D) >> 4;
+		j = MathHelper.floor(this.posX + f3 + 1.0D) >> 4;
+		int l = MathHelper.clamp(MathHelper.floor(this.posY - f3 - 1.0D) >> 4, 0, 15);
+		int i1 = MathHelper.clamp(MathHelper.floor(this.posY + f3 + 1.0D) >> 4, 0, 15);
+		int j1 = MathHelper.floor(this.posZ - f3 - 1.0D) >> 4;
+		int k1 = MathHelper.floor(this.posZ + f3 + 1.0D) >> 4;
 		// PaperSpigot start - Fix lag from explosions processing dead entities
 		// List<Entity> list = this.world.a(this.source, new AxisAlignedBB(i, l, j1, j,
 		// i1, k1), entity -> IEntitySelector.d.apply(entity) && !entity.dead);
@@ -121,7 +120,7 @@ public class Explosion {
 					double distanceSquared = d8 * d8 + d9 * d9 + d10 * d10;
 
 					if (distanceSquared <= 64.0D && distanceSquared != 0.0D) {
-						double d11 = MathHelper.sqrtNoFastMath(distanceSquared);
+						double d11 = MathHelper.sqrt(distanceSquared);
 						double d7 = d11 / f3;
 						d8 /= d11;
 						d9 /= d11;
@@ -490,10 +489,8 @@ public class Explosion {
 		double d0 = 1.0D / ((aabb.d - aabb.a) * 2.0D + 1.0D);
 		double d1 = 1.0D / ((aabb.e - aabb.b) * 2.0D + 1.0D);
 		double d2 = 1.0D / ((aabb.f - aabb.c) * 2.0D + 1.0D);
-		double d3 = (1.0D - ((WindSpigotConfig.enableFastMath ? FastMath.floor(1.0D / d0) : Math.floor(1.0D / d0)) * d0))
-				/ 2.0D;
-		double d4 = (1.0D - ((WindSpigotConfig.enableFastMath ? FastMath.floor(1.0D / d2) : Math.floor(1.0D / d2)) * d2))
-				/ 2.0D;
+		double d3 = (1.0D - (Math.floor(1.0D / d0)) * d0) / 2.0D;
+		double d4 = (1.0D - (Math.floor(1.0D / d2)) * d2) / 2.0D;
 
 		if (d0 < 0.0 || d1 < 0.0 || d2 < 0.0) {
 			return Collections.emptyList();
