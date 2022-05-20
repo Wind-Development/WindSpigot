@@ -188,11 +188,8 @@ public class WindSpigotConfig {
 		// Disable timings by making timings check a variable (Code from api can't
 		// access server code, so we have to do this)
 		// Please open a PR if you know of a better method to do this.
-		if (parallelWorld) {
-			TimingsCheck.setEnableTimings(false);
-		} else {
-			TimingsCheck.setEnableTimings(true);
-		}
+		TimingsCheck.setEnableTimings(!parallelWorld);
+
 		c.addComment("settings.async.parallel-world",
 				"Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this.");
 	}
