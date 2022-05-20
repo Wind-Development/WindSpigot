@@ -12,7 +12,6 @@ import dev.cobblesword.nachospigot.protocol.MovementListener;
 import dev.cobblesword.nachospigot.protocol.PacketListener;
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.MinecraftServer;
 import xyz.sculas.nacho.anticrash.AntiCrash;
 import xyz.sculas.nacho.async.AsyncExplosions;
@@ -27,7 +26,7 @@ public class Nacho {
 	public Nacho() {
 		INSTANCE = this;
 
-		AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);
+		AsyncExplosions.initExecutor(3);
 
 		if (WindSpigotConfig.enableAntiCrash) {
 			WindSpigot.LOGGER.info("[NS-AntiCrash] Activating Anti Crash.");
