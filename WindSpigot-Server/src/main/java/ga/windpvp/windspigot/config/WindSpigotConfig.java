@@ -71,7 +71,7 @@ public class WindSpigotConfig {
 
 		try {
 			config.save(CONFIG_FILE);
-			c.saveComments(CONFIG_FILE);
+			//c.saveComments(CONFIG_FILE);
 		} catch (Exception ex) {
 			LOGGER.log(Level.ERROR, "Could not save " + CONFIG_FILE, ex);
 			
@@ -417,15 +417,15 @@ public class WindSpigotConfig {
 	public static boolean spawnerAnimation;
 	
 	private static void particlesAndSounds() {
-		explosionAnimation = getBoolean("settings.async.tnt.animation", true);
-		explosionSounds = getBoolean("settings.async.tnt.sound", true);
+		explosionAnimation = getBoolean("settings.animation.tnt", true);
+		explosionSounds = getBoolean("settings.sound.tnt", true);
 		
-		spawnerAnimation = getBoolean("settings.spawner-animation", true);
+		spawnerAnimation = getBoolean("settings.animation.spawner", true);
 		
-		c.addComment("settings.async.tnt.animation", "Enables explosion animations.");
-		c.addComment("settings.async.tnt.sound", "Enables explosion sounds.");
+		c.addComment("settings.animation.tnt", "Enables explosion animations.");
+		c.addComment("settings.sound.tnt", "Enables explosion sounds.");
 		
-		c.addComment("settings.spawner-animation", "Enables mob spawner particles.");
+		c.addComment("settings.animation.spawner", "Enables mob spawner particles.");
 	}
 	
 	public static boolean weatherChange;
