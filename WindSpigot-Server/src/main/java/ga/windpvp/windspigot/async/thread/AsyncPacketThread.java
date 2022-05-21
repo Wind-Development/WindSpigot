@@ -12,8 +12,6 @@ import ga.windpvp.windspigot.async.netty.Spigot404Write;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet;
-import net.openhft.affinity.AffinityLock;
-import net.openhft.affinity.AffinityStrategies;
 
 public abstract class AsyncPacketThread {
     private boolean running = true;
@@ -22,19 +20,16 @@ public abstract class AsyncPacketThread {
     protected Queue<Runnable> packets = new ConcurrentLinkedQueue<Runnable>();
 
     public AsyncPacketThread(String s) {
-        try (final AffinityLock al = AffinityLock.acquireLock()) {
-            this.thread = new Thread(new Runnable() {
+        this.thread = new Thread(new Runnable() {
 
-                @Override
-                public void run() {
-                    try (AffinityLock al2 = al.acquireLock(AffinityStrategies.SAME_SOCKET, AffinityStrategies.ANY);){
-                        AsyncPacketThread.this.loop();
-                    }
-                }
-            }, s);
-            this.thread.start();
-        }
+            @Override
+            public void run() {
+            	AsyncPacketThread.this.loop();
+            }
+        }, s);
+        this.thread.start();
     }
+    
 
     // Loops scanning for new packets to send
 	public void loop() {
