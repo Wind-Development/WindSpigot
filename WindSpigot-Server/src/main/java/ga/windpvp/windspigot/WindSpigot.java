@@ -1,5 +1,6 @@
 package ga.windpvp.windspigot;
 
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -7,10 +8,18 @@ import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
+import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.command.defaults.nacho.SetMaxSlotCommand;
+import org.bukkit.command.defaults.nacho.SpawnMobCommand;
 
+import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import co.aikar.timings.Timings;
+import dev.cobblesword.nachospigot.Nacho;
+import dev.cobblesword.nachospigot.knockback.KnockbackCommand;
+import dev.cobblesword.nachospigot.protocol.MovementListener;
+import dev.cobblesword.nachospigot.protocol.PacketListener;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.pathsearch.SearchHandler;
 import ga.windpvp.windspigot.async.thread.CombatThread;
@@ -21,6 +30,8 @@ import ga.windpvp.windspigot.hitdetection.LagCompensator;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.MinecraftServer;
+import xyz.sculas.nacho.anticrash.AntiCrash;
+import xyz.sculas.nacho.async.AsyncExplosions;
 
 public class WindSpigot {
 
@@ -39,6 +50,9 @@ public class WindSpigot {
 	private volatile boolean statisticsEnabled = false;
 	
 	private LagCompensator lagCompensator;
+	
+	private final Set<PacketListener> packetListeners = Sets.newConcurrentHashSet();
+	private final Set<MovementListener> movementListeners = Sets.newConcurrentHashSet();
 
 	public WindSpigot() {
 		INSTANCE = this;
@@ -50,15 +64,31 @@ public class WindSpigot {
 	}
 
 	private void initCmds() {
+		
+		SimpleCommandMap commandMap = MinecraftServer.getServer().server.getCommandMap();
+		
 		if (WindSpigotConfig.mobAiCmd) {
 			MobAICommand mobAiCommand = new MobAICommand("mobai");
-			MinecraftServer.getServer().server.getCommandMap().register(mobAiCommand.getName(), "", mobAiCommand);
+			commandMap.register(mobAiCommand.getName(), "", mobAiCommand);
 		}
 		
 		if (WindSpigotConfig.pingCmd) {
 			PingCommand pingCommand = new PingCommand("ping");
-			MinecraftServer.getServer().server.getCommandMap().register(pingCommand.getName(), "", pingCommand);
+			commandMap.register(pingCommand.getName(), "", pingCommand);
 		}
+	
+		
+		
+		// NachoSpigot commands
+		// TODO: add configuration for all of these
+		SetMaxSlotCommand setMaxSlotCommand = new SetMaxSlotCommand("sms"); // [Nacho-0021] Add setMaxPlayers within Bukkit.getServer() and SetMaxSlot Command
+		commandMap.register(setMaxSlotCommand.getName(), "ns", setMaxSlotCommand);
+
+		SpawnMobCommand spawnMobCommand = new SpawnMobCommand("spawnmob");
+		commandMap.register(spawnMobCommand.getName(), "ns", spawnMobCommand);
+
+		KnockbackCommand knockbackCommand = new KnockbackCommand("kb");
+		commandMap.register(knockbackCommand.getName(), "ns", knockbackCommand);
 	}
 
 	private void initStatistics() {
@@ -116,6 +146,12 @@ public class WindSpigot {
 		}
 		if (WindSpigotConfig.improvedHitDetection) {
 			lagCompensator = new LagCompensator();
+		}	
+		if (WindSpigotConfig.asyncTnt) {
+			AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);
+		}
+		if (WindSpigotConfig.enableAntiCrash) {
+			registerPacketListener(new AntiCrash());
 		}
 	}
 
@@ -136,8 +172,31 @@ public class WindSpigot {
 			DEBUG_LOGGER.info(msg);
 	}
 	
+	public void registerPacketListener(PacketListener packetListener) {
+		this.packetListeners.add(packetListener);
+	}
+
+	public void unregisterPacketListener(PacketListener packetListener) {
+		this.packetListeners.remove(packetListener);
+	}
+
+	public Set<PacketListener> getPacketListeners() {
+		return this.packetListeners;
+	}
+
+	public void registerMovementListener(MovementListener movementListener) {
+		this.movementListeners.add(movementListener);
+	}
+
+	public void unregisterMovementListener(MovementListener movementListener) {
+		this.movementListeners.remove(movementListener);
+	}
+
+	public Set<MovementListener> getMovementListeners() {
+		return this.movementListeners;
+	}
+	
 	public static WindSpigot getInstance() {
 		return INSTANCE;
 	}
-	
 }

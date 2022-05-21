@@ -832,7 +832,6 @@ public final class CraftServer implements Server {
 		WindSpigotConfig.init((File) console.options.valueOf("windspigot-settings"));
 		// WindSpigot end
 		
-		Nacho.get(); // NachoSpigot
 		for (WorldServer world : console.worlds) {
 			world.worldData.setDifficulty(difficulty);
 			world.setSpawnFlags(monsters, animals);
@@ -857,7 +856,6 @@ public final class CraftServer implements Server {
 		resetRecipes();
 		org.spigotmc.SpigotConfig.registerCommands(); // Spigot
 		org.github.paperspigot.PaperSpigotConfig.registerCommands(); // PaperSpigot
-		Nacho.get().registerCommands(); // NachoSpigot :: Commands
 		
 		MinecraftServer.getServer().getWindSpigot().reload(); // WindSpigot - reload
 

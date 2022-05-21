@@ -189,7 +189,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		if (this.channel.isOpen()) {
 			if (this.m instanceof PlayerConnection) {
 				try {
-					for (dev.cobblesword.nachospigot.protocol.PacketListener packetListener : Nacho.get()
+					for (dev.cobblesword.nachospigot.protocol.PacketListener packetListener : WindSpigot.getInstance()
 							.getPacketListeners()) {
 						if (!packetListener.onReceivedPacket((PlayerConnection) this.m, packet)) {
 							return;

@@ -386,8 +386,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				float deltaAngle = Math.abs(this.lastYaw - to.getYaw()) + Math.abs(this.lastPitch - to.getPitch());
 
 				if ((packetplayinflying.hasPos) && ((delta > 0.0D) && (this.checkMovement && !this.player.dead))) {
-					for (dev.cobblesword.nachospigot.protocol.MovementListener movementListener : Nacho.get()
-							.getMovementListeners()) {
+					for (dev.cobblesword.nachospigot.protocol.MovementListener movementListener : WindSpigot.getInstance().getMovementListeners()) {
 						try {
 							movementListener.updateLocation(player, to, from, packetplayinflying);
 						} catch (Exception e) {
@@ -398,8 +397,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 				if ((packetplayinflying.hasLook)
 						&& ((deltaAngle > 0.0F) && (this.checkMovement && !this.player.dead))) {
-					for (dev.cobblesword.nachospigot.protocol.MovementListener movementListener : Nacho.get()
-							.getMovementListeners()) {
+					for (dev.cobblesword.nachospigot.protocol.MovementListener movementListener : WindSpigot.getInstance().getMovementListeners()) {
 						try {
 							movementListener.updateRotation(player, to, from, packetplayinflying);
 						} catch (Exception e) {
@@ -1180,8 +1178,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		// CraftBukkit end
 
 		try {
-			for (dev.cobblesword.nachospigot.protocol.PacketListener packetListener : Nacho.get()
-					.getPacketListeners()) {
+			for (dev.cobblesword.nachospigot.protocol.PacketListener packetListener : WindSpigot.getInstance().getPacketListeners()) {
 				try {
 					if (!packetListener.onSentPacket(this, packet)) {
 						return;
