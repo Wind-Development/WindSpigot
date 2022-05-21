@@ -44,7 +44,6 @@ import com.mojang.authlib.GameProfile;
 
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.async.AsyncUtil;
-import ga.windpvp.windspigot.commons.MCUtils;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
