@@ -186,7 +186,7 @@ public class EntityTracker {
 			};
 
 			// Handle all tasks but one on the tracking pool
-			if (i < trackerThreads) {
+			if (!WindSpigotConfig.disableTracking && i < trackerThreads) {
 				trackingThreadPool.execute(runnable);
 			} else {
 				runnable.run();
