@@ -1,4 +1,6 @@
-package dev.cobblesword.nachospigot.knockback;
+package ga.windpvp.windspigot.knockback;
+
+import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
 
 public class CraftKnockbackProfile implements KnockbackProfile {
 

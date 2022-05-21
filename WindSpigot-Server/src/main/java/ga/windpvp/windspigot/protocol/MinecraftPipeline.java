@@ -1,4 +1,4 @@
-package dev.cobblesword.nachospigot.protocol;
+package ga.windpvp.windspigot.protocol;
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.ByteBufAllocator;

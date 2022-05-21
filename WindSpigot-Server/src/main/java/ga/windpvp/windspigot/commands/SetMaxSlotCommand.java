@@ -1,4 +1,4 @@
-package org.bukkit.command.defaults.nacho;
+package ga.windpvp.windspigot.commands;
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ public class SetMaxSlotCommand extends Command {
 		this.description = "Set the max slots for the server";
 		this.usageMessage = "/sms [amount]";
 		this.setAliases(Arrays.asList("smp", "setslots"));
-		setPermission("ns.command.sms");
+		setPermission("windspigot.command.sms");
 	}
 
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {

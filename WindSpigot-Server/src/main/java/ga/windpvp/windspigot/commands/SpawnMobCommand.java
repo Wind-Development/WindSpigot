@@ -1,4 +1,4 @@
-package org.bukkit.command.defaults.nacho;
+package ga.windpvp.windspigot.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -12,7 +12,7 @@ public class SpawnMobCommand extends Command {
 		super(name);
 		this.description = "Spawn mobs";
 		this.usageMessage = "/spawnmob <mob name> [amount]";
-		setPermission("ns.command.spawnmob");
+		setPermission("windspigot.command.spawnmob");
 	}
 
 	public boolean execute(CommandSender sender, String commandLabel, String[] args) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.eatthepath.uuid.FastUUID;
 
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 

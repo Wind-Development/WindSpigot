@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bukkit.craftbukkit.event.CraftEventFactory; // CraftBukkit
 
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 
 public abstract class EntityFireball extends Entity {
 

@@ -15,7 +15,7 @@ import javafixes.concurrency.ReusableCountLatch;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
-public class WorldTickerManager {
+public class WorldTickManager {
 
 	// List of cached world tickers
 	private List<WorldTicker> worldTickers = new ArrayList<>();
@@ -31,10 +31,10 @@ public class WorldTickerManager {
 			.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("WindSpigot Parallel World Thread %d").build());
 	
 	// Instance
-	private static WorldTickerManager worldTickerManagerInstance;
+	private static WorldTickManager worldTickerManagerInstance;
 	
 	// Initializes the world ticker manager
-	public WorldTickerManager() {
+	public WorldTickManager() {
 		worldTickerManagerInstance = this;
 		
 		// Initialize the world ticker latch
@@ -131,7 +131,7 @@ public class WorldTickerManager {
 	/**
 	 * @return The world ticker manager instance
 	 */
-	public static WorldTickerManager getInstance() {
+	public static WorldTickManager getInstance() {
 		return worldTickerManagerInstance;
 	}
 

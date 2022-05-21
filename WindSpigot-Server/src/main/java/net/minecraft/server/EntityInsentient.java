@@ -13,10 +13,8 @@ import org.bukkit.event.entity.EntityUnleashEvent;
 import org.bukkit.event.entity.EntityUnleashEvent.UnleashReason;
 // CraftBukkit end
 
-// CraftBukkit start
-
-import dev.cobblesword.nachospigot.commons.Constants;
 import ga.windpvp.windspigot.async.pathsearch.AsyncNavigation;
+import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 
 public abstract class EntityInsentient extends EntityLiving {

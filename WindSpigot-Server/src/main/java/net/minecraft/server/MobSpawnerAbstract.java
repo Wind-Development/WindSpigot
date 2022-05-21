@@ -4,8 +4,7 @@ import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
 
-// CraftBukkit start
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.techcable.tacospigot.event.entity.SpawnerPreSpawnEvent;
 

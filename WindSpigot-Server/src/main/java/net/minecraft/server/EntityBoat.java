@@ -11,8 +11,7 @@ import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
 import org.bukkit.event.vehicle.VehicleMoveEvent;
 // CraftBukkit end
 
-// CraftBukkit start
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 
 public class EntityBoat extends Entity {
 

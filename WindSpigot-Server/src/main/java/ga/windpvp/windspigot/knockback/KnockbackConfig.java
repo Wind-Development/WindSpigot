@@ -1,4 +1,4 @@
-package dev.cobblesword.nachospigot.knockback;
+package ga.windpvp.windspigot.knockback;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
+import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
 import ga.windpvp.windspigot.WindSpigot;
 
 public class KnockbackConfig {

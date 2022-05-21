@@ -60,7 +60,7 @@ public class WorldTicker implements Runnable {
 		worldserver.timings.tracker.startTiming(); // Spigot
 
 		// Synchronize
-		synchronized (WorldTickerManager.LOCK) {
+		synchronized (WorldTickManager.LOCK) {
 			// this.methodProfiler.b();
 			// this.methodProfiler.a("tracker");
 			if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity

@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 
 public class NBTTagCompound extends NBTBase {
 	private it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<String, NBTBase> map = new it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap<>(

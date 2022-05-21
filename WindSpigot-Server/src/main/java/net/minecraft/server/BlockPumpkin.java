@@ -6,8 +6,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
 import com.google.common.base.Predicate;
 
-// CraftBukkit start
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 
 public class BlockPumpkin extends BlockDirectional {
 

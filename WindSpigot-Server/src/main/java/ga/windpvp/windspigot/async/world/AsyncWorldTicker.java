@@ -1,7 +1,7 @@
 package ga.windpvp.windspigot.async.world;
 
 import ga.windpvp.windspigot.world.WorldTicker;
-import ga.windpvp.windspigot.world.WorldTickerManager;
+import ga.windpvp.windspigot.world.WorldTickManager;
 import net.minecraft.server.WorldServer;
 
 // This is just a world ticker, but async
@@ -18,7 +18,7 @@ public class AsyncWorldTicker extends WorldTicker {
 			super.run();
 		}
 		// Decrement the latch to show that this world is done ticking
-		WorldTickerManager.getInstance().getLatch().decrement();
+		WorldTickManager.getInstance().getLatch().decrement();
 	}
 
 }

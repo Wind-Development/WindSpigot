@@ -20,9 +20,9 @@ import com.velocitypowered.natives.compression.VelocityCompressor; // Paper
 import com.velocitypowered.natives.util.Natives; // Paper
 
 import dev.cobblesword.nachospigot.Nacho; // Nacho
-import dev.cobblesword.nachospigot.exception.ExploitException; // Nacho
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.exception.ExploitException;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -189,7 +189,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		if (this.channel.isOpen()) {
 			if (this.m instanceof PlayerConnection) {
 				try {
-					for (dev.cobblesword.nachospigot.protocol.PacketListener packetListener : WindSpigot.getInstance()
+					for (ga.windpvp.windspigot.protocol.PacketListener packetListener : WindSpigot.getInstance()
 							.getPacketListeners()) {
 						if (!packetListener.onReceivedPacket((PlayerConnection) this.m, packet)) {
 							return;

@@ -1,4 +1,4 @@
-package dev.cobblesword.nachospigot.commons;
+package ga.windpvp.windspigot.commons;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

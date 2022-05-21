@@ -1,4 +1,4 @@
-package dev.cobblesword.nachospigot.commons;
+package ga.windpvp.windspigot.commons;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -1,4 +1,4 @@
-package dev.cobblesword.nachospigot.protocol;
+package ga.windpvp.windspigot.protocol;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

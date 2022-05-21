@@ -69,8 +69,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.authlib.GameProfile;
 
-import dev.cobblesword.nachospigot.commons.Constants;
 import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
 import me.elier.nachospigot.config.NachoConfig;

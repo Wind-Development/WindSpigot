@@ -21,10 +21,10 @@ import org.bukkit.event.server.ServerCommandEvent;
 
 import co.aikar.timings.SpigotTimings; // Spigot
 import dev.cobblesword.nachospigot.Nacho;
-import dev.cobblesword.nachospigot.commons.IPUtils;
-import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
 import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.commons.IPUtils;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.knockback.KnockbackConfig;
 import me.elier.nachospigot.config.NachoConfig;
 
 public class DedicatedServer extends MinecraftServer implements IMinecraftServer {

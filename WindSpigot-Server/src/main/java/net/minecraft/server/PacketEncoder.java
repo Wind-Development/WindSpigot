@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 import java.io.IOException;
 
-import dev.cobblesword.nachospigot.exception.ExploitException;
+import ga.windpvp.windspigot.exception.ExploitException;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;

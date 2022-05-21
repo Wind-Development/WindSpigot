@@ -8,8 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerFishEvent;
 // CraftBukkit end
 
-// CraftBukkit start
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 
 public class EntityFishingHook extends Entity {
 

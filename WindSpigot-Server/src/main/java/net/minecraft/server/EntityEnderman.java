@@ -13,8 +13,7 @@ import org.bukkit.event.entity.EntityTeleportEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
-// CraftBukkit start
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 
 public class EntityEnderman extends EntityMonster {
 

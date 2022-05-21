@@ -1,4 +1,4 @@
-package dev.cobblesword.nachospigot.commons;
+package ga.windpvp.windspigot.commons;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;

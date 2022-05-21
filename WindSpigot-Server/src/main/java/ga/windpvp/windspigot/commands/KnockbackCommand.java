@@ -1,4 +1,4 @@
-package dev.cobblesword.nachospigot.knockback;
+package ga.windpvp.windspigot.commands;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -6,7 +6,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.cobblesword.nachospigot.commons.ClickableBuilder;
+import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
+import ga.windpvp.windspigot.commons.ClickableBuilder;
+import ga.windpvp.windspigot.knockback.CraftKnockbackProfile;
+import ga.windpvp.windspigot.knockback.KnockbackConfig;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 

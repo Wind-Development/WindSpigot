@@ -1,6 +1,6 @@
 package net.minecraft.server;
 
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 
 public abstract class EntityAgeable extends EntityCreature {
 

@@ -117,9 +117,9 @@ import com.google.common.collect.MapMaker;
 import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.Nacho;
-import dev.cobblesword.nachospigot.commons.PluginUtils;
-import dev.cobblesword.nachospigot.knockback.KnockbackConfig;
+import ga.windpvp.windspigot.commons.PluginUtils;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.knockback.KnockbackConfig;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;

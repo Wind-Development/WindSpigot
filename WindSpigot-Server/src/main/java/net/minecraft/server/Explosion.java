@@ -16,9 +16,9 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import dev.cobblesword.nachospigot.commons.Constants;
-import dev.cobblesword.nachospigot.commons.MCUtils;
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.cache.Constants;
+import ga.windpvp.windspigot.commons.MCUtils;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
 import me.elier.nachospigot.config.NachoConfig;

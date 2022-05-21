@@ -58,7 +58,7 @@ import net.openhft.affinity.AffinityLock;
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
-import ga.windpvp.windspigot.world.WorldTickerManager;
+import ga.windpvp.windspigot.world.WorldTickManager;
 // WindSpigot end
 
 public abstract class MinecraftServer implements Runnable, ICommandListener, IAsyncTaskHandler, IMojangStatistics {
@@ -643,7 +643,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				// WindSpigot end
 
 				// WindSpigot - parallel worlds
-				this.worldTickerManager = new WorldTickerManager();
+				this.worldTickerManager = new WorldTickManager();
 
 				this.ab = az();
 				this.r.setMOTD(new ChatComponentText(this.motd));
@@ -905,7 +905,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 		co.aikar.timings.TimingsManager.FULL_SERVER_TICK.stopTiming(); // Spigot
 	}
 
-	private WorldTickerManager worldTickerManager;
+	private WorldTickManager worldTickerManager;
 
 	public void B() {
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot

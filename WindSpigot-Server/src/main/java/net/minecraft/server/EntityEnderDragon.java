@@ -16,8 +16,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 
 import com.google.common.collect.Lists;
 
-// CraftBukkit start
-import dev.cobblesword.nachospigot.commons.Constants;
+import ga.windpvp.windspigot.cache.Constants;
 
 public class EntityEnderDragon extends EntityInsentient implements IComplex, IMonster {
 

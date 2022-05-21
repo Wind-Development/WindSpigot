@@ -1,4 +1,4 @@
-package dev.cobblesword.nachospigot.protocol;
+package ga.windpvp.windspigot.protocol;
 
 import net.minecraft.server.Packet;
 import net.minecraft.server.PlayerConnection;
