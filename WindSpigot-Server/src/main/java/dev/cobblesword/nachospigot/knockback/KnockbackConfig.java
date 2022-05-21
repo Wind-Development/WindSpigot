@@ -77,6 +77,11 @@ public class KnockbackConfig {
 			defaultProfile.save(true);
 		}
 		
+		// Reload keys if needed
+		if (!keys.contains("kohi") || !keys.contains("windpvp") || !keys.contains("vanilla")) {
+			keys = getKeys("knockback.profiles");
+		}
+		
 		for (String key : keys) {
 			final String path = "knockback.profiles." + key;
 			CraftKnockbackProfile profile = (CraftKnockbackProfile) getKbProfileByName(key);
