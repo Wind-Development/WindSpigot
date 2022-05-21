@@ -52,7 +52,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 25; // Update this every new configuration update
+		int configVersion = 26; // Update this every new configuration update
 
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -155,7 +155,10 @@ public class WindSpigotConfig {
 		c.addComment("settings.sound.tnt", "Enables explosion sounds.");
 		c.addComment("settings.animation.spawner", "Enables mob spawner particles.");
 		c.addComment("settings.weather-change", "Enables changing of weather.");
-
+		c.addComment("settings.async.explosions.enable", "Enables async explosion calculatons.");
+		c.addComment("settings.async.explosions.threads", "The threads used for async explosions");
+		c.addComment("settings.explosions", "Configuration for async explosions");
+		
 		// NachoSpigot stuff
 		c.addComment("settings.save-empty-scoreboard-teams", "Toggles whether or not the server should save empty scoreboard teams");
 		c.addComment("settings.command.version", "Enables the /version command");
@@ -444,7 +447,13 @@ public class WindSpigotConfig {
 		weatherChange = getBoolean("settings.weather-change", true);
 	}
 	
+	public static boolean asyncTnt;
+	public static int fixedPoolSize;
 	
+	private static void asyncExplosions() {
+		asyncTnt = getBoolean("settings.async.explosions.enable", true);
+		fixedPoolSize = getInt("settings.async.explosions.threads", 3);
+	}
 	
 	
 
