@@ -55,10 +55,6 @@ public class NachoConfig {
 			throw Throwables.propagate(ex);
 		}
 		config.options().copyDefaults(true);
-		File old_config = new File("nacho.json");
-		if (old_config.exists()) {
-			migrate(old_config);
-		}
 
 		int configVersion = 9; // Update this every new configuration update
 		version = getInt("config-version", configVersion);
