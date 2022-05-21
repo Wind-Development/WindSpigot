@@ -40,10 +40,10 @@ public class NachoConfig {
 	public static boolean hasMigrated = false;
 
 	public static void init(File configFile) {
-		if (!configFile.exists()) { 
+		/*if (!configFile.exists()) { TODO: uncomment this after config migration is finished
 			hasMigrated = true;
 			return;
-		}
+		}*/
 		
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
