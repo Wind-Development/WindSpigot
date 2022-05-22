@@ -142,6 +142,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	
 	// WindSpigot - MSPT for tps command
 	private double lastMspt;
+	
+	// WindSpigot - improve tick loop even more
+	private long offset = 0;
 
 	public MinecraftServer(OptionSet options, Proxy proxy, File file1) {
 		io.netty.util.ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED); // [Nacho-0040] Change
@@ -658,9 +661,6 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				long start = System.nanoTime(), lastTick = start - TICK_TIME, catchupTime = 0, curTime, wait,
 						tickSection = start;
 				// PaperSpigot end
-				
-				// WindSpigot - improve tick loop even more
-				long offset = 0;
 
 				while (this.isRunning) {
 					curTime = System.nanoTime();
@@ -1701,5 +1701,10 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	// WindSpigot - MSPT (milliseconds per tick)
 	public double getLastMspt() {
 		return this.lastMspt;
+	}
+	
+	// WindSpigot - improve tick loop even more
+	public long getSleepMillisecondOffset() {
+		return this.offset;
 	}
 }
