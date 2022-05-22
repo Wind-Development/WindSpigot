@@ -694,7 +694,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 							long finalSleepTime = sleepTime - (sleepTime * offset); // The time to wait for						
 							long predictedTime = System.currentTimeMillis() + sleepTime; // The predicted time after waiting is finished
 	
-							Thread.sleep(finalSleepTime); // Wait
+							if (finalSleepTime > 0) {
+								Thread.sleep(finalSleepTime); // Wait
+							}
 						
 							long actualTime = System.currentTimeMillis(); // The actual time after waiting is finished
 							long diff = actualTime - predictedTime; // Calculate the sleep inaccuracy
