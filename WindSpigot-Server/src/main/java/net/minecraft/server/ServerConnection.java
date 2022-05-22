@@ -144,8 +144,8 @@ public class ServerConnection {
 			}
 
 			// Paper start - indicate Velocity natives in use
-			LOGGER.info("Nacho: Using " + Natives.compress.getLoadedVariant() + " compression from Velocity.");
-			LOGGER.info("Nacho: Using " + Natives.cipher.getLoadedVariant() + " cipher from Velocity.");
+			LOGGER.info("WindSpigot: Using " + Natives.compress.getLoadedVariant() + " compression from Velocity.");
+			LOGGER.info("WindSpigot: Using " + Natives.cipher.getLoadedVariant() + " cipher from Velocity.");
 			// Paper end
 
 			this.getListeningChannels()
