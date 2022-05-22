@@ -36,7 +36,7 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta {
 	static final ItemMetaKey GENERATION = new ItemMetaKey("generation");
 	static final int MAX_PAGE_LENGTH = 340; // FlamePaper - Limit max page length to 320
 	static final int MAX_TITLE_LENGTH = 32; // FlamePaper - Limit max title length to 32
-	static final int MAX_PAGES = WindSpigotConfig.maxBookPages; // FlamePaper - Limit pages to 50
+	static final int MAX_PAGES = 50; // FlamePaper - Limit pages to 50
 	static final int MAX_AUTHOR_LENGTH = 16; // FlamePaper - Limit author name length to 16
 
 	protected String title;
