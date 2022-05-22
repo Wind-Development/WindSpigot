@@ -43,8 +43,6 @@ public class KnockbackConfig {
 		config.options().copyDefaults(true);
 		c.setHeader(HEADER);
 
-		save();
-
 		Set<String> keys = getKeys("knockback.profiles");
 		
 		if (!keys.contains("kohi")) {
@@ -125,6 +123,7 @@ public class KnockbackConfig {
 			WindSpigot.LOGGER.info("Setting default knockback as 'vanilla'...");
 			set("knockback.current", "vanilla");
 		}
+		save();
 	}
 
 	public static KnockbackProfile getCurrentKb() {
