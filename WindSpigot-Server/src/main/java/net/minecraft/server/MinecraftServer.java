@@ -702,7 +702,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 								long actualTime = System.currentTimeMillis(); // The actual time after waiting is finished
 								long diff = actualTime - predictedTime; // Calculate the sleep inaccuracy
 								
-								if (tps1.getAverage() < 19.90)
+								if (tps1.getAverage() < WindSpigotConfig.tpsThreshold)
 									offset = diff / sleepTime; // Calculate the offset by dividing the difference in sleep accuracy by the original sleep time
 							}
 						} else {
