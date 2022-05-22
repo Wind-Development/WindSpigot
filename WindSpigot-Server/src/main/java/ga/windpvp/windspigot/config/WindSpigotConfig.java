@@ -175,7 +175,8 @@ public class WindSpigotConfig {
 		c.addComment("settings.event.fire-leaf-decay-event", "Enables the leaf decay event.");
 		c.addComment("settings.brand-name", "Changes the brand name of the server.\nThis will show in statistics, server lists, client crashes,\n and in the client debug screen. (accessed by pressing F3)");
 		c.addComment("settings.stop-decoding-itemstack-on-place", "Disables decoding itemstacks when not needed.");
-		c.addComment("settings.anti-crash", "Kicks players if they try to do an action that would/might crash the server.");
+		c.addComment("settings.anti-crash.enabled", "Kicks players if they try to do an action that could crash the server.");
+		c.addComment("settings.anti-crash.max-book-pages", "The maximum page count for books.");
 		c.addComment("settings.chunk.threads", "The amount of threads used for chunks.");
 		c.addComment("settings.chunk.players-per-thread", "The amount of players for each thread.");
 		c.addComment("settings.use-tcp-nodelay", "Enables the TCP_NODELAY socket option.");
@@ -534,9 +535,11 @@ public class WindSpigotConfig {
 	}
 
 	public static boolean enableAntiCrash;
+	public static int maxBookPages;
 
 	private static void enableAntiCrash() {
-		enableAntiCrash = getBoolean("settings.anti-crash", true);
+		enableAntiCrash = getBoolean("settings.anti-crash.enabled", true);
+		maxBookPages = getInt("settings.anti-crash.max-book-pages", 50);
 	}
 
 	public static int chunkThreads; // PaperSpigot - Bumped value
