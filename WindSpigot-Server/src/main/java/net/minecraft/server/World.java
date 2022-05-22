@@ -185,8 +185,6 @@ public abstract class World implements IBlockAccess {
 
 	public final MovementCache movementCache = new MovementCache(); // IonSpigot - Movement Cache
 	
-	private final Object chunkLock = new Object(); // WindSpigot
-
 	public static long chunkToKey(int x, int z) {
 		long k = (((x) & 0xFFFF0000L) << 16) | (((x) & 0x0000FFFFL));
 		k |= (((z) & 0xFFFF0000L) << 32) | (((z) & 0x0000FFFFL) << 16);
@@ -219,10 +217,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public Chunk getChunkIfLoaded(int x, int z) {
-		// WindSpigot - synchronize
-		synchronized(this.chunkLock) {
-			return ((ChunkProviderServer) this.chunkProvider).getChunkIfLoaded(x, z);
-		}
+		return ((ChunkProviderServer) this.chunkProvider).getChunkIfLoaded(x, z);
 	}
 
 	protected World(IDataManager idatamanager, WorldData worlddata, WorldProvider worldprovider,
@@ -464,10 +459,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	protected boolean isChunkLoaded(int i, int j, boolean flag) {
-		// WindSpigot - synchronize
-		synchronized(this.chunkLock) {
-			return this.chunkProvider.isChunkLoaded(i, j) && (flag || !this.chunkProvider.getOrCreateChunk(i, j).isEmpty());
-		}
+		return this.chunkProvider.isChunkLoaded(i, j) && (flag || !this.chunkProvider.getOrCreateChunk(i, j).isEmpty());
 	}
 
 	public Chunk getChunkAtWorldCoords(BlockPosition blockposition) {
@@ -479,10 +471,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public Chunk getChunkAt(int i, int j) {
-		// WindSpigot - synchronize
-		synchronized(this.chunkLock) {
-			return this.chunkProvider.getOrCreateChunk(i, j);
-		}
+		return this.chunkProvider.getOrCreateChunk(i, j);
 	}
 
 	// KigPaper start
