@@ -689,19 +689,23 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						
 						long sleepTime = (wait / 1000000);
 						
-						if (sleepTime > 0) {
-	
-							long finalSleepTime = sleepTime - (sleepTime * offset); // The time to wait for						
-							long predictedTime = System.currentTimeMillis() + sleepTime; // The predicted time after waiting is finished
-	
-							if (finalSleepTime > 0) {
-								Thread.sleep(finalSleepTime); // Wait
-							}
-						
-							long actualTime = System.currentTimeMillis(); // The actual time after waiting is finished
-							long diff = actualTime - predictedTime; // Calculate the sleep inaccuracy
+						if (WindSpigotConfig.enhanceTickLoop) {
+							if (sleepTime > 0) {
+		
+								long finalSleepTime = sleepTime - (sleepTime * offset); // The time to wait for						
+								long predictedTime = System.currentTimeMillis() + sleepTime; // The predicted time after waiting is finished
+		
+								if (finalSleepTime > 0) {
+									Thread.sleep(finalSleepTime); // Wait
+								}
 							
-							offset = diff / sleepTime; // Calculate the offset by dividing the difference in sleep accuracy by the original sleep time
+								long actualTime = System.currentTimeMillis(); // The actual time after waiting is finished
+								long diff = actualTime - predictedTime; // Calculate the sleep inaccuracy
+								
+								offset = diff / sleepTime; // Calculate the offset by dividing the difference in sleep accuracy by the original sleep time
+							}
+						} else {
+							Thread.sleep(sleepTime);
 						}
 						// WindSpigot end
 						

@@ -158,7 +158,8 @@ public class WindSpigotConfig {
 		c.addComment("settings.async.explosions.enable", "Enables async explosion calculatons.");
 		c.addComment("settings.async.explosions.threads", "The threads used for async explosions");
 		c.addComment("settings.explosions", "Configuration for async explosions");
-		
+		c.addComment("settings.enhance-tick-loop", "Enables a inaccuracy compensated tick loop. Disable this if your server gets 20 TPS consistently.");
+
 		// NachoSpigot stuff
 		c.addComment("settings.save-empty-scoreboard-teams", "Toggles whether or not the server should save empty scoreboard teams");
 		c.addComment("settings.command.version", "Enables the /version command");
@@ -453,6 +454,12 @@ public class WindSpigotConfig {
 	private static void asyncExplosions() {
 		asyncTnt = getBoolean("settings.async.explosions.enable", true);
 		fixedPoolSize = getInt("settings.async.explosions.threads", 3);
+	}
+	
+	public static boolean enhanceTickLoop;
+	
+	private static void enhanceTickLoop() {
+		enhanceTickLoop = getBoolean("settings.enhance-tick-loop", true);
 	}
 	
 	
