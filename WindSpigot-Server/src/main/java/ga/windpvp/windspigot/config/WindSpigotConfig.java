@@ -158,9 +158,7 @@ public class WindSpigotConfig {
 		c.addComment("settings.async.explosions.enable", "Enables async explosion calculatons.");
 		c.addComment("settings.async.explosions.threads", "The threads used for async explosions");
 		c.addComment("settings.explosions", "Configuration for async explosions");
-		c.addComment("settings.enhance-tick-loop.enable", "Enables a inaccuracy compensated tick loop. Disable this if your server gets 20 TPS consistently.");
-		c.addComment("settings.enhance-tick-loop.threshold", "The TPS threshold to recheck accuracy");
-		
+
 		// NachoSpigot stuff
 		c.addComment("settings.save-empty-scoreboard-teams", "Toggles whether or not the server should save empty scoreboard teams");
 		c.addComment("settings.command.version", "Enables the /version command");
@@ -456,15 +454,6 @@ public class WindSpigotConfig {
 		asyncTnt = getBoolean("settings.async.explosions.enable", true);
 		fixedPoolSize = getInt("settings.async.explosions.threads", 3);
 	}
-	
-	public static boolean enhanceTickLoop;
-	public static double tpsThreshold;
-	
-	private static void enhanceTickLoop() {
-		enhanceTickLoop = getBoolean("settings.enhance-tick-loop.enabled", true);
-		tpsThreshold = getDouble("settings.enhance-tick-loop.threshold", 19.9);
-	}
-	
 	
 
 	

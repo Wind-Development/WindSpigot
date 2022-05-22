@@ -142,9 +142,6 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	
 	// WindSpigot - MSPT for tps command
 	private double lastMspt;
-	
-	// WindSpigot - improve tick loop even more
-	private double offset = 0;
 
 	public MinecraftServer(OptionSet options, Proxy proxy, File file1) {
 		io.netty.util.ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED); // [Nacho-0040] Change
@@ -680,35 +677,8 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						// TacoSpigot end
 					}
 					if (wait > 0) {
-						// WindSpigot start - improve tick loop even more
 						
-						// Java's "Thread#sleep" is not perfectly accurate, so the TPS can be slightly
-						// offset from 20. We fix this by predicting the time when sleeping will be
-						// completed, and then calculating the sleep offset per millisecond based on the
-						// actual time when sleeping is completed.
-						
-						long sleepTime = (wait / 1000000);
-						
-						if (WindSpigotConfig.enhanceTickLoop) {
-							if (sleepTime > 0) {
-		
-								long finalSleepTime = (long) (sleepTime - (sleepTime * offset)); // The time to wait for						
-								long predictedTime = System.currentTimeMillis() + sleepTime; // The predicted time after waiting is finished
-		
-								if (finalSleepTime > 0) {
-									Thread.sleep(finalSleepTime); // Wait
-								}
-							
-								long actualTime = System.currentTimeMillis(); // The actual time after waiting is finished
-								long diff = actualTime - predictedTime; // Calculate the sleep inaccuracy
-								
-								if (tps1.getAverage() < WindSpigotConfig.tpsThreshold)
-									offset = diff / sleepTime; // Calculate the offset by dividing the difference in sleep accuracy by the original sleep time
-							}
-						} else {
-							Thread.sleep(sleepTime);
-						}
-						// WindSpigot end
+						Thread.sleep(wait / 1000000);
 						
 						curTime = System.nanoTime();
 						wait = TICK_TIME - (curTime - lastTick);
@@ -1701,10 +1671,5 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	// WindSpigot - MSPT (milliseconds per tick)
 	public double getLastMspt() {
 		return this.lastMspt;
-	}
-	
-	// WindSpigot - improve tick loop even more
-	public double getSleepMillisecondOffset() {
-		return this.offset;
 	}
 }
