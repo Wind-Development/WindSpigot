@@ -658,6 +658,9 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 				long start = System.nanoTime(), lastTick = start - TICK_TIME, catchupTime = 0, curTime, wait,
 						tickSection = start;
 				// PaperSpigot end
+				
+				// WindSpigot - improve tick loop even more
+				long offset = 0;
 
 				while (this.isRunning) {
 					curTime = System.nanoTime();
@@ -677,7 +680,29 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						// TacoSpigot end
 					}
 					if (wait > 0) {
-						Thread.sleep(wait / 1000000);
+						// WindSpigot start - improve tick loop even more
+						
+						// Java's "Thread#sleep" is not perfectly accurate, so the TPS can be slightly
+						// offset from 20. We fix this by predicting the time when sleeping will be
+						// completed, and then calculating the sleep offset per millisecond based on the
+						// actual time when sleeping is completed.
+						
+						long sleepTime = (wait / 1000000);
+						
+						if (sleepTime > 0) {
+	
+							long finalSleepTime = sleepTime - (sleepTime * offset); // The time to wait for						
+							long predictedTime = System.currentTimeMillis() + sleepTime; // The predicted time after waiting is finished
+	
+							Thread.sleep(finalSleepTime); // Wait
+						
+							long actualTime = System.currentTimeMillis(); // The actual time after waiting is finished
+							long diff = actualTime - predictedTime; // Calculate the sleep inaccuracy
+							
+							offset = diff / sleepTime; // Calculate the offset by dividing the difference in sleep accuracy by the original sleep time
+						}
+						// WindSpigot end
+						
 						curTime = System.nanoTime();
 						wait = TICK_TIME - (curTime - lastTick);
 					}
