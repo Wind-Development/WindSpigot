@@ -164,9 +164,6 @@ public class EntityTracker {
 			entry.a();
 		}
 	}
-	
-	// WindSpigot - resettablelatch for async entity tracking
-	private final ResettableLatch latch = new ResettableLatch(trackerThreads);
 
 	public void updatePlayers() {
 		int offset = 0;
@@ -182,7 +179,6 @@ public class EntityTracker {
 					c.get(n).update();
 				}
 
-				latch.decrement();
 			};
 
 			// Handle all tasks but one on the tracking pool
@@ -191,17 +187,6 @@ public class EntityTracker {
 			} else {
 				runnable.run();
 			}
-		}
-		try {
-			// Wait for async entity tracking to finish then reset the latch
-			latch.waitTillZero();
-			latch.reset(trackerThreads);
-		} catch (Exception e) {
-			e.printStackTrace();
-			/*
-			 * for (EntityPlayer entity : entities) { for (EntityTrackerEntry entry :
-			 * this.c) { if (entry.getTracker() != entity) { entry.updatePlayer(entity); } }
-			 */
 		}
 		// WindSpigot end
 	}
