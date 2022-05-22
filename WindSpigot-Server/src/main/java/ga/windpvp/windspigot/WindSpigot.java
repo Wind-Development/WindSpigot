@@ -14,7 +14,6 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import co.aikar.timings.Timings;
-import dev.cobblesword.nachospigot.Nacho;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.pathsearch.SearchHandler;
 import ga.windpvp.windspigot.async.thread.CombatThread;

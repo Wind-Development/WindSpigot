@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 import me.suicidalkids.ion.blocks.redstone.PandaRedstoneWire;
 
 public class Block {

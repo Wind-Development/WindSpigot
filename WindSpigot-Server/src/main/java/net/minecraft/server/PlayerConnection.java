@@ -57,14 +57,12 @@ import com.google.common.primitives.Floats;
 
 import co.aikar.timings.SpigotTimings; // Spigot
 // CraftBukkit end
-import dev.cobblesword.nachospigot.Nacho;
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.events.PlayerIllegalBehaviourEvent;
 import io.netty.buffer.Unpooled;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import me.elier.nachospigot.config.NachoConfig;
 
 public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerListBox {
 

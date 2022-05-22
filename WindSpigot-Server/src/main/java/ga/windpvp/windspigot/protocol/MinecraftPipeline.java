@@ -7,7 +7,6 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.ReadTimeoutHandler;
-import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.EnumProtocolDirection;
 import net.minecraft.server.HandshakeListener;
 import net.minecraft.server.LegacyPingHandler;
