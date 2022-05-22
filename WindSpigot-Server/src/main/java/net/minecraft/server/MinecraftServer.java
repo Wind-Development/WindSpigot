@@ -144,7 +144,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	private double lastMspt;
 	
 	// WindSpigot - improve tick loop even more
-	private long offset = 0;
+	private double offset = 0;
 
 	public MinecraftServer(OptionSet options, Proxy proxy, File file1) {
 		io.netty.util.ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.DISABLED); // [Nacho-0040] Change
@@ -692,7 +692,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 						if (WindSpigotConfig.enhanceTickLoop) {
 							if (sleepTime > 0) {
 		
-								long finalSleepTime = sleepTime - (sleepTime * offset); // The time to wait for						
+								long finalSleepTime = (long) (sleepTime - (sleepTime * offset)); // The time to wait for						
 								long predictedTime = System.currentTimeMillis() + sleepTime; // The predicted time after waiting is finished
 		
 								if (finalSleepTime > 0) {
@@ -1704,7 +1704,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
 	}
 	
 	// WindSpigot - improve tick loop even more
-	public long getSleepMillisecondOffset() {
+	public double getSleepMillisecondOffset() {
 		return this.offset;
 	}
 }
