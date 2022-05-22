@@ -166,7 +166,8 @@ public class EntityTrackerEntry {
 		return this.tracker.getId();
 	}
 
-	public void update() {
+	// WindSpigot - synchronize
+	public synchronized void update() {
 		this.withinNoTrack = this.withinNoTrack();
 		if (--this.addRemoveCooldown <= 0) {
 			this.removeFarPlayers();
