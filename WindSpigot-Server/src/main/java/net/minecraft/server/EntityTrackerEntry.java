@@ -168,8 +168,7 @@ public class EntityTrackerEntry {
 	}
 	
 	// WindSpigot start - async entity tracking
-	// WindSpigot - synchronize
-	public synchronized void update() {
+	public void update() {
 		this.withinNoTrack = this.withinNoTrack();
 		if (--this.addRemoveCooldown <= 0) {
 			this.removeFarPlayers();
