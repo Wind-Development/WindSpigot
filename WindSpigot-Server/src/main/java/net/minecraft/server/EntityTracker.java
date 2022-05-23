@@ -11,17 +11,9 @@ import me.rastrian.dev.utils.IndexedLinkedHashSet;
 
 public class EntityTracker {
 
-	public IndexedLinkedHashSet<EntityTrackerEntry> c = new IndexedLinkedHashSet<>();
+	public IndexedLinkedHashSet<EntityTrackerEntry> c = new IndexedLinkedHashSet<>(); // tracked entities
 
-	public IndexedLinkedHashSet<EntityTrackerEntry> getTrackedEntities() {
-		return c;
-	}
-
-	public IntHashMap<EntityTrackerEntry> trackedEntities = new IntHashMap<>();
-
-	public IntHashMap<EntityTrackerEntry> getTrackedEntityHashTable() {
-		return trackedEntities;
-	}
+	public IntHashMap<EntityTrackerEntry> trackedEntities = new IntHashMap<>(); // tracked entities hash table
 
 	private int noTrackDistance = 0;
 
@@ -34,11 +26,6 @@ public class EntityTracker {
 	}
 
 	private int e; 
-	
-	// WindSpigot start - async entity tracker
-	private static ExecutorService trackingThreadPool = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
-	public final Object trackLock = new Object();
-	// WindSpigot end
 	
 	public EntityTracker(WorldServer worldserver) {
 		this.e = 128;
@@ -109,7 +96,8 @@ public class EntityTracker {
 		this.addEntity(entity, i, j, false);
 	}
 
-	public void addEntity(Entity entity, int i, final int j, boolean flag) {
+	// WindSpigot - private
+	private void addEntity(Entity entity, int i, final int j, boolean flag) {
 		org.spigotmc.AsyncCatcher.catchOp("entity track"); // Spigot
 		i = org.spigotmc.TrackingRange.getEntityTrackingRange(entity, i); // Spigot
 		if (i > this.e) {
@@ -157,27 +145,10 @@ public class EntityTracker {
 		}
 	}
 
-	// WindSpigot - synchronize
-	public synchronized void updatePlayers() {
-		// WindSpigot start- async entity tracker based of off this:
-		// https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-		Runnable trackerUpdateTask = () -> {	
-
-			for (EntityTrackerEntry entry : c) {
-				synchronized (entry) {
-					entry.update();
-				}
-			}
-
-		};
-
-		// Handle all tasks but one on the tracking pool
-		if (!WindSpigotConfig.disableTracking) {
-			AsyncUtil.run(trackerUpdateTask, trackingThreadPool);
-		} else {
-			trackerUpdateTask.run();
+	public void updatePlayers() {
+		for (EntityTrackerEntry entry : c) {
+			entry.update();
 		}
-		// WindSpigot end
 	}
 
 	public void a(EntityPlayer entityplayer) {
