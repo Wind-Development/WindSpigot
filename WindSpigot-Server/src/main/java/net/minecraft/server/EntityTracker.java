@@ -15,7 +15,7 @@ public class EntityTracker {
 
 	public IntHashMap<EntityTrackerEntry> trackedEntities = new IntHashMap<>(); // tracked entities hash table
 
-	private int noTrackDistance = 0;
+	private volatile int noTrackDistance = 0; // WindSpigot - volatile
 
 	public int getNoTrackDistance() {
 		return this.noTrackDistance;
