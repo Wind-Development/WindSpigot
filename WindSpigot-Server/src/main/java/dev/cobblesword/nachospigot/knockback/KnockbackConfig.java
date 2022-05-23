@@ -42,8 +42,6 @@ public class KnockbackConfig {
 		config.options().copyDefaults(true);
 		c.setHeader(HEADER);
 
-		save();
-
 		Set<String> keys = getKeys("knockback.profiles");
 		
 		if (!keys.contains("kohi")) {
@@ -74,12 +72,10 @@ public class KnockbackConfig {
 			// Generated profiles are based on kohi kb values, not vanilla, so we set the values here
 			defaultProfile.setFrictionHorizontal(1.0);
 			defaultProfile.setFrictionVertical(1.0);
-			defaultProfile.setExtraHorizontal(1.0);
-			defaultProfile.setExtraVertical(1.0);
-			defaultProfile.setWTapExtraHorizontal(1.0);
-			defaultProfile.setWTapExtraVertical(1.0);
 			defaultProfile.save(true);
 		}
+		
+		keys = getKeys("knockback.profiles");
 		
 		for (String key : keys) {
 			final String path = "knockback.profiles." + key;
@@ -123,6 +119,7 @@ public class KnockbackConfig {
 			WindSpigot.LOGGER.info("Setting default knockback as 'vanilla'...");
 			set("knockback.current", "vanilla");
 		}
+		save();
 	}
 
 	public static KnockbackProfile getCurrentKb() {

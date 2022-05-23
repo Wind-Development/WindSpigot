@@ -67,6 +67,7 @@ import org.github.paperspigot.Title;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.commons.Constants;
@@ -122,8 +123,8 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 	private long lastPlayed = 0;
 	private boolean hasPlayedBefore = false;
 	private final ConversationTracker conversationTracker = new ConversationTracker();
-	private final Set<String> channels = new HashSet<String>();
-	private final Set<UUID> hiddenPlayers = new HashSet<UUID>();
+	private final Set<String> channels = Sets.newConcurrentHashSet();
+	private final Set<UUID> hiddenPlayers = Sets.newConcurrentHashSet();
 	private int hash = 0;
 	private double health = 20;
 	private boolean scaledHealth = false;
