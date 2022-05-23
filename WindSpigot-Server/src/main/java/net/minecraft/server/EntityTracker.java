@@ -43,7 +43,7 @@ public class EntityTracker {
 	
 	// WindSpigot start - async entity tracker
 	private static ExecutorService trackingThreadPool = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
-	private final Object trackLock = new Object();
+	public final Object trackLock = new Object();
 	// WindSpigot end
 	
 	public EntityTracker(WorldServer worldserver) {
@@ -51,66 +51,63 @@ public class EntityTracker {
 	}
 
 	public void track(Entity entity) {
-		// WindSpigot - synchronize
-		synchronized (trackLock) {
-			if (entity instanceof EntityPlayer) {
-				this.addEntity(entity, 512, 2);
-				/*
-				 * EntityPlayer entityplayer = (EntityPlayer) entity; for (EntityTrackerEntry
-				 * entitytrackerentry : this.c) { if (entitytrackerentry.tracker !=
-				 * entityplayer) { entitytrackerentry.updatePlayer(entityplayer); } }
-				 */
-			} else if (entity instanceof EntityFishingHook) {
-				this.addEntity(entity, 64, 5, true);
-			} else if (entity instanceof EntityArrow) {
-				this.addEntity(entity, 64, 20, false);
-			} else if (entity instanceof EntitySmallFireball) {
-				this.addEntity(entity, 64, 10, false);
-			} else if (entity instanceof EntityFireball) {
-				this.addEntity(entity, 64, 10, false);
-			} else if (entity instanceof EntitySnowball) {
-				this.addEntity(entity, 64, 10, true);
-			} else if (entity instanceof EntityEnderPearl) {
-				this.addEntity(entity, 64, 10, true);
-			} else if (entity instanceof EntityEnderSignal) {
-				this.addEntity(entity, 64, 4, true);
-			} else if (entity instanceof EntityEgg) {
-				this.addEntity(entity, 64, 10, true);
-			} else if (entity instanceof EntityPotion) {
-				this.addEntity(entity, 64, 10, true);
-			} else if (entity instanceof EntityThrownExpBottle) {
-				this.addEntity(entity, 64, 10, true);
-			} else if (entity instanceof EntityFireworks) {
-				this.addEntity(entity, 64, 10, true);
-			} else if (entity instanceof EntityItem) {
-				this.addEntity(entity, 64, 20, true);
-			} else if (entity instanceof EntityMinecartAbstract) {
-				this.addEntity(entity, 80, 3, true);
-			} else if (entity instanceof EntityBoat) {
-				this.addEntity(entity, 80, 3, true);
-			} else if (entity instanceof EntitySquid) {
-				this.addEntity(entity, 64, 3, true);
-			} else if (entity instanceof EntityWither) {
-				this.addEntity(entity, 80, 3, false);
-			} else if (entity instanceof EntityBat) {
-				this.addEntity(entity, 80, 3, false);
-			} else if (entity instanceof EntityEnderDragon) {
-				this.addEntity(entity, 160, 3, true);
-			} else if (entity instanceof IAnimal) {
-				this.addEntity(entity, 80, 3, true);
-			} else if (entity instanceof EntityTNTPrimed) {
-				this.addEntity(entity, 160, 10, true);
-			} else if (entity instanceof EntityFallingBlock) {
-				this.addEntity(entity, 160, 20, true);
-			} else if (entity instanceof EntityHanging) {
-				this.addEntity(entity, 160, Integer.MAX_VALUE, false);
-			} else if (entity instanceof EntityArmorStand) {
-				this.addEntity(entity, 160, 3, true);
-			} else if (entity instanceof EntityExperienceOrb) {
-				this.addEntity(entity, 160, 20, true);
-			} else if (entity instanceof EntityEnderCrystal) {
-				this.addEntity(entity, 256, Integer.MAX_VALUE, false);
-			}
+		if (entity instanceof EntityPlayer) {
+			this.addEntity(entity, 512, 2);
+			/*
+			 * EntityPlayer entityplayer = (EntityPlayer) entity; for (EntityTrackerEntry
+			 * entitytrackerentry : this.c) { if (entitytrackerentry.tracker !=
+			 * entityplayer) { entitytrackerentry.updatePlayer(entityplayer); } }
+			 */
+		} else if (entity instanceof EntityFishingHook) {
+			this.addEntity(entity, 64, 5, true);
+		} else if (entity instanceof EntityArrow) {
+			this.addEntity(entity, 64, 20, false);
+		} else if (entity instanceof EntitySmallFireball) {
+			this.addEntity(entity, 64, 10, false);
+		} else if (entity instanceof EntityFireball) {
+			this.addEntity(entity, 64, 10, false);
+		} else if (entity instanceof EntitySnowball) {
+			this.addEntity(entity, 64, 10, true);
+		} else if (entity instanceof EntityEnderPearl) {
+			this.addEntity(entity, 64, 10, true);
+		} else if (entity instanceof EntityEnderSignal) {
+			this.addEntity(entity, 64, 4, true);
+		} else if (entity instanceof EntityEgg) {
+			this.addEntity(entity, 64, 10, true);
+		} else if (entity instanceof EntityPotion) {
+			this.addEntity(entity, 64, 10, true);
+		} else if (entity instanceof EntityThrownExpBottle) {
+			this.addEntity(entity, 64, 10, true);
+		} else if (entity instanceof EntityFireworks) {
+			this.addEntity(entity, 64, 10, true);
+		} else if (entity instanceof EntityItem) {
+			this.addEntity(entity, 64, 20, true);
+		} else if (entity instanceof EntityMinecartAbstract) {
+			this.addEntity(entity, 80, 3, true);
+		} else if (entity instanceof EntityBoat) {
+			this.addEntity(entity, 80, 3, true);
+		} else if (entity instanceof EntitySquid) {
+			this.addEntity(entity, 64, 3, true);
+		} else if (entity instanceof EntityWither) {
+			this.addEntity(entity, 80, 3, false);
+		} else if (entity instanceof EntityBat) {
+			this.addEntity(entity, 80, 3, false);
+		} else if (entity instanceof EntityEnderDragon) {
+			this.addEntity(entity, 160, 3, true);
+		} else if (entity instanceof IAnimal) {
+			this.addEntity(entity, 80, 3, true);
+		} else if (entity instanceof EntityTNTPrimed) {
+			this.addEntity(entity, 160, 10, true);
+		} else if (entity instanceof EntityFallingBlock) {
+			this.addEntity(entity, 160, 20, true);
+		} else if (entity instanceof EntityHanging) {
+			this.addEntity(entity, 160, Integer.MAX_VALUE, false);
+		} else if (entity instanceof EntityArmorStand) {
+			this.addEntity(entity, 160, 3, true);
+		} else if (entity instanceof EntityExperienceOrb) {
+			this.addEntity(entity, 160, 20, true);
+		} else if (entity instanceof EntityEnderCrystal) {
+			this.addEntity(entity, 256, Integer.MAX_VALUE, false);
 		}
 	}
 
@@ -150,7 +147,7 @@ public class EntityTracker {
 		}
 	}
 	// IonSpigot end
-
+	
 	public void untrackEntity(Entity entity) {
 		org.spigotmc.AsyncCatcher.catchOp("entity untrack"); // Spigot
 		if (entity instanceof EntityPlayer) {
@@ -191,7 +188,8 @@ public class EntityTracker {
 		// WindSpigot end
 	}
 
-	public void a(EntityPlayer entityplayer) {
+	// WindSpigot - synchronize
+	public synchronized void a(EntityPlayer entityplayer) {
 		for (EntityTrackerEntry entitytrackerentry : this.c) {
 			if (entitytrackerentry.getTracker() == entityplayer) {
 				// entitytrackerentry.scanPlayers(this.world.players);
@@ -202,21 +200,24 @@ public class EntityTracker {
 		}
 	}
 
-	public void a(Entity entity, Packet<?> packet) {
+	// WindSpigot - synchronize
+	public synchronized void a(Entity entity, Packet<?> packet) {
 		EntityTrackerEntry entitytrackerentry = this.trackedEntities.get(entity.getId());
 		if (entitytrackerentry != null) {
 			entitytrackerentry.broadcast(packet);
 		}
 	}
 
-	public void sendPacketToEntity(Entity entity, Packet<?> packet) {
+	// WindSpigot - synchronize
+	public synchronized void sendPacketToEntity(Entity entity, Packet<?> packet) {
 		EntityTrackerEntry entitytrackerentry = this.trackedEntities.get(entity.getId());
 		if (entitytrackerentry != null) {
 			entitytrackerentry.broadcastIncludingSelf(packet);
 		}
 	}
-
-	public void untrackPlayer(EntityPlayer entityplayer) {
+	
+	// WindSpigot - synchronize
+	public synchronized void untrackPlayer(EntityPlayer entityplayer) {
 		for (EntityTrackerEntry entitytrackerentry : this.c) {
 			entitytrackerentry.clear(entityplayer);
 		}
