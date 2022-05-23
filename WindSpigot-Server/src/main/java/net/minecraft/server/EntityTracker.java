@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.ResettableLatch;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import javafixes.concurrency.ReusableCountLatch;
@@ -38,14 +39,10 @@ public class EntityTracker {
 		this.noTrackDistance = noTrackDistance;
 	}
 
-	private int e;
-
-	// WindSpigot - parallel tracking from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-	private static int trackerThreads = WindSpigotConfig.trackingThreads; 
+	private int e; 
 	
 	// All threads but one are handling a task, main thread runs a task once these tasks are started
-	private static ExecutorService trackingThreadPool = Executors.newFixedThreadPool(trackerThreads - 1, 
-			new ThreadFactoryBuilder().setNameFormat("Entity Tracker Thread %d").build());
+	private static ExecutorService trackingThreadPool = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
 
 	public EntityTracker(WorldServer worldserver) {
 		this.e = 128;
@@ -166,27 +163,21 @@ public class EntityTracker {
 	}
 
 	public void updatePlayers() {
-		int offset = 0;
-		// WindSpigot - async entity tracker from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-		for (int i = 1; i <= trackerThreads; i++) {
-			final int localOffset = offset++;
-			Runnable runnable = () -> {	
-				/*
-				 * Loops the entire index hashset of registered entities. In this loop it
-				 * distributes the entities among the defined threads.
-				 */
-				for (int n = localOffset; n < c.size(); n += trackerThreads) {
-					c.get(n).update();
-				}
+		// WindSpigot start- async entity tracker based of off this:
+		// https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
+		Runnable trackerUpdateTask = () -> {	
 
-			};
-
-			// Handle all tasks but one on the tracking pool
-			if (!WindSpigotConfig.disableTracking && i < trackerThreads) {
-				trackingThreadPool.execute(runnable);
-			} else {
-				runnable.run();
+			for (EntityTrackerEntry entry : c) {
+				entry.update();
 			}
+
+		};
+
+		// Handle all tasks but one on the tracking pool
+		if (!WindSpigotConfig.disableTracking) {
+			AsyncUtil.run(trackerUpdateTask, trackingThreadPool);
+		} else {
+			trackerUpdateTask.run();
 		}
 		// WindSpigot end
 	}
