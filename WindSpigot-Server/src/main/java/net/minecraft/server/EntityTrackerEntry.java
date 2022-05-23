@@ -247,7 +247,9 @@ public class EntityTrackerEntry {
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
 			if (!WindSpigotConfig.disableTracking || tracker.passenger == entityPlayer) {
-				updatePlayer(entityPlayer);
+				synchronized (entityPlayer) { 
+					updatePlayer(entityPlayer);
+				}
 			}
 		}
 	};
