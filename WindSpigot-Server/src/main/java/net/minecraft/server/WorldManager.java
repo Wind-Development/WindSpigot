@@ -16,19 +16,13 @@ public class WorldManager implements IWorldAccess {
 
 	@Override
 	public void a(Entity entity) {
-		// WindSpigot - synchronized untracking of entities
-		synchronized (this.world.getTracker().trackLock) {
-			this.world.getTracker().track(entity);
-		}
+		this.world.getTracker().track(entity);
 	}
 
 	@Override
 	public void b(Entity entity) {
-		// WindSpigot - synchronized untracking of entities
-		synchronized (this.world.getTracker().trackLock) {
-			this.world.getTracker().untrackEntity(entity);
-			this.world.getScoreboard().a(entity);
-		}
+		this.world.getTracker().untrackEntity(entity);
+		this.world.getScoreboard().a(entity);
 	}
 
 	@Override
