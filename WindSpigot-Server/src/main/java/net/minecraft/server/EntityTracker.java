@@ -167,29 +167,26 @@ public class EntityTracker {
 	public synchronized void updatePlayers() {
 		// WindSpigot start- async entity tracker based of off this:
 		// https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-		synchronized (this.c) {
-			Runnable trackerUpdateTask = () -> {	
-	
-				for (EntityTrackerEntry entry : c) {
-					synchronized (entry) {
-						entry.update();
-					}
+		Runnable trackerUpdateTask = () -> {	
+
+			for (EntityTrackerEntry entry : c) {
+				synchronized (entry) {
+					entry.update();
 				}
-	
-			};
-	
-			// Handle all tasks but one on the tracking pool
-			if (!WindSpigotConfig.disableTracking) {
-				AsyncUtil.run(trackerUpdateTask, trackingThreadPool);
-			} else {
-				trackerUpdateTask.run();
 			}
+
+		};
+
+		// Handle all tasks but one on the tracking pool
+		if (!WindSpigotConfig.disableTracking) {
+			AsyncUtil.run(trackerUpdateTask, trackingThreadPool);
+		} else {
+			trackerUpdateTask.run();
 		}
 		// WindSpigot end
 	}
 
-	// WindSpigot - synchronize
-	public synchronized void a(EntityPlayer entityplayer) {
+	public void a(EntityPlayer entityplayer) {
 		for (EntityTrackerEntry entitytrackerentry : this.c) {
 			if (entitytrackerentry.getTracker() == entityplayer) {
 				// entitytrackerentry.scanPlayers(this.world.players);
@@ -200,34 +197,23 @@ public class EntityTracker {
 		}
 	}
 
-	// WindSpigot - synchronize
-	public synchronized void a(Entity entity, Packet<?> packet) {
+	public void a(Entity entity, Packet<?> packet) {
 		EntityTrackerEntry entitytrackerentry = this.trackedEntities.get(entity.getId());
 		if (entitytrackerentry != null) {
 			entitytrackerentry.broadcast(packet);
 		}
 	}
 
-	// WindSpigot - synchronize
-	public synchronized void sendPacketToEntity(Entity entity, Packet<?> packet) {
+	public void sendPacketToEntity(Entity entity, Packet<?> packet) {
 		EntityTrackerEntry entitytrackerentry = this.trackedEntities.get(entity.getId());
 		if (entitytrackerentry != null) {
 			entitytrackerentry.broadcastIncludingSelf(packet);
 		}
 	}
 	
-	// WindSpigot - synchronize
-	public synchronized void untrackPlayer(EntityPlayer entityplayer) {
+	public void untrackPlayer(EntityPlayer entityplayer) {
 		for (EntityTrackerEntry entitytrackerentry : this.c) {
 			entitytrackerentry.clear(entityplayer);
 		}
 	}
-
-	/*
-	 * public void a(EntityPlayer entityplayer, Chunk chunk) { for
-	 * (EntityTrackerEntry entry : this.getTrackedEntities()) { if
-	 * (entry.getTracker() != entityplayer && entry.getTracker().getChunkX() ==
-	 * chunk.locX && entry.getTracker().getChunkZ() == chunk.locZ )
-	 * entry.updatePlayer(entityplayer); } }
-	 */
 }
