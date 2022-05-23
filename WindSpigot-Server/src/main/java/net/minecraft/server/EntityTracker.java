@@ -41,7 +41,7 @@ public class EntityTracker {
 
 	private int e; 
 	
-	// All threads but one are handling a task, main thread runs a task once these tasks are started
+	// WindSpigot - async entity tracker
 	private static ExecutorService trackingThreadPool = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
 
 	public EntityTracker(WorldServer worldserver) {
@@ -165,19 +165,23 @@ public class EntityTracker {
 	public void updatePlayers() {
 		// WindSpigot start- async entity tracker based of off this:
 		// https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-		Runnable trackerUpdateTask = () -> {	
-
-			for (EntityTrackerEntry entry : c) {
-				entry.update();
+		synchronized (this.c) {
+			Runnable trackerUpdateTask = () -> {	
+	
+				for (EntityTrackerEntry entry : c) {
+					synchronized (entry) {
+						entry.update();
+					}
+				}
+	
+			};
+	
+			// Handle all tasks but one on the tracking pool
+			if (!WindSpigotConfig.disableTracking) {
+				AsyncUtil.run(trackerUpdateTask, trackingThreadPool);
+			} else {
+				trackerUpdateTask.run();
 			}
-
-		};
-
-		// Handle all tasks but one on the tracking pool
-		if (!WindSpigotConfig.disableTracking) {
-			AsyncUtil.run(trackerUpdateTask, trackingThreadPool);
-		} else {
-			trackerUpdateTask.run();
 		}
 		// WindSpigot end
 	}
