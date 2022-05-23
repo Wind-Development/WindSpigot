@@ -119,7 +119,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.max-tick-time", "Configuration for maximum entity tick time");
 		c.addComment("settings.async.parallel-world", "Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this.");
 		c.addComment("settings.async.entity-tracking.enable", "Enables asynchronous entity tracking");
-		c.addComment("settings.async.entity-tracking.threads", "The amount of threads to use when asynchronous entity tracking is enabled.");
 		c.addComment("settings.async.entity-tracking", "Configuration for the async entity tracker.");
 		c.addComment("settings.thread-affinity", "Only switch to true if your OS is properly configured!! (See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus) \nWhen properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
 		c.addComment("settings.command.mob-ai", "Enables the command \"/mobai\" which toggles mob ai. Users require the permission windspigot.command.mobai");
@@ -229,11 +228,9 @@ public class WindSpigotConfig {
 	}
 	
 	public static boolean disableTracking;
-	public static int trackingThreads;
 
 	private static void tracking() {
 		disableTracking = !getBoolean("settings.async.entity-tracking.enable", true);
-		trackingThreads = getInt("settings.async.entity-tracking.threads", 5);		
 	}
 
 	public static boolean threadAffinity;
