@@ -996,7 +996,8 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
         // Paper start
         long endTime = System.nanoTime();
         long remaining = (TICK_TIME - (endTime - lastTick)) - catchupTime;
-        this.server.getPluginManager().callEvent(new com.destroystokyo.paper.event.server.ServerTickEndEvent(this.ticks, ((double) (endTime - lastTick) / 1000000D), remaining));
+        this.lastMspt = ((double) (endTime - lastTick) / 1000000D);
+        this.server.getPluginManager().callEvent(new com.destroystokyo.paper.event.server.ServerTickEndEvent(this.ticks, this.lastMspt, remaining));
         // Paper end
         // WindSpigot end
         
