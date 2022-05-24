@@ -199,30 +199,31 @@ public class Main {
 																											// loading
 				System.out.println("Loading libraries, please wait...");
 
-                OptionSet finalOptions = options;
+				DispenserRegistry.c();
+				OptionSet finalOptions = options;
 
-                DedicatedServer server = MinecraftServer.spin(thread -> {
-                    DedicatedServer dedicatedserver = new DedicatedServer(finalOptions, thread);
+				DedicatedServer server = MinecraftServer.spin(thread -> {
+					DedicatedServer dedicatedserver = new DedicatedServer(finalOptions, thread);
 
-                    if (finalOptions.has("port")) {
-                        int port = (Integer) finalOptions.valueOf("port");
-                        if (port > 0) {
-                            dedicatedserver.setPort(port);
-                        }
-                    }
+					if (finalOptions.has("port")) {
+						int port = (Integer) finalOptions.valueOf("port");
+						if (port > 0) {
+							dedicatedserver.setPort(port);
+						}
+					}
 
-                    if (finalOptions.has("universe")) {
-                        dedicatedserver.universe = (File) finalOptions.valueOf("universe");
-                    }
+					if (finalOptions.has("universe")) {
+						dedicatedserver.universe = (File) finalOptions.valueOf("universe");
+					}
 
-                    if (finalOptions.has("world")) {
-                        dedicatedserver.setWorld((String) finalOptions.valueOf("world"));
-                    }
-                    return dedicatedserver;
-                });
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+					if (finalOptions.has("world")) {
+						dedicatedserver.setWorld((String) finalOptions.valueOf("world"));
+					}
+					return dedicatedserver;
+				});
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
 		}
 	}
 
