@@ -1,12 +1,10 @@
 package net.minecraft.server;
 
-import java.util.Random;
-
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 
-import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
+import java.util.Random;
 
 public class BlockFalling extends Block {
 
@@ -23,14 +21,14 @@ public class BlockFalling extends Block {
 
 	@Override
 	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		if (!world.nachoSpigotConfig.disablePhysicsPlace) {
+		if (!world.windSpigotConfig.disablePhysicsPlace) {
 			world.a(blockposition, this, this.a(world));
 		}
 	}
 
 	@Override
 	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
-		if (!world.nachoSpigotConfig.disablePhysicsUpdate) {
+		if (!world.windSpigotConfig.disablePhysicsUpdate) {
 			world.a(blockposition, this, this.a(world));
 		}
 	}

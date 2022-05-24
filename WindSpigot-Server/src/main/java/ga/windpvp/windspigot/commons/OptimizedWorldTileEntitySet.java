@@ -1,4 +1,4 @@
-package me.rastrian.dev;
+package ga.windpvp.windspigot.commons;
 
 import java.util.AbstractSet;
 import java.util.Collection;

@@ -5,12 +5,7 @@ import static org.bukkit.util.NumberConversions.toFloat;
 import static org.bukkit.util.NumberConversions.toInt;
 import static org.bukkit.util.NumberConversions.toLong;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
@@ -22,7 +17,7 @@ import org.bukkit.util.Vector;
  * A type of {@link ConfigurationSection} that is stored in memory.
  */
 public class MemorySection implements ConfigurationSection {
-	protected final Map<String, Object> map = new LinkedHashMap<String, Object>();
+	protected final Map<String, SectionPathData> map = new LinkedHashMap<>();
 	private final Configuration root;
 	private final ConfigurationSection parent;
 	private final String path;
@@ -190,7 +185,12 @@ public class MemorySection implements ConfigurationSection {
 			if (value == null) {
 				map.remove(key);
 			} else {
-				map.put(key, value);
+				SectionPathData entry = map.get(key);
+				if (entry == null) {
+					map.put(key, new SectionPathData(value));
+				} else {
+					entry.setData(value);
+				}
 			}
 		} else {
 			section.set(key, value);
@@ -227,8 +227,8 @@ public class MemorySection implements ConfigurationSection {
 
 		String key = path.substring(i2);
 		if (section == this) {
-			Object result = map.get(key);
-			return (result == null) ? def : result;
+			SectionPathData result = map.get(key);
+			return (result == null) ? def : result.getData();
 		}
 		return section.get(key, def);
 	}
@@ -258,7 +258,7 @@ public class MemorySection implements ConfigurationSection {
 		String key = path.substring(i2);
 		if (section == this) {
 			ConfigurationSection result = new MemorySection(this, key);
-			map.put(key, result);
+			map.put(key, new SectionPathData(result));
 			return result;
 		}
 		return section.createSection(key);
@@ -728,11 +728,11 @@ public class MemorySection implements ConfigurationSection {
 		if (section instanceof MemorySection) {
 			MemorySection sec = (MemorySection) section;
 
-			for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
+			for (Map.Entry<String, SectionPathData> entry : sec.map.entrySet()) {
 				output.add(createPath(section, entry.getKey(), this));
 
-				if ((deep) && (entry.getValue() instanceof ConfigurationSection)) {
-					ConfigurationSection subsection = (ConfigurationSection) entry.getValue();
+				if ((deep) && (entry.getValue().getData() instanceof ConfigurationSection)) {
+					ConfigurationSection subsection = (ConfigurationSection) entry.getValue().getData();
 					mapChildrenKeys(output, subsection, deep);
 				}
 			}
@@ -749,12 +749,14 @@ public class MemorySection implements ConfigurationSection {
 		if (section instanceof MemorySection) {
 			MemorySection sec = (MemorySection) section;
 
-			for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
-				output.put(createPath(section, entry.getKey(), this), entry.getValue());
+			for (Map.Entry<String, SectionPathData> entry : sec.map.entrySet()) {
+				String childPath = createPath(section, entry.getKey(), this);
+				output.remove(childPath);
+				output.put(childPath, entry.getValue().getData());
 
-				if (entry.getValue() instanceof ConfigurationSection) {
+				if (entry.getValue().getData() instanceof ConfigurationSection) {
 					if (deep) {
-						mapChildrenValues(output, (ConfigurationSection) entry.getValue(), deep);
+						mapChildrenValues(output, (ConfigurationSection) entry.getValue().getData(), deep);
 					}
 				}
 			}
@@ -803,15 +805,13 @@ public class MemorySection implements ConfigurationSection {
 		char separator = root.options().pathSeparator();
 
 		StringBuilder builder = new StringBuilder();
-		if (section != null) {
-			for (ConfigurationSection parent = section; (parent != null)
-					&& (parent != relativeTo); parent = parent.getParent()) {
-				if (builder.length() > 0) {
-					builder.insert(0, separator);
-				}
-
-				builder.insert(0, parent.getName());
+		for (ConfigurationSection parent = section; (parent != null)
+				&& (parent != relativeTo); parent = parent.getParent()) {
+			if (builder.length() > 0) {
+				builder.insert(0, separator);
 			}
+
+			builder.insert(0, parent.getName());
 		}
 
 		if ((key != null) && (key.length() > 0)) {
@@ -826,10 +826,66 @@ public class MemorySection implements ConfigurationSection {
 	}
 
 	@Override
+	public List<String> getComments(final String path) {
+		final SectionPathData pathData = getSectionPathData(path);
+		return pathData == null ? Collections.emptyList() : pathData.getComments();
+	}
+
+	@Override
+	public List<String> getInlineComments(final String path) {
+		final SectionPathData pathData = getSectionPathData(path);
+		return pathData == null ? Collections.emptyList() : pathData.getInlineComments();
+	}
+
+	@Override
+	public void setComments(final String path, final List<String> comments) {
+		final SectionPathData pathData = getSectionPathData(path);
+		if (pathData != null) {
+			pathData.setComments(comments);
+		}
+	}
+
+	@Override
+	public void setInlineComments(final String path, final List<String> comments) {
+		final SectionPathData pathData = getSectionPathData(path);
+		if (pathData != null) {
+			pathData.setInlineComments(comments);
+		}
+	}
+
+	private SectionPathData getSectionPathData(String path) {
+		Validate.notNull(path, "Path cannot be null");
+
+		Configuration root = getRoot();
+		if (root == null) {
+			throw new IllegalStateException("Cannot access section without a root");
+		}
+
+		final char separator = root.options().pathSeparator();
+		// i1 is the leading (higher) index
+		// i2 is the trailing (lower) index
+		int i1 = -1, i2;
+		ConfigurationSection section = this;
+		while ((i1 = path.indexOf(separator, i2 = i1 + 1)) != -1) {
+			section = section.getConfigurationSection(path.substring(i2, i1));
+			if (section == null) {
+				return null;
+			}
+		}
+
+		String key = path.substring(i2);
+		if (section == this) {
+			return map.get(key);
+		} else if (section instanceof MemorySection) {
+			return ((MemorySection) section).getSectionPathData(key);
+		}
+		return null;
+	}
+
+	@Override
 	public String toString() {
 		Configuration root = getRoot();
-		return new StringBuilder().append(getClass().getSimpleName()).append("[path='").append(getCurrentPath())
-				.append("', root='").append(root == null ? null : root.getClass().getSimpleName()).append("']")
-				.toString();
+		return getClass().getSimpleName() + "[path='" + getCurrentPath() +
+				"', root='" + (root == null ? null : root.getClass().getSimpleName()) + "']";
 	}
 }

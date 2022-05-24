@@ -1,11 +1,9 @@
 package net.minecraft.server;
 
-import java.util.Random;
-
-import org.bukkit.event.block.LeavesDecayEvent; // CraftBukkit
-
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
+import org.bukkit.event.block.LeavesDecayEvent;
+
+import java.util.Random;
 
 public abstract class BlockLeaves extends BlockTransparent {
 

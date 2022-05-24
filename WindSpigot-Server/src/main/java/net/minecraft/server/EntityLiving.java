@@ -1817,7 +1817,7 @@ public abstract class EntityLiving extends Entity {
 		
 		// WindSpigot start - smoother mob AI disable
 		if (this instanceof EntityInsentient) {
-			if (getWorld().nachoSpigotConfig.enableMobAI) {
+			if (getWorld().windSpigotConfig.enableMobAI) {
 				hasDisabledMovement = false; // Mark movement as enabled again
 			} else if (!hasDisabledMovement) {
 				motX = 0;

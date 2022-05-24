@@ -9,14 +9,9 @@ import ga.windpvp.windspigot.protocol.PacketListener;
 @Deprecated
 public class Nacho {
 
-	private static Nacho INSTANCE;
-
-	public Nacho() {
-		INSTANCE = this;
-	}
-
+	private static final Nacho INSTANCE = new Nacho();
 	public static Nacho get() {
-		return INSTANCE == null ? new Nacho() : INSTANCE;
+		return INSTANCE;
 	}
 
 	public void registerCommands() {

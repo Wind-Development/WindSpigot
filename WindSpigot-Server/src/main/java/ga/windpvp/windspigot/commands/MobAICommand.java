@@ -9,7 +9,7 @@ import net.minecraft.server.WorldServer;
 
 // Implements a Mob AI toggle command
 public class MobAICommand extends Command {
-	
+
 	private boolean globalAI = true;
 
 	public MobAICommand(String name) {
@@ -26,11 +26,11 @@ public class MobAICommand extends Command {
 		}
 
 		globalAI = !globalAI;
-		
+
 		for (WorldServer world : MinecraftServer.getServer().worlds) {
-			world.nachoSpigotConfig.enableMobAI = globalAI;
+			world.windSpigotConfig.enableMobAI = globalAI;
 		}
-		
+
 		String status = globalAI ? "enabled" : "disabled";
 		sender.sendMessage(ChatColor.GREEN + "Mob AI is now " + status + " in all worlds.");
 

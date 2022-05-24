@@ -1,26 +1,16 @@
 package net.minecraft.server;
 
-import java.util.ArrayList;
-// CraftBukkit start
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryView;
-// CraftBukkit end
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
-import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
+import java.util.*;
 
 public abstract class Container {
 

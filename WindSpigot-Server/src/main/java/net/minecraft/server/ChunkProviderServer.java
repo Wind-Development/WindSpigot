@@ -62,7 +62,7 @@ public class ChunkProviderServer implements IChunkProvider {
 	}
 
 	public void queueUnload(int i, int j) {
-		if (!world.nachoSpigotConfig.doChunkUnload) {
+		if (!world.windSpigotConfig.doChunkUnload) {
 			return;
 		}
 
