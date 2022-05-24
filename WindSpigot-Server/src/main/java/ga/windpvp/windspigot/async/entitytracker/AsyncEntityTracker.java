@@ -3,6 +3,8 @@ package ga.windpvp.windspigot.async.entitytracker;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.annotation.concurrent.ThreadSafe;
+
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import net.minecraft.server.Entity;
@@ -15,13 +17,17 @@ import net.minecraft.server.WorldServer;
  * This is an entity tracker that performs tracking off the main thread and
  * is thread safe. All public methods are synchronized if not already synchronized.
  */
+@ThreadSafe
 public class AsyncEntityTracker extends EntityTracker {
 	
 	// Cache tracking task, we do not need to create a new one each tick
 	private final Runnable cachedTrackTask = () -> {
-		synchronized (this) {
+		synchronized (this) { 
+			// Updating players is always synchronized, other methods can be called inside
+			// updating players code, so they are only synchronized if not already.
 			synchronized (c) {
 				super.updatePlayers();
+				
 			}
 		}
 	};
