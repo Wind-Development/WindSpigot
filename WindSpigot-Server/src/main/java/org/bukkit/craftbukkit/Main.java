@@ -14,6 +14,8 @@ import org.fusesource.jansi.AnsiConsole;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+import net.minecraft.server.DedicatedServer;
+import net.minecraft.server.DispenserRegistry;
 import net.minecraft.server.MinecraftServer;
 
 public class Main {
@@ -196,7 +198,29 @@ public class Main {
 																											// while
 																											// loading
 				System.out.println("Loading libraries, please wait...");
-				MinecraftServer.main(options);
+
+				DispenserRegistry.c();
+				OptionSet finalOptions = options;
+
+				DedicatedServer server = MinecraftServer.spin(thread -> {
+					DedicatedServer dedicatedserver = new DedicatedServer(finalOptions, thread);
+
+					if (finalOptions.has("port")) {
+						int port = (Integer) finalOptions.valueOf("port");
+						if (port > 0) {
+							dedicatedserver.setPort(port);
+						}
+					}
+
+					if (finalOptions.has("universe")) {
+						dedicatedserver.universe = (File) finalOptions.valueOf("universe");
+					}
+
+					if (finalOptions.has("world")) {
+						dedicatedserver.setWorld((String) finalOptions.valueOf("world"));
+					}
+					return dedicatedserver;
+				});
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
