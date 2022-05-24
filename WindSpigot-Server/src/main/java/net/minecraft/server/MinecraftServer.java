@@ -148,30 +148,30 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 	
 	// WindSpigot - MSPT for tps command
 	private double lastMspt;
-	
+
 	// WindSpigot start - backport modern tick loop
-    private long nextTickTime;
-    private long delayedTasksMaxNextTickTime;
-    private boolean mayHaveDelayedTasks;
-    private boolean forceTicks;
-    private volatile boolean isReady;
-    private long lastOverloadWarning;
-    public long serverStartTime;
-    public volatile Thread shutdownThread; // Paper
+	private long nextTickTime;
+	private long delayedTasksMaxNextTickTime;
+	private boolean mayHaveDelayedTasks;
+	private boolean forceTicks;
+	private volatile boolean isReady;
+	private long lastOverloadWarning;
+	public long serverStartTime;
+	public volatile Thread shutdownThread; // Paper
 
-    public static <S extends MinecraftServer> S spin(Function<Thread, S> serverFactory) {
-        AtomicReference<S> reference = new AtomicReference<>();
-        Thread thread = new Thread(() -> reference.get().run(), "Server thread");
+	public static <S extends MinecraftServer> S spin(Function<Thread, S> serverFactory) {
+		AtomicReference<S> reference = new AtomicReference<>();
+		Thread thread = new Thread(() -> reference.get().run(), "Server thread");
 
-        thread.setUncaughtExceptionHandler((thread1, throwable) -> MinecraftServer.LOGGER.error(throwable));
-        S server = serverFactory.apply(thread); // CraftBukkit - decompile error
+		thread.setUncaughtExceptionHandler((thread1, throwable) -> MinecraftServer.LOGGER.error(throwable));
+		S server = serverFactory.apply(thread); // CraftBukkit - decompile error
 
-        reference.set(server);
-        thread.setPriority(Thread.NORM_PRIORITY + 2); // Paper - boost priority
-        thread.start();
-        return server;
-    }
-    // WindSpigot end
+		reference.set(server);
+		thread.setPriority(Thread.NORM_PRIORITY + 2); // Paper - boost priority
+		thread.start();
+		return server;
+	}
+	// WindSpigot end
 
 	public MinecraftServer(OptionSet options, Proxy proxy, File file1, Thread thread) {
 		super("Server"); // WindSpigot - backport modern tick loop
@@ -193,10 +193,10 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 		this.Y = this.V.createProfileRepository();
 		
 		// WindSpigot start - backport modern tick loop
-        this.nextTickTime = getMillis();
-        this.serverThread = thread;
+		this.nextTickTime = getMillis();
+		this.serverThread = thread;
 		this.primaryThread = thread;
-        // WindSpigot end
+		// WindSpigot end
         
 		// CraftBukkit start
 		this.options = options;
@@ -595,10 +595,10 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 	private static final long TICK_TIME = SEC_IN_NANO / TPS;
 	private static final long MAX_CATCHUP_BUFFER = TICK_TIME * TPS * 60L;
 	// WindSpigot start - backport modern tick loop
-    private long lastTick = 0;
-    private long catchupTime = 0;
-    // WindSpigot end
-    private static final int SAMPLE_INTERVAL = 20;
+	private long lastTick = 0;
+	private long catchupTime = 0;
+	// WindSpigot end
+	private static final int SAMPLE_INTERVAL = 20;
 	public final RollingAverage tps1 = new RollingAverage(60);
 	public final RollingAverage tps5 = new RollingAverage(60 * 5);
 	public final RollingAverage tps15 = new RollingAverage(60 * 15);
