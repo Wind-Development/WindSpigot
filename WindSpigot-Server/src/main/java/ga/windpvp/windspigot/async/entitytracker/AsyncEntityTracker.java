@@ -9,7 +9,6 @@ import javax.annotation.concurrent.ThreadSafe;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
-import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTracker;
