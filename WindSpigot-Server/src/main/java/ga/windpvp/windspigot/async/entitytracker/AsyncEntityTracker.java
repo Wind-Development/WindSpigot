@@ -48,13 +48,13 @@ public class AsyncEntityTracker extends EntityTracker {
 	}
 	
 	private boolean synchronize() {
-		return !Thread.holdsLock(this);
+		return !Thread.holdsLock(tracker);
 	}
 	
 	@Override
 	public void track(Entity entity) {
 		if (synchronize()) {
-			synchronized (this) {
+			synchronized (tracker) {
 				super.track(entity);
 			}
 		} else {
@@ -65,7 +65,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	@Override
 	public void addEntity(Entity entity, int i, int j) {
 		if (synchronize()) {
-			synchronized (this) {
+			synchronized (tracker) {
 				super.addEntity(entity, i, j);
 			}
 		} else {
@@ -76,7 +76,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	@Override
 	public void untrackEntity(Entity entity) {
 		if (synchronize()) {
-			synchronized (this) {
+			synchronized (tracker) {
 				super.untrackEntity(entity);
 			}
 		} else {
@@ -92,7 +92,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	@Override
 	public void a(EntityPlayer entityplayer) {
 		if (synchronize()) {
-			synchronized (this) {
+			synchronized (tracker) {
 				super.a(entityplayer);
 			}
 		} else {
@@ -103,7 +103,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	@Override
 	public void a(Entity entity, Packet<?> packet) {
 		if (synchronize()) {
-			synchronized (this) {
+			synchronized (tracker) {
 				super.a(entity, packet);
 			}
 		} else {
@@ -114,7 +114,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	@Override
 	public void sendPacketToEntity(Entity entity, Packet<?> packet) {
 		if (synchronize()) {
-			synchronized (this) {
+			synchronized (tracker) {
 				super.sendPacketToEntity(entity, packet);
 			}
 		} else {
@@ -125,7 +125,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	@Override
 	public void untrackPlayer(EntityPlayer entityplayer) {
 		if (synchronize()) {
-			synchronized (this) {
+			synchronized (tracker) {
 				super.untrackPlayer(entityplayer);
 			}
 		} else {
