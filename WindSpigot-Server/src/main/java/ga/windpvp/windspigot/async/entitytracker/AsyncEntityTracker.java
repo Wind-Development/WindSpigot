@@ -9,6 +9,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTracker;
@@ -28,7 +29,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	// Cache tracking task, we do not need to create a new one each tick
 	private final Runnable cachedTrackTask;
 	
-	private static ExecutorService trackingThreadPool = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
+	private static ExecutorService trackingThreadExecutor = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
 	
 	private static final List<NetworkManager> disabledFlushes = Lists.newArrayList();
 	
@@ -86,7 +87,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	
 	@Override
 	public void updatePlayers() {
-		trackingThreadPool.submit(cachedTrackTask);
+		cachedTrackTask.run();
 	}
 	
 	@Override
@@ -159,5 +160,9 @@ public class AsyncEntityTracker extends EntityTracker {
 			disabledFlushes.clear();
 		}
 		// Tuinity end - controlled flush for entity tracker packets
+	}
+	
+	public static ExecutorService getExecutor() {
+		return trackingThreadExecutor;
 	}
 }

@@ -89,7 +89,7 @@ public class WorldTickManager {
 					ticker.worldserver.getTracker().updatePlayers();
 				}
 				AsyncEntityTracker.enableAutomaticFlush();
-			});	
+			}, AsyncEntityTracker.getExecutor());	
 		}
 	}
 	
