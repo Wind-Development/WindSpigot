@@ -26,9 +26,6 @@ import net.minecraft.server.WorldServer;
 @ThreadSafe
 public class AsyncEntityTracker extends EntityTracker {
 	
-	// Cache tracking task, we do not need to create a new one each tick
-	private final Runnable cachedTrackTask;
-	
 	private static ExecutorService trackingThreadExecutor = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
 	
 	private static final List<NetworkManager> disabledFlushes = Lists.newArrayList();
@@ -38,14 +35,6 @@ public class AsyncEntityTracker extends EntityTracker {
 	public AsyncEntityTracker(WorldServer worldserver) {
 		super(worldserver);
 		this.tracker = this;
-		
-		this.cachedTrackTask = () -> {
-			synchronized (tracker) {
-				synchronized (c) {
-					super.updatePlayers();
-				}
-			}
-		};
 	}
 	
 	private boolean synchronize() {
@@ -87,7 +76,11 @@ public class AsyncEntityTracker extends EntityTracker {
 	
 	@Override
 	public void updatePlayers() {
-		cachedTrackTask.run();
+		synchronized (tracker) {
+			synchronized (c) {
+				super.updatePlayers();
+			}
+		}	
 	}
 	
 	@Override
