@@ -115,13 +115,13 @@ public class KnockbackConfig {
 			profile.setEggHorizontal(getDouble(path + ".projectiles.egg.horizontal", 0.4D));
 			profile.setEggVertical(getDouble(path + ".projectiles.egg.vertical", 0.4D));
 		}
-		currentKb = getKbProfileByName(getString("knockback.current", "vanilla"));
+		currentKb = getKbProfileByName(getString("knockback.current", "kohi"));
 		if (currentKb == null) {
-			WindSpigot.LOGGER.warn("Knockback profile selected was not found, using profile 'vanilla' for now!");
-			currentKb = getKbProfileByName("vanilla");
+			WindSpigot.LOGGER.warn("Knockback profile selected was not found, using profile 'kohi' for now!");
+			currentKb = getKbProfileByName("kohi");
 			
-			WindSpigot.LOGGER.info("Setting default knockback as 'vanilla'...");
-			set("knockback.current", "vanilla");
+			WindSpigot.LOGGER.info("Setting default knockback as 'kohi'...");
+			set("knockback.current", "kohi");
 		}
 		save();
 	}
