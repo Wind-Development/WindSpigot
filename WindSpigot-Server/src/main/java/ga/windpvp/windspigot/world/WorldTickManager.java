@@ -78,6 +78,19 @@ public class WorldTickManager {
 		} else {
 			tickSync();
 		}
+		
+		// Handle async entity tracking if needed
+		if (!WindSpigotConfig.disableTracking) {
+			
+			AsyncEntityTracker.disableAutomaticFlush(); // Perform this on the main thread
+			
+			AsyncUtil.run(() -> {
+				for (WorldTicker ticker : this.worldTickers) {
+					ticker.worldserver.getTracker().updatePlayers();
+				}
+				AsyncEntityTracker.enableAutomaticFlush();
+			});	
+		}
 	}
 	
 	private void tickSync() {
@@ -112,19 +125,6 @@ public class WorldTickManager {
 			this.latch.reset(this.worldTickers.size());;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-		
-		// Handle async entity tracking if needed
-		if (!WindSpigotConfig.disableTracking) {
-			
-			AsyncEntityTracker.disableAutomaticFlush(); // Perform this on the main thread
-			
-			AsyncUtil.run(() -> {
-				for (WorldTicker ticker : this.worldTickers) {
-					ticker.worldserver.getTracker().updatePlayers();
-				}
-				AsyncEntityTracker.enableAutomaticFlush();
-			});	
 		}
 	}
 

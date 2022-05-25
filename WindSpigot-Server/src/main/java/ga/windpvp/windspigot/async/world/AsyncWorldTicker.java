@@ -1,7 +1,6 @@
 package ga.windpvp.windspigot.async.world;
 
 import ga.windpvp.windspigot.world.WorldTicker;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.world.WorldTickManager;
 import net.minecraft.server.WorldServer;
 
@@ -16,7 +15,7 @@ public class AsyncWorldTicker extends WorldTicker {
 	public void run() {
 		// Synchronize for safe entity teleportation
 		synchronized (this.worldserver) {
-			super.run(!WindSpigotConfig.disableTracking);
+			super.run();
 		}
 		// Decrement the latch to show that this world is done ticking
 		WorldTickManager.getInstance().getLatch().decrement();

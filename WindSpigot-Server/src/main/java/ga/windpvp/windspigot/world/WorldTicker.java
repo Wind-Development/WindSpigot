@@ -2,6 +2,7 @@ package ga.windpvp.windspigot.world;
 
 import java.util.List;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.CrashReport;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -20,7 +21,7 @@ public class WorldTicker implements Runnable {
 	
 	@Override
 	public void run() {
-		run(true);
+		run(WindSpigotConfig.disableTracking);
 	}
 
 	// This is mostly copied code from world ticking
