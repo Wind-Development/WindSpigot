@@ -19,7 +19,7 @@ import net.minecraft.server.PlayerConnection;
 import net.minecraft.server.WorldServer;
 
 /*
- * This is an entity tracker that is thread safe. All public methods accessed by mutliple threads 
+ * This is an entity tracker that is thread safe. All public methods accessed by multiple threads 
  * are synchronized if not already synchronized.
  */
 @ThreadSafe
