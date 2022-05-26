@@ -143,9 +143,7 @@ public class WindSpigot {
 			
 			LOGGER.info(" ");
 		}
-		if (WindSpigotConfig.improvedHitDetection) {
-			lagCompensator = new LagCompensator();
-		}	
+		lagCompensator = new LagCompensator();	
 		if (WindSpigotConfig.asyncTnt) {
 			AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);
 		}
