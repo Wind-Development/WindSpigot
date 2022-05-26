@@ -45,8 +45,8 @@ public class KnockbackConfig {
 
 		Set<String> keys = getKeys("knockback.profiles");
 		
-		if (!keys.contains("kohi")) {
-			final KnockbackProfile kohiProfile = new CraftKnockbackProfile("kohi");
+		if (!keys.contains("vanilla")) {
+			final KnockbackProfile kohiProfile = new CraftKnockbackProfile("vanilla");
 			kohiProfile.save(true);
 		}
 		
@@ -68,11 +68,25 @@ public class KnockbackConfig {
 			windpvpProfile.save(true);
 		}
 		
-		if (!keys.contains("vanilla")) {
-			final KnockbackProfile defaultProfile = new CraftKnockbackProfile("vanilla"); 
-			// Generated profiles are based on kohi kb values, not vanilla, so we set the values here
-			defaultProfile.setFrictionHorizontal(1.0);
-			defaultProfile.setFrictionVertical(1.0);
+		if (!keys.contains("kohi")) {
+			final KnockbackProfile defaultProfile = new CraftKnockbackProfile("kohi"); 
+
+			defaultProfile.setHorizontal(0.35);
+                        defaultProfile.setRodHorizontal(0.35);
+                        defaultProfile.setArrowHorizontal(0.35);
+                        defaultProfile.setPearlHorizontal(0.35);
+                        defaultProfile.setSnowballHorizontal(0.35);
+                        defaultProfile.setEggHorizontal(0.35);
+                        defaultProfile.setAddHotizontal(0.425);
+
+			defaultProfile.setVertical(0.35);
+                        defaultProfile.setRodVertical(0.35);
+                        defaultProfile.setArrowVertical(0.35);
+                        defaultProfile.setPearlVertical(0.35);
+                        defaultProfile.setSnowballVertical(0.35);
+                        defaultProfile.setEggVertical(0.35);
+                        defaultProfile.setAddVertical(0.085);
+
 			defaultProfile.save(true);
 		}
 		
