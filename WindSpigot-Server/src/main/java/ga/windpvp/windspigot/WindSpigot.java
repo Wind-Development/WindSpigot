@@ -114,9 +114,7 @@ public class WindSpigot {
 			
 			LOGGER.info(" ");
 		}
-		if (WindSpigotConfig.improvedHitDetection) {
-			lagCompensator = new LagCompensator();
-		}
+		lagCompensator = new LagCompensator();
 	}
 
 	public StatisticsClient getClient() {
