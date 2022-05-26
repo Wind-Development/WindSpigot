@@ -46,7 +46,7 @@ public class KnockbackConfig {
 		Set<String> keys = getKeys("knockback.profiles");
 		
 		if (!keys.contains("vanilla")) {
-			final KnockbackProfile kohiProfile = new CraftKnockbackProfile("vanilla");
+			final KnockbackProfile vanillaProfile = new CraftKnockbackProfile("vanilla");
 			kohiProfile.save(true);
 		}
 		
