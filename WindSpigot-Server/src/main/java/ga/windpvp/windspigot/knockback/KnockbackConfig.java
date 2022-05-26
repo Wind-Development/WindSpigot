@@ -47,7 +47,7 @@ public class KnockbackConfig {
 		
 		if (!keys.contains("vanilla")) {
 			final KnockbackProfile vanillaProfile = new CraftKnockbackProfile("vanilla");
-			kohiProfile.save(true);
+			vanillaProfile.save(true);
 		}
 		
 		if (!keys.contains("windpvp")) {
