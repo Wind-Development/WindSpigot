@@ -65,7 +65,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 	}
 
 	@Override
-	public void update() {
+	public synchronized void update() {
 		this.withinNoTrack = this.withinNoTrack();
 		if (--this.addRemoveCooldown <= 0) {
 			this.removeFarPlayers();
