@@ -9,7 +9,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.ResettableLatch;
-import ga.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
+import ga.windpvp.windspigot.async.entitytracker.ThreadSafeEntityTracker;
 import ga.windpvp.windspigot.async.world.AsyncWorldTicker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import javafixes.concurrency.ReusableCountLatch;
@@ -53,7 +53,7 @@ public class WorldTickManager {
 				for (WorldTicker ticker : this.worldTickers) {
 					ticker.worldserver.getTracker().updatePlayers();
 				}
-				AsyncEntityTracker.enableAutomaticFlush();
+				ThreadSafeEntityTracker.enableAutomaticFlush();
 			};
 		} else {
 			this.cachedUpdateTrackerTask = null;
@@ -96,8 +96,8 @@ public class WorldTickManager {
 		// Handle async entity tracking if needed
 		if (!WindSpigotConfig.disableTracking) {
 			
-			AsyncEntityTracker.disableAutomaticFlush(); // Perform this on the main thread
-			AsyncUtil.run(cachedUpdateTrackerTask, AsyncEntityTracker.getExecutor());	
+			ThreadSafeEntityTracker.disableAutomaticFlush(); // Perform this on the main thread
+			AsyncUtil.run(cachedUpdateTrackerTask, ThreadSafeEntityTracker.getExecutor());	
 		}
 	}
 	
