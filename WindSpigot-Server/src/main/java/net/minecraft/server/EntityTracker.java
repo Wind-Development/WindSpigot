@@ -1,5 +1,6 @@
 package net.minecraft.server;
 
+import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.entitytracker.ThreadSafeTrackerEntry;
 import ga.windpvp.windspigot.commons.ConcurrentIntHashMap;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
@@ -120,10 +121,10 @@ public class EntityTracker {
 	// IonSpigot start
 	private EntityTrackerEntry createTracker(Entity entity, int i, int j, boolean flag) {
 		// WindSpigot
-		if (!WindSpigotConfig.disableTracking) {
-			return new ThreadSafeTrackerEntry(this, entity, i, j, flag);
-		} else if (entity.isCannoningEntity && WindSpigotConfig.useFasterCannonTracker) {
+		if (entity.isCannoningEntity && WindSpigotConfig.useFasterCannonTracker) {
 			return new me.suicidalkids.ion.visuals.CannonTrackerEntry(this, entity, i, j, flag);
+		} else if (!WindSpigotConfig.disableTracking) {
+			return new ThreadSafeTrackerEntry(this, entity, i, j, flag);
 		} else {
 			return new EntityTrackerEntry(this, entity, i, j, flag);
 		}
@@ -147,7 +148,17 @@ public class EntityTracker {
 
 	public void updatePlayers() {
 		for (EntityTrackerEntry entry : c) {
-			entry.update();
+			// WindSpigot start
+			if (!WindSpigotConfig.disableTracking) {
+				if (entry instanceof ThreadSafeTrackerEntry) {
+					entry.update();
+				} else {
+					AsyncUtil.runSyncNextTick(() -> entry.update());
+				}
+			} else {
+				entry.update();
+			}
+			// WindSpigot end
 		}
 	}
 
