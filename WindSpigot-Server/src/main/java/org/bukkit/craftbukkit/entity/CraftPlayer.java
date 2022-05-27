@@ -1077,9 +1077,14 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 		// remove this player from the hidden player's EntityTrackerEntry
 		EntityTracker tracker = ((WorldServer) entity.world).tracker;
 		EntityPlayer other = ((CraftPlayer) player).getHandle();
+		
+		// WindSpigot - synchronize
 		EntityTrackerEntry entry = tracker.trackedEntities.get(other.getId());
+		
 		if (entry != null) {
-			entry.clear(getHandle());
+			synchronized (entry) {
+				entry.clear(getHandle());
+			}
 		}
 
 		// remove the hidden player from this player user list
@@ -1108,10 +1113,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
 		getHandle().playerConnection.sendPacket(
 				new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, other));
-
+		// WindSpigot - synchronize
 		EntityTrackerEntry entry = tracker.trackedEntities.get(other.getId());
+		
 		if (entry != null && !entry.trackedPlayers.contains(getHandle())) {
-			entry.updatePlayer(getHandle());
+			synchronized (entry) {
+				entry.updatePlayer(getHandle());
+			}
 		}
 	}
 

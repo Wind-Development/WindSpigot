@@ -1,5 +1,9 @@
 package net.minecraft.server;
 
+import java.util.concurrent.ConcurrentMap;
+
+import com.google.common.collect.Maps;
+
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
 
@@ -7,7 +11,8 @@ public class EntityTracker {
 
 	public IndexedLinkedHashSet<EntityTrackerEntry> c = new IndexedLinkedHashSet<>(); // tracked entities
 
-	public IntHashMap<EntityTrackerEntry> trackedEntities = new IntHashMap<>(); // tracked entities hash table
+	// WindSpigot - concurrent map
+	public ConcurrentMap<Integer, EntityTrackerEntry> trackedEntities = Maps.newConcurrentMap(); // tracked entities hash table
 
 	private volatile int noTrackDistance = 0; // WindSpigot - volatile
 
@@ -99,14 +104,14 @@ public class EntityTracker {
 		}
 
 		try {
-			if (this.trackedEntities.b(entity.getId())) {
+			if (this.trackedEntities.containsKey(entity.getId())) {
 				untrackEntity(entity);
 			}
 
 			EntityTrackerEntry entitytrackerentry = createTracker(entity, i, j, flag); // IonSpigot
 
 			this.c.add(entitytrackerentry);
-			this.trackedEntities.a(entity.getId(), entitytrackerentry);
+			this.trackedEntities.put(entity.getId(), entitytrackerentry);
 			// entitytrackerentry.scanPlayers(this.world.players);
 			entitytrackerentry.addNearPlayers();
 		} catch (Throwable throwable) {
@@ -132,7 +137,7 @@ public class EntityTracker {
 				entitytrackerentry.a(entityplayer);
 			}
 		}
-		EntityTrackerEntry entry = this.trackedEntities.d(entity.getId());
+		EntityTrackerEntry entry = this.trackedEntities.remove(entity.getId());
 		if (entry != null) {
 			this.c.remove(entry);
 			entry.a();
