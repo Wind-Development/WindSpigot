@@ -1784,7 +1784,7 @@ public final class CraftServer implements Server {
 	public boolean isPrimaryThread() {
 		Thread current = Thread.currentThread();
 		
-		if (current.getName().contains("WindSpigot Parallel World Thread")) {
+		if (current.getName().indexOf("WindSpigot Parallel World Thread") != -1) {
 			return true;
 		}
 		
