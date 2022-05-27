@@ -153,19 +153,31 @@ public class SimpleCommandMap implements CommandMap {
 		if (target == null) {
 			return false;
 		}
+		
+		// WindSpigot - null check
+		if (target.timings != null) {
 
-		try {
-			target.timings.startTiming(); // Spigot
-			// Note: we don't return the result of target.execute as thats success /
-			// failure, we return handled (true) or not handled (false)
-			target.execute(sender, sentCommandLabel, Arrays_copyOfRange(args, 1, args.length));
-			target.timings.stopTiming(); // Spigot
-		} catch (CommandException ex) {
-			target.timings.stopTiming(); // Spigot
-			throw ex;
-		} catch (Throwable ex) {
-			target.timings.stopTiming(); // Spigot
-			throw new CommandException("Unhandled exception executing '" + commandLine + "' in " + target, ex);
+			try {
+				target.timings.startTiming(); // Spigot
+				// Note: we don't return the result of target.execute as thats success /
+				// failure, we return handled (true) or not handled (false)
+				target.execute(sender, sentCommandLabel, Arrays_copyOfRange(args, 1, args.length));
+				target.timings.stopTiming(); // Spigot
+			} catch (CommandException ex) {
+				target.timings.stopTiming(); // Spigot
+				throw ex;
+			} catch (Throwable ex) {
+				target.timings.stopTiming(); // Spigot
+				throw new CommandException("Unhandled exception executing '" + commandLine + "' in " + target, ex);
+			}
+		
+		} else {
+			try {
+				target.execute(sender, sentCommandLabel, Arrays_copyOfRange(args, 1, args.length));
+			} catch (Throwable ex) {
+				throw new CommandException("Unhandled exception executing '" + commandLine + "' in " + target, ex);
+			}
+			
 		}
 
 		// return true as command was handled
