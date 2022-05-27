@@ -4,6 +4,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.google.common.collect.Maps;
 
+import ga.windpvp.windspigot.async.entitytracker.ThreadSafeTrackerEntry;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
 
@@ -121,7 +122,10 @@ public class EntityTracker {
 
 	// IonSpigot start
 	private EntityTrackerEntry createTracker(Entity entity, int i, int j, boolean flag) {
-		if (entity.isCannoningEntity && WindSpigotConfig.useFasterCannonTracker) {
+		// WindSpigot
+		if (!WindSpigotConfig.disableTracking) {
+			return new ThreadSafeTrackerEntry(this, entity, i, j, flag);
+		} else if (entity.isCannoningEntity && WindSpigotConfig.useFasterCannonTracker) {
 			return new me.suicidalkids.ion.visuals.CannonTrackerEntry(this, entity, i, j, flag);
 		} else {
 			return new EntityTrackerEntry(this, entity, i, j, flag);

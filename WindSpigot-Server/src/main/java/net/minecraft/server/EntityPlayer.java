@@ -304,11 +304,8 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 				// WindSpigot - synchronize
 				synchronized (this.u().getTracker().c) {
 					for (EntityTrackerEntry entitytrackerentry : this.u().getTracker().c) {
-						synchronized (entitytrackerentry) {
-							if (entitytrackerentry.tracker != this && chunkPosSet
-									.contains(this.chunkToLong(entitytrackerentry.tracker.ae, entitytrackerentry.tracker.ag))) {
-								entitytrackerentry.updatePlayer(this);
-							}
+						if (entitytrackerentry.tracker != this && chunkPosSet.contains(this.chunkToLong(entitytrackerentry.tracker.ae, entitytrackerentry.tracker.ag))) {
+							entitytrackerentry.updatePlayer(this);
 						}
 					}
 				}
