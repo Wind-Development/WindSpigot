@@ -801,7 +801,7 @@ public abstract class PlayerList {
 
 		if (!entityplayer.playerConnection.isDisconnected()) {
 			// WindSpigot start - safe cross world player teleports
-			if (!Bukkit.isPrimaryThread()) {
+			if (Thread.currentThread() != MinecraftServer.getServer().primaryThread) {
 				// Schedule this to run sync one tick later
 				AsyncUtil.runPostTick(() -> {
 					worldserver.getPlayerChunkMap().addPlayer(entityplayer1);

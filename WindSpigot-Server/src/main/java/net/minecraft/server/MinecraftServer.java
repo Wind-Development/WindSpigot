@@ -700,7 +700,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 
 				while (this.isRunning) {
                     long i = ((curTime = System.nanoTime()) / (1000L * 1000L)) - this.nextTickTime; // Paper
-                    if (i > 5000L && this.nextTickTime - this.lastOverloadWarning >= 30000L && ticks > 50) { // CraftBukkit // WindSpigot - prevent display of overload on first 49 ticks
+                    if (i > 5000L && this.nextTickTime - this.lastOverloadWarning >= 30000L && ticks > 500) { // CraftBukkit // WindSpigot - prevent display of overload on first 500 ticks
                         long j = i / 50L;
                         if (this.server.getWarnOnOverload()) // CraftBukkit
                             MinecraftServer.LOGGER.warn("Can't keep up! Is the server overloaded? Running {}ms or {} ticks behind", i, j);
