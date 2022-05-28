@@ -167,7 +167,6 @@ public class EntityTrackerEntry {
 		return this.tracker.getId();
 	}
 	
-	// WindSpigot start - async entity tracking
 	public void update() {
 		this.withinNoTrack = this.withinNoTrack();
 		if (--this.addRemoveCooldown <= 0) {
@@ -245,12 +244,12 @@ public class EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
+                        // WindSpigot - synchronize
 			synchronized (entityPlayer) { 
 				updatePlayer(entityPlayer);
 			}
 		}
 	};
-	// WindSpigot end
 
 	/**
 	 * sends velocity, Location, rotation, and riding info.

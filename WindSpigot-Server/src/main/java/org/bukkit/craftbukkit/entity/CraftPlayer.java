@@ -125,7 +125,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 	private boolean hasPlayedBefore = false;
 	private final ConversationTracker conversationTracker = new ConversationTracker();
 	private final Set<String> channels = new HashSet<String>();
-	private final Set<UUID> hiddenPlayers = Sets.newConcurrentHashSet(); // WindSpigot - concurrent collection new HashSet<UUID>();
+	private final Set<UUID> hiddenPlayers = Sets.newConcurrentHashSet(); // WindSpigot - concurrent collection
 	private int hash = 0;
 	private double health = 20;
 	private boolean scaledHealth = false;
@@ -1078,10 +1078,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 		EntityTracker tracker = ((WorldServer) entity.world).tracker;
 		EntityPlayer other = ((CraftPlayer) player).getHandle();
 		
-		// WindSpigot - synchronize
 		EntityTrackerEntry entry = tracker.trackedEntities.get(other.getId());
 		
 		if (entry != null) {
+                        // WindSpigot - synchronize
 			synchronized (entry) {
 				entry.clear(getHandle());
 			}
@@ -1113,10 +1113,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
 		getHandle().playerConnection.sendPacket(
 				new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, other));
-		// WindSpigot - synchronize
 		EntityTrackerEntry entry = tracker.trackedEntities.get(other.getId());
 		
 		if (entry != null && !entry.trackedPlayers.contains(getHandle())) {
+                        // WindSpigot - synchronize
 			synchronized (entry) {
 				entry.updatePlayer(getHandle());
 			}
