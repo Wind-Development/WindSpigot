@@ -33,7 +33,7 @@ See the patches list below.
 [WindSpigot-0003] Mob AI toggle command
 [WindSpigot-0004] Parallel world ticking
 [WindSpigot-0005] Disable mob spawning if tps is not stable
-[WindSpigot-0006] Remove fastmath usage from explosions
+[WindSpigot-0006] Remove FastMath
 [WindSpigot-0007] Player ping command
 [WindSpigot-0008] Make NachoSpigot's async TNT configurable
 [WindSpigot-0009] Configurable entity hit delay
