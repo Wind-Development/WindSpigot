@@ -141,9 +141,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
-			if (!WindSpigotConfig.disableTracking || tracker.passenger == entityPlayer) {
-				updatePlayer(entityPlayer);
-			}
+			updatePlayer(entityPlayer);
 		}
 	};
 
