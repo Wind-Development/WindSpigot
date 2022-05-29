@@ -244,7 +244,7 @@ public class EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
-                        // WindSpigot - synchronize
+            // WindSpigot - synchronize
 			synchronized (entityPlayer) { 
 				updatePlayer(entityPlayer);
 			}
