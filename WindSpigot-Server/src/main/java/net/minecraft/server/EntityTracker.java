@@ -119,22 +119,12 @@ public class EntityTracker {
 	}
 
 	// IonSpigot start
-	private EntityTrackerEntry createTracker(Entity entity, int i, int j, boolean flag) {
-		// WindSpigot start - thread safe tracker entries
+	protected EntityTrackerEntry createTracker(Entity entity, int i, int j, boolean flag) { // WindSpigot - protected
 		if (entity.isCannoningEntity && WindSpigotConfig.useFasterCannonTracker) {
-			if (WindSpigotConfig.disableTracking) {
-				return new me.suicidalkids.ion.visuals.CannonTrackerEntry(this, entity, i, j, flag);
-			} else {
-				// Thread safe cannon entry
-				return new ThreadSafeCannonEntry(this, entity, i, j, flag);
-			}
-		} else if (!WindSpigotConfig.disableTracking) {
-			// Thread safe entity entry
-			return new ThreadSafeEntry(this, entity, i, j, flag);
+			return new me.suicidalkids.ion.visuals.CannonTrackerEntry(this, entity, i, j, flag);
 		} else {
 			return new EntityTrackerEntry(this, entity, i, j, flag);
 		}
-		// WindSpigot end
 	}
 	// IonSpigot end
 	
@@ -155,17 +145,7 @@ public class EntityTracker {
 
 	public void updatePlayers() {
 		for (EntityTrackerEntry entry : c) {
-			// WindSpigot start
-			if (!WindSpigotConfig.disableTracking) {
-				if (entry instanceof ThreadSafeEntry) {
-					entry.update();
-				} else {
-					AsyncUtil.runSyncNextTick(() -> entry.update());
-				}
-			} else {
-				entry.update();
-			}
-			// WindSpigot end
+			entry.update();
 		}
 	}
 

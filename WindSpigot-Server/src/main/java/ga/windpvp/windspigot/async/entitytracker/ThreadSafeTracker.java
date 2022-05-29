@@ -10,9 +10,14 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeCannonEntry;
+import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeEntry;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
+import me.suicidalkids.ion.visuals.CannonTrackerEntry;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTracker;
+import net.minecraft.server.EntityTrackerEntry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.NetworkManager;
 import net.minecraft.server.Packet;
@@ -38,6 +43,15 @@ public class ThreadSafeTracker extends EntityTracker {
 	}
 	
 	@Override
+	protected EntityTrackerEntry createTracker(Entity entity, int i, int j, boolean flag) {	
+		if (entity.isCannoningEntity && WindSpigotConfig.useFasterCannonTracker) {
+			return new ThreadSafeCannonEntry(this, entity, i, j, flag);
+		} else {
+			return new ThreadSafeEntry(this, entity, i, j, flag);
+		}
+	}
+	
+	@Override
 	public void track(Entity entity) {
 		AsyncUtil.runSynchronized(tracker, () -> super.track(entity));
 	}
@@ -59,7 +73,15 @@ public class ThreadSafeTracker extends EntityTracker {
 	
 	@Override
 	public void updatePlayers() {
-		AsyncUtil.runSynchronized(tracker, () -> super.updatePlayers());	
+		AsyncUtil.runSynchronized(tracker, () -> {
+			for (EntityTrackerEntry entry : c) {
+				if (entry instanceof ThreadSafeEntry) {
+					entry.update();
+				} else {
+					AsyncUtil.runSyncNextTick(() -> entry.update());
+				}
+			}
+		});	
 	}
 	
 	@Override
