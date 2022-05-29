@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeCannonEntry;
-import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeTrackerEntry;
+import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeEntry;
 import ga.windpvp.windspigot.commons.ConcurrentIntHashMap;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
@@ -130,7 +130,7 @@ public class EntityTracker {
 			}
 		} else if (!WindSpigotConfig.disableTracking) {
 			// Thread safe entity entry
-			return new ThreadSafeTrackerEntry(this, entity, i, j, flag);
+			return new ThreadSafeEntry(this, entity, i, j, flag);
 		} else {
 			return new EntityTrackerEntry(this, entity, i, j, flag);
 		}
@@ -157,7 +157,7 @@ public class EntityTracker {
 		for (EntityTrackerEntry entry : c) {
 			// WindSpigot start
 			if (!WindSpigotConfig.disableTracking) {
-				if (entry instanceof ThreadSafeTrackerEntry) {
+				if (entry instanceof ThreadSafeEntry) {
 					entry.update();
 				} else {
 					AsyncUtil.runSyncNextTick(() -> entry.update());

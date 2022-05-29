@@ -2,6 +2,8 @@ package ga.windpvp.windspigot.async.entitytracker.entry;
 
 import java.util.List;
 
+import javax.annotation.concurrent.ThreadSafe;
+
 import ga.windpvp.windspigot.async.AsyncUtil;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityHuman;
@@ -14,13 +16,14 @@ import net.minecraft.server.Packet;
  * This is an entry for entity trackers that is thread safe. All public methods accessed by  
  * multiple threads are synchronized if not already synchronized.
  */
-public class ThreadSafeTrackerEntry extends EntityTrackerEntry {
+@ThreadSafe
+public class ThreadSafeEntry extends EntityTrackerEntry {
 
-	public ThreadSafeTrackerEntry(EntityTracker entityTracker, Entity entity, int b, int c, boolean flag) {
+	public ThreadSafeEntry(EntityTracker entityTracker, Entity entity, int b, int c, boolean flag) {
 		super(entityTracker, entity, b, c, flag);
 	}
 
-	public ThreadSafeTrackerEntry(Entity entity, int b, int c, boolean flag) {
+	public ThreadSafeEntry(Entity entity, int b, int c, boolean flag) {
 		super(entity, b, c, flag);
 	}
 

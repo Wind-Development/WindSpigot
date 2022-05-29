@@ -24,15 +24,15 @@ import net.minecraft.server.WorldServer;
  * are synchronized if not already synchronized.
  */
 @ThreadSafe
-public class ThreadSafeEntityTracker extends EntityTracker {
+public class ThreadSafeTracker extends EntityTracker {
 	
 	private static ExecutorService trackingThreadExecutor = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
 	
 	private static final List<NetworkManager> disabledFlushes = Lists.newArrayList();
 	
-	private final ThreadSafeEntityTracker tracker;
+	private final ThreadSafeTracker tracker;
 	
-	public ThreadSafeEntityTracker(WorldServer worldserver) {
+	public ThreadSafeTracker(WorldServer worldserver) {
 		super(worldserver);
 		this.tracker = this;
 	}
