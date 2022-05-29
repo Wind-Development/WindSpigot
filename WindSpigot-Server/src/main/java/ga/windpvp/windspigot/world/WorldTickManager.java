@@ -22,7 +22,7 @@ public class WorldTickManager {
 	private List<WorldTicker> worldTickers = new ArrayList<>();
 
 	// Latch to wait for world tick completion
-	private final ResettableLatch latch;
+	private final ResettableLatch latch = new ResettableLatch();
 
 	// Lock for ticking
 	public final static Object LOCK = new Object();
@@ -35,29 +35,17 @@ public class WorldTickManager {
 	private static WorldTickManager worldTickerManagerInstance;
 	
 	// Cached async entity tracker update runnable
-	private final Runnable cachedUpdateTrackerTask;
+	private final Runnable cachedUpdateTrackerTask = () -> {
+		for (WorldTicker ticker : this.worldTickers) {
+			ticker.worldserver.getTracker().updatePlayers();
+		}
+		ThreadSafeEntityTracker.enableAutomaticFlush();
+	};
 	
 	// Initializes the world ticker manager
 	public WorldTickManager() {
 		worldTickerManagerInstance = this;
-		
-		// Initialize the world ticker latch
-		if (WindSpigotConfig.parallelWorld) {
-			this.latch = new ResettableLatch();
-		} else {
-			this.latch = null;
-		}
-		
-		if (!WindSpigotConfig.disableTracking) {
-			this.cachedUpdateTrackerTask = () -> {
-				for (WorldTicker ticker : this.worldTickers) {
-					ticker.worldserver.getTracker().updatePlayers();
-				}
-				ThreadSafeEntityTracker.enableAutomaticFlush();
-			};
-		} else {
-			this.cachedUpdateTrackerTask = null;
-		}
+
 	}
 
 	// Caches Runnables for less Object creation

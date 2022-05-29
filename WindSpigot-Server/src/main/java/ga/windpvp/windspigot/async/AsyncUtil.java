@@ -40,5 +40,19 @@ public class AsyncUtil {
 		MinecraftServer.getServer().priorityProcessQueue.add(runnable);
 	}
 
+	/**
+	 * Runs a given task if it is synchronized on an object
+	 * @param monitor The object to check for locking
+	 * @param runnable The task to run
+	 */
+	public static void runIfSynchronized(Object monitor, Runnable runnable) {
+		if (Thread.holdsLock(monitor) ) {
+			runnable.run();
+		} else {
+			synchronized (monitor) {
+				runnable.run();
+			}
+		}
+	}
 
 }
