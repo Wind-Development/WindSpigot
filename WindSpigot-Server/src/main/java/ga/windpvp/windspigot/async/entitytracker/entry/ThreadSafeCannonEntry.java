@@ -1,6 +1,5 @@
 package ga.windpvp.windspigot.async.entitytracker.entry;
 
-import ga.windpvp.windspigot.async.AsyncUtil;
 import me.suicidalkids.ion.visuals.CannonTrackerEntry;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityHuman;
@@ -22,9 +21,6 @@ public class ThreadSafeCannonEntry extends CannonTrackerEntry {
 
 	public ThreadSafeCannonEntry(EntityTracker entityTracker, Entity entity, int i, int j, boolean flag) {
 		super(entityTracker, entity, i, j, flag);
-	}
-	private boolean synchronize() {
-		return !Thread.holdsLock(this);
 	}
 
 	@Override
