@@ -63,6 +63,17 @@ public class ThreadSafeEntityTracker extends EntityTracker {
 	}
 	
 	@Override
+	public void addEntity(Entity entity, int i, final int j, boolean flag) {
+		if (synchronize()) {
+			synchronized (tracker) {
+				super.addEntity(entity, i, j, flag);
+			}
+		} else {
+			super.addEntity(entity, i, j, flag);
+		}
+	}
+	
+	@Override
 	public void untrackEntity(Entity entity) {
 		if (synchronize()) {
 			synchronized (tracker) {
