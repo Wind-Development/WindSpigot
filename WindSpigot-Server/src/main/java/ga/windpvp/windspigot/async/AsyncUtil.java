@@ -45,7 +45,7 @@ public class AsyncUtil {
 	 * @param monitor The object to check for locking
 	 * @param runnable The task to run
 	 */
-	public static void runIfSynchronized(Object monitor, Runnable runnable) {
+	public static void runSynchronized(Object monitor, Runnable runnable) {
 		if (Thread.holdsLock(monitor) ) {
 			runnable.run();
 		} else {
