@@ -10,6 +10,7 @@ import net.minecraft.server.Entity;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTracker;
+import net.minecraft.server.Packet;
 
 /*
  * This is a fast cannon entity entry for entity trackers that is thread safe. All public methods accessed by  
@@ -21,7 +22,79 @@ public class ThreadSafeCannonEntry extends CannonTrackerEntry {
 	public ThreadSafeCannonEntry(EntityTracker entityTracker, Entity entity, int i, int j, boolean flag) {
 		super(entityTracker, entity, i, j, flag);
 	}
+	private boolean synchronize() {
+		return !Thread.holdsLock(this);
+	}
+
+	// These methods return a value, so we manually check for synchronization
+	@Override
+	public boolean equals(Object object) {
+		if (synchronize()) {
+			synchronized (this) {
+				return super.equals(object);
+			}
+		} else {
+			return super.equals(object);
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		if (synchronize()) {
+			synchronized (this) {
+				return super.hashCode();
+			}
+		} else {
+			return super.hashCode();
+		}
+	}
 	
+	@Override
+	public boolean c(EntityPlayer entityplayer) {
+		if (synchronize()) {
+			synchronized (this) {
+				return super.c(entityplayer);
+			}
+		} else {
+			return super.c(entityplayer);
+		}
+	}
+
+	@Override
+	public boolean e(EntityPlayer entityplayer) {
+		if (synchronize()) {
+			synchronized (this) {
+				return super.e(entityplayer);
+			}
+		} else {
+			return super.e(entityplayer);
+		}
+	}
+
+	@Override
+	public Packet c() {
+		if (synchronize()) {
+			synchronized (this) {
+				return super.c();
+			}
+		} else {
+			return super.c();
+		}
+	}
+
+	@Override
+	public int getRange() {
+		if (synchronize()) {
+			synchronized (this) {
+				return super.getRange();
+			}
+		} else {
+			return super.getRange();
+		}
+	}
+	
+	
+	// These methods don't return a value, so we can just use a one-line piece of code to synchronize and run
 	@Override
 	public void update() {
 		AsyncUtil.runSynchronized(this, () -> super.update());
@@ -43,7 +116,32 @@ public class ThreadSafeCannonEntry extends CannonTrackerEntry {
 	}
 
 	@Override
+	public void broadcast(Packet packet) {
+		AsyncUtil.runSynchronized(this, () -> super.broadcast(packet));
+	}
+
+	@Override
+	public void broadcastIncludingSelf(Packet packet) {
+		AsyncUtil.runSynchronized(this, () -> super.broadcastIncludingSelf(packet));
+	}
+
+	@Override
+	public void a() {
+		AsyncUtil.runSynchronized(this, () -> super.a());
+	}
+
+	@Override
+	public void a(EntityPlayer entityplayer) {
+		AsyncUtil.runSynchronized(this, () -> super.a(entityplayer));
+	}
+
+	@Override
 	public void updatePlayer(EntityPlayer entityplayer) {
 		AsyncUtil.runSynchronized(this, () -> super.updatePlayer(entityplayer));
+	}
+
+	@Override
+	public void clear(EntityPlayer entityplayer) {
+		AsyncUtil.runSynchronized(this, () -> super.clear(entityplayer));
 	}
 }
