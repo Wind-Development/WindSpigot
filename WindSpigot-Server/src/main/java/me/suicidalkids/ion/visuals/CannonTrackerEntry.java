@@ -141,8 +141,8 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
-            // WindSpigot - synchronize
-			synchronized (entityPlayer) { 
+                        // WindSpigot - synchronize
+                        synchronized (entityPlayer) { 
 				updatePlayer(entityPlayer);
 			}
 		}
