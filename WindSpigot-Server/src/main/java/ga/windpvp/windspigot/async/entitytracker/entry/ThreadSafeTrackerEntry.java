@@ -1,6 +1,8 @@
 package ga.windpvp.windspigot.async.entitytracker.entry;
 
 import java.util.List;
+
+import ga.windpvp.windspigot.async.AsyncUtil;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityPlayer;
@@ -26,6 +28,7 @@ public class ThreadSafeTrackerEntry extends EntityTrackerEntry {
 		return !Thread.holdsLock(this);
 	}
 
+	// These methods return a value, so we manually check for synchronization
 	@Override
 	public boolean equals(Object object) {
 		if (synchronize()) {
@@ -47,106 +50,7 @@ public class ThreadSafeTrackerEntry extends EntityTrackerEntry {
 			return super.hashCode();
 		}
 	}
-
-	@Override
-	public void update() {
-		if (synchronize()) {
-			synchronized (this) {
-				super.update();
-			}
-		} else {
-			super.update();
-		}
-	}
-
-	@Override
-	public void processToRemove() {
-		if (synchronize()) {
-			synchronized (this) {
-				super.processToRemove();
-			}
-		} else {
-			super.processToRemove();
-		}
-	}
-
-	@Override
-	public void addNearPlayers() {
-		if (synchronize()) {
-			synchronized (this) {
-				super.addNearPlayers();
-			}
-		} else {
-			super.addNearPlayers();
-		}
-	}
-
-	@Override
-	public void track(List<EntityHuman> list) {
-		if (synchronize()) {
-			synchronized (this) {
-				super.track(list);
-			}
-		} else {
-			super.track(list);
-		}
-	}
-
-	@Override
-	public void broadcast(Packet packet) {
-		if (synchronize()) {
-			synchronized (this) {
-				super.broadcast(packet);
-			}
-		} else {
-			super.broadcast(packet);
-		}
-	}
-
-	@Override
-	public void broadcastIncludingSelf(Packet packet) {
-		if (synchronize()) {
-			synchronized (this) {
-				super.broadcastIncludingSelf(packet);
-			}
-		} else {
-			super.broadcastIncludingSelf(packet);
-		}
-	}
-
-	@Override
-	public void a() {
-		if (synchronize()) {
-			synchronized (this) {
-				super.a();
-			}
-		} else {
-			super.a();
-		}
-	}
-
-	@Override
-	public void a(EntityPlayer entityplayer) {
-		if (synchronize()) {
-			synchronized (this) {
-				super.a(entityplayer);
-			}
-		} else {
-			super.a(entityplayer);
-		}
-	}
-
-	@Override
-	public void updatePlayer(EntityPlayer entityplayer) {
-		if (synchronize()) {
-			synchronized (this) {
-				super.updatePlayer(entityplayer);
-			}
-		} else {
-			super.updatePlayer(entityplayer);
-		}
-	}
-
+	
 	@Override
 	public boolean c(EntityPlayer entityplayer) {
 		if (synchronize()) {
@@ -190,16 +94,57 @@ public class ThreadSafeTrackerEntry extends EntityTrackerEntry {
 			return super.getRange();
 		}
 	}
+	
+	
+	// These methods don't return a value, so we can just use a one-line piece of code to synchronize and run
+	@Override
+	public void update() {
+		AsyncUtil.runSynchronized(this, () -> super.update());
+	}
+
+	@Override
+	public void processToRemove() {
+		AsyncUtil.runSynchronized(this, () -> super.processToRemove());
+	}
+
+	@Override
+	public void addNearPlayers() {
+		AsyncUtil.runSynchronized(this, () -> super.addNearPlayers());
+	}
+
+	@Override
+	public void track(List<EntityHuman> list) {
+		AsyncUtil.runSynchronized(this, () -> super.track(list));
+	}
+
+	@Override
+	public void broadcast(Packet packet) {
+		AsyncUtil.runSynchronized(this, () -> super.broadcast(packet));
+	}
+
+	@Override
+	public void broadcastIncludingSelf(Packet packet) {
+		AsyncUtil.runSynchronized(this, () -> super.broadcastIncludingSelf(packet));
+	}
+
+	@Override
+	public void a() {
+		AsyncUtil.runSynchronized(this, () -> super.a());
+	}
+
+	@Override
+	public void a(EntityPlayer entityplayer) {
+		AsyncUtil.runSynchronized(this, () -> super.a(entityplayer));
+	}
+
+	@Override
+	public void updatePlayer(EntityPlayer entityplayer) {
+		AsyncUtil.runSynchronized(this, () -> super.updatePlayer(entityplayer));
+	}
 
 	@Override
 	public void clear(EntityPlayer entityplayer) {
-		if (synchronize()) {
-			synchronized (this) {
-				super.clear(entityplayer);
-			}
-		} else {
-			super.clear(entityplayer);
-		}
+		AsyncUtil.runSynchronized(this, () -> super.clear(entityplayer));
 	}
 
 }

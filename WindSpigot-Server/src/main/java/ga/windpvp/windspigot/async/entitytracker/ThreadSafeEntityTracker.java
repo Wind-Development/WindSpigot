@@ -9,6 +9,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import ga.windpvp.windspigot.async.AsyncUtil;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTracker;
@@ -36,105 +37,49 @@ public class ThreadSafeEntityTracker extends EntityTracker {
 		this.tracker = this;
 	}
 	
-	private boolean synchronize() {
-		return !Thread.holdsLock(tracker);
-	}
-	
 	@Override
 	public void track(Entity entity) {
-		if (synchronize()) {
-			synchronized (tracker) {
-				super.track(entity);
-			}
-		} else {
-			super.track(entity);
-		}
+		AsyncUtil.runSynchronized(tracker, () -> super.track(entity));
 	}
 	
 	@Override
 	public void addEntity(Entity entity, int i, int j) {
-		if (synchronize()) {
-			synchronized (tracker) {
-				super.addEntity(entity, i, j);
-			}
-		} else {
-			super.addEntity(entity, i, j);
-		}
+		AsyncUtil.runSynchronized(tracker, () -> super.addEntity(entity, i, j));
 	}
 	
 	@Override
 	public void addEntity(Entity entity, int i, final int j, boolean flag) {
-		if (synchronize()) {
-			synchronized (tracker) {
-				super.addEntity(entity, i, j, flag);
-			}
-		} else {
-			super.addEntity(entity, i, j, flag);
-		}
+		AsyncUtil.runSynchronized(tracker, () -> super.addEntity(entity, i, j, flag));
 	}
 	
 	@Override
 	public void untrackEntity(Entity entity) {
-		if (synchronize()) {
-			synchronized (tracker) {
-				super.untrackEntity(entity);
-			}
-		} else {
-			super.untrackEntity(entity);
-		}
+		AsyncUtil.runSynchronized(tracker, () -> super.untrackEntity(entity));
 	}
 	
 	@Override
 	public void updatePlayers() {
-		synchronized (tracker) {
-			synchronized (c) {
-				super.updatePlayers();
-			}
-		}	
+		AsyncUtil.runSynchronized(tracker, () -> super.updatePlayers());	
 	}
 	
 	@Override
 	public void a(EntityPlayer entityplayer) {
-		if (synchronize()) {
-			synchronized (tracker) {
-				super.a(entityplayer);
-			}
-		} else {
-			super.a(entityplayer);
-		}
+		AsyncUtil.runSynchronized(tracker, () -> super.a(entityplayer));
 	}
 	
 	@Override
 	public void a(Entity entity, Packet<?> packet) {
-		if (synchronize()) {
-			synchronized (tracker) {
-				super.a(entity, packet);
-			}
-		} else {
-			super.a(entity, packet);
-		}
+		AsyncUtil.runSynchronized(tracker, () -> super.a(entity, packet));
 	}
 	
 	@Override
 	public void sendPacketToEntity(Entity entity, Packet<?> packet) {
-		if (synchronize()) {
-			synchronized (tracker) {
-				super.sendPacketToEntity(entity, packet);
-			}
-		} else {
-			super.sendPacketToEntity(entity, packet);
-		}
+		AsyncUtil.runSynchronized(tracker, () -> super.sendPacketToEntity(entity, packet));
 	}
 	
 	@Override
 	public void untrackPlayer(EntityPlayer entityplayer) {
-		if (synchronize()) {
-			synchronized (tracker) {
-				super.untrackPlayer(entityplayer);
-			}
-		} else {
-			super.untrackPlayer(entityplayer);
-		}
+		AsyncUtil.runSynchronized(tracker, () -> super.untrackPlayer(entityplayer));
 	}
 	
 	// Global enabling/disabling of automatic flushing
