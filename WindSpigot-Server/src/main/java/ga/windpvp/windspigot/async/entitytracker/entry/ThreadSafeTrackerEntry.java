@@ -1,4 +1,4 @@
-package ga.windpvp.windspigot.async.entitytracker;
+package ga.windpvp.windspigot.async.entitytracker.entry;
 
 import java.util.List;
 import net.minecraft.server.Entity;

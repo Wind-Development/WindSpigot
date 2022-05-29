@@ -1,7 +1,7 @@
 package net.minecraft.server;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
-import ga.windpvp.windspigot.async.entitytracker.ThreadSafeTrackerEntry;
+import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeTrackerEntry;
 import ga.windpvp.windspigot.commons.ConcurrentIntHashMap;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
