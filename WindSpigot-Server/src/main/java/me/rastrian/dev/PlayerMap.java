@@ -2,13 +2,11 @@ package me.rastrian.dev;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.google.common.collect.Maps;
-
+import ga.windpvp.windspigot.commons.InternalPlayerMap;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MathHelper;
@@ -17,7 +15,7 @@ import net.minecraft.server.Packet;
 public class PlayerMap {
 
 	private static final int CHUNK_BITS = 5;
-	private final Map<Long, List<EntityPlayer>> map = Maps.newConcurrentMap();
+	private final InternalPlayerMap<List<EntityPlayer>> map = new InternalPlayerMap<>();
 
 	private static long xzToKey(long x, long z) {
 		return (x << 32) + z - Integer.MIN_VALUE;
