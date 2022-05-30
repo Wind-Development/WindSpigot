@@ -960,22 +960,21 @@ public abstract class EntityLiving extends Entity {
 				if (((EntityDamageSourceIndirect) source).getProximateDamageSource() instanceof EntityFishingHook) {
 					horizontal = kb.getRodHorizontal();
 					vertical = kb.getRodVertical();
-				}
-				if (((EntityDamageSourceIndirect) source).getProximateDamageSource() instanceof EntityArrow) {
+				} else if (((EntityDamageSourceIndirect) source).getProximateDamageSource() instanceof EntityArrow) {
 					horizontal = kb.getArrowHorizontal();
 					vertical = kb.getArrowVertical();
-				}
-				if (((EntityDamageSourceIndirect) source).getProximateDamageSource() instanceof EntitySnowball) {
+				} else if (((EntityDamageSourceIndirect) source).getProximateDamageSource() instanceof EntitySnowball) {
 					horizontal = kb.getSnowballHorizontal();
 					vertical = kb.getSnowballVertical();
-				}
-				if (((EntityDamageSourceIndirect) source).getProximateDamageSource() instanceof EntityEgg) {
+				} else if (((EntityDamageSourceIndirect) source).getProximateDamageSource() instanceof EntityEgg) {
 					horizontal = kb.getEggHorizontal();
 					vertical = kb.getEggVertical();
-				}
-				if (((EntityDamageSourceIndirect) source).getProximateDamageSource() instanceof EntityEnderPearl) {
+				} else if (((EntityDamageSourceIndirect) source).getProximateDamageSource() instanceof EntityEnderPearl) {
 					horizontal = kb.getPearlHorizontal();
 					vertical = kb.getPearlVertical();
+				} else {
+					horizontal = kb.getHorizontal();
+					vertical = kb.getVertical();
 				}
 			} else {
 				horizontal = kb.getHorizontal();
