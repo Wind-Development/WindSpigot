@@ -52,7 +52,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 26; // Update this every new configuration update
+		int configVersion = 27; // Update this every new configuration update
 
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -157,6 +157,7 @@ public class WindSpigotConfig {
 		c.addComment("settings.async.explosions.enable", "Enables async explosion calculatons.");
 		c.addComment("settings.async.explosions.threads", "The threads used for async explosions");
 		c.addComment("settings.explosions", "Configuration for async explosions");
+		c.addComment("settings.max-reach", "The maximum reach a player can use, hits farther than this will be cancelled. Players can reach 6 blocks by default.");
 
 		// NachoSpigot stuff
 		c.addComment("settings.save-empty-scoreboard-teams", "Toggles whether or not the server should save empty scoreboard teams");
@@ -452,7 +453,12 @@ public class WindSpigotConfig {
 		fixedPoolSize = getInt("settings.async.explosions.threads", 3);
 	}
 	
-
+	public static double maxReachSqrd;
+	
+	private static void maxReach() {
+		maxReachSqrd = Math.pow(getDouble("settings.max-reach", 6), 2);
+	}
+	
 	
 	// Below are NachoSpigot config options
 	public static boolean saveEmptyScoreboardTeams;

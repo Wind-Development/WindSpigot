@@ -1632,11 +1632,14 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		this.player.resetIdleTimer();
 		if (entity != null) {
 			boolean flag = this.player.hasLineOfSight(entity);
-			double d0 = 36.0D;
+			double d0;
 
 			if (!flag) {
                 // Nacho - Increase the no player-player vision maximum reach
                 d0 = (WindSpigotConfig.improvedHitDetection) ? 12.75D : 9.0D;
+            } else {
+            	// WindSpigot - configurable reach cap
+            	d0 = WindSpigotConfig.maxReachSqrd;
             }
 
             if (this.player.h(entity) <= d0) { // Nacho - <  ->  <=
