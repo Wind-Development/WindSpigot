@@ -72,13 +72,15 @@ public class ThreadSafeTracker extends EntityTracker {
 	@Override
 	public void updatePlayers() {
 		runSynchronized(tracker, () -> {
-			for (EntityTrackerEntry entry : c) {
-				if (entry instanceof ThreadSafeEntry) {
-					entry.update();
-				} else {
-					AsyncUtil.runSyncNextTick(() -> entry.update());
+			runSynchronized(c, () -> {
+				for (EntityTrackerEntry entry : c) {
+					if (entry instanceof ThreadSafeEntry) {
+						entry.update();
+					} else {
+						AsyncUtil.runSyncNextTick(() -> entry.update());
+					}
 				}
-			}
+			});
 		});
 	}
 	
