@@ -130,7 +130,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 	private long ab = az();
 
 	// CraftBukkit start
-	public List<WorldServer> worlds = new ArrayList<WorldServer>();
+	public List<WorldServer> worlds = Lists.newCopyOnWriteArrayList();
 	public org.bukkit.craftbukkit.CraftServer server;
 	public OptionSet options;
 	public org.bukkit.command.ConsoleCommandSender console;
