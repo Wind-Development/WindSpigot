@@ -63,6 +63,7 @@ import ga.windpvp.windspigot.events.PlayerIllegalBehaviourEvent;
 import io.netty.buffer.Unpooled;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import net.minecraft.server.WorldSettings.EnumGamemode;
 
 public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerListBox {
 
@@ -1638,8 +1639,12 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
                 // Nacho - Increase the no player-player vision maximum reach
                 d0 = (WindSpigotConfig.improvedHitDetection) ? 12.75D : 9.0D;
             } else {
-            	// WindSpigot - configurable reach cap
-            	d0 = WindSpigotConfig.maxReachSqrd;
+            	// WindSpigot start - configurable reach cap            	
+            	if (WindSpigotConfig.creativeBypass && this.player.playerInteractManager.getGameMode() == EnumGamemode.CREATIVE) {
+            		d0 = 36.0;
+            	} else {
+                	d0 = WindSpigotConfig.maxReachSqrd;
+            	}	
             }
 
             if (this.player.h(entity) <= d0) { // Nacho - <  ->  <=
