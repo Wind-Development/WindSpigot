@@ -2,6 +2,7 @@ package ga.windpvp.windspigot.world;
 
 import java.util.List;
 
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.CrashReport;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -17,10 +18,14 @@ public class WorldTicker implements Runnable {
 	public WorldTicker(WorldServer worldServer) {
 		this.worldserver = worldServer;
 	}
-
-	// This is mostly copied code from world ticking
+	
 	@Override
 	public void run() {
+		run(WindSpigotConfig.disableTracking);
+	}
+
+	// This is mostly copied code from world ticking
+	public void run(boolean handleTracker) {
 		// this.methodProfiler.a(worldserver.getWorldData().getName());
 		// this.methodProfiler.a("tick");
 		CrashReport crashreport;
@@ -59,34 +64,36 @@ public class WorldTicker implements Runnable {
 
 		worldserver.timings.tracker.startTiming(); // Spigot
 
-		// Synchronize
-		synchronized (WorldTickManager.LOCK) {
-			// this.methodProfiler.b();
-			// this.methodProfiler.a("tracker");
-			if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
-			{
-				// Tuinity start - controlled flush for entity tracker packets
-				List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(
-						MinecraftServer.getServer().getPlayerList().getPlayerCount());
-				for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-					PlayerConnection connection = player.playerConnection;
-					if (connection != null) {
-						connection.networkManager.disableAutomaticFlush();
-						disabledFlushes.add(connection.networkManager);
+		if (handleTracker) {
+			// Synchronize
+			synchronized (WorldTickManager.LOCK) {
+				// this.methodProfiler.b();
+				// this.methodProfiler.a("tracker");
+				if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
+				{
+					// Tuinity start - controlled flush for entity tracker packets
+					List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(
+							MinecraftServer.getServer().getPlayerList().getPlayerCount());
+					for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+						PlayerConnection connection = player.playerConnection;
+						if (connection != null) {
+							connection.networkManager.disableAutomaticFlush();
+							disabledFlushes.add(connection.networkManager);
+						}
 					}
-				}
-				try {
-					worldserver.getTracker().updatePlayers();
-				} finally {
-					for (NetworkManager networkManager : disabledFlushes) {
-						networkManager.enableAutomaticFlush();
+					try {
+						worldserver.getTracker().updatePlayers();
+					} finally {
+						for (NetworkManager networkManager : disabledFlushes) {
+							networkManager.enableAutomaticFlush();
+						}
 					}
+					// Tuinity end - controlled flush for entity tracker packets
 				}
-				// Tuinity end - controlled flush for entity tracker packets
 			}
+	
+			worldserver.timings.tracker.stopTiming(); // Spigot
 		}
-
-		worldserver.timings.tracker.stopTiming(); // Spigot
 		// this.methodProfiler.b();
 		// this.methodProfiler.b();
 		worldserver.explosionDensityCache.clear(); // Paper - Optimize explosions

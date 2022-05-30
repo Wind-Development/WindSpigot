@@ -67,6 +67,7 @@ import org.github.paperspigot.Title;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 
 import ga.windpvp.windspigot.WindSpigot;
@@ -124,7 +125,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 	private boolean hasPlayedBefore = false;
 	private final ConversationTracker conversationTracker = new ConversationTracker();
 	private final Set<String> channels = new HashSet<String>();
-	private final Set<UUID> hiddenPlayers = new HashSet<UUID>();
+	private final Set<UUID> hiddenPlayers = Sets.newConcurrentHashSet(); // WindSpigot - concurrent collection
 	private int hash = 0;
 	private double health = 20;
 	private boolean scaledHealth = false;
@@ -1076,9 +1077,14 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 		// remove this player from the hidden player's EntityTrackerEntry
 		EntityTracker tracker = ((WorldServer) entity.world).tracker;
 		EntityPlayer other = ((CraftPlayer) player).getHandle();
+		
 		EntityTrackerEntry entry = tracker.trackedEntities.get(other.getId());
+		
 		if (entry != null) {
-			entry.clear(getHandle());
+                        // WindSpigot - synchronize
+			synchronized (entry) {
+				entry.clear(getHandle());
+			}
 		}
 
 		// remove the hidden player from this player user list
@@ -1107,10 +1113,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 
 		getHandle().playerConnection.sendPacket(
 				new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, other));
-
 		EntityTrackerEntry entry = tracker.trackedEntities.get(other.getId());
+		
 		if (entry != null && !entry.trackedPlayers.contains(getHandle())) {
-			entry.updatePlayer(getHandle());
+                        // WindSpigot - synchronize
+			synchronized (entry) {
+				entry.updatePlayer(getHandle());
+			}
 		}
 	}
 

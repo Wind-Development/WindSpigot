@@ -6,8 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import ga.windpvp.windspigot.commons.InternalPlayerMap;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MathHelper;
@@ -16,7 +15,7 @@ import net.minecraft.server.Packet;
 public class PlayerMap {
 
 	private static final int CHUNK_BITS = 5;
-	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectOpenHashMap<>();
+	private final InternalPlayerMap<List<EntityPlayer>> map = new InternalPlayerMap<>();
 
 	private static long xzToKey(long x, long z) {
 		return (x << 32) + z - Integer.MIN_VALUE;

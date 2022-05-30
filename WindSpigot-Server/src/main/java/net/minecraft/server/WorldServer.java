@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import ga.windpvp.windspigot.async.entitytracker.ThreadSafeTracker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 
 public class WorldServer extends World implements IAsyncTaskHandler {
@@ -72,7 +73,12 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		worlddata.world = this;
 		// CraftBukkit end
 		this.server = minecraftserver;
-		this.tracker = new EntityTracker(this);
+		// WindSpigot - async entity tracking
+		if (WindSpigotConfig.disableTracking) {
+			this.tracker = new EntityTracker(this);
+		} else {
+			this.tracker = new ThreadSafeTracker(this);
+		}
 		this.manager = new PlayerChunkMap(this, spigotConfig.viewDistance); // Spigot
 		this.worldProvider.a(this);
 		this.chunkProvider = this.k();

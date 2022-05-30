@@ -33,7 +33,7 @@ See the patches list below.
 [WindSpigot-0003] Mob AI toggle command
 [WindSpigot-0004] Parallel world ticking
 [WindSpigot-0005] Disable mob spawning if tps is not stable
-[WindSpigot-0006] Remove fastmath usage from explosions
+[WindSpigot-0006] Remove FastMath
 [WindSpigot-0007] Player ping command
 [WindSpigot-0008] Make NachoSpigot's async TNT configurable
 [WindSpigot-0009] Configurable entity hit delay
@@ -44,6 +44,7 @@ See the patches list below.
 [WindSpigot-0014] Async entity path searching
 [WindSpigot-0015] Configurable explosion animations and sound
 [WindSpigot-0016] Configurable weather changes
+[WindSpigot-0017] Async entity tracking
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
@@ -128,7 +129,6 @@ See the patches list below.
 [Nacho-0049] Option to disable Enchantment table ticking
 
 <--> by Rastrian
-[Nacho-????] Async entity tracker
 [Nacho-????] Async knockback and hit detection packets
 [Nacho-????] Ticking fixes, tile optimization, and optional fast math
 [Nacho-????] Many more config options

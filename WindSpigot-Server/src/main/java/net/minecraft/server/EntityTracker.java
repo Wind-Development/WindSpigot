@@ -1,34 +1,20 @@
 package net.minecraft.server;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
-import ga.windpvp.windspigot.async.ResettableLatch;
+import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeCannonEntry;
+import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeEntry;
+import ga.windpvp.windspigot.commons.ConcurrentIntHashMap;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import javafixes.concurrency.ReusableCountLatch;
-import me.elier.nachospigot.config.NachoConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
-import net.openhft.affinity.AffinityLock;
-import net.openhft.affinity.AffinityStrategies;
 
 public class EntityTracker {
 
-	public IndexedLinkedHashSet<EntityTrackerEntry> c = new IndexedLinkedHashSet<>();
+	public IndexedLinkedHashSet<EntityTrackerEntry> c = new IndexedLinkedHashSet<>(); // tracked entities
+	
+	// WindSpigot - concurrent inthashmap
+	public IntHashMap<EntityTrackerEntry> trackedEntities = new ConcurrentIntHashMap<>(); // tracked entities hash table
 
-	public IndexedLinkedHashSet<EntityTrackerEntry> getTrackedEntities() {
-		return c;
-	}
-
-	public IntHashMap<EntityTrackerEntry> trackedEntities = new IntHashMap<>();
-
-	public IntHashMap<EntityTrackerEntry> getTrackedEntityHashTable() {
-		return trackedEntities;
-	}
-
-	private int noTrackDistance = 0;
+	private volatile int noTrackDistance = 0; // WindSpigot - volatile
 
 	public int getNoTrackDistance() {
 		return this.noTrackDistance;
@@ -38,15 +24,8 @@ public class EntityTracker {
 		this.noTrackDistance = noTrackDistance;
 	}
 
-	private int e;
-
-	// WindSpigot - parallel tracking from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-	private static int trackerThreads = WindSpigotConfig.trackingThreads; 
+	private int e; 
 	
-	// All threads but one are handling a task, main thread runs a task once these tasks are started
-	private static ExecutorService trackingThreadPool = Executors.newFixedThreadPool(trackerThreads - 1, 
-			new ThreadFactoryBuilder().setNameFormat("Entity Tracker Thread %d").build());
-
 	public EntityTracker(WorldServer worldserver) {
 		this.e = 128;
 	}
@@ -110,7 +89,6 @@ public class EntityTracker {
 		} else if (entity instanceof EntityEnderCrystal) {
 			this.addEntity(entity, 256, Integer.MAX_VALUE, false);
 		}
-
 	}
 
 	public void addEntity(Entity entity, int i, int j) {
@@ -141,7 +119,7 @@ public class EntityTracker {
 	}
 
 	// IonSpigot start
-	private EntityTrackerEntry createTracker(Entity entity, int i, int j, boolean flag) {
+	protected EntityTrackerEntry createTracker(Entity entity, int i, int j, boolean flag) { // WindSpigot - protected
 		if (entity.isCannoningEntity && WindSpigotConfig.useFasterCannonTracker) {
 			return new me.suicidalkids.ion.visuals.CannonTrackerEntry(this, entity, i, j, flag);
 		} else {
@@ -149,7 +127,7 @@ public class EntityTracker {
 		}
 	}
 	// IonSpigot end
-
+	
 	public void untrackEntity(Entity entity) {
 		org.spigotmc.AsyncCatcher.catchOp("entity untrack"); // Spigot
 		if (entity instanceof EntityPlayer) {
@@ -164,46 +142,11 @@ public class EntityTracker {
 			entry.a();
 		}
 	}
-	
-	// WindSpigot - resettablelatch for async entity tracking
-	private final ResettableLatch latch = new ResettableLatch(trackerThreads);
 
 	public void updatePlayers() {
-		int offset = 0;
-		// WindSpigot - async entity tracker from https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker
-		for (int i = 1; i <= trackerThreads; i++) {
-			final int localOffset = offset++;
-			Runnable runnable = () -> {	
-				/*
-				 * Loops the entire index hashset of registered entities. In this loop it
-				 * distributes the entities among the defined threads.
-				 */
-				for (int n = localOffset; n < c.size(); n += trackerThreads) {
-					c.get(n).update();
-				}
-
-				latch.decrement();
-			};
-
-			// Handle all tasks but one on the tracking pool
-			if (!WindSpigotConfig.disableTracking && i < trackerThreads) {
-				trackingThreadPool.execute(runnable);
-			} else {
-				runnable.run();
-			}
+		for (EntityTrackerEntry entry : c) {
+			entry.update();
 		}
-		try {
-			// Wait for async entity tracking to finish then reset the latch
-			latch.waitTillZero();
-			latch.reset(trackerThreads);
-		} catch (Exception e) {
-			e.printStackTrace();
-			/*
-			 * for (EntityPlayer entity : entities) { for (EntityTrackerEntry entry :
-			 * this.c) { if (entry.getTracker() != entity) { entry.updatePlayer(entity); } }
-			 */
-		}
-		// WindSpigot end
 	}
 
 	public void a(EntityPlayer entityplayer) {
@@ -230,18 +173,10 @@ public class EntityTracker {
 			entitytrackerentry.broadcastIncludingSelf(packet);
 		}
 	}
-
+	
 	public void untrackPlayer(EntityPlayer entityplayer) {
 		for (EntityTrackerEntry entitytrackerentry : this.c) {
 			entitytrackerentry.clear(entityplayer);
 		}
 	}
-
-	/*
-	 * public void a(EntityPlayer entityplayer, Chunk chunk) { for
-	 * (EntityTrackerEntry entry : this.getTrackedEntities()) { if
-	 * (entry.getTracker() != entityplayer && entry.getTracker().getChunkX() ==
-	 * chunk.locX && entry.getTracker().getChunkZ() == chunk.locZ )
-	 * entry.updatePlayer(entityplayer); } }
-	 */
 }

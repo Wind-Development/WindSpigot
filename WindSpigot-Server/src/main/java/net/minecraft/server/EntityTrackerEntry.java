@@ -140,7 +140,8 @@ public class EntityTrackerEntry {
 		this.xRot = MathHelper.d(entity.pitch * 256.0F / 360.0F);
 		this.lastHeadYaw = MathHelper.d(entity.getHeadRotation() * 256.0F / 360.0F);
 		this.lastOnGround = entity.onGround;
-
+		
+		// WindSpigot - async entity tracking
 		if (WindSpigotConfig.disableTracking) {
 			this.addRemoveRate = 100;
 		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
@@ -165,7 +166,7 @@ public class EntityTrackerEntry {
 	public int hashCode() {
 		return this.tracker.getId();
 	}
-
+	
 	public void update() {
 		this.withinNoTrack = this.withinNoTrack();
 		if (--this.addRemoveCooldown <= 0) {
@@ -185,12 +186,15 @@ public class EntityTrackerEntry {
 		}
 
 		for (EntityPlayer entityplayer : (Collection<EntityPlayer>) trackedPlayers) {
-			double d0 = entityplayer.locX - this.tracker.locX;
-			double d1 = entityplayer.locZ - this.tracker.locZ;
-			int range = this.getRange();
-
-			if (!(d0 >= (-range) && d0 <= range && d1 >= (-range) && d1 <= range) || withinNoTrack()) {
-				toRemove.add(entityplayer);
+			// WindSpigot - synchronize
+			synchronized (entityplayer) {
+				double d0 = entityplayer.locX - this.tracker.locX;
+				double d1 = entityplayer.locZ - this.tracker.locZ;
+				int range = this.getRange();
+	
+				if (!(d0 >= (-range) && d0 <= range && d1 >= (-range) && d1 <= range) || withinNoTrack()) {
+					toRemove.add(entityplayer);
+				}
 			}
 		}
 
@@ -240,7 +244,8 @@ public class EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
-			if (!WindSpigotConfig.disableTracking || tracker.passenger == entityPlayer) {
+            // WindSpigot - synchronize
+			synchronized (entityPlayer) { 
 				updatePlayer(entityPlayer);
 			}
 		}

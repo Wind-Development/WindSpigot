@@ -9,6 +9,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.ResettableLatch;
+import ga.windpvp.windspigot.async.entitytracker.ThreadSafeTracker;
 import ga.windpvp.windspigot.async.world.AsyncWorldTicker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import javafixes.concurrency.ReusableCountLatch;
@@ -21,7 +22,7 @@ public class WorldTickManager {
 	private List<WorldTicker> worldTickers = new ArrayList<>();
 
 	// Latch to wait for world tick completion
-	private final ResettableLatch latch;
+	private final ResettableLatch latch = new ResettableLatch();
 
 	// Lock for ticking
 	public final static Object LOCK = new Object();
@@ -33,16 +34,18 @@ public class WorldTickManager {
 	// Instance
 	private static WorldTickManager worldTickerManagerInstance;
 	
+	// Cached async entity tracker update runnable
+	private final Runnable cachedUpdateTrackerTask = () -> {
+		for (WorldTicker ticker : this.worldTickers) {
+			ticker.worldserver.getTracker().updatePlayers();
+		}
+		ThreadSafeTracker.enableAutomaticFlush();
+	};
+	
 	// Initializes the world ticker manager
 	public WorldTickManager() {
 		worldTickerManagerInstance = this;
-		
-		// Initialize the world ticker latch
-		if (WindSpigotConfig.parallelWorld) {
-			this.latch = new ResettableLatch();
-		} else {
-			this.latch = null;
-		}
+
 	}
 
 	// Caches Runnables for less Object creation
@@ -76,6 +79,13 @@ public class WorldTickManager {
 			tickAsync();
 		} else {
 			tickSync();
+		}
+		
+		// Handle async entity tracking if needed
+		if (!WindSpigotConfig.disableTracking) {
+			
+			ThreadSafeTracker.disableAutomaticFlush(); // Perform this on the main thread
+			AsyncUtil.run(cachedUpdateTrackerTask, ThreadSafeTracker.getExecutor());	
 		}
 	}
 	
