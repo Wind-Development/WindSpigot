@@ -12,6 +12,7 @@ import io.netty.util.collection.IntObjectHashMap;
 import io.netty.util.collection.IntObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 
 public enum EnumProtocol {
 
@@ -250,7 +251,7 @@ public enum EnumProtocol {
 	private final Map<EnumProtocolDirection, BiMap<Integer, Class<? extends Packet<?>>>> _protocolLibPacketShim = Maps
 			.newEnumMap(EnumProtocolDirection.class);
 
-	private static final Map<Class<? extends Packet<?>>, EnumProtocol> packetClass2State = Maps.newHashMap();
+	private static final Map<Class<? extends Packet<?>>, EnumProtocol> packetClass2State = new Object2ObjectArrayMap<>(); // WindSpigot - more fastutil collections
 
 	private final Object2IntMap<Class<? extends Packet<?>>> packetClassToId = new Object2IntOpenHashMap<>(16, 0.5f);
 	private final Map<EnumProtocolDirection, IntObjectMap<Supplier<Packet<?>>>> packetMap = Maps

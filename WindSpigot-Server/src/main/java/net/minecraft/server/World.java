@@ -50,7 +50,7 @@ public abstract class World implements IBlockAccess {
 	private int a = 63;
 	protected boolean e;
 	// Spigot start - guard entity list from removals
-	public final List<Entity> entityList = new ObjectArrayList<Entity>() { // WindSpigot - ArrayList -> ObjectArrayList 
+	public final List<Entity> entityList = new ObjectArrayList<Entity>() { // WindSpigot - more fastutil collections 
 		@Override
 		public Entity remove(int index) {
 			guard();
@@ -81,8 +81,8 @@ public abstract class World implements IBlockAccess {
 		return c;
 	}// Paper
 
-	public final List<EntityHuman> players = new ObjectArrayList<>(); // WindSpigot - ArrayList -> ObjectArrayList 
-	public final List<Entity> k = new ObjectArrayList<>(); // WindSpigot - ArrayList -> ObjectArrayList 
+	public final List<EntityHuman> players = new ObjectArrayList<>(); // WindSpigot - more fastutil collections 
+	public final List<Entity> k = new ObjectArrayList<>(); // WindSpigot - more fastutil collections
 	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
 	private long d = 16777215L;
 	private int I;

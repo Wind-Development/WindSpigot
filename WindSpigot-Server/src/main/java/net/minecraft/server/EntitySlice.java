@@ -11,10 +11,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+
 public class EntitySlice<T> extends AbstractSet<T> {
 
 	private static final Set<Class<?>> a = Sets.newConcurrentHashSet(); // CraftBukkit
-	private final Map<Class<?>, List<T>> b = Maps.newHashMap();
+	private final Map<Class<?>, List<T>> b = new Object2ObjectArrayMap<>(); // WindSpigot - more fastutil collections
 	private final Set<Class<?>> c = Sets.newIdentityHashSet();
 	private final Class<T> d;
 	private final List<T> e = Lists.newArrayList();

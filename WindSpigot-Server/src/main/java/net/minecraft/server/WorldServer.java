@@ -27,6 +27,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import ga.windpvp.windspigot.async.entitytracker.ThreadSafeTracker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 
 public class WorldServer extends World implements IAsyncTaskHandler {
 
@@ -38,7 +39,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 	// nextTickListHash
 	private final HashTreeSet<NextTickListEntry> M = new HashTreeSet<>(); // CraftBukkit - HashTreeSet // PAIL: Rename
 																			// nextTickList
-	private final Map<UUID, Entity> entitiesByUUID = Maps.newHashMap();
+	private final Map<UUID, Entity> entitiesByUUID = new Object2ObjectArrayMap<>(); // WindSpigot - more fastutil collections
 	public ChunkProviderServer chunkProviderServer;
 	public boolean savingDisabled;
 	private boolean O;

@@ -46,7 +46,7 @@ import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
 import io.netty.util.ResourceLeakDetector;
-
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 // CraftBukkit start
 import jline.console.ConsoleReader;
 import joptsimple.OptionSet;
@@ -75,7 +75,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 	public Convertable convertable;
 	private final MojangStatisticsGenerator n = new MojangStatisticsGenerator("server", this, az());
 	public File universe;
-	private final List<IUpdatePlayerListBox> p = Lists.newArrayList();
+	private final List<IUpdatePlayerListBox> p = new ObjectArrayList<>(); // WindSpigot - more fastutil collections
 	protected final ICommandHandler b;
 	public final MethodProfiler methodProfiler = new MethodProfiler();
 	private ServerConnection q; // Spigot

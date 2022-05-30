@@ -24,6 +24,7 @@ import com.mojang.authlib.GameProfile;
 
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class EntityPlayer extends EntityHuman implements ICrafting {
 
@@ -34,7 +35,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 	public final PlayerInteractManager playerInteractManager;
 	public double d;
 	public double e;
-	public final List<ChunkCoordIntPair> chunkCoordIntPairQueue = Lists.newLinkedList();
+	public final List<ChunkCoordIntPair> chunkCoordIntPairQueue = new ObjectArrayList<>(); // WindSpigot - more fastutil collections
 	// public final List<Integer> removeQueue = Lists.newLinkedList();
 	private final ServerStatisticManager bK;
 	private float bL = Float.MIN_VALUE;
@@ -68,7 +69,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 	public boolean collidesWithEntities = true;
 	public int viewDistance; // PaperSpigot - Player view distance API
 	/* private int containerUpdateDelay; */ // PaperSpigot
-	public List<EntityPotion> potions = new ArrayList<>(); // IonSpigot - Lag Compensated Potions
+	public List<EntityPotion> potions = new ObjectArrayList<>(); // IonSpigot - Lag Compensated Potions // WindSpigot - more fastutil collections
 
 	@Override
 	public boolean ad() {

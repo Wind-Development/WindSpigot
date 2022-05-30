@@ -18,6 +18,8 @@ import com.google.common.collect.Lists; // CraftBukkit
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+
 public class Chunk {
 
 	private static final Logger c = LogManager.getLogger();
@@ -141,7 +143,7 @@ public class Chunk {
 		this.e = new byte[256];
 		this.f = new int[256];
 		this.g = new boolean[256];
-		this.tileEntities = Maps.newHashMap();
+		this.tileEntities = new Object2ObjectArrayMap<>(); // WindSpigot - more fastutil collections
 		this.v = 4096;
 		this.w = Queues.newConcurrentLinkedQueue();
 		this.entitySlices = new List[16]; // Spigot

@@ -39,11 +39,13 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.ProfileLookupCallback;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+
 public class UserCache {
 
 	public static final SimpleDateFormat a = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-	private final Map<String, UserCache.UserCacheEntry> c = Maps.newHashMap();
-	private final Map<UUID, UserCache.UserCacheEntry> d = Maps.newHashMap();
+	private final Map<String, UserCache.UserCacheEntry> c = new Object2ObjectArrayMap<>(); // WindSpigot - more fastutil collections
+	private final Map<UUID, UserCache.UserCacheEntry> d = new Object2ObjectArrayMap<>(); // WindSpigot - more fastutil collections
 	private final java.util.Deque<GameProfile> e = new java.util.concurrent.LinkedBlockingDeque<GameProfile>(); // CraftBukkit
 	private final MinecraftServer f;
 	protected final Gson b;
