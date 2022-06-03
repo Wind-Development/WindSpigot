@@ -15,6 +15,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
+import it.unimi.dsi.fastutil.shorts.ShortArrayList;
+import it.unimi.dsi.fastutil.shorts.ShortList;
 
 public class PlayerChunkMap {
 
@@ -364,7 +366,8 @@ public class PlayerChunkMap {
 
 		private final List<EntityPlayer> b = Lists.newArrayList();
 		private final ChunkCoordIntPair location;
-		private short[] dirtyBlocks = new short[64];
+		// WindSpigot - more fastutil collections
+		private ShortList dirtyBlocks = new ShortArrayList();
 		private int dirtyCount;
 		private int f;
 		private long g;
@@ -471,12 +474,14 @@ public class PlayerChunkMap {
 				short short0 = (short) (i << 12 | k << 8 | j);
 
 				for (int l = 0; l < this.dirtyCount; ++l) {
-					if (this.dirtyBlocks[l] == short0) {
+					// WindSpigot start- more fastutil collections
+					if (this.dirtyBlocks.getShort(l) == short0) {
 						return;
 					}
 				}
 
-				this.dirtyBlocks[this.dirtyCount++] = short0;
+				this.dirtyBlocks.set(this.dirtyCount++, short0);
+				// WindSpigot end
 			}
 
 		}
@@ -497,9 +502,11 @@ public class PlayerChunkMap {
 				int k;
 
 				if (this.dirtyCount == 1) {
-					i = (this.dirtyBlocks[0] >> 12 & 15) + this.location.x * 16;
-					j = this.dirtyBlocks[0] & 255;
-					k = (this.dirtyBlocks[0] >> 8 & 15) + this.location.z * 16;
+					// WindSpigot start - more fastutil collections
+					i = (this.dirtyBlocks.getShort(0) >> 12 & 15) + this.location.x * 16;
+					j = this.dirtyBlocks.getShort(0) & 255;
+					k = (this.dirtyBlocks.getShort(0) >> 8 & 15) + this.location.z * 16;
+					// WindSpigot end
 					BlockPosition blockposition = new BlockPosition(i, j, k);
 
 					this.a(new PacketPlayOutBlockChange(PlayerChunkMap.this.world, blockposition));
@@ -526,13 +533,15 @@ public class PlayerChunkMap {
 							}
 						}
 					} else {
-						this.a(new PacketPlayOutMultiBlockChange(this.dirtyCount, this.dirtyBlocks,
+						// WindSpigot start - more fastutil collections
+						this.a(new PacketPlayOutMultiBlockChange(this.dirtyCount, this.dirtyBlocks.toShortArray(),
 								PlayerChunkMap.this.world.getChunkAt(this.location.x, this.location.z)));
 
 						for (i = 0; i < this.dirtyCount; ++i) {
-							j = (this.dirtyBlocks[i] >> 12 & 15) + this.location.x * 16;
-							k = this.dirtyBlocks[i] & 255;
-							l = (this.dirtyBlocks[i] >> 8 & 15) + this.location.z * 16;
+							j = (this.dirtyBlocks.getShort(i) >> 12 & 15) + this.location.x * 16;
+							k = this.dirtyBlocks.getShort(i) & 255;
+							l = (this.dirtyBlocks.getShort(i) >> 8 & 15) + this.location.z * 16;
+							// WindSpigot end
 							BlockPosition blockposition1 = new BlockPosition(j, k, l);
 
 							if (PlayerChunkMap.this.world.getType(blockposition1).getBlock().isTileEntity()) {
