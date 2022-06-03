@@ -759,7 +759,7 @@ public abstract class PlayerList {
 			}
 			// Spigot End
 
-            WindSpigot.getInstance().getLagCompensator().registerMovement(respawnPlayer, location); // Nacho
+            WindSpigot.getInstance().getLagCompensator().clearCache(respawnPlayer); // Nacho
 			location = respawnEvent.getRespawnLocation();
 			entityplayer.reset();
 		} else {
