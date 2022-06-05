@@ -413,7 +413,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					this.lastPitch = to.getPitch();
 					
 					// Skip the first time we do this
-					if (WindSpigotConfig.firePlayerMoveEvent) { // Spigot - don't skip any move events
+					if (WindSpigotConfig.firePlayerMoveEvent && PlayerMoveEvent.getHandlerList().getRegisteredListeners().length != 0) { // WindSpigot - only handle player move event when there are listeners // Spigot - don't skip any move events
 						Location oldTo = to.clone();
 						PlayerMoveEvent event = new PlayerMoveEvent(player, from, to);
 						this.server.getPluginManager().callEvent(event);
