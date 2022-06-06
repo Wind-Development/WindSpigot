@@ -182,9 +182,7 @@ public class BlockRedstoneWire extends Block {
 			EnumDirection[] aenumdirection = EnumDirection.values();
 			int i1 = aenumdirection.length;
 
-			for (int j1 = 0; j1 < i1; ++j1) {
-				EnumDirection enumdirection1 = aenumdirection[j1];
-
+			for (EnumDirection enumdirection1 : aenumdirection) {
 				this.R.add(blockposition.shift(enumdirection1));
 			}
 		}
@@ -209,9 +207,7 @@ public class BlockRedstoneWire extends Block {
 			EnumDirection[] aenumdirection = EnumDirection.values();
 			int i = aenumdirection.length;
 
-			for (int j = 0; j < i; ++j) {
-				EnumDirection enumdirection = aenumdirection[j];
-
+			for (EnumDirection enumdirection : aenumdirection) {
 				world.applyPhysics(blockposition.shift(enumdirection), this);
 			}
 
@@ -261,9 +257,7 @@ public class BlockRedstoneWire extends Block {
 			EnumDirection[] aenumdirection = EnumDirection.values();
 			int i = aenumdirection.length;
 
-			for (int j = 0; j < i; ++j) {
-				EnumDirection enumdirection = aenumdirection[j];
-
+			for (EnumDirection enumdirection : aenumdirection) {
 				world.applyPhysics(blockposition.shift(enumdirection), this);
 			}
 

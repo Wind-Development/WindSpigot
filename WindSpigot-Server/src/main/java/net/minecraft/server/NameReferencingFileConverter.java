@@ -432,9 +432,9 @@ public class NameReferencingFileConverter {
 					private String a(GameProfile gameprofile) {
 						String s = null;
 
-						for (int i = 0; i < astring.length; ++i) {
-							if (astring[i] != null && astring[i].equalsIgnoreCase(gameprofile.getName())) {
-								s = astring[i];
+						for (String value : astring) {
+							if (value != null && value.equalsIgnoreCase(gameprofile.getName())) {
+								s = value;
 								break;
 							}
 						}

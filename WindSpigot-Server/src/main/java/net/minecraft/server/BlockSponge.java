@@ -68,8 +68,7 @@ public class BlockSponge extends Block {
 			EnumDirection[] aenumdirection = EnumDirection.values();
 			int k = aenumdirection.length;
 
-			for (int l = 0; l < k; ++l) {
-				EnumDirection enumdirection = aenumdirection[l];
+			for (EnumDirection enumdirection : aenumdirection) {
 				BlockPosition blockposition2 = blockposition1.shift(enumdirection);
 
 				if (world.getType(blockposition2).getBlock().getMaterial() == Material.WATER) {

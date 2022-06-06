@@ -22,10 +22,7 @@ public class BlockRedstoneTorch extends BlockTorch {
 
 		int i = 0;
 
-		for (java.util.Iterator<BlockRedstoneTorch.RedstoneUpdateInfo> iterator = list.iterator(); iterator
-				.hasNext();) {
-			BlockRedstoneTorch.RedstoneUpdateInfo blockredstonetorch_redstoneupdateinfo = iterator.next();
-
+		for (RedstoneUpdateInfo blockredstonetorch_redstoneupdateinfo : list) {
 			if (blockredstonetorch_redstoneupdateinfo.a.equals(blockposition)) {
 				++i;
 				if (i >= 8) {
@@ -65,9 +62,7 @@ public class BlockRedstoneTorch extends BlockTorch {
 			EnumDirection[] aenumdirection = EnumDirection.values();
 			int i = aenumdirection.length;
 
-			for (int j = 0; j < i; ++j) {
-				EnumDirection enumdirection = aenumdirection[j];
-
+			for (EnumDirection enumdirection : aenumdirection) {
 				world.applyPhysics(blockposition.shift(enumdirection), this);
 			}
 		}
@@ -91,9 +86,7 @@ public class BlockRedstoneTorch extends BlockTorch {
 			EnumDirection[] aenumdirection = EnumDirection.values();
 			int i = aenumdirection.length;
 
-			for (int j = 0; j < i; ++j) {
-				EnumDirection enumdirection = aenumdirection[j];
-
+			for (EnumDirection enumdirection : aenumdirection) {
 				world.applyPhysics(blockposition.shift(enumdirection), this);
 			}
 		}

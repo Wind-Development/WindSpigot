@@ -250,9 +250,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 		ItemStack[] aitemstack = this.items;
 		int i = aitemstack.length;
 
-		for (int j = 0; j < i; ++j) {
-			ItemStack itemstack = aitemstack[j];
-
+		for (ItemStack itemstack : aitemstack) {
 			if (itemstack != null) {
 				return false;
 			}
@@ -271,9 +269,7 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 		ItemStack[] aitemstack = this.items;
 		int i = aitemstack.length;
 
-		for (int j = 0; j < i; ++j) {
-			ItemStack itemstack = aitemstack[j];
-
+		for (ItemStack itemstack : aitemstack) {
 			if (itemstack == null || itemstack.count != itemstack.getMaxStackSize()) {
 				return false;
 			}
@@ -361,8 +357,8 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 			IWorldInventory iworldinventory = (IWorldInventory) iinventory;
 			int[] aint = iworldinventory.getSlotsForFace(enumdirection);
 
-			for (int i = 0; i < aint.length; ++i) {
-				ItemStack itemstack = iworldinventory.getItem(aint[i]);
+			for (int j : aint) {
+				ItemStack itemstack = iworldinventory.getItem(j);
 
 				if (itemstack == null || itemstack.count != itemstack.getMaxStackSize()) {
 					return false;
@@ -388,8 +384,8 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 			IWorldInventory iworldinventory = (IWorldInventory) iinventory;
 			int[] aint = iworldinventory.getSlotsForFace(enumdirection);
 
-			for (int i = 0; i < aint.length; ++i) {
-				if (iworldinventory.getItem(aint[i]) != null) {
+			for (int j : aint) {
+				if (iworldinventory.getItem(j) != null) {
 					return false;
 				}
 			}
@@ -433,8 +429,8 @@ public class TileEntityHopper extends TileEntityContainer implements IHopper, IU
 				IWorldInventory iworldinventory = (IWorldInventory) iinventory;
 				int[] aint = iworldinventory.getSlotsForFace(enumdirection);
 
-				for (int i = 0; i < aint.length; ++i) {
-					if (a(ihopper, iinventory, aint[i], enumdirection)) {
+				for (int j : aint) {
+					if (a(ihopper, iinventory, j, enumdirection)) {
 						return true;
 					}
 				}

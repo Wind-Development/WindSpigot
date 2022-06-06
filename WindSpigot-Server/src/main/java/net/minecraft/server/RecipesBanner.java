@@ -9,13 +9,11 @@ public class RecipesBanner {
 		EnumColor[] aenumcolor = EnumColor.values();
 		int i = aenumcolor.length;
 
-		for (int j = 0; j < i; ++j) {
-			EnumColor enumcolor = aenumcolor[j];
-
+		for (EnumColor enumcolor : aenumcolor) {
 			craftingmanager.registerShapedRecipe(new ItemStack(Items.BANNER, 1, enumcolor.getInvColorIndex()),
-					new Object[] { "###", "###", " | ", Character.valueOf('#'),
+					new Object[]{"###", "###", " | ", Character.valueOf('#'),
 							new ItemStack(Blocks.WOOL, 1, enumcolor.getColorIndex()), Character.valueOf('|'),
-							Items.STICK });
+							Items.STICK});
 		}
 
 		craftingmanager.a(new RecipesBanner.DuplicateRecipe((RecipesBanner.SyntheticClass_1) null));
@@ -141,9 +139,7 @@ public class RecipesBanner {
 					.values();
 			int i = atileentitybanner_enumbannerpatterntype.length;
 
-			for (int j = 0; j < i; ++j) {
-				TileEntityBanner.EnumBannerPatternType tileentitybanner_enumbannerpatterntype = atileentitybanner_enumbannerpatterntype[j];
-
+			for (TileEntityBanner.EnumBannerPatternType tileentitybanner_enumbannerpatterntype : atileentitybanner_enumbannerpatterntype) {
 				if (tileentitybanner_enumbannerpatterntype.d()) {
 					boolean flag = true;
 					int k;

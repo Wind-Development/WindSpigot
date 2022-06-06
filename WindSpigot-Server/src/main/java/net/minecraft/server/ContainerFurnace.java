@@ -60,9 +60,7 @@ public class ContainerFurnace extends Container {
 	public void b() {
 		super.b();
 
-		for (int i = 0; i < this.listeners.size(); ++i) {
-			ICrafting icrafting = this.listeners.get(i);
-
+		for (ICrafting icrafting : this.listeners) {
 			if (this.f != this.furnace.getProperty(2)) {
 				icrafting.setContainerData(this, 2, this.furnace.getProperty(2));
 			}

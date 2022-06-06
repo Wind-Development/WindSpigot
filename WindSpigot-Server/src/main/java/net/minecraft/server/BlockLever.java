@@ -42,9 +42,7 @@ public class BlockLever extends Block {
 		EnumDirection[] aenumdirection = EnumDirection.values();
 		int i = aenumdirection.length;
 
-		for (int j = 0; j < i; ++j) {
-			EnumDirection enumdirection = aenumdirection[j];
-
+		for (EnumDirection enumdirection : aenumdirection) {
 			if (a(world, blockposition, enumdirection)) {
 				return true;
 			}
@@ -457,10 +455,8 @@ public class BlockLever extends Block {
 			BlockLever.EnumLeverPosition[] ablocklever_enumleverposition = values();
 			int i = ablocklever_enumleverposition.length;
 
-			for (int j = 0; j < i; ++j) {
-				BlockLever.EnumLeverPosition blocklever_enumleverposition = ablocklever_enumleverposition[j];
-
-				BlockLever.EnumLeverPosition.i[blocklever_enumleverposition.a()] = blocklever_enumleverposition;
+			for (EnumLeverPosition blocklever_enumleverposition : ablocklever_enumleverposition) {
+				EnumLeverPosition.i[blocklever_enumleverposition.a()] = blocklever_enumleverposition;
 			}
 
 		}

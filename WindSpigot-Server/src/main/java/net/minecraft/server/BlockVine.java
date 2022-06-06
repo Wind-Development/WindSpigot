@@ -452,9 +452,7 @@ public class BlockVine extends Block {
 		BlockStateBoolean[] ablockstateboolean = BlockVine.Q;
 		int j = ablockstateboolean.length;
 
-		for (int k = 0; k < j; ++k) {
-			BlockStateBoolean blockstateboolean = ablockstateboolean[k];
-
+		for (BlockStateBoolean blockstateboolean : ablockstateboolean) {
 			if (iblockdata.get(blockstateboolean).booleanValue()) {
 				++i;
 			}

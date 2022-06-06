@@ -33,8 +33,8 @@ public class NBTTagList extends NBTBase {
 		dataoutput.writeByte(this.type);
 		dataoutput.writeInt(this.list.size());
 
-		for (int i = 0; i < this.list.size(); ++i) {
-			this.list.get(i).write(dataoutput);
+		for (NBTBase nbtBase : this.list) {
+			nbtBase.write(dataoutput);
 		}
 
 	}

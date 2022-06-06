@@ -133,8 +133,8 @@ public class EntityLightning extends EntityWeather {
 				List list = this.world.getEntities(this, new AxisAlignedBB(this.locX - d0, this.locY - d0,
 						this.locZ - d0, this.locX + d0, this.locY + 6.0D + d0, this.locZ + d0));
 
-				for (int i = 0; i < list.size(); ++i) {
-					Entity entity = (Entity) list.get(i);
+				for (Object o : list) {
+					Entity entity = (Entity) o;
 
 					entity.onLightningStrike(this);
 				}

@@ -158,9 +158,7 @@ public class CrashReport {
 			StackTraceElement[] astacktraceelement = this.h;
 			int i = astacktraceelement.length;
 
-			for (int j = 0; j < i; ++j) {
-				StackTraceElement stacktraceelement = astacktraceelement[j];
-
+			for (StackTraceElement stacktraceelement : astacktraceelement) {
 				stringbuilder.append("\t").append("at ").append(stacktraceelement.toString());
 				stringbuilder.append("\n");
 			}

@@ -240,9 +240,7 @@ public class EnchantmentManager {
 		ItemStack[] aitemstack = entityliving.getEquipment();
 		int i = aitemstack.length;
 
-		for (int j = 0; j < i; ++j) {
-			ItemStack itemstack = aitemstack[j];
-
+		for (ItemStack itemstack : aitemstack) {
 			if (itemstack != null && getEnchantmentLevel(enchantment.id, itemstack) > 0) {
 				return itemstack;
 			}
@@ -369,9 +367,7 @@ public class EnchantmentManager {
 		Enchantment[] aenchantment = Enchantment.b;
 		int j = aenchantment.length;
 
-		for (int k = 0; k < j; ++k) {
-			Enchantment enchantment = aenchantment[k];
-
+		for (Enchantment enchantment : aenchantment) {
 			if (enchantment != null && (enchantment.slot.canEnchant(item) || flag)) {
 				for (int l = enchantment.getStartLevel(); l <= enchantment.getMaxLevel(); ++l) {
 					if (i >= enchantment.a(l) && i <= enchantment.b(l)) {

@@ -111,8 +111,8 @@ public abstract class EntityFireball extends Entity {
 					this.getBoundingBox().a(this.motX, this.motY, this.motZ).grow(1.0D, 1.0D, 1.0D));
 			double d0 = 0.0D;
 
-			for (int i = 0; i < list.size(); ++i) {
-				Entity entity1 = (Entity) list.get(i);
+			for (Object o : list) {
+				Entity entity1 = (Entity) o;
 
 				if (entity1.ad() && (!entity1.k(this.shooter) || this.as >= 25)) {
 					float f = 0.3F;

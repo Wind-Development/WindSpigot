@@ -181,8 +181,8 @@ public class CraftEventFactory {
 		Block blockClicked = craftWorld.getBlockAt(clickedX, clickedY, clickedZ);
 
 		boolean canBuild = true;
-		for (int i = 0; i < blockStates.size(); i++) {
-			if (!canBuild(craftWorld, player, blockStates.get(i).getX(), blockStates.get(i).getZ())) {
+		for (BlockState blockState : blockStates) {
+			if (!canBuild(craftWorld, player, blockState.getX(), blockState.getZ())) {
 				canBuild = false;
 				break;
 			}

@@ -48,9 +48,7 @@ public class ContainerBrewingStand extends Container {
 	public void b() {
 		super.b();
 
-		for (int i = 0; i < this.listeners.size(); ++i) {
-			ICrafting icrafting = this.listeners.get(i);
-
+		for (ICrafting icrafting : this.listeners) {
 			if (this.g != this.brewingStand.getProperty(0)) {
 				icrafting.setContainerData(this, 0, this.brewingStand.getProperty(0));
 			}

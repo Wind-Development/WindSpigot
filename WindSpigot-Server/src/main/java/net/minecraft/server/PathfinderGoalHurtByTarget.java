@@ -44,9 +44,7 @@ public class PathfinderGoalHurtByTarget extends PathfinderGoalTarget {
 					Class[] aclass = this.c;
 					int i = aclass.length;
 
-					for (int j = 0; j < i; ++j) {
-						Class oclass = aclass[j];
-
+					for (Class oclass : aclass) {
 						if (entitycreature.getClass() == oclass) {
 							flag = true;
 							break;

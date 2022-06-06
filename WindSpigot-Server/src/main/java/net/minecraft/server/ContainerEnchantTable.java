@@ -95,9 +95,7 @@ public class ContainerEnchantTable extends Container {
 	public void b() {
 		super.b();
 
-		for (int i = 0; i < this.listeners.size(); ++i) {
-			ICrafting icrafting = this.listeners.get(i);
-
+		for (ICrafting icrafting : this.listeners) {
 			icrafting.setContainerData(this, 0, this.costs[0]);
 			icrafting.setContainerData(this, 1, this.costs[1]);
 			icrafting.setContainerData(this, 2, this.costs[2]);

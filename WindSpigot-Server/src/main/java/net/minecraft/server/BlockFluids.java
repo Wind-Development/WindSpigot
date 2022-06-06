@@ -161,9 +161,7 @@ public abstract class BlockFluids extends Block {
 			boolean flag = false;
 			int i = aenumdirection.length;
 
-			for (int j = 0; j < i; ++j) {
-				EnumDirection enumdirection = aenumdirection[j];
-
+			for (EnumDirection enumdirection : aenumdirection) {
 				if (enumdirection != EnumDirection.DOWN && world.getType(blockposition.shift(enumdirection)).getBlock()
 						.getMaterial() == Material.WATER) {
 					flag = true;

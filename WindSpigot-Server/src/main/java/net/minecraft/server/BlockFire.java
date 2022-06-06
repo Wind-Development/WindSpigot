@@ -322,9 +322,7 @@ public class BlockFire extends Block {
 		EnumDirection[] aenumdirection = EnumDirection.values();
 		int i = aenumdirection.length;
 
-		for (int j = 0; j < i; ++j) {
-			EnumDirection enumdirection = aenumdirection[j];
-
+		for (EnumDirection enumdirection : aenumdirection) {
 			if (this.e((IBlockAccess) world, blockposition.shift(enumdirection))) {
 				return true;
 			}
@@ -341,10 +339,8 @@ public class BlockFire extends Block {
 			EnumDirection[] aenumdirection = EnumDirection.values();
 			int j = aenumdirection.length;
 
-			for (int k = 0; k < j; ++k) {
-				EnumDirection enumdirection = aenumdirection[k];
-
-//                i = Math.max(this.d(world.getType(blockposition.shift(enumdirection)).getBlock()), i);
+			for (EnumDirection enumdirection : aenumdirection) {
+				//                i = Math.max(this.d(world.getType(blockposition.shift(enumdirection)).getBlock()), i);
 				final IBlockData type = world.getTypeIfLoaded(blockposition.shift(enumdirection)); // Paper
 				if (type == null) {
 					continue; // Paper

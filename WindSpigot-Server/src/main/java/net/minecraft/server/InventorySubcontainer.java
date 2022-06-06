@@ -195,8 +195,8 @@ public class InventorySubcontainer implements IInventory {
 	@Override
 	public void update() {
 		if (this.d != null) {
-			for (int i = 0; i < this.d.size(); ++i) {
-				this.d.get(i).a(this);
+			for (IInventoryListener iInventoryListener : this.d) {
+				iInventoryListener.a(this);
 			}
 		}
 

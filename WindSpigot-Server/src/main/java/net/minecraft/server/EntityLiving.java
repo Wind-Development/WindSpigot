@@ -1074,9 +1074,7 @@ public abstract class EntityLiving extends Entity {
 		ItemStack[] aitemstack = this.getEquipment();
 		int j = aitemstack.length;
 
-		for (int k = 0; k < j; ++k) {
-			ItemStack itemstack = aitemstack[k];
-
+		for (ItemStack itemstack : aitemstack) {
 			if (itemstack != null && itemstack.getItem() instanceof ItemArmor) {
 				int l = ((ItemArmor) itemstack.getItem()).c;
 
@@ -1831,11 +1829,11 @@ public abstract class EntityLiving extends Entity {
 
 		if (this.ad() && !list.isEmpty()) { // Spigot: Add this.ad() condition
 			numCollisions -= world.spigotConfig.maxCollisionsPerEntity; // Spigot
-			for (int i = 0; i < list.size(); ++i) {
+			for (Object o : list) {
 				if (numCollisions > world.spigotConfig.maxCollisionsPerEntity) {
 					break;
 				} // Spigot
-				Entity entity = (Entity) list.get(i);
+				Entity entity = (Entity) o;
 
 				// TODO better check now?
 				// CraftBukkit start - Only handle mob (non-player) collisions every other tick

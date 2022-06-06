@@ -143,9 +143,7 @@ public abstract class Enchantment {
 		Enchantment[] aenchantment = Enchantment.byId;
 		int i = aenchantment.length;
 
-		for (int j = 0; j < i; ++j) {
-			Enchantment enchantment = aenchantment[j];
-
+		for (Enchantment enchantment : aenchantment) {
 			if (enchantment != null) {
 				arraylist.add(enchantment);
 			}

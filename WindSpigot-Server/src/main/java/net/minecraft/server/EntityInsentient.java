@@ -290,10 +290,10 @@ public abstract class EntityInsentient extends EntityLiving {
 
 		NBTTagCompound nbttagcompound1;
 
-		for (int i = 0; i < this.equipment.length; ++i) {
+		for (ItemStack itemStack : this.equipment) {
 			nbttagcompound1 = new NBTTagCompound();
-			if (this.equipment[i] != null) {
-				this.equipment[i].save(nbttagcompound1);
+			if (itemStack != null) {
+				itemStack.save(nbttagcompound1);
 			}
 
 			nbttaglist.add(nbttagcompound1);
@@ -302,8 +302,8 @@ public abstract class EntityInsentient extends EntityLiving {
 		nbttagcompound.set("Equipment", nbttaglist);
 		NBTTagList nbttaglist1 = new NBTTagList();
 
-		for (int j = 0; j < this.dropChances.length; ++j) {
-			nbttaglist1.add(new NBTTagFloat(this.dropChances[j]));
+		for (float dropChance : this.dropChances) {
+			nbttaglist1.add(new NBTTagFloat(dropChance));
 		}
 
 		nbttagcompound.set("DropChances", nbttaglist1);

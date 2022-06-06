@@ -71,8 +71,8 @@ public abstract class Container {
 	public List<ItemStack> a() {
 		ArrayList arraylist = Lists.newArrayList();
 
-		for (int i = 0; i < this.c.size(); ++i) {
-			arraylist.add(this.c.get(i).getItem());
+		for (Slot slot : this.c) {
+			arraylist.add(slot.getItem());
 		}
 
 		return arraylist;
@@ -88,8 +88,8 @@ public abstract class Container {
 				itemstack1 = itemstack == null ? null : itemstack.cloneItemStack();
 				this.b.set(i, itemstack1);
 
-				for (int j = 0; j < this.listeners.size(); ++j) {
-					this.listeners.get(j).a(this, i, itemstack1);
+				for (ICrafting listener : this.listeners) {
+					listener.a(this, i, itemstack1);
 				}
 			}
 		}

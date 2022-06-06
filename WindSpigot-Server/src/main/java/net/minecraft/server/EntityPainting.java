@@ -21,9 +21,7 @@ public class EntityPainting extends EntityHanging {
 		EntityPainting.EnumArt[] aentitypainting_enumart = CACHED_ART_VALUES;
 		int i = aentitypainting_enumart.length;
 
-		for (int j = 0; j < i; ++j) {
-			EntityPainting.EnumArt entitypainting_enumart = aentitypainting_enumart[j];
-
+		for (EnumArt entitypainting_enumart : aentitypainting_enumart) {
 			this.art = entitypainting_enumart;
 			this.setDirection(enumdirection);
 			if (this.survives()) {
@@ -50,9 +48,7 @@ public class EntityPainting extends EntityHanging {
 		EntityPainting.EnumArt[] aentitypainting_enumart = CACHED_ART_VALUES;
 		int i = aentitypainting_enumart.length;
 
-		for (int j = 0; j < i; ++j) {
-			EntityPainting.EnumArt entitypainting_enumart = aentitypainting_enumart[j];
-
+		for (EnumArt entitypainting_enumart : aentitypainting_enumart) {
 			if (entitypainting_enumart.B.equals(s)) {
 				this.art = entitypainting_enumart;
 			}

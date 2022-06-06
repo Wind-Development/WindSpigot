@@ -101,9 +101,7 @@ public abstract class BlockDiodeAbstract extends BlockDirectional {
 			// PaperSpigot end
 			int i = aenumdirection.length;
 
-			for (int j = 0; j < i; ++j) {
-				EnumDirection enumdirection = aenumdirection[j];
-
+			for (EnumDirection enumdirection : aenumdirection) {
 				world.applyPhysics(blockposition.shift(enumdirection), this);
 			}
 
@@ -221,9 +219,7 @@ public abstract class BlockDiodeAbstract extends BlockDirectional {
 			// PaperSpigot end
 			int i = aenumdirection.length;
 
-			for (int j = 0; j < i; ++j) {
-				EnumDirection enumdirection = aenumdirection[j];
-
+			for (EnumDirection enumdirection : aenumdirection) {
 				world.applyPhysics(blockposition.shift(enumdirection), this);
 			}
 		}

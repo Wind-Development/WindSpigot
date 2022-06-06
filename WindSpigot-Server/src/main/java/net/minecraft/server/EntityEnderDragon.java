@@ -391,9 +391,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 	}
 
 	private void b(List<Entity> list) {
-		for (int i = 0; i < list.size(); ++i) {
-			Entity entity = list.get(i);
-
+		for (Entity entity : list) {
 			if (entity instanceof EntityLiving) {
 				entity.damageEntity(DamageSource.mobAttack(this), 10.0F);
 				this.a(this, entity);
@@ -720,8 +718,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 			for (BlockState state : event.getBlocks()) {
 				PacketPlayOutBlockChange packet = new PacketPlayOutBlockChange(this.world,
 						new BlockPosition(state.getX(), state.getY(), state.getZ()));
-				for (Iterator it = this.world.players.iterator(); it.hasNext();) {
-					EntityHuman entity = (EntityHuman) it.next();
+				for (EntityHuman entity : this.world.players) {
 					if (entity instanceof EntityPlayer) {
 						((EntityPlayer) entity).playerConnection.sendPacket(packet);
 					}

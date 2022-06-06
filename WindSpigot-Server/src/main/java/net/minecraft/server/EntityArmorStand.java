@@ -114,11 +114,11 @@ public class EntityArmorStand extends EntityLiving {
 		super.b(nbttagcompound);
 		NBTTagList nbttaglist = new NBTTagList();
 
-		for (int i = 0; i < this.items.length; ++i) {
+		for (ItemStack item : this.items) {
 			NBTTagCompound nbttagcompound1 = new NBTTagCompound();
 
-			if (this.items[i] != null) {
-				this.items[i].save(nbttagcompound1);
+			if (item != null) {
+				item.save(nbttagcompound1);
 			}
 
 			nbttaglist.add(nbttagcompound1);
@@ -267,8 +267,8 @@ public class EntityArmorStand extends EntityLiving {
 		List list = this.world.getEntities(this, this.getBoundingBox());
 
 		if (list != null && !list.isEmpty()) {
-			for (int i = 0; i < list.size(); ++i) {
-				Entity entity = (Entity) list.get(i);
+			for (Object o : list) {
+				Entity entity = (Entity) o;
 
 				if (entity instanceof EntityMinecartAbstract
 						&& ((EntityMinecartAbstract) entity).s() == EntityMinecartAbstract.EnumMinecartType.RIDEABLE

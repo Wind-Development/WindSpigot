@@ -103,9 +103,7 @@ public class PacketPlayOutTitle implements Packet<PacketListenerPlayOut> {
 			EnumTitleAction[] apacketplayouttitle_enumtitleaction = values();
 			int i = apacketplayouttitle_enumtitleaction.length;
 
-			for (int j = 0; j < i; ++j) {
-				EnumTitleAction packetplayouttitle_enumtitleaction = apacketplayouttitle_enumtitleaction[j];
-
+			for (EnumTitleAction packetplayouttitle_enumtitleaction : apacketplayouttitle_enumtitleaction) {
 				if (packetplayouttitle_enumtitleaction.name().equalsIgnoreCase(s)) {
 					return packetplayouttitle_enumtitleaction;
 				}
@@ -120,9 +118,7 @@ public class PacketPlayOutTitle implements Packet<PacketListenerPlayOut> {
 			EnumTitleAction[] apacketplayouttitle_enumtitleaction = values();
 			int j = apacketplayouttitle_enumtitleaction.length;
 
-			for (int k = 0; k < j; ++k) {
-				EnumTitleAction packetplayouttitle_enumtitleaction = apacketplayouttitle_enumtitleaction[k];
-
+			for (EnumTitleAction packetplayouttitle_enumtitleaction : apacketplayouttitle_enumtitleaction) {
 				astring[i++] = packetplayouttitle_enumtitleaction.name().toLowerCase();
 			}
 

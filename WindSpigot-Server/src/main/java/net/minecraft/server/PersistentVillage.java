@@ -104,8 +104,7 @@ public class PersistentVillage extends PersistentBase {
 	}
 
 	private void g() {
-		for (int var1 = 0; var1 < this.d.size(); ++var1) {
-			VillageDoor var2 = this.d.get(var1);
+		for (VillageDoor var2 : this.d) {
 			Village var3 = this.getClosestVillage(var2.d(), 32);
 			if (var3 == null) {
 				var3 = new Village(this.world);

@@ -213,9 +213,8 @@ public class CommandSpreadPlayers extends CommandAbstract {
 		int i = 0;
 		HashMap hashmap = Maps.newHashMap();
 
-		for (int j = 0; j < list.size(); ++j) {
-			Entity entity = list.get(j);
-			CommandSpreadPlayers.Location2D commandspreadplayers_location2d;
+		for (Entity entity : list) {
+			Location2D commandspreadplayers_location2d;
 
 			if (flag) {
 				ScoreboardTeamBase scoreboardteambase = entity instanceof EntityHuman
@@ -226,7 +225,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
 					hashmap.put(scoreboardteambase, acommandspreadplayers_location2d[i++]);
 				}
 
-				commandspreadplayers_location2d = (CommandSpreadPlayers.Location2D) hashmap.get(scoreboardteambase);
+				commandspreadplayers_location2d = (Location2D) hashmap.get(scoreboardteambase);
 			} else {
 				commandspreadplayers_location2d = acommandspreadplayers_location2d[i++];
 			}
@@ -236,9 +235,9 @@ public class CommandSpreadPlayers extends CommandAbstract {
 					MathHelper.floor(commandspreadplayers_location2d.b) + 0.5D);
 			double d1 = Double.MAX_VALUE;
 
-			for (int k = 0; k < acommandspreadplayers_location2d.length; ++k) {
-				if (commandspreadplayers_location2d != acommandspreadplayers_location2d[k]) {
-					double d2 = commandspreadplayers_location2d.a(acommandspreadplayers_location2d[k]);
+			for (Location2D location2D : acommandspreadplayers_location2d) {
+				if (commandspreadplayers_location2d != location2D) {
+					double d2 = commandspreadplayers_location2d.a(location2D);
 
 					d1 = Math.min(d2, d1);
 				}

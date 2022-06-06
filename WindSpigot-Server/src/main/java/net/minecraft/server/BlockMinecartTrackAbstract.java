@@ -270,10 +270,8 @@ public abstract class BlockMinecartTrackAbstract extends Block {
 			BlockMinecartTrackAbstract.EnumTrackPosition[] ablockminecarttrackabstract_enumtrackposition = values();
 			int i = ablockminecarttrackabstract_enumtrackposition.length;
 
-			for (int j = 0; j < i; ++j) {
-				BlockMinecartTrackAbstract.EnumTrackPosition blockminecarttrackabstract_enumtrackposition = ablockminecarttrackabstract_enumtrackposition[j];
-
-				BlockMinecartTrackAbstract.EnumTrackPosition.k[blockminecarttrackabstract_enumtrackposition
+			for (EnumTrackPosition blockminecarttrackabstract_enumtrackposition : ablockminecarttrackabstract_enumtrackposition) {
+				EnumTrackPosition.k[blockminecarttrackabstract_enumtrackposition
 						.a()] = blockminecarttrackabstract_enumtrackposition;
 			}
 
@@ -404,9 +402,7 @@ public abstract class BlockMinecartTrackAbstract extends Block {
 		}
 
 		private boolean c(BlockPosition blockposition) {
-			for (int i = 0; i < this.g.size(); ++i) {
-				BlockPosition blockposition1 = this.g.get(i);
-
+			for (BlockPosition blockposition1 : this.g) {
 				if (blockposition1.getX() == blockposition.getX() && blockposition1.getZ() == blockposition.getZ()) {
 					return true;
 				}
@@ -624,9 +620,9 @@ public abstract class BlockMinecartTrackAbstract extends Block {
 			if (flag1 || this.b.getType(this.c) != this.e) {
 				this.b.setTypeAndData(this.c, this.e, 3);
 
-				for (int i = 0; i < this.g.size(); ++i) {
-					BlockMinecartTrackAbstract.MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic = this
-							.b(this.g.get(i));
+				for (BlockPosition blockPosition : this.g) {
+					MinecartTrackLogic blockminecarttrackabstract_minecarttracklogic = this
+							.b(blockPosition);
 
 					if (blockminecarttrackabstract_minecarttracklogic != null) {
 						blockminecarttrackabstract_minecarttracklogic.c();

@@ -629,8 +629,8 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void notify(BlockPosition blockposition) {
-		for (int i = 0; i < this.u.size(); ++i) {
-			this.u.get(i).a(blockposition);
+		for (IWorldAccess iWorldAccess : this.u) {
+			iWorldAccess.a(blockposition);
 		}
 
 	}
@@ -672,8 +672,8 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void b(int i, int j, int k, int l, int i1, int j1) {
-		for (int k1 = 0; k1 < this.u.size(); ++k1) {
-			this.u.get(k1).a(i, j, k, l, i1, j1);
+		for (IWorldAccess iWorldAccess : this.u) {
+			iWorldAccess.a(i, j, k, l, i1, j1);
 		}
 
 	}
@@ -1016,8 +1016,8 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void n(BlockPosition blockposition) {
-		for (int i = 0; i < this.u.size(); ++i) {
-			this.u.get(i).b(blockposition);
+		for (IWorldAccess iWorldAccess : this.u) {
+			iWorldAccess.b(blockposition);
 		}
 
 	}
@@ -1959,9 +1959,7 @@ public abstract class World implements IBlockAccess {
 
 		this.methodProfiler.c("pendingBlockEntities");
 		if (!this.b.isEmpty()) {
-			for (int l = 0; l < this.b.size(); ++l) {
-				TileEntity tileentity1 = this.b.get(l);
-
+			for (TileEntity tileentity1 : this.b) {
 				if (!tileentity1.x()) {
 					/*
 					 * CraftBukkit start - Order matters, moved down if
@@ -2114,10 +2112,10 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public boolean a(AxisAlignedBB axisalignedbb, Entity entity) {
-		List list = this.getEntities((Entity) null, axisalignedbb);
+		List list = this.getEntities(null, axisalignedbb);
 
-		for (int i = 0; i < list.size(); ++i) {
-			Entity entity1 = (Entity) list.get(i);
+		for (Object value : list) {
+			Entity entity1 = (Entity) value;
 
 			// PaperSpigot start - Allow block placement if the placer cannot see the
 			// vanished blocker
@@ -2846,8 +2844,7 @@ public abstract class World implements IBlockAccess {
 				EnumDirection[] aenumdirection = EnumDirection.values();
 				int k = aenumdirection.length;
 
-				for (int l = 0; l < k; ++l) {
-					EnumDirection enumdirection = aenumdirection[l];
+				for (EnumDirection enumdirection : aenumdirection) {
 					BlockPosition blockposition1 = blockposition.shift(enumdirection);
 					int i1 = this.b(enumskyblock, blockposition1) - j;
 
@@ -2932,8 +2929,7 @@ public abstract class World implements IBlockAccess {
 								EnumDirection[] aenumdirection = EnumDirection.values();
 								int i4 = aenumdirection.length;
 
-								for (int j4 = 0; j4 < i4; ++j4) {
-									EnumDirection enumdirection = aenumdirection[j4];
+								for (EnumDirection enumdirection : aenumdirection) {
 									int k4 = i2 + enumdirection.getAdjacentX();
 									int l4 = j2 + enumdirection.getAdjacentY();
 									int i5 = k2 + enumdirection.getAdjacentZ();
@@ -3184,8 +3180,8 @@ public abstract class World implements IBlockAccess {
 		Entity entity = null;
 		double d0 = Double.MAX_VALUE;
 
-		for (int i = 0; i < list.size(); ++i) {
-			Entity entity1 = (Entity) list.get(i);
+		for (Object value : list) {
+			Entity entity1 = (Entity) value;
 
 			if (entity1 != t0 && IEntitySelector.d.apply(entity1)) {
 				double d1 = t0.h(entity1);
@@ -3366,8 +3362,7 @@ public abstract class World implements IBlockAccess {
 		EnumDirection[] aenumdirection = EnumDirection.values();
 		int j = aenumdirection.length;
 
-		for (int k = 0; k < j; ++k) {
-			EnumDirection enumdirection = aenumdirection[k];
+		for (EnumDirection enumdirection : aenumdirection) {
 			int l = this.getBlockFacePower(blockposition.shift(enumdirection), enumdirection);
 
 			if (l >= 15) {
@@ -3415,9 +3410,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public boolean isPlayerNearby(double d0, double d1, double d2, double d3) {
-		for (int i = 0; i < this.players.size(); ++i) {
-			EntityHuman entityhuman = this.players.get(i);
-
+		for (EntityHuman entityhuman : this.players) {
 			if (IEntitySelector.d.apply(entityhuman)) {
 				double d4 = entityhuman.e(d0, d1, d2);
 
@@ -3442,8 +3435,7 @@ public abstract class World implements IBlockAccess {
 		double d4 = -1.0D;
 		EntityHuman entityhuman = null;
 
-		for (int i = 0; i < this.players.size(); ++i) {
-			EntityHuman entityhuman1 = this.players.get(i);
+		for (EntityHuman entityhuman1 : this.players) {
 			// CraftBukkit start - Fixed an NPE
 			if (entityhuman1 == null || entityhuman1.dead || !entityhuman1.affectsSpawning) {
 				continue;
@@ -3464,9 +3456,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public boolean isPlayerNearbyWhoAffectsSpawning(double d0, double d1, double d2, double d3) {
-		for (int i = 0; i < this.players.size(); ++i) {
-			EntityHuman entityhuman = this.players.get(i);
-
+		for (EntityHuman entityhuman : this.players) {
 			if (IEntitySelector.d.apply(entityhuman)) {
 				double d4 = entityhuman.e(d0, d1, d2);
 
@@ -3481,9 +3471,7 @@ public abstract class World implements IBlockAccess {
 	// PaperSpigot end
 
 	public EntityHuman a(String s) {
-		for (int i = 0; i < this.players.size(); ++i) {
-			EntityHuman entityhuman = this.players.get(i);
-
+		for (EntityHuman entityhuman : this.players) {
 			if (s.equals(entityhuman.getName())) {
 				return entityhuman;
 			}
@@ -3493,9 +3481,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public EntityHuman b(UUID uuid) {
-		for (int i = 0; i < this.players.size(); ++i) {
-			EntityHuman entityhuman = this.players.get(i);
-
+		for (EntityHuman entityhuman : this.players) {
 			if (uuid.equals(entityhuman.getUniqueID())) {
 				return entityhuman;
 			}
@@ -3632,20 +3618,20 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void a(int i, BlockPosition blockposition, int j) {
-		for (int k = 0; k < this.u.size(); ++k) {
-			this.u.get(k).a(i, blockposition, j);
+		for (IWorldAccess iWorldAccess : this.u) {
+			iWorldAccess.a(i, blockposition, j);
 		}
 
 	}
 
 	public void triggerEffect(int i, BlockPosition blockposition, int j) {
-		this.a((EntityHuman) null, i, blockposition, j);
+		this.a(null, i, blockposition, j);
 	}
 
 	public void a(EntityHuman entityhuman, int i, BlockPosition blockposition, int j) {
 		try {
-			for (int k = 0; k < this.u.size(); ++k) {
-				this.u.get(k).a(entityhuman, i, blockposition, j);
+			for (IWorldAccess iWorldAccess : this.u) {
+				iWorldAccess.a(entityhuman, i, blockposition, j);
 			}
 
 		} catch (Throwable throwable) {
@@ -3714,9 +3700,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void c(int i, BlockPosition blockposition, int j) {
-		for (int k = 0; k < this.u.size(); ++k) {
-			IWorldAccess iworldaccess = this.u.get(k);
-
+		for (IWorldAccess iworldaccess : this.u) {
 			iworldaccess.b(i, blockposition, j);
 		}
 

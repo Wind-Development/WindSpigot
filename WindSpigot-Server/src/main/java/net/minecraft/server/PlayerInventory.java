@@ -95,19 +95,19 @@ public class PlayerInventory implements IInventory {
 	// CraftBukkit start - Watch method above! :D
 	public int canHold(ItemStack itemstack) {
 		int remains = itemstack.count;
-		for (int i = 0; i < this.items.length; ++i) {
-			if (this.items[i] == null) {
+		for (ItemStack item : this.items) {
+			if (item == null) {
 				return itemstack.count;
 			}
 
 			// Taken from firstPartial(ItemStack)
-			if (this.items[i] != null && this.items[i].getItem() == itemstack.getItem() && this.items[i].isStackable()
-					&& this.items[i].count < this.items[i].getMaxStackSize()
-					&& this.items[i].count < this.getMaxStackSize()
-					&& (!this.items[i].usesData() || this.items[i].getData() == itemstack.getData())
-					&& ItemStack.equals(this.items[i], itemstack)) {
-				remains -= (this.items[i].getMaxStackSize() < this.getMaxStackSize() ? this.items[i].getMaxStackSize()
-						: this.getMaxStackSize()) - this.items[i].count;
+			if (item != null && item.getItem() == itemstack.getItem() && item.isStackable()
+					&& item.count < item.getMaxStackSize()
+					&& item.count < this.getMaxStackSize()
+					&& (!item.usesData() || item.getData() == itemstack.getData())
+					&& ItemStack.equals(item, itemstack)) {
+				remains -= (item.getMaxStackSize() < this.getMaxStackSize() ? item.getMaxStackSize()
+						: this.getMaxStackSize()) - item.count;
 			}
 			if (remains <= 0) {
 				return itemstack.count;
@@ -499,9 +499,9 @@ public class PlayerInventory implements IInventory {
 	public int m() {
 		int i = 0;
 
-		for (int j = 0; j < this.armor.length; ++j) {
-			if (this.armor[j] != null && this.armor[j].getItem() instanceof ItemArmor) {
-				int k = ((ItemArmor) this.armor[j].getItem()).c;
+		for (ItemStack itemStack : this.armor) {
+			if (itemStack != null && itemStack.getItem() instanceof ItemArmor) {
+				int k = ((ItemArmor) itemStack.getItem()).c;
 
 				i += k;
 			}

@@ -437,9 +437,7 @@ public abstract class BiomeBase {
 		BiomeBase[] abiomebase = BiomeBase.biomes;
 		int i = abiomebase.length;
 
-		for (int j = 0; j < i; ++j) {
-			BiomeBase biomebase = abiomebase[j];
-
+		for (BiomeBase biomebase : abiomebase) {
 			if (biomebase != null) {
 				if (BiomeBase.o.containsKey(biomebase.ah)) {
 					throw new Error("Biome \"" + biomebase.ah + "\" is defined as both ID "

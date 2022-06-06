@@ -486,8 +486,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 			int i = aworldserver.length;
 
 			// CraftBukkit start
-			for (int j = 0; j < worlds.size(); ++j) {
-				WorldServer worldserver = worlds.get(j);
+			for (WorldServer worldserver : worlds) {
 				// CraftBukkit end
 
 				if (worldserver != null) {
@@ -1645,8 +1644,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 		int i = aworldserver.length;
 
 		// CraftBukkit start
-		for (int j = 0; j < worlds.size(); ++j) {
-			WorldServer worldserver = worlds.get(j);
+		for (WorldServer worldserver : worlds) {
 			// CraftBukkit end
 
 			if (worldserver != null) {

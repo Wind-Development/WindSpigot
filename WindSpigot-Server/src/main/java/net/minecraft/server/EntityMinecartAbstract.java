@@ -1022,10 +1022,8 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 			EntityMinecartAbstract.EnumMinecartType[] aentityminecartabstract_enumminecarttype = values();
 			int i = aentityminecartabstract_enumminecarttype.length;
 
-			for (int j = 0; j < i; ++j) {
-				EntityMinecartAbstract.EnumMinecartType entityminecartabstract_enumminecarttype = aentityminecartabstract_enumminecarttype[j];
-
-				EntityMinecartAbstract.EnumMinecartType.h.put(
+			for (EnumMinecartType entityminecartabstract_enumminecarttype : aentityminecartabstract_enumminecarttype) {
+				EnumMinecartType.h.put(
 						Integer.valueOf(entityminecartabstract_enumminecarttype.a()),
 						entityminecartabstract_enumminecarttype);
 			}

@@ -24,9 +24,7 @@ public final class SpawnerCreature {
 	private int getEntityCount(WorldServer server, Class oClass) {
 		// NachoSpigot start - remove Steam
 		int sum = 0;
-		for (ObjectIterator<Chunk> objectIterator = (server.chunkProviderServer).chunks.values()
-				.iterator(); objectIterator.hasNext();) {
-			Chunk c = objectIterator.next();
+		for (Chunk c : (server.chunkProviderServer).chunks.values()) {
 			sum += c.entityCount.get(oClass);
 		}
 		return sum;

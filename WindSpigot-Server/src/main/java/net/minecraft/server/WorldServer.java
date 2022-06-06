@@ -1076,8 +1076,8 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		Entity[] aentity = entity.aB();
 
 		if (aentity != null) {
-			for (int i = 0; i < aentity.length; ++i) {
-				this.entitiesById.a(aentity[i].getId(), aentity[i]);
+			for (Entity value : aentity) {
+				this.entitiesById.a(value.getId(), value);
 			}
 		}
 
@@ -1091,8 +1091,8 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		Entity[] aentity = entity.aB();
 
 		if (aentity != null) {
-			for (int i = 0; i < aentity.length; ++i) {
-				this.entitiesById.d(aentity[i].getId());
+			for (Entity value : aentity) {
+				this.entitiesById.d(value.getId());
 			}
 		}
 
@@ -1288,8 +1288,8 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		PacketPlayOutWorldParticles packetplayoutworldparticles = new PacketPlayOutWorldParticles(enumparticle, flag,
 				(float) d0, (float) d1, (float) d2, (float) d3, (float) d4, (float) d5, (float) d6, i, aint);
 
-		for (int j = 0; j < this.players.size(); ++j) {
-			EntityPlayer entityplayer = (EntityPlayer) this.players.get(j);
+		for (EntityHuman player : this.players) {
+			EntityPlayer entityplayer = (EntityPlayer) player;
 			if (sender != null && !entityplayer.getBukkitEntity().canSee(sender.getBukkitEntity())) {
 				continue; // CraftBukkit
 			}

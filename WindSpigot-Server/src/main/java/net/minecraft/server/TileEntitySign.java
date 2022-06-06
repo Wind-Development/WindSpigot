@@ -203,8 +203,8 @@ public class TileEntitySign extends TileEntity {
 			}
 		};
 
-		for (int i = 0; i < this.lines.length; ++i) {
-			ChatModifier chatmodifier = this.lines[i] == null ? null : this.lines[i].getChatModifier();
+		for (IChatBaseComponent line : this.lines) {
+			ChatModifier chatmodifier = line == null ? null : line.getChatModifier();
 
 			if (chatmodifier != null && chatmodifier.h() != null) {
 				ChatClickable chatclickable = chatmodifier.h();

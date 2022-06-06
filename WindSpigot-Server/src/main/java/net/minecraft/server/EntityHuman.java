@@ -457,8 +457,8 @@ public abstract class EntityHuman extends EntityLiving {
 
 			if (this.ae()) { // Spigot: Add this.ae() condition (second !this.isDead near bottom of
 								// EntityLiving)
-				for (int i = 0; i < list.size(); ++i) {
-					Entity entity = (Entity) list.get(i);
+				for (Object o : list) {
+					Entity entity = (Entity) o;
 
 					if (!entity.dead) {
 						this.d(entity);
@@ -893,9 +893,7 @@ public abstract class EntityHuman extends EntityLiving {
 		ItemStack[] aitemstack = this.inventory.armor;
 		int j = aitemstack.length;
 
-		for (int k = 0; k < j; ++k) {
-			ItemStack itemstack = aitemstack[k];
-
+		for (ItemStack itemstack : aitemstack) {
 			if (itemstack != null) {
 				++i;
 			}
@@ -1974,10 +1972,8 @@ public abstract class EntityHuman extends EntityLiving {
 			EntityHuman.EnumChatVisibility[] aentityhuman_enumchatvisibility = values();
 			int i = aentityhuman_enumchatvisibility.length;
 
-			for (int j = 0; j < i; ++j) {
-				EntityHuman.EnumChatVisibility entityhuman_enumchatvisibility = aentityhuman_enumchatvisibility[j];
-
-				EntityHuman.EnumChatVisibility.d[entityhuman_enumchatvisibility.e] = entityhuman_enumchatvisibility;
+			for (EnumChatVisibility entityhuman_enumchatvisibility : aentityhuman_enumchatvisibility) {
+				EnumChatVisibility.d[entityhuman_enumchatvisibility.e] = entityhuman_enumchatvisibility;
 			}
 
 		}

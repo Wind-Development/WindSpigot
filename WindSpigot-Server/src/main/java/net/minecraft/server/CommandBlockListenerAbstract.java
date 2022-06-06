@@ -201,8 +201,8 @@ public abstract class CommandBlockListenerAbstract implements ICommandListener {
 			ArrayList<String[]> newCommands = new ArrayList<String[]>();
 			for (int i = 0; i < args.length; i++) {
 				if (PlayerSelector.isPattern(args[i])) {
-					for (int j = 0; j < commands.size(); j++) {
-						newCommands.addAll(buildCommands(sender, commands.get(j), i));
+					for (String[] strings : commands) {
+						newCommands.addAll(buildCommands(sender, strings, i));
 					}
 					ArrayList<String[]> temp = commands;
 					commands = newCommands;
@@ -217,9 +217,9 @@ public abstract class CommandBlockListenerAbstract implements ICommandListener {
 		int completed = 0;
 
 		// Now dispatch all of the commands we ended up with
-		for (int i = 0; i < commands.size(); i++) {
+		for (String[] strings : commands) {
 			try {
-				if (commandMap.dispatch(bSender, joiner.join(java.util.Arrays.asList(commands.get(i))))) {
+				if (commandMap.dispatch(bSender, joiner.join(java.util.Arrays.asList(strings)))) {
 					completed++;
 				}
 			} catch (Throwable exception) {

@@ -224,9 +224,7 @@ public class BlockMonsterEggs extends Block {
 			BlockMonsterEggs.EnumMonsterEggVarient[] ablockmonstereggs_enummonstereggvarient = values();
 			int i = ablockmonstereggs_enummonstereggvarient.length;
 
-			for (int j = 0; j < i; ++j) {
-				BlockMonsterEggs.EnumMonsterEggVarient blockmonstereggs_enummonstereggvarient = ablockmonstereggs_enummonstereggvarient[j];
-
+			for (EnumMonsterEggVarient blockmonstereggs_enummonstereggvarient : ablockmonstereggs_enummonstereggvarient) {
 				if (iblockdata == blockmonstereggs_enummonstereggvarient.d()) {
 					return blockmonstereggs_enummonstereggvarient;
 				}
@@ -248,10 +246,8 @@ public class BlockMonsterEggs extends Block {
 			BlockMonsterEggs.EnumMonsterEggVarient[] ablockmonstereggs_enummonstereggvarient = values();
 			int i = ablockmonstereggs_enummonstereggvarient.length;
 
-			for (int j = 0; j < i; ++j) {
-				BlockMonsterEggs.EnumMonsterEggVarient blockmonstereggs_enummonstereggvarient = ablockmonstereggs_enummonstereggvarient[j];
-
-				BlockMonsterEggs.EnumMonsterEggVarient.g[blockmonstereggs_enummonstereggvarient
+			for (EnumMonsterEggVarient blockmonstereggs_enummonstereggvarient : ablockmonstereggs_enummonstereggvarient) {
+				EnumMonsterEggVarient.g[blockmonstereggs_enummonstereggvarient
 						.a()] = blockmonstereggs_enummonstereggvarient;
 			}
 

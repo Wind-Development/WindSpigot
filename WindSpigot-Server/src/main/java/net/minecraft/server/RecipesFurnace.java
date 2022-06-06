@@ -42,9 +42,7 @@ public class RecipesFurnace {
 		ItemFish.EnumFish[] aitemfish_enumfish = ItemFish.EnumFish.values();
 		int i = aitemfish_enumfish.length;
 
-		for (int j = 0; j < i; ++j) {
-			ItemFish.EnumFish itemfish_enumfish = aitemfish_enumfish[j];
-
+		for (ItemFish.EnumFish itemfish_enumfish : aitemfish_enumfish) {
 			if (itemfish_enumfish.g()) {
 				this.a(new ItemStack(Items.FISH, 1, itemfish_enumfish.a()),
 						new ItemStack(Items.COOKED_FISH, 1, itemfish_enumfish.a()), 0.35F);

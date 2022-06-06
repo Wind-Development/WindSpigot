@@ -37,8 +37,8 @@ public class ItemBoat extends Item {
 			List list = world.getEntities(entityhuman,
 					entityhuman.getBoundingBox().a(vec3d2.a * d3, vec3d2.b * d3, vec3d2.c * d3).grow(f9, f9, f9));
 
-			for (int i = 0; i < list.size(); ++i) {
-				Entity entity = (Entity) list.get(i);
+			for (Object o : list) {
+				Entity entity = (Entity) o;
 
 				if (entity.ad()) {
 					float f10 = entity.ao();

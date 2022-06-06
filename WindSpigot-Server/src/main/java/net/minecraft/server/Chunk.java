@@ -1140,8 +1140,8 @@ public class Chunk {
 						Entity[] entitybody = entityCheck.aB();
 
 						if (entitybody != null) {
-							for (int l = 0; l < entitybody.length; ++l) {
-								entityCheck = entitybody[l];
+							for (Entity value : entitybody) {
+								entityCheck = value;
 								if (entityCheck != entity && entityCheck.getBoundingBox().b(axisalignedbb)
 										&& (predicate == null || predicate.apply(entityCheck))) {
 									list.add(entityCheck);
@@ -1480,8 +1480,7 @@ public class Chunk {
 					EnumDirection[] aenumdirection = EnumDirection.values();
 					int j1 = aenumdirection.length;
 
-					for (int k1 = 0; k1 < j1; ++k1) {
-						EnumDirection enumdirection = aenumdirection[k1];
+					for (EnumDirection enumdirection : aenumdirection) {
 						BlockPosition blockposition2 = blockposition1.shift(enumdirection);
 
 						if (this.world.getType(blockposition2).getBlock().r() > 0) {

@@ -219,8 +219,7 @@ public class SpreadPlayersCommand extends VanillaCommand {
 		int i = 0;
 		Map<Team, Location> hashmap = Maps.newHashMap();
 
-		for (int j = 0; j < list.size(); ++j) {
-			Player player = list.get(j);
+		for (Player player : list) {
 			Location location;
 
 			if (teams) {
@@ -240,9 +239,9 @@ public class SpreadPlayersCommand extends VanillaCommand {
 					Math.floor(location.getZ()) + 0.5D));
 			double value = Double.MAX_VALUE;
 
-			for (int k = 0; k < locations.length; ++k) {
-				if (location != locations[k]) {
-					double d = location.distanceSquared(locations[k]);
+			for (Location item : locations) {
+				if (location != item) {
+					double d = location.distanceSquared(item);
 					value = Math.min(d, value);
 				}
 			}

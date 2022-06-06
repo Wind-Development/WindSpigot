@@ -53,9 +53,7 @@ public abstract class BlockButtonAbstract extends Block {
 		EnumDirection[] aenumdirection = EnumDirection.values();
 		int i = aenumdirection.length;
 
-		for (int j = 0; j < i; ++j) {
-			EnumDirection enumdirection = aenumdirection[j];
-
+		for (EnumDirection enumdirection : aenumdirection) {
 			if (a(world, blockposition, enumdirection)) {
 				return true;
 			}

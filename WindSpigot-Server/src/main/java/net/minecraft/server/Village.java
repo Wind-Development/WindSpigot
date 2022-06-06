@@ -246,8 +246,7 @@ public class Village {
 		double d0 = Double.MAX_VALUE;
 		Village.Aggressor village_aggressor = null;
 
-		for (int i = 0; i < this.k.size(); ++i) {
-			Village.Aggressor village_aggressor1 = this.k.get(i);
+		for (Aggressor village_aggressor1 : this.k) {
 			double d1 = village_aggressor1.a.h(entityliving);
 
 			if (d1 <= d0) {
