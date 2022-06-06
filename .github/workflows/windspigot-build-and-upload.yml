@@ -8,13 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip]')"
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK 17
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v3
       with:
+        distribution: 'temurin'
         java-version: 17
         server-id: github
-        settings-path: ${{ github.workspace }}
+        cache: 'maven'
         
     - name: Cache local Maven repository
       uses: actions/cache@v3
@@ -25,16 +26,16 @@ jobs:
           ${{ runner.os }}-maven-
       
     - name: Build with Maven
-      run: mvn package --file $GITHUB_WORKSPACE/pom.xml
+      run: mvn package --file pom.xml
       
     - name: Upload Server Artifact
-      uses: actions/upload-artifact@v2.2.0
+      uses: actions/upload-artifact@v3
       with:
         name: WindSpigot-server
-        path: ${{ github.workspace }}/WindSpigot-Server/target/WindSpigot.jar
+        path: WindSpigot-Server/target/WindSpigot.jar
 
     - name: Upload API Artifact
-      uses: actions/upload-artifact@v2.2.0
+      uses: actions/upload-artifact@v3
       with:
         name: WindSpigot-API
-        path: ${{ github.workspace }}/WindSpigot-API/target/WindSpigot-API.jar
+        path: WindSpigot-API/target/WindSpigot-API.jar
