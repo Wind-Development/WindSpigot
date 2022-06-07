@@ -102,11 +102,13 @@ public class WorldTickManager {
 		// Cache world tick runnables if not cached already
 		this.cacheWorlds(true); // Cache them as async world tickers
 
+		int asyncTaskCount = worldTickers.size() - 1;
+		
 		// Tick each world with a reused runnable on its own thread, except the last ticker (that one is run sync)
 		for (int index = 0; index < this.worldTickers.size(); index++) { 
 			WorldTicker ticker = worldTickers.get(index);
 			// Tick all worlds but one on a separate thread
-			if (index < worldTickers.size() - 1) {
+			if (index < asyncTaskCount) {
 				AsyncUtil.run(ticker, worldTickExecutor);
 			} else {
 				// Run the last ticker on the main thread, no need to schedule it async as all
