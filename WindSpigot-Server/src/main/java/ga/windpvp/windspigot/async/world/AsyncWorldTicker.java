@@ -13,10 +13,7 @@ public class AsyncWorldTicker extends WorldTicker {
 
 	@Override
 	public void run() {
-		// Synchronize for safe entity teleportation
-		synchronized (this.worldserver) {
-			super.run();
-		}
+		super.run();
 		// Decrement the latch to show that this world is done ticking
 		WorldTickManager.getInstance().getLatch().decrement();
 	}
