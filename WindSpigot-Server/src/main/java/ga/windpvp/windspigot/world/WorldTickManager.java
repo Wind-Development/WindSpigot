@@ -104,13 +104,14 @@ public class WorldTickManager {
 
 		// Tick each world with a reused runnable on its own thread, except the last ticker (that one is run sync)
 		for (int index = 0; index < this.worldTickers.size(); index++) { 
+			WorldTicker ticker = worldTickers.get(index);
 			// Tick all worlds but one on a separate thread
-			if (index < this.worldTickers.size() - 1) {
-				AsyncUtil.run(this.worldTickers.get(index), this.worldTickExecutor);
+			if (index < worldTickers.size() - 1) {
+				AsyncUtil.run(ticker, worldTickExecutor);
 			} else {
 				// Run the last ticker on the main thread, no need to schedule it async as all
 				// other tickers are running already
-				this.worldTickers.get(index).run();
+				ticker.run();
 			}
 		}
 
@@ -120,7 +121,7 @@ public class WorldTickManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally {
-			this.latch.reset(this.worldTickers.size());;
+			latch.reset(this.worldTickers.size());;
 		}
 	}
 
