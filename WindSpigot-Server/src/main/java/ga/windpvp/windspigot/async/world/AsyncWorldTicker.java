@@ -13,9 +13,12 @@ public class AsyncWorldTicker extends WorldTicker {
 
 	@Override
 	public void run() {
-		super.run();
-		// Decrement the latch to show that this world is done ticking
-		WorldTickManager.getInstance().getLatch().decrement();
+		try {
+			super.run();
+		} finally {
+			// Decrement the latch to show that this world is done ticking
+			WorldTickManager.getInstance().getLatch().decrement();
+		}
 	}
 
 }
