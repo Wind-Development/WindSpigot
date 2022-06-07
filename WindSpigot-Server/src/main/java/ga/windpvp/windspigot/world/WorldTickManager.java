@@ -1,10 +1,10 @@
 package ga.windpvp.windspigot.world;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
@@ -19,7 +19,7 @@ import net.minecraft.server.WorldServer;
 public class WorldTickManager {
 
 	// List of cached world tickers
-	private List<WorldTicker> worldTickers = new ArrayList<>();
+	private final List<WorldTicker> worldTickers = Lists.newCopyOnWriteArrayList();
 
 	// Latch to wait for world tick completion
 	private final ResettableLatch latch = new ResettableLatch();
@@ -65,8 +65,7 @@ public class WorldTickManager {
 				}
 				
 			}
-			// Null check to prevent resetting the latch when not using parallel worlds
-			if (this.latch != null) {
+			if (isAsync) {
 				// Reuse the latch
 				this.latch.reset(this.worldTickers.size());
 			}
@@ -116,11 +115,12 @@ public class WorldTickManager {
 		}
 
 		try {
-			// Wait for worlds to finish ticking then reset latch
+			// Wait for worlds to finish ticking
 			latch.waitTillZero();
-			this.latch.reset(this.worldTickers.size());;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		} finally {
+			this.latch.reset(this.worldTickers.size());;
 		}
 	}
 
