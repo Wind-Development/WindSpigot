@@ -62,11 +62,11 @@ public class WorldTicker implements Runnable {
 			throw new ReportedException(crashreport);
 		}
 
-		worldserver.timings.tracker.startTiming(); // Spigot
-
 		if (handleTracker) {
 			// Synchronize
 			synchronized (WorldTickManager.LOCK) {
+				worldserver.timings.tracker.startTiming(); // Spigot
+
 				// this.methodProfiler.b();
 				// this.methodProfiler.a("tracker");
 				if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
