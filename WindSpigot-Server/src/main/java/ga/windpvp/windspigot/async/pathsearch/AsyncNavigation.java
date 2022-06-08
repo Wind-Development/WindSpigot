@@ -63,14 +63,9 @@ public class AsyncNavigation extends Navigation {
 	public PathEntity a(Entity targetEntity) {
 		
 		boolean isTooClose = this.b.h(targetEntity) < minimumDistanceForOffloadingSquared;
-		
-		// Check if the entity is a NPC to fix Citizen navigation. Citizens breaks due
-		// to navigation being delayed.
-		boolean isCitizen = this.getEntity().getBukkitEntity().hasMetadata("NPC");
-		
 		boolean alreadySearching = this.isSearching.get();
 		
-		if ((!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || isTooClose || isCitizen) && !alreadySearching) {
+		if ((!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || isTooClose) && !alreadySearching) {
 			return super.a(targetEntity);
 		}
 				
@@ -103,14 +98,9 @@ public class AsyncNavigation extends Navigation {
 	public PathEntity a(int x, int y, int z) {
 		
 		boolean isTooClose = this.b.distanceSquared(x, y, z) < minimumDistanceForOffloadingSquared;
-		
-		// Check if the entity is a NPC to fix Citizen navigation. Citizens breaks due
-		// to navigation being delayed.
-		boolean isCitizen = this.getEntity().getBukkitEntity().hasMetadata("NPC");
-		
 		boolean alreadySearching = this.isSearching.get();
 		
-		if ((!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || isTooClose || isCitizen) && !alreadySearching) {
+		if ((!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || isTooClose) && !alreadySearching) {
 			return super.a(x, y, z);
 		}
 				
