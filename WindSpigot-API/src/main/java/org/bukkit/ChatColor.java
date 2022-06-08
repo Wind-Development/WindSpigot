@@ -340,7 +340,7 @@ public enum ChatColor {
 	 * @return Any remaining ChatColors to pass onto the next line.
 	 */
 	public static String getLastColors(String input) {
-		StringBuilder result = new StringBuilder();
+		String result = "";
 		int length = input.length();
 
 		// Search backwards from the end as it is faster
@@ -351,7 +351,7 @@ public enum ChatColor {
 				ChatColor color = getByChar(c);
 
 				if (color != null) {
-					result.insert(0, color);
+					result = color.toString() + result;
 
 					// Once we find a color or reset we can stop searching
 					if (color.isColor() || color.equals(RESET)) {
@@ -361,7 +361,7 @@ public enum ChatColor {
 			}
 		}
 
-		return result.toString();
+		return result;
 	}
 
 	static {
