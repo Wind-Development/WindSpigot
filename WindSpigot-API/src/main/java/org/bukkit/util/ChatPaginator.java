@@ -1,5 +1,6 @@
 package org.bukkit.util;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -92,9 +93,7 @@ public class ChatPaginator {
 			if (c == ' ' || c == '\n') {
 				if (line.length() == 0 && word.length() > lineLength) { // special case: extremely long word begins a
 																		// line
-					for (String partialWord : word.toString().split("(?<=\\G.{" + lineLength + "})")) {
-						lines.add(partialWord);
-					}
+					Collections.addAll(lines, word.toString().split("(?<=\\G.{" + lineLength + "})"));
 				} else if (line.length() + word.length() - lineColorChars == lineLength) { // Line exactly the correct
 																							// length...newline
 					line.append(word);

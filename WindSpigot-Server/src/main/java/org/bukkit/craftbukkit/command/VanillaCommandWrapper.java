@@ -221,9 +221,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
 
 	public static String[] dropFirstArgument(String as[]) {
 		String as1[] = new String[as.length - 1];
-		for (int i = 1; i < as.length; i++) {
-			as1[i - 1] = as[i];
-		}
+		System.arraycopy(as, 1, as1, 0, as.length - 1);
 
 		return as1;
 	}

@@ -1394,9 +1394,7 @@ public class Chunk {
 			Chunk.c.warn("Could not set level chunk sections, array length is " + achunksection.length + " instead of "
 					+ this.sections.length);
 		} else {
-			for (int i = 0; i < this.sections.length; ++i) {
-				this.sections[i] = achunksection[i];
-			}
+			System.arraycopy(achunksection, 0, this.sections, 0, this.sections.length);
 
 		}
 	}
@@ -1443,9 +1441,7 @@ public class Chunk {
 			Chunk.c.warn("Could not set level chunk biomes, array length is " + abyte.length + " instead of "
 					+ this.e.length);
 		} else {
-			for (int i = 0; i < this.e.length; ++i) {
-				this.e[i] = abyte[i];
-			}
+			System.arraycopy(abyte, 0, this.e, 0, this.e.length);
 
 		}
 	}
@@ -1610,9 +1606,7 @@ public class Chunk {
 			Chunk.c.warn("Could not set level chunk heightmap, array length is " + aint.length + " instead of "
 					+ this.heightMap.length);
 		} else {
-			for (int i = 0; i < this.heightMap.length; ++i) {
-				this.heightMap[i] = aint[i];
-			}
+			System.arraycopy(aint, 0, this.heightMap, 0, this.heightMap.length);
 
 		}
 	}
