@@ -273,12 +273,7 @@ public class Metrics {
 			try {
 				// Reload the metrics file
 				configuration.load(getConfigFile());
-			} catch (IOException ex) {
-				if (debug) {
-					Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
-				}
-				return true;
-			} catch (InvalidConfigurationException ex) {
+			} catch (IOException | InvalidConfigurationException ex) {
 				if (debug) {
 					Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
 				}

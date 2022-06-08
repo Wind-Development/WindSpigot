@@ -145,9 +145,7 @@ class CraftMetaItem implements ItemMeta, Repairable {
 
 			try {
 				return constructor.newInstance(map);
-			} catch (final InstantiationException e) {
-				throw new AssertionError(e);
-			} catch (final IllegalAccessException e) {
+			} catch (final InstantiationException | IllegalAccessException e) {
 				throw new AssertionError(e);
 			} catch (final InvocationTargetException e) {
 				throw e.getCause();

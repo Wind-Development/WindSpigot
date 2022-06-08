@@ -192,9 +192,7 @@ public enum Material {
 		// try to cache the constructor for this material
 		try {
 			this.ctor = data.getConstructor(int.class, byte.class);
-		} catch (NoSuchMethodException ex) {
-			throw new AssertionError(ex);
-		} catch (SecurityException ex) {
+		} catch (NoSuchMethodException | SecurityException ex) {
 			throw new AssertionError(ex);
 		}
 	}
