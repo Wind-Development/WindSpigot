@@ -3056,11 +3056,8 @@ public abstract class World implements IBlockAccess {
 			return this.c(enumskyblock, position, chunk, neighbors);
 		}
 
-		lightingExecutor.submit(new Runnable() {
-			@Override
-			public void run() {
-				World.this.c(enumskyblock, position, chunk, neighbors);
-			}
+		lightingExecutor.submit(() -> {
+			World.this.c(enumskyblock, position, chunk, neighbors);
 		});
 		return true;
 	}

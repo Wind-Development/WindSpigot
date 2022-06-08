@@ -133,18 +133,14 @@ public class TileEntitySkull extends TileEntity {
 		// Spigot start
 		GameProfile profile = this.g;
 		setSkullType(0); // Work around client bug
-		b(profile, new Predicate<GameProfile>() {
-
-			@Override
-			public boolean apply(GameProfile input) {
-				setSkullType(3); // Work around client bug
-				g = input;
-				update();
-				if (world != null) {
-					world.notify(position);
-				}
-				return false;
+		b(profile, input -> {
+			setSkullType(3); // Work around client bug
+			g = input;
+			update();
+			if (world != null) {
+				world.notify(position);
 			}
+			return false;
 		});
 		// Spigot end
 	}
@@ -162,24 +158,21 @@ public class TileEntitySkull extends TileEntity {
 						&& Iterables.getFirst(profile.getProperties().get("textures"), (Object) null) != null) {
 					callback.apply(profile);
 				} else {
-					executor.execute(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								final GameProfile profile = skinCache.get(gameprofile.getName().toLowerCase());
-								MinecraftServer.getServer().processQueue.add(new Runnable() {
-									@Override
-									public void run() {
-										if (profile == null) {
-											callback.apply(gameprofile);
-										} else {
-											callback.apply(profile);
-										}
+					executor.execute(() -> {
+						try {
+							final GameProfile profile1 = skinCache.get(gameprofile.getName().toLowerCase());
+							MinecraftServer.getServer().processQueue.add(new Runnable() {
+								@Override
+								public void run() {
+									if (profile1 == null) {
+										callback.apply(gameprofile);
+									} else {
+										callback.apply(profile1);
 									}
-								});
-							} catch (ExecutionException ex) {
-								ex.printStackTrace();
-							}
+								}
+							});
+						} catch (ExecutionException ex) {
+							ex.printStackTrace();
 						}
 					});
 				}

@@ -131,14 +131,10 @@ public class ItemSkull extends Item {
 			GameProfile gameprofile = new GameProfile((UUID) null, nbttagcompound.getString("SkullOwner"));
 
 			// Spigot start
-			TileEntitySkull.b(gameprofile, new com.google.common.base.Predicate<GameProfile>() {
-
-				@Override
-				public boolean apply(GameProfile gameprofile) {
-					nbttagcompound.set("SkullOwner",
-							GameProfileSerializer.serialize(new NBTTagCompound(), gameprofile));
-					return false;
-				}
+			TileEntitySkull.b(gameprofile, gameprofile1 -> {
+				nbttagcompound.set("SkullOwner",
+						GameProfileSerializer.serialize(new NBTTagCompound(), gameprofile1));
+				return false;
 			});
 			// Spigot end
 			return true;

@@ -261,18 +261,8 @@ public class NBTTagCompound extends NBTBase {
 	private CrashReport a(final String var1, final int var2, ClassCastException var3) {
 		CrashReport var4 = CrashReport.a(var3, "Reading NBT data");
 		CrashReportSystemDetails var5 = var4.a("Corrupt NBT tag", 1);
-		var5.a("Tag type found", new Callable<String>() {
-			@Override
-			public String call() throws Exception {
-				return NBTBase.a[NBTTagCompound.this.map.get(var1).getTypeId()];
-			}
-		});
-		var5.a("Tag type expected", new Callable<String>() {
-			@Override
-			public String call() throws Exception {
-				return NBTBase.a[var2];
-			}
-		});
+		var5.a("Tag type found", () -> NBTBase.a[NBTTagCompound.this.map.get(var1).getTypeId()]);
+		var5.a("Tag type expected", () -> NBTBase.a[var2]);
 		var5.a("Tag name", var1);
 		return var4;
 	}

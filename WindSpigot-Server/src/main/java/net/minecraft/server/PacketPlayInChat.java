@@ -43,13 +43,7 @@ public class PacketPlayInChat implements Packet<PacketListenerPlayIn> {
 	@Override
 	public void a(final PacketListenerPlayIn packetlistenerplayin) {
 		if (!a.startsWith("/")) {
-			executors.submit(new Runnable() {
-
-				@Override
-				public void run() {
-					packetlistenerplayin.a(PacketPlayInChat.this);
-				}
-			});
+			executors.submit(() -> packetlistenerplayin.a(PacketPlayInChat.this));
 			return;
 		}
 		// Spigot End

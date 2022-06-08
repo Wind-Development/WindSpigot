@@ -240,14 +240,10 @@ public class EntityTrackerEntry {
 		return noTrackDistanceSqrd != 0 && xDistSqrd <= noTrackDistanceSqrd && zDistSqrd <= noTrackDistanceSqrd;
 	}
 
-	private final Consumer<EntityPlayer> addNearPlayersConsumer = new Consumer<EntityPlayer>() {
-
-		@Override
-		public void accept(EntityPlayer entityPlayer) {
-            // WindSpigot - synchronize
-			synchronized (entityPlayer) { 
-				updatePlayer(entityPlayer);
-			}
+	private final Consumer<EntityPlayer> addNearPlayersConsumer = entityPlayer -> {
+// WindSpigot - synchronize
+		synchronized (entityPlayer) {
+			updatePlayer(entityPlayer);
 		}
 	};
 

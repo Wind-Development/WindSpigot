@@ -63,12 +63,7 @@ public class TimingHistory {
 	public static long tileEntityTicks;
 	public static long activatedEntityTicks;
 	static int worldIdPool = 1;
-	static Map<String, Integer> worldMap = LoadingMap.newHashMap(new Function<String, Integer>() {
-		@Override
-		public Integer apply(String input) {
-			return worldIdPool++;
-		}
-	});
+	static Map<String, Integer> worldMap = LoadingMap.newHashMap(input -> worldIdPool++);
 	final long endTime;
 	final long startTime;
 	final long totalTicks;
@@ -107,48 +102,43 @@ public class TimingHistory {
 		final Map<Material, Counter> tileEntityCounts = MRUMapCache
 				.of(LoadingMap.of(new EnumMap<Material, Counter>(Material.class), Counter.LOADER));
 		// Information about all loaded chunks/entities
-		this.worlds = toObjectMapper(Bukkit.getWorlds(), new Function<World, JSONPair>() {
-			@Override
-			public JSONPair apply(World world) {
-				return pair(worldMap.get(world.getName()),
-						toArrayMapper(world.getLoadedChunks(), new Function<Chunk, Object>() {
-							@Override
-							public Object apply(Chunk chunk) {
-								entityCounts.clear();
-								tileEntityCounts.clear();
+		this.worlds = toObjectMapper(Bukkit.getWorlds(), world -> pair(worldMap.get(world.getName()),
+				toArrayMapper(world.getLoadedChunks(), new Function<Chunk, Object>() {
+					@Override
+					public Object apply(Chunk chunk) {
+						entityCounts.clear();
+						tileEntityCounts.clear();
 
-								for (Entity entity : chunk.getEntities()) {
-									entityCounts.get(entity.getType()).increment();
-								}
+						for (Entity entity : chunk.getEntities()) {
+							entityCounts.get(entity.getType()).increment();
+						}
 
-								for (BlockState tileEntity : chunk.getTileEntities()) {
-									tileEntityCounts.get(tileEntity.getBlock().getType()).increment();
-								}
+						for (BlockState tileEntity : chunk.getTileEntities()) {
+							tileEntityCounts.get(tileEntity.getBlock().getType()).increment();
+						}
 
-								if (tileEntityCounts.isEmpty() && entityCounts.isEmpty()) {
-									return null;
-								}
-								return toArray(chunk.getX(), chunk.getZ(), toObjectMapper(entityCounts.entrySet(),
-										new Function<Map.Entry<EntityType, Counter>, JSONPair>() {
+						if (tileEntityCounts.isEmpty() && entityCounts.isEmpty()) {
+							return null;
+						}
+						return toArray(chunk.getX(), chunk.getZ(), toObjectMapper(entityCounts.entrySet(),
+								new Function<Map.Entry<EntityType, Counter>, JSONPair>() {
+									@Override
+									public JSONPair apply(Map.Entry<EntityType, Counter> entry) {
+										entityTypeSet.add(entry.getKey());
+										return pair(String.valueOf(entry.getKey().getTypeId()),
+												entry.getValue().count());
+									}
+								}), toObjectMapper(tileEntityCounts.entrySet(),
+										new Function<Map.Entry<Material, Counter>, JSONPair>() {
 											@Override
-											public JSONPair apply(Map.Entry<EntityType, Counter> entry) {
-												entityTypeSet.add(entry.getKey());
-												return pair(String.valueOf(entry.getKey().getTypeId()),
+											public JSONPair apply(Map.Entry<Material, Counter> entry) {
+												tileEntityTypeSet.add(entry.getKey());
+												return pair(String.valueOf(entry.getKey().getId()),
 														entry.getValue().count());
 											}
-										}), toObjectMapper(tileEntityCounts.entrySet(),
-												new Function<Map.Entry<Material, Counter>, JSONPair>() {
-													@Override
-													public JSONPair apply(Map.Entry<Material, Counter> entry) {
-														tileEntityTypeSet.add(entry.getKey());
-														return pair(String.valueOf(entry.getKey().getId()),
-																entry.getValue().count());
-													}
-												}));
-							}
-						}));
-			}
-		});
+										}));
+					}
+				})));
 	}
 
 	public static void resetTicks(boolean fullReset) {
@@ -165,21 +155,13 @@ public class TimingHistory {
 
 	Object export() {
 		return createObject(pair("s", startTime), pair("e", endTime), pair("tk", totalTicks), pair("tm", totalTime),
-				pair("w", worlds), pair("h", toArrayMapper(entries, new Function<TimingHistoryEntry, Object>() {
-					@Override
-					public Object apply(TimingHistoryEntry entry) {
-						TimingData record = entry.data;
-						if (record.count == 0) {
-							return null;
-						}
-						return entry.export();
+				pair("w", worlds), pair("h", toArrayMapper(entries, entry -> {
+					TimingData record = entry.data;
+					if (record.count == 0) {
+						return null;
 					}
-				})), pair("mp", toArrayMapper(minuteReports, new Function<MinuteReport, Object>() {
-					@Override
-					public Object apply(MinuteReport input) {
-						return input.export();
-					}
-				})));
+					return entry.export();
+				})), pair("mp", toArrayMapper(minuteReports, input -> input.export())));
 	}
 
 	static class MinuteReport {

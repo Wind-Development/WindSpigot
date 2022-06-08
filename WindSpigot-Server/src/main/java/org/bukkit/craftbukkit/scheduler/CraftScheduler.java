@@ -66,12 +66,7 @@ public class CraftScheduler implements BukkitScheduler {
 	/**
 	 * Main thread logic only
 	 */
-	private final PriorityQueue<CraftTask> pending = new PriorityQueue<CraftTask>(10, new Comparator<CraftTask>() {
-		@Override
-		public int compare(final CraftTask o1, final CraftTask o2) {
-			return (int) (o1.getNextRun() - o2.getNextRun());
-		}
-	});
+	private final PriorityQueue<CraftTask> pending = new PriorityQueue<CraftTask>(10, (o1, o2) -> (int) (o1.getNextRun() - o2.getNextRun()));
 	/**
 	 * Main thread logic only
 	 */
@@ -281,20 +276,17 @@ public class CraftScheduler implements BukkitScheduler {
 
 	@Override
 	public void cancelAllTasks() {
-		final CraftTask task = new CraftTask(new Runnable() {
-			@Override
-			public void run() {
-				Iterator<CraftTask> it = CraftScheduler.this.runners.values().iterator();
-				while (it.hasNext()) {
-					CraftTask task = it.next();
-					task.cancel0();
-					if (task.isSync()) {
-						it.remove();
-					}
+		final CraftTask task = new CraftTask(() -> {
+			Iterator<CraftTask> it = CraftScheduler.this.runners.values().iterator();
+			while (it.hasNext()) {
+				CraftTask task1 = it.next();
+				task1.cancel0();
+				if (task1.isSync()) {
+					it.remove();
 				}
-				CraftScheduler.this.pending.clear();
-				CraftScheduler.this.temp.clear();
 			}
+			CraftScheduler.this.pending.clear();
+			CraftScheduler.this.temp.clear();
 		}) {
 			{
 				this.timings = co.aikar.timings.SpigotTimings.getCancelTasksTimer();

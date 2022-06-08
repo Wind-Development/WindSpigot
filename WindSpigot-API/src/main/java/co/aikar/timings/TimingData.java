@@ -37,12 +37,7 @@ import com.google.common.base.Function;
  * This is broken out to reduce memory usage
  */
 class TimingData {
-	static Function<Integer, TimingData> LOADER = new Function<Integer, TimingData>() {
-		@Override
-		public TimingData apply(Integer input) {
-			return new TimingData(input);
-		}
-	};
+	static Function<Integer, TimingData> LOADER = input -> new TimingData(input);
 	int id;
 	int count = 0;
 	int lagCount = 0;

@@ -107,13 +107,8 @@ class TimingsExport extends Thread {
 				pair("runtime", ManagementFactory.getRuntimeMXBean().getUptime()),
 				pair("flags", StringUtils.join(runtimeBean.getInputArguments(), " ")),
 				pair("gc", toObjectMapper(ManagementFactory.getGarbageCollectorMXBeans(),
-						new Function<GarbageCollectorMXBean, JSONPair>() {
-							@Override
-							public JSONPair apply(GarbageCollectorMXBean input) {
-								return pair(input.getName(),
-										toArray(input.getCollectionCount(), input.getCollectionTime()));
-							}
-						}))));
+						input -> pair(input.getName(),
+								toArray(input.getCollectionCount(), input.getCollectionTime()))))));
 
 		Set<Material> tileEntityTypeSet = Sets.newHashSet();
 		Set<EntityType> entityTypeSet = Sets.newHashSet();
@@ -142,42 +137,17 @@ class TimingsExport extends Thread {
 		}
 
 		parent.put("idmap", createObject(pair("groups", toObjectMapper(TimingIdentifier.GROUP_MAP.values(),
-				new Function<TimingIdentifier.TimingGroup, JSONPair>() {
-					@Override
-					public JSONPair apply(TimingIdentifier.TimingGroup group) {
-						return pair(group.id, group.name);
-					}
-				})), pair("handlers", handlers), pair("worlds", toObjectMapper(TimingHistory.worldMap.entrySet(),
-						new Function<Map.Entry<String, Integer>, JSONPair>() {
-							@Override
-							public JSONPair apply(Map.Entry<String, Integer> input) {
-								return pair(input.getValue(), input.getKey());
-							}
-						})),
-				pair("tileentity", toObjectMapper(tileEntityTypeSet, new Function<Material, JSONPair>() {
-					@Override
-					public JSONPair apply(Material input) {
-						return pair(input.getId(), input.name());
-					}
-				})), pair("entity", toObjectMapper(entityTypeSet, new Function<EntityType, JSONPair>() {
-					@Override
-					public JSONPair apply(EntityType input) {
-						return pair(input.getTypeId(), input.name());
-					}
-				}))));
+						group -> pair(group.id, group.name))), pair("handlers", handlers), pair("worlds", toObjectMapper(TimingHistory.worldMap.entrySet(),
+						input -> pair(input.getValue(), input.getKey()))),
+				pair("tileentity", toObjectMapper(tileEntityTypeSet, input -> pair(input.getId(), input.name()))), pair("entity", toObjectMapper(entityTypeSet, input -> pair(input.getTypeId(), input.name())))));
 
 		// Information about loaded plugins
 
-		parent.put("plugins", toObjectMapper(Bukkit.getPluginManager().getPlugins(), new Function<Plugin, JSONPair>() {
-			@Override
-			public JSONPair apply(Plugin plugin) {
-				return pair(plugin.getName(),
-						createObject(pair("version", plugin.getDescription().getVersion()),
-								pair("description", String.valueOf(plugin.getDescription().getDescription()).trim()),
-								pair("website", plugin.getDescription().getWebsite()),
-								pair("authors", StringUtils.join(plugin.getDescription().getAuthors(), ", "))));
-			}
-		}));
+		parent.put("plugins", toObjectMapper(Bukkit.getPluginManager().getPlugins(), plugin -> pair(plugin.getName(),
+				createObject(pair("version", plugin.getDescription().getVersion()),
+						pair("description", String.valueOf(plugin.getDescription().getDescription()).trim()),
+						pair("website", plugin.getDescription().getWebsite()),
+						pair("authors", StringUtils.join(plugin.getDescription().getAuthors(), ", "))))));
 
 		// Information on the users Config
 
@@ -245,12 +215,7 @@ class TimingsExport extends Thread {
 		if (!(val instanceof MemorySection)) {
 			if (val instanceof List) {
 				Iterable<Object> v = (Iterable<Object>) val;
-				return toArrayMapper(v, new Function<Object, Object>() {
-					@Override
-					public Object apply(Object input) {
-						return valAsJSON(input, parentKey);
-					}
-				});
+				return toArrayMapper(v, input -> valAsJSON(input, parentKey));
 			} else {
 				return val.toString();
 			}
@@ -276,12 +241,7 @@ class TimingsExport extends Thread {
 	public void run() {
 		sender.sendMessage(ChatColor.GREEN + "Preparing Timings Report...");
 
-		out.put("data", toArrayMapper(history, new Function<TimingHistory, Object>() {
-			@Override
-			public Object apply(TimingHistory input) {
-				return input.export();
-			}
-		}));
+		out.put("data", toArrayMapper(history, input -> input.export()));
 
 		String response = null;
 		try {

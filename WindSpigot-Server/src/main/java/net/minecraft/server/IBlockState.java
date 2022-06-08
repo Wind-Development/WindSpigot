@@ -18,12 +18,7 @@ public interface IBlockState<T extends Comparable<T>> {
 
 	// TacoSpigot start
 	@SuppressWarnings("Convert2Lambda") // We have to use anon for performance reasons :/
-	public static final Indexer<IBlockState> INDEXER = new Indexer<IBlockState>() {
-		@Override
-		public int getId(IBlockState state) {
-			return state.getId();
-		}
-	};
+	public final Indexer<IBlockState> INDEXER = IBlockState::getId;
 
 	public default void tryInitId() {
 	}

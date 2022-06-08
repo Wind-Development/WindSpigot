@@ -1341,12 +1341,7 @@ public class Chunk {
 			return;
 		}
 
-		world.lightingExecutor.submit(new Runnable() {
-			@Override
-			public void run() {
-				Chunk.this.h(isClientSide);
-			}
-		});
+		world.lightingExecutor.submit(() -> Chunk.this.h(isClientSide));
 	}
 
 	public boolean isReady() {

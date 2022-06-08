@@ -201,12 +201,7 @@ public class CraftWorld implements World {
 	@Override
 	public void getChunkAtAsync(final int x, final int z, final ChunkLoadCallback callback) {
 		final ChunkProviderServer cps = this.world.chunkProviderServer;
-		cps.getChunkAt(x, z, new Runnable() {
-			@Override
-			public void run() {
-				callback.onLoad(cps.getChunkAt(x, z).bukkitChunk);
-			}
-		});
+		cps.getChunkAt(x, z, () -> callback.onLoad(cps.getChunkAt(x, z).bukkitChunk));
 	}
 
 	@Override

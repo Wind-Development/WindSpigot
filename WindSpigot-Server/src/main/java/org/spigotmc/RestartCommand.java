@@ -20,12 +20,7 @@ public class RestartCommand extends Command {
 	@Override
 	public boolean execute(CommandSender sender, String currentAlias, String[] args) {
 		if (testPermission(sender)) {
-			MinecraftServer.getServer().processQueue.add(new Runnable() {
-				@Override
-				public void run() {
-					restart();
-				}
-			});
+			MinecraftServer.getServer().processQueue.add(() -> restart());
 		}
 		return true;
 	}
@@ -68,21 +63,18 @@ public class RestartCommand extends Command {
 				}
 
 				// This will be done AFTER the server has completely halted
-				Thread shutdownHook = new Thread() {
-					@Override
-					public void run() {
-						try {
-							String os = System.getProperty("os.name").toLowerCase();
-							if (os.contains("win")) {
-								Runtime.getRuntime().exec("cmd /c start " + script.getPath());
-							} else {
-								Runtime.getRuntime().exec(new String[] { "sh", script.getPath() });
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
+				Thread shutdownHook = new Thread(() -> {
+					try {
+						String os = System.getProperty("os.name").toLowerCase();
+						if (os.contains("win")) {
+							Runtime.getRuntime().exec("cmd /c start " + script.getPath());
+						} else {
+							Runtime.getRuntime().exec(new String[] { "sh", script.getPath() });
 						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				};
+				});
 
 				shutdownHook.setDaemon(true);
 				Runtime.getRuntime().addShutdownHook(shutdownHook);

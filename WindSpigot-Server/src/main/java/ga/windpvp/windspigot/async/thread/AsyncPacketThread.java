@@ -23,13 +23,7 @@ public abstract class AsyncPacketThread {
     protected Queue<Runnable> packets = new ConcurrentLinkedQueue<Runnable>();
 
     public AsyncPacketThread(String s) {
-        this.thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-            	AsyncPacketThread.this.loop();
-            }
-        }, s);
+        this.thread = new Thread(() -> AsyncPacketThread.this.loop(), s);
         this.thread.start();
     }
     
@@ -78,13 +72,7 @@ public abstract class AsyncPacketThread {
 
     // Queue a packet
     public void addPacket(final Packet<?>  packet, final NetworkManager manager, final GenericFutureListener<? extends Future<? super Void>>[] agenericfuturelistener) {
-        this.packets.add(new Runnable() {
-
-            @Override
-            public void run() {
-                Spigot404Write.writeThenFlush(manager.channel, packet, agenericfuturelistener);
-            }
-        });
+        this.packets.add(() -> Spigot404Write.writeThenFlush(manager.channel, packet, agenericfuturelistener));
     }
 
     public Thread getThread() {
