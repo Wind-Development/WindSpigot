@@ -54,17 +54,25 @@ public class KnockbackConfig {
 			// WIP custom profile
 			final KnockbackProfile windpvpProfile = new CraftKnockbackProfile("windpvp");
 			
-			// Make projectiles / fishing rods deal more knockback than normal
 			windpvpProfile.setRodHorizontal(0.7);
-			
-			windpvpProfile.setSnowballHorizontal(0.7);
-			
+			windpvpProfile.setSnowballHorizontal(0.7);			
 			windpvpProfile.setEggHorizontal(0.7);
+			windpvpProfile.setArrowHorizontal(0.5);
 			
-			// Increase knockback for w taps (this replaces "setExtraHorizontal/setExtraVertical" when 
-			// a player is attacking whilst sprinting)
-			windpvpProfile.setWTapExtraHorizontal(0.55);
-
+			windpvpProfile.setFrictionHorizontal(4.0);
+			windpvpProfile.setFrictionVertical(2.0);
+			
+			windpvpProfile.setHorizontal(0.71);
+			windpvpProfile.setVertical(0.3);
+			
+			windpvpProfile.setExtraHorizontal(0.27);
+			windpvpProfile.setExtraVertical(0.1);
+			
+			windpvpProfile.setWTapExtraHorizontal(0.28);
+			windpvpProfile.setWTapExtraVertical(0.1);
+			
+			windpvpProfile.setAddHorizontal(0.04);	
+			
 			windpvpProfile.save(true);
 		}
 		
@@ -72,20 +80,20 @@ public class KnockbackConfig {
 			final KnockbackProfile defaultProfile = new CraftKnockbackProfile("kohi"); 
 
 			defaultProfile.setHorizontal(0.35);
-                        defaultProfile.setRodHorizontal(0.35);
-                        defaultProfile.setArrowHorizontal(0.35);
-                        defaultProfile.setPearlHorizontal(0.35);
-                        defaultProfile.setSnowballHorizontal(0.35);
-                        defaultProfile.setEggHorizontal(0.35);
-                        defaultProfile.setExtraHorizontal(0.425);
+			defaultProfile.setRodHorizontal(0.35);
+			defaultProfile.setArrowHorizontal(0.35);
+			defaultProfile.setPearlHorizontal(0.35);
+			defaultProfile.setSnowballHorizontal(0.35);
+			defaultProfile.setEggHorizontal(0.35);
+			defaultProfile.setExtraHorizontal(0.425);
 
 			defaultProfile.setVertical(0.35);
-                        defaultProfile.setRodVertical(0.35);
-                        defaultProfile.setArrowVertical(0.35);
-                        defaultProfile.setPearlVertical(0.35);
-                        defaultProfile.setSnowballVertical(0.35);
-                        defaultProfile.setEggVertical(0.35);
-                        defaultProfile.setExtraVertical(0.425);
+			defaultProfile.setRodVertical(0.35);
+			defaultProfile.setArrowVertical(0.35);
+			defaultProfile.setPearlVertical(0.35);
+			defaultProfile.setSnowballVertical(0.35);
+			defaultProfile.setEggVertical(0.35);
+			defaultProfile.setExtraVertical(0.425);
 
 			defaultProfile.save(true);
 		}
