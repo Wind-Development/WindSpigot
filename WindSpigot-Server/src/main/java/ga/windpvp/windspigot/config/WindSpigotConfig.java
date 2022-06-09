@@ -250,7 +250,7 @@ public class WindSpigotConfig {
 	public static boolean parallelWorld;
 
 	private static void parallelWorld() {
-		parallelWorld = getBoolean("settings.async.parallel-world", true);
+		parallelWorld = getBoolean("settings.async.parallel-world", false);
 		// Disable timings by making timings check a variable (Code from api can't
 		// access server code, so we have to do this)
 		// Please open a PR if you know of a better method to do this.
