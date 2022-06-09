@@ -3,11 +3,8 @@ package me.rastrian.dev;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
-import ga.windpvp.windspigot.commons.InternalPlayerMap;
-import net.minecraft.server.EntityHuman;
+import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MathHelper;
 import net.minecraft.server.Packet;
@@ -15,13 +12,13 @@ import net.minecraft.server.Packet;
 public class PlayerMap {
 
 	private static final int CHUNK_BITS = 5;
-	private final InternalPlayerMap<List<EntityPlayer>> map = new InternalPlayerMap<>();
+	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectArrayMap<>();
 
 	private static long xzToKey(long x, long z) {
 		return (x << 32) + z - Integer.MIN_VALUE;
 	}
 
-	public void add(EntityPlayer player) {
+	public synchronized void add(EntityPlayer player) {
 		int x = MathHelper.floor(player.locX) >> CHUNK_BITS;
 		int z = MathHelper.floor(player.locZ) >> CHUNK_BITS;
 		long key = xzToKey(x, z);
@@ -35,7 +32,7 @@ public class PlayerMap {
 		player.playerMapZ = z;
 	}
 
-	public void move(EntityPlayer player) {
+	public synchronized void move(EntityPlayer player) {
 		int x = MathHelper.floor(player.locX) >> CHUNK_BITS;
 		int z = MathHelper.floor(player.locZ) >> CHUNK_BITS;
 
@@ -64,7 +61,7 @@ public class PlayerMap {
 		player.playerMapZ = z;
 	}
 
-	public void remove(EntityPlayer player) {
+	public synchronized void remove(EntityPlayer player) {
 		long key = xzToKey(player.playerMapX, player.playerMapZ);
 		List<EntityPlayer> list = map.get(key);
 		if (list == null) {
@@ -78,7 +75,7 @@ public class PlayerMap {
 		}
 	}
 
-	public void forEachNearby(double x, double y, double z, double distance, boolean useRadius,
+	public synchronized void forEachNearby(double x, double y, double z, double distance, boolean useRadius,
 			Consumer<EntityPlayer> function) {
 		for (int chunkX = MathHelper.floor(x - distance) >> CHUNK_BITS; chunkX <= MathHelper
 				.floor(x + distance) >> CHUNK_BITS; chunkX++) {
@@ -96,7 +93,7 @@ public class PlayerMap {
 		}
 	}
 
-	public EntityPlayer getNearestPlayer(double x, double y, double z, double distance) {
+	public synchronized EntityPlayer getNearestPlayer(double x, double y, double z, double distance) {
 		double bestDistanceSqrd = -1.0;
 		EntityPlayer bestPlayer = null;
 
@@ -120,7 +117,7 @@ public class PlayerMap {
 		return bestPlayer;
 	}
 
-	public boolean isPlayerNearby(double x, double y, double z, double distance, boolean respectSpawningApi) {
+	public synchronized boolean isPlayerNearby(double x, double y, double z, double distance, boolean respectSpawningApi) {
 		for (int chunkX = MathHelper.floor(x - distance) >> CHUNK_BITS; chunkX <= MathHelper
 				.floor(x + distance) >> CHUNK_BITS; chunkX++) {
 			for (int chunkZ = MathHelper.floor(z - distance) >> CHUNK_BITS; chunkZ <= MathHelper
@@ -141,7 +138,7 @@ public class PlayerMap {
 		return false;
 	}
 
-	public EntityPlayer getNearbyPlayer(double x, double y, double z, double distance, boolean respectSpawningApi) {
+	public synchronized EntityPlayer getNearbyPlayer(double x, double y, double z, double distance, boolean respectSpawningApi) {
 		double bestDistanceSqrd = -1.0;
 		EntityPlayer bestPlayer = null;
 
@@ -168,6 +165,7 @@ public class PlayerMap {
 		return bestPlayer;
 	}
 
+	/*
 	public EntityPlayer getNearestAttackablePlayer(double x, double y, double z, double maxXZ, double maxY,
 			Function<EntityHuman, Double> visibility) {
 		return getNearestAttackablePlayer(x, y, z, maxXZ, maxY, visibility, null);
@@ -218,8 +216,9 @@ public class PlayerMap {
 
 		return bestPlayer;
 	}
+	*/
 
-	public void sendPacketNearby(EntityPlayer source, double x, double y, double z, double distance, Packet<?> packet,
+	public synchronized void sendPacketNearby(EntityPlayer source, double x, double y, double z, double distance, Packet<?> packet,
 			boolean self) {
 		for (int chunkX = MathHelper.floor(x - distance) >> CHUNK_BITS; chunkX <= MathHelper
 				.floor(x + distance) >> CHUNK_BITS; chunkX++) {
