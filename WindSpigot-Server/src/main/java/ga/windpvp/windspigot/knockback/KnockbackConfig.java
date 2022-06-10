@@ -55,20 +55,23 @@ public class KnockbackConfig {
 			final KnockbackProfile windpvpProfile = new CraftKnockbackProfile("windpvp");
 			
 			windpvpProfile.setRodHorizontal(0.7);
-			windpvpProfile.setSnowballHorizontal(0.7);			
+			windpvpProfile.setRodVertical(0.5);
+			windpvpProfile.setSnowballHorizontal(0.7);
+			windpvpProfile.setSnowballHorizontal(0.5);
 			windpvpProfile.setEggHorizontal(0.7);
+			windpvpProfile.setEggVertical(0.5);
 			windpvpProfile.setArrowHorizontal(0.5);
 			
-			windpvpProfile.setFrictionHorizontal(4.0);
+			windpvpProfile.setFrictionHorizontal(1.85);
 			windpvpProfile.setFrictionVertical(2.0);
 			
-			windpvpProfile.setHorizontal(0.71);
+			windpvpProfile.setHorizontal(0.1);
 			windpvpProfile.setVertical(0.3);
 			
-			windpvpProfile.setExtraHorizontal(0.27);
+			windpvpProfile.setExtraHorizontal(0.75);
 			windpvpProfile.setExtraVertical(0.1);
 			
-			windpvpProfile.setWTapExtraHorizontal(0.28);
+			windpvpProfile.setWTapExtraHorizontal(0.76);
 			windpvpProfile.setWTapExtraVertical(0.1);
 			
 			windpvpProfile.setAddHorizontal(0.04);	
