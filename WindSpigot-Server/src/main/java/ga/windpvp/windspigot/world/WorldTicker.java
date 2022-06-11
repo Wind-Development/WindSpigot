@@ -14,7 +14,8 @@ import net.minecraft.server.WorldServer;
 public class WorldTicker implements Runnable {
 
 	public final WorldServer worldserver;
-
+	public boolean hasInitTracked = false;
+	
 	public WorldTicker(WorldServer worldServer) {
 		this.worldserver = worldServer;
 	}
@@ -47,7 +48,7 @@ public class WorldTicker implements Runnable {
 		}
 
 		try {
-			if (!handleTracker && WorldTickManager.getInstance().hasInitTracked()) {
+			if (!handleTracker && hasInitTracked) {
 				WorldTickManager.getInstance().getTrackLatch().waitTillZero();
 				WorldTickManager.getInstance().getTrackLatch().reset();
 			}

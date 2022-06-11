@@ -45,9 +45,7 @@ public class WorldTickManager {
 		AsyncEntityTracker.enableAutomaticFlush();
 		trackLatch.decrement();
 	};
-	
-	private boolean hasInitTracked = false;
-	
+		
 	// Initializes the world ticker manager
 	public WorldTickManager() {
 		worldTickerManagerInstance = this;
@@ -91,7 +89,10 @@ public class WorldTickManager {
 			
 			AsyncEntityTracker.disableAutomaticFlush(); // Perform this on the main thread
 			AsyncUtil.run(cachedUpdateTrackerTask, AsyncEntityTracker.getExecutor());
-			hasInitTracked = true;
+			
+			for (WorldTicker ticker : worldTickers) {
+				ticker.hasInitTracked = true;
+			}
 		}
 	}
 	
@@ -153,13 +154,6 @@ public class WorldTickManager {
 	 */
 	public ResettableLatch getTrackLatch() {
 		return trackLatch;
-	}
-	
-	/**
-	 * @return If the server has handled the entity tracker
-	 */
-	public boolean hasInitTracked() {
-		return hasInitTracked;
 	}
 
 	/**
