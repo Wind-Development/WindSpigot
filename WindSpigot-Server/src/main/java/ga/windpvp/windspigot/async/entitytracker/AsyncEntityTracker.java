@@ -30,11 +30,12 @@ public class AsyncEntityTracker extends EntityTracker {
 	
 	@Override
 	public void updatePlayers() {
+		final int maxIndex = c.size() - 1;
 		for (int offset = 0; offset <= 5; offset++) {
 			final int finalOffset = offset;
 			
 			AsyncUtil.run(() -> {
-				for (int index = finalOffset; index <= c.size(); index += 6) {
+				for (int index = finalOffset; index <= maxIndex; index += 6) {
 					EntityTrackerEntry entry = c.get(index);
 					entry.update();
 				}
