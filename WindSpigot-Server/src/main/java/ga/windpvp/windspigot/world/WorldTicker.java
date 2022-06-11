@@ -47,6 +47,10 @@ public class WorldTicker implements Runnable {
 		}
 
 		try {
+			if (!handleTracker && WorldTickManager.getInstance().hasInitTracked()) {
+				WorldTickManager.getInstance().getTrackLatch().waitTillZero();
+				WorldTickManager.getInstance().getTrackLatch().reset();
+			}
 			worldserver.timings.tickEntities.startTiming(); // Spigot
 			worldserver.tickEntities();
 			worldserver.timings.tickEntities.stopTiming(); // Spigot

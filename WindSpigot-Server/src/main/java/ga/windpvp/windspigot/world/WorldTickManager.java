@@ -34,13 +34,19 @@ public class WorldTickManager {
 	// Instance
 	private static WorldTickManager worldTickerManagerInstance;
 	
+	// Latch to wait for entity track completion
+	private final ResettableLatch trackLatch = new ResettableLatch(1); 
+	
 	// Cached async entity tracker update runnable
 	private final Runnable cachedUpdateTrackerTask = () -> {
 		for (WorldTicker ticker : this.worldTickers) {
 			ticker.worldserver.getTracker().updatePlayers();
 		}
 		ThreadSafeTracker.enableAutomaticFlush();
+		trackLatch.decrement();
 	};
+	
+	private boolean hasInitTracked = false;
 	
 	// Initializes the world ticker manager
 	public WorldTickManager() {
@@ -84,7 +90,8 @@ public class WorldTickManager {
 		if (!WindSpigotConfig.disableTracking) {
 			
 			ThreadSafeTracker.disableAutomaticFlush(); // Perform this on the main thread
-			AsyncUtil.run(cachedUpdateTrackerTask, ThreadSafeTracker.getExecutor());	
+			AsyncUtil.run(cachedUpdateTrackerTask, ThreadSafeTracker.getExecutor());
+			hasInitTracked = true;
 		}
 	}
 	
@@ -142,10 +149,23 @@ public class WorldTickManager {
 	}
 	
 	/**
+	 * @return The latch for entity tracking
+	 */
+	public ResettableLatch getTrackLatch() {
+		return trackLatch;
+	}
+	
+	/**
+	 * @return If the server has handled the entity tracker
+	 */
+	public boolean hasInitTracked() {
+		return hasInitTracked;
+	}
+
+	/**
 	 * @return The world ticker manager instance
 	 */
 	public static WorldTickManager getInstance() {
 		return worldTickerManagerInstance;
 	}
-
 }

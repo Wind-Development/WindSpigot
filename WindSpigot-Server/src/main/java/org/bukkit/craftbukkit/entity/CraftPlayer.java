@@ -1081,10 +1081,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 		EntityTrackerEntry entry = tracker.trackedEntities.get(other.getId());
 		
 		if (entry != null) {
-                        // WindSpigot - synchronize
-			synchronized (entry) {
-				entry.clear(getHandle());
-			}
+			entry.clear(getHandle());
 		}
 
 		// remove the hidden player from this player user list
@@ -1116,10 +1113,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 		EntityTrackerEntry entry = tracker.trackedEntities.get(other.getId());
 		
 		if (entry != null && !entry.trackedPlayers.contains(getHandle())) {
-                        // WindSpigot - synchronize
-			synchronized (entry) {
-				entry.updatePlayer(getHandle());
-			}
+			entry.updatePlayer(getHandle());
 		}
 	}
 
