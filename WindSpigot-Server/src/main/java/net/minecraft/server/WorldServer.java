@@ -25,7 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import ga.windpvp.windspigot.async.entitytracker.ThreadSafeTracker;
+import ga.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 
 public class WorldServer extends World implements IAsyncTaskHandler {
@@ -77,7 +77,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		if (WindSpigotConfig.disableTracking) {
 			this.tracker = new EntityTracker(this);
 		} else {
-			this.tracker = new ThreadSafeTracker(this);
+			this.tracker = new AsyncEntityTracker(this);
 		}
 		this.manager = new PlayerChunkMap(this, spigotConfig.viewDistance); // Spigot
 		this.worldProvider.a(this);

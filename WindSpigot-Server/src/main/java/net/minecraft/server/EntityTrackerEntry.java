@@ -186,15 +186,12 @@ public class EntityTrackerEntry {
 		}
 
 		for (EntityPlayer entityplayer : (Collection<EntityPlayer>) trackedPlayers) {
-			// WindSpigot - synchronize
-			synchronized (entityplayer) {
-				double d0 = entityplayer.locX - this.tracker.locX;
-				double d1 = entityplayer.locZ - this.tracker.locZ;
-				int range = this.getRange();
-	
-				if (!(d0 >= (-range) && d0 <= range && d1 >= (-range) && d1 <= range) || withinNoTrack()) {
-					toRemove.add(entityplayer);
-				}
+			double d0 = entityplayer.locX - this.tracker.locX;
+			double d1 = entityplayer.locZ - this.tracker.locZ;
+			int range = this.getRange();
+
+			if (!(d0 >= (-range) && d0 <= range && d1 >= (-range) && d1 <= range) || withinNoTrack()) {
+				toRemove.add(entityplayer);
 			}
 		}
 
@@ -244,10 +241,7 @@ public class EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
-            // WindSpigot - synchronize
-			synchronized (entityPlayer) { 
-				updatePlayer(entityPlayer);
-			}
+			updatePlayer(entityPlayer);
 		}
 	};
 

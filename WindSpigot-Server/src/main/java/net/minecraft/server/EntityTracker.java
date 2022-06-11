@@ -1,9 +1,5 @@
 package net.minecraft.server;
 
-import ga.windpvp.windspigot.async.AsyncUtil;
-import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeCannonEntry;
-import ga.windpvp.windspigot.async.entitytracker.entry.ThreadSafeEntry;
-import ga.windpvp.windspigot.commons.ConcurrentIntHashMap;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
 
@@ -11,8 +7,7 @@ public class EntityTracker {
 
 	public IndexedLinkedHashSet<EntityTrackerEntry> c = new IndexedLinkedHashSet<>(); // tracked entities
 	
-	// WindSpigot - concurrent inthashmap
-	public IntHashMap<EntityTrackerEntry> trackedEntities = new ConcurrentIntHashMap<>(); // tracked entities hash table
+	public IntHashMap<EntityTrackerEntry> trackedEntities = new IntHashMap<>(); // tracked entities hash table
 
 	private volatile int noTrackDistance = 0; // WindSpigot - volatile
 
