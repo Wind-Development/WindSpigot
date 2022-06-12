@@ -2,10 +2,10 @@
 
 ##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance and pvp mechanics. WindSpigot is based on a **[fork of NachoSpigot](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**.
 
-**WindSpigot supports Java 8 to Java 17!**
+**WindSpigot supports Java 8 to Java 18!**
 
 ## Downloads
-See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** tab for the latest release. Alternatively, you can download the latest build **[here](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip)**. The latest build may be unstable, but contains more features.
+See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** tab for the latest release.
 
 ## FAQ
 
@@ -14,12 +14,6 @@ WindSpigot makes potion speed and hit delay configurable. We also have NachoSpig
 
 #### What does WindSpigot do to improve overall performance?
 WindSpigot moves heavy work off of the main server thread and splits up the server load.
-
-#### What is done asynchronously to achieve this?
-- Worlds (ticked parallel to each other)
-- Entity path searching (entity AI calculations are done async)
-- The entity tracker (updated with multiple threads, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**)
-- Knockback (packets are sent with high priority, based on **[this](https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit)**)
 
 #### What other modifications does WindSpigot have?
 See the patches list below.
@@ -215,5 +209,5 @@ See the patches list below.
 
 [Sugarcane-0022] Add YAML comments
 
-[AW-Spigot-????] Fast random
+[AW-Spigot-????] Fast randoms
 ```
