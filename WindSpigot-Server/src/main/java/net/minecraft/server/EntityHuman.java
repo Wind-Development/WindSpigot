@@ -1075,15 +1075,15 @@ public abstract class EntityHuman extends EntityLiving {
 							if (this.isExtraKnockback()) {
 								entity.g(
 										(-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i
-												* profile.getExtraHorizontal()),
-										profile.getExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
-												* i * profile.getExtraHorizontal()));
+												* profile.getWTapExtraHorizontal()),
+										profile.getWTapExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
+												* i * profile.getWTapExtraHorizontal()));
 							} else {
 								entity.g(
 										(-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i
-												* profile.getWTapExtraHorizontal()),
-										profile.getWTapExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
-												* i * profile.getWTapExtraHorizontal()));	
+												* profile.getExtraHorizontal()),
+										profile.getExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
+												* i * profile.getExtraHorizontal()));
 							}
 							// WindSpigot end
 							this.motX *= 0.6D;
