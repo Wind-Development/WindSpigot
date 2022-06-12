@@ -22,7 +22,6 @@ import com.google.common.collect.Lists;
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.async.pathsearch.AsyncNavigation;
 import ga.windpvp.windspigot.entity.EntityTickLimiter;
-import me.elier.nachospigot.config.NachoConfig;
 
 @SuppressWarnings("unused")
 public class WindSpigotConfig {
@@ -159,7 +158,15 @@ public class WindSpigotConfig {
 		c.addComment("settings.explosions", "Configuration for async explosions");
 		c.addComment("settings.max-reach.value", "The maximum reach a player can use, hits farther than this will be cancelled. Players can reach 6 blocks by default.");
 		c.addComment("settings.max-reach.creative-bypass", "If creative players are immune to this reach cap");
-		
+		c.addComment("settings.spawners", "Configuration for MobSpawners");
+		c.addComment("settings.spawners.initial-spawn-delay", "Initial spawn delay");
+		c.addComment("settings.spawners.min-spawn-delay", "Minimum spawn delay");
+		c.addComment("settings.spawners.max-spawn-delay", "Maximum spawn delay");
+		c.addComment("settings.spawners.spawn-count", "Max amount of entities that can be spawned");
+		c.addComment("settings.spawners.spawn-range", "Maximum area in which entities spawn");
+		c.addComment("settings.spawners.max-nearby-entities", "Maximum number of nearby entities to avoid new spawns (Any value lower than 1 will disable this check)");
+		c.addComment("settings.spawners.required-player-range", "Area in which the player is required to spawn entities");
+
 		// NachoSpigot stuff
 		c.addComment("settings.save-empty-scoreboard-teams", "Toggles whether or not the server should save empty scoreboard teams");
 		c.addComment("settings.command.version", "Enables the /version command");
@@ -422,14 +429,32 @@ public class WindSpigotConfig {
 	
 	public static boolean explosionAnimation;
 	public static boolean explosionSounds;
-	
+
 	public static boolean spawnerAnimation;
 	
 	private static void particlesAndSounds() {
 		explosionAnimation = getBoolean("settings.animation.tnt", true);
 		explosionSounds = getBoolean("settings.sound.tnt", true);
-		
 		spawnerAnimation = getBoolean("settings.animation.spawner", true);
+	}
+
+	public static int spawnersInitialSpawnDelay;
+	public static int spawnersMinSpawnDelay;
+	public static int spawnersMaxSpawnDelay;
+	public static int spawnersSpawnCount;
+	public static int spawnersSpawnRange;
+	public static int spawnersMaxNearbyEntities;
+	public static int spawnersRequiredPlayerRange;
+
+
+	private static void spawners() {
+		spawnersInitialSpawnDelay = getInt("settings.spawners.initial-spawn-delay", 20);
+		spawnersMinSpawnDelay = getInt("settings.spawners.min-spawn-delay", 200);
+		spawnersMaxSpawnDelay = getInt("settings.spawners.max-spawn-delay", 800);
+		spawnersSpawnCount = getInt("settings.spawners.spawn-count", 4);
+		spawnersSpawnRange = getInt("settings.spawners.spawn-range", 4);
+		spawnersMaxNearbyEntities = getInt("settings.spawners.max-nearby-entities", 6);
+		spawnersRequiredPlayerRange = getInt("settings.spawners.required-player-range", 16);
 	}
 	
 	public static boolean weatherChange;
