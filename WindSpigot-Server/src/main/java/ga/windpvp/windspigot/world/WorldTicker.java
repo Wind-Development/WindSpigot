@@ -2,6 +2,9 @@ package ga.windpvp.windspigot.world;
 
 import java.util.List;
 
+import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.ResettableLatch;
+import ga.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.CrashReport;
 import net.minecraft.server.EntityPlayer;
@@ -14,19 +17,27 @@ import net.minecraft.server.WorldServer;
 public class WorldTicker implements Runnable {
 
 	public final WorldServer worldserver;
-	public boolean hasInitTracked = false;
+	private final ResettableLatch latch = new ResettableLatch(1);
+	private final Runnable cachedUpdateTrackerTask;
+	private volatile boolean hasTracked = false;
 	
 	public WorldTicker(WorldServer worldServer) {
 		this.worldserver = worldServer;
+		cachedUpdateTrackerTask = () -> {
+			hasTracked = true;
+			worldserver.getTracker().updatePlayers();
+			AsyncEntityTracker.enableAutomaticFlush();
+			latch.decrement();
+		};
 	}
 	
 	@Override
 	public void run() {
-		run(WindSpigotConfig.disableTracking);
+		run(!WindSpigotConfig.disableTracking);
 	}
 
 	// This is mostly copied code from world ticking
-	public void run(boolean handleTracker) {
+	private void run(boolean handleTrackerAsync) {
 		// this.methodProfiler.a(worldserver.getWorldData().getName());
 		// this.methodProfiler.a("tick");
 		CrashReport crashreport;
@@ -48,9 +59,10 @@ public class WorldTicker implements Runnable {
 		}
 
 		try {
-			if (!handleTracker && hasInitTracked) {
-				WorldTickManager.getInstance().getTrackLatch().waitTillZero();
-				WorldTickManager.getInstance().getTrackLatch().reset();
+			if (handleTrackerAsync && hasTracked) {
+				latch.waitTillZero();
+				latch.reset();
+				AsyncEntityTracker.enableAutomaticFlush();
 			}
 			worldserver.timings.tickEntities.startTiming(); // Spigot
 			worldserver.tickEntities();
@@ -67,34 +79,33 @@ public class WorldTicker implements Runnable {
 			throw new ReportedException(crashreport);
 		}
 
-		if (handleTracker) {
-			// Synchronize
-			synchronized (WorldTickManager.LOCK) {
-				worldserver.timings.tracker.startTiming(); // Spigot
+		if (handleTrackerAsync) {
+			AsyncUtil.run(cachedUpdateTrackerTask, AsyncEntityTracker.getExecutor());
+		} else {
+			worldserver.timings.tracker.startTiming(); // Spigot
 
-				// this.methodProfiler.b();
-				// this.methodProfiler.a("tracker");
-				if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
-				{
-					// Tuinity start - controlled flush for entity tracker packets
-					List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(
-							MinecraftServer.getServer().getPlayerList().getPlayerCount());
-					for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-						PlayerConnection connection = player.playerConnection;
-						if (connection != null) {
-							connection.networkManager.disableAutomaticFlush();
-							disabledFlushes.add(connection.networkManager);
-						}
+			// this.methodProfiler.b();
+			// this.methodProfiler.a("tracker");
+			if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
+			{
+				// Tuinity start - controlled flush for entity tracker packets
+				List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(
+						MinecraftServer.getServer().getPlayerList().getPlayerCount());
+				for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+					PlayerConnection connection = player.playerConnection;
+					if (connection != null) {
+						connection.networkManager.disableAutomaticFlush();
+						disabledFlushes.add(connection.networkManager);
 					}
-					try {
-						worldserver.getTracker().updatePlayers();
-					} finally {
-						for (NetworkManager networkManager : disabledFlushes) {
-							networkManager.enableAutomaticFlush();
-						}
-					}
-					// Tuinity end - controlled flush for entity tracker packets
 				}
+				try {
+					worldserver.getTracker().updatePlayers();
+				} finally {
+					for (NetworkManager networkManager : disabledFlushes) {
+						networkManager.enableAutomaticFlush();
+					}
+				}
+				// Tuinity end - controlled flush for entity tracker packets
 			}
 	
 			worldserver.timings.tracker.stopTiming(); // Spigot
@@ -103,6 +114,10 @@ public class WorldTicker implements Runnable {
 		// this.methodProfiler.b();
 		worldserver.explosionDensityCache.clear(); // Paper - Optimize explosions
 		worldserver.movementCache.clear(); // IonSpigot - Movement Cache
+	}
+	
+	public Runnable getUpdateTask() {
+		return cachedUpdateTrackerTask;
 	}
 
 }

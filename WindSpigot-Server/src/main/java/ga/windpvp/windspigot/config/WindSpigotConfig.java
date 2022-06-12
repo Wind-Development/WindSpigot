@@ -117,7 +117,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
 		c.addComment("settings.command", "Configuration for WindSpigot's commands");
 		c.addComment("settings.max-tick-time", "Configuration for maximum entity tick time");
-		c.addComment("settings.async.parallel-world", "Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this.");
 		c.addComment("settings.async.entity-tracking.enable", "Enables asynchronous entity tracking");
 		c.addComment("settings.async.entity-tracking", "Configuration for the async entity tracker.");
 		c.addComment("settings.thread-affinity", "Only switch to true if your OS is properly configured!! (See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus) \nWhen properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
@@ -245,16 +244,6 @@ public class WindSpigotConfig {
 
 	private static void mobAiCmd() {
 		mobAiCmd = getBoolean("settings.command.mob-ai", true);
-	}
-
-	public static boolean parallelWorld;
-
-	private static void parallelWorld() {
-		parallelWorld = getBoolean("settings.async.parallel-world", false);
-		// Disable timings by making timings check a variable (Code from api can't
-		// access server code, so we have to do this)
-		// Please open a PR if you know of a better method to do this.
-		TimingsCheck.setEnableTimings(!parallelWorld);
 	}
 
 	public static boolean limitedMobSpawns;

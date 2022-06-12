@@ -134,15 +134,6 @@ public class WindSpigot {
 		if (WindSpigotConfig.asyncKnockback) {
 			knockbackThread = new CombatThread("Knockback Thread");
 		}
-		if (WindSpigotConfig.parallelWorld) {
-			LOGGER.info(" ");
-
-			Timings.setTimingsEnabled(false);
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED
-					+ "Timings have been disabled due to parallel worlds being enabled. Timings will break with parallel worlds.");
-			
-			LOGGER.info(" ");
-		}
 		lagCompensator = new LagCompensator();	
 		if (WindSpigotConfig.asyncTnt) {
 			AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);

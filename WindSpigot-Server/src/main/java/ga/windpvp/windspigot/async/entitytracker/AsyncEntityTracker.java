@@ -51,6 +51,10 @@ public class AsyncEntityTracker extends EntityTracker {
 		}
 	}
 	
+	public ResettableLatch getLatch() {
+		return latch;
+	}
+	
 	// Global enabling/disabling of automatic flushing
 	
 	public static void disableAutomaticFlush() {
