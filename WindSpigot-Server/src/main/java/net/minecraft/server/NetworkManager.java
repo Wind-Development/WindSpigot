@@ -297,8 +297,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 						this.setProtocol(enumprotocol);
 					}
 					try {
-						ChannelFuture channelfuture1 = (flush) ? this.channel.writeAndFlush(packet)
-								: this.channel.write(packet); // Tuinity - add flush parameter
+						ChannelFuture channelfuture1 = this.channel.writeAndFlush(packet); // Tuinity - add flush parameter
 						if (listeners != null) {
 							channelfuture1.addListeners(listeners);
 						}
