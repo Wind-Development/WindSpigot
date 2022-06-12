@@ -22,7 +22,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	private static final ExecutorService trackingThreadExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
 	private static final List<NetworkManager> disabledFlushes = Lists.newArrayList();
 	
-	private final ResettableLatch latch = new ResettableLatch(6);
+	private final ResettableLatch latch = new ResettableLatch(WindSpigotConfig.trackingThreads);
 	
 	public AsyncEntityTracker(WorldServer worldserver) {
 		super(worldserver);
