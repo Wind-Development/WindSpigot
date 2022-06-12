@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.ResettableLatch;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTracker;
 import net.minecraft.server.EntityTrackerEntry;
@@ -29,15 +30,15 @@ public class AsyncEntityTracker extends EntityTracker {
 
 	
 	@Override
-	public void updatePlayers() {
-		final int maxIndex = c.size() - 1;
-		for (int offset = 0; offset <= 5; offset++) {
-			final int finalOffset = offset;
+	public void updatePlayers() {	
+		int offset = -1;
+		
+		for (int i = 1; i <= WindSpigotConfig.trackingThreads; i++) {
+			final int finalOffset = offset++;
 			
 			AsyncUtil.run(() -> {
-				for (int index = finalOffset; index <= maxIndex; index += 6) {
-					EntityTrackerEntry entry = c.get(index);
-					entry.update();
+				for (int index = finalOffset; index < c.size(); index += WindSpigotConfig.trackingThreads) {
+					c.get(index).update();
 				}
 				latch.decrement();
 			}, trackingThreadExecutor);
