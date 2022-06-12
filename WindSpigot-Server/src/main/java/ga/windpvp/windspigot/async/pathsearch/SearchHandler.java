@@ -31,13 +31,16 @@ public class SearchHandler {
 		if (chunkCache == null) {
 			return;
 		}
-		
-		navigation.isSearching.set(true);
 
+		navigation.isSearching.set(true);
+		
+		final int finalX = MathHelper.floor(targetEntity.locX);
+		final int finalY = MathHelper.floor(targetEntity.locY) + 1;
+		final int finalZ = MathHelper.floor(targetEntity.locZ);
+		
 		AsyncUtil.run(() -> {
 			
-			PathEntity path = navigation.doPathSearch(chunkCache, MathHelper.floor(targetEntity.locX),
-					MathHelper.floor(targetEntity.locY) + 1, MathHelper.floor(targetEntity.locZ));
+			PathEntity path = navigation.doPathSearch(chunkCache, finalX, finalY, finalZ);
 			SearchCacheEntryEntity cache = new SearchCacheEntryEntity(targetEntity, navigation.getEntity(), path);
 
 			navigation.addEntry(cache);
