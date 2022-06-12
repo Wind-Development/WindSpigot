@@ -31,7 +31,7 @@ public class AsyncEntityTracker extends EntityTracker {
 	
 	@Override
 	public void updatePlayers() {	
-		int offset = -1;
+		int offset = 0;
 		
 		for (int i = 1; i <= WindSpigotConfig.trackingThreads; i++) {
 			final int finalOffset = offset++;
