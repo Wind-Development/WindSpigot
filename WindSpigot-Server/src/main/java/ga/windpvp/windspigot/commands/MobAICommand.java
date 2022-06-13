@@ -1,13 +1,16 @@
 package ga.windpvp.windspigot.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
 // Implements a Mob AI toggle command
 public class MobAICommand extends Command {
+	
+	private boolean globalAI = true;
 
 	public MobAICommand(String name) {
 		super(name);
@@ -22,25 +25,14 @@ public class MobAICommand extends Command {
 			return true;
 		}
 
-		// WindSpigot - Loop through each world and toggle mob ai
-		String msg = null;
-		boolean setMsg = true;
+		globalAI = !globalAI;
+		
 		for (WorldServer world : MinecraftServer.getServer().worlds) {
-			if (world.nachoSpigotConfig.enableMobAI) {
-				world.nachoSpigotConfig.enableMobAI = false;
-				if (setMsg) {
-					msg = ChatColor.AQUA + "Mob AI disabled in all worlds.";
-					setMsg = false;
-				}
-			} else {
-				world.nachoSpigotConfig.enableMobAI = true;
-				if (setMsg) {
-					msg = ChatColor.AQUA + "Mob AI enabled in all worlds.";
-					setMsg = false;
-				}
-			}
+			world.nachoSpigotConfig.enableMobAI = globalAI;
 		}
-		sender.sendMessage(msg);
+		
+		String status = globalAI ? "enabled" : "disabled";
+		sender.sendMessage(ChatColor.GREEN + "Mob AI is now " + status + " in all worlds.");
 
 		return true;
 	}
