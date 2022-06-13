@@ -1083,9 +1083,17 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 		}
 		SpigotTimings.timeUpdateTimer.stopTiming(); // Spigot
 
-		// WindSpigot - parallel worlds
+		// WindSpigot
 		this.worldTickerManager.tick();
 
+		// WindSpigot start - ensure async explosions affect entities on on the same tick
+		try {
+			Explosion.knockbackLatch.waitTillZero();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		// WindSpigot end
+		
 		// WindSpigot start - priority process queue
 		while (!priorityProcessQueue.isEmpty()) {
 			priorityProcessQueue.poll().run();

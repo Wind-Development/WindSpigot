@@ -17,6 +17,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
+import ga.windpvp.windspigot.async.ResettableLatch;
 import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
@@ -38,6 +39,9 @@ public class Explosion {
 	private final List<BlockPosition> blocks = Lists.newArrayList();
 	private final Map<EntityHuman, Vec3D> k = Maps.newHashMap();
 	public boolean wasCanceled = false; // CraftBukkit - add field
+	
+	// WindSpigot - ensure async explosions affect entities on on the same tick
+	public static final ResettableLatch knockbackLatch = new ResettableLatch();
 
 	public Explosion(World world, Entity entity, double d0, double d1, double d2, float f, boolean flag,
 			boolean flag1) {
@@ -119,6 +123,7 @@ public class Explosion {
 					double distanceSquared = d8 * d8 + d9 * d9 + d10 * d10;
 
 					if (distanceSquared <= 64.0D && distanceSquared != 0.0D) {
+						knockbackLatch.increment(); // WindSpigot
 						double d11 = MathHelper.sqrt(distanceSquared);
 						double d7 = d11 / f3;
 						d8 /= d11;
@@ -438,19 +443,20 @@ public class Explosion {
 				blockDensity = calculateDensity(vec3d, aabb);
 				this.world.explosionDensityCache.put(key, blockDensity);
 			}
+			knockbackLatch.decrement(); // WindSpigot
 			return blockDensity;
 		}, AsyncExplosions.EXECUTOR);
 	}
 	
 	// WindSpigot start - toggleable async explosions
 	private float getBlockDensitySync(Vec3D vec3d, AxisAlignedBB aabb) {
-		// IonSpigot start - Optimise Density Cache
 		int key = createKey(this, aabb);
 		float blockDensity = this.world.explosionDensityCache.get(key);
 		if (blockDensity == -1.0f) {
 			blockDensity = calculateDensity(vec3d, aabb);
 			this.world.explosionDensityCache.put(key, blockDensity);
 		}
+		knockbackLatch.decrement(); // WindSpigot
 		return blockDensity;
 	}
 	// WindSpigot end
