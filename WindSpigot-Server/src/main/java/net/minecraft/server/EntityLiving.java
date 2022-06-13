@@ -992,9 +992,20 @@ public abstract class EntityLiving extends Entity {
 			this.motZ -= z / magnitude * horizontal;
 			
 			// WindSpigot start - knockback addition config
-			this.motX += kb.getAddHorizontal();
-			this.motY += kb.getAddVertical();
-			this.motZ += kb.getAddHorizontal();
+			if (motX > motZ) {
+				double zXRatio = z / x;
+				motX += kb.getAddHorizontal();
+				motZ += kb.getAddHorizontal() * zXRatio;
+			} else if (motZ > motX) {
+				double xZRatio = x / z;			
+				motX += kb.getAddHorizontal() * xZRatio;
+				motZ += kb.getAddHorizontal();
+			} else {
+				motX += kb.getAddHorizontal();
+				motZ += kb.getAddHorizontal();			
+			}
+			
+			motY += kb.getAddVertical();
 			// WindSpigot end
 			
 			if (this.motY > kb.getVerticalMax()) {
