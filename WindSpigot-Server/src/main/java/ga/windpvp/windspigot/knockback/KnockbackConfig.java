@@ -89,6 +89,7 @@ public class KnockbackConfig {
 			defaultProfile.setSnowballHorizontal(0.35);
 			defaultProfile.setEggHorizontal(0.35);
 			defaultProfile.setExtraHorizontal(0.425);
+			defaultProfile.setWTapExtraHorizontal(0.425);
 
 			defaultProfile.setVertical(0.35);
 			defaultProfile.setRodVertical(0.35);
@@ -96,7 +97,8 @@ public class KnockbackConfig {
 			defaultProfile.setPearlVertical(0.35);
 			defaultProfile.setSnowballVertical(0.35);
 			defaultProfile.setEggVertical(0.35);
-			defaultProfile.setExtraVertical(0.425);
+			defaultProfile.setExtraVertical(0.085);
+			defaultProfile.setWTapExtraVertical(0.085);
 
 			defaultProfile.save(true);
 		}
