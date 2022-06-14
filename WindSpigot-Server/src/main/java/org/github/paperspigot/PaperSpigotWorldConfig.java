@@ -367,13 +367,6 @@ public class PaperSpigotWorldConfig {
 		disableMoodSounds = getBoolean("disable-mood-sounds", false);
 	}
 
-	public int mobSpawnerTickRate;
-
-	private void mobSpawnerTickRate() {
-		// WindSpigot - optimize config defaults 1 -> 2
-		mobSpawnerTickRate = getInt("mob-spawner-tick-rate", 2);
-	}
-
 	public boolean cacheChunkMaps;
 
 	private void cacheChunkMaps() {

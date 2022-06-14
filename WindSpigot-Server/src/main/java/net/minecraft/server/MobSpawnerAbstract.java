@@ -17,34 +17,41 @@ import org.bukkit.event.entity.SpawnerSpawnEvent;
 
 public abstract class MobSpawnerAbstract {
 
-	public int spawnDelay = 20;
+
 	private String mobName = "Pig";
 	private final List<MobSpawnerAbstract.a> mobs = Lists.newArrayList();
 	private MobSpawnerAbstract.a spawnData;
-	private double e;
-	private double f;
-	private int minSpawnDelay = 200;
-	private int maxSpawnDelay = 800;
-	private int spawnCount = 4;
-	private Entity j;
-	private int maxNearbyEntities = 6;
-	private int requiredPlayerRange = 16;
-	private int spawnRange = 4;
-	private int tickDelay = 0; // PaperSpigot
+
+	public int spawnDelay;
+	private int minSpawnDelay;
+	private int maxSpawnDelay;
+	private int spawnCount;
+	private int maxNearbyEntities;
+	private int requiredPlayerRange;
+	private int spawnRange;
 
 	public MobSpawnerAbstract() {
+		// WindSpigot start - configurable spawner settings
+		this.spawnDelay = WindSpigotConfig.spawnersInitialSpawnDelay;
+		this.minSpawnDelay = WindSpigotConfig.spawnersMinSpawnDelay;
+		this.maxSpawnDelay = WindSpigotConfig.spawnersMaxSpawnDelay;
+		this.spawnCount = WindSpigotConfig.spawnersSpawnCount;
+		this.spawnRange = WindSpigotConfig.spawnersSpawnRange;
+		this.maxNearbyEntities = WindSpigotConfig.spawnersMaxNearbyEntities;
+		this.requiredPlayerRange = WindSpigotConfig.spawnersRequiredPlayerRange;
+		// WindSpigot end
 	}
 
 	public String getMobName() {
 		if (this.i() == null) {
+
 			// CraftBukkit start - fix NPE
-			if (this.mobName == null) {
+			if (this.mobName == null)
 				this.mobName = "Pig";
-			}
+
 			// CraftBukkit end
-			if (this.mobName != null && this.mobName.equals("Minecart")) {
+			if (this.mobName.equals("Minecart"))
 				this.mobName = "MinecartRideable";
-			}
 
 			return this.mobName;
 		} else {
@@ -65,11 +72,7 @@ public abstract class MobSpawnerAbstract {
 	}
 
 	public void c() {
-		// PaperSpigot start - Configurable mob spawner tick rate
-		if (spawnDelay > 0 && --tickDelay > 0)
-			return;
-		tickDelay = this.a().paperSpigotConfig.mobSpawnerTickRate;
-		// PaperSpigot end
+
 		if (this.g()) {
 			BlockPosition blockposition = this.b();
 			double d0;
@@ -86,21 +89,20 @@ public abstract class MobSpawnerAbstract {
 					this.a().addParticle(EnumParticle.FLAME, d1, d2, d0, 0.0D, 0.0D, 0.0D, Constants.EMPTY_ARRAY);
 				}
 				// WindSpigot end
-				
+
 				if (this.spawnDelay > 0) {
-					this.spawnDelay -= tickDelay; // PaperSpigot
+					--this.spawnDelay;
 				}
 
-				this.f = this.e;
-				this.e = (this.e + (double) (1000.0F / ((float) this.spawnDelay + 200.0F))) % 360.0D;
 			} else {
-				if (this.spawnDelay < -tickDelay) { // PaperSpigot
-					this.h();
-				}
 
 				if (this.spawnDelay > 0) {
-					this.spawnDelay -= tickDelay; // PaperSpigot
+					--this.spawnDelay;
 					return;
+				}
+
+				if (this.spawnDelay == -1) {
+					this.h();
 				}
 
 				boolean flag = false;
@@ -133,7 +135,7 @@ public abstract class MobSpawnerAbstract {
 															(double) this.spawnRange))
 							.size();
 
-					if (j >= this.maxNearbyEntities) {
+					if (maxNearbyEntities > 0 && j >= this.maxNearbyEntities) {
 						this.h();
 						return;
 					}
@@ -302,10 +304,6 @@ public abstract class MobSpawnerAbstract {
 
 		if (nbttagcompound.hasKeyOfType("SpawnRange", 99)) {
 			this.spawnRange = nbttagcompound.getShort("SpawnRange");
-		}
-
-		if (this.a() != null) {
-			this.j = null;
 		}
 
 	}
