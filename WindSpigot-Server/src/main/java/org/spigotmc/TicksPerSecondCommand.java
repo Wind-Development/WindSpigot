@@ -59,7 +59,7 @@ public class TicksPerSecondCommand extends Command {
 		sender.sendMessage(ChatColor.AQUA + "Tile Entity Count: " + ChatColor.GREEN + tileEntityCount);
 		sender.sendMessage(ChatColor.AQUA + "Mob AI: " + ChatColor.GREEN + MinecraftServer.getServer().worlds.get(0).nachoSpigotConfig.enableMobAI);
 		sender.sendMessage(ChatColor.AQUA + "Milliseconds to Run Last Tick: " + ChatColor.GREEN + Math.round(MinecraftServer.getServer().getLastMspt() * 100.0) / 100.0);
-		sender.sendMessage(ChatColor.AQUA + "Server on since" + ChatColor.GREEN + DurationFormatUtils.formatDuration(System.currentTimeMillis() - MinecraftServer.serverStartedAt, "H'h 'm'm 's's'"));
+		sender.sendMessage(ChatColor.AQUA + "Server on since: " + ChatColor.GREEN + DurationFormatUtils.formatDuration(System.currentTimeMillis() - MinecraftServer.serverStartedAt, "H'h 'm'm 's's'"));
 
 		return true;
 	}
