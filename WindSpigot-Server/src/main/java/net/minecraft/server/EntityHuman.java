@@ -277,7 +277,8 @@ public abstract class EntityHuman extends EntityLiving {
 
 		if (itemstack.m() == EnumAnimation.EAT) {
 			for (int j = 0; j < i; ++j) {
-				Vec3D vec3d = new Vec3D((this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+				// WindSpigot - use faster randoms
+				Vec3D vec3d = new Vec3D((this.random.nextFloat() - 0.5D) * 0.1D, random.nextDouble() * 0.1D + 0.1D, 0.0D);
 
 				vec3d = vec3d.a(-this.pitch * 3.1415927F / 180.0F);
 				vec3d = vec3d.b(-this.yaw * 3.1415927F / 180.0F);
