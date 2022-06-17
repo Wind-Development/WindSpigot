@@ -156,7 +156,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 	private boolean forceTicks;
 	private volatile boolean isReady;
 	private long lastOverloadWarning;
-	public long serverStartTime;
+	public static long serverStartedAt;
 	public volatile Thread shutdownThread; // Paper
 
 	public static <S extends MinecraftServer> S spin(Function<Thread, S> serverFactory) {
@@ -657,7 +657,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 		// Don't disable statistics if server failed to start
 		boolean disableStatistics = false;
 		try {
-            serverStartTime = getNanos(); // Paper
+            serverStartedAt = System.currentTimeMillis(); // Paper
 			if (this.init()) {
 				//WindSpigot - statistics
 				disableStatistics = true;
