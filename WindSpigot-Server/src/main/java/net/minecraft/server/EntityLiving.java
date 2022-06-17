@@ -121,10 +121,12 @@ public abstract class EntityLiving extends Entity {
 		// constructor
 		this.datawatcher.watch(6, (float) this.getAttributeInstance(GenericAttributes.maxHealth).getValue());
 		this.k = true;
-		this.aH = (float) ((Math.random() + 1.0D) * 0.009999999776482582D);
+		// WindSpigot start - use faster randoms
+		this.aH = (float) ((random.nextDouble() + 1.0D) * 0.009999999776482582D);
 		this.setPosition(this.locX, this.locY, this.locZ);
-		this.aG = (float) Math.random() * 12398.0F;
-		this.yaw = (float) (Math.random() * 3.1415927410125732D * 2.0D);
+		this.aG = (float) random.nextDouble() * 12398.0F;
+		this.yaw = (float) (random.nextDouble() * 3.1415927410125732D * 2.0D);
+		// WindSpiogt end
 		this.aK = this.yaw;
 		this.S = 0.6F;
 	}
@@ -843,16 +845,17 @@ public abstract class EntityLiving extends Entity {
 
 						double distanceZ;
 
-						for (distanceZ = entity.locZ - this.locZ; distanceX * distanceX + distanceZ
-								* distanceZ < 1.0E-4D; distanceZ = (Math.random() - Math.random()) * 0.01D) {
-							distanceX = (Math.random() - Math.random()) * 0.01D;
+						// WindSpigot start - use faster randoms
+						for (distanceZ = entity.locZ - this.locZ; distanceX * distanceX + distanceZ * distanceZ < 1.0E-4D; distanceZ = (random.nextDouble() - random.nextDouble()) * 0.01D) {
+							distanceX = (random.nextDouble() - random.nextDouble()) * 0.01D;
 						}
 
 						this.aw = (float) (MathHelper.b(distanceZ, distanceX) * 180.0D / 3.1415927410125732D
 								- this.yaw);
 						this.a(distanceX, distanceZ, damagesource);
 					} else {
-						this.aw = (int) (Math.random() * 2.0D) * 180;
+						this.aw = (int) (random.nextDouble() * 2.0D) * 180;
+						// WindSpigot end
 					}
 				}
 
@@ -885,7 +888,8 @@ public abstract class EntityLiving extends Entity {
 		this.makeSound("random.break", 0.8F, 0.8F + this.world.random.nextFloat() * 0.4F);
 
 		for (int i = 0; i < 5; ++i) {
-			Vec3D vec3d = new Vec3D((this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D);
+			// WindSpigot - use faster randoms
+			Vec3D vec3d = new Vec3D((this.random.nextFloat() - 0.5D) * 0.1D, random.nextDouble() * 0.1D + 0.1D, 0.0D);
 
 			vec3d = vec3d.a(-this.pitch * 3.1415927F / 180.0F);
 			vec3d = vec3d.b(-this.yaw * 3.1415927F / 180.0F);
