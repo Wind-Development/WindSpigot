@@ -79,6 +79,15 @@ public class KnockbackConfig {
 			windpvpProfile.save(true);
 		}
 		
+		if (!keys.contains("hypixel")) {
+			// Values taken from here: https://www.spigotmc.org/resources/legacykb-disable-netherite-knockback-resistance.86080/
+			
+			final KnockbackProfile hypixelProfile = new CraftKnockbackProfile("hypixel");
+			
+			hypixelProfile.setVertical(0.36);
+			hypixelProfile.setVerticalMax(0.43075);
+		}
+		
 		if (!keys.contains("kohi")) {
 			final KnockbackProfile defaultProfile = new CraftKnockbackProfile("kohi"); 
 
@@ -103,10 +112,8 @@ public class KnockbackConfig {
 			defaultProfile.save(true);
 		}
 		
-		// Reload keys if needed
-		if (!keys.contains("kohi") || !keys.contains("windpvp") || !keys.contains("vanilla")) {
-			keys = getKeys("knockback.profiles");
-		}
+		// Reload keys
+		keys = getKeys("knockback.profiles");
 		
 		for (String key : keys) {
 			final String path = "knockback.profiles." + key;
@@ -123,10 +130,10 @@ public class KnockbackConfig {
 			profile.setVerticalMax(getDouble(path + ".vertical-max", 0.4D));
 			profile.setVerticalMin(getDouble(path + ".vertical-min", -1.0D));
 			profile.setExtraHorizontal(getDouble(path + ".extra-horizontal", 0.5D));
-			profile.setExtraVertical(getDouble(path + ".extra-vertical", 0.05D));
+			profile.setExtraVertical(getDouble(path + ".extra-vertical", 0.1D));
 
-			profile.setWTapExtraHorizontal(getDouble(path + ".wtap-extra-horizontal", 0.4));
-			profile.setWTapExtraVertical(getDouble(path + ".wtap-extra-vertical", 0.4));
+			profile.setWTapExtraHorizontal(getDouble(path + ".wtap-extra-horizontal", 0.5));
+			profile.setWTapExtraVertical(getDouble(path + ".wtap-extra-vertical", 0.1));
 			
 			profile.setAddHorizontal(getDouble(path + ".add-horizontal", 0));
 			profile.setAddVertical(getDouble(path + ".add-vertical", 0));
