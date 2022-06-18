@@ -1,15 +1,17 @@
 package me.rastrian.dev.utils;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public final class IndexedLinkedHashSet<E> implements Set<E> {
 
-	private final ArrayList<E> list = new ArrayList<>();
-	private final HashSet<E> set = new HashSet<>();
+	private final List<E> list = Lists.newCopyOnWriteArrayList();
+	private final Set<E> set = Sets.newConcurrentHashSet();
 
 	@Override
 	public boolean add(E e) {
