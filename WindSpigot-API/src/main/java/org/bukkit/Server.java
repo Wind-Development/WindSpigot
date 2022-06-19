@@ -359,6 +359,13 @@ public interface Server extends PluginMessageRecipient {
 	public Player getPlayer(UUID id);
 
 	/**
+	 * Gets an entity with the given UUID
+	 * @param uuid id UUID of the entity to retrieve
+	 * @return a entity object if one was found, null otherwise
+	 */
+	public Entity getEntity(UUID uuid);
+	
+	/**
 	 * Gets the plugin manager for interfacing with plugins.
 	 *
 	 * @return a plugin manager for this Server instance

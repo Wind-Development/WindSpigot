@@ -70,6 +70,7 @@ import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.craftbukkit.util.DatFileFilter;
 import org.bukkit.craftbukkit.util.Versioning;
 import org.bukkit.craftbukkit.util.permissions.CraftDefaultPermissions;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerChatTabCompleteEvent;
@@ -540,6 +541,22 @@ public final class CraftServer implements Server {
 
 		return null;
 	}
+	
+	// WindSpigot start - backport some modern API
+	@Override
+    public Entity getEntity(UUID uuid) {
+        Validate.notNull(uuid, "UUID cannot be null");
+
+        for (WorldServer world : this.getServer().worlds) {
+            net.minecraft.server.Entity entity = world.getEntity(uuid);
+            if (entity != null) {
+                return entity.getBukkitEntity();
+            }
+        }
+
+        return null;
+    }
+    // WindSpigot end
 
 	@Override
 	public int broadcastMessage(String message) {

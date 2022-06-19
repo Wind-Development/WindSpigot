@@ -442,6 +442,15 @@ public final class Bukkit {
 	public static Player getPlayer(UUID id) {
 		return server.getPlayer(id);
 	}
+	
+	/**
+	 * Gets an entity with the given UUID
+	 * @param uuid id UUID of the entity to retrieve
+	 * @return a entity object if one was found, null otherwise
+	 */
+    public static Entity getEntity(UUID uuid) {
+        return server.getEntity(uuid);
+    }
 
 	/**
 	 * Gets the plugin manager for interfacing with plugins.
