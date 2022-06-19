@@ -78,16 +78,13 @@ public abstract class NavigationAbstract {
 	public float i() {
 		return (float) this.a.getValue();
 	}
-	// WindSpigot start - reduce usage of blockposition
 	public PathEntity a(double d0, double d1, double d2) {
-		//return this.a(new BlockPosition(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2)));
-		return a(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2));
-	}
-	
-	public PathEntity a(int d0, int d1, int d2) { // remove final modifier
 		return this.a(new BlockPosition(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2)));
 	}
-	// WindSpigot end
+	
+	public PathEntity a(int d0, int d1, int d2) {
+		return this.a(new BlockPosition(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2)));
+	}
 
 	public PathEntity a(BlockPosition blockposition) {
 		if (!this.b()) {
