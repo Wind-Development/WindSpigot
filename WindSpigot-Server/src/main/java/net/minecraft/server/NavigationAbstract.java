@@ -83,24 +83,7 @@ public abstract class NavigationAbstract {
 	}
 	
 	public PathEntity a(int d0, int d1, int d2) {
-		// WindSpigot start
-		if (!this.b()) {
-			return null;
-		} else {
-			float f = this.i();
-
-			this.c.methodProfiler.a("pathfind");
-			BlockPosition blockposition1 = new BlockPosition(this.b);
-			int i = (int) (f + 8.0F);
-			ChunkCache chunkcache = new ChunkCache(this.c, blockposition1.a(-i, -i, -i), blockposition1.a(i, i, i), 0);
-
-			PathEntity pathentity = this.j.a(chunkcache, this.b, d0, d1, d2, f);
-
-			this.c.methodProfiler.b();
-			return pathentity;
-		}
-		//return this.a(new BlockPosition(d0, (int) d1, d2)); 
-		// WindSpigot end
+		return this.a(new BlockPosition(d0, (int) d1, d2)); 
 	}
 
 	public PathEntity a(BlockPosition blockposition) {

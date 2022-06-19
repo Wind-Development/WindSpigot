@@ -102,7 +102,7 @@ public class AsyncNavigation extends Navigation {
 		boolean alreadySearching = this.isSearching.get();
 		
 		if ((!offLoadedSearches(this.getEntity().getBukkitEntity().getType()) || isTooClose) && !alreadySearching) {
-			return super.a(x, y, z);
+			return super.a(new BlockPosition(x, y, z));
 		}
 				
 		PathEntity finalPath = null;
@@ -115,7 +115,7 @@ public class AsyncNavigation extends Navigation {
 					
 					// Perform sync if server cannot process an accurate async pathfind in time
 					if (!cacheEntry.isAccurate()) {
-						return super.a(x, y, z);
+						return super.a(new BlockPosition(x, y, z));
 					}
 				}
 				
