@@ -79,11 +79,11 @@ public abstract class NavigationAbstract {
 		return (float) this.a.getValue();
 	}
 	public PathEntity a(double d0, double d1, double d2) {
-		return this.a(new BlockPosition(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2)));
+		return this.a(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2));
 	}
 	
 	public PathEntity a(int d0, int d1, int d2) {
-		return this.a(new BlockPosition(MathHelper.floor(d0), (int) d1, MathHelper.floor(d2)));
+		return this.a(new BlockPosition(d0, (int) d1, d2));
 	}
 
 	public PathEntity a(BlockPosition blockposition) {
