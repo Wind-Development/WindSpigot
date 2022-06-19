@@ -11,6 +11,7 @@ import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntry;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryEntity;
 import ga.windpvp.windspigot.async.pathsearch.cache.SearchCacheEntryPosition;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import net.minecraft.server.BlockPosition;
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityInsentient;
 import net.minecraft.server.Navigation;
@@ -127,6 +128,11 @@ public class AsyncNavigation extends Navigation {
 		}
 		
 		return finalPath;
+	}
+	
+	@Override
+	public PathEntity a(BlockPosition blockposition) {
+		return a(blockposition.getX(), blockposition.getY(), blockposition.getZ());
 	}
 	
 	public void addEntry(SearchCacheEntry cacheEntry) {
