@@ -18,6 +18,11 @@ public class Pathfinder {
 				(double) ((float) var3.getZ() + 0.5F), var4);
 	}
 	
+	// WindSpigot start
+	public PathEntity a(IBlockAccess var1, Entity var2, int x, int y, int z, float var4) {
+		return this.a(var1, var2, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), var4);
+	}
+	// WindSpigot end
 
 	private PathEntity a(IBlockAccess var1, Entity var2, double var3, double var5, double var7, float var9) {
 		// WindSpigot - synchronize
