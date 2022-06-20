@@ -39,6 +39,7 @@ See the patches list below.
 [WindSpigot-0015] Configurable explosion animations and sound
 [WindSpigot-0016] Configurable weather changes
 [WindSpigot-0017] Async entity tracking
+[WindSpigot-0018] Configurable fishing rod speed multiplier
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5

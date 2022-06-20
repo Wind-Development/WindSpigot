@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 // CraftBukkit end
 
 import ga.windpvp.windspigot.cache.Constants;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 
 public class EntityFishingHook extends Entity {
 
@@ -240,6 +241,11 @@ public class EntityFishingHook extends Entity {
 			}
 
 			if (!this.as) {
+				// WindSpigot start
+				motX *= WindSpigotConfig.fishingRodMultiplier;
+				motY *= WindSpigotConfig.fishingRodMultiplier;
+				motZ *= WindSpigotConfig.fishingRodMultiplier;
+				// WindSpigot end
 				this.move(this.motX, this.motY, this.motZ);
 				float f1 = MathHelper.sqrt(this.motX * this.motX + this.motZ * this.motZ);
 

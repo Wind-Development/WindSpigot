@@ -166,7 +166,8 @@ public class WindSpigotConfig {
 		c.addComment("settings.spawners.spawn-range", "Maximum area in which entities spawn");
 		c.addComment("settings.spawners.max-nearby-entities", "Maximum number of nearby entities to avoid new spawns (Any value lower than 1 will disable this check)");
 		c.addComment("settings.spawners.required-player-range", "Area in which the player is required to spawn entities");
-
+		c.addComment("settings.fishing-rod-multiplier", "The speed multiplier of fishing rod projectiles.");
+		
 		// NachoSpigot stuff
 		c.addComment("settings.save-empty-scoreboard-teams", "Toggles whether or not the server should save empty scoreboard teams");
 		c.addComment("settings.command.version", "Enables the /version command");
@@ -477,6 +478,12 @@ public class WindSpigotConfig {
 	private static void maxReach() {
 		maxReachSqrd = Math.pow(getDouble("settings.max-reach.value", 6), 2);
 		creativeBypass = getBoolean("settings.max-reach.creative-bypass", true);
+	}
+	
+	public static double fishingRodMultiplier;
+	
+	private static void fishingRodMultiplier() {
+		fishingRodMultiplier = getDouble("settings.fishing-rod-multiplier", 1);
 	}
 	
 	
