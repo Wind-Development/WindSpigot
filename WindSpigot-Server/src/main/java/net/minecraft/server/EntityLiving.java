@@ -1969,6 +1969,13 @@ public abstract class EntityLiving extends Entity {
 					new Vec3D(entity.locX, entity.locY + (double) entity.getHeadHeight(), entity.locZ)) == null;
 		}
 	}
+	
+	// WindSpigot start
+	public boolean hasLineOfSight(double x, double y, double z) {
+		Vec3D vec = new Vec3D(this.locX, this.locY + (double) this.getHeadHeight(), this.locZ);
+		return this.world.rayTrace(vec, new Vec3D(x, y, z)) == null;
+	}
+	// WindSpigot end
 
 	@Override
 	public Vec3D ap() {

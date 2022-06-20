@@ -433,6 +433,13 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
 	public boolean hasLineOfSight(Entity other) {
 		return getHandle().hasLineOfSight(((CraftEntity) other).getHandle());
 	}
+	
+	// WindSpigot start
+	@Override
+	public boolean hasLineOfSight(Location location) {
+		return getHandle().hasLineOfSight(location.getX(), location.getY(), location.getZ());
+	}
+	// WindSpigot end
 
 	@Override
 	public boolean getRemoveWhenFarAway() {

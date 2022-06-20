@@ -328,7 +328,18 @@ public interface LivingEntity extends Entity, Damageable, ProjectileSource {
 	 * @return true if there is a line of sight, false if not
 	 */
 	public boolean hasLineOfSight(Entity other);
-
+	
+	// WindSpigot start
+	/**
+	 * Checks whether the living entity has block line of sight to a location.
+	 * <p>
+	 *
+	 * @param location the location to determine line of sight to
+	 * @return true if there is a line of sight, false if not
+	 */
+	public boolean hasLineOfSight(Location location);
+	// WindSpigot end
+	
 	/**
 	 * Returns if the living entity despawns when away from players or not.
 	 * <p>
