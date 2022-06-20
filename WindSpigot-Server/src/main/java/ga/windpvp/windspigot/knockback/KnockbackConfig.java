@@ -86,6 +86,8 @@ public class KnockbackConfig {
 			
 			hypixelProfile.setVertical(0.36);
 			hypixelProfile.setVerticalMax(0.43075);
+			
+			hypixelProfile.save(true);
 		}
 		
 		if (!keys.contains("kohi")) {
