@@ -1966,7 +1966,7 @@ public abstract class EntityLiving extends Entity {
 					|| this.world.rayTrace(vec, new Vec3D(entity.locX, entity.locY + (parts * 1), entity.locZ)) == null;
 		} else {
 			return this.world.rayTrace(vec,
-					new Vec3D(entity.locX, entity.locY + (double) this.getHeadHeight(), entity.locZ)) == null;
+					new Vec3D(entity.locX, entity.locY + (double) entity.getHeadHeight(), entity.locZ)) == null;
 		}
 	}
 
