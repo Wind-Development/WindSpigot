@@ -124,9 +124,8 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
 		Vec3D vec3d1 = new Vec3D(this.locX + this.motX, this.locY + this.motY, this.locZ + this.motZ);
 		MovingObjectPosition movingobjectposition = this.world.rayTrace(vec3d, vec3d1);
 
-		// WindSpigot - remove these
-		//vec3d = new Vec3D(this.locX, this.locY, this.locZ);
-		//vec3d1 = new Vec3D(this.locX + this.motX, this.locY + this.motY, this.locZ + this.motZ);
+		vec3d = new Vec3D(this.locX, this.locY, this.locZ);
+		vec3d1 = new Vec3D(this.locX + this.motX, this.locY + this.motY, this.locZ + this.motZ);
 		
 		if (movingobjectposition != null) {
 			vec3d1 = new Vec3D(movingobjectposition.pos.a, movingobjectposition.pos.b, movingobjectposition.pos.c);
