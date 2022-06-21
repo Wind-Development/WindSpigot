@@ -51,31 +51,27 @@ public class KnockbackConfig {
 		}
 		
 		if (!keys.contains("windpvp")) {
-			// WIP custom profile
+			// A custom profile similar to the Kohi profile with increased projectile knockback
 			final KnockbackProfile windpvpProfile = new CraftKnockbackProfile("windpvp");
 			
-			windpvpProfile.setRodHorizontal(0.7);
-			windpvpProfile.setRodVertical(0.5);
-			windpvpProfile.setSnowballHorizontal(0.7);
+			windpvpProfile.setRodHorizontal(0.5);
+			windpvpProfile.setRodVertical(0.6);
 			windpvpProfile.setSnowballHorizontal(0.5);
-			windpvpProfile.setEggHorizontal(0.7);
-			windpvpProfile.setEggVertical(0.5);
+			windpvpProfile.setSnowballVertical(0.6);
+			windpvpProfile.setEggHorizontal(0.5);
+			windpvpProfile.setEggVertical(0.6);
 			windpvpProfile.setArrowHorizontal(0.5);
+			windpvpProfile.setArrowVertical(0.6);
 			
-			windpvpProfile.setFrictionHorizontal(1.85);
-			windpvpProfile.setFrictionVertical(2.0);
+			windpvpProfile.setHorizontal(0.35);
+			windpvpProfile.setVertical(0.35);
 			
-			windpvpProfile.setHorizontal(0.1);
-			windpvpProfile.setVertical(0.3);
+			windpvpProfile.setExtraHorizontal(0.425);
+			windpvpProfile.setExtraVertical(0.085);
 			
-			windpvpProfile.setExtraHorizontal(0.75);
-			windpvpProfile.setExtraVertical(0.1);
-			
-			windpvpProfile.setWTapExtraHorizontal(0.76);
-			windpvpProfile.setWTapExtraVertical(0.1);
-			
-			windpvpProfile.setAddHorizontal(0.04);	
-			
+			windpvpProfile.setWTapExtraHorizontal(0.427);
+			windpvpProfile.setWTapExtraVertical(0.085);
+						
 			windpvpProfile.save(true);
 		}
 		
