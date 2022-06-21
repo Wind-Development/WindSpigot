@@ -1073,7 +1073,7 @@ public abstract class EntityHuman extends EntityLiving {
 									: entity.getKnockbackProfile();
 							
 							// WindSpigot start - more configurable knockback
-							if (this.isExtraKnockback()) {
+							if (nextHitWTap) {
 								entity.g(
 										(-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i
 												* profile.getWTapExtraHorizontal()),
@@ -1177,6 +1177,20 @@ public abstract class EntityHuman extends EntityLiving {
 			}
 		}
 	}
+	
+	// WindSpigot start
+	protected boolean nextHitWTap;
+	
+	@Override
+	public void setExtraKnockback(boolean flag) {
+		if (flag && !extraKnockback) {
+			nextHitWTap = true;
+		} else {
+			nextHitWTap = false;
+		}
+		super.setExtraKnockback(flag);
+	}
+	// WindSpigot end
 
 	public void b(Entity entity) {
 	}
