@@ -625,28 +625,42 @@ public class CraftEventFactory {
 		}
 
 		DamageCause cause = null;
-		if (source == DamageSource.FIRE) {
-			cause = DamageCause.FIRE;
-		} else if (source == DamageSource.STARVE) {
-			cause = DamageCause.STARVATION;
-		} else if (source == DamageSource.WITHER) {
-			cause = DamageCause.WITHER;
-		} else if (source == DamageSource.STUCK) {
-			cause = DamageCause.SUFFOCATION;
-		} else if (source == DamageSource.DROWN) {
-			cause = DamageCause.DROWNING;
-		} else if (source == DamageSource.BURN) {
-			cause = DamageCause.FIRE_TICK;
-		} else if (source == MELTING) {
-			cause = DamageCause.MELTING;
-		} else if (source == POISON) {
-			cause = DamageCause.POISON;
-		} else if (source == DamageSource.MAGIC) {
-			cause = DamageCause.MAGIC;
-		} else if (source == DamageSource.FALL) {
-			cause = DamageCause.FALL;
-		} else if (source == DamageSource.GENERIC) {
-			return new EntityDamageEvent(entity.getBukkitEntity(), null, modifiers, modifierFunctions);
+		final CraftDamageSource.DAMAGE_SOURCE damageSource = CraftDamageSource.getSource(source.p());
+		switch (damageSource) {
+			case FIRE:
+				cause = DamageCause.FIRE;
+				break;
+			case STARVE:
+				cause = DamageCause.STARVATION;
+				break;
+			case WITHER:
+				cause = DamageCause.WITHER;
+				break;
+			case STUCK:
+				cause = DamageCause.SUFFOCATION;
+				break;
+			case DROWN:
+				cause = DamageCause.DROWNING;
+				break;
+			case BURN:
+				cause = DamageCause.FIRE_TICK;
+				break;
+			case MELTING:
+				cause = DamageCause.MELTING;
+				break;
+			case POISON:
+				cause = DamageCause.POISON;
+				break;
+			case MAGIC:
+				cause = DamageCause.MAGIC;
+				break;
+			case FALL:
+				cause = DamageCause.FALL;
+				break;
+			case GENERIC:
+				return new EntityDamageEvent(entity.getBukkitEntity(), null, modifiers, modifierFunctions);
+			default:
+				throw new IllegalStateException("Unexpected value: " + damageSource);
 		}
 
 		if (cause != null) {
