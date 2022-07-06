@@ -72,11 +72,7 @@ public class WorldTickerManager {
 
 	// Ticks all worlds
 	public void tick() {
-		if (WindSpigotConfig.parallelWorld) {
-			tickAsync();
-		} else {
-			tickSync();
-		}
+		tickSync();
 	}
 	
 	private void tickSync() {
