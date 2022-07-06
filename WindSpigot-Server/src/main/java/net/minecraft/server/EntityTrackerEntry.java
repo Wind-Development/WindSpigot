@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerVelocityEvent;
 // CraftBukkit end
 
+import com.google.common.collect.Maps;
+
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.elier.nachospigot.config.NachoConfig;
 
@@ -75,11 +77,13 @@ public class EntityTrackerEntry {
 	// receives
 	// their first update (which is forced to have absolute coordinates), false
 	// afterward.
-	public java.util.Map<EntityPlayer, Boolean> trackedPlayerMap = new it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap<>(); // IonSpigot
-																																		// -
-																																		// HashMap
-																																		// ->
-																																		// Reference2BooleanMap
+	public java.util.Map<EntityPlayer, Boolean> trackedPlayerMap = Maps.newConcurrentMap(); // WindSpigot - concurrent map
+	// IonSpigot
+	// -
+	// HashMap
+	// ->
+	// Reference2BooleanMap
+	
 	public Set<EntityPlayer> trackedPlayers = trackedPlayerMap.keySet();
 	// PaperSpigot end
 
