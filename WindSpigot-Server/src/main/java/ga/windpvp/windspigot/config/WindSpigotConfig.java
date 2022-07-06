@@ -173,20 +173,6 @@ public class WindSpigotConfig {
 
 	public static boolean parallelWorld;
 
-	private static void parallelWorld() {
-		parallelWorld = false;
-		// Disable timings by making timings check a variable (Code from api can't
-		// access server code, so we have to do this)
-		// Please open a PR if you know of a better method to do this.
-		if (parallelWorld) {
-			TimingsCheck.setEnableTimings(false);
-		} else {
-			TimingsCheck.setEnableTimings(true);
-		}
-		c.addComment("settings.async.parallel-world",
-				"Enables async world ticking, ticking is faster if there are more worlds. Timings and other profilers are not supported when using this.");
-	}
-
 	public static boolean limitedMobSpawns;
 
 	private static void limitedMobSpawns() {
@@ -397,10 +383,5 @@ public class WindSpigotConfig {
 	}
 	
 	public static boolean improvedHitDetection;
-
-	private static void hitReg() {
-		improvedHitDetection = false;
-		c.addComment("settings.improved-hit-detection", "Enables the usage of an improved hit registration based on lag compensation and small other details. (Credits to NachoSpigot and the original plugin)");
-	}
 	
 }

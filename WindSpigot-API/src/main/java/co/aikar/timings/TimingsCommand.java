@@ -53,13 +53,6 @@ public class TimingsCommand extends BukkitCommand {
 			return true;
 		}
 		
-		// WindSpigot start - Disable timings if using parallel worlds
-		if (!TimingsCheck.getEnableTimings()) {
-			sender.sendMessage(ChatColor.RED + "Timings command is disabled due to parallel world ticking being enabled.");
-			return true;
-		}
-		// WindSpigot end
-		
 		if (args.length < 1) {
 			sender.sendMessage(ChatColor.RED + "Usage: " + usageMessage);
 			return true;
