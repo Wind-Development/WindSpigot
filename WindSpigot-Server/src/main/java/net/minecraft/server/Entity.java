@@ -1292,34 +1292,11 @@ public abstract class Entity implements ICommandListener {
 	}
 
 	public double h(Entity entity) {
-		// Nacho start - improved hit reg
-		if (WindSpigotConfig.improvedHitDetection && entity instanceof EntityPlayer && this instanceof EntityPlayer) {
+		double d0 = this.locX - entity.locX;
+		double d1 = this.locY - entity.locY;
+		double d2 = this.locZ - entity.locZ;
 
-			EntityPlayer entityPlayer = (EntityPlayer) entity;
-			EntityPlayer player = (EntityPlayer) this;
-
-			Location loc;
-			if (entityPlayer.playerConnection.getClass().equals(PlayerConnection.class)
-					&& player.playerConnection.getClass().equals(PlayerConnection.class)) {
-				loc = WindSpigot.getInstance().getLagCompensator().getHistoryLocation(entityPlayer.getBukkitEntity(),
-						player.ping);
-			} else {
-				loc = entityPlayer.getBukkitEntity().getLocation();
-			}
-			// Nacho end
-
-			double d0 = this.locX - loc.getX();
-			double d1 = this.locY - loc.getY();
-			double d2 = this.locZ - loc.getZ();
-
-			return d0 * d0 + d1 * d1 + d2 * d2;
-		} else {
-			double d0 = this.locX - entity.locX;
-			double d1 = this.locY - entity.locY;
-			double d2 = this.locZ - entity.locZ;
-
-			return d0 * d0 + d1 * d1 + d2 * d2;
-		}
+		return d0 * d0 + d1 * d1 + d2 * d2;
 	}
 	
 	// WindSpigot start
