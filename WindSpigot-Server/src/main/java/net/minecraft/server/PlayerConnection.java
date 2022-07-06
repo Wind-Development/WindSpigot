@@ -1632,7 +1632,8 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 		this.player.resetIdleTimer();
 		if (entity != null) {
-			boolean flag = this.player.hasLineOfSight(entity);
+			// WindSpigot
+			boolean flag = this.player.hasLineOfSightAccurate(entity);
 			double d0;
 
 			if (!flag) {
@@ -1647,7 +1648,8 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
             	}	
             }
 
-            if (this.player.h(entity) <= d0) { // Nacho - <  ->  <=
+			// WindSpigot
+            if (this.player.distanceSqrdAccurate(entity) <= d0) { // Nacho - <  ->  <=
 				ItemStack itemInHand = this.player.inventory.getItemInHand(); // CraftBukkit
 
 				if (packetplayinuseentity.a() == PacketPlayInUseEntity.EnumEntityUseAction.INTERACT
