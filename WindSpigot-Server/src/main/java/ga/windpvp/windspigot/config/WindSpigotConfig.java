@@ -399,7 +399,7 @@ public class WindSpigotConfig {
 	public static boolean improvedHitDetection;
 
 	private static void hitReg() {
-		improvedHitDetection = getBoolean("settings.improved-hit-detection", true);
+		improvedHitDetection = false;
 		c.addComment("settings.improved-hit-detection", "Enables the usage of an improved hit registration based on lag compensation and small other details. (Credits to NachoSpigot and the original plugin)");
 	}
 	
