@@ -25,8 +25,8 @@ public class WorldTicker implements Runnable {
 		this.worldserver = worldServer;
 		cachedUpdateTrackerTask = () -> {
 			hasTracked = true;
+			AsyncEntityTracker.disableAutomaticFlush();
 			worldserver.getTracker().updatePlayers();
-			AsyncEntityTracker.enableAutomaticFlush();
 			latch.decrement();
 		};
 	}
