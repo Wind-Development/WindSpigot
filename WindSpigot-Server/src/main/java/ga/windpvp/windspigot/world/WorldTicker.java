@@ -43,6 +43,11 @@ public class WorldTicker implements Runnable {
 		CrashReport crashreport;
 
 		try {
+			if (handleTrackerAsync && hasTracked) {
+				latch.waitTillZero();
+				latch.reset();
+				AsyncEntityTracker.enableAutomaticFlush();
+			}
 			worldserver.timings.doTick.startTiming(); // Spigot
 			worldserver.doTick();
 			worldserver.timings.doTick.stopTiming(); // Spigot
@@ -59,11 +64,6 @@ public class WorldTicker implements Runnable {
 		}
 
 		try {
-			if (handleTrackerAsync && hasTracked) {
-				latch.waitTillZero();
-				latch.reset();
-				AsyncEntityTracker.enableAutomaticFlush();
-			}
 			worldserver.timings.tickEntities.startTiming(); // Spigot
 			worldserver.tickEntities();
 			worldserver.timings.tickEntities.stopTiming(); // Spigot
