@@ -25,7 +25,6 @@ public class WorldTicker implements Runnable {
 		this.worldserver = worldServer;
 		cachedUpdateTrackerTask = () -> {
 			hasTracked = true;
-			AsyncEntityTracker.disableAutomaticFlush();
 			worldserver.getTracker().updatePlayers();
 			latch.decrement();
 		};
@@ -80,6 +79,7 @@ public class WorldTicker implements Runnable {
 		}
 
 		if (handleTrackerAsync) {
+			AsyncEntityTracker.disableAutomaticFlush();
 			AsyncUtil.run(cachedUpdateTrackerTask, AsyncEntityTracker.getExecutor());
 		} else {
 			worldserver.timings.tracker.startTiming(); // Spigot
