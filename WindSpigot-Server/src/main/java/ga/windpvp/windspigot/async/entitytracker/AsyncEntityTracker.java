@@ -59,28 +59,24 @@ public class AsyncEntityTracker extends EntityTracker {
 	// Global enabling/disabling of automatic flushing
 	
 	public static void disableAutomaticFlush() {
-		synchronized (disabledFlushes) {
-			if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
-			{
-				// Tuinity start - controlled flush for entity tracker packets			
-				for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-					PlayerConnection connection = player.playerConnection;
-					if (connection != null) {
-						connection.networkManager.disableAutomaticFlush();
-						disabledFlushes.add(connection.networkManager);
-					}
+		if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
+		{
+			// Tuinity start - controlled flush for entity tracker packets			
+			for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+				PlayerConnection connection = player.playerConnection;
+				if (connection != null) {
+					connection.networkManager.disableAutomaticFlush();
+					disabledFlushes.add(connection.networkManager);
 				}
 			}
 		}
 	}
 	
 	public static void enableAutomaticFlush() {
-		synchronized (disabledFlushes) {
-			for (NetworkManager networkManager : disabledFlushes) {
-				networkManager.enableAutomaticFlush();
-			}
-			disabledFlushes.clear();
+		for (NetworkManager networkManager : disabledFlushes) {
+			networkManager.enableAutomaticFlush();
 		}
+		disabledFlushes.clear();
 		// Tuinity end - controlled flush for entity tracker packets
 	}
 	

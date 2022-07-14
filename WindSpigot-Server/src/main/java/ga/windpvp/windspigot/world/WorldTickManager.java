@@ -37,10 +37,6 @@ public class WorldTickManager {
 	// Ticks all worlds
 	public void tick() {
 		tickWorlds();
-		
-		if (!WindSpigotConfig.disableTracking) {
-			AsyncEntityTracker.disableAutomaticFlush();
-		}
 	}
 	
 	private void tickWorlds() {
