@@ -97,6 +97,15 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
+        
+        <!-- WindSpigot start - additional deps-->
+		<dependency>
+		    <groupId>org.jetbrains</groupId>
+		    <artifactId>annotations</artifactId>
+		    <version>23.0.0</version>
+		</dependency>   
+        <!-- WindSpigot end-->
+    
     </dependencies>
 
     <build>

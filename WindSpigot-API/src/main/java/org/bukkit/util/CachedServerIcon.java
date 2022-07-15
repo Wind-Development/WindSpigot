@@ -14,4 +14,10 @@ import org.bukkit.event.server.ServerListPingEvent;
  */
 public interface CachedServerIcon {
 	public String getData(); // Spigot
+	
+	// Paper start
+	default boolean isEmpty() {
+		return getData() == null;
+	}
+	// Paper end
 }
