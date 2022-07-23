@@ -2,6 +2,7 @@ package ga.windpvp.windspigot.knockback;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 
@@ -21,9 +21,19 @@ import ga.windpvp.windspigot.WindSpigot;
 public class KnockbackConfig {
 	private static final Logger LOGGER = LogManager.getLogger(KnockbackConfig.class);
 	private static File CONFIG_FILE;
-	protected static final YamlCommenter c = new YamlCommenter();
-	private static final String HEADER = "This is the knockback configuration file for WindSpigot.\n"
-			+ "For configuration info see this: https://github.com/Wind-Development/WindSpigot/wiki/Knockback-Configuration";
+
+	private static final List<String> HEADER = new ArrayList<String>() {{
+		add("This is the knockback configuration file for WindSpigot.");
+		add("This file can be edited manually, or through the /kb command.");
+		add("For editing manually, see the knockback configuration wiki");
+		add("If you need help with the configuration or have any questions related to WindSpigot,");
+		add("join us in our Discord.");
+		add("");
+		add("");
+		add("Discord: https://discord.gg/kAbTsFkbmN");
+		add("Github: https://github.com/Wind-Development/WindSpigot");
+		add("Wiki: https://github.com/Wind-Development/WindSpigot/wiki/Knockback-Configuration");
+	}};
 	static YamlConfiguration config;
 
 	private static volatile KnockbackProfile currentKb;
@@ -41,7 +51,7 @@ public class KnockbackConfig {
 			throw Throwables.propagate(ex);
 		}
 		config.options().copyDefaults(true);
-		c.setHeader(HEADER);
+		config.options().setHeader(HEADER);
 
 		Set<String> keys = getKeys("knockback.profiles");
 		

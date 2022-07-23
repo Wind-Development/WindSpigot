@@ -3,9 +3,6 @@ package net.minecraft.server;
 import java.util.Random;
 import java.util.UUID;
 
-import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
-
 public class MathHelper {
 	public static final float a = c(2.0F);
 	private static final float[] b = new float[65536];

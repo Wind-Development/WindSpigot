@@ -40,7 +40,7 @@ public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerL
 	@Override
 	public void c() {
 		// Nacho-0050 - Don't tick Enchantment tables
-		if (!world.nachoSpigotConfig.shouldTickEnchantmentTables) {
+		if (!world.windSpigotConfig.shouldTickEnchantmentTables) {
 			return;
 		}
 		// Nacho-0050 End

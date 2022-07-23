@@ -1,27 +1,19 @@
 package net.minecraft.server;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.CompletableFuture;
-
-import org.bukkit.Location;
-import org.bukkit.craftbukkit.event.CraftEventFactory;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
-import me.elier.nachospigot.config.NachoConfig;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import xyz.sculas.nacho.async.AsyncExplosions;
+
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class Explosion {
 
@@ -380,7 +372,7 @@ public class Explosion {
 			double d2 = vector[2];
 
 			float f = this.size * (0.7F
-					+ (world.nachoSpigotConfig.constantExplosions ? 0.7F : this.world.random.nextFloat()) * 0.6F);
+					+ (world.windSpigotConfig.constantExplosions ? 0.7F : this.world.random.nextFloat()) * 0.6F);
 			float resistance = 0;
 
 			double stepX = this.posX;
@@ -456,7 +448,7 @@ public class Explosion {
 	// WindSpigot end
 
 	private float calculateDensity(Vec3D vec3d, AxisAlignedBB aabb) {
-		if (world.nachoSpigotConfig.reducedDensityRays) {
+		if (world.windSpigotConfig.reducedDensityRays) {
 			return calculateDensityReducedRays(vec3d, aabb);
 		} else {
 			return this.world.a(vec3d, aabb);

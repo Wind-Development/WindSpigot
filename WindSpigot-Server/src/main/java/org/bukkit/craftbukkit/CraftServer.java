@@ -1,47 +1,33 @@
 package org.bukkit.craftbukkit;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
-
+import com.avaje.ebean.config.DataSourceConfig;
+import com.avaje.ebean.config.ServerConfig;
+import com.avaje.ebean.config.dbplatform.SQLitePlatform;
+import com.avaje.ebeaninternal.server.lib.sql.TransactionIsolation;
+import com.eatthepath.uuid.FastUUID;
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.MapMaker;
+import com.mojang.authlib.GameProfile;
+import ga.windpvp.windspigot.commons.PluginUtils;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.knockback.KnockbackConfig;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.base64.Base64;
+import jline.console.ConsoleReader;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.minecraft.server.WorldType;
+import net.minecraft.server.*;
 import org.apache.commons.lang.Validate;
-import org.bukkit.BanList;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Server;
-import org.bukkit.UnsafeValues;
-import org.bukkit.Warning.WarningState;
+import org.bukkit.*;
 import org.bukkit.World;
+import org.bukkit.Warning.WarningState;
 import org.bukkit.World.Environment;
-import org.bukkit.WorldCreator;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandException;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.command.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -50,14 +36,7 @@ import org.bukkit.craftbukkit.command.VanillaCommandWrapper;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.generator.CraftChunkData;
 import org.bukkit.craftbukkit.help.SimpleHelpMap;
-import org.bukkit.craftbukkit.inventory.CraftFurnaceRecipe;
-import org.bukkit.craftbukkit.inventory.CraftInventoryCustom;
-import org.bukkit.craftbukkit.inventory.CraftInventoryView;
-import org.bukkit.craftbukkit.inventory.CraftItemFactory;
-import org.bukkit.craftbukkit.inventory.CraftRecipe;
-import org.bukkit.craftbukkit.inventory.CraftShapedRecipe;
-import org.bukkit.craftbukkit.inventory.CraftShapelessRecipe;
-import org.bukkit.craftbukkit.inventory.RecipeIterator;
+import org.bukkit.craftbukkit.inventory.*;
 import org.bukkit.craftbukkit.map.CraftMapView;
 import org.bukkit.craftbukkit.metadata.EntityMetadataStore;
 import org.bukkit.craftbukkit.metadata.PlayerMetadataStore;
@@ -79,21 +58,11 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.help.HelpMap;
-import org.bukkit.inventory.FurnaceRecipe;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.*;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginLoadOrder;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.ServicesManager;
-import org.bukkit.plugin.SimplePluginManager;
-import org.bukkit.plugin.SimpleServicesManager;
+import org.bukkit.plugin.*;
 import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.plugin.messaging.StandardMessenger;
@@ -105,70 +74,15 @@ import org.bukkit.util.permissions.DefaultPermissions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.MarkedYAMLException;
-
-import com.avaje.ebean.config.DataSourceConfig;
-import com.avaje.ebean.config.ServerConfig;
-import com.avaje.ebean.config.dbplatform.SQLitePlatform;
-import com.avaje.ebeaninternal.server.lib.sql.TransactionIsolation;
-import com.eatthepath.uuid.FastUUID;
-import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.MapMaker;
-import com.mojang.authlib.GameProfile;
-
-import dev.cobblesword.nachospigot.Nacho;
-import ga.windpvp.windspigot.commons.PluginUtils;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
-import ga.windpvp.windspigot.knockback.KnockbackConfig;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.Unpooled;
-import io.netty.handler.codec.base64.Base64;
-import jline.console.ConsoleReader;
-import me.elier.nachospigot.config.NachoConfig;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.minecraft.server.BlockPosition;
-import net.minecraft.server.ChunkProviderServer;
-import net.minecraft.server.ChunkRegionLoader;
-import net.minecraft.server.CommandAbstract;
-import net.minecraft.server.CommandDispatcher;
-import net.minecraft.server.ContainerWorkbench;
-import net.minecraft.server.Convertable;
-import net.minecraft.server.CraftingManager;
-import net.minecraft.server.DedicatedPlayerList;
-import net.minecraft.server.DedicatedServer;
-import net.minecraft.server.Enchantment;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.EntityTracker;
-import net.minecraft.server.EnumDifficulty;
-import net.minecraft.server.ExceptionWorldConflict;
-import net.minecraft.server.FileIOThread;
-import net.minecraft.server.ICommand;
-import net.minecraft.server.IDataManager;
-import net.minecraft.server.IProgressUpdate;
-import net.minecraft.server.Items;
-import net.minecraft.server.JsonListEntry;
-import net.minecraft.server.LocaleI18n;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.MobEffectList;
-import net.minecraft.server.PersistentCollection;
-import net.minecraft.server.PlayerList;
-import net.minecraft.server.PropertyManager;
-import net.minecraft.server.RecipesFurnace;
-import net.minecraft.server.RegionFile;
-import net.minecraft.server.RegionFileCache;
-import net.minecraft.server.ServerCommand;
-import net.minecraft.server.ServerNBTManager;
-import net.minecraft.server.WorldData;
-import net.minecraft.server.WorldLoaderServer;
-import net.minecraft.server.WorldManager;
-import net.minecraft.server.WorldMap;
-import net.minecraft.server.WorldNBTStorage;
-import net.minecraft.server.WorldServer;
-import net.minecraft.server.WorldSettings;
-import net.minecraft.server.WorldType;
 import xyz.sculas.nacho.malware.AntiMalware;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 public final class CraftServer implements Server {
 	private static final Player[] EMPTY_PLAYER_ARRAY = new Player[0];
@@ -842,7 +756,6 @@ public final class CraftServer implements Server {
 		org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
 		org.github.paperspigot.PaperSpigotConfig.init((File) console.options.valueOf("paper-settings")); // PaperSpigot
 		net.techcable.tacospigot.TacoSpigotConfig.init((File) console.options.valueOf("taco-settings")); // TacoSpigot
-		NachoConfig.init((File) console.options.valueOf("nacho-settings")); // NachoSpigot
 		KnockbackConfig.init((File) console.options.valueOf("knockback-settings"));
 		
 		// WindSpigot start - config
@@ -866,6 +779,7 @@ public final class CraftServer implements Server {
 			world.spigotConfig.init(); // Spigot
 			world.paperSpigotConfig.init(); // PaperSpigot
 			world.tacoSpigotConfig.init(); // TacoSpigot
+			world.windSpigotConfig.init(); // WindSpigot
 		}
 
 		pluginManager.clearPlugins();

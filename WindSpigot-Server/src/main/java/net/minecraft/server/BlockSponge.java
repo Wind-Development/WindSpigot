@@ -28,14 +28,14 @@ public class BlockSponge extends Block {
 
 	@Override
 	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		if (!world.nachoSpigotConfig.disableSpongeAbsorption) {
+		if (!world.windSpigotConfig.disableSpongeAbsorption) {
 			this.e(world, blockposition, iblockdata);
 		}
 	}
 
 	@Override
 	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
-		if (!world.nachoSpigotConfig.disableSpongeAbsorption) {
+		if (!world.windSpigotConfig.disableSpongeAbsorption) {
 			this.e(world, blockposition, iblockdata);
 			super.doPhysics(world, blockposition, iblockdata, block);
 		}
@@ -43,7 +43,7 @@ public class BlockSponge extends Block {
 	}
 
 	protected void e(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		if (!world.nachoSpigotConfig.disableSpongeAbsorption && !(Boolean) iblockdata.get(BlockSponge.WET)
+		if (!world.windSpigotConfig.disableSpongeAbsorption && !(Boolean) iblockdata.get(BlockSponge.WET)
 				&& this.e(world, blockposition)) {
 			world.setTypeAndData(blockposition, iblockdata.set(BlockSponge.WET, true), 2);
 			world.triggerEffect(2001, blockposition, Block.getId(Blocks.WATER));

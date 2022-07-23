@@ -176,7 +176,7 @@ public abstract class EntityInsentient extends EntityLiving {
 	public void x() {
 		String s = this.z();
 
-		if ((s != null) && (world.nachoSpigotConfig.enableMobSound)) {
+		if ((s != null) && (world.windSpigotConfig.enableMobSound)) {
 			this.makeSound(s, this.bB(), this.bC());
 		}
 
@@ -537,7 +537,7 @@ public abstract class EntityInsentient extends EntityLiving {
 		// Spigot End
 
 		// NachoSpigot - toggleable mob ai
-		if (world.nachoSpigotConfig.enableMobAI) {
+		if (world.windSpigotConfig.enableMobAI) {
 			this.world.methodProfiler.a("sensing");
 			this.bk.a();
 			this.world.methodProfiler.b();

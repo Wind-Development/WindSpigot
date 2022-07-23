@@ -1,12 +1,10 @@
 package net.minecraft.server;
 
-import java.util.List;
-
 import com.eatthepath.uuid.FastUUID;
-
 import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
+
+import java.util.List;
 
 public abstract class EntityProjectile extends Entity implements IProjectile {
 

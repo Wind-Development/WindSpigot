@@ -1,16 +1,14 @@
 package net.minecraft.server;
 
 // CraftBukkit start
+
+import ga.windpvp.windspigot.config.WindSpigotConfig;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.entity.LivingEntity;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.entity.LivingEntity;
-// CraftBukkit end
-
-import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 
 public class EntityPotion extends EntityProjectile {
 

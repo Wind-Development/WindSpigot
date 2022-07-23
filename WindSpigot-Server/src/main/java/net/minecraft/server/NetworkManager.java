@@ -19,7 +19,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.velocitypowered.natives.compression.VelocityCompressor; // Paper
 import com.velocitypowered.natives.util.Natives; // Paper
 
-import dev.cobblesword.nachospigot.Nacho; // Nacho
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.exception.ExploitException;
@@ -39,7 +38,7 @@ import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.AbstractEventExecutor;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import me.elier.minecraft.util.CryptException;
+import ga.windpvp.windspigot.exception.CryptException;
 
 public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 

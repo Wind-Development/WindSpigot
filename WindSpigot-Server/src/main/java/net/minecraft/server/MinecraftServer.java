@@ -1,35 +1,6 @@
 package net.minecraft.server;
 
-import java.awt.GraphicsEnvironment;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.Proxy;
-import java.security.KeyPair;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Queue;
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.LockSupport;
-import java.util.function.BooleanSupplier;
-import java.util.function.Function;
-
-import javax.imageio.ImageIO;
-
-import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.bukkit.craftbukkit.Main;
-
+import co.aikar.timings.SpigotTimings;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
@@ -39,33 +10,44 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-
-import co.aikar.timings.SpigotTimings; // Spigot
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.Unpooled;
-import io.netty.handler.codec.base64.Base64;
-import io.netty.util.ResourceLeakDetector;
-
-// CraftBukkit start
-import jline.console.ConsoleReader;
-import joptsimple.OptionSet;
-// CraftBukkit end
-
-// NachoSpigot start
-import me.elier.nachospigot.config.NachoConfig;
-import xyz.sculas.nacho.async.AsyncExplosions;
-// NachoSpigot end
-
-// WindSpigot start
-import net.openhft.affinity.AffinityLock;
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
 import ga.windpvp.windspigot.tickloop.ReentrantIAsyncHandler;
 import ga.windpvp.windspigot.tickloop.TasksPerTick;
 import ga.windpvp.windspigot.world.WorldTickManager;
-// WindSpigot end
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.base64.Base64;
+import io.netty.util.ResourceLeakDetector;
+import jline.console.ConsoleReader;
+import joptsimple.OptionSet;
+import net.openhft.affinity.AffinityLock;
+import org.apache.commons.lang3.Validate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.bukkit.craftbukkit.Main;
+import xyz.sculas.nacho.async.AsyncExplosions;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.Proxy;
+import java.security.KeyPair;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Queue;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.LockSupport;
+import java.util.function.BooleanSupplier;
+import java.util.function.Function;
 
 public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTick> implements ICommandListener, IAsyncTaskHandler, IMojangStatistics {
 

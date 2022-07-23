@@ -1,31 +1,26 @@
 package net.minecraft.server;
 
-import java.io.File;
-import java.io.IOException;
-// CraftBukkit start
-import java.io.PrintStream;
-import java.net.InetAddress;
-import java.net.Proxy;
-import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
-
+import co.aikar.timings.SpigotTimings;
+import ga.windpvp.windspigot.WindSpigot;
+import ga.windpvp.windspigot.commons.IPUtils;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.knockback.KnockbackConfig;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.craftbukkit.LoggerOutputStream;
 import org.bukkit.craftbukkit.util.Waitable;
 import org.bukkit.event.server.RemoteServerCommandEvent;
-// CraftBukkit end
 import org.bukkit.event.server.ServerCommandEvent;
 
-import co.aikar.timings.SpigotTimings; // Spigot
-import dev.cobblesword.nachospigot.Nacho;
-import ga.windpvp.windspigot.WindSpigot;
-import ga.windpvp.windspigot.commons.IPUtils;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
-import ga.windpvp.windspigot.knockback.KnockbackConfig;
-import me.elier.nachospigot.config.NachoConfig;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.Proxy;
+import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 public class DedicatedServer extends MinecraftServer implements IMinecraftServer {
 
@@ -185,14 +180,13 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 			if (this.R() < 0) {
 				this.setPort(this.propertyManager.getInt("server-port", 25565));
 			}
-			// Spigot start
-			NachoConfig.init((File) options.valueOf("nacho-settings")); // NachoSpigot - Load config before PlayerList
 			KnockbackConfig.init((File) options.valueOf("knockback-settings"));
 			
 			// WindSpigot start - config
 			WindSpigotConfig.init((File) options.valueOf("windspigot-settings"));
 			// WindSpigot end
-			
+
+			// Spigot start
 			this.a(new DedicatedPlayerList(this));
 			org.spigotmc.SpigotConfig.init((File) options.valueOf("spigot-settings"));
 			org.spigotmc.SpigotConfig.registerCommands();

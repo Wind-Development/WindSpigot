@@ -1,9 +1,8 @@
 package net.minecraft.server;
 
-import java.io.IOException;
-
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
+
+import java.io.IOException;
 
 public class PacketPlayInUseEntity implements Packet<PacketListenerPlayIn> {
 	private int a;

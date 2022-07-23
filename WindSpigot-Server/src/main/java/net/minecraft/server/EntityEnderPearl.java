@@ -1,13 +1,11 @@
 package net.minecraft.server;
 
-import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.event.CraftEventFactory;
-import org.bukkit.event.player.PlayerTeleportEvent;
-
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.event.CraftEventFactory;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 // CraftBukkit end
 
@@ -57,7 +55,7 @@ public class EntityEnderPearl extends EntityProjectile {
 							&& (block == Blocks.FENCE_GATE || block == Blocks.SPRUCE_FENCE_GATE
 									|| block == Blocks.BIRCH_FENCE_GATE || block == Blocks.JUNGLE_FENCE_GATE
 									|| block == Blocks.DARK_OAK_FENCE_GATE || block == Blocks.ACACIA_FENCE_GATE)
-							&& blockData.get(BlockFenceGate.OPEN).booleanValue()
+							&& blockData.get(BlockFenceGate.OPEN)
 					|| WindSpigotConfig.pearlPassthroughSlab && (block == Blocks.STONE_SLAB
 							|| block == Blocks.WOODEN_SLAB || block == Blocks.STONE_SLAB2);
 
@@ -117,7 +115,7 @@ public class EntityEnderPearl extends EntityProjectile {
 
 					if (!teleEvent.isCancelled() && !entityplayer.playerConnection.isDisconnected()) {
 						if ((this.random.nextFloat() < 0.05F) && (this.world.getGameRules().getBoolean("doMobSpawning"))
-								&& (world.nachoSpigotConfig.endermiteSpawning)) {
+								&& (world.windSpigotConfig.endermiteSpawning)) {
 							EntityEndermite entityendermite = new EntityEndermite(this.world);
 
 							entityendermite.a(true);
