@@ -2,8 +2,6 @@ package ga.windpvp.windspigot.world;
 
 import java.util.List;
 import com.google.common.collect.Lists;
-import ga.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
@@ -28,7 +26,9 @@ public class WorldTickManager {
 						
 			// Create world tickers
 			for (WorldServer world : MinecraftServer.getServer().worlds) {
-				worldTickers.add(new WorldTicker(world));	
+				WorldTicker ticker = new WorldTicker(world);
+				worldTickers.add(ticker);	
+				world.ticker = ticker;
 			}
 
 		}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.Callable;
 // CraftBukkit start
@@ -94,6 +95,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	private int creativeSlotCount = 0;
 	private long lastCustomPayloadPacketTS = -1L;
 	private boolean isExploiter = false;
+	
+	// WindSpigot - queue-able packets
+	private Queue<Packet<?>> queuedPackets = Lists.newLinkedList();
 
 	public PlayerConnection(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
 		this.minecraftServer = minecraftserver;
@@ -1151,8 +1155,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 	}
 
-	// WindSpigot - ensure packet sends are synchronized
-	public synchronized void sendPacket(final Packet packet) {
+	public void sendPacket(final Packet packet) {
 		if (packet instanceof PacketPlayOutChat) {
 			PacketPlayOutChat packetplayoutchat = (PacketPlayOutChat) packet;
 			EntityHuman.EnumChatVisibility flags = this.player.getChatFlags();
@@ -2653,6 +2656,20 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	public boolean isDisconnected() { // Spigot
 		return !this.player.joining && !this.networkManager.channel.config().isAutoRead();
 	}
+	
+	// WindSpigot start - queue-able packets
+	public void queuePacket(Packet<?> packet) {
+		queuedPackets.add(packet);
+	}
+	
+	public void sendQueuedPackets() {
+		networkManager.disableAutomaticFlush();
+		while (!queuedPackets.isEmpty()) {
+			sendPacket(queuedPackets.poll());
+		}
+		networkManager.enableAutomaticFlush();
+	}
+	// WindSpigot end
 
 	static class SyntheticClass_1 {
 

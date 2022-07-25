@@ -27,6 +27,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import ga.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import ga.windpvp.windspigot.world.WorldTicker;
 
 public class WorldServer extends World implements IAsyncTaskHandler {
 
@@ -63,6 +64,9 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 
 	// CraftBukkit start
 	public final int dimension;
+	
+	// WindSpigot
+	public WorldTicker ticker;
 
 	// Add env and gen to constructor
 	public WorldServer(MinecraftServer minecraftserver, IDataManager idatamanager, WorldData worlddata, int i,

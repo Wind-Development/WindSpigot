@@ -141,10 +141,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
-                        // WindSpigot - synchronize
-                        synchronized (entityPlayer) { 
-				updatePlayer(entityPlayer);
-			}
+			updatePlayer(entityPlayer);
 		}
 	};
 
@@ -184,16 +181,16 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 		DataWatcher datawatcher = this.tracker.getDataWatcher();
 
 		if (datawatcher.a()) {
-			this.broadcastIncludingSelf(new PacketPlayOutEntityMetadata(this.tracker.getId(), datawatcher, false));
+			this.broadcastIncludingSelfInternal(new PacketPlayOutEntityMetadata(this.tracker.getId(), datawatcher, false));
 		}
 
 		// Only update location on movement
 		if (this.tracker.lastX != this.tracker.locX || this.tracker.lastY != this.tracker.locY
 				|| this.tracker.lastZ != this.tracker.locZ) {
-			this.broadcast(new PacketPlayOutEntityTeleport(this.tracker));
+			this.broadcastInternal(new PacketPlayOutEntityTeleport(this.tracker));
 		}
 
-		this.broadcast(new PacketPlayOutEntityVelocity(this.tracker));
+		this.broadcastInternal(new PacketPlayOutEntityVelocity(this.tracker));
 	}
 
 	@Override
@@ -221,19 +218,19 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 				return; // IonSpigot - If it's null don't update the client!
 			}
 
-			entityplayer.playerConnection.sendPacket(packet);
+			entityplayer.playerConnection.queuePacket(packet);
 
 			if (this.tracker.getCustomNameVisible()) {
-				entityplayer.playerConnection.sendPacket(
+				entityplayer.playerConnection.queuePacket(
 						new PacketPlayOutEntityMetadata(this.tracker.getId(), this.tracker.getDataWatcher(), true));
 			}
 
-			entityplayer.playerConnection.sendPacket(new PacketPlayOutEntityVelocity(this.tracker.getId(),
+			entityplayer.playerConnection.queuePacket(new PacketPlayOutEntityVelocity(this.tracker.getId(),
 					this.tracker.motX, this.tracker.motY, this.tracker.motZ));
 
 			if (this.tracker.vehicle != null) {
 				entityplayer.playerConnection
-						.sendPacket(new PacketPlayOutAttachEntity(0, this.tracker, this.tracker.vehicle));
+						.queuePacket(new PacketPlayOutAttachEntity(0, this.tracker, this.tracker.vehicle));
 			}
 		} else if (this.trackedPlayers.contains(entityplayer)) {
 			this.trackedPlayers.remove(entityplayer);
