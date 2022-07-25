@@ -53,6 +53,7 @@ import org.bukkit.util.NumberConversions;
 import org.github.paperspigot.PaperSpigotConfig; // PaperSpigot
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 
@@ -97,7 +98,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	private boolean isExploiter = false;
 	
 	// WindSpigot - queue-able packets
-	private Queue<Packet<?>> queuedPackets = Lists.newLinkedList();
+	private Queue<Packet<?>> queuedPackets = Queues.newLinkedBlockingQueue();
 
 	public PlayerConnection(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
 		this.minecraftServer = minecraftserver;
