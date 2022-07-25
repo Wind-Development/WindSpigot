@@ -20,6 +20,7 @@ import com.google.common.collect.Maps;
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanArrayMap;
+import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
 
 // WindSpigot - sendPacket methods have been replaced with the queuePacket method
 public class EntityTrackerEntry {
@@ -78,7 +79,7 @@ public class EntityTrackerEntry {
 	// receives
 	// their first update (which is forced to have absolute coordinates), false
 	// afterward.
-	public java.util.Map<EntityPlayer, Boolean> trackedPlayerMap = new Reference2BooleanArrayMap<>();
+	public java.util.Map<EntityPlayer, Boolean> trackedPlayerMap = new Reference2BooleanOpenHashMap<>();
 	// IonSpigot
 	// -
 	// HashMap
