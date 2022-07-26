@@ -18,7 +18,7 @@ public class PlayerMap {
 		return (x << 32) + z - Integer.MIN_VALUE;
 	}
 
-	public synchronized void add(EntityPlayer player) {
+	public void add(EntityPlayer player) {
 		int x = MathHelper.floor(player.locX) >> CHUNK_BITS;
 		int z = MathHelper.floor(player.locZ) >> CHUNK_BITS;
 		long key = xzToKey(x, z);
@@ -32,7 +32,7 @@ public class PlayerMap {
 		player.playerMapZ = z;
 	}
 
-	public synchronized void move(EntityPlayer player) {
+	public void move(EntityPlayer player) {
 		int x = MathHelper.floor(player.locX) >> CHUNK_BITS;
 		int z = MathHelper.floor(player.locZ) >> CHUNK_BITS;
 
@@ -61,7 +61,7 @@ public class PlayerMap {
 		player.playerMapZ = z;
 	}
 
-	public synchronized void remove(EntityPlayer player) {
+	public void remove(EntityPlayer player) {
 		long key = xzToKey(player.playerMapX, player.playerMapZ);
 		List<EntityPlayer> list = map.get(key);
 		if (list == null) {
@@ -75,7 +75,7 @@ public class PlayerMap {
 		}
 	}
 
-	public synchronized void forEachNearby(double x, double y, double z, double distance, boolean useRadius, Consumer<EntityPlayer> function) {
+	public void forEachNearby(double x, double y, double z, double distance, boolean useRadius, Consumer<EntityPlayer> function) {
 		
 		int chunkXMax = MathHelper.floor(x + distance) >> CHUNK_BITS;
 		int chunkZMax = MathHelper.floor(z + distance) >> CHUNK_BITS;
@@ -94,7 +94,7 @@ public class PlayerMap {
 		}
 	}
 
-	public synchronized EntityPlayer getNearestPlayer(double x, double y, double z, double distance) {
+	public EntityPlayer getNearestPlayer(double x, double y, double z, double distance) {
 		double bestDistanceSqrd = -1.0;
 		EntityPlayer bestPlayer = null;
 		
@@ -119,7 +119,7 @@ public class PlayerMap {
 		return bestPlayer;
 	}
 
-	public synchronized boolean isPlayerNearby(double x, double y, double z, double distance, boolean respectSpawningApi) {
+	public boolean isPlayerNearby(double x, double y, double z, double distance, boolean respectSpawningApi) {
 		
 		int chunkXMax = MathHelper.floor(x + distance) >> CHUNK_BITS;
 		int chunkZMax = MathHelper.floor(z + distance) >> CHUNK_BITS;
@@ -142,7 +142,7 @@ public class PlayerMap {
 		return false;
 	}
 
-	public synchronized EntityPlayer getNearbyPlayer(double x, double y, double z, double distance, boolean respectSpawningApi) {
+	public EntityPlayer getNearbyPlayer(double x, double y, double z, double distance, boolean respectSpawningApi) {
 		double bestDistanceSqrd = -1.0;
 		EntityPlayer bestPlayer = null;
 
@@ -170,7 +170,7 @@ public class PlayerMap {
 		return bestPlayer;
 	}
 
-	public synchronized void sendPacketNearby(EntityPlayer source, double x, double y, double z, double distance, Packet<?> packet, boolean self) {
+	public void sendPacketNearby(EntityPlayer source, double x, double y, double z, double distance, Packet<?> packet, boolean self) {
 		
 		double distanceSqrd = distance * distance;
 		int chunkXMax = MathHelper.floor(x + distance) >> CHUNK_BITS;
