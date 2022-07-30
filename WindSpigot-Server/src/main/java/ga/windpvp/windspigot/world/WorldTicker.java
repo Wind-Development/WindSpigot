@@ -116,10 +116,6 @@ public class WorldTicker implements Runnable {
 		worldserver.movementCache.clear(); // IonSpigot - Movement Cache
 	}
 	
-	public Runnable getUpdateTask() {
-		return cachedUpdateTrackerTask;
-	}
-	
 	public ResettableLatch getLatch() {
 		return latch;
 	}

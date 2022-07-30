@@ -118,6 +118,7 @@ import com.google.common.collect.MapMaker;
 import com.mojang.authlib.GameProfile;
 
 import dev.cobblesword.nachospigot.Nacho;
+import ga.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import ga.windpvp.windspigot.commons.PluginUtils;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.knockback.KnockbackConfig;
@@ -1069,7 +1070,13 @@ public final class CraftServer implements Server {
 
 		internal.scoreboard = getScoreboardManager().getMainScoreboard().getHandle();
 
-		internal.tracker = new EntityTracker(internal);
+		// WindSpigot start
+		if (WindSpigotConfig.disableTracking) {
+			internal.tracker = new EntityTracker(internal);
+		} else {
+			internal.tracker = new AsyncEntityTracker(internal);
+		}
+		// WindSpigot end
 		internal.addIWorldAccess(new WorldManager(console, internal));
 		internal.worldData.setDifficulty(EnumDifficulty.EASY);
 		internal.setSpawnFlags(true, true);
