@@ -155,15 +155,10 @@ public final class CraftChatMessage {
 			return "";
 		}
 		StringBuilder out = new StringBuilder();
-		// FlamePaper - Limit iterations to 2
-		int iterations = 0;
 
 		long start = System.currentTimeMillis();
 
 		for (IChatBaseComponent c : component) {
-			if (++iterations > 2) {
-				break;
-			}
 			ChatModifier modifier = c.getChatModifier();
 			out.append(modifier.getColor() == null ? defaultColor : modifier.getColor());
 			if (modifier.isBold()) {
