@@ -344,12 +344,12 @@ public class WorldMap extends PersistentBase {
 
 		private void addSeenPlayers(Collection<MapIcon> icons) {
 			Player player = (Player) this.trackee.getBukkitEntity();
-			WorldMap.this.decorations.forEach((uuid, mapIcon) -> {
-				Player other = Bukkit.getPlayer(uuid);
+			for (Map.Entry<UUID, MapIcon> entry : WorldMap.this.decorations.entrySet()) {
+				Player other = Bukkit.getPlayer(entry.getKey());
 				if (other == null || player.canSee(other)) {
-					icons.add(mapIcon);
+					icons.add(entry.getValue());
 				}
-			});
+			}
 		}
 
 		private boolean shouldUseVanillaMap() {
