@@ -1953,6 +1953,12 @@ public abstract class EntityLiving extends Entity {
 
 	public boolean hasLineOfSight(Entity entity) {
 		Vec3D vec = new Vec3D(this.locX, this.locY + (double) this.getHeadHeight(), this.locZ);
+		return this.world.rayTrace(vec, new Vec3D(entity.locX, entity.locY + (double) entity.getHeadHeight(), entity.locZ)) == null;
+	}
+	
+	// WindSpigot start
+	public boolean hasLineOfSightAccurate(Entity entity) {
+		Vec3D vec = new Vec3D(this.locX, this.locY + (double) this.getHeadHeight(), this.locZ);
 
 		if (entity instanceof EntityPlayer && WindSpigotConfig.improvedHitDetection) {
 
@@ -1965,12 +1971,10 @@ public abstract class EntityLiving extends Entity {
 					|| this.world.rayTrace(vec, new Vec3D(entity.locX, entity.locY + (parts * 2), entity.locZ)) == null
 					|| this.world.rayTrace(vec, new Vec3D(entity.locX, entity.locY + (parts * 1), entity.locZ)) == null;
 		} else {
-			return this.world.rayTrace(vec,
-					new Vec3D(entity.locX, entity.locY + (double) entity.getHeadHeight(), entity.locZ)) == null;
+			return this.world.rayTrace(vec, new Vec3D(entity.locX, entity.locY + (double) entity.getHeadHeight(), entity.locZ)) == null;
 		}
 	}
 	
-	// WindSpigot start
 	public boolean hasLineOfSight(double x, double y, double z) {
 		Vec3D vec = new Vec3D(this.locX, this.locY + (double) this.getHeadHeight(), this.locZ);
 		return this.world.rayTrace(vec, new Vec3D(x, y, z)) == null;

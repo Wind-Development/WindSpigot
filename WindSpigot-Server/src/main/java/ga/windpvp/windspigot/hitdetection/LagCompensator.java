@@ -24,7 +24,7 @@ public class LagCompensator {
     private final int timeResolution = 30;
 
     // Gets an estimate location of the player at "rewindMillisecs" ago
-    public synchronized Location getHistoryLocation(Player player, int rewindMillisecs) {
+    public Location getHistoryLocation(Player player, int rewindMillisecs) {
         if (!locationTimes.containsKey(player.getUniqueId()))
             return player.getLocation();
 
@@ -79,11 +79,11 @@ public class LagCompensator {
     }
 
 
-    public synchronized void registerMovement(Player player, Location to) {
+    public void registerMovement(Player player, Location to) {
         processPosition(to, player);
     }
 
-    public synchronized void clearCache(Player player) {
+    public void clearCache(Player player) {
         locationTimes.removeAll(player.getUniqueId());
     }
 

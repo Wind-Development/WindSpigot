@@ -17,7 +17,7 @@ import net.minecraft.server.WorldServer;
 public class WorldTicker implements Runnable {
 
 	public final WorldServer worldserver;
-	private final ResettableLatch latch = new ResettableLatch(1);
+	private final ResettableLatch latch = new ResettableLatch(WindSpigotConfig.trackingThreads);
 	private final Runnable cachedUpdateTrackerTask;
 	private volatile boolean hasTracked = false;
 	
@@ -26,8 +26,6 @@ public class WorldTicker implements Runnable {
 		cachedUpdateTrackerTask = () -> {
 			hasTracked = true;
 			worldserver.getTracker().updatePlayers();
-			AsyncEntityTracker.enableAutomaticFlush();
-			latch.decrement();
 		};
 	}
 	
@@ -43,6 +41,13 @@ public class WorldTicker implements Runnable {
 		CrashReport crashreport;
 
 		try {
+			if (handleTrackerAsync && hasTracked) {
+				latch.waitTillZero();
+				latch.reset();
+				for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+					player.playerConnection.sendQueuedPackets();
+				}
+			}
 			worldserver.timings.doTick.startTiming(); // Spigot
 			worldserver.doTick();
 			worldserver.timings.doTick.stopTiming(); // Spigot
@@ -59,11 +64,6 @@ public class WorldTicker implements Runnable {
 		}
 
 		try {
-			if (handleTrackerAsync && hasTracked) {
-				latch.waitTillZero();
-				latch.reset();
-				AsyncEntityTracker.enableAutomaticFlush();
-			}
 			worldserver.timings.tickEntities.startTiming(); // Spigot
 			worldserver.tickEntities();
 			worldserver.timings.tickEntities.stopTiming(); // Spigot
@@ -116,8 +116,8 @@ public class WorldTicker implements Runnable {
 		worldserver.movementCache.clear(); // IonSpigot - Movement Cache
 	}
 	
-	public Runnable getUpdateTask() {
-		return cachedUpdateTrackerTask;
+	public ResettableLatch getLatch() {
+		return latch;
 	}
 
 }

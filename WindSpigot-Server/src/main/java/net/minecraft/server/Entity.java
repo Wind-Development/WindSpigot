@@ -1292,6 +1292,15 @@ public abstract class Entity implements ICommandListener {
 	}
 
 	public double h(Entity entity) {
+		double d0 = this.locX - entity.locX;
+		double d1 = this.locY - entity.locY;
+		double d2 = this.locZ - entity.locZ;
+
+		return d0 * d0 + d1 * d1 + d2 * d2;
+	}
+	
+	// WindSpigot start
+	public double distanceSqrdAccurate(Entity entity) {
 		// Nacho start - improved hit reg
 		if (WindSpigotConfig.improvedHitDetection && entity instanceof EntityPlayer && this instanceof EntityPlayer) {
 
@@ -1321,6 +1330,7 @@ public abstract class Entity implements ICommandListener {
 			return d0 * d0 + d1 * d1 + d2 * d2;
 		}
 	}
+	// WindSpigot end
 
 	public void d(EntityHuman entityhuman) {
 	}
