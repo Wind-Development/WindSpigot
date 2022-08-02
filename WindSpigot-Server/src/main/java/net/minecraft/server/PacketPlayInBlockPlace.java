@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.handler.codec.DecoderException;
-import me.elier.nachospigot.config.NachoConfig;
 
 public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn> {
 

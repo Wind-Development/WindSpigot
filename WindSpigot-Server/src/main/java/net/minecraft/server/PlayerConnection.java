@@ -1424,8 +1424,8 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 								queueEvent.getMessage());
 						PlayerConnection.this.minecraftServer.console.sendMessage(message);
 						if (((LazyPlayerSet) queueEvent.getRecipients()).isLazy()) {
-							for (Object player : PlayerConnection.this.minecraftServer.getPlayerList().players) {
-								((EntityPlayer) player).sendMessage(CraftChatMessage.fromString(message));
+							for (EntityPlayer player : PlayerConnection.this.minecraftServer.getPlayerList().players) {
+								player.sendMessage(CraftChatMessage.fromString(message));
 							}
 						} else {
 							for (Player player : queueEvent.getRecipients()) {

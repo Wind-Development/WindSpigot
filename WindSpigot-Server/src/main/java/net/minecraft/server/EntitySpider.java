@@ -123,7 +123,7 @@ public class EntitySpider extends EntityMonster {
 
 	@Override
 	public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
-		Object object = super.prepare(difficultydamagescaler, groupdataentity);
+		GroupDataEntity object = super.prepare(difficultydamagescaler, groupdataentity);
 
 		if (this.world.random.nextInt(100) == 0) {
 			EntitySkeleton entityskeleton = new EntitySkeleton(this.world);
@@ -153,7 +153,7 @@ public class EntitySpider extends EntityMonster {
 			}
 		}
 
-		return (GroupDataEntity) object;
+		return object;
 	}
 
 	@Override

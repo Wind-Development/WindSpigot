@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.Proxy;
 import java.security.KeyPair;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -25,6 +24,7 @@ import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
+import ga.windpvp.windspigot.random.FastRandom;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,7 +53,6 @@ import joptsimple.OptionSet;
 // CraftBukkit end
 
 // NachoSpigot start
-import me.elier.nachospigot.config.NachoConfig;
 import xyz.sculas.nacho.async.AsyncExplosions;
 // NachoSpigot end
 
@@ -80,7 +79,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 	public final MethodProfiler methodProfiler = new MethodProfiler();
 	private ServerConnection q; // Spigot
 	private final ServerPing r = new ServerPing();
-	private final Random s = new Random();
+	private final Random s = new FastRandom();
 	private String serverIp;
 	private int u = -1;
 

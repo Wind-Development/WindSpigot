@@ -18,8 +18,6 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 import com.google.common.base.Throwables;
 
 import ga.windpvp.windspigot.WindSpigot;
-import ga.windpvp.windspigot.commons.FileUtils;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
 
 public class NachoConfig {
 

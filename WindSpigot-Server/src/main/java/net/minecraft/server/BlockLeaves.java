@@ -5,7 +5,6 @@ import java.util.Random;
 import org.bukkit.event.block.LeavesDecayEvent; // CraftBukkit
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 
 public abstract class BlockLeaves extends BlockTransparent {
 

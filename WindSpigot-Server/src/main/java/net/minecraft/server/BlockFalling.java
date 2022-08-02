@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 
 public class BlockFalling extends Block {
 

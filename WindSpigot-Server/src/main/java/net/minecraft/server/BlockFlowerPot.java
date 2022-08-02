@@ -145,7 +145,7 @@ public class BlockFlowerPot extends BlockContainer {
 
 	@Override
 	public TileEntity a(World world, int i) {
-		Object object = null;
+		Block object = null;
 		int j = 0;
 
 		switch (i) {
@@ -209,7 +209,7 @@ public class BlockFlowerPot extends BlockContainer {
 			j = BlockWood.EnumLogVariant.DARK_OAK.a();
 		}
 
-		return new TileEntityFlowerPot(Item.getItemOf((Block) object), j);
+		return new TileEntityFlowerPot(Item.getItemOf(object), j);
 	}
 
 	@Override

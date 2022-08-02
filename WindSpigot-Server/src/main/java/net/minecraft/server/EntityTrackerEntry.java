@@ -16,10 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerVelocityEvent;
 // CraftBukkit end
 
-import com.google.common.collect.Maps;
-
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import it.unimi.dsi.fastutil.objects.Reference2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
 
 // WindSpigot - sendPacket methods have been replaced with the queuePacket method
@@ -191,7 +188,7 @@ public class EntityTrackerEntry {
 			return;
 		}
 
-		for (EntityPlayer entityplayer : (Collection<EntityPlayer>) trackedPlayers) {
+		for (EntityPlayer entityplayer : trackedPlayers) {
 			double d0 = entityplayer.locX - this.tracker.locX;
 			double d1 = entityplayer.locZ - this.tracker.locZ;
 			int range = this.getRange();

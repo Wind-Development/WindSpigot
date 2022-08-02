@@ -74,7 +74,6 @@ import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
-import me.elier.nachospigot.config.NachoConfig;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.minecraft.server.AttributeInstance;
 import net.minecraft.server.AttributeMapServer;

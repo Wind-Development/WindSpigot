@@ -48,11 +48,11 @@ public abstract class AsyncPacketThread {
 				if (catchupTime < 2E6) {
 					wait += Math.abs(catchupTime);
 				} else if (wait < catchupTime) {
-					catchupTime -= wait;
+					//catchupTime -= wait;
 					wait = 0;
 				} else {
 					wait -= catchupTime;
-					catchupTime = 0;
+					//catchupTime = 0;
 				}
 
 				try {
@@ -61,7 +61,7 @@ public abstract class AsyncPacketThread {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				curTime = System.nanoTime();
+				//curTime = System.nanoTime();
 				catchupTime = 0L;
 				continue;
 			}

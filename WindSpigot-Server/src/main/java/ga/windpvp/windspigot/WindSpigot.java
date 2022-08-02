@@ -13,7 +13,6 @@ import org.bukkit.command.SimpleCommandMap;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
-import co.aikar.timings.Timings;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.async.pathsearch.SearchHandler;
 import ga.windpvp.windspigot.async.thread.CombatThread;
@@ -27,7 +26,6 @@ import ga.windpvp.windspigot.hitdetection.LagCompensator;
 import ga.windpvp.windspigot.protocol.MovementListener;
 import ga.windpvp.windspigot.protocol.PacketListener;
 import ga.windpvp.windspigot.statistics.StatisticsClient;
-import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.MinecraftServer;
 import xyz.sculas.nacho.anticrash.AntiCrash;
 import xyz.sculas.nacho.async.AsyncExplosions;

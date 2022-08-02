@@ -6,6 +6,7 @@ import java.util.List;
 // CraftBukkit start
 import java.util.Random;
 
+import ga.windpvp.windspigot.random.FastRandom;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Server;
@@ -342,7 +343,7 @@ public class ChunkProviderServer implements IChunkProvider {
 
 				// CraftBukkit start
 				BlockFalling.instaFall = true;
-				Random random = new Random();
+				Random random = new FastRandom();
 				random.setSeed(world.getSeed());
 				long xRand = random.nextLong() / 2L * 2L + 1L;
 				long zRand = random.nextLong() / 2L * 2L + 1L;

@@ -17,7 +17,7 @@ public class StatisticsClient {
 	public boolean isConnected;
 
 	// Connects to the statistics server
-	public void start(String ip, int port) throws UnknownHostException, IOException {
+	public void start(String ip, int port) throws IOException {
 		this.socket = new Socket(ip, port);
 		this.out = new PrintWriter(socket.getOutputStream(), true);
 		this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

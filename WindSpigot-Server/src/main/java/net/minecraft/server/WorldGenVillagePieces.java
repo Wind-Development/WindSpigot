@@ -81,7 +81,7 @@ public class WorldGenVillagePieces {
 			WorldGenVillagePieces.WorldGenVillagePieceWeight worldgenvillagepieces_worldgenvillagepieceweight,
 			List<StructurePiece> list, Random random, int i, int j, int k, EnumDirection enumdirection, int l) {
 		Class oclass = worldgenvillagepieces_worldgenvillagepieceweight.a;
-		Object object = null;
+		WorldGenVillagePiece object = null;
 
 		if (oclass == WorldGenVillagePieces.WorldGenVillageHouse.class) {
 			object = WorldGenVillagePieces.WorldGenVillageHouse.a(worldgenvillagepieces_worldgenvillagestartpiece, list,
@@ -112,7 +112,7 @@ public class WorldGenVillagePieces {
 					list, random, i, j, k, enumdirection, l);
 		}
 
-		return (WorldGenVillagePieces.WorldGenVillagePiece) object;
+		return object;
 	}
 
 	private static WorldGenVillagePieces.WorldGenVillagePiece c(
@@ -793,7 +793,7 @@ public class WorldGenVillagePieces {
 			for (k = -1; k <= 2; ++k) {
 				for (l = 0; l <= 8; ++l) {
 					this.a(world, Blocks.OAK_STAIRS.fromLegacyData(i), l, 4 + k, k, structureboundingbox);
-					if ((k > -1 || l <= 1) && (k > 0 || l <= 3) && (k > 1 || l <= 4 || l >= 6)) {
+					if ((k > -1 || l <= 1) && (k > 0 || l <= 3) && (k > 1 || l != 5)) {
 						this.a(world, Blocks.OAK_STAIRS.fromLegacyData(j), l, 4 + k, 5 - k, structureboundingbox);
 					}
 				}

@@ -10,10 +10,11 @@ import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import ga.windpvp.windspigot.random.FastRandom;
 
 public class EnchantmentManager {
 
-	private static final Random a = new Random();
+	private static final Random a = new FastRandom();
 	private static final EnchantmentManager.EnchantmentModifierProtection b = new EnchantmentManager.EnchantmentModifierProtection(
 			null);
 	private static final EnchantmentManager.EnchantmentModifierDamage c = new EnchantmentManager.EnchantmentModifierDamage(

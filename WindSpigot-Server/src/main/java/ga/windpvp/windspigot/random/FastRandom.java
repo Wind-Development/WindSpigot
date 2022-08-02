@@ -49,7 +49,7 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	 * two instances of the same random class, starting with the same seed, produce
 	 * the same results, if the same methods are called.
 	 *
-	 * @param s the new seed
+	 * @param seed the new seed
 	 */
 	public synchronized void setSeed(long seed) {
 		this.seed = seed;

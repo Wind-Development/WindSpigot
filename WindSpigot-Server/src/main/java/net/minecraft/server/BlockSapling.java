@@ -82,7 +82,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
 		// CraftBukkit start - Turn ternary operator into if statement to set treeType
 		// Object object = random.nextInt(10) == 0 ? new WorldGenBigTree(true) : new
 		// WorldGenTrees(true);
-		Object object;
+		WorldGenerator object;
 		if (random.nextInt(10) == 0) {
 			treeType = TreeType.BIG_TREE;
 			object = new WorldGenBigTree(true);
@@ -181,7 +181,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
 			world.setTypeAndData(blockposition, iblockdata1, 4);
 		}
 
-		if (!((WorldGenerator) object).generate(world, random, blockposition.a(i, 0, j))) {
+		if (!object.generate(world, random, blockposition.a(i, 0, j))) {
 			if (flag) {
 				world.setTypeAndData(blockposition.a(i, 0, j), iblockdata, 4);
 				world.setTypeAndData(blockposition.a(i + 1, 0, j), iblockdata, 4);

@@ -10,6 +10,7 @@ import java.util.logging.Level;
 
 import javax.crypto.SecretKey;
 
+import ga.windpvp.windspigot.random.FastRandom;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +43,7 @@ public class LoginListener implements PacketLoginInListener, IUpdatePlayerListBo
 
 	private static final AtomicInteger b = new AtomicInteger(0);
 	private static final Logger c = LogManager.getLogger();
-	private static final Random random = new Random();
+	private static final Random random = new FastRandom();
 	private final byte[] e = new byte[4];
 	private final MinecraftServer server;
 	public final NetworkManager networkManager;

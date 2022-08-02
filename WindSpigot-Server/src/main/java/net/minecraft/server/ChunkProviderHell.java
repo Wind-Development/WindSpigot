@@ -1,5 +1,7 @@
 package net.minecraft.server;
 
+import ga.windpvp.windspigot.random.FastRandom;
+
 import java.util.List;
 import java.util.Random;
 
@@ -45,7 +47,7 @@ public class ChunkProviderHell implements IChunkProvider {
 		this.C = new WorldGenCavesHell();
 		this.h = world;
 		this.i = flag;
-		this.j = new Random(i);
+		this.j = new FastRandom(i);
 		this.o = new NoiseGeneratorOctaves(this.j, 16);
 		this.p = new NoiseGeneratorOctaves(this.j, 16);
 		this.q = new NoiseGeneratorOctaves(this.j, 8);
