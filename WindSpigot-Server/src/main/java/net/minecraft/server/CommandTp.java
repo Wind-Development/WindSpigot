@@ -29,7 +29,7 @@ public class CommandTp extends CommandAbstract {
 			throw new ExceptionUsage("commands.tp.usage", new Object[0]);
 		} else {
 			byte b0 = 0;
-			Object object;
+			Entity object;
 
 			if (astring.length != 2 && astring.length != 4 && astring.length != 6) {
 				object = b(icommandlistener);
@@ -41,17 +41,17 @@ public class CommandTp extends CommandAbstract {
 			if (astring.length != 1 && astring.length != 2) {
 				if (astring.length < b0 + 3) {
 					throw new ExceptionUsage("commands.tp.usage", new Object[0]);
-				} else if (((Entity) object).world != null) {
+				} else if (object.world != null) {
 					int i = b0 + 1;
-					CommandAbstract.CommandNumber commandabstract_commandnumber = a(((Entity) object).locX, astring[b0],
+					CommandAbstract.CommandNumber commandabstract_commandnumber = a(object.locX, astring[b0],
 							true);
-					CommandAbstract.CommandNumber commandabstract_commandnumber1 = a(((Entity) object).locY,
+					CommandAbstract.CommandNumber commandabstract_commandnumber1 = a(object.locY,
 							astring[i++], 0, 0, false);
-					CommandAbstract.CommandNumber commandabstract_commandnumber2 = a(((Entity) object).locZ,
+					CommandAbstract.CommandNumber commandabstract_commandnumber2 = a(object.locZ,
 							astring[i++], true);
-					CommandAbstract.CommandNumber commandabstract_commandnumber3 = a(((Entity) object).yaw,
+					CommandAbstract.CommandNumber commandabstract_commandnumber3 = a(object.yaw,
 							astring.length > i ? astring[i++] : "~", false);
-					CommandAbstract.CommandNumber commandabstract_commandnumber4 = a(((Entity) object).pitch,
+					CommandAbstract.CommandNumber commandabstract_commandnumber4 = a(object.pitch,
 							astring.length > i ? astring[i] : "~", false);
 					float f;
 
@@ -94,10 +94,10 @@ public class CommandTp extends CommandAbstract {
 							f = MathHelper.g(f + 180.0F);
 						}
 
-						((Entity) object).mount((Entity) null);
+						object.mount((Entity) null);
 						((EntityPlayer) object).playerConnection.a(commandabstract_commandnumber.b(),
 								commandabstract_commandnumber1.b(), commandabstract_commandnumber2.b(), f, f1, enumset);
-						((Entity) object).f(f);
+						object.f(f);
 					} else {
 						float f2 = (float) MathHelper.g(commandabstract_commandnumber3.a());
 
@@ -107,13 +107,13 @@ public class CommandTp extends CommandAbstract {
 							f2 = MathHelper.g(f2 + 180.0F);
 						}
 
-						((Entity) object).setPositionRotation(commandabstract_commandnumber.a(),
+						object.setPositionRotation(commandabstract_commandnumber.a(),
 								commandabstract_commandnumber1.a(), commandabstract_commandnumber2.a(), f2, f);
-						((Entity) object).f(f2);
+						object.f(f2);
 					}
 
 					a(icommandlistener, this, "commands.tp.success.coordinates",
-							new Object[] { ((Entity) object).getName(),
+							new Object[] { object.getName(),
 									Double.valueOf(commandabstract_commandnumber.a()),
 									Double.valueOf(commandabstract_commandnumber1.a()),
 									Double.valueOf(commandabstract_commandnumber2.a()) });
@@ -124,10 +124,10 @@ public class CommandTp extends CommandAbstract {
 				// CraftBukkit Start
 				// Use Bukkit teleport method in all cases. It has cross dimensional handling,
 				// events
-				if (((Entity) object).getBukkitEntity().teleport(entity.getBukkitEntity(),
+				if (object.getBukkitEntity().teleport(entity.getBukkitEntity(),
 						org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.COMMAND)) {
 					a(icommandlistener, this, "commands.tp.success",
-							new Object[] { ((Entity) object).getName(), entity.getName() });
+							new Object[] { object.getName(), entity.getName() });
 					// CraftBukkit End
 				}
 			}

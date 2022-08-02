@@ -873,8 +873,8 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 				if (chunk == null) {
 					continue;
 				}
-				for (Object te : chunk.tileEntities.values()) {
-					TileEntity tileentity = (TileEntity) te;
+				for (TileEntity te : chunk.tileEntities.values()) {
+					TileEntity tileentity = te;
 					if ((tileentity.position.getX() >= i) && (tileentity.position.getY() >= j)
 							&& (tileentity.position.getZ() >= k) && (tileentity.position.getX() < l)
 							&& (tileentity.position.getY() < i1) && (tileentity.position.getZ() < j1)) {

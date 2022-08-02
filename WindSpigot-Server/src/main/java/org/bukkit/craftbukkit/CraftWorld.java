@@ -819,16 +819,16 @@ public class CraftWorld implements World {
 	public List<LivingEntity> getLivingEntities() {
 		List<LivingEntity> list = new ArrayList<LivingEntity>();
 
-		for (Object o : world.entityList) {
-			if (o instanceof net.minecraft.server.Entity) {
-				net.minecraft.server.Entity mcEnt = (net.minecraft.server.Entity) o;
+		for (net.minecraft.server.Entity o : world.entityList) {
+			//if (o instanceof net.minecraft.server.Entity) {
+				net.minecraft.server.Entity mcEnt = o;
 				Entity bukkitEntity = mcEnt.getBukkitEntity();
 
 				// Assuming that bukkitEntity isn't null
 				if (bukkitEntity != null && bukkitEntity instanceof LivingEntity) {
 					list.add((LivingEntity) bukkitEntity);
 				}
-			}
+			//}
 		}
 
 		return list;
@@ -846,9 +846,9 @@ public class CraftWorld implements World {
 	public <T extends Entity> Collection<T> getEntitiesByClass(Class<T> clazz) {
 		Collection<T> list = new ArrayList<T>();
 
-		for (Object entity : world.entityList) {
+		for (net.minecraft.server.Entity entity : world.entityList) {
 			if (entity instanceof net.minecraft.server.Entity) {
-				Entity bukkitEntity = ((net.minecraft.server.Entity) entity).getBukkitEntity();
+				Entity bukkitEntity = entity.getBukkitEntity();
 
 				if (bukkitEntity == null) {
 					continue;
@@ -869,9 +869,9 @@ public class CraftWorld implements World {
 	public Collection<Entity> getEntitiesByClasses(Class<?>... classes) {
 		Collection<Entity> list = new ArrayList<Entity>();
 
-		for (Object entity : world.entityList) {
-			if (entity instanceof net.minecraft.server.Entity) {
-				Entity bukkitEntity = ((net.minecraft.server.Entity) entity).getBukkitEntity();
+		for (net.minecraft.server.Entity entity : world.entityList) {
+			//if (entity instanceof net.minecraft.server.Entity) {
+				Entity bukkitEntity = entity.getBukkitEntity();
 
 				if (bukkitEntity == null) {
 					continue;
@@ -885,7 +885,7 @@ public class CraftWorld implements World {
 						break;
 					}
 				}
-			}
+			//}
 		}
 
 		return list;
@@ -903,8 +903,8 @@ public class CraftWorld implements World {
 																													// :
 																													// rename
 		List<Entity> bukkitEntityList = new ArrayList<org.bukkit.entity.Entity>(entityList.size());
-		for (Object entity : entityList) {
-			bukkitEntityList.add(((net.minecraft.server.Entity) entity).getBukkitEntity());
+		for (net.minecraft.server.Entity entity : entityList) {
+			bukkitEntityList.add(entity.getBukkitEntity());
 		}
 		return bukkitEntityList;
 	}

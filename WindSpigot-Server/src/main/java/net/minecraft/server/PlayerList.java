@@ -819,8 +819,8 @@ public abstract class PlayerList {
 		// Added from changeDimension
 		updateClient(entityplayer); // Update health, etc...
 		entityplayer.updateAbilities();
-		for (Object o1 : entityplayer.getEffects()) {
-			MobEffect mobEffect = (MobEffect) o1;
+		for (MobEffect o1 : entityplayer.getEffects()) {
+			MobEffect mobEffect = o1;
 			entityplayer.playerConnection.sendPacket(new PacketPlayOutEntityEffect(entityplayer.getId(), mobEffect));
 		}
 		// entityplayer1.syncInventory();

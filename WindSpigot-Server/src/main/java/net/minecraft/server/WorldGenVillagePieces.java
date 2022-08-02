@@ -81,7 +81,7 @@ public class WorldGenVillagePieces {
 			WorldGenVillagePieces.WorldGenVillagePieceWeight worldgenvillagepieces_worldgenvillagepieceweight,
 			List<StructurePiece> list, Random random, int i, int j, int k, EnumDirection enumdirection, int l) {
 		Class oclass = worldgenvillagepieces_worldgenvillagepieceweight.a;
-		Object object = null;
+		WorldGenVillagePiece object = null;
 
 		if (oclass == WorldGenVillagePieces.WorldGenVillageHouse.class) {
 			object = WorldGenVillagePieces.WorldGenVillageHouse.a(worldgenvillagepieces_worldgenvillagestartpiece, list,
@@ -112,7 +112,7 @@ public class WorldGenVillagePieces {
 					list, random, i, j, k, enumdirection, l);
 		}
 
-		return (WorldGenVillagePieces.WorldGenVillagePiece) object;
+		return object;
 	}
 
 	private static WorldGenVillagePieces.WorldGenVillagePiece c(

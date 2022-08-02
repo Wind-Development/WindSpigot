@@ -1217,7 +1217,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 
 	@Override
 	public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
-		Object object = super.prepare(difficultydamagescaler, groupdataentity);
+		GroupDataEntity object = super.prepare(difficultydamagescaler, groupdataentity);
 		boolean flag = false;
 		int i = 0;
 		int j;
@@ -1264,7 +1264,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 		}
 
 		this.setHealth(this.getMaxHealth());
-		return (GroupDataEntity) object;
+		return object;
 	}
 
 	public void v(int i) {
