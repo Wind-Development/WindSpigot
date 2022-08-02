@@ -1,5 +1,7 @@
 package net.minecraft.server;
 
+import ga.windpvp.windspigot.random.FastRandom;
+
 import java.util.Random;
 
 public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerListBox, ITileEntityContainer {
@@ -13,7 +15,7 @@ public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerL
 	public float l;
 	public float m;
 	public float n;
-	private static Random o = new Random();
+	private static Random o = new FastRandom();
 	private String p;
 
 	public TileEntityEnchantTable() {

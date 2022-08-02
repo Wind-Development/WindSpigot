@@ -333,7 +333,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
 				dis = new DataInputStream(new FileInputStream(file1));
 				return uuid = new UUID(dis.readLong(), dis.readLong());
 			} catch (IOException ex) {
-				a.warn("Failed to read " + file1 + ", generating new random UUID", ex);
+				a.warn("Failed to read " + file1 + ", generating new FastRandom UUID", ex);
 			} finally {
 				if (dis != null) {
 					try {

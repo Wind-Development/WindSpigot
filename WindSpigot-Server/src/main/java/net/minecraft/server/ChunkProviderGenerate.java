@@ -1,5 +1,7 @@
 package net.minecraft.server;
 
+import ga.windpvp.windspigot.random.FastRandom;
+
 import java.util.List;
 import java.util.Random;
 
@@ -47,7 +49,7 @@ public class ChunkProviderGenerate implements IChunkProvider {
 		this.m = world;
 		this.n = flag;
 		this.o = world.getWorldData().getType();
-		this.h = new Random(i);
+		this.h = new FastRandom(i);
 		this.i = new NoiseGeneratorOctaves(this.h, 16);
 		this.j = new NoiseGeneratorOctaves(this.h, 16);
 		this.k = new NoiseGeneratorOctaves(this.h, 8);

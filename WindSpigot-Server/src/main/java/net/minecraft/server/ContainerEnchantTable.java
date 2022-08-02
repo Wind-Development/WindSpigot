@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import ga.windpvp.windspigot.random.FastRandom;
 import org.bukkit.craftbukkit.inventory.CraftInventoryEnchanting;
 import org.bukkit.craftbukkit.inventory.CraftInventoryView;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
@@ -30,7 +31,7 @@ public class ContainerEnchantTable extends Container {
 	};
 	private World world;
 	private BlockPosition position;
-	private Random k = new Random();
+	private Random k = new FastRandom();
 	public int f;
 	public int[] costs = new int[3];
 	public int[] h = new int[] { -1, -1, -1 };

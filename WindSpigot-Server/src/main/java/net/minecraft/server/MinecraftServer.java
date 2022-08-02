@@ -25,6 +25,7 @@ import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
+import ga.windpvp.windspigot.random.FastRandom;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -80,7 +81,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 	public final MethodProfiler methodProfiler = new MethodProfiler();
 	private ServerConnection q; // Spigot
 	private final ServerPing r = new ServerPing();
-	private final Random s = new Random();
+	private final Random s = new FastRandom();
 	private String serverIp;
 	private int u = -1;
 

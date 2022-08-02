@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import ga.windpvp.windspigot.random.FastRandom;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -291,7 +292,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 				String s = this.propertyManager.getString("level-seed", "");
 				String s1 = this.propertyManager.getString("level-type", "DEFAULT");
 				String s2 = this.propertyManager.getString("generator-settings", "");
-				long k = (new Random()).nextLong();
+				long k = (new FastRandom()).nextLong();
 
 				if (s.length() > 0) {
 					try {

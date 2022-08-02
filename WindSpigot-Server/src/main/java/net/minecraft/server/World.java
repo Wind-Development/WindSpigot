@@ -86,7 +86,7 @@ public abstract class World implements IBlockAccess {
 	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
 	private long d = 16777215L;
 	private int I;
-	protected int m = (new Random()).nextInt();
+	protected int m = (new FastRandom()).nextInt();
 	protected final int n = 1013904223;
 	protected float o;
 	protected float p;

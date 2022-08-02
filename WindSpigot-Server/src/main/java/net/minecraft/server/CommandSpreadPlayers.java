@@ -10,6 +10,7 @@ import java.util.Random;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import ga.windpvp.windspigot.random.FastRandom;
 
 public class CommandSpreadPlayers extends CommandAbstract {
 
@@ -86,7 +87,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
 	private void a(ICommandListener icommandlistener, List<Entity> list,
 			CommandSpreadPlayers.Location2D commandspreadplayers_location2d, double d0, double d1, World world,
 			boolean flag) throws CommandException {
-		Random random = new Random();
+		Random random = new FastRandom();
 		double d2 = commandspreadplayers_location2d.a - d1;
 		double d3 = commandspreadplayers_location2d.b - d1;
 		double d4 = commandspreadplayers_location2d.a + d1;

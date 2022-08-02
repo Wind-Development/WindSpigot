@@ -4,13 +4,14 @@ package net.minecraft.server;
 import java.util.List;
 import java.util.Random;
 
+import ga.windpvp.windspigot.random.FastRandom;
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 // CraftBukkit end
 
 public class TileEntityDispenser extends TileEntityContainer implements IInventory {
 
-	private static final Random f = new Random();
+	private static final Random f = new FastRandom();
 	private ItemStack[] items = new ItemStack[9];
 	protected String a;
 
