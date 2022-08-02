@@ -89,7 +89,7 @@ class TimingData {
 		lagTotalTime = 0;
 	}
 
-	protected TimingData clone() {
+	protected TimingData clone() throws CloneNotSupportedException {
 		return new TimingData(this);
 	}
 
