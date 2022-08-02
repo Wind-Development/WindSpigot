@@ -196,7 +196,6 @@ See the patches list below.
 [FlamePaper-0033] Dont check occluding hoppers
 [FlamePaper-0034] Hopper item lookup optimizations
 [FlamePaper-0102] Fixed chunk memory leak
-[FlamePaper-0103] Limit CraftChatMessage iterations
 [FlamePaper-0104] Return last slot by default
 [FlamePaper-0105] Fix memory leaks by Minetick
 [FlamePaper-0106] Fix sending irrelevant block updates to the client
