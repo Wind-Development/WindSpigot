@@ -793,7 +793,7 @@ public class WorldGenVillagePieces {
 			for (k = -1; k <= 2; ++k) {
 				for (l = 0; l <= 8; ++l) {
 					this.a(world, Blocks.OAK_STAIRS.fromLegacyData(i), l, 4 + k, k, structureboundingbox);
-					if ((k > -1 || l <= 1) && (k > 0 || l <= 3) && (k > 1 || l <= 4 || l >= 6)) {
+					if ((k > -1 || l <= 1) && (k > 0 || l <= 3) && (k > 1 || l != 5)) {
 						this.a(world, Blocks.OAK_STAIRS.fromLegacyData(j), l, 4 + k, 5 - k, structureboundingbox);
 					}
 				}
