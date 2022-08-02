@@ -121,9 +121,7 @@ import org.bukkit.util.Vector;
 import com.google.common.base.Preconditions;
 
 import ga.windpvp.windspigot.cache.Constants;
-import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
-import me.elier.nachospigot.config.NachoConfig;
 import net.minecraft.server.*;
 
 public class CraftWorld implements World {

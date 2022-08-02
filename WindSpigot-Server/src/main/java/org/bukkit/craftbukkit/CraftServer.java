@@ -117,7 +117,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MapMaker;
 import com.mojang.authlib.GameProfile;
 
-import dev.cobblesword.nachospigot.Nacho;
 import ga.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import ga.windpvp.windspigot.commons.PluginUtils;
 import ga.windpvp.windspigot.config.WindSpigotConfig;

@@ -3,8 +3,6 @@ package net.minecraft.server;
 import java.util.Iterator;
 import java.util.List;
 
-import ga.windpvp.windspigot.WindSpigot;
-
 public abstract class NavigationAbstract {
 
 	protected EntityInsentient b;

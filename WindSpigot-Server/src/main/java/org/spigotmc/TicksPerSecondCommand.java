@@ -5,7 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 

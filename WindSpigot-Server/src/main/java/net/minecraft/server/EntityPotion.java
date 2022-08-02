@@ -10,7 +10,6 @@ import org.bukkit.entity.LivingEntity;
 // CraftBukkit end
 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 
 public class EntityPotion extends EntityProjectile {
 

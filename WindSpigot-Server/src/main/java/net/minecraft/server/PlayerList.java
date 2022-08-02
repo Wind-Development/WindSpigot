@@ -47,7 +47,6 @@ import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import me.elier.nachospigot.config.NachoConfig;
 
 public abstract class PlayerList {
 

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.Proxy;
 import java.security.KeyPair;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -54,7 +53,6 @@ import joptsimple.OptionSet;
 // CraftBukkit end
 
 // NachoSpigot start
-import me.elier.nachospigot.config.NachoConfig;
 import xyz.sculas.nacho.async.AsyncExplosions;
 // NachoSpigot end
 

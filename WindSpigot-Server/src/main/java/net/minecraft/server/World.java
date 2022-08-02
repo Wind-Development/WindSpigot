@@ -24,7 +24,6 @@ import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.util.Vector;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
@@ -38,7 +37,6 @@ import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.entity.EntityTickLimiter;
 import ga.windpvp.windspigot.random.FastRandom;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import me.elier.nachospigot.config.NachoConfig;
 import me.elier.nachospigot.config.NachoWorldConfig;
 import me.rastrian.dev.OptimizedWorldTileEntitySet;
 import me.rastrian.dev.PlayerMap;

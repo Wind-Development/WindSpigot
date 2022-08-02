@@ -20,7 +20,6 @@ import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.random.FastRandom;
-import me.elier.nachospigot.config.NachoConfig;
 import xyz.sculas.nacho.async.AsyncExplosions;
 
 public class Explosion {

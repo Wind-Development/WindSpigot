@@ -16,10 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerVelocityEvent;
 // CraftBukkit end
 
-import com.google.common.collect.Maps;
-
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import it.unimi.dsi.fastutil.objects.Reference2BooleanArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
 
 // WindSpigot - sendPacket methods have been replaced with the queuePacket method

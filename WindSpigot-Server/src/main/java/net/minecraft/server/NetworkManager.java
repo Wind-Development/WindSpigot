@@ -19,7 +19,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.velocitypowered.natives.compression.VelocityCompressor; // Paper
 import com.velocitypowered.natives.util.Natives; // Paper
 
-import dev.cobblesword.nachospigot.Nacho; // Nacho
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.exception.ExploitException;

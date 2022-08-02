@@ -7,7 +7,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import ga.windpvp.windspigot.WindSpigot;
 import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 
 // CraftBukkit end
 

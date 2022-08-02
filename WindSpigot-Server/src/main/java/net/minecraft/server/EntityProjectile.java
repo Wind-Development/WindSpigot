@@ -6,7 +6,6 @@ import com.eatthepath.uuid.FastUUID;
 
 import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import me.elier.nachospigot.config.NachoConfig;
 
 public abstract class EntityProjectile extends Entity implements IProjectile {
 
