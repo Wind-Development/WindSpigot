@@ -191,7 +191,7 @@ public class EntityTrackerEntry {
 			return;
 		}
 
-		for (EntityPlayer entityplayer : (Collection<EntityPlayer>) trackedPlayers) {
+		for (EntityPlayer entityplayer : trackedPlayers) {
 			double d0 = entityplayer.locX - this.tracker.locX;
 			double d1 = entityplayer.locZ - this.tracker.locZ;
 			int range = this.getRange();
