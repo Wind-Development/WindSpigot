@@ -149,7 +149,7 @@ public class JsonList<K, V extends JsonListEntry<K>> {
 	}
 
 	protected JsonListEntry<K> a(JsonObject jsonobject) {
-		return new JsonListEntry((Object) null, jsonobject);
+		return new JsonListEntry(null, jsonobject);
 	}
 
 	protected Map<String, V> e() {
@@ -186,7 +186,7 @@ public class JsonList<K, V extends JsonListEntry<K>> {
 
 		try {
 			bufferedreader = Files.newReader(this.c, Charsets.UTF_8);
-			collection = (Collection) this.b.fromJson(bufferedreader, JsonList.f);
+			collection = this.b.fromJson(bufferedreader, JsonList.f);
 			// Spigot Start
 		} catch (java.io.FileNotFoundException ex) {
 			org.bukkit.Bukkit.getLogger().log(java.util.logging.Level.INFO, "Unable to find file {0}, creating it.",

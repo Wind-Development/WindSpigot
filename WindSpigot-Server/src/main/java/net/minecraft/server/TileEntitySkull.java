@@ -159,7 +159,7 @@ public class TileEntitySkull extends TileEntity {
 			} else {
 				GameProfile profile = skinCache.getIfPresent(gameprofile.getName());
 				if (profile != null
-						&& Iterables.getFirst(profile.getProperties().get("textures"), (Object) null) != null) {
+						&& Iterables.getFirst(profile.getProperties().get("textures"), null) != null) {
 					callback.apply(profile);
 				} else {
 					executor.execute(new Runnable() {

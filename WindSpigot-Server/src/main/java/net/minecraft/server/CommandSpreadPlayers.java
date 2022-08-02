@@ -119,7 +119,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
 			if (entity instanceof EntityHuman) {
 				hashset.add(((EntityHuman) entity).getScoreboardTeam());
 			} else {
-				hashset.add((Object) null);
+				hashset.add(null);
 			}
 		}
 
