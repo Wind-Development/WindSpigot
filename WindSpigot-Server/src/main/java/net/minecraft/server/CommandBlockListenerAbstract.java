@@ -238,7 +238,7 @@ public abstract class CommandBlockListenerAbstract implements ICommandListener {
 							exception);
 				} else {
 					MinecraftServer.getServer().server.getLogger().log(Level.WARNING,
-							String.format("Unknown CommandBlock failed to handle command"), exception);
+							"Unknown CommandBlock failed to handle command", exception);
 				}
 			}
 		}

@@ -178,7 +178,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
 								listener.getChunkCoordinates().getZ()),
 						throwable);
 			} else {
-				MinecraftServer.LOGGER.log(Level.WARN, String.format("Unknown CommandBlock failed to handle command"),
+				MinecraftServer.LOGGER.log(Level.WARN, "Unknown CommandBlock failed to handle command",
 						throwable);
 			}
 		} finally {
