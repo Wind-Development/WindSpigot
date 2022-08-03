@@ -379,18 +379,16 @@ public class Block {
 		if (!world.isClientSide) {
 			int j = this.getDropCount(i, world.random);
 
-			for (int k = 0; k < j; ++k) {
-				// CraftBukkit - <= to < to allow for plugins to completely disable block drops
-				// from explosions
-				if (world.random.nextFloat() < f) {
-					Item item = this.getDropType(iblockdata, world.random, i);
-
-					if (item != null) {
+			// WindSpigot start
+			Item item = this.getDropType(iblockdata, world.random, i);
+			if (item != null) {
+				for (int k = 0; k < j; ++k) {
+					if (world.random.nextFloat() < f) {
 						a(world, blockposition, new ItemStack(item, 1, this.getDropData(iblockdata)));
 					}
 				}
 			}
-
+			// WindSpigot end
 		}
 	}
 
