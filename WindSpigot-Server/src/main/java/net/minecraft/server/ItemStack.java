@@ -209,7 +209,7 @@ public final class ItemStack {
 				// ItemRecord.
 				if (this.getItem() instanceof ItemRecord) {
 					((BlockJukeBox) Blocks.JUKEBOX).a(world, blockposition, world.getType(blockposition), this);
-					world.a((EntityHuman) null, 1005, blockposition, Item.getId(this.getItem()));
+					world.a(null, 1005, blockposition, Item.getId(this.getItem()));
 					--this.count;
 					entityhuman.b(StatisticList.X);
 				}
