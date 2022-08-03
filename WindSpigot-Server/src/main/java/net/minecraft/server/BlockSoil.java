@@ -14,7 +14,7 @@ public class BlockSoil extends Block {
 
 	protected BlockSoil() {
 		super(Material.EARTH);
-		this.j(this.blockStateList.getBlockData().set(BlockSoil.MOISTURE, Integer.valueOf(0)));
+		this.j(this.blockStateList.getBlockData().set(BlockSoil.MOISTURE, 0));
 		this.a(true);
 		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
 		this.e(255);
@@ -38,11 +38,11 @@ public class BlockSoil extends Block {
 
 	@Override
 	public void b(World world, BlockPosition blockposition, IBlockData iblockdata, Random random) {
-		int i = iblockdata.get(BlockSoil.MOISTURE).intValue();
+		int i = iblockdata.get(BlockSoil.MOISTURE);
 
 		if (!this.f(world, blockposition) && !world.isRainingAt(blockposition.up())) {
 			if (i > 0) {
-				world.setTypeAndData(blockposition, iblockdata.set(BlockSoil.MOISTURE, Integer.valueOf(i - 1)), 2);
+				world.setTypeAndData(blockposition, iblockdata.set(BlockSoil.MOISTURE, i - 1), 2);
 			} else if (!this.e(world, blockposition)) {
 				// CraftBukkit start
 				org.bukkit.block.Block block = world.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(),
@@ -54,7 +54,7 @@ public class BlockSoil extends Block {
 				world.setTypeUpdate(blockposition, Blocks.DIRT.getBlockData());
 			}
 		} else if (i < 7) {
-			world.setTypeAndData(blockposition, iblockdata.set(BlockSoil.MOISTURE, Integer.valueOf(7)), 2);
+			world.setTypeAndData(blockposition, iblockdata.set(BlockSoil.MOISTURE, 7), 2);
 		}
 
 	}
@@ -136,16 +136,16 @@ public class BlockSoil extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockSoil.MOISTURE, Integer.valueOf(i & 7));
+		return this.getBlockData().set(BlockSoil.MOISTURE, i & 7);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockSoil.MOISTURE).intValue();
+		return iblockdata.get(BlockSoil.MOISTURE);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockSoil.MOISTURE });
+		return new BlockStateList(this, BlockSoil.MOISTURE);
 	}
 }

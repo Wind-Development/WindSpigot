@@ -88,15 +88,15 @@ public class EntityWolf extends EntityTameableAnimal {
 
 	@Override
 	protected void E() {
-		this.datawatcher.watch(18, Float.valueOf(this.getHealth()));
+		this.datawatcher.watch(18, this.getHealth());
 	}
 
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(18, new Float(this.getHealth()));
-		this.datawatcher.a(19, new Byte((byte) 0));
-		this.datawatcher.a(20, new Byte((byte) EnumColor.RED.getColorIndex()));
+		this.datawatcher.a(18, this.getHealth());
+		this.datawatcher.a(19, (byte) 0);
+		this.datawatcher.a(20, (byte) EnumColor.RED.getColorIndex());
 	}
 
 	@Override

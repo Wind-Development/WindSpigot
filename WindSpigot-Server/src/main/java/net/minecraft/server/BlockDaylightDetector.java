@@ -10,7 +10,7 @@ public class BlockDaylightDetector extends BlockContainer {
 	public BlockDaylightDetector(boolean flag) {
 		super(Material.WOOD);
 		this.b = flag;
-		this.j(this.blockStateList.getBlockData().set(BlockDaylightDetector.POWER, Integer.valueOf(0)));
+		this.j(this.blockStateList.getBlockData().set(BlockDaylightDetector.POWER, 0));
 		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
 		this.a(CreativeModeTab.d);
 		this.c(0.2F);
@@ -43,13 +43,13 @@ public class BlockDaylightDetector extends BlockContainer {
 				i = 15 - i;
 			}
 
-			if (iblockdata.get(BlockDaylightDetector.POWER).intValue() != i) {
+			if (iblockdata.get(BlockDaylightDetector.POWER) != i) {
 				i = org.bukkit.craftbukkit.event.CraftEventFactory.callRedstoneChange(world, blockposition.getX(),
 						blockposition.getY(), blockposition.getZ(), (iblockdata.get(POWER)), i).getNewCurrent(); // CraftBukkit
 																													// -
 																													// Call
 																													// BlockRedstoneEvent
-				world.setTypeAndData(blockposition, iblockdata.set(BlockDaylightDetector.POWER, Integer.valueOf(i)), 3);
+				world.setTypeAndData(blockposition, iblockdata.set(BlockDaylightDetector.POWER, i), 3);
 			}
 
 		}
@@ -111,16 +111,16 @@ public class BlockDaylightDetector extends BlockContainer {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockDaylightDetector.POWER, Integer.valueOf(i));
+		return this.getBlockData().set(BlockDaylightDetector.POWER, i);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockDaylightDetector.POWER).intValue();
+		return iblockdata.get(BlockDaylightDetector.POWER);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockDaylightDetector.POWER });
+		return new BlockStateList(this, BlockDaylightDetector.POWER);
 	}
 }

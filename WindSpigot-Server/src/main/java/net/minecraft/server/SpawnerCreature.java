@@ -211,7 +211,7 @@ public final class SpawnerCreature {
 														try {
 															entityinsentient = biomebase_biomemeta.b
 																	.getConstructor(new Class[] { World.class })
-																	.newInstance(new Object[] { worldserver });
+																	.newInstance(worldserver);
 														} catch (Exception exception) {
 															exception.printStackTrace();
 															return j1;
@@ -326,7 +326,7 @@ public final class SpawnerCreature {
 
 							try {
 								entityinsentient = biomebase_biomemeta.b.getConstructor(new Class[] { World.class })
-										.newInstance(new Object[] { world });
+										.newInstance(world);
 							} catch (Exception exception) {
 								exception.printStackTrace();
 								continue;

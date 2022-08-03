@@ -120,7 +120,7 @@ public class CraftStatistic {
 	}
 
 	public static net.minecraft.server.Statistic getEntityStatistic(org.bukkit.Statistic stat, EntityType entity) {
-		MonsterEggInfo monsteregginfo = EntityTypes.eggInfo.get(Integer.valueOf(entity.getTypeId()));
+		MonsterEggInfo monsteregginfo = EntityTypes.eggInfo.get((int) entity.getTypeId());
 
 		if (monsteregginfo != null) {
 			return monsteregginfo.killEntityStatistic;

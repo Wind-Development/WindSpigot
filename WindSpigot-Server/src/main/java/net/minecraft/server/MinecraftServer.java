@@ -901,8 +901,8 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 			try {
 				BufferedImage bufferedimage = ImageIO.read(file);
 
-				Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide", new Object[0]);
-				Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high", new Object[0]);
+				Validate.validState(bufferedimage.getWidth() == 64, "Must be 64 pixels wide");
+				Validate.validState(bufferedimage.getHeight() == 64, "Must be 64 pixels high");
 				ImageIO.write(bufferedimage, "PNG", new ByteBufOutputStream(bytebuf));
 				/* ByteBuf */ bytebuf1 = Base64.encode(bytebuf); // Paper - cleanup favicon bytebuf
 
@@ -1388,7 +1388,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 
 	@Override
 	public void a(MojangStatisticsGenerator mojangstatisticsgenerator) {
-		mojangstatisticsgenerator.a("whitelist_enabled", Boolean.FALSE);
+		mojangstatisticsgenerator.a("whitelist_enabled", false);
 		mojangstatisticsgenerator.a("whitelist_count", 0);
 		if (this.v != null) {
 			mojangstatisticsgenerator.a("players_current", this.I());

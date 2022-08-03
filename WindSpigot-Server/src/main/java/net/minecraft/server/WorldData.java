@@ -629,8 +629,8 @@ public class WorldData {
 		crashreportsystemdetails.a("Level generator", new Callable() {
 			public String a() throws Exception {
 				return String.format("ID %02d - %s, ver %d. Features enabled: %b",
-						new Object[] { Integer.valueOf(WorldData.this.c.g()), WorldData.this.c.name(),
-								Integer.valueOf(WorldData.this.c.getVersion()), WorldData.this.v });
+						WorldData.this.c.g(), WorldData.this.c.name(),
+						WorldData.this.c.getVersion(), WorldData.this.v);
 			}
 
 			@Override
@@ -661,7 +661,7 @@ public class WorldData {
 		crashreportsystemdetails.a("Level time", new Callable() {
 			public String a() throws Exception {
 				return String.format("%d game time, %d day time",
-						new Object[] { Long.valueOf(WorldData.this.h), Long.valueOf(WorldData.this.i) });
+						new Object[] {WorldData.this.h, Long.valueOf(WorldData.this.i) });
 			}
 
 			@Override
@@ -696,7 +696,7 @@ public class WorldData {
 					;
 				}
 
-				return String.format("0x%05X - %s", new Object[] { Integer.valueOf(WorldData.this.o), s });
+				return String.format("0x%05X - %s", WorldData.this.o, s);
 			}
 
 			@Override
@@ -707,8 +707,8 @@ public class WorldData {
 		crashreportsystemdetails.a("Level weather", new Callable() {
 			public String a() throws Exception {
 				return String.format("Rain time: %d (now: %b), thunder time: %d (now: %b)",
-						new Object[] { Integer.valueOf(WorldData.this.r), Boolean.valueOf(WorldData.this.q),
-								Integer.valueOf(WorldData.this.t), Boolean.valueOf(WorldData.this.s) });
+						WorldData.this.r, WorldData.this.q,
+						WorldData.this.t, WorldData.this.s);
 			}
 
 			@Override
@@ -719,8 +719,8 @@ public class WorldData {
 		crashreportsystemdetails.a("Level game mode", new Callable() {
 			public String a() throws Exception {
 				return String.format("Game mode: %s (ID %d). Hardcore: %b. Cheats: %b",
-						new Object[] { WorldData.this.u.b(), Integer.valueOf(WorldData.this.u.getId()),
-								Boolean.valueOf(WorldData.this.w), Boolean.valueOf(WorldData.this.x) });
+						WorldData.this.u.b(), WorldData.this.u.getId(),
+						WorldData.this.w, WorldData.this.x);
 			}
 
 			@Override

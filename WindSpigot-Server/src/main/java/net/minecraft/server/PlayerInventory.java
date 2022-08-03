@@ -308,8 +308,8 @@ public class PlayerInventory implements IInventory {
 				CrashReport crashreport = CrashReport.a(throwable, "Adding item to inventory");
 				CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Item being added");
 
-				crashreportsystemdetails.a("Item ID", Integer.valueOf(Item.getId(itemstack.getItem())));
-				crashreportsystemdetails.a("Item data", Integer.valueOf(itemstack.getData()));
+				crashreportsystemdetails.a("Item ID", Item.getId(itemstack.getItem()));
+				crashreportsystemdetails.a("Item data", itemstack.getData());
 				crashreportsystemdetails.a("Item name", new Callable() {
 					public String a() throws Exception {
 						return itemstack.getName();
@@ -474,7 +474,7 @@ public class PlayerInventory implements IInventory {
 	@Override
 	public IChatBaseComponent getScoreboardDisplayName() {
 		return this.hasCustomName() ? new ChatComponentText(this.getName())
-				: new ChatMessage(this.getName(), new Object[0]);
+				: new ChatMessage(this.getName());
 	}
 
 	@Override

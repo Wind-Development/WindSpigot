@@ -129,8 +129,7 @@ public final class VanillaCommandWrapper extends VanillaCommand {
 							vanillaCommand.execute(icommandlistener, as);
 							j++;
 						} catch (ExceptionUsage exceptionusage) {
-							ChatMessage chatmessage = new ChatMessage("commands.generic.usage", new Object[] {
-									new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()) });
+							ChatMessage chatmessage = new ChatMessage("commands.generic.usage", new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()));
 							chatmessage.getChatModifier().setColor(EnumChatFormat.RED);
 							icommandlistener.sendMessage(chatmessage);
 						} catch (CommandException commandexception) {
@@ -147,20 +146,20 @@ public final class VanillaCommandWrapper extends VanillaCommand {
 					j++;
 				}
 			} else {
-				ChatMessage chatmessage = new ChatMessage("commands.generic.permission", new Object[0]);
+				ChatMessage chatmessage = new ChatMessage("commands.generic.permission");
 				chatmessage.getChatModifier().setColor(EnumChatFormat.RED);
 				icommandlistener.sendMessage(chatmessage);
 			}
 		} catch (ExceptionUsage exceptionusage) {
 			ChatMessage chatmessage1 = new ChatMessage("commands.generic.usage",
-					new Object[] { new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()) });
+					new ChatMessage(exceptionusage.getMessage(), exceptionusage.getArgs()));
 			chatmessage1.getChatModifier().setColor(EnumChatFormat.RED);
 			icommandlistener.sendMessage(chatmessage1);
 		} catch (CommandException commandexception) {
 			CommandAbstract.a(icommandlistener, vanillaCommand, 1, commandexception.getMessage(),
 					commandexception.getArgs());
 		} catch (Throwable throwable) {
-			ChatMessage chatmessage3 = new ChatMessage("commands.generic.exception", new Object[0]);
+			ChatMessage chatmessage3 = new ChatMessage("commands.generic.exception");
 			chatmessage3.getChatModifier().setColor(EnumChatFormat.RED);
 			icommandlistener.sendMessage(chatmessage3);
 			if (icommandlistener.f() instanceof EntityMinecartCommandBlock) {

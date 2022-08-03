@@ -11,7 +11,7 @@ public class BlockCocoa extends BlockDirectional implements IBlockFragilePlantEl
 	public BlockCocoa() {
 		super(Material.PLANT);
 		this.j(this.blockStateList.getBlockData().set(BlockDirectional.FACING, EnumDirection.NORTH).set(BlockCocoa.AGE,
-				Integer.valueOf(0)));
+				0));
 		this.a(true);
 	}
 
@@ -20,11 +20,11 @@ public class BlockCocoa extends BlockDirectional implements IBlockFragilePlantEl
 		if (!this.e(world, blockposition, iblockdata)) {
 			this.f(world, blockposition, iblockdata);
 		} else if (world.random.nextInt(5) == 0) {
-			int i = iblockdata.get(BlockCocoa.AGE).intValue();
+			int i = iblockdata.get(BlockCocoa.AGE);
 
 			if (i < 2) {
 				// CraftBukkit start
-				IBlockData data = iblockdata.set(AGE, Integer.valueOf(i + 1));
+				IBlockData data = iblockdata.set(AGE, i + 1);
 				CraftEventFactory.handleBlockGrowEvent(world, blockposition.getX(), blockposition.getY(),
 						blockposition.getZ(), this, toLegacyData(data));
 				// CraftBukkit end
@@ -101,7 +101,7 @@ public class BlockCocoa extends BlockDirectional implements IBlockFragilePlantEl
 		}
 
 		return this.getBlockData().set(BlockDirectional.FACING, enumdirection.opposite()).set(BlockCocoa.AGE,
-				Integer.valueOf(0));
+				0);
 	}
 
 	@Override
@@ -150,7 +150,7 @@ public class BlockCocoa extends BlockDirectional implements IBlockFragilePlantEl
 	@Override
 	public void b(World world, Random random, BlockPosition blockposition, IBlockData iblockdata) {
 		// CraftBukkit start
-		IBlockData data = iblockdata.set(AGE, Integer.valueOf(iblockdata.get(AGE).intValue() + 1));
+		IBlockData data = iblockdata.set(AGE, iblockdata.get(AGE) + 1);
 		CraftEventFactory.handleBlockGrowEvent(world, blockposition.getX(), blockposition.getY(), blockposition.getZ(),
 				this, toLegacyData(data));
 		// CraftBukkit end
@@ -159,7 +159,7 @@ public class BlockCocoa extends BlockDirectional implements IBlockFragilePlantEl
 	@Override
 	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData().set(BlockDirectional.FACING, EnumDirection.fromType2(i)).set(BlockCocoa.AGE,
-				Integer.valueOf((i & 15) >> 2));
+				(i & 15) >> 2);
 	}
 
 	@Override
@@ -167,13 +167,13 @@ public class BlockCocoa extends BlockDirectional implements IBlockFragilePlantEl
 		byte b0 = 0;
 		int i = b0 | iblockdata.get(BlockDirectional.FACING).b();
 
-		i |= iblockdata.get(BlockCocoa.AGE).intValue() << 2;
+		i |= iblockdata.get(BlockCocoa.AGE) << 2;
 		return i;
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockDirectional.FACING, BlockCocoa.AGE });
+		return new BlockStateList(this, BlockDirectional.FACING, BlockCocoa.AGE);
 	}
 
 	static class SyntheticClass_1 {

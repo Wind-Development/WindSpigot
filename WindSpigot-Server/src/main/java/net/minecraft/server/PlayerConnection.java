@@ -974,7 +974,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				&& (enumdirection == EnumDirection.UP
 						|| blockposition.getY() >= this.minecraftServer.getMaxBuildHeight())) {
 			ChatMessage chatmessage = new ChatMessage("build.tooHigh",
-					new Object[] { Integer.valueOf(this.minecraftServer.getMaxBuildHeight()) });
+					this.minecraftServer.getMaxBuildHeight());
 
 			chatmessage.getChatModifier().setColor(EnumChatFormat.RED);
 			this.player.playerConnection.sendPacket(new PacketPlayOutChat(chatmessage));
@@ -1310,7 +1310,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				// Spigot end
 			} else if (this.player.getChatFlags() == EntityHuman.EnumChatVisibility.SYSTEM) { // Re-add "Command Only"
 																								// flag check
-				ChatMessage chatmessage = new ChatMessage("chat.cannotSend", new Object[0]);
+				ChatMessage chatmessage = new ChatMessage("chat.cannotSend");
 
 				chatmessage.getChatModifier().setColor(EnumChatFormat.RED);
 				this.sendPacket(new PacketPlayOutChat(chatmessage));
@@ -1319,7 +1319,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				// CraftBukkit end - the below is for reference. :)
 			} else {
 				ChatMessage chatmessage1 = new ChatMessage("chat.type.text",
-						new Object[] { this.player.getScoreboardDisplayName(), s });
+						this.player.getScoreboardDisplayName(), s);
 
 				this.minecraftServer.getPlayerList().sendMessage(chatmessage1, false);
 			}
@@ -2579,7 +2579,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 							}
 
 							commandblocklistenerabstract.h();
-							this.player.sendMessage(new ChatMessage("advMode.setCommand.success", new Object[] { s }));
+							this.player.sendMessage(new ChatMessage("advMode.setCommand.success", s));
 						}
 					} catch (Exception exception3) {
 						PlayerConnection.c.error("Couldn\'t set command block", exception3);
@@ -2588,7 +2588,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 						serializer.release();
 					}
 				} else {
-					this.player.sendMessage(new ChatMessage("advMode.notAllowed", new Object[0]));
+					this.player.sendMessage(new ChatMessage("advMode.notAllowed"));
 				}
 			} else if ("MC|Beacon".equals(packetplayincustompayload.a())) {
 				if (this.player.activeContainer instanceof ContainerBeacon) {

@@ -13,7 +13,7 @@ public class BlockPressurePlateWeighted extends BlockPressurePlateAbstract {
 
 	protected BlockPressurePlateWeighted(Material material, int i, MaterialMapColor materialmapcolor) {
 		super(material, materialmapcolor);
-		this.j(this.blockStateList.getBlockData().set(BlockPressurePlateWeighted.POWER, Integer.valueOf(0)));
+		this.j(this.blockStateList.getBlockData().set(BlockPressurePlateWeighted.POWER, 0));
 		this.weight = i;
 	}
 
@@ -59,12 +59,12 @@ public class BlockPressurePlateWeighted extends BlockPressurePlateAbstract {
 
 	@Override
 	protected int e(IBlockData iblockdata) {
-		return iblockdata.get(BlockPressurePlateWeighted.POWER).intValue();
+		return iblockdata.get(BlockPressurePlateWeighted.POWER);
 	}
 
 	@Override
 	protected IBlockData a(IBlockData iblockdata, int i) {
-		return iblockdata.set(BlockPressurePlateWeighted.POWER, Integer.valueOf(i));
+		return iblockdata.set(BlockPressurePlateWeighted.POWER, i);
 	}
 
 	@Override
@@ -74,16 +74,16 @@ public class BlockPressurePlateWeighted extends BlockPressurePlateAbstract {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockPressurePlateWeighted.POWER, Integer.valueOf(i));
+		return this.getBlockData().set(BlockPressurePlateWeighted.POWER, i);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockPressurePlateWeighted.POWER).intValue();
+		return iblockdata.get(BlockPressurePlateWeighted.POWER);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockPressurePlateWeighted.POWER });
+		return new BlockStateList(this, BlockPressurePlateWeighted.POWER);
 	}
 }

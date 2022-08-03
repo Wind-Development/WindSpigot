@@ -23,7 +23,7 @@ public class BlockTNT extends Block {
 	@Override
 	public void doPhysics(World world, BlockPosition blockposition, IBlockData iblockdata, Block block) {
 		if (world.isBlockIndirectlyPowered(blockposition)) {
-			this.postBreak(world, blockposition, iblockdata.set(BlockTNT.EXPLODE, Boolean.valueOf(true)));
+			this.postBreak(world, blockposition, iblockdata.set(BlockTNT.EXPLODE, true));
 			world.setAir(blockposition);
 		}
 
@@ -128,16 +128,16 @@ public class BlockTNT extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockTNT.EXPLODE, Boolean.valueOf((i & 1) > 0));
+		return this.getBlockData().set(BlockTNT.EXPLODE, (i & 1) > 0);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockTNT.EXPLODE).booleanValue() ? 1 : 0;
+		return iblockdata.get(BlockTNT.EXPLODE) ? 1 : 0;
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockTNT.EXPLODE });
+		return new BlockStateList(this, BlockTNT.EXPLODE);
 	}
 }

@@ -23,7 +23,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 	private final Block blockFruit;
 
 	protected BlockStem(Block block) {
-		this.j(this.blockStateList.getBlockData().set(BlockStem.AGE, Integer.valueOf(0)).set(BlockStem.FACING,
+		this.j(this.blockStateList.getBlockData().set(BlockStem.AGE, 0).set(BlockStem.FACING,
 				EnumDirection.UP));
 		this.blockFruit = block;
 		this.a(true);
@@ -67,7 +67,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 				int i = iblockdata.get(BlockStem.AGE).intValue();
 
 				if (i < 7) {
-					iblockdata = iblockdata.set(BlockStem.AGE, Integer.valueOf(i + 1));
+					iblockdata = iblockdata.set(BlockStem.AGE, i + 1);
 					// world.setTypeAndData(blockposition, iblockdata, 2); // CraftBukkit
 					CraftEventFactory.handleBlockGrowEvent(world, blockposition.getX(), blockposition.getY(),
 							blockposition.getZ(), this, toLegacyData(iblockdata)); // CraftBukkit
@@ -116,7 +116,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 
 	@Override
 	public void updateShape(IBlockAccess iblockaccess, BlockPosition blockposition) {
-		this.maxY = (iblockaccess.getType(blockposition).get(BlockStem.AGE).intValue() * 2 + 2) / 16.0F;
+		this.maxY = (iblockaccess.getType(blockposition).get(BlockStem.AGE) * 2 + 2) / 16.0F;
 		float f = 0.125F;
 
 		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, (float) this.maxY, 0.5F + f);
@@ -129,7 +129,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 			Item item = this.l();
 
 			if (item != null) {
-				int j = iblockdata.get(BlockStem.AGE).intValue();
+				int j = iblockdata.get(BlockStem.AGE);
 
 				for (int k = 0; k < 3; ++k) {
 					if (world.random.nextInt(15) <= j) {
@@ -153,7 +153,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 
 	@Override
 	public boolean a(World world, BlockPosition blockposition, IBlockData iblockdata, boolean flag) {
-		return iblockdata.get(BlockStem.AGE).intValue() != 7;
+		return iblockdata.get(BlockStem.AGE) != 7;
 	}
 
 	@Override
@@ -168,16 +168,16 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockStem.AGE, Integer.valueOf(i));
+		return this.getBlockData().set(BlockStem.AGE, i);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockStem.AGE).intValue();
+		return iblockdata.get(BlockStem.AGE);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockStem.AGE, BlockStem.FACING });
+		return new BlockStateList(this, BlockStem.AGE, BlockStem.FACING);
 	}
 }

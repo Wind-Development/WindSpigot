@@ -90,7 +90,7 @@ public class BlockFlowing extends BlockFluids {
 				if (i1 < 0 || canFastDrain(world, blockposition)) { // PaperSpigot - Fast draining
 					world.setAir(blockposition);
 				} else {
-					iblockdata = iblockdata.set(BlockFluids.LEVEL, Integer.valueOf(i1));
+					iblockdata = iblockdata.set(BlockFluids.LEVEL, i1);
 					world.setTypeAndData(blockposition, iblockdata, 2);
 					world.a(blockposition, this, j);
 					// PaperSpigot start - Optimize draining
@@ -179,7 +179,7 @@ public class BlockFlowing extends BlockFluids {
 				}
 			}
 
-			world.setTypeAndData(blockposition, this.getBlockData().set(BlockFluids.LEVEL, Integer.valueOf(i)), 3);
+			world.setTypeAndData(blockposition, this.getBlockData().set(BlockFluids.LEVEL, i), 3);
 		}
 
 	}
@@ -196,7 +196,7 @@ public class BlockFlowing extends BlockFluids {
 				IBlockData iblockdata = world.getType(blockposition1);
 
 				if (!this.g(world, blockposition1, iblockdata) && (iblockdata.getBlock().getMaterial() != this.material
-						|| iblockdata.get(BlockFluids.LEVEL).intValue() > 0)) {
+						|| iblockdata.get(BlockFluids.LEVEL) > 0)) {
 					if (!this.g(world, blockposition1.down(), iblockdata)) {
 						return i;
 					}

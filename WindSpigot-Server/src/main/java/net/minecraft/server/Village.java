@@ -365,7 +365,7 @@ public class Village {
 		int j = this.a(s);
 		int k = MathHelper.clamp(j + i, -30, 10);
 
-		this.j.put(s, Integer.valueOf(k));
+		this.j.put(s, k);
 		return k;
 	}
 
@@ -406,10 +406,10 @@ public class Village {
 				GameProfile gameprofile = usercache.a(FastUUID.parseUUID(nbttagcompound2.getString("UUID")));
 
 				if (gameprofile != null) {
-					this.j.put(gameprofile.getName(), Integer.valueOf(nbttagcompound2.getInt("S")));
+					this.j.put(gameprofile.getName(), nbttagcompound2.getInt("S"));
 				}
 			} else {
-				this.j.put(nbttagcompound2.getString("Name"), Integer.valueOf(nbttagcompound2.getInt("S")));
+				this.j.put(nbttagcompound2.getString("Name"), nbttagcompound2.getInt("S"));
 			}
 		}
 

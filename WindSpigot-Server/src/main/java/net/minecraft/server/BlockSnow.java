@@ -8,7 +8,7 @@ public class BlockSnow extends Block {
 
 	protected BlockSnow() {
 		super(Material.PACKED_ICE);
-		this.j(this.blockStateList.getBlockData().set(BlockSnow.LAYERS, Integer.valueOf(1)));
+		this.j(this.blockStateList.getBlockData().set(BlockSnow.LAYERS, 1));
 		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
 		this.a(true);
 		this.a(CreativeModeTab.c);
@@ -17,12 +17,12 @@ public class BlockSnow extends Block {
 
 	@Override
 	public boolean b(IBlockAccess iblockaccess, BlockPosition blockposition) {
-		return iblockaccess.getType(blockposition).get(BlockSnow.LAYERS).intValue() < 5;
+		return iblockaccess.getType(blockposition).get(BlockSnow.LAYERS) < 5;
 	}
 
 	@Override
 	public AxisAlignedBB a(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		int i = iblockdata.get(BlockSnow.LAYERS).intValue() - 1;
+		int i = iblockdata.get(BlockSnow.LAYERS) - 1;
 		float f = 0.125F;
 
 		return new AxisAlignedBB(blockposition.getX() + this.minX, blockposition.getY() + this.minY,
@@ -85,7 +85,7 @@ public class BlockSnow extends Block {
 	@Override
 	public void a(World world, EntityHuman entityhuman, BlockPosition blockposition, IBlockData iblockdata,
 			TileEntity tileentity) {
-		a(world, blockposition, new ItemStack(Items.SNOWBALL, iblockdata.get(BlockSnow.LAYERS).intValue() + 1, 0));
+		a(world, blockposition, new ItemStack(Items.SNOWBALL, iblockdata.get(BlockSnow.LAYERS) + 1, 0));
 		world.setAir(blockposition);
 		entityhuman.b(StatisticList.MINE_BLOCK_COUNT[Block.getId(this)]);
 	}
@@ -118,21 +118,21 @@ public class BlockSnow extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockSnow.LAYERS, Integer.valueOf((i & 7) + 1));
+		return this.getBlockData().set(BlockSnow.LAYERS, (i & 7) + 1);
 	}
 
 	@Override
 	public boolean a(World world, BlockPosition blockposition) {
-		return world.getType(blockposition).get(BlockSnow.LAYERS).intValue() == 1;
+		return world.getType(blockposition).get(BlockSnow.LAYERS) == 1;
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockSnow.LAYERS).intValue() - 1;
+		return iblockdata.get(BlockSnow.LAYERS) - 1;
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockSnow.LAYERS });
+		return new BlockStateList(this, BlockSnow.LAYERS);
 	}
 }

@@ -194,7 +194,7 @@ public class BlockSkull extends BlockContainer {
 
 					// CraftBukkit start
 					// world.setTypeAndData(shapedetectorblock.getPosition(),
-					// shapedetectorblock.a().set(BlockSkull.NODROP, Boolean.valueOf(true)), 2);
+					// shapedetectorblock.a().set(BlockSkull.NODROP, true), 2);
 					BlockPosition pos = shapedetectorblock.getPosition();
 					IBlockData data = shapedetectorblock.a().set(BlockSkull.NODROP, true);
 					blockList.setTypeAndData(pos.getX(), pos.getY(), pos.getZ(), data.getBlock(),
@@ -263,7 +263,7 @@ public class BlockSkull extends BlockContainer {
 	@Override
 	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData().set(BlockSkull.FACING, EnumDirection.fromType1(i & 7)).set(BlockSkull.NODROP,
-				Boolean.valueOf((i & 8) > 0));
+				(i & 8) > 0);
 	}
 
 	@Override
@@ -271,7 +271,7 @@ public class BlockSkull extends BlockContainer {
 		byte b0 = 0;
 		int i = b0 | iblockdata.get(BlockSkull.FACING).a();
 
-		if (iblockdata.get(BlockSkull.NODROP).booleanValue()) {
+		if (iblockdata.get(BlockSkull.NODROP)) {
 			i |= 8;
 		}
 
@@ -280,7 +280,7 @@ public class BlockSkull extends BlockContainer {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockSkull.FACING, BlockSkull.NODROP });
+		return new BlockStateList(this, BlockSkull.FACING, BlockSkull.NODROP);
 	}
 
 	protected ShapeDetector l() {

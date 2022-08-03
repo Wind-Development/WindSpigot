@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableSet;
 
 public class BlockStateBoolean extends BlockState<Boolean> {
 
-	private final ImmutableSet<Boolean> a = ImmutableSet.of(Boolean.valueOf(true), Boolean.valueOf(false));
+	private final ImmutableSet<Boolean> a = ImmutableSet.of(true, false);
 
 	protected BlockStateBoolean(String s) {
 		super(s, Boolean.class);

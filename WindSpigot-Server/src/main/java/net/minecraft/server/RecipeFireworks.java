@@ -96,7 +96,7 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
 
 					if (itemstack2 != null) {
 						if (itemstack2.getItem() == Items.DYE) {
-							arraylist.add(Integer.valueOf(ItemDye.a[itemstack2.getData() & 15]));
+							arraylist.add(ItemDye.a[itemstack2.getData() & 15]);
 						} else if (itemstack2.getItem() == Items.GLOWSTONE_DUST) {
 							nbttagcompound1.setBoolean("Flicker", true);
 						} else if (itemstack2.getItem() == Items.DIAMOND) {
@@ -116,7 +116,7 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
 				int[] aint = new int[arraylist.size()];
 
 				for (int j2 = 0; j2 < aint.length; ++j2) {
-					aint[j2] = ((Integer) arraylist.get(j2)).intValue();
+					aint[j2] = (Integer) arraylist.get(j2);
 				}
 
 				nbttagcompound1.setIntArray("Colors", aint);
@@ -132,7 +132,7 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
 
 					if (itemstack3 != null) {
 						if (itemstack3.getItem() == Items.DYE) {
-							arraylist1.add(Integer.valueOf(ItemDye.a[itemstack3.getData() & 15]));
+							arraylist1.add(ItemDye.a[itemstack3.getData() & 15]);
 						} else if (itemstack3.getItem() == Items.FIREWORK_CHARGE) {
 							this.a = itemstack3.cloneItemStack();
 							this.a.count = 1;
@@ -143,7 +143,7 @@ public class RecipeFireworks extends ShapelessRecipes implements IRecipe { // Cr
 				int[] aint1 = new int[arraylist1.size()];
 
 				for (int l2 = 0; l2 < aint1.length; ++l2) {
-					aint1[l2] = ((Integer) arraylist1.get(l2)).intValue();
+					aint1[l2] = (Integer) arraylist1.get(l2);
 				}
 
 				if (this.a != null && this.a.hasTag()) {

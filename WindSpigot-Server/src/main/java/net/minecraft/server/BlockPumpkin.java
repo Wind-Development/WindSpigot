@@ -150,7 +150,7 @@ public class BlockPumpkin extends BlockDirectional {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockDirectional.FACING });
+		return new BlockStateList(this, BlockDirectional.FACING);
 	}
 
 	protected ShapeDetector getDetectorSnowGolemPart() {

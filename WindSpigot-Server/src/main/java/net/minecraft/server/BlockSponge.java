@@ -55,7 +55,7 @@ public class BlockSponge extends Block {
 		LinkedList linkedlist = Lists.newLinkedList();
 		ArrayList arraylist = Lists.newArrayList();
 
-		linkedlist.add(new Tuple(blockposition, Integer.valueOf(0)));
+		linkedlist.add(new Tuple(blockposition, 0));
 		int i = 0;
 
 		BlockPosition blockposition1;
@@ -77,7 +77,7 @@ public class BlockSponge extends Block {
 					arraylist.add(blockposition2);
 					++i;
 					if (j < 6) {
-						linkedlist.add(new Tuple(blockposition2, Integer.valueOf(j + 1)));
+						linkedlist.add(new Tuple(blockposition2, j + 1));
 					}
 				}
 			}
@@ -99,12 +99,12 @@ public class BlockSponge extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockSponge.WET, Boolean.valueOf((i & 1) == 1));
+		return this.getBlockData().set(BlockSponge.WET, (i & 1) == 1);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockSponge.WET).booleanValue() ? 1 : 0;
+		return iblockdata.get(BlockSponge.WET) ? 1 : 0;
 	}
 
 	@Override

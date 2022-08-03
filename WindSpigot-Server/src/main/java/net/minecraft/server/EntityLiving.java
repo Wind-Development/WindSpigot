@@ -467,7 +467,7 @@ public abstract class EntityLiving extends Entity {
 				MobEffect mobeffect = MobEffect.b(nbttagcompound1);
 
 				if (mobeffect != null) {
-					this.effects.put(Integer.valueOf(mobeffect.getEffectId()), mobeffect);
+					this.effects.put(mobeffect.getEffectId(), mobeffect);
 				}
 			}
 		}
@@ -580,16 +580,16 @@ public abstract class EntityLiving extends Entity {
 		} else {
 			int i = PotionBrewer.a(this.effects.values());
 
-			this.datawatcher.watch(8, Byte.valueOf((byte) (PotionBrewer.b(this.effects.values()) ? 1 : 0)));
-			this.datawatcher.watch(7, Integer.valueOf(i));
+			this.datawatcher.watch(8, (byte) (PotionBrewer.b(this.effects.values()) ? 1 : 0));
+			this.datawatcher.watch(7, i);
 			this.setInvisible(this.hasEffect(MobEffectList.INVISIBILITY.id));
 		}
 
 	}
 
 	protected void bj() {
-		this.datawatcher.watch(8, Byte.valueOf((byte) 0));
-		this.datawatcher.watch(7, Integer.valueOf(0));
+		this.datawatcher.watch(8, (byte) 0);
+		this.datawatcher.watch(7, 0);
 	}
 
 	public void removeAllEffects() {
@@ -613,15 +613,15 @@ public abstract class EntityLiving extends Entity {
 
 	public boolean hasEffect(int i) {
 		// CraftBukkit - Add size check for efficiency
-		return this.effects.size() != 0 && this.effects.containsKey(Integer.valueOf(i));
+		return this.effects.size() != 0 && this.effects.containsKey(i);
 	}
 
 	public boolean hasEffect(MobEffectList mobeffectlist) {
-		return this.effects.containsKey(Integer.valueOf(mobeffectlist.id));
+		return this.effects.containsKey(mobeffectlist.id);
 	}
 
 	public MobEffect getEffect(MobEffectList mobeffectlist) {
-		return this.effects.get(Integer.valueOf(mobeffectlist.id));
+		return this.effects.get(mobeffectlist.id);
 	}
 
 	public void addEffect(MobEffect mobeffect) {
@@ -633,11 +633,11 @@ public abstract class EntityLiving extends Entity {
 		}
 		// CraftBukkit end
 		if (this.d(mobeffect)) {
-			if (this.effects.containsKey(Integer.valueOf(mobeffect.getEffectId()))) {
-				this.effects.get(Integer.valueOf(mobeffect.getEffectId())).a(mobeffect);
-				this.a(this.effects.get(Integer.valueOf(mobeffect.getEffectId())), true);
+			if (this.effects.containsKey(mobeffect.getEffectId())) {
+				this.effects.get(mobeffect.getEffectId()).a(mobeffect);
+				this.a(this.effects.get(mobeffect.getEffectId()), true);
 			} else {
-				this.effects.put(Integer.valueOf(mobeffect.getEffectId()), mobeffect);
+				this.effects.put(mobeffect.getEffectId(), mobeffect);
 				this.a(mobeffect);
 			}
 
@@ -667,7 +667,7 @@ public abstract class EntityLiving extends Entity {
 			return;
 		}
 		// CraftBukkit end
-		MobEffect mobeffect = this.effects.remove(Integer.valueOf(i));
+		MobEffect mobeffect = this.effects.remove(i);
 
 		if (mobeffect != null) {
 			this.b(mobeffect);
@@ -743,11 +743,11 @@ public abstract class EntityLiving extends Entity {
 				player.setRealHealth(f);
 			}
 
-			this.datawatcher.watch(6, Float.valueOf(player.getScaledHealth()));
+			this.datawatcher.watch(6, player.getScaledHealth());
 			return;
 		}
 		// CraftBukkit end
-		this.datawatcher.watch(6, Float.valueOf(MathHelper.a(f, 0.0F, this.getMaxHealth())));
+		this.datawatcher.watch(6, MathHelper.a(f, 0.0F, this.getMaxHealth()));
 	}
 
 	@Override
@@ -900,7 +900,7 @@ public abstract class EntityLiving extends Entity {
 			vec3d1 = vec3d1.b(-this.yaw * 3.1415927F / 180.0F);
 			vec3d1 = vec3d1.add(this.locX, this.locY + this.getHeadHeight(), this.locZ);
 			this.world.addParticle(EnumParticle.ITEM_CRACK, vec3d1.a, vec3d1.b, vec3d1.c, vec3d.a, vec3d.b + 0.05D,
-					vec3d.c, new int[] { Item.getId(itemstack.getItem()) });
+					vec3d.c, Item.getId(itemstack.getItem()));
 		}
 
 	}

@@ -158,7 +158,7 @@ public class BlockPoweredRail extends BlockMinecartTrackAbstract {
 				return;
 			}
 			// CraftBukkit end
-			world.setTypeAndData(blockposition, iblockdata.set(BlockPoweredRail.POWERED, Boolean.valueOf(flag1)), 3);
+			world.setTypeAndData(blockposition, iblockdata.set(BlockPoweredRail.POWERED, flag1), 3);
 			world.applyPhysics(blockposition.down(), this);
 			if (iblockdata.get(BlockPoweredRail.SHAPE).c()) {
 				world.applyPhysics(blockposition.up(), this);
@@ -175,7 +175,7 @@ public class BlockPoweredRail extends BlockMinecartTrackAbstract {
 	@Override
 	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData().set(BlockPoweredRail.SHAPE, BlockMinecartTrackAbstract.EnumTrackPosition.a(i & 7))
-				.set(BlockPoweredRail.POWERED, Boolean.valueOf((i & 8) > 0));
+				.set(BlockPoweredRail.POWERED, (i & 8) > 0);
 	}
 
 	@Override
@@ -183,7 +183,7 @@ public class BlockPoweredRail extends BlockMinecartTrackAbstract {
 		byte b0 = 0;
 		int i = b0 | iblockdata.get(BlockPoweredRail.SHAPE).a();
 
-		if (iblockdata.get(BlockPoweredRail.POWERED).booleanValue()) {
+		if (iblockdata.get(BlockPoweredRail.POWERED)) {
 			i |= 8;
 		}
 
@@ -192,7 +192,7 @@ public class BlockPoweredRail extends BlockMinecartTrackAbstract {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockPoweredRail.SHAPE, BlockPoweredRail.POWERED });
+		return new BlockStateList(this, BlockPoweredRail.SHAPE, BlockPoweredRail.POWERED);
 	}
 
 	static class SyntheticClass_1 {

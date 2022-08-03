@@ -19,12 +19,12 @@ public class BlockPressurePlateBinary extends BlockPressurePlateAbstract {
 
 	@Override
 	protected int e(IBlockData iblockdata) {
-		return iblockdata.get(BlockPressurePlateBinary.POWERED).booleanValue() ? 15 : 0;
+		return iblockdata.get(BlockPressurePlateBinary.POWERED) ? 15 : 0;
 	}
 
 	@Override
 	protected IBlockData a(IBlockData iblockdata, int i) {
-		return iblockdata.set(BlockPressurePlateBinary.POWERED, Boolean.valueOf(i > 0));
+		return iblockdata.set(BlockPressurePlateBinary.POWERED, i > 0);
 	}
 
 	@Override
@@ -85,17 +85,17 @@ public class BlockPressurePlateBinary extends BlockPressurePlateAbstract {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockPressurePlateBinary.POWERED, Boolean.valueOf(i == 1));
+		return this.getBlockData().set(BlockPressurePlateBinary.POWERED, i == 1);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockPressurePlateBinary.POWERED).booleanValue() ? 1 : 0;
+		return iblockdata.get(BlockPressurePlateBinary.POWERED) ? 1 : 0;
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockPressurePlateBinary.POWERED });
+		return new BlockStateList(this, BlockPressurePlateBinary.POWERED);
 	}
 
 	static class SyntheticClass_1 {

@@ -813,7 +813,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 	}
 
 	public void setDamage(float f) {
-		this.datawatcher.watch(19, Float.valueOf(f));
+		this.datawatcher.watch(19, f);
 	}
 
 	public float getDamage() {
@@ -821,7 +821,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 	}
 
 	public void j(int i) {
-		this.datawatcher.watch(17, Integer.valueOf(i));
+		this.datawatcher.watch(17, i);
 	}
 
 	public int getType() {
@@ -829,7 +829,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 	}
 
 	public void k(int i) {
-		this.datawatcher.watch(18, Integer.valueOf(i));
+		this.datawatcher.watch(18, i);
 	}
 
 	public int r() {
@@ -855,12 +855,12 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 	}
 
 	public void setDisplayBlock(IBlockData iblockdata) {
-		this.getDataWatcher().watch(20, Integer.valueOf(Block.getCombinedId(iblockdata)));
+		this.getDataWatcher().watch(20, Block.getCombinedId(iblockdata));
 		this.a(true);
 	}
 
 	public void SetDisplayBlockOffset(int i) {
-		this.getDataWatcher().watch(21, Integer.valueOf(i));
+		this.getDataWatcher().watch(21, i);
 		this.a(true);
 	}
 
@@ -869,7 +869,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 	}
 
 	public void a(boolean flag) {
-		this.getDataWatcher().watch(22, Byte.valueOf((byte) (flag ? 1 : 0)));
+		this.getDataWatcher().watch(22, (byte) (flag ? 1 : 0));
 	}
 
 	@Override
@@ -901,7 +901,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 			chatcomponenttext.getChatModifier().setInsertion(this.getUniqueID().toString());
 			return chatcomponenttext;
 		} else {
-			ChatMessage chatmessage = new ChatMessage(this.getName(), new Object[0]);
+			ChatMessage chatmessage = new ChatMessage(this.getName());
 
 			chatmessage.getChatModifier().setChatHoverable(this.aQ());
 			chatmessage.getChatModifier().setInsertion(this.getUniqueID().toString());
@@ -1012,7 +1012,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 
 		public static EntityMinecartAbstract.EnumMinecartType a(int i) {
 			EntityMinecartAbstract.EnumMinecartType entityminecartabstract_enumminecarttype = EntityMinecartAbstract.EnumMinecartType.h
-					.get(Integer.valueOf(i));
+					.get(i);
 
 			return entityminecartabstract_enumminecarttype == null ? EntityMinecartAbstract.EnumMinecartType.RIDEABLE
 					: entityminecartabstract_enumminecarttype;
@@ -1026,7 +1026,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 				EntityMinecartAbstract.EnumMinecartType entityminecartabstract_enumminecarttype = aentityminecartabstract_enumminecarttype[j];
 
 				EntityMinecartAbstract.EnumMinecartType.h.put(
-						Integer.valueOf(entityminecartabstract_enumminecarttype.a()),
+						entityminecartabstract_enumminecarttype.a(),
 						entityminecartabstract_enumminecarttype);
 			}
 

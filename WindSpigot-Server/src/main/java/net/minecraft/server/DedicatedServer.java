@@ -165,9 +165,9 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 			this.setForceGamemode(this.propertyManager.getBoolean("force-gamemode", false));
 			this.setIdleTimeout(this.propertyManager.getInt("player-idle-timeout", 0));
 			if (this.propertyManager.getInt("difficulty", 1) < 0) {
-				this.propertyManager.setProperty("difficulty", Integer.valueOf(0));
+				this.propertyManager.setProperty("difficulty", 0);
 			} else if (this.propertyManager.getInt("difficulty", 1) > 3) {
-				this.propertyManager.setProperty("difficulty", Integer.valueOf(3));
+				this.propertyManager.setProperty("difficulty", 3);
 			}
 
 			this.generateStructures = this.propertyManager.getBoolean("generate-structures", true);
@@ -612,7 +612,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 	@Override
 	public void setIdleTimeout(int i) {
 		super.setIdleTimeout(i);
-		this.propertyManager.setProperty("player-idle-timeout", Integer.valueOf(i));
+		this.propertyManager.setProperty("player-idle-timeout", i);
 		this.a();
 	}
 

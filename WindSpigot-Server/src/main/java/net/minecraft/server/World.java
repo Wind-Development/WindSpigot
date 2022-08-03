@@ -756,8 +756,8 @@ public abstract class World implements IBlockAccess {
 					public String a() throws Exception {
 						try {
 							return String.format("ID #%d (%s // %s)",
-									new Object[] { Integer.valueOf(Block.getId(block)), block.a(),
-											block.getClass().getCanonicalName() });
+									Block.getId(block), block.a(),
+									block.getClass().getCanonicalName());
 						} catch (Throwable throwable) {
 							return "ID #" + Block.getId(block);
 						}
@@ -3652,8 +3652,8 @@ public abstract class World implements IBlockAccess {
 
 			crashreportsystemdetails.a("Block coordinates", CrashReportSystemDetails.a(blockposition));
 			crashreportsystemdetails.a("Event source", entityhuman);
-			crashreportsystemdetails.a("Event type", Integer.valueOf(i));
-			crashreportsystemdetails.a("Event data", Integer.valueOf(j));
+			crashreportsystemdetails.a("Event type", i);
+			crashreportsystemdetails.a("Event data", j);
 			throw new ReportedException(crashreport);
 		}
 	}

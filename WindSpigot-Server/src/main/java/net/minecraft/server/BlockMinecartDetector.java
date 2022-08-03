@@ -28,7 +28,7 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
 
 	public BlockMinecartDetector() {
 		super(true);
-		this.j(this.blockStateList.getBlockData().set(BlockMinecartDetector.POWERED, Boolean.valueOf(false))
+		this.j(this.blockStateList.getBlockData().set(BlockMinecartDetector.POWERED, false)
 				.set(BlockMinecartDetector.SHAPE, BlockMinecartTrackAbstract.EnumTrackPosition.NORTH_SOUTH));
 		this.a(true);
 	}
@@ -98,7 +98,7 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
 		// CraftBukkit end
 
 		if (flag1 && !flag) {
-			world.setTypeAndData(blockposition, iblockdata.set(BlockMinecartDetector.POWERED, Boolean.valueOf(true)),
+			world.setTypeAndData(blockposition, iblockdata.set(BlockMinecartDetector.POWERED, true),
 					3);
 			world.applyPhysics(blockposition, this);
 			world.applyPhysics(blockposition.down(), this);
@@ -106,7 +106,7 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
 		}
 
 		if (!flag1 && flag) {
-			world.setTypeAndData(blockposition, iblockdata.set(BlockMinecartDetector.POWERED, Boolean.valueOf(false)),
+			world.setTypeAndData(blockposition, iblockdata.set(BlockMinecartDetector.POWERED, false),
 					3);
 			world.applyPhysics(blockposition, this);
 			world.applyPhysics(blockposition.down(), this);
@@ -174,7 +174,7 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
 	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData()
 				.set(BlockMinecartDetector.SHAPE, BlockMinecartTrackAbstract.EnumTrackPosition.a(i & 7))
-				.set(BlockMinecartDetector.POWERED, Boolean.valueOf((i & 8) > 0));
+				.set(BlockMinecartDetector.POWERED, (i & 8) > 0);
 	}
 
 	@Override
@@ -182,7 +182,7 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
 		byte b0 = 0;
 		int i = b0 | iblockdata.get(BlockMinecartDetector.SHAPE).a();
 
-		if (iblockdata.get(BlockMinecartDetector.POWERED).booleanValue()) {
+		if (iblockdata.get(BlockMinecartDetector.POWERED)) {
 			i |= 8;
 		}
 
@@ -192,6 +192,6 @@ public class BlockMinecartDetector extends BlockMinecartTrackAbstract {
 	@Override
 	protected BlockStateList getStateList() {
 		return new BlockStateList(this,
-				new IBlockState[] { BlockMinecartDetector.SHAPE, BlockMinecartDetector.POWERED });
+				BlockMinecartDetector.SHAPE, BlockMinecartDetector.POWERED);
 	}
 }

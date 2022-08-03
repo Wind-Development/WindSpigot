@@ -770,7 +770,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 																													// the
 																													// lock
 				this.playerConnection.sendPacket(new PacketPlayOutChat(
-						new ChatMessage("container.isLocked", new Object[] { iinventory.getScoreboardDisplayName() }),
+						new ChatMessage("container.isLocked", iinventory.getScoreboardDisplayName()),
 						(byte) 2));
 				this.playerConnection.sendPacket(new PacketPlayOutNamedSoundEffect("random.door_close", this.locX,
 						this.locY, this.locZ, 1.0F, 1.0F));

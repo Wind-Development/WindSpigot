@@ -17,7 +17,7 @@ public abstract class BlockButtonAbstract extends Block {
 	protected BlockButtonAbstract(boolean flag) {
 		super(Material.ORIENTABLE);
 		this.j(this.blockStateList.getBlockData().set(BlockButtonAbstract.FACING, EnumDirection.NORTH)
-				.set(BlockButtonAbstract.POWERED, Boolean.valueOf(false)));
+				.set(BlockButtonAbstract.POWERED, false));
 		this.a(true);
 		this.a(CreativeModeTab.d);
 		this.N = flag;
@@ -76,9 +76,9 @@ public abstract class BlockButtonAbstract extends Block {
 			float f1, float f2, int i, EntityLiving entityliving) {
 		return a(world, blockposition, enumdirection.opposite())
 				? this.getBlockData().set(BlockButtonAbstract.FACING, enumdirection).set(BlockButtonAbstract.POWERED,
-						Boolean.valueOf(false))
+						false)
 				: this.getBlockData().set(BlockButtonAbstract.FACING, EnumDirection.DOWN)
-						.set(BlockButtonAbstract.POWERED, Boolean.valueOf(false));
+						.set(BlockButtonAbstract.POWERED, false);
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public abstract class BlockButtonAbstract extends Block {
 	@Override
 	public boolean interact(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman,
 			EnumDirection enumdirection, float f, float f1, float f2) {
-		if (iblockdata.get(BlockButtonAbstract.POWERED).booleanValue()) {
+		if (iblockdata.get(BlockButtonAbstract.POWERED)) {
 			return true;
 		} else {
 			// CraftBukkit start
@@ -162,7 +162,7 @@ public abstract class BlockButtonAbstract extends Block {
 				return true;
 			}
 			// CraftBukkit end
-			world.setTypeAndData(blockposition, iblockdata.set(BlockButtonAbstract.POWERED, Boolean.valueOf(true)), 3);
+			world.setTypeAndData(blockposition, iblockdata.set(BlockButtonAbstract.POWERED, true), 3);
 			world.b(blockposition, blockposition);
 			world.makeSound(blockposition.getX() + 0.5D, blockposition.getY() + 0.5D, blockposition.getZ() + 0.5D,
 					"random.click", 0.3F, 0.6F);
@@ -174,7 +174,7 @@ public abstract class BlockButtonAbstract extends Block {
 
 	@Override
 	public void remove(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		if (iblockdata.get(BlockButtonAbstract.POWERED).booleanValue()) {
+		if (iblockdata.get(BlockButtonAbstract.POWERED)) {
 			this.c(world, blockposition, iblockdata.get(BlockButtonAbstract.FACING));
 		}
 
@@ -222,7 +222,7 @@ public abstract class BlockButtonAbstract extends Block {
 					}
 					// CraftBukkit end
 					world.setTypeUpdate(blockposition,
-							iblockdata.set(BlockButtonAbstract.POWERED, Boolean.valueOf(false)));
+							iblockdata.set(BlockButtonAbstract.POWERED, false));
 					this.c(world, blockposition, iblockdata.get(BlockButtonAbstract.FACING));
 					world.makeSound(blockposition.getX() + 0.5D, blockposition.getY() + 0.5D,
 							blockposition.getZ() + 0.5D, "random.click", 0.3F, 0.5F);
@@ -299,7 +299,7 @@ public abstract class BlockButtonAbstract extends Block {
 				return;
 			}
 			// CraftBukkit end
-			world.setTypeUpdate(blockposition, iblockdata.set(BlockButtonAbstract.POWERED, Boolean.valueOf(true)));
+			world.setTypeUpdate(blockposition, iblockdata.set(BlockButtonAbstract.POWERED, true));
 			this.c(world, blockposition, iblockdata.get(BlockButtonAbstract.FACING));
 			world.b(blockposition, blockposition);
 			world.makeSound(blockposition.getX() + 0.5D, blockposition.getY() + 0.5D, blockposition.getZ() + 0.5D,
@@ -318,7 +318,7 @@ public abstract class BlockButtonAbstract extends Block {
 				return;
 			}
 			// CraftBukkit end
-			world.setTypeUpdate(blockposition, iblockdata.set(BlockButtonAbstract.POWERED, Boolean.valueOf(false)));
+			world.setTypeUpdate(blockposition, iblockdata.set(BlockButtonAbstract.POWERED, false));
 			this.c(world, blockposition, iblockdata.get(BlockButtonAbstract.FACING));
 			world.b(blockposition, blockposition);
 			world.makeSound(blockposition.getX() + 0.5D, blockposition.getY() + 0.5D, blockposition.getZ() + 0.5D,
@@ -367,7 +367,7 @@ public abstract class BlockButtonAbstract extends Block {
 		}
 
 		return this.getBlockData().set(BlockButtonAbstract.FACING, enumdirection).set(BlockButtonAbstract.POWERED,
-				Boolean.valueOf((i & 8) > 0));
+				(i & 8) > 0);
 	}
 
 	@Override
@@ -400,7 +400,7 @@ public abstract class BlockButtonAbstract extends Block {
 			i = 0;
 		}
 
-		if (iblockdata.get(BlockButtonAbstract.POWERED).booleanValue()) {
+		if (iblockdata.get(BlockButtonAbstract.POWERED)) {
 			i |= 8;
 		}
 
@@ -409,7 +409,7 @@ public abstract class BlockButtonAbstract extends Block {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockButtonAbstract.FACING, BlockButtonAbstract.POWERED });
+		return new BlockStateList(this, BlockButtonAbstract.FACING, BlockButtonAbstract.POWERED);
 	}
 
 	static class SyntheticClass_1 {

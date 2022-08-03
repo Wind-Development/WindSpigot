@@ -212,7 +212,7 @@ public class ChunkProviderServer implements IChunkProvider {
 						CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Chunk to be generated");
 
 						crashreportsystemdetails.a("Location",
-								String.format("%d,%d", new Object[] { Integer.valueOf(i), Integer.valueOf(j) }));
+								String.format("%d,%d", i, j));
 						crashreportsystemdetails.a("Position hash", key); // CraftBukkit - Use LongHash
 						crashreportsystemdetails.a("Generator", this.chunkProvider.getName());
 						throw new ReportedException(crashreport);

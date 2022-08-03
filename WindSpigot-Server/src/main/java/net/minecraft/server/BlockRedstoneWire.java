@@ -32,7 +32,7 @@ public class BlockRedstoneWire extends Block {
 				.set(BlockRedstoneWire.EAST, BlockRedstoneWire.EnumRedstoneWireConnection.NONE)
 				.set(BlockRedstoneWire.SOUTH, BlockRedstoneWire.EnumRedstoneWireConnection.NONE)
 				.set(BlockRedstoneWire.WEST, BlockRedstoneWire.EnumRedstoneWireConnection.NONE)
-				.set(BlockRedstoneWire.POWER, Integer.valueOf(0)));
+				.set(BlockRedstoneWire.POWER, 0));
 		this.a(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 	}
 
@@ -162,7 +162,7 @@ public class BlockRedstoneWire extends Block {
 		// CraftBukkit end
 
 		if (i != j) {
-			iblockdata = iblockdata.set(BlockRedstoneWire.POWER, Integer.valueOf(j));
+			iblockdata = iblockdata.set(BlockRedstoneWire.POWER, j);
 			if (world.getType(blockposition) == iblockdata1) {
 				world.setTypeAndData(blockposition, iblockdata, 2);
 			}
@@ -406,18 +406,18 @@ public class BlockRedstoneWire extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockRedstoneWire.POWER, Integer.valueOf(i));
+		return this.getBlockData().set(BlockRedstoneWire.POWER, i);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockRedstoneWire.POWER).intValue();
+		return iblockdata.get(BlockRedstoneWire.POWER);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockRedstoneWire.NORTH, BlockRedstoneWire.EAST,
-				BlockRedstoneWire.SOUTH, BlockRedstoneWire.WEST, BlockRedstoneWire.POWER });
+		return new BlockStateList(this, BlockRedstoneWire.NORTH, BlockRedstoneWire.EAST,
+				BlockRedstoneWire.SOUTH, BlockRedstoneWire.WEST, BlockRedstoneWire.POWER);
 	}
 
 	static enum EnumRedstoneWireConnection implements INamable {

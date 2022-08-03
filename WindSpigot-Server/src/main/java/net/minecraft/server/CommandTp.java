@@ -26,7 +26,7 @@ public class CommandTp extends CommandAbstract {
 	@Override
 	public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
 		if (astring.length < 1) {
-			throw new ExceptionUsage("commands.tp.usage", new Object[0]);
+			throw new ExceptionUsage("commands.tp.usage");
 		} else {
 			byte b0 = 0;
 			Entity object;
@@ -40,7 +40,7 @@ public class CommandTp extends CommandAbstract {
 
 			if (astring.length != 1 && astring.length != 2) {
 				if (astring.length < b0 + 3) {
-					throw new ExceptionUsage("commands.tp.usage", new Object[0]);
+					throw new ExceptionUsage("commands.tp.usage");
 				} else if (object.world != null) {
 					int i = b0 + 1;
 					CommandAbstract.CommandNumber commandabstract_commandnumber = a(object.locX, astring[b0],
@@ -127,7 +127,7 @@ public class CommandTp extends CommandAbstract {
 				if (object.getBukkitEntity().teleport(entity.getBukkitEntity(),
 						org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.COMMAND)) {
 					a(icommandlistener, this, "commands.tp.success",
-							new Object[] { object.getName(), entity.getName() });
+							object.getName(), entity.getName());
 					// CraftBukkit End
 				}
 			}

@@ -11,7 +11,7 @@ public class BlockCactus extends Block {
 
 	protected BlockCactus() {
 		super(Material.CACTUS);
-		this.j(this.blockStateList.getBlockData().set(BlockCactus.AGE, Integer.valueOf(0)));
+		this.j(this.blockStateList.getBlockData().set(BlockCactus.AGE, 0));
 		this.a(true);
 		this.a(CreativeModeTab.c);
 	}
@@ -29,14 +29,14 @@ public class BlockCactus extends Block {
 
 			if (i < world.paperSpigotConfig.cactusMaxHeight) { // PaperSpigot - Configurable max growth height for
 																// cactus blocks) {
-				int j = iblockdata.get(BlockCactus.AGE).intValue();
+				int j = iblockdata.get(BlockCactus.AGE);
 
 				if (j >= (byte) range(3, (world.growthOdds / world.spigotConfig.cactusModifier * 15) + 0.5F, 15)) { // Spigot
 																													// world.setTypeUpdate(blockposition1,
 																													// this.getBlockData());
 																													// //
 																													// CraftBukkit
-					IBlockData iblockdata1 = iblockdata.set(BlockCactus.AGE, Integer.valueOf(0));
+					IBlockData iblockdata1 = iblockdata.set(BlockCactus.AGE, 0);
 
 					CraftEventFactory.handleBlockGrowEvent(world, blockposition1.getX(), blockposition1.getY(),
 							blockposition1.getZ(), this, 0); // CraftBukkit
@@ -107,16 +107,16 @@ public class BlockCactus extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockCactus.AGE, Integer.valueOf(i));
+		return this.getBlockData().set(BlockCactus.AGE, i);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockCactus.AGE).intValue();
+		return iblockdata.get(BlockCactus.AGE);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockCactus.AGE });
+		return new BlockStateList(this, BlockCactus.AGE);
 	}
 }

@@ -15,7 +15,7 @@ public class BlockMycel extends Block {
 
 	protected BlockMycel() {
 		super(Material.GRASS, MaterialMapColor.z);
-		this.j(this.blockStateList.getBlockData().set(BlockMycel.SNOWY, Boolean.valueOf(false)));
+		this.j(this.blockStateList.getBlockData().set(BlockMycel.SNOWY, false));
 		this.a(true);
 		this.a(CreativeModeTab.b);
 	}
@@ -24,7 +24,7 @@ public class BlockMycel extends Block {
 	public IBlockData updateState(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition) {
 		Block block = iblockaccess.getType(blockposition.up()).getBlock();
 
-		return iblockdata.set(BlockMycel.SNOWY, Boolean.valueOf(block == Blocks.SNOW || block == Blocks.SNOW_LAYER));
+		return iblockdata.set(BlockMycel.SNOWY, block == Blocks.SNOW || block == Blocks.SNOW_LAYER);
 	}
 
 	@Override
@@ -92,6 +92,6 @@ public class BlockMycel extends Block {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockMycel.SNOWY });
+		return new BlockStateList(this, BlockMycel.SNOWY);
 	}
 }

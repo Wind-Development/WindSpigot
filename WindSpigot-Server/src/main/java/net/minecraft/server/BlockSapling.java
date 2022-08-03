@@ -19,7 +19,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
 
 	protected BlockSapling() {
 		this.j(this.blockStateList.getBlockData().set(BlockSapling.TYPE, BlockWood.EnumLogVariant.OAK)
-				.set(BlockSapling.STAGE, Integer.valueOf(0)));
+				.set(BlockSapling.STAGE, 0));
 		float f = 0.4F;
 
 		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
@@ -231,7 +231,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
 	@Override
 	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData().set(BlockSapling.TYPE, BlockWood.EnumLogVariant.a(i & 7)).set(BlockSapling.STAGE,
-				Integer.valueOf((i & 8) >> 3));
+				(i & 8) >> 3);
 	}
 
 	@Override
@@ -239,13 +239,13 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
 		byte b0 = 0;
 		int i = b0 | iblockdata.get(BlockSapling.TYPE).a();
 
-		i |= iblockdata.get(BlockSapling.STAGE).intValue() << 3;
+		i |= iblockdata.get(BlockSapling.STAGE) << 3;
 		return i;
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockSapling.TYPE, BlockSapling.STAGE });
+		return new BlockStateList(this, BlockSapling.TYPE, BlockSapling.STAGE);
 	}
 
 	static class SyntheticClass_1 {

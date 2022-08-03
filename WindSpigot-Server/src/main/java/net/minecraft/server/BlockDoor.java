@@ -131,8 +131,8 @@ public class BlockDoor extends Block {
 					: blockposition.down();
 			IBlockData iblockdata1 = blockposition == blockposition1 ? iblockdata : world.getType(blockposition1);
 
-			if (iblockdata1.getBlock() == this && iblockdata1.get(BlockDoor.OPEN).booleanValue() != flag) {
-				world.setTypeAndData(blockposition1, iblockdata1.set(BlockDoor.OPEN, Boolean.valueOf(flag)), 2);
+			if (iblockdata1.getBlock() == this && iblockdata1.get(BlockDoor.OPEN) != flag) {
+				world.setTypeAndData(blockposition1, iblockdata1.set(BlockDoor.OPEN, flag), 2);
 				world.b(blockposition1, blockposition);
 				world.a(null, flag ? 1003 : 1006, blockposition, 0);
 			}
@@ -194,9 +194,9 @@ public class BlockDoor extends Block {
 					world.getServer().getPluginManager().callEvent(eventRedstone);
 
 					boolean flag1 = eventRedstone.getNewCurrent() > 0;
-					world.setTypeAndData(blockposition2, iblockdata2.set(BlockDoor.POWERED, Boolean.valueOf(flag1)), 2);
-					if (flag1 != iblockdata.get(BlockDoor.OPEN).booleanValue()) {
-						world.setTypeAndData(blockposition, iblockdata.set(BlockDoor.OPEN, Boolean.valueOf(flag1)), 2);
+					world.setTypeAndData(blockposition2, iblockdata2.set(BlockDoor.POWERED, flag1), 2);
+					if (flag1 != iblockdata.get(BlockDoor.OPEN)) {
+						world.setTypeAndData(blockposition, iblockdata.set(BlockDoor.OPEN, flag1), 2);
 						world.b(blockposition, blockposition);
 						world.a(null, flag1 ? 1003 : 1006, blockposition, 0);
 					}
@@ -294,10 +294,10 @@ public class BlockDoor extends Block {
 				? this.getBlockData().set(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER)
 						.set(BlockDoor.HINGE,
 								(i & 1) > 0 ? BlockDoor.EnumDoorHinge.RIGHT : BlockDoor.EnumDoorHinge.LEFT)
-						.set(BlockDoor.POWERED, Boolean.valueOf((i & 2) > 0))
+						.set(BlockDoor.POWERED, (i & 2) > 0)
 				: this.getBlockData().set(BlockDoor.HALF, BlockDoor.EnumDoorHalf.LOWER)
 						.set(BlockDoor.FACING, EnumDirection.fromType2(i & 3).f())
-						.set(BlockDoor.OPEN, Boolean.valueOf((i & 4) > 0));
+						.set(BlockDoor.OPEN, (i & 4) > 0);
 	}
 
 	@Override
@@ -311,12 +311,12 @@ public class BlockDoor extends Block {
 				i |= 1;
 			}
 
-			if (iblockdata.get(BlockDoor.POWERED).booleanValue()) {
+			if (iblockdata.get(BlockDoor.POWERED)) {
 				i |= 2;
 			}
 		} else {
 			i = b0 | iblockdata.get(BlockDoor.FACING).e().b();
-			if (iblockdata.get(BlockDoor.OPEN).booleanValue()) {
+			if (iblockdata.get(BlockDoor.OPEN)) {
 				i |= 4;
 			}
 		}
@@ -354,8 +354,8 @@ public class BlockDoor extends Block {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockDoor.HALF, BlockDoor.FACING, BlockDoor.OPEN,
-				BlockDoor.HINGE, BlockDoor.POWERED });
+		return new BlockStateList(this, BlockDoor.HALF, BlockDoor.FACING, BlockDoor.OPEN,
+				BlockDoor.HINGE, BlockDoor.POWERED);
 	}
 
 	public static enum EnumDoorHinge implements INamable {

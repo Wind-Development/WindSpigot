@@ -341,7 +341,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(16, Integer.valueOf(0));
+		this.datawatcher.a(16, 0);
 	}
 
 	@Override
@@ -418,7 +418,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
 	}
 
 	public void setProfession(int i) {
-		this.datawatcher.watch(16, Integer.valueOf(i));
+		this.datawatcher.watch(16, i);
 	}
 
 	public int getProfession() {
@@ -681,7 +681,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
 			}
 
 			if (s1 != null) {
-				ChatMessage chatmessage = new ChatMessage("entity.Villager." + s1, new Object[0]);
+				ChatMessage chatmessage = new ChatMessage("entity.Villager." + s1);
 
 				chatmessage.getChatModifier().setChatHoverable(this.aQ());
 				chatmessage.getChatModifier().setInsertion(this.getUniqueID().toString());
@@ -995,12 +995,12 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
 	static class MerchantOptionRandomRange extends Tuple<Integer, Integer> {
 
 		public MerchantOptionRandomRange(int i, int j) {
-			super(Integer.valueOf(i), Integer.valueOf(j));
+			super(i, j);
 		}
 
 		public int a(Random random) {
-			return this.a().intValue() >= this.b().intValue() ? this.a().intValue()
-					: this.a().intValue() + random.nextInt(this.b().intValue() - this.a().intValue() + 1);
+			return this.a() >= this.b() ? this.a()
+					: this.a() + random.nextInt(this.b() - this.a() + 1);
 		}
 	}
 }

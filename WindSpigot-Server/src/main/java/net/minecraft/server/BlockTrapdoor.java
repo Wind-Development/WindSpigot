@@ -13,7 +13,7 @@ public class BlockTrapdoor extends Block {
 	protected BlockTrapdoor(Material material) {
 		super(material);
 		this.j(this.blockStateList.getBlockData().set(BlockTrapdoor.FACING, EnumDirection.NORTH)
-				.set(BlockTrapdoor.OPEN, Boolean.valueOf(false))
+				.set(BlockTrapdoor.OPEN, false)
 				.set(BlockTrapdoor.HALF, BlockTrapdoor.EnumTrapdoorHalf.BOTTOM));
 		float f = 0.5F;
 		float f1 = 1.0F;
@@ -97,7 +97,7 @@ public class BlockTrapdoor extends Block {
 		} else {
 			iblockdata = iblockdata.a(BlockTrapdoor.OPEN);
 			world.setTypeAndData(blockposition, iblockdata, 2);
-			world.a(entityhuman, iblockdata.get(BlockTrapdoor.OPEN).booleanValue() ? 1003 : 1006, blockposition, 0);
+			world.a(entityhuman, iblockdata.get(BlockTrapdoor.OPEN) ? 1003 : 1006, blockposition, 0);
 			return true;
 		}
 	}
@@ -128,10 +128,10 @@ public class BlockTrapdoor extends Block {
 						flag = eventRedstone.getNewCurrent() > 0;
 					}
 					// CraftBukkit end
-					boolean flag1 = iblockdata.get(BlockTrapdoor.OPEN).booleanValue();
+					boolean flag1 = iblockdata.get(BlockTrapdoor.OPEN);
 
 					if (flag1 != flag) {
-						world.setTypeAndData(blockposition, iblockdata.set(BlockTrapdoor.OPEN, Boolean.valueOf(flag)),
+						world.setTypeAndData(blockposition, iblockdata.set(BlockTrapdoor.OPEN, flag),
 								2);
 						world.a(null, flag ? 1003 : 1006, blockposition, 0);
 					}
@@ -154,7 +154,7 @@ public class BlockTrapdoor extends Block {
 
 		if (enumdirection.k().c()) {
 			iblockdata = iblockdata.set(BlockTrapdoor.FACING, enumdirection).set(BlockTrapdoor.OPEN,
-					Boolean.valueOf(false));
+					false);
 			iblockdata = iblockdata.set(BlockTrapdoor.HALF,
 					f1 > 0.5F ? BlockTrapdoor.EnumTrapdoorHalf.TOP : BlockTrapdoor.EnumTrapdoorHalf.BOTTOM);
 		}
@@ -209,7 +209,7 @@ public class BlockTrapdoor extends Block {
 	@Override
 	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData().set(BlockTrapdoor.FACING, b(i))
-				.set(BlockTrapdoor.OPEN, Boolean.valueOf((i & 4) != 0)).set(BlockTrapdoor.HALF,
+				.set(BlockTrapdoor.OPEN, (i & 4) != 0).set(BlockTrapdoor.HALF,
 						(i & 8) == 0 ? BlockTrapdoor.EnumTrapdoorHalf.BOTTOM : BlockTrapdoor.EnumTrapdoorHalf.TOP);
 	}
 
@@ -218,7 +218,7 @@ public class BlockTrapdoor extends Block {
 		byte b0 = 0;
 		int i = b0 | a(iblockdata.get(BlockTrapdoor.FACING));
 
-		if (iblockdata.get(BlockTrapdoor.OPEN).booleanValue()) {
+		if (iblockdata.get(BlockTrapdoor.OPEN)) {
 			i |= 4;
 		}
 
@@ -232,7 +232,7 @@ public class BlockTrapdoor extends Block {
 	@Override
 	protected BlockStateList getStateList() {
 		return new BlockStateList(this,
-				new IBlockState[] { BlockTrapdoor.FACING, BlockTrapdoor.OPEN, BlockTrapdoor.HALF });
+				BlockTrapdoor.FACING, BlockTrapdoor.OPEN, BlockTrapdoor.HALF);
 	}
 
 	static class SyntheticClass_1 {

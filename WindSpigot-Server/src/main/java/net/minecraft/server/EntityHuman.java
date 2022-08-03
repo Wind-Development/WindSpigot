@@ -100,10 +100,10 @@ public abstract class EntityHuman extends EntityLiving {
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(16, Byte.valueOf((byte) 0));
-		this.datawatcher.a(17, Float.valueOf(0.0F));
-		this.datawatcher.a(18, Integer.valueOf(0));
-		this.datawatcher.a(10, Byte.valueOf((byte) 0));
+		this.datawatcher.a(16, (byte) 0);
+		this.datawatcher.a(17, 0.0F);
+		this.datawatcher.a(18, 0);
+		this.datawatcher.a(10, (byte) 0);
 	}
 
 	public boolean bS() {
@@ -479,13 +479,13 @@ public abstract class EntityHuman extends EntityLiving {
 	}
 
 	public void setScore(int i) {
-		this.datawatcher.watch(18, Integer.valueOf(i));
+		this.datawatcher.watch(18, i);
 	}
 
 	public void addScore(int i) {
 		int j = this.getScore();
 
-		this.datawatcher.watch(18, Integer.valueOf(j + i));
+		this.datawatcher.watch(18, j + i);
 	}
 
 	@Override
@@ -1582,7 +1582,7 @@ public abstract class EntityHuman extends EntityLiving {
 		}
 
 		EntityTypes.MonsterEggInfo entitytypes_monsteregginfo = EntityTypes.eggInfo
-				.get(Integer.valueOf(EntityTypes.a(entityliving)));
+				.get(EntityTypes.a(entityliving));
 
 		if (entitytypes_monsteregginfo != null) {
 			this.b(entitytypes_monsteregginfo.killEntityStatistic);
@@ -1836,7 +1836,7 @@ public abstract class EntityHuman extends EntityLiving {
 			f = 0.0F;
 		}
 
-		this.getDataWatcher().watch(17, Float.valueOf(f));
+		this.getDataWatcher().watch(17, f);
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class EntityEnderCrystal extends Entity {
 
 	@Override
 	protected void h() {
-		this.datawatcher.a(8, Integer.valueOf(this.b));
+		this.datawatcher.a(8, this.b);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class EntityEnderCrystal extends Entity {
 		this.lastY = this.locY;
 		this.lastZ = this.locZ;
 		++this.a;
-		this.datawatcher.watch(8, Integer.valueOf(this.b));
+		this.datawatcher.watch(8, this.b);
 		int i = MathHelper.floor(this.locX);
 		int j = MathHelper.floor(this.locY);
 		int k = MathHelper.floor(this.locZ);

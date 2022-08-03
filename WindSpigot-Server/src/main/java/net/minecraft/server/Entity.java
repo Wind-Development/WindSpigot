@@ -2205,9 +2205,9 @@ public abstract class Entity implements ICommandListener {
 	@Override
 	public String toString() {
 		return String.format("%s[\'%s\'/%d, l=\'%s\', x=%.2f, y=%.2f, z=%.2f]",
-				new Object[] { this.getClass().getSimpleName(), this.getName(), Integer.valueOf(this.id),
-						this.world == null ? "~NULL~" : this.world.getWorldData().getName(), Double.valueOf(this.locX),
-						Double.valueOf(this.locY), Double.valueOf(this.locZ) });
+				this.getClass().getSimpleName(), this.getName(), this.id,
+				this.world == null ? "~NULL~" : this.world.getWorldData().getName(), this.locX,
+				this.locY, this.locZ);
 	}
 
 	public boolean isInvulnerable(DamageSource damagesource) {
@@ -2370,7 +2370,7 @@ public abstract class Entity implements ICommandListener {
 				return this.a();
 			}
 		});
-		crashreportsystemdetails.a("Entity ID", Integer.valueOf(this.id));
+		crashreportsystemdetails.a("Entity ID", this.id);
 		crashreportsystemdetails.a("Entity Name", new Callable() {
 			public String a() throws Exception {
 				return Entity.this.getName();
@@ -2382,11 +2382,11 @@ public abstract class Entity implements ICommandListener {
 			}
 		});
 		crashreportsystemdetails.a("Entity\'s Exact location", String.format("%.2f, %.2f, %.2f",
-				new Object[] { Double.valueOf(this.locX), Double.valueOf(this.locY), Double.valueOf(this.locZ) }));
+				this.locX, this.locY, this.locZ));
 		crashreportsystemdetails.a("Entity\'s Block location", CrashReportSystemDetails.a(MathHelper.floor(this.locX),
 				MathHelper.floor(this.locY), MathHelper.floor(this.locZ)));
 		crashreportsystemdetails.a("Entity\'s Momentum", String.format("%.2f, %.2f, %.2f",
-				new Object[] { Double.valueOf(this.motX), Double.valueOf(this.motY), Double.valueOf(this.motZ) }));
+				this.motX, this.motY, this.motZ));
 		crashreportsystemdetails.a("Entity\'s Rider", new Callable() {
 			public String a() throws Exception {
 				return Entity.this.passenger.toString();

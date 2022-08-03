@@ -76,15 +76,15 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 	@Override
 	protected void h() {
 		super.h();
-		this.datawatcher.a(16, Integer.valueOf(0));
+		this.datawatcher.a(16, 0);
 		this.datawatcher.a(19, Byte.valueOf((byte) 0));
-		this.datawatcher.a(20, Integer.valueOf(0));
+		this.datawatcher.a(20, 0);
 		this.datawatcher.a(21, String.valueOf(""));
-		this.datawatcher.a(22, Integer.valueOf(0));
+		this.datawatcher.a(22, 0);
 	}
 
 	public void setType(int i) {
-		this.datawatcher.watch(19, Byte.valueOf((byte) i));
+		this.datawatcher.watch(19, (byte) i);
 		this.dc();
 	}
 
@@ -93,7 +93,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 	}
 
 	public void setVariant(int i) {
-		this.datawatcher.watch(20, Integer.valueOf(i));
+		this.datawatcher.watch(20, i);
 		this.dc();
 	}
 
@@ -136,9 +136,9 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 		int j = this.datawatcher.getInt(16);
 
 		if (flag) {
-			this.datawatcher.watch(16, Integer.valueOf(j | i));
+			this.datawatcher.watch(16, j | i);
 		} else {
-			this.datawatcher.watch(16, Integer.valueOf(j & ~i));
+			this.datawatcher.watch(16, j & ~i);
 		}
 
 	}
@@ -243,7 +243,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 	}
 
 	public void e(ItemStack itemstack) {
-		this.datawatcher.watch(22, Integer.valueOf(this.f(itemstack)));
+		this.datawatcher.watch(22, this.f(itemstack));
 		this.dc();
 	}
 

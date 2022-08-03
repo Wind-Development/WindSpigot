@@ -488,7 +488,7 @@ public class EntityBoat extends Entity {
 	}
 
 	public void setDamage(float f) {
-		this.datawatcher.watch(19, Float.valueOf(f));
+		this.datawatcher.watch(19, f);
 	}
 
 	public float j() {
@@ -496,7 +496,7 @@ public class EntityBoat extends Entity {
 	}
 
 	public void a(int i) {
-		this.datawatcher.watch(17, Integer.valueOf(i));
+		this.datawatcher.watch(17, i);
 	}
 
 	public int l() {
@@ -504,7 +504,7 @@ public class EntityBoat extends Entity {
 	}
 
 	public void b(int i) {
-		this.datawatcher.watch(18, Integer.valueOf(i));
+		this.datawatcher.watch(18, i);
 	}
 
 	public int m() {

@@ -12,7 +12,7 @@ public class BlockFlowerPot extends BlockContainer {
 		super(Material.ORIENTABLE);
 		this.j(this.blockStateList.getBlockData()
 				.set(BlockFlowerPot.CONTENTS, BlockFlowerPot.EnumFlowerPotContents.EMPTY)
-				.set(BlockFlowerPot.LEGACY_DATA, Integer.valueOf(0)));
+				.set(BlockFlowerPot.LEGACY_DATA, 0));
 		this.j();
 	}
 
@@ -214,12 +214,12 @@ public class BlockFlowerPot extends BlockContainer {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockFlowerPot.CONTENTS, BlockFlowerPot.LEGACY_DATA });
+		return new BlockStateList(this, BlockFlowerPot.CONTENTS, BlockFlowerPot.LEGACY_DATA);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockFlowerPot.LEGACY_DATA).intValue();
+		return iblockdata.get(BlockFlowerPot.LEGACY_DATA);
 	}
 
 	@Override

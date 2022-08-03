@@ -112,12 +112,12 @@ public class BlockJukeBox extends BlockContainer {
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockJukeBox.HAS_RECORD).booleanValue() ? 1 : 0;
+		return iblockdata.get(BlockJukeBox.HAS_RECORD) ? 1 : 0;
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockJukeBox.HAS_RECORD });
+		return new BlockStateList(this, BlockJukeBox.HAS_RECORD);
 	}
 
 	public static class TileEntityRecordPlayer extends TileEntity {

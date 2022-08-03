@@ -12,7 +12,7 @@ public abstract class BlockFluids extends Block {
 
 	protected BlockFluids(Material material) {
 		super(material);
-		this.j(this.blockStateList.getBlockData().set(BlockFluids.LEVEL, Integer.valueOf(0)));
+		this.j(this.blockStateList.getBlockData().set(BlockFluids.LEVEL, 0));
 		this.a(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		this.a(true);
 	}
@@ -208,17 +208,17 @@ public abstract class BlockFluids extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockFluids.LEVEL, Integer.valueOf(i));
+		return this.getBlockData().set(BlockFluids.LEVEL, i);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockFluids.LEVEL).intValue();
+		return iblockdata.get(BlockFluids.LEVEL);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockFluids.LEVEL });
+		return new BlockStateList(this, BlockFluids.LEVEL);
 	}
 
 	public static BlockFlowing a(Material material) {

@@ -151,7 +151,7 @@ public class BlockPortal extends BlockHalfTransparent {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockPortal.AXIS });
+		return new BlockStateList(this, BlockPortal.AXIS);
 	}
 
 	public ShapeDetector.ShapeDetectorCollection f(World world, BlockPosition blockposition) {

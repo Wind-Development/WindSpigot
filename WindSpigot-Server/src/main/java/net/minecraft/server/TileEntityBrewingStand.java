@@ -108,7 +108,7 @@ public class TileEntityBrewingStand extends TileEntityContainer implements IUpda
 				}
 
 				for (int i = 0; i < BlockBrewingStand.HAS_BOTTLE.length; ++i) {
-					iblockdata = iblockdata.set(BlockBrewingStand.HAS_BOTTLE[i], Boolean.valueOf(aboolean[i]));
+					iblockdata = iblockdata.set(BlockBrewingStand.HAS_BOTTLE[i], aboolean[i]);
 				}
 
 				this.world.setTypeAndData(this.position, iblockdata, 2);

@@ -371,7 +371,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 					}
 					iterator.remove();
 					this.dispatchPacket(packet, queued.b,
-							(!iterator.hasNext() && (needsFlush || this.canFlush)) ? Boolean.TRUE : Boolean.FALSE);
+							(!iterator.hasNext() && (needsFlush || this.canFlush)) ? Boolean.TRUE : false);
 					hasWrotePacket = true;
 				}
 			} finally {

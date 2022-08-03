@@ -488,7 +488,7 @@ public class DispenserRegistry {
 					// CraftBukkit end
 				} else if (world.getType(blockposition).getBlock() == Blocks.TNT) {
 					Blocks.TNT.postBreak(world, blockposition,
-							Blocks.TNT.getBlockData().set(BlockTNT.EXPLODE, Boolean.valueOf(true)));
+							Blocks.TNT.getBlockData().set(BlockTNT.EXPLODE, true));
 					world.setAir(blockposition);
 				} else {
 					this.b = false;

@@ -13,7 +13,7 @@ public class BlockLever extends Block {
 	protected BlockLever() {
 		super(Material.ORIENTABLE);
 		this.j(this.blockStateList.getBlockData().set(BlockLever.FACING, BlockLever.EnumLeverPosition.NORTH)
-				.set(BlockLever.POWERED, Boolean.valueOf(false)));
+				.set(BlockLever.POWERED, false));
 		this.a(CreativeModeTab.d);
 	}
 
@@ -60,7 +60,7 @@ public class BlockLever extends Block {
 	@Override
 	public IBlockData getPlacedState(World world, BlockPosition blockposition, EnumDirection enumdirection, float f,
 			float f1, float f2, int i, EntityLiving entityliving) {
-		IBlockData iblockdata = this.getBlockData().set(BlockLever.POWERED, Boolean.valueOf(false));
+		IBlockData iblockdata = this.getBlockData().set(BlockLever.POWERED, false);
 
 		if (a(world, blockposition, enumdirection.opposite())) {
 			return iblockdata.set(BlockLever.FACING,
@@ -222,7 +222,7 @@ public class BlockLever extends Block {
 	@Override
 	public int b(IBlockAccess iblockaccess, BlockPosition blockposition, IBlockData iblockdata,
 			EnumDirection enumdirection) {
-		return !iblockdata.get(BlockLever.POWERED).booleanValue() ? 0
+		return !iblockdata.get(BlockLever.POWERED) ? 0
 				: (iblockdata.get(BlockLever.FACING).c() == enumdirection ? 15 : 0);
 	}
 
@@ -234,7 +234,7 @@ public class BlockLever extends Block {
 	@Override
 	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData().set(BlockLever.FACING, BlockLever.EnumLeverPosition.a(i & 7)).set(BlockLever.POWERED,
-				Boolean.valueOf((i & 8) > 0));
+				(i & 8) > 0);
 	}
 
 	@Override
@@ -242,7 +242,7 @@ public class BlockLever extends Block {
 		byte b0 = 0;
 		int i = b0 | iblockdata.get(BlockLever.FACING).a();
 
-		if (iblockdata.get(BlockLever.POWERED).booleanValue()) {
+		if (iblockdata.get(BlockLever.POWERED)) {
 			i |= 8;
 		}
 
@@ -251,7 +251,7 @@ public class BlockLever extends Block {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockLever.FACING, BlockLever.POWERED });
+		return new BlockStateList(this, BlockLever.FACING, BlockLever.POWERED);
 	}
 
 	static class SyntheticClass_1 {

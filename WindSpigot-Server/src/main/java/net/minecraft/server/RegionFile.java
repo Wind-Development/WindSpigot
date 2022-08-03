@@ -229,10 +229,10 @@ public class RegionFile {
 				int l1;
 
 				for (l1 = 0; l1 < j1; ++l1) {
-					this.f.set(i1 + l1, Boolean.valueOf(true));
+					this.f.set(i1 + l1, true);
 				}
 
-				l1 = this.f.indexOf(Boolean.valueOf(true));
+				l1 = this.f.indexOf(true);
 				int i2 = 0;
 				int j2;
 
@@ -260,7 +260,7 @@ public class RegionFile {
 					this.a(i, j, l1 << 8 | k1);
 
 					for (j2 = 0; j2 < k1; ++j2) {
-						this.f.set(i1 + j2, Boolean.valueOf(false));
+						this.f.set(i1 + j2, false);
 					}
 
 					this.a(i1, abyte, k);

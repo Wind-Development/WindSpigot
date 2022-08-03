@@ -84,7 +84,7 @@ public class BlockMonsterEggs extends Block {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockMonsterEggs.VARIANT });
+		return new BlockStateList(this, BlockMonsterEggs.VARIANT);
 	}
 
 	static class SyntheticClass_1 {

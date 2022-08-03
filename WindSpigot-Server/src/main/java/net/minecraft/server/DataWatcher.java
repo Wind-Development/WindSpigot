@@ -70,19 +70,19 @@ public class DataWatcher {
 	}
 
 	public byte getByte(int i) {
-		return ((Byte) this.j(i).b()).byteValue();
+		return (Byte) this.j(i).b();
 	}
 
 	public short getShort(int i) {
-		return ((Short) this.j(i).b()).shortValue();
+		return (Short) this.j(i).b();
 	}
 
 	public int getInt(int i) {
-		return ((Integer) this.j(i).b()).intValue();
+		return (Integer) this.j(i).b();
 	}
 
 	public float getFloat(int i) {
-		return ((Float) this.j(i).b()).floatValue();
+		return (Float) this.j(i).b();
 	}
 
 	public String getString(int i) {
@@ -231,19 +231,19 @@ public class DataWatcher {
 		serializer.writeByte(i);
 		switch (datawatcher_watchableobject.c()) {
 		case 0:
-			serializer.writeByte(((Byte) datawatcher_watchableobject.b()).byteValue());
+			serializer.writeByte((Byte) datawatcher_watchableobject.b());
 			break;
 
 		case 1:
-			serializer.writeShort(((Short) datawatcher_watchableobject.b()).shortValue());
+			serializer.writeShort((Short) datawatcher_watchableobject.b());
 			break;
 
 		case 2:
-			serializer.writeInt(((Integer) datawatcher_watchableobject.b()).intValue());
+			serializer.writeInt((Integer) datawatcher_watchableobject.b());
 			break;
 
 		case 3:
-			serializer.writeFloat(((Float) datawatcher_watchableobject.b()).floatValue());
+			serializer.writeFloat((Float) datawatcher_watchableobject.b());
 			break;
 
 		case 4:
@@ -289,22 +289,22 @@ public class DataWatcher {
 			switch (i) {
 			case 0:
 				datawatcher_watchableobject = new DataWatcher.WatchableObject(i, j,
-						Byte.valueOf(serializer.readByte()));
+						serializer.readByte());
 				break;
 
 			case 1:
 				datawatcher_watchableobject = new DataWatcher.WatchableObject(i, j,
-						Short.valueOf(serializer.readShort()));
+						serializer.readShort());
 				break;
 
 			case 2:
 				datawatcher_watchableobject = new DataWatcher.WatchableObject(i, j,
-						Integer.valueOf(serializer.readInt()));
+						serializer.readInt());
 				break;
 
 			case 3:
 				datawatcher_watchableobject = new DataWatcher.WatchableObject(i, j,
-						Float.valueOf(serializer.readFloat()));
+						serializer.readFloat());
 				break;
 
 			case 4:

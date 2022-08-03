@@ -554,19 +554,19 @@ public class CraftWorld implements World {
 		case SMALL_JUNGLE:
 			iblockdata1 = Blocks.LOG.getBlockData().set(BlockLog1.VARIANT, BlockWood.EnumLogVariant.JUNGLE);
 			iblockdata2 = Blocks.LEAVES.getBlockData().set(BlockLeaves1.VARIANT, BlockWood.EnumLogVariant.JUNGLE)
-					.set(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+					.set(BlockLeaves.CHECK_DECAY, false);
 			gen = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockdata1, iblockdata2, false);
 			break;
 		case COCOA_TREE:
 			iblockdata1 = Blocks.LOG.getBlockData().set(BlockLog1.VARIANT, BlockWood.EnumLogVariant.JUNGLE);
 			iblockdata2 = Blocks.LEAVES.getBlockData().set(BlockLeaves1.VARIANT, BlockWood.EnumLogVariant.JUNGLE)
-					.set(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+					.set(BlockLeaves.CHECK_DECAY, false);
 			gen = new WorldGenTrees(true, 4 + rand.nextInt(7), iblockdata1, iblockdata2, true);
 			break;
 		case JUNGLE_BUSH:
 			iblockdata1 = Blocks.LOG.getBlockData().set(BlockLog1.VARIANT, BlockWood.EnumLogVariant.JUNGLE);
 			iblockdata2 = Blocks.LEAVES.getBlockData().set(BlockLeaves1.VARIANT, BlockWood.EnumLogVariant.OAK)
-					.set(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+					.set(BlockLeaves.CHECK_DECAY, false);
 			gen = new WorldGenGroundBush(iblockdata1, iblockdata2);
 			break;
 		case RED_MUSHROOM:

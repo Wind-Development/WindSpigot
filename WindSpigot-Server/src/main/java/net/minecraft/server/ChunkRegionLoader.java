@@ -153,7 +153,7 @@ public class ChunkRegionLoader implements IChunkLoader, IAsyncChunkSaver {
 		if (this.b.isEmpty()) {
 			if (this.e) {
 				ChunkRegionLoader.a.info("ThreadedAnvilChunkStorage ({}): All chunks are saved",
-						new Object[] { this.d.getName() });
+						this.d.getName());
 			}
 
 			return false;

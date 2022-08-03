@@ -39,12 +39,12 @@ public class BlockFire extends Block {
 				l = flag ? 1 : 2;
 			}
 
-			return iblockdata.set(BlockFire.NORTH, Boolean.valueOf(this.e(iblockaccess, blockposition.north())))
-					.set(BlockFire.EAST, Boolean.valueOf(this.e(iblockaccess, blockposition.east())))
-					.set(BlockFire.SOUTH, Boolean.valueOf(this.e(iblockaccess, blockposition.south())))
-					.set(BlockFire.WEST, Boolean.valueOf(this.e(iblockaccess, blockposition.west())))
-					.set(BlockFire.UPPER, Integer.valueOf(l)).set(BlockFire.FLIP, Boolean.valueOf(flag1))
-					.set(BlockFire.ALT, Boolean.valueOf(flag));
+			return iblockdata.set(BlockFire.NORTH, this.e(iblockaccess, blockposition.north()))
+					.set(BlockFire.EAST, this.e(iblockaccess, blockposition.east()))
+					.set(BlockFire.SOUTH, this.e(iblockaccess, blockposition.south()))
+					.set(BlockFire.WEST, this.e(iblockaccess, blockposition.west()))
+					.set(BlockFire.UPPER, l).set(BlockFire.FLIP, flag1)
+					.set(BlockFire.ALT, flag);
 		} else {
 			return this.getBlockData();
 		}
@@ -52,11 +52,11 @@ public class BlockFire extends Block {
 
 	protected BlockFire() {
 		super(Material.FIRE);
-		this.j(this.blockStateList.getBlockData().set(BlockFire.AGE, Integer.valueOf(0))
-				.set(BlockFire.FLIP, Boolean.valueOf(false)).set(BlockFire.ALT, Boolean.valueOf(false))
-				.set(BlockFire.NORTH, Boolean.valueOf(false)).set(BlockFire.EAST, Boolean.valueOf(false))
-				.set(BlockFire.SOUTH, Boolean.valueOf(false)).set(BlockFire.WEST, Boolean.valueOf(false))
-				.set(BlockFire.UPPER, Integer.valueOf(0)));
+		this.j(this.blockStateList.getBlockData().set(BlockFire.AGE, 0)
+				.set(BlockFire.FLIP, false).set(BlockFire.ALT, false)
+				.set(BlockFire.NORTH, false).set(BlockFire.EAST, false)
+				.set(BlockFire.SOUTH, false).set(BlockFire.WEST, false)
+				.set(BlockFire.UPPER, 0));
 		this.a(true);
 	}
 
@@ -99,8 +99,8 @@ public class BlockFire extends Block {
 	}
 
 	public void a(Block block, int i, int j) {
-		this.flameChances.put(block, Integer.valueOf(i));
-		this.U.put(block, Integer.valueOf(j));
+		this.flameChances.put(block, i);
+		this.U.put(block, j);
 	}
 
 	@Override
@@ -145,10 +145,10 @@ public class BlockFire extends Block {
 			if (!flag && world.S() && this.e(world, blockposition)) {
 				fireExtinguished(world, blockposition); // CraftBukkit - extinguished by rain
 			} else {
-				int i = iblockdata.get(BlockFire.AGE).intValue();
+				int i = iblockdata.get(BlockFire.AGE);
 
 				if (i < 15) {
-					iblockdata = iblockdata.set(BlockFire.AGE, Integer.valueOf(i + random.nextInt(3) / 2));
+					iblockdata = iblockdata.set(BlockFire.AGE, i + random.nextInt(3) / 2);
 					world.setTypeAndData(blockposition, iblockdata, 4);
 				}
 
@@ -267,13 +267,13 @@ public class BlockFire extends Block {
 	private int c(Block block) {
 		Integer integer = this.U.get(block);
 
-		return integer == null ? 0 : integer.intValue();
+		return integer == null ? 0 : integer;
 	}
 
 	private int d(Block block) {
 		Integer integer = this.flameChances.get(block);
 
-		return integer == null ? 0 : integer.intValue();
+		return integer == null ? 0 : integer;
 	}
 
 	private void a(World world, BlockPosition blockposition, int i, Random random, int j) {
@@ -306,13 +306,13 @@ public class BlockFire extends Block {
 					l = 15;
 				}
 
-				world.setTypeAndData(blockposition, this.getBlockData().set(BlockFire.AGE, Integer.valueOf(l)), 3);
+				world.setTypeAndData(blockposition, this.getBlockData().set(BlockFire.AGE, l), 3);
 			} else {
 				fireExtinguished(world, blockposition); // CraftBukkit
 			}
 
 			if (iblockdata.getBlock() == Blocks.TNT) {
-				Blocks.TNT.postBreak(world, blockposition, iblockdata.set(BlockTNT.EXPLODE, Boolean.valueOf(true)));
+				Blocks.TNT.postBreak(world, blockposition, iblockdata.set(BlockTNT.EXPLODE, Boolean.TRUE));
 			}
 		}
 
@@ -396,18 +396,18 @@ public class BlockFire extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockFire.AGE, Integer.valueOf(i));
+		return this.getBlockData().set(BlockFire.AGE, i);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockFire.AGE).intValue();
+		return iblockdata.get(BlockFire.AGE);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockFire.AGE, BlockFire.NORTH, BlockFire.EAST,
-				BlockFire.SOUTH, BlockFire.WEST, BlockFire.UPPER, BlockFire.FLIP, BlockFire.ALT });
+		return new BlockStateList(this, BlockFire.AGE, BlockFire.NORTH, BlockFire.EAST,
+				BlockFire.SOUTH, BlockFire.WEST, BlockFire.UPPER, BlockFire.FLIP, BlockFire.ALT);
 	}
 
 	// CraftBukkit start

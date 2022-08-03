@@ -75,14 +75,14 @@ public class ContainerAnvil extends Container {
 
 				if (!entityhuman.abilities.canInstantlyBuild && !world.isClientSide
 						&& iblockdata.getBlock() == Blocks.ANVIL && entityhuman.bc().nextFloat() < 0.12F) {
-					int i = iblockdata.get(BlockAnvil.DAMAGE).intValue();
+					int i = iblockdata.get(BlockAnvil.DAMAGE);
 
 					++i;
 					if (i > 2) {
 						world.setAir(blockposition);
 						world.triggerEffect(1020, blockposition, 0);
 					} else {
-						world.setTypeAndData(blockposition, iblockdata.set(BlockAnvil.DAMAGE, Integer.valueOf(i)), 2);
+						world.setTypeAndData(blockposition, iblockdata.set(BlockAnvil.DAMAGE, i), 2);
 						world.triggerEffect(1021, blockposition, 0);
 					}
 				} else if (!world.isClientSide) {
@@ -194,14 +194,14 @@ public class ContainerAnvil extends Container {
 					Iterator iterator = map1.keySet().iterator();
 
 					while (iterator.hasNext()) {
-						i1 = ((Integer) iterator.next()).intValue();
+						i1 = (Integer) iterator.next();
 						Enchantment enchantment = Enchantment.getById(i1);
 
 						if (enchantment != null) {
-							j1 = map.containsKey(Integer.valueOf(i1))
-									? ((Integer) map.get(Integer.valueOf(i1))).intValue()
+							j1 = map.containsKey(i1)
+									? (Integer) map.get(i1)
 									: 0;
-							int l1 = ((Integer) map1.get(Integer.valueOf(i1))).intValue();
+							int l1 = (Integer) map1.get(i1);
 							int i2;
 
 							if (j1 == l1) {
@@ -221,7 +221,7 @@ public class ContainerAnvil extends Container {
 							Iterator iterator1 = map.keySet().iterator();
 
 							while (iterator1.hasNext()) {
-								int j2 = ((Integer) iterator1.next()).intValue();
+								int j2 = (Integer) iterator1.next();
 
 								if (j2 != i1 && !enchantment.a(Enchantment.getById(j2))) {
 									flag8 = false;
@@ -234,7 +234,7 @@ public class ContainerAnvil extends Container {
 									l1 = enchantment.getMaxLevel();
 								}
 
-								map.put(Integer.valueOf(i1), Integer.valueOf(l1));
+								map.put(i1, l1);
 								int k2 = 0;
 
 								switch (enchantment.getRandomWeight()) {

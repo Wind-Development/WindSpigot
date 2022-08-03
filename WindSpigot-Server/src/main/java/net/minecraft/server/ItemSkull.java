@@ -109,14 +109,14 @@ public class ItemSkull extends Item {
 		if (itemstack.getData() == 3 && itemstack.hasTag()) {
 			if (itemstack.getTag().hasKeyOfType("SkullOwner", 8)) {
 				return LocaleI18n.a("item.skull.player.name",
-						new Object[] { itemstack.getTag().getString("SkullOwner") });
+						itemstack.getTag().getString("SkullOwner"));
 			}
 
 			if (itemstack.getTag().hasKeyOfType("SkullOwner", 10)) {
 				NBTTagCompound nbttagcompound = itemstack.getTag().getCompound("SkullOwner");
 
 				if (nbttagcompound.hasKeyOfType("Name", 8)) {
-					return LocaleI18n.a("item.skull.player.name", new Object[] { nbttagcompound.getString("Name") });
+					return LocaleI18n.a("item.skull.player.name", nbttagcompound.getString("Name"));
 				}
 			}
 		}

@@ -30,7 +30,7 @@ public class BlockAnvil extends BlockFalling {
 		EnumDirection enumdirection1 = entityliving.getDirection().e();
 
 		return super.getPlacedState(world, blockposition, enumdirection, f, f1, f2, i, entityliving)
-				.set(BlockAnvil.FACING, enumdirection1).set(BlockAnvil.DAMAGE, Integer.valueOf(i >> 2));
+				.set(BlockAnvil.FACING, enumdirection1).set(BlockAnvil.DAMAGE, i >> 2);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class BlockAnvil extends BlockFalling {
 
 	@Override
 	public int getDropData(IBlockData iblockdata) {
-		return iblockdata.get(BlockAnvil.DAMAGE).intValue();
+		return iblockdata.get(BlockAnvil.DAMAGE);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class BlockAnvil extends BlockFalling {
 	@Override
 	public IBlockData fromLegacyData(int i) {
 		return this.getBlockData().set(BlockAnvil.FACING, EnumDirection.fromType2(i & 3)).set(BlockAnvil.DAMAGE,
-				Integer.valueOf((i & 15) >> 2));
+				(i & 15) >> 2);
 	}
 
 	@Override
@@ -81,13 +81,13 @@ public class BlockAnvil extends BlockFalling {
 		byte b0 = 0;
 		int i = b0 | iblockdata.get(BlockAnvil.FACING).b();
 
-		i |= iblockdata.get(BlockAnvil.DAMAGE).intValue() << 2;
+		i |= iblockdata.get(BlockAnvil.DAMAGE) << 2;
 		return i;
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockAnvil.FACING, BlockAnvil.DAMAGE });
+		return new BlockStateList(this, BlockAnvil.FACING, BlockAnvil.DAMAGE);
 	}
 
 	public static class TileEntityContainerAnvil implements ITileEntityContainer {
@@ -112,7 +112,7 @@ public class BlockAnvil extends BlockFalling {
 
 		@Override
 		public IChatBaseComponent getScoreboardDisplayName() {
-			return new ChatMessage(Blocks.ANVIL.a() + ".name", new Object[0]);
+			return new ChatMessage(Blocks.ANVIL.a() + ".name");
 		}
 
 		@Override

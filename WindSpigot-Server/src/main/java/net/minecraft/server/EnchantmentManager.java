@@ -380,7 +380,7 @@ public class EnchantmentManager {
 							hashmap = Maps.newHashMap();
 						}
 
-						hashmap.put(Integer.valueOf(enchantment.id), new WeightedRandomEnchant(enchantment, l));
+						hashmap.put(enchantment.id, new WeightedRandomEnchant(enchantment, l));
 					}
 				}
 			}

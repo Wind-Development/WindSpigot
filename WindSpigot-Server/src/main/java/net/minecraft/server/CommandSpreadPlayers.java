@@ -35,7 +35,7 @@ public class CommandSpreadPlayers extends CommandAbstract {
 	@Override
 	public void execute(ICommandListener icommandlistener, String[] astring) throws CommandException {
 		if (astring.length < 6) {
-			throw new ExceptionUsage("commands.spreadplayers.usage", new Object[0]);
+			throw new ExceptionUsage("commands.spreadplayers.usage");
 		} else {
 			byte b0 = 0;
 			BlockPosition blockposition = icommandlistener.getChunkCoordinates();
@@ -76,8 +76,8 @@ public class CommandSpreadPlayers extends CommandAbstract {
 			} else {
 				icommandlistener
 						.sendMessage(new ChatMessage("commands.spreadplayers.spreading." + (flag ? "teams" : "players"),
-								new Object[] { Integer.valueOf(arraylist.size()), Double.valueOf(d4),
-										Double.valueOf(d1), Double.valueOf(d2), Double.valueOf(d3) }));
+								arraylist.size(), d4,
+								d1, d2, d3));
 				this.a(icommandlistener, arraylist, new CommandSpreadPlayers.Location2D(d1, d2), d3, d4,
 						((Entity) arraylist.get(0)).world, flag);
 			}
@@ -99,12 +99,12 @@ public class CommandSpreadPlayers extends CommandAbstract {
 		double d6 = this.a(list, world, acommandspreadplayers_location2d, flag);
 
 		a(icommandlistener, this, "commands.spreadplayers.success." + (flag ? "teams" : "players"),
-				new Object[] { Integer.valueOf(acommandspreadplayers_location2d.length),
-						Double.valueOf(commandspreadplayers_location2d.a),
-						Double.valueOf(commandspreadplayers_location2d.b) });
+				acommandspreadplayers_location2d.length,
+				commandspreadplayers_location2d.a,
+				commandspreadplayers_location2d.b);
 		if (acommandspreadplayers_location2d.length > 1) {
 			icommandlistener.sendMessage(new ChatMessage("commands.spreadplayers.info." + (flag ? "teams" : "players"),
-					new Object[] { String.format("%.2f", new Object[] { Double.valueOf(d6) }), Integer.valueOf(i) }));
+					String.format("%.2f", d6), i));
 		}
 
 	}
@@ -199,10 +199,10 @@ public class CommandSpreadPlayers extends CommandAbstract {
 
 		if (i >= 10000) {
 			throw new CommandException("commands.spreadplayers.failure." + (flag ? "teams" : "players"),
-					new Object[] { Integer.valueOf(acommandspreadplayers_location2d.length),
-							Double.valueOf(commandspreadplayers_location2d.a),
-							Double.valueOf(commandspreadplayers_location2d.b),
-							String.format("%.2f", new Object[] { Double.valueOf(d5) }) });
+					acommandspreadplayers_location2d.length,
+					commandspreadplayers_location2d.a,
+					commandspreadplayers_location2d.b,
+					String.format("%.2f", Double.valueOf(d5)));
 		} else {
 			return i;
 		}

@@ -133,7 +133,7 @@ public class ServerStatisticManager extends StatisticManager {
 
 						if (jsonobject1.has("progress") && statistic.l() != null) {
 							try {
-								Constructor constructor = statistic.l().getConstructor(new Class[0]);
+								Constructor constructor = statistic.l().getConstructor();
 								IJsonStatistic ijsonstatistic = (IJsonStatistic) constructor.newInstance(new Object[0]);
 
 								ijsonstatistic.a(jsonobject1.get("progress"));
@@ -165,7 +165,7 @@ public class ServerStatisticManager extends StatisticManager {
 			if (((StatisticWrapper) entry.getValue()).b() != null) {
 				JsonObject jsonobject1 = new JsonObject();
 
-				jsonobject1.addProperty("value", Integer.valueOf(((StatisticWrapper) entry.getValue()).a()));
+				jsonobject1.addProperty("value", ((StatisticWrapper) entry.getValue()).a());
 
 				try {
 					jsonobject1.add("progress", ((StatisticWrapper) entry.getValue()).b().a());
@@ -177,7 +177,7 @@ public class ServerStatisticManager extends StatisticManager {
 				jsonobject.add(((Statistic) entry.getKey()).name, jsonobject1);
 			} else {
 				jsonobject.addProperty(((Statistic) entry.getKey()).name,
-						Integer.valueOf(((StatisticWrapper) entry.getValue()).a()));
+						((StatisticWrapper) entry.getValue()).a());
 			}
 		}
 
@@ -206,7 +206,7 @@ public class ServerStatisticManager extends StatisticManager {
 			while (iterator.hasNext()) {
 				Statistic statistic = (Statistic) iterator.next();
 
-				hashmap.put(statistic, Integer.valueOf(this.getStatisticValue(statistic)));
+				hashmap.put(statistic, this.getStatisticValue(statistic));
 			}
 		}
 
@@ -221,7 +221,7 @@ public class ServerStatisticManager extends StatisticManager {
 			Achievement achievement = (Achievement) iterator.next();
 
 			if (this.hasAchievement(achievement)) {
-				hashmap.put(achievement, Integer.valueOf(this.getStatisticValue(achievement)));
+				hashmap.put(achievement, this.getStatisticValue(achievement));
 				this.e.remove(achievement);
 			}
 		}

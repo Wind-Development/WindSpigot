@@ -115,7 +115,7 @@ public class BlockBrewingStand extends BlockContainer {
 		IBlockData iblockdata = this.getBlockData();
 
 		for (int j = 0; j < 3; ++j) {
-			iblockdata = iblockdata.set(BlockBrewingStand.HAS_BOTTLE[j], Boolean.valueOf((i & 1 << j) > 0));
+			iblockdata = iblockdata.set(BlockBrewingStand.HAS_BOTTLE[j], (i & 1 << j) > 0);
 		}
 
 		return iblockdata;
@@ -126,7 +126,7 @@ public class BlockBrewingStand extends BlockContainer {
 		int i = 0;
 
 		for (int j = 0; j < 3; ++j) {
-			if (iblockdata.get(BlockBrewingStand.HAS_BOTTLE[j]).booleanValue()) {
+			if (iblockdata.get(BlockBrewingStand.HAS_BOTTLE[j])) {
 				i |= 1 << j;
 			}
 		}
@@ -136,7 +136,7 @@ public class BlockBrewingStand extends BlockContainer {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockBrewingStand.HAS_BOTTLE[0],
-				BlockBrewingStand.HAS_BOTTLE[1], BlockBrewingStand.HAS_BOTTLE[2] });
+		return new BlockStateList(this, BlockBrewingStand.HAS_BOTTLE[0],
+				BlockBrewingStand.HAS_BOTTLE[1], BlockBrewingStand.HAS_BOTTLE[2]);
 	}
 }

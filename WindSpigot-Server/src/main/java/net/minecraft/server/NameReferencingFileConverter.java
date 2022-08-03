@@ -538,7 +538,7 @@ public class NameReferencingFileConverter {
 					.warn("**** THIS USUALLY HAPPENS WHEN THE AUTOMATIC CONVERSION FAILED IN SOME WAY");
 			NameReferencingFileConverter.e.warn(
 					"** please restart the server and if the problem persists, remove the directory \'{}\'",
-					new Object[] { file.getPath() });
+					file.getPath());
 			return false;
 		} else {
 			return true;

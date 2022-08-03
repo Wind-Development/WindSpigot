@@ -8,7 +8,7 @@ public class BlockCake extends Block {
 
 	protected BlockCake() {
 		super(Material.CAKE);
-		this.j(this.blockStateList.getBlockData().set(BlockCake.BITES, Integer.valueOf(0)));
+		this.j(this.blockStateList.getBlockData().set(BlockCake.BITES, 0));
 		this.a(true);
 	}
 
@@ -82,7 +82,7 @@ public class BlockCake extends Block {
 			int i = iblockdata.get(BlockCake.BITES).intValue();
 
 			if (i < 6) {
-				world.setTypeAndData(blockposition, iblockdata.set(BlockCake.BITES, Integer.valueOf(i + 1)), 3);
+				world.setTypeAndData(blockposition, iblockdata.set(BlockCake.BITES, i + 1), 3);
 			} else {
 				world.setAir(blockposition);
 			}
@@ -119,22 +119,22 @@ public class BlockCake extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockCake.BITES, Integer.valueOf(i));
+		return this.getBlockData().set(BlockCake.BITES, i);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockCake.BITES).intValue();
+		return iblockdata.get(BlockCake.BITES);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockCake.BITES });
+		return new BlockStateList(this, BlockCake.BITES);
 	}
 
 	@Override
 	public int l(World world, BlockPosition blockposition) {
-		return (7 - world.getType(blockposition).get(BlockCake.BITES).intValue()) * 2;
+		return (7 - world.getType(blockposition).get(BlockCake.BITES)) * 2;
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class BlockGrass extends Block implements IBlockFragilePlantElement {
 	public IBlockData updateState(IBlockData iblockdata, IBlockAccess iblockaccess, BlockPosition blockposition) {
 		Block block = iblockaccess.getType(blockposition.up()).getBlock();
 
-		return iblockdata.set(BlockGrass.SNOWY, Boolean.valueOf(block == Blocks.SNOW || block == Blocks.SNOW_LAYER));
+		return iblockdata.set(BlockGrass.SNOWY, block == Blocks.SNOW || block == Blocks.SNOW_LAYER);
 	}
 
 	@Override
@@ -166,6 +166,6 @@ public class BlockGrass extends Block implements IBlockFragilePlantElement {
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockGrass.SNOWY });
+		return new BlockStateList(this, BlockGrass.SNOWY);
 	}
 }

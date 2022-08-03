@@ -9,7 +9,7 @@ public class BlockReed extends Block {
 
 	protected BlockReed() {
 		super(Material.PLANT);
-		this.j(this.blockStateList.getBlockData().set(BlockReed.AGE, Integer.valueOf(0)));
+		this.j(this.blockStateList.getBlockData().set(BlockReed.AGE, 0));
 		float f = 0.375F;
 
 		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 1.0F, 0.5F + f);
@@ -41,10 +41,10 @@ public class BlockReed extends Block {
 						BlockPosition upPos = blockposition.up();
 						org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockGrowEvent(world, upPos.getX(),
 								upPos.getY(), upPos.getZ(), this, 0);
-						world.setTypeAndData(blockposition, iblockdata.set(BlockReed.AGE, Integer.valueOf(0)), 4);
+						world.setTypeAndData(blockposition, iblockdata.set(BlockReed.AGE, 0), 4);
 						// CraftBukkit end
 					} else {
-						world.setTypeAndData(blockposition, iblockdata.set(BlockReed.AGE, Integer.valueOf(j + 1)), 4);
+						world.setTypeAndData(blockposition, iblockdata.set(BlockReed.AGE, j + 1), 4);
 					}
 				}
 			}
@@ -119,16 +119,16 @@ public class BlockReed extends Block {
 
 	@Override
 	public IBlockData fromLegacyData(int i) {
-		return this.getBlockData().set(BlockReed.AGE, Integer.valueOf(i));
+		return this.getBlockData().set(BlockReed.AGE, i);
 	}
 
 	@Override
 	public int toLegacyData(IBlockData iblockdata) {
-		return iblockdata.get(BlockReed.AGE).intValue();
+		return iblockdata.get(BlockReed.AGE);
 	}
 
 	@Override
 	protected BlockStateList getStateList() {
-		return new BlockStateList(this, new IBlockState[] { BlockReed.AGE });
+		return new BlockStateList(this, BlockReed.AGE);
 	}
 }

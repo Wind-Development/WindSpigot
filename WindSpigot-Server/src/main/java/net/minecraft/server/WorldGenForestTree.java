@@ -8,7 +8,7 @@ public class WorldGenForestTree extends WorldGenTreeAbstract {
 			BlockWood.EnumLogVariant.DARK_OAK);
 	private static final IBlockData b = Blocks.LEAVES2.getBlockData()
 			.set(BlockLeaves2.VARIANT, BlockWood.EnumLogVariant.DARK_OAK)
-			.set(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
+			.set(BlockLeaves.CHECK_DECAY, false);
 
 	public WorldGenForestTree(boolean flag) {
 		super(flag);

@@ -526,7 +526,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
 	}
 
 	public void r(int i) {
-		this.datawatcher.watch(20, Integer.valueOf(i));
+		this.datawatcher.watch(20, i);
 	}
 
 	public int s(int i) {
@@ -534,7 +534,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
 	}
 
 	public void b(int i, int j) {
-		this.datawatcher.watch(17 + i, Integer.valueOf(j));
+		this.datawatcher.watch(17 + i, j);
 	}
 
 	public boolean cm() {

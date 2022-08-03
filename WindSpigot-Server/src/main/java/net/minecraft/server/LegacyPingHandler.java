@@ -34,7 +34,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 				String var8;
 				switch (var7) {
 				case 0:
-					a.debug("Ping: (<1.3.x) from {}:{}", new Object[] { var5.getAddress(), var5.getPort() });
+					a.debug("Ping: (<1.3.x) from {}:{}", var5.getAddress(), var5.getPort());
 					var8 = String.format("%s§%d§%d", var6.getMotd(), var6.I(), var6.J());
 					this.a(var1, this.a(var8));
 					break;
@@ -43,7 +43,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 						return;
 					}
 
-					a.debug("Ping: (1.4-1.5.x) from {}:{}", new Object[] { var5.getAddress(), var5.getPort() });
+					a.debug("Ping: (1.4-1.5.x) from {}:{}", var5.getAddress(), var5.getPort());
 					var8 = String.format("§1\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", 127, var6.getVersion(),
 							var6.getMotd(), var6.I(), var6.J());
 					this.a(var1, this.a(var8));
@@ -62,7 +62,7 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 						return;
 					}
 
-					a.debug("Ping: (1.6) from {}:{}", new Object[] { var5.getAddress(), var5.getPort() });
+					a.debug("Ping: (1.6) from {}:{}", var5.getAddress(), var5.getPort());
 					String var10 = String.format("§1\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", 127, var6.getVersion(),
 							var6.getMotd(), var6.I(), var6.J());
 					ByteBuf var11 = this.a(var10);

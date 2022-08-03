@@ -73,7 +73,7 @@ public class RecipesFurnace {
 
 	public void a(ItemStack itemstack, ItemStack itemstack1, float f) {
 		this.recipes.put(itemstack, itemstack1);
-		this.c.put(itemstack1, Float.valueOf(f));
+		this.c.put(itemstack1, f);
 	}
 
 	public ItemStack getResult(ItemStack itemstack) {
