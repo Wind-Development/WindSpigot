@@ -191,9 +191,9 @@ public class EntityIronGolem extends EntityGolem {
 		byte b0 = this.datawatcher.getByte(16);
 
 		if (flag) {
-			this.datawatcher.watch(16, Byte.valueOf((byte) (b0 | 1)));
+			this.datawatcher.watch(16, (byte) (b0 | 1));
 		} else {
-			this.datawatcher.watch(16, Byte.valueOf((byte) (b0 & -2)));
+			this.datawatcher.watch(16, (byte) (b0 & -2));
 		}
 
 	}
