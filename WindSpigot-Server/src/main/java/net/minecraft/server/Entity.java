@@ -104,7 +104,7 @@ public abstract class Entity implements ICommandListener {
 	public float S;
 	public boolean noclip;
 	public float U;
-	protected Random random;
+	protected FastRandom random;
 	public int ticksLived;
 	public int maxFireTicks;
 	public int fireTicks;
