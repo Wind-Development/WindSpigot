@@ -174,8 +174,8 @@ public class TileEntityBrewingStand extends TileEntityContainer implements IUpda
 				if (this.items[i] != null && this.items[i].getItem() == Items.POTION) {
 					int j = this.items[i].getData();
 					int k = this.c(j, itemstack);
-					List list = Items.POTION.e(j);
-					List list1 = Items.POTION.e(k);
+					List<MobEffect> list = Items.POTION.e(j);
+					List<MobEffect> list1 = Items.POTION.e(k);
 
 					if ((j <= 0 || list != list1) && (list == null || !list.equals(list1) && list1 != null)) {
 						if (j != k) {
