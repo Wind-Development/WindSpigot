@@ -30,7 +30,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
 		float f = 0.125F;
 
 		this.a(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
-		this.a((CreativeModeTab) null);
+		this.a((Random) null);
 	}
 
 	@Override

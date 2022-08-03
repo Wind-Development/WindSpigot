@@ -168,7 +168,7 @@ public class EntityGhast extends EntityFlying implements IMonster {
 
 				++this.a;
 				if (this.a == 10) {
-					world.a((EntityHuman) null, 1007, new BlockPosition(this.b), 0);
+					world.a(null, 1007, new BlockPosition(this.b), 0);
 				}
 
 				if (this.a == 20) {
@@ -179,7 +179,7 @@ public class EntityGhast extends EntityFlying implements IMonster {
 							- (0.5D + this.b.locY + this.b.length / 2.0F);
 					double d4 = entityliving.locZ - (this.b.locZ + vec3d.c * d1);
 
-					world.a((EntityHuman) null, 1008, new BlockPosition(this.b), 0);
+					world.a(null, 1008, new BlockPosition(this.b), 0);
 					EntityLargeFireball entitylargefireball = new EntityLargeFireball(world, this.b, d2, d3, d4);
 
 					// CraftBukkit - set bukkitYield when setting explosionpower

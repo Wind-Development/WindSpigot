@@ -92,7 +92,7 @@ public class EntitySkeleton extends EntityMonster implements IRangedEntity {
 						itemstack.setData(itemstack.h() + this.random.nextInt(2));
 						if (itemstack.h() >= itemstack.j()) {
 							this.b(itemstack);
-							this.setEquipment(4, (ItemStack) null);
+							this.setEquipment(4, null);
 						}
 					}
 

@@ -778,7 +778,7 @@ public class CommandScoreboard extends CommandAbstract {
 			a(icommandlistener, this, "commands.scoreboard.players.resetscore.success",
 					new Object[] { scoreboardobjective.getName(), s });
 		} else {
-			scoreboard.resetPlayerScores(s, (ScoreboardObjective) null);
+			scoreboard.resetPlayerScores(s, null);
 			a(icommandlistener, this, "commands.scoreboard.players.reset.success", new Object[] { s });
 		}
 
@@ -790,7 +790,7 @@ public class CommandScoreboard extends CommandAbstract {
 
 		if (s.length() > 40) {
 			throw new ExceptionInvalidSyntax("commands.scoreboard.players.name.tooLong",
-					new Object[] { s, Integer.valueOf(40) });
+					new Object[] { s, 40 });
 		} else {
 			ScoreboardObjective scoreboardobjective = this.a(astring[i], false);
 

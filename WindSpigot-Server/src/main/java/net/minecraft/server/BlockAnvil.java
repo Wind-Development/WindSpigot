@@ -9,7 +9,7 @@ public class BlockAnvil extends BlockFalling {
 	protected BlockAnvil() {
 		super(Material.HEAVY);
 		this.j(this.blockStateList.getBlockData().set(BlockAnvil.FACING, EnumDirection.NORTH).set(BlockAnvil.DAMAGE,
-				Integer.valueOf(0)));
+				0));
 		this.e(0);
 		this.a(CreativeModeTab.c);
 	}

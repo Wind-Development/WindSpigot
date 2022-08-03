@@ -107,7 +107,7 @@ public class EntityMinecartFurnace extends EntityMinecartAbstract {
 
 		if (itemstack != null && itemstack.getItem() == Items.COAL) {
 			if (!entityhuman.abilities.canInstantlyBuild && --itemstack.count == 0) {
-				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, null);
 			}
 
 			this.c += 3600;

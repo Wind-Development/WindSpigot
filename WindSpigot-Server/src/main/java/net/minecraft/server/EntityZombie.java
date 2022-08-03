@@ -12,7 +12,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 
 public class EntityZombie extends EntityMonster {
 
-	protected static final IAttribute a = (new AttributeRanged((IAttribute) null, "zombie.spawnReinforcements", 0.0D,
+	protected static final IAttribute a = (new AttributeRanged(null, "zombie.spawnReinforcements", 0.0D,
 			0.0D, 1.0D)).a("Spawn Reinforcements Chance");
 	private static final UUID b = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 	private static final AttributeModifier c = new AttributeModifier(EntityZombie.b, "Baby speed boost",
@@ -147,7 +147,7 @@ public class EntityZombie extends EntityMonster {
 						itemstack.setData(itemstack.h() + this.random.nextInt(2));
 						if (itemstack.h() >= itemstack.j()) {
 							this.b(itemstack);
-							this.setEquipment(4, (ItemStack) null);
+							this.setEquipment(4, null);
 						}
 					}
 
@@ -388,7 +388,7 @@ public class EntityZombie extends EntityMonster {
 
 			this.world.addEntity(entityzombie, CreatureSpawnEvent.SpawnReason.INFECTION); // CraftBukkit - add
 																							// SpawnReason
-			this.world.a((EntityHuman) null, 1016, new BlockPosition((int) this.locX, (int) this.locY, (int) this.locZ),
+			this.world.a(null, 1016, new BlockPosition((int) this.locX, (int) this.locY, (int) this.locZ),
 					0);
 		}
 
@@ -496,7 +496,7 @@ public class EntityZombie extends EntityMonster {
 			}
 
 			if (itemstack.count <= 0) {
-				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, null);
 			}
 
 			if (!this.world.isClientSide) {
@@ -546,7 +546,7 @@ public class EntityZombie extends EntityMonster {
 
 		this.world.addEntity(entityvillager, CreatureSpawnEvent.SpawnReason.CURED); // CraftBukkit - add SpawnReason
 		entityvillager.addEffect(new MobEffect(MobEffectList.CONFUSION.id, 200, 0));
-		this.world.a((EntityHuman) null, 1017, new BlockPosition((int) this.locX, (int) this.locY, (int) this.locZ), 0);
+		this.world.a(null, 1017, new BlockPosition((int) this.locX, (int) this.locY, (int) this.locZ), 0);
 	}
 
 	protected int cr() {

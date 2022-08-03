@@ -1256,7 +1256,7 @@ public abstract class PlayerList {
 	}
 
 	public void sendPacketNearby(double d0, double d1, double d2, double d3, int i, Packet packet) {
-		this.sendPacketNearby((EntityHuman) null, d0, d1, d2, d3, i, packet);
+		this.sendPacketNearby(null, d0, d1, d2, d3, i, packet);
 	}
 
 	public void sendPacketNearby(EntityHuman entityhuman, double d0, double d1, double d2, double d3, int i,

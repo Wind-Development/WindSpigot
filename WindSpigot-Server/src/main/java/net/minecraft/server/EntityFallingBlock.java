@@ -124,7 +124,7 @@ public class EntityFallingBlock extends Entity {
 						this.die();
 						if (!this.e) {
 							if (this.world
-									.a(block, blockposition, true, EnumDirection.UP, (Entity) null, (ItemStack) null)
+									.a(block, blockposition, true, EnumDirection.UP, (Entity) null, null)
 									&& !BlockFalling.canFall(this.world, blockposition.down()) /*
 																								 * mimic the false
 																								 * conditions of

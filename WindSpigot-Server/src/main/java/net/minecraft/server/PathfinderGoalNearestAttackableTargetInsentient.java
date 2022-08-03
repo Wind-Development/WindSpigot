@@ -89,7 +89,7 @@ public class PathfinderGoalNearestAttackableTargetInsentient extends PathfinderG
 
 	@Override
 	public void d() {
-		this.b.setGoalTarget((EntityLiving) null);
+		this.b.setGoalTarget(null);
 		super.c();
 	}
 

@@ -146,7 +146,7 @@ public class EntityEnderman extends EntityMonster {
 
 			if (f > 0.5F && this.world.i(new BlockPosition(this))
 					&& this.random.nextFloat() * 30.0F < (f - 0.4F) * 2.0F) {
-				this.setGoalTarget((EntityLiving) null);
+				this.setGoalTarget(null);
 				this.a(false);
 				this.bm = false;
 				this.n();

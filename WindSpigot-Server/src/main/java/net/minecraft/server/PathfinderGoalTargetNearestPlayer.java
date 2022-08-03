@@ -110,7 +110,7 @@ public class PathfinderGoalTargetNearestPlayer extends PathfinderGoal {
 
 	@Override
 	public void d() {
-		this.b.setGoalTarget((EntityLiving) null);
+		this.b.setGoalTarget(null);
 		super.c();
 	}
 

@@ -117,10 +117,10 @@ public class NameReferencingFileConverter {
 							throw new NameReferencingFileConverter.FileConversionException(
 									"Profile not in the conversionlist", null);
 						} else {
-							Date date = astring.length > 1 ? NameReferencingFileConverter.b(astring[1], (Date) null)
+							Date date = astring.length > 1 ? NameReferencingFileConverter.b(astring[1], null)
 									: null;
 							String s = astring.length > 2 ? astring[2] : null;
-							Date date1 = astring.length > 3 ? NameReferencingFileConverter.b(astring[3], (Date) null)
+							Date date1 = astring.length > 3 ? NameReferencingFileConverter.b(astring[3], null)
 									: null;
 							String s1 = astring.length > 4 ? astring[4] : null;
 
@@ -180,9 +180,9 @@ public class NameReferencingFileConverter {
 				while (iterator.hasNext()) {
 					String s = (String) iterator.next();
 					String[] astring = (String[]) hashmap.get(s);
-					Date date = astring.length > 1 ? b(astring[1], (Date) null) : null;
+					Date date = astring.length > 1 ? b(astring[1], null) : null;
 					String s1 = astring.length > 2 ? astring[2] : null;
-					Date date1 = astring.length > 3 ? b(astring[3], (Date) null) : null;
+					Date date1 = astring.length > 3 ? b(astring[3], null) : null;
 					String s2 = astring.length > 4 ? astring[4] : null;
 
 					ipbanlist.add(new IpBanEntry(s, date, s1, date1, s2));

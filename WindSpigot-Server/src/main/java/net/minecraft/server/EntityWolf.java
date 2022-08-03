@@ -281,7 +281,7 @@ public class EntityWolf extends EntityTameableAnimal {
 						this.heal(itemfood.getNutrition(itemstack),
 								org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason.EATING); // CraftBukkit
 						if (itemstack.count <= 0) {
-							entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+							entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, null);
 						}
 
 						return true;
@@ -292,7 +292,7 @@ public class EntityWolf extends EntityTameableAnimal {
 					if (enumcolor != this.getCollarColor()) {
 						this.setCollarColor(enumcolor);
 						if (!entityhuman.abilities.canInstantlyBuild && --itemstack.count <= 0) {
-							entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+							entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, null);
 						}
 
 						return true;
@@ -304,7 +304,7 @@ public class EntityWolf extends EntityTameableAnimal {
 				this.bm.setSitting(!this.isSitting());
 				this.aY = false;
 				this.navigation.n();
-				this.setGoalTarget((EntityLiving) null, TargetReason.FORGOT_TARGET, true); // CraftBukkit - reason
+				this.setGoalTarget(null, TargetReason.FORGOT_TARGET, true); // CraftBukkit - reason
 			}
 		} else if (itemstack != null && itemstack.getItem() == Items.BONE && !this.isAngry()) {
 			if (!entityhuman.abilities.canInstantlyBuild) {
@@ -312,7 +312,7 @@ public class EntityWolf extends EntityTameableAnimal {
 			}
 
 			if (itemstack.count <= 0) {
-				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, null);
 			}
 
 			if (!this.world.isClientSide) {
@@ -321,7 +321,7 @@ public class EntityWolf extends EntityTameableAnimal {
 						&& !CraftEventFactory.callEntityTameEvent(this, entityhuman).isCancelled()) {
 					this.setTamed(true);
 					this.navigation.n();
-					this.setGoalTarget((EntityLiving) null, TargetReason.FORGOT_TARGET, true);
+					this.setGoalTarget(null, TargetReason.FORGOT_TARGET, true);
 					this.bm.setSitting(true);
 					this.setHealth(this.getMaxHealth()); // CraftBukkit - 20.0 -> getMaxHealth()
 					this.setOwnerUUID(entityhuman.getUniqueID().toString());

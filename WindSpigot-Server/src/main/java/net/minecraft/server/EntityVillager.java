@@ -718,7 +718,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
 	public EntityVillager b(EntityAgeable entityageable) {
 		EntityVillager entityvillager = new EntityVillager(this.world);
 
-		entityvillager.prepare(this.world.E(new BlockPosition(entityvillager)), (GroupDataEntity) null);
+		entityvillager.prepare(this.world.E(new BlockPosition(entityvillager)), null);
 		return entityvillager;
 	}
 
@@ -733,7 +733,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, NPC {
 			EntityWitch entitywitch = new EntityWitch(this.world);
 
 			entitywitch.setPositionRotation(this.locX, this.locY, this.locZ, this.yaw, this.pitch);
-			entitywitch.prepare(this.world.E(new BlockPosition(entitywitch)), (GroupDataEntity) null);
+			entitywitch.prepare(this.world.E(new BlockPosition(entitywitch)), null);
 			entitywitch.k(this.ce());
 			if (this.hasCustomName()) {
 				entitywitch.setCustomName(this.getCustomName());

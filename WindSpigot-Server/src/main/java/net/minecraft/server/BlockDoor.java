@@ -134,7 +134,7 @@ public class BlockDoor extends Block {
 			if (iblockdata1.getBlock() == this && iblockdata1.get(BlockDoor.OPEN).booleanValue() != flag) {
 				world.setTypeAndData(blockposition1, iblockdata1.set(BlockDoor.OPEN, Boolean.valueOf(flag)), 2);
 				world.b(blockposition1, blockposition);
-				world.a((EntityHuman) null, flag ? 1003 : 1006, blockposition, 0);
+				world.a(null, flag ? 1003 : 1006, blockposition, 0);
 			}
 
 		}
@@ -198,7 +198,7 @@ public class BlockDoor extends Block {
 					if (flag1 != iblockdata.get(BlockDoor.OPEN).booleanValue()) {
 						world.setTypeAndData(blockposition, iblockdata.set(BlockDoor.OPEN, Boolean.valueOf(flag1)), 2);
 						world.b(blockposition, blockposition);
-						world.a((EntityHuman) null, flag1 ? 1003 : 1006, blockposition, 0);
+						world.a(null, flag1 ? 1003 : 1006, blockposition, 0);
 					}
 				}
 				// CraftBukkit end

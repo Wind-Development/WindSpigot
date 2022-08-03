@@ -159,7 +159,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 					}
 					// CraftBukkit end
 					if (this.passenger != null) {
-						this.passenger.mount((Entity) null);
+						this.passenger.mount(null);
 					}
 
 					if (flag && !this.hasCustomName()) {

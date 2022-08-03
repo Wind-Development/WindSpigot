@@ -285,7 +285,7 @@ public class ContainerEnchantTable extends Container {
 					if (!entityhuman.abilities.canInstantlyBuild) {
 						itemstack1.count -= j;
 						if (itemstack1.count <= 0) {
-							this.enchantSlots.setItem(1, (ItemStack) null);
+							this.enchantSlots.setItem(1, null);
 						}
 					}
 
@@ -385,7 +385,7 @@ public class ContainerEnchantTable extends Container {
 			}
 
 			if (itemstack1.count == 0) {
-				slot.set((ItemStack) null);
+				slot.set(null);
 			} else {
 				slot.f();
 			}

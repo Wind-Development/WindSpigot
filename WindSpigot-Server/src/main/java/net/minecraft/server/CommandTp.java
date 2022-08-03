@@ -94,7 +94,7 @@ public class CommandTp extends CommandAbstract {
 							f = MathHelper.g(f + 180.0F);
 						}
 
-						object.mount((Entity) null);
+						object.mount(null);
 						((EntityPlayer) object).playerConnection.a(commandabstract_commandnumber.b(),
 								commandabstract_commandnumber1.b(), commandabstract_commandnumber2.b(), f, f1, enumset);
 						object.f(f);

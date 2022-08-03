@@ -89,21 +89,21 @@ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
 				}
 				break;
 			case UPDATE_GAME_MODE:
-				var4 = new GameProfile(var1.g(), (String) null);
+				var4 = new GameProfile(var1.g(), null);
 				var6 = EnumGamemode.getById(var1.readVarInt());
 				break;
 			case UPDATE_LATENCY:
-				var4 = new GameProfile(var1.g(), (String) null);
+				var4 = new GameProfile(var1.g(), null);
 				var5 = var1.readVarInt();
 				break;
 			case UPDATE_DISPLAY_NAME:
-				var4 = new GameProfile(var1.g(), (String) null);
+				var4 = new GameProfile(var1.g(), null);
 				if (var1.readBoolean()) {
 					var7 = var1.d();
 				}
 				break;
 			case REMOVE_PLAYER:
-				var4 = new GameProfile(var1.g(), (String) null);
+				var4 = new GameProfile(var1.g(), null);
 			}
 
 			this.b.add(new PacketPlayOutPlayerInfo.PlayerInfoData(var4, var5, var6, var7));

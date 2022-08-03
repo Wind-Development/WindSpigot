@@ -86,7 +86,7 @@ public class BlockTripwireHook extends Block {
 	@Override
 	public void postPlace(World world, BlockPosition blockposition, IBlockData iblockdata, EntityLiving entityliving,
 			ItemStack itemstack) {
-		this.a(world, blockposition, iblockdata, false, false, -1, (IBlockData) null);
+		this.a(world, blockposition, iblockdata, false, false, -1, null);
 	}
 
 	@Override
@@ -270,7 +270,7 @@ public class BlockTripwireHook extends Block {
 		boolean flag1 = iblockdata.get(BlockTripwireHook.POWERED).booleanValue();
 
 		if (flag || flag1) {
-			this.a(world, blockposition, iblockdata, true, false, -1, (IBlockData) null);
+			this.a(world, blockposition, iblockdata, true, false, -1, null);
 		}
 
 		if (flag1) {

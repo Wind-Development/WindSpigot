@@ -43,7 +43,7 @@ public class BlockCactus extends Block {
 					world.setTypeAndData(blockposition, iblockdata1, 4);
 					this.doPhysics(world, blockposition1, iblockdata1, this);
 				} else {
-					world.setTypeAndData(blockposition, iblockdata.set(BlockCactus.AGE, Integer.valueOf(j + 1)), 4);
+					world.setTypeAndData(blockposition, iblockdata.set(BlockCactus.AGE,j + 1), 4);
 				}
 
 			}

@@ -382,7 +382,7 @@ public class BlockRedstoneWire extends Block {
 	}
 
 	protected static boolean d(IBlockData iblockdata) {
-		return a(iblockdata, (EnumDirection) null);
+		return a(iblockdata, null);
 	}
 
 	protected static boolean a(IBlockData iblockdata, EnumDirection enumdirection) {

@@ -10,7 +10,7 @@ import com.mojang.authlib.GameProfile;
 public class GameProfileBanEntry extends ExpirableListEntry<GameProfile> {
 
 	public GameProfileBanEntry(GameProfile gameprofile) {
-		this(gameprofile, (Date) null, (String) null, (Date) null, (String) null);
+		this(gameprofile, null, (String) null, null, (String) null);
 	}
 
 	public GameProfileBanEntry(GameProfile gameprofile, Date date, String s, Date date1, String s1) {

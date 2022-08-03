@@ -1010,7 +1010,7 @@ public abstract class EntityHuman extends EntityLiving {
 	}
 
 	public void ca() {
-		this.inventory.setItem(this.inventory.itemInHandIndex, (ItemStack) null);
+		this.inventory.setItem(this.inventory.itemInHandIndex, null);
 	}
 
 	@Override

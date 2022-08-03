@@ -67,7 +67,7 @@ public class BlockFlowerPot extends BlockContainer {
 					world.notify(blockposition);
 					entityhuman.b(StatisticList.T);
 					if (!entityhuman.abilities.canInstantlyBuild && --itemstack.count <= 0) {
-						entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+						entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, null);
 					}
 
 					return true;
@@ -126,7 +126,7 @@ public class BlockFlowerPot extends BlockContainer {
 			TileEntityFlowerPot tileentityflowerpot = this.f(world, blockposition);
 
 			if (tileentityflowerpot != null) {
-				tileentityflowerpot.a((Item) null, 0);
+				tileentityflowerpot.a(null, 0);
 			}
 		}
 

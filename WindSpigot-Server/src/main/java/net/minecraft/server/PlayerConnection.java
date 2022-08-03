@@ -2266,7 +2266,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 			if (flag1 && flag2 && flag3) {
 				if (itemstack == null) {
-					this.player.defaultContainer.setItem(packetplayinsetcreativeslot.a(), (ItemStack) null);
+					this.player.defaultContainer.setItem(packetplayinsetcreativeslot.a(), null);
 				} else {
 					this.player.defaultContainer.setItem(packetplayinsetcreativeslot.a(), itemstack);
 				}

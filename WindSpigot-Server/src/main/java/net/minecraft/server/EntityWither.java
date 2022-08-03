@@ -340,7 +340,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
 					}
 
 					if (flag) {
-						this.world.a((EntityHuman) null, 1012, new BlockPosition(this), 0);
+						this.world.a(null, 1012, new BlockPosition(this), 0);
 					}
 				}
 			}
@@ -417,7 +417,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
 	}
 
 	private void a(int i, double d0, double d1, double d2, boolean flag) {
-		this.world.a((EntityHuman) null, 1014, new BlockPosition(this), 0);
+		this.world.a(null, 1014, new BlockPosition(this), 0);
 		double d3 = this.t(i);
 		double d4 = this.u(i);
 		double d5 = this.v(i);

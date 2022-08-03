@@ -133,7 +133,7 @@ public class BlockTrapdoor extends Block {
 					if (flag1 != flag) {
 						world.setTypeAndData(blockposition, iblockdata.set(BlockTrapdoor.OPEN, Boolean.valueOf(flag)),
 								2);
-						world.a((EntityHuman) null, flag ? 1003 : 1006, blockposition, 0);
+						world.a(null, flag ? 1003 : 1006, blockposition, 0);
 					}
 				}
 

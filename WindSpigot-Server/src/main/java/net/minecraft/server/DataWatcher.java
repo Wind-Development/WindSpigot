@@ -61,7 +61,7 @@ public class DataWatcher {
 	}
 
 	public void add(int i, int j) {
-		DataWatcher.WatchableObject datawatcher_watchableobject = new DataWatcher.WatchableObject(j, i, (Object) null);
+		DataWatcher.WatchableObject datawatcher_watchableobject = new DataWatcher.WatchableObject(j, i, null);
 
 //        this.f.writeLock().lock(); // Spigot - not required
 		this.dataValues.put(i, datawatcher_watchableobject); // Spigot

@@ -184,7 +184,7 @@ public class InventoryMerchant implements IInventory {
 		}
 
 		if (itemstack == null) {
-			this.setItem(2, (ItemStack) null);
+			this.setItem(2, null);
 		} else {
 			MerchantRecipeList merchantrecipelist = this.merchant.getOffers(this.player);
 
@@ -200,10 +200,10 @@ public class InventoryMerchant implements IInventory {
 						this.recipe = merchantrecipe;
 						this.setItem(2, merchantrecipe.getBuyItem3().cloneItemStack());
 					} else {
-						this.setItem(2, (ItemStack) null);
+						this.setItem(2, null);
 					}
 				} else {
-					this.setItem(2, (ItemStack) null);
+					this.setItem(2, null);
 				}
 			}
 		}

@@ -133,10 +133,10 @@ public abstract class EntityLiving extends Entity {
 
 	@Override
 	protected void h() {
-		this.datawatcher.a(7, Integer.valueOf(0));
-		this.datawatcher.a(8, Byte.valueOf((byte) 0));
-		this.datawatcher.a(9, Byte.valueOf((byte) 0));
-		this.datawatcher.a(6, Float.valueOf(1.0F));
+		this.datawatcher.a(7, 0);
+		this.datawatcher.a(8, (byte) 0);
+		this.datawatcher.a(9, (byte) 0);
+		this.datawatcher.a(6, 1.0F);
 	}
 
 	protected void initAttributes() {
@@ -169,10 +169,10 @@ public abstract class EntityLiving extends Entity {
 				if (this instanceof EntityPlayer) {
 					((WorldServer) this.world).sendParticles((EntityPlayer) this, EnumParticle.BLOCK_DUST, false,
 							this.locX, this.locY, this.locZ, i, 0.0D, 0.0D, 0.0D, 0.15000000596046448D,
-							new int[] { Block.getCombinedId(iblockdata) });
+							Block.getCombinedId(iblockdata));
 				} else {
 					((WorldServer) this.world).a(EnumParticle.BLOCK_DUST, this.locX, this.locY, this.locZ, i, 0.0D,
-							0.0D, 0.0D, 0.15000000596046448D, new int[] { Block.getCombinedId(iblockdata) });
+							0.0D, 0.0D, 0.15000000596046448D, Block.getCombinedId(iblockdata));
 				}
 				// CraftBukkit end
 			}
@@ -283,9 +283,9 @@ public abstract class EntityLiving extends Entity {
 
 		if (this.lastDamager != null) {
 			if (!this.lastDamager.isAlive()) {
-				this.b((EntityLiving) null);
+				this.b((BlockPosition) null);
 			} else if (this.ticksLived - this.hurtTimestamp > 100) {
-				this.b((EntityLiving) null);
+				this.b((BlockPosition) null);
 			}
 		}
 

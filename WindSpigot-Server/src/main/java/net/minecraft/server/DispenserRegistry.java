@@ -574,7 +574,7 @@ public class DispenserRegistry {
 				BlockPosition blockposition = isourceblock.getBlockPosition().shift(BlockDispenser.b(isourceblock.f()));
 				// EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(world, (double)
 				// blockposition.getX() + 0.5D, (double) blockposition.getY(), (double)
-				// blockposition.getZ() + 0.5D, (EntityLiving) null);
+				// blockposition.getZ() + 0.5D, null);
 
 				// CraftBukkit start
 				ItemStack itemstack1 = itemstack.cloneAndSubtract(1);
@@ -612,7 +612,7 @@ public class DispenserRegistry {
 
 				EntityTNTPrimed entitytntprimed = new EntityTNTPrimed(block.getLocation(), world,
 						event.getVelocity().getX(), event.getVelocity().getY(), event.getVelocity().getZ(),
-						(EntityLiving) null); // PaperSpigot
+						null); // PaperSpigot
 				// CraftBukkit end
 
 				world.addEntity(entitytntprimed);

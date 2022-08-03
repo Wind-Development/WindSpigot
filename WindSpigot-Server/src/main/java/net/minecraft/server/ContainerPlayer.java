@@ -98,7 +98,7 @@ public class ContainerPlayer extends Container {
 			}
 		}
 
-		this.resultInventory.setItem(0, (ItemStack) null);
+		this.resultInventory.setItem(0, null);
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class ContainerPlayer extends Container {
 			}
 
 			if (itemstack1.count == 0) {
-				slot.set((ItemStack) null);
+				slot.set(null);
 			} else {
 				slot.f();
 			}

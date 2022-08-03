@@ -34,7 +34,7 @@ public class BlockPressurePlateBinary extends BlockPressurePlateAbstract {
 
 		switch (BlockPressurePlateBinary.SyntheticClass_1.a[this.b.ordinal()]) {
 		case 1:
-			list = world.getEntities((Entity) null, axisalignedbb);
+			list = world.getEntities(null, axisalignedbb);
 			break;
 
 		case 2:

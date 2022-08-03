@@ -11,15 +11,15 @@ public class GenericAttributes {
 
 	private static final Logger f = LogManager.getLogger();
 	// Spigot start
-	public static final IAttribute maxHealth = (new AttributeRanged((IAttribute) null, "generic.maxHealth", 20.0D, 0.1D,
+	public static final IAttribute maxHealth = (new AttributeRanged(null, "generic.maxHealth", 20.0D, 0.1D,
 			org.spigotmc.SpigotConfig.maxHealth)).a("Max Health").a(true);
-	public static final IAttribute FOLLOW_RANGE = (new AttributeRanged((IAttribute) null, "generic.followRange", 32.0D,
+	public static final IAttribute FOLLOW_RANGE = (new AttributeRanged(null, "generic.followRange", 32.0D,
 			0.0D, 2048.0D)).a("Follow Range");
-	public static final IAttribute c = (new AttributeRanged((IAttribute) null, "generic.knockbackResistance", 0.0D,
+	public static final IAttribute c = (new AttributeRanged(null, "generic.knockbackResistance", 0.0D,
 			0.0D, 1.0D)).a("Knockback Resistance");
-	public static final IAttribute MOVEMENT_SPEED = (new AttributeRanged((IAttribute) null, "generic.movementSpeed",
+	public static final IAttribute MOVEMENT_SPEED = (new AttributeRanged(null, "generic.movementSpeed",
 			0.699999988079071D, 0.0D, org.spigotmc.SpigotConfig.movementSpeed)).a("Movement Speed").a(true);
-	public static final IAttribute ATTACK_DAMAGE = new AttributeRanged((IAttribute) null, "generic.attackDamage", 2.0D,
+	public static final IAttribute ATTACK_DAMAGE = new AttributeRanged(null, "generic.attackDamage", 2.0D,
 			0.0D, org.spigotmc.SpigotConfig.attackDamage);
 	// Spigot end
 

@@ -93,7 +93,7 @@ public class UserCache {
 		minecraftserver.getGameProfileRepository().findProfilesByNames(new String[] { s }, Agent.MINECRAFT,
 				profilelookupcallback);
 		if (!minecraftserver.getOnlineMode() && agameprofile[0] == null) {
-			UUID uuid = EntityHuman.a(new GameProfile((UUID) null, s));
+			UUID uuid = EntityHuman.a(new GameProfile(null, s));
 			GameProfile gameprofile = new GameProfile(uuid, s);
 
 			profilelookupcallback.onProfileLookupSucceeded(gameprofile);
@@ -103,7 +103,7 @@ public class UserCache {
 	}
 
 	public void a(GameProfile gameprofile) {
-		this.a(gameprofile, (Date) null);
+		this.a(gameprofile, null);
 	}
 
 	private void a(GameProfile gameprofile, Date date) {

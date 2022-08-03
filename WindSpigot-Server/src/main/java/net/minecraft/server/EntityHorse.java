@@ -19,7 +19,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 			return this.a((Entity) object);
 		}
 	};
-	public static final IAttribute attributeJumpStrength = (new AttributeRanged((IAttribute) null, "horse.jumpStrength",
+	public static final IAttribute attributeJumpStrength = (new AttributeRanged(null, "horse.jumpStrength",
 			0.7D, 0.0D, 2.0D)).a("Jump Strength").a(true);
 	private static final String[] bu = new String[] { null, "textures/entity/horse/armor/horse_armor_iron.png",
 			"textures/entity/horse/armor/horse_armor_gold.png", "textures/entity/horse/armor/horse_armor_diamond.png" };
@@ -683,7 +683,7 @@ public class EntityHorse extends EntityAnimal implements IInventoryListener {
 
 				if (flag) {
 					if (!entityhuman.abilities.canInstantlyBuild && --itemstack.count == 0) {
-						entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+						entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, null);
 					}
 
 					return true;

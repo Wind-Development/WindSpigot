@@ -56,7 +56,7 @@ public class ContainerAnvil extends Container {
 					entityhuman.levelDown(-ContainerAnvil.this.a);
 				}
 
-				ContainerAnvil.this.h.setItem(0, (ItemStack) null);
+				ContainerAnvil.this.h.setItem(0, null);
 				if (ContainerAnvil.this.k > 0) {
 					ItemStack itemstack1 = ContainerAnvil.this.h.getItem(1);
 
@@ -64,10 +64,10 @@ public class ContainerAnvil extends Container {
 						itemstack1.count -= ContainerAnvil.this.k;
 						ContainerAnvil.this.h.setItem(1, itemstack1);
 					} else {
-						ContainerAnvil.this.h.setItem(1, (ItemStack) null);
+						ContainerAnvil.this.h.setItem(1, null);
 					}
 				} else {
-					ContainerAnvil.this.h.setItem(1, (ItemStack) null);
+					ContainerAnvil.this.h.setItem(1, null);
 				}
 
 				ContainerAnvil.this.a = 0;
@@ -131,7 +131,7 @@ public class ContainerAnvil extends Container {
 		byte b1 = 0;
 
 		if (itemstack == null) {
-			this.g.setItem(0, (ItemStack) null);
+			this.g.setItem(0, null);
 			this.a = 0;
 		} else {
 			ItemStack itemstack1 = itemstack.cloneItemStack();
@@ -151,7 +151,7 @@ public class ContainerAnvil extends Container {
 				if (itemstack1.e() && itemstack1.getItem().a(itemstack, itemstack2)) {
 					k = Math.min(itemstack1.h(), itemstack1.j() / 4);
 					if (k <= 0) {
-						this.g.setItem(0, (ItemStack) null);
+						this.g.setItem(0, null);
 						this.a = 0;
 						return;
 					}
@@ -166,7 +166,7 @@ public class ContainerAnvil extends Container {
 					this.k = l;
 				} else {
 					if (!flag7 && (itemstack1.getItem() != itemstack2.getItem() || !itemstack1.e())) {
-						this.g.setItem(0, (ItemStack) null);
+						this.g.setItem(0, null);
 						this.a = 0;
 						return;
 					}
@@ -368,7 +368,7 @@ public class ContainerAnvil extends Container {
 			}
 
 			if (itemstack1.count == 0) {
-				slot.set((ItemStack) null);
+				slot.set( null);
 			} else {
 				slot.f();
 			}

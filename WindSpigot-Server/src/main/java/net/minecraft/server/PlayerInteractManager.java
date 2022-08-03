@@ -120,7 +120,7 @@ public class PlayerInteractManager {
 		}
 		// CraftBukkit end
 		if (this.isCreative()) {
-			if (!this.world.douseFire((EntityHuman) null, blockposition, enumdirection)) {
+			if (!this.world.douseFire(null, blockposition, enumdirection)) {
 				this.breakBlock(blockposition);
 			}
 
@@ -145,7 +145,7 @@ public class PlayerInteractManager {
 				}
 			}
 
-			// this.world.douseFire((EntityHuman) null, blockposition, enumdirection); //
+			// this.world.douseFire(null, blockposition, enumdirection); //
 			// CraftBukkit - Moved down
 			this.lastDigTick = this.currentTick;
 			float f = 1.0F;
@@ -168,7 +168,7 @@ public class PlayerInteractManager {
 				block.attack(this.world, blockposition, this.player);
 				f = block.getDamage(this.player, this.player.world, blockposition);
 				// Allow fire punching to be blocked
-				this.world.douseFire((EntityHuman) null, blockposition, enumdirection);
+				this.world.douseFire(null, blockposition, enumdirection);
 			}
 
 			if (event.useItemInHand() == Event.Result.DENY) {

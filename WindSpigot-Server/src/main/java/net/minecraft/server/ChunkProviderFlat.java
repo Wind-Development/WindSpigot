@@ -119,7 +119,7 @@ public class ChunkProviderFlat implements IChunkProvider {
 		}
 
 		Chunk chunk = new Chunk(this.a, chunksnapshot, i, j);
-		BiomeBase[] abiomebase = this.a.getWorldChunkManager().getBiomeBlock((BiomeBase[]) null, i * 16, j * 16, 16,
+		BiomeBase[] abiomebase = this.a.getWorldChunkManager().getBiomeBlock( null, i * 16, j * 16, 16,
 				16);
 		byte[] abyte = chunk.getBiomeIndex();
 
@@ -253,7 +253,7 @@ public class ChunkProviderFlat implements IChunkProvider {
 		while (iterator.hasNext()) {
 			StructureGenerator structuregenerator = (StructureGenerator) iterator.next();
 
-			structuregenerator.a(this, this.a, i, j, (ChunkSnapshot) null);
+			structuregenerator.a(this, this.a, i, j, null);
 		}
 
 	}

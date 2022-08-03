@@ -53,7 +53,7 @@ public class BlockTNT extends Block {
 
 	@Override
 	public void postBreak(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		this.a(world, blockposition, iblockdata, (EntityLiving) null);
+		this.a(world, blockposition, iblockdata, (EnumDirection) null);
 	}
 
 	public void a(World world, BlockPosition blockposition, IBlockData iblockdata, EntityLiving entityliving) {

@@ -213,7 +213,7 @@ public class ChunkProviderHell implements IChunkProvider {
 		}
 
 		Chunk chunk = new Chunk(this.h, chunksnapshot, i, j);
-		BiomeBase[] abiomebase = this.h.getWorldChunkManager().getBiomeBlock((BiomeBase[]) null, i * 16, j * 16, 16,
+		BiomeBase[] abiomebase = this.h.getWorldChunkManager().getBiomeBlock( null, i * 16, j * 16, 16,
 				16);
 		byte[] abyte = chunk.getBiomeIndex();
 
@@ -417,7 +417,7 @@ public class ChunkProviderHell implements IChunkProvider {
 	@Override
 	public void recreateStructures(Chunk chunk, int i, int j) {
 		if (this.h.paperSpigotConfig.generateFortress) {
-			this.B.a(this, this.h, i, j, (ChunkSnapshot) null); // PaperSpigot
+			this.B.a(this, this.h, i, j, null); // PaperSpigot
 		}
 	}
 

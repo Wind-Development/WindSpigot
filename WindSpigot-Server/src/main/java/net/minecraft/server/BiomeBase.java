@@ -399,7 +399,7 @@ public abstract class BiomeBase {
 	}
 
 	public static BiomeBase getBiome(int i) {
-		return getBiome(i, (BiomeBase) null);
+		return getBiome(i, null);
 	}
 
 	public static BiomeBase getBiome(int i, BiomeBase biomebase) {

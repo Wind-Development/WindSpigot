@@ -187,7 +187,7 @@ public class EntitySpider extends EntityMonster {
 			float f = this.b.c(1.0F);
 
 			if (f >= 0.5F && this.b.bc().nextInt(100) == 0) {
-				this.b.setGoalTarget((EntityLiving) null);
+				this.b.setGoalTarget(null);
 				return false;
 			} else {
 				return super.b();

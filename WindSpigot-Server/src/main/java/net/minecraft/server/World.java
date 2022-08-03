@@ -3637,7 +3637,7 @@ public abstract class World implements IBlockAccess {
 	}
 
 	public void triggerEffect(int i, BlockPosition blockposition, int j) {
-		this.a((EntityHuman) null, i, blockposition, j);
+		this.a(null, i, blockposition, j);
 	}
 
 	public void a(EntityHuman entityhuman, int i, BlockPosition blockposition, int j) {

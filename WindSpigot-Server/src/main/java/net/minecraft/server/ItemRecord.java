@@ -28,7 +28,7 @@ public class ItemRecord extends Item {
 				// CraftBukkit Start
 				/*
 				 * ((BlockJukeBox) Blocks.JUKEBOX).a(world, blockposition, iblockdata,
-				 * itemstack); world.a((EntityHuman) null, 1005, blockposition,
+				 * itemstack); world.a(null, 1005, blockposition,
 				 * Item.getId(this)); --itemstack.count; entityhuman.b(StatisticList.X);
 				 */
 				// CraftBukkit End

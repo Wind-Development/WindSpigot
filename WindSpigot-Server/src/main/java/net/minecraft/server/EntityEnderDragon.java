@@ -331,7 +331,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 			if (this.bz.dead) {
 				if (!this.world.isClientSide) {
 					CraftEventFactory.entityDamage = this.bz; // CraftBukkit
-					this.a(this.bn, DamageSource.explosion((Explosion) null), 10.0F);
+					this.a(this.bn, DamageSource.explosion(null), 10.0F);
 					CraftEventFactory.entityDamage = null; // CraftBukkit
 				}
 

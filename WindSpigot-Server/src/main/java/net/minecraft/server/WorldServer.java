@@ -1114,7 +1114,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 			return false;
 		}
 		if (super.strikeLightning(entity)) {
-			this.server.getPlayerList().sendPacketNearby((EntityHuman) null, entity.locX, entity.locY, entity.locZ,
+			this.server.getPlayerList().sendPacketNearby(null, entity.locX, entity.locY, entity.locZ,
 					512.0D, this, new PacketPlayOutSpawnEntityWeather(entity));
 			// CraftBukkit end
 			return true;
@@ -1193,7 +1193,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 
 				if (this.a(blockactiondata)) {
 					// CraftBukkit - this.worldProvider.dimension -> this.dimension
-					this.server.getPlayerList().sendPacketNearby((EntityHuman) null, blockactiondata.a().getX(),
+					this.server.getPlayerList().sendPacketNearby(null, blockactiondata.a().getX(),
 							blockactiondata.a().getY(), blockactiondata.a().getZ(), 64.0D, this,
 							new PacketPlayOutBlockAction(blockactiondata.a(), blockactiondata.d(), blockactiondata.b(),
 									blockactiondata.c()));

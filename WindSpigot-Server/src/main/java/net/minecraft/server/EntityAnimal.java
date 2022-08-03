@@ -127,7 +127,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimal {
 		if (!entityhuman.abilities.canInstantlyBuild) {
 			--itemstack.count;
 			if (itemstack.count <= 0) {
-				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, (ItemStack) null);
+				entityhuman.inventory.setItem(entityhuman.inventory.itemInHandIndex, null);
 			}
 		}
 
