@@ -383,25 +383,25 @@ public class KnockbackCommand extends Command {
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "add-horizontal": {
+				case "speed-extra-horizontal": {
 					if (!NumberUtils.isNumber(args[3])) {
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
 					double value = Double.parseDouble(args[3]);
-					profile.setAddHorizontal(value);
+					profile.setExtraSpeedHorizontal(value);
 					
 					knockbackCommandView(player, profile);
 					player.sendMessage("§aValue edited and saved.");
 					break;
 				}
-				case "add-vertical": {
+				case "speed-extra-vertical": {
 					if (!NumberUtils.isNumber(args[3])) {
 						player.sendMessage("§4" + args[3] + " §c is not a number.");
 						return false;
 					}
 					double value = Double.parseDouble(args[3]);
-					profile.setAddVertical(value);
+					profile.setExtraSpeedVertical(value);
 					
 					knockbackCommandView(player, profile);
 					player.sendMessage("§aValue edited and saved.");

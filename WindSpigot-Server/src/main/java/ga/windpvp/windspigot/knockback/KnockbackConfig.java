@@ -73,9 +73,7 @@ public class KnockbackConfig {
 			
 			windpvpProfile.setWTapExtraHorizontal(0.76);
 			windpvpProfile.setWTapExtraVertical(0.1);
-			
-			windpvpProfile.setAddHorizontal(0.04);	
-			
+						
 			windpvpProfile.save(true);
 		}
 		
@@ -136,9 +134,6 @@ public class KnockbackConfig {
 
 			profile.setWTapExtraHorizontal(getDouble(path + ".wtap-extra-horizontal", 0.5));
 			profile.setWTapExtraVertical(getDouble(path + ".wtap-extra-vertical", 0.1));
-			
-			profile.setAddHorizontal(getDouble(path + ".add-horizontal", 0));
-			profile.setAddVertical(getDouble(path + ".add-vertical", 0));
 
 			profile.setRodHorizontal(getDouble(path + ".projectiles.rod.horizontal", 0.4D));
 			profile.setRodVertical(getDouble(path + ".projectiles.rod.vertical", 0.4D));

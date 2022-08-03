@@ -15,6 +15,7 @@ import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 // CraftBukkit end
 
@@ -1073,18 +1074,19 @@ public abstract class EntityHuman extends EntityLiving {
 									: entity.getKnockbackProfile();
 							
 							// WindSpigot start - more configurable knockback
-							if (this.isExtraKnockback()) {
-								entity.g(
-										(-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i
-												* profile.getWTapExtraHorizontal()),
-										profile.getWTapExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
-												* i * profile.getWTapExtraHorizontal()));
+							if (getBukkitEntity().hasPotionEffect(PotionEffectType.SPEED)) {
+								if (this.isExtraKnockback()) {
+									entity.g((-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i * profile.getWTapExtraHorizontal()), profile.getWTapExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D)) * i * profile.getWTapExtraSpeedHorizontal()));
+								} else {
+									entity.g((-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i * profile.getExtraHorizontal()), profile.getExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D)) * i * profile.getExtraSpeedHorizontal()));
+								}
 							} else {
-								entity.g(
-										(-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i
-												* profile.getExtraHorizontal()),
-										profile.getExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D))
-												* i * profile.getExtraHorizontal()));
+								if (this.isExtraKnockback()) {
+									entity.g((-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i * profile.getWTapExtraHorizontal()), profile.getWTapExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D)) * i * profile.getWTapExtraHorizontal()));
+								} else {
+									entity.g((-MathHelper.sin((float) (this.yaw * Math.PI / 180.0D)) * i * profile.getExtraHorizontal()), profile.getExtraVertical(), (MathHelper.cos((float) (this.yaw * Math.PI / 180.0D)) * i * profile.getExtraHorizontal()));
+
+								}
 							}
 							// WindSpigot end
 							this.motX *= 0.6D;

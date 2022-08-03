@@ -29,11 +29,11 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 	private double eggHorizontal = 0.4D;
 	private double eggVertical = 0.4D;
 	
-	private double wTapHorizontal = 0.5;
-	private double wTapVertical = 0.1;
+	private double wTapExtraHorizontal = 0.5;
+	private double wTapExtraVertical = 0.1;
 	
-	private double addHorizontal = 0;
-	private double addVertical = 0;
+	private double extraSpeedHorizontal = 0;
+	private double extraSpeedVertical = 0;
 
 	public CraftKnockbackProfile(String name) {
 		this.name = name;
@@ -62,11 +62,11 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 		set(".extra-horizontal", this.extraHorizontal);
 		set(".extra-vertical", this.extraVertical);
 		
-		set(".wtap-extra-horizontal", this.wTapHorizontal);
-		set(".wtap-extra-vertical", this.wTapVertical);
+		set(".wtap-extra-horizontal", this.wTapExtraHorizontal);
+		set(".wtap-extra-vertical", this.wTapExtraVertical);
 		
-		set(".add-horizontal", this.addHorizontal);
-		set(".add-vertical", this.addVertical);
+		set(".add-horizontal", this.extraSpeedHorizontal);
+		set(".add-vertical", this.extraSpeedVertical);
 		
 		if (projectiles) {
 			set(".projectiles.rod.horizontal", this.rodHorizontal);
@@ -290,9 +290,9 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 				"Vertical-Max§7: " + this.verticalMax, "Vertical-Min§7: " + this.verticalMin,
 				"Extra-Horizontal§7: " + this.extraHorizontal, "Extra-Vertical§7: " + this.extraVertical,
 				"Friction-Horizontal§7: " + this.frictionHorizontal, "Friction-Vertical§7: " + this.frictionVertical,
-				"Stop-Sprint§7: " + this.stopSprint, "Wtap-Extra-Horizontal§7: " + this.wTapHorizontal,
-				"Wtap-Extra-Vertical§7: " + this.wTapVertical, "Add-Horizontal§7: " + this.addHorizontal,
-				"Add-Vertical§7: " + this.addVertical };
+				"Stop-Sprint§7: " + this.stopSprint, "Wtap-Extra-Horizontal§7: " + this.wTapExtraHorizontal,
+				"Wtap-Extra-Vertical§7: " + this.wTapExtraVertical, "Speed-Extra-Horizontal§7: " + this.extraSpeedHorizontal,
+				"Speed-Extra-Vertical§7: " + this.extraSpeedVertical };
 	}
 
 	@Override
@@ -306,41 +306,65 @@ public class CraftKnockbackProfile implements KnockbackProfile {
 
 	@Override
 	public double getWTapExtraHorizontal() {
-		return wTapHorizontal;
+		return wTapExtraHorizontal;
 	}
 
 	@Override
 	public void setWTapExtraHorizontal(double wtapHorizontal) {
-		this.wTapHorizontal = wtapHorizontal;
+		this.wTapExtraHorizontal = wtapHorizontal;
 	}
 
 	@Override
 	public double getWTapExtraVertical() {
-		return wTapVertical;
+		return wTapExtraVertical;
 	}
 
 	@Override
 	public void setWTapExtraVertical(double wTapVertical) {
-		this.wTapVertical = wTapVertical;
+		this.wTapExtraVertical = wTapVertical;
 	}
 
 	@Override
-	public double getAddHorizontal() {
-		return addHorizontal;
+	public double getExtraSpeedHorizontal() {
+		return extraSpeedHorizontal;
 	}
 
 	@Override
-	public void setAddHorizontal(double addHorizontal) {
-		this.addHorizontal = addHorizontal;
+	public void setExtraSpeedHorizontal(double extraSpeedHorizontal) {
+		this.extraSpeedHorizontal = extraSpeedHorizontal;
 	}
 
 	@Override
-	public double getAddVertical() {
-		return addVertical;
+	public double getExtraSpeedVertical() {
+		return extraSpeedVertical;
 	}
 
 	@Override
-	public void setAddVertical(double addVertical) {
-		this.addVertical = addVertical;
+	public void setExtraSpeedVertical(double extraSpeedVertical) {
+		this.extraSpeedVertical = extraSpeedVertical;
+	}
+
+	@Override
+	public double getWTapExtraSpeedHorizontal() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setWTapExtraSpeedHorizontal(double wTapHorizontal) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getWTapExtraSpeedVertical() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setWTapExtraSpeedVertical(double wTapVertical) {
+		// TODO Auto-generated method stub
+		
 	}
 }
