@@ -166,8 +166,9 @@ public class EntityIronGolem extends EntityGolem {
 
 		int k;
 
+		Item item = Item.getItemOf(Blocks.RED_FLOWER);
 		for (k = 0; k < j; ++k) {
-			this.a(Item.getItemOf(Blocks.RED_FLOWER), 1, BlockFlowers.EnumFlowerVarient.POPPY.b());
+			this.a(item, 1, BlockFlowers.EnumFlowerVarient.POPPY.b());
 		}
 
 		k = 3 + this.random.nextInt(3);
