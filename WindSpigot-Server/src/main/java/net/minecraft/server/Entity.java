@@ -169,7 +169,7 @@ public abstract class Entity implements ICommandListener {
 	public boolean inUnloadedChunk = false; // PaperSpigot - Remove entities in unloaded chunks
 	public boolean loadChunks = false; // PaperSpigot - Entities can load chunks they move through and keep them loaded
 
-	public static Random SHARED_RANDOM = new FastRandom() {
+	public static FastRandom SHARED_RANDOM = new FastRandom() {
 		private boolean locked = false;
 
 		@Override
