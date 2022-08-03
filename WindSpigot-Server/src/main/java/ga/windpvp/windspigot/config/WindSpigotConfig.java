@@ -188,7 +188,7 @@ public class WindSpigotConfig {
 		c.addComment("settings.chunk.threads", "The amount of threads used for chunks.");
 		c.addComment("settings.chunk.players-per-thread", "The amount of players for each thread.");
 		c.addComment("settings.use-tcp-nodelay", "Enables the TCP_NODELAY socket option.");
-		c.addComment("settings.faster-cannon-tracker", "Enables a faster cannon entity tracker.");
+		c.addComment("settings.faster-cannon-tracker", "Enables a faster cannon entity tracker. Please note that this can cause some incompatibilities with name tags for cannon entities.");
 		c.addComment("settings.fix-eat-while-running", "Fixes the eating while running bug.");
 		c.addComment("settings.hide-projectiles-from-hidden-players", "Hides projectiles from hidden players.");
 		c.addComment("settings.lag-compensated-potions", "Enables lag compesation for thrown potions.");
@@ -585,7 +585,7 @@ public class WindSpigotConfig {
 	public static boolean useFasterCannonTracker;
 
 	private static void useFasterCannonTracker() {
-		useFasterCannonTracker = getBoolean("settings.faster-cannon-tracker", true);
+		useFasterCannonTracker = getBoolean("settings.faster-cannon-tracker", false);
 	}
 
 	public static boolean fixEatWhileRunning;
