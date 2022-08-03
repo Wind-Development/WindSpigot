@@ -111,37 +111,34 @@ public class TileEntityBeacon extends TileEntityContainer implements IUpdatePlay
 					position.getZ());
 			PotionEffect primaryEffect = new PotionEffect(PotionEffectType.getById(this.k), 180, b0, true, true);
 			// PaperSpigot end
+			// WindSpigot start
+			PotionEffect secondaryEffect = getLevel() >= 4 && this.k != this.l && this.l > 0
+					? new PotionEffect(PotionEffectType.getById(this.l), 180, 0, true, true)
+					: null;
+			// WindSpigot end
 
 			for (EntityHuman entityhuman : list) {
 				// PaperSpigot start - BeaconEffectEvent
-				BeaconEffectEvent event = new BeaconEffectEvent(block, primaryEffect,
+				BeaconEffectEvent primaryEvent = new BeaconEffectEvent(block, primaryEffect,
 						(Player) entityhuman.getBukkitEntity(), true);
-				if (CraftEventFactory.callEvent(event).isCancelled()) {
-					continue;
-				}
-
-				PotionEffect effect = event.getEffect();
-				entityhuman.addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(),
-						effect.getAmplifier(), effect.isAmbient(), effect.hasParticles()));
-				// PaperSpigot end
-			}
-
-			if (getLevel() >= 4 && this.k != this.l && this.l > 0) {
-				PotionEffect secondaryEffect = new PotionEffect(PotionEffectType.getById(this.l), 180, 0, true, true); // PaperSpigot
-
-				for (EntityHuman entityhuman : list) {
-					// PaperSpigot start - BeaconEffectEvent
-					BeaconEffectEvent event = new BeaconEffectEvent(block, secondaryEffect,
-							(Player) entityhuman.getBukkitEntity(), false);
-					if (CraftEventFactory.callEvent(event).isCancelled()) {
-						continue;
-					}
-
-					PotionEffect effect = event.getEffect();
+				if (!CraftEventFactory.callEvent(primaryEvent).isCancelled()) {
+					PotionEffect effect = primaryEvent.getEffect();
 					entityhuman.addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(),
 							effect.getAmplifier(), effect.isAmbient(), effect.hasParticles()));
-					// PaperSpigot end
 				}
+				// PaperSpigot end
+
+				// WindSpigot start
+				if (secondaryEffect != null) {
+					BeaconEffectEvent secondaryEvent = new BeaconEffectEvent(block, secondaryEffect,
+							(Player) entityhuman.getBukkitEntity(), false);
+					if (!CraftEventFactory.callEvent(secondaryEvent).isCancelled()) {
+						PotionEffect effect = secondaryEvent.getEffect();
+						entityhuman.addEffect(new MobEffect(effect.getType().getId(), effect.getDuration(),
+								effect.getAmplifier(), effect.isAmbient(), effect.hasParticles()));
+					}
+				}
+				// WindSpigot end
 			}
 		}
 
