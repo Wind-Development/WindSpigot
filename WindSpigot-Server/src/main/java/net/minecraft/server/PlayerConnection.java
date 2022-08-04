@@ -2660,6 +2660,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	
 	// WindSpigot start - queue-able packets
 	public void queuePacket(Packet<?> packet) {
+		if (packet == null) return;
 		queuedPackets.add(packet);
 	}
 	
