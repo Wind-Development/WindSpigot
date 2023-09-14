@@ -1035,10 +1035,11 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 
 		this.methodProfiler.c("levels");
 
-		SpigotTimings.bukkitSchedulerTimer.startTiming(); // Spigot
-		// CraftBukkit start
-		this.server.getScheduler().mainThreadHeartbeat(this.ticks);
-		SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
+		// WindSpigot - move to WorldTickManager
+//		SpigotTimings.bukkitSchedulerTimer.startTiming(); // Spigot
+//		// CraftBukkit start
+//		this.server.getScheduler().mainThreadHeartbeat(this.ticks);
+//		SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
 
 		// Run tasks that are waiting on processing
 		SpigotTimings.processQueueTimer.startTiming(); // Spigot

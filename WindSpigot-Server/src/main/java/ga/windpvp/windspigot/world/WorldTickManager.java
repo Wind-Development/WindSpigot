@@ -2,6 +2,9 @@ package ga.windpvp.windspigot.world;
 
 import java.util.List;
 import com.google.common.collect.Lists;
+
+import co.aikar.timings.SpigotTimings;
+import ga.windpvp.windspigot.config.WindSpigotConfig;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
@@ -40,12 +43,30 @@ public class WorldTickManager {
 	}
 	
 	private void tickWorlds() {
-		// Cache world tick runnables if not cached already
-		this.cacheWorlds();
-		
-		for (WorldTicker ticker : this.worldTickers) {
-			ticker.run();
-		}
+        // Cache world tick runnables if not cached already
+        this.cacheWorlds();
+
+        // Wait for entity tracking if async entity tracking takes this long
+        if (!WindSpigotConfig.disableTracking) {
+            for (WorldTicker ticker : this.worldTickers) {
+                try {
+                    ticker.getLatch().waitTillZero();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ticker.getLatch().reset();
+            }
+        }
+
+        // Move BukkitScheduler stuff here so async entity tracking does not interfere
+        SpigotTimings.bukkitSchedulerTimer.startTiming(); // Spigot
+        // CraftBukkit start
+        MinecraftServer.getServer().server.getScheduler().mainThreadHeartbeat(MinecraftServer.getServer().at());
+        SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
+        
+        for (WorldTicker ticker : this.worldTickers) {
+            ticker.run();
+        }
 	}
 
 	/*
