@@ -145,11 +145,6 @@ public class EntityTracker {
 		for (EntityTrackerEntry entry : c) {
 			entry.update();
 		}
-		// WindSpigot start
-		for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-			player.playerConnection.sendQueuedPackets();
-		}
-		// WindSpigot end
 	}
 
 	public void a(EntityPlayer entityplayer) {
