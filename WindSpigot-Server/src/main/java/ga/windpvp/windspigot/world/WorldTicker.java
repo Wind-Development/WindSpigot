@@ -31,7 +31,7 @@ public class WorldTicker implements Runnable {
 	
 	@Override
 	public void run() {
-		run(!WindSpigotConfig.disableTracking);
+		run((!WindSpigotConfig.disableTracking && WindSpigotConfig.fullAsyncTracking));
 	}
 
 	// This is mostly copied code from world ticking
@@ -41,13 +41,6 @@ public class WorldTicker implements Runnable {
 		CrashReport crashreport;
 
 		try {
-			if (handleTrackerAsync && hasTracked) {
-				latch.waitTillZero();
-				latch.reset();
-				for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-					player.playerConnection.sendQueuedPackets();
-				}
-			}
 			worldserver.timings.doTick.startTiming(); // Spigot
 			worldserver.doTick();
 			worldserver.timings.doTick.stopTiming(); // Spigot

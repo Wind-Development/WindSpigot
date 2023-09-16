@@ -27,6 +27,7 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import ga.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
+import ga.windpvp.windspigot.async.entitytracker.MultithreadedEntityTracker;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.world.WorldTicker;
 
@@ -81,8 +82,10 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		// WindSpigot - async entity tracking
 		if (WindSpigotConfig.disableTracking) {
 			this.tracker = new EntityTracker(this);
+		} else if (WindSpigotConfig.fullAsyncTracking) {
+		    this.tracker = new AsyncEntityTracker(this);
 		} else {
-			this.tracker = new AsyncEntityTracker(this);
+			this.tracker = new MultithreadedEntityTracker(this);
 		}
 		this.manager = new PlayerChunkMap(this, spigotConfig.viewDistance); // Spigot
 		this.worldProvider.a(this);
