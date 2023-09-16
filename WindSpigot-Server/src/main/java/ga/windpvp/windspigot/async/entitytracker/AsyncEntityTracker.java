@@ -6,7 +6,9 @@ import java.util.concurrent.Executors;
 
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import me.rastrian.dev.utils.IndexedLinkedHashSet;
 import net.minecraft.server.EntityTracker;
+import net.minecraft.server.EntityTrackerEntry;
 import net.minecraft.server.WorldServer;
 
 public class AsyncEntityTracker extends EntityTracker {
@@ -28,7 +30,7 @@ public class AsyncEntityTracker extends EntityTracker {
 			
 			AsyncUtil.run(() -> {
 				for (int index = finalOffset; index < c.size(); index += WindSpigotConfig.trackingThreads) {
-					c.get(index).update();
+					((IndexedLinkedHashSet<EntityTrackerEntry>) c).get(index).update();
 				}
 				worldServer.ticker.getLatch().decrement();
 
