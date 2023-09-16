@@ -19,7 +19,7 @@ public class WorldTicker implements Runnable {
 	public final WorldServer worldserver;
 	private final ResettableLatch latch = new ResettableLatch(WindSpigotConfig.trackingThreads);
 	private final Runnable cachedUpdateTrackerTask;
-	private volatile boolean hasTracked = false;
+	protected volatile boolean hasTracked = false;
 	
 	public WorldTicker(WorldServer worldServer) {
 		this.worldserver = worldServer;

@@ -47,8 +47,11 @@ public class WorldTickManager {
         this.cacheWorlds();
 
         // Wait for entity tracking if async entity tracking takes this long
-        if (!WindSpigotConfig.disableTracking) {
+        if (!WindSpigotConfig.disableTracking && WindSpigotConfig.fullAsyncTracking) {
             for (WorldTicker ticker : this.worldTickers) {
+                if (ticker.hasTracked) {
+                    continue;
+                }
                 try {
                     ticker.getLatch().waitTillZero();
                 } catch (InterruptedException e) {
