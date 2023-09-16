@@ -57,6 +57,7 @@ public class WorldTickManager {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                ticker.worldserver.timings.tracker.stopTiming();
                 ticker.getLatch().reset();
             }
         }

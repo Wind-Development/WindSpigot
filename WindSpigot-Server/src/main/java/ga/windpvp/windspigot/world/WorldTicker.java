@@ -72,10 +72,10 @@ public class WorldTicker implements Runnable {
 			throw new ReportedException(crashreport);
 		}
 
+        worldserver.timings.tracker.startTiming(); // Spigot
 		if (handleTrackerAsync) {
 			AsyncUtil.run(cachedUpdateTrackerTask, AsyncEntityTracker.getExecutor());
 		} else {
-			worldserver.timings.tracker.startTiming(); // Spigot
 
 			// this.methodProfiler.b();
 			// this.methodProfiler.a("tracker");
