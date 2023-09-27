@@ -7,8 +7,10 @@ import java.util.concurrent.Executors;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
+import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTracker;
 import net.minecraft.server.EntityTrackerEntry;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
 public class MultithreadedEntityTracker extends EntityTracker {
@@ -43,6 +45,9 @@ public class MultithreadedEntityTracker extends EntityTracker {
             e.printStackTrace();
         }
 	    worldServer.ticker.getLatch().reset();
+        for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+            player.playerConnection.sendQueuedPackets();
+        }
 	}
 
 	public static ExecutorService getExecutor() {

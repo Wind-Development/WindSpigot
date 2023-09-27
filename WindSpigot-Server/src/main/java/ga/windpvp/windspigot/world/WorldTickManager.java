@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 
 import co.aikar.timings.SpigotTimings;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
+import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
@@ -59,6 +60,9 @@ public class WorldTickManager {
                 }
                 ticker.worldserver.timings.tracker.stopTiming();
                 ticker.getLatch().reset();
+            }
+            for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+                player.playerConnection.sendQueuedPackets();
             }
         }
 
