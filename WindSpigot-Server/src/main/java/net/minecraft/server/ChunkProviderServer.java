@@ -21,14 +21,15 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongArraySet;
 import it.unimi.dsi.fastutil.longs.LongIterator;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
 
 // TacoSpigot end
 public class ChunkProviderServer implements IChunkProvider {
 
 	private static final Logger b = LogManager.getLogger();
-	public LongSet unloadQueue = new LongArraySet(); // CraftBukkit - LongHashSet // TacoSpigot - LongHashSet ->
-														// HashArraySet
+	public LongSet unloadQueue = new LongOpenHashSet(); // CraftBukkit - LongHashSet // TacoSpigot - LongHashSet ->
+														// HashArraySet // Nacho - LongHashSet -> LongOpenHashSet
 	public Chunk emptyChunk;
 	public IChunkProvider chunkProvider;
 	// FlamePaper - Make chunkLoader public
