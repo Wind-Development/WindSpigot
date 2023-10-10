@@ -235,9 +235,9 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 							.warn("Please see http://www.spigotmc.org/wiki/firewall-guide/ for further information.");
 					if (!WindSpigotConfig.stopNotifyBungee) {
 						DedicatedServer.LOGGER
-								.warn("---------------------------- NachoSpigot Checker ----------------------------");
+								.warn("---------------------------- WindSpigot Checker ----------------------------");
 						DedicatedServer.LOGGER.warn(
-								"If you don't want to see this message anymore, set \"settings.stop-notify-bungee\" to \"true\" in \"nacho.yml\"!");
+								"If you don't want to see this message anymore, set \"settings.stop-notify-bungee\" to \"true\" in \"windspigot.yml\"!");
 						DedicatedServer.LOGGER.warn("Checking firewall..");
 						try {
 							String external = IPUtils.getExternalAddress();
@@ -261,7 +261,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 							e.printStackTrace();
 						}
 						DedicatedServer.LOGGER
-								.warn("---------------------------- NachoSpigot Checker ----------------------------");
+								.warn("---------------------------- WindSpigot Checker ----------------------------");
 					}
 				} else {
 					DedicatedServer.LOGGER.warn(
