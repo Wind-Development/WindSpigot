@@ -342,15 +342,12 @@ public class Chunk {
 	}
 
 	private void a(int i, int j, int k, int l) {
-		if (l > k && this.world.areChunksLoaded(new BlockPosition(i, 0, j), 16)) {
-			for (int i1 = k; i1 < l; ++i1) {
-				this.world.updateLight(EnumSkyBlock.SKY, new BlockPosition(i, i1, j)); // PaperSpigot - Asynchronous
-																						// lighting updates
-			}
-
+		//Windspigot start - batched light updates
+		if(l > k && this.world.areChunksLoaded(new BlockPosition(i, 0, j), 16)) {
+			this.world.updateLightBatched(EnumSkyBlock.SKY, i, j, k, l);
 			this.q = true;
 		}
-
+		//Windspigot end
 	}
 
 	private void d(int i, int j, int k) {
