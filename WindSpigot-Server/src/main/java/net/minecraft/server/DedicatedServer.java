@@ -224,6 +224,8 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 			server.enablePlugins(org.bukkit.plugin.PluginLoadOrder.STARTUP);
 			// Spigot End
 
+			WindSpigot.getInstance(); // WindSpigot
+
 			if (!this.getOnlineMode()) {
 				DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
 				DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
