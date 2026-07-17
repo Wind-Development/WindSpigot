@@ -51,13 +51,10 @@ public class WindSpigot {
 	private final Set<PacketListener> packetListeners = Sets.newConcurrentHashSet();
 	private final Set<MovementListener> movementListeners = Sets.newConcurrentHashSet();
 
-	public WindSpigot() {
-		INSTANCE = this;
-		this.init();
-	}
+	private WindSpigot() {}
 
 	public void reload() {
-		this.init();
+		WindSpigot.init();
 	}
 
 	private void initCmds() {
@@ -120,7 +117,10 @@ public class WindSpigot {
 		}
 	}
 
-	private void init() {
+	public static void init() {
+		if (INSTANCE == null) {
+			INSTANCE = new WindSpigot();
+		}
 		initCmds();
 		initStatistics();
 		
@@ -183,9 +183,6 @@ public class WindSpigot {
 	}
 	
 	public static WindSpigot getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new WindSpigot();
-		}
 		return INSTANCE;
 	}
 }
