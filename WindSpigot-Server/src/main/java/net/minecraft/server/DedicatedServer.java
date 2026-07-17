@@ -216,7 +216,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 					return false;
 				}
 			}
-
+WindSpigot.getInstance(); // WindSpigot
 			// Spigot Start - Move DedicatedPlayerList up and bring plugin loading from
 			// CraftServer to here
 			// this.a((PlayerList) (new DedicatedPlayerList(this))); // CraftBukkit
