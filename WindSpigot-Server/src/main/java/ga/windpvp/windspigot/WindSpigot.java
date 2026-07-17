@@ -51,7 +51,26 @@ public class WindSpigot {
 	private final Set<PacketListener> packetListeners = Sets.newConcurrentHashSet();
 	private final Set<MovementListener> movementListeners = Sets.newConcurrentHashSet();
 
-	private WindSpigot() {}
+	private WindSpigot() {
+		initCmds();
+		initStatistics();
+		
+		// We do not want to initialize this again after a reload
+		if (WindSpigotConfig.asyncPathSearches && SearchHandler.getInstance() == null) {
+			new SearchHandler();
+		}
+		
+		if (WindSpigotConfig.asyncKnockback) {
+			knockbackThread = new CombatThread("Knockback Thread");
+		}
+		lagCompensator = new LagCompensator();	
+		if (WindSpigotConfig.asyncTnt) {
+			AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);
+		}
+		if (WindSpigotConfig.enableAntiCrash) {
+			registerPacketListener(new AntiCrash());
+		}
+	}
 
 	public void reload() {
 		WindSpigot.init();
@@ -120,24 +139,6 @@ public class WindSpigot {
 	public static void init() {
 		if (INSTANCE == null) {
 			INSTANCE = new WindSpigot();
-		}
-		initCmds();
-		initStatistics();
-		
-		// We do not want to initialize this again after a reload
-		if (WindSpigotConfig.asyncPathSearches && SearchHandler.getInstance() == null) {
-			new SearchHandler();
-		}
-		
-		if (WindSpigotConfig.asyncKnockback) {
-			knockbackThread = new CombatThread("Knockback Thread");
-		}
-		lagCompensator = new LagCompensator();	
-		if (WindSpigotConfig.asyncTnt) {
-			AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);
-		}
-		if (WindSpigotConfig.enableAntiCrash) {
-			registerPacketListener(new AntiCrash());
 		}
 	}
 
