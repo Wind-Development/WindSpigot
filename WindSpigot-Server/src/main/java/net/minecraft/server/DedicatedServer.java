@@ -224,7 +224,6 @@ WindSpigot.getInstance(); // WindSpigot
 			server.enablePlugins(org.bukkit.plugin.PluginLoadOrder.STARTUP);
 			// Spigot End
 
-			WindSpigot.getInstance(); // WindSpigot
 
 			if (!this.getOnlineMode()) {
 				DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
