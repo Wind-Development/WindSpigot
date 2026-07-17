@@ -216,14 +216,15 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 					return false;
 				}
 			}
-WindSpigot.getInstance(); // WindSpigot
+
+			WindSpigot.getInstance(); // WindSpigot
+			
 			// Spigot Start - Move DedicatedPlayerList up and bring plugin loading from
 			// CraftServer to here
 			// this.a((PlayerList) (new DedicatedPlayerList(this))); // CraftBukkit
 			server.loadPlugins();
 			server.enablePlugins(org.bukkit.plugin.PluginLoadOrder.STARTUP);
 			// Spigot End
-
 
 			if (!this.getOnlineMode()) {
 				DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
