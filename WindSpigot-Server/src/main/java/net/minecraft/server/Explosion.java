@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
@@ -19,15 +19,12 @@ import com.google.common.collect.Maps;
 import ga.windpvp.windspigot.async.AsyncUtil;
 import ga.windpvp.windspigot.cache.Constants;
 import ga.windpvp.windspigot.config.WindSpigotConfig;
-import ga.windpvp.windspigot.random.FastRandom;
 import xyz.sculas.nacho.async.AsyncExplosions;
 
 public class Explosion {
 
-	public static final Random CACHED_RANDOM = new FastRandom(); // AW-Spigot - fast random
 	private final boolean a;
 	private final boolean b;
-	private final Random c = CACHED_RANDOM;
 	private final World world;
 	private final double posX;
 	private final double posY;
@@ -311,7 +308,7 @@ public class Explosion {
 				blockposition = (BlockPosition) iterator.next();
 				// Nacho - revert >> // Nacho - optimize TNT by Lew_x
 				if (this.world.getType(blockposition).getBlock().getMaterial() == Material.AIR
-						&& this.world.getType(blockposition.down()).getBlock().o() && this.c.nextInt(3) == 0) {
+						&& this.world.getType(blockposition.down()).getBlock().o() && ThreadLocalRandom.current().nextInt(3) == 0) { // FalchusSpigot - ThreadLocalRandom
 					// CraftBukkit start - Ignition by explosion
 					if (!org.bukkit.craftbukkit.event.CraftEventFactory.callBlockIgniteEvent(this.world,
 							blockposition.getX(), blockposition.getY(), blockposition.getZ(), this).isCancelled()) {
