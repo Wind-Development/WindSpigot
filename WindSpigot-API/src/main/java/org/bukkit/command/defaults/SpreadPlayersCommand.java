@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,7 +20,6 @@ import com.google.common.collect.Sets;
 
 @Deprecated
 public class SpreadPlayersCommand extends VanillaCommand {
-	private static final Random random = new Random();
 
 	public SpreadPlayersCommand() {
 		super("spreadplayers");
@@ -124,6 +124,8 @@ public class SpreadPlayersCommand extends VanillaCommand {
 
 			Location loc1;
 			int j;
+
+			Random random = ThreadLocalRandom.current(); // FalchusSpigot - ThreadLocalRandom
 
 			for (int k = 0; k < locations.length; ++k) {
 				Location loc2 = locations[k];
@@ -268,6 +270,7 @@ public class SpreadPlayersCommand extends VanillaCommand {
 			double zRangeMax) {
 		Location[] locations = new Location[size];
 
+		Random random = ThreadLocalRandom.current(); // FalchusSpigot - ThreadLocalRandom
 		for (int i = 0; i < size; ++i) {
 			double x = xRangeMin >= xRangeMax ? xRangeMin : random.nextDouble() * (xRangeMax - xRangeMin) + xRangeMin;
 			double z = zRangeMin >= zRangeMax ? zRangeMin : random.nextDouble() * (zRangeMax - zRangeMin) + zRangeMin;
