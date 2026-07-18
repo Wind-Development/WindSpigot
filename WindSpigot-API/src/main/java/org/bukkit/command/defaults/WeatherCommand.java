@@ -3,6 +3,7 @@ package org.bukkit.command.defaults;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -34,7 +35,7 @@ public class WeatherCommand extends VanillaCommand {
 			return false;
 		}
 
-		int duration = (300 + new Random().nextInt(600)) * 20;
+		int duration = (300 + ThreadLocalRandom.current().nextInt(600)) * 20; // FalchusSpigot - ThreadLocalRandom
 		if (args.length >= 2) {
 			duration = getInteger(sender, args[1], 1, 1000000) * 20;
 		}
