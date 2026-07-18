@@ -121,7 +121,6 @@ import org.bukkit.util.Vector;
 import com.google.common.base.Preconditions;
 
 import ga.windpvp.windspigot.cache.Constants;
-import ga.windpvp.windspigot.random.FastRandom;
 import net.minecraft.server.*;
 
 public class CraftWorld implements World {
@@ -141,7 +140,7 @@ public class CraftWorld implements World {
 	private int chunkLoadCount = 0;
 	private int chunkGCTickCount;
 
-	private static final Random rand = new FastRandom(); // WindSpigot - use more fast randoms
+	private static final Random rand = new Random();
 
 	public CraftWorld(WorldServer world, ChunkGenerator gen, Environment env) {
 		this.world = world;
