@@ -1,7 +1,5 @@
 package net.minecraft.server;
 
-import ga.windpvp.windspigot.random.FastRandom;
-
 import java.util.Arrays;
 import java.util.Random;
 
@@ -53,7 +51,7 @@ public class BiomeMesa extends BiomeBase {
 		}
 
 		if (this.aF == null || this.aG == null || this.aE != world.getSeed()) {
-			Random random1 = new FastRandom(this.aE);
+			Random random1 = new Random(this.aE);
 
 			this.aF = new NoiseGenerator3(random1, 4);
 			this.aG = new NoiseGenerator3(random1, 1);
@@ -177,7 +175,7 @@ public class BiomeMesa extends BiomeBase {
 	private void a(long i) {
 		this.aD = new IBlockData[64];
 		Arrays.fill(this.aD, Blocks.HARDENED_CLAY.getBlockData());
-		Random random = new FastRandom(i);
+		Random random = new Random(i);
 
 		this.aH = new NoiseGenerator3(random, 1);
 
