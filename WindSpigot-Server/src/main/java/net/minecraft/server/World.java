@@ -35,7 +35,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 // WindSpigot start 
 import ga.windpvp.windspigot.config.WindSpigotConfig;
 import ga.windpvp.windspigot.entity.EntityTickLimiter;
-import ga.windpvp.windspigot.random.FastRandom;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.elier.nachospigot.config.NachoWorldConfig;
 import me.rastrian.dev.PlayerMap;
@@ -83,13 +82,13 @@ public abstract class World implements IBlockAccess {
 	protected final IntHashMap<Entity> entitiesById = new IntHashMap();
 	private long d = 16777215L;
 	private int I;
-	protected int m = (new FastRandom()).nextInt();
+	protected int m = (new Random()).nextInt();
 	protected final int n = 1013904223;
 	protected float o;
 	protected float p;
 	protected float q;
 	protected float r;
-	public final Random random = new FastRandom(); // AW-Spigot - fast random
+	public final Random random = new Random();
 	public WorldProvider worldProvider; // CraftBukkit - remove final
 	protected List<IWorldAccess> u = Lists.newArrayList();
 	protected IChunkProvider chunkProvider;
