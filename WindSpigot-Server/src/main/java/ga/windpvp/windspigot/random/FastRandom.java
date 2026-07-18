@@ -10,6 +10,7 @@ import javax.annotation.concurrent.ThreadSafe;
  * 30% faster and better quality than the built-in java.util.random see also see
  * http://www.javamex.com/tutorials/random_numbers/xorshift.shtml
  */
+@Deprecated
 @ThreadSafe // The fast random can be used with multiple threads
 public strictfp class FastRandom extends Random implements Cloneable {
 	
