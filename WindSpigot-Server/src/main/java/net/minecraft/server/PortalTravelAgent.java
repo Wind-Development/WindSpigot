@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import ga.windpvp.windspigot.random.FastRandom;
 import org.bukkit.Location;
 import org.bukkit.event.entity.EntityPortalExitEvent;
 import org.bukkit.util.Vector;
@@ -20,7 +19,7 @@ public class PortalTravelAgent {
 
 	public PortalTravelAgent(WorldServer worldserver) {
 		this.a = worldserver;
-		this.b = new FastRandom(worldserver.getSeed());
+		this.b = new Random(worldserver.getSeed());
 	}
 
 	public void a(Entity entity, float f) {
