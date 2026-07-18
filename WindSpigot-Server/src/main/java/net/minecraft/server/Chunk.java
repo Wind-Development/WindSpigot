@@ -9,7 +9,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger; // PaperSpigot
 
-import ga.windpvp.windspigot.random.FastRandom;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit; // CraftBukkit
@@ -1219,7 +1218,7 @@ public class Chunk {
 	}
 
 	public Random a(long i) {
-		return new FastRandom(this.world.getSeed() + this.locX * this.locX * 4987142 + this.locX * 5947611
+		return new Random(this.world.getSeed() + this.locX * this.locX * 4987142 + this.locX * 5947611
 				+ this.locZ * this.locZ * 4392871L + this.locZ * 389711 ^ i);
 	}
 
