@@ -3,14 +3,13 @@ package net.minecraft.server;
 import java.math.BigInteger;
 import java.security.PrivateKey;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import javax.crypto.SecretKey;
 
-import ga.windpvp.windspigot.random.FastRandom;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +42,6 @@ public class LoginListener implements PacketLoginInListener, IUpdatePlayerListBo
 
 	private static final AtomicInteger b = new AtomicInteger(0);
 	private static final Logger c = LogManager.getLogger();
-	private static final Random random = new FastRandom();
 	private final byte[] e = new byte[4];
 	private final MinecraftServer server;
 	public final NetworkManager networkManager;
@@ -60,7 +58,7 @@ public class LoginListener implements PacketLoginInListener, IUpdatePlayerListBo
 		this.j = "";
 		this.server = minecraftserver;
 		this.networkManager = networkmanager;
-		LoginListener.random.nextBytes(this.e);
+		ThreadLocalRandom.current().nextBytes(this.e);
 	}
 
 	@Override
