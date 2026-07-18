@@ -213,5 +213,5 @@ See the patches list below.
 
 [Sugarcane-0022] Add YAML comments
 
-[AW-Spigot-????] Fast randoms
+[FalchusSpigot-????] Use ThreadLocalRandom
 ```
