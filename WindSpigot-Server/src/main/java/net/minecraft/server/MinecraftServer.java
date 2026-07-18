@@ -24,6 +24,7 @@ import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
+import io.papermc.paper.util.linkedqueue.CachedSizeConcurrentLinkedQueue;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -120,9 +121,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 	private long X = 0L;
 	private final GameProfileRepository Y;
 	private final UserCache Z;
-	protected final Queue<FutureTask<?>> j = new java.util.concurrent.ConcurrentLinkedQueue<FutureTask<?>>(); // Spigot,
-																												// PAIL:
-																												// Rename
+	protected final Queue<FutureTask<?>> j = new CachedSizeConcurrentLinkedQueue<>(); // Spigot, PAIL: Rename // Paper - Make size() constant-time
 	private Thread serverThread;
 	private long ab = az();
 
