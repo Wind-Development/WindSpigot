@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Random;
 
 import com.google.common.collect.Lists;
-import ga.windpvp.windspigot.random.FastRandom;
 
 public class ChunkProviderFlat implements IChunkProvider {
 
@@ -22,7 +21,7 @@ public class ChunkProviderFlat implements IChunkProvider {
 
 	public ChunkProviderFlat(World world, long i, boolean flag, String s) {
 		this.a = world;
-		this.b = new FastRandom(i);
+		this.b = new Random(i);
 		this.d = WorldGenFlatInfo.a(s);
 		if (flag) {
 			Map map = this.d.b();
