@@ -39,21 +39,7 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn> {
 		timestamp = System.currentTimeMillis(); // CraftBukkit
 		this.b = serializer.c();
 		this.c = serializer.readUnsignedByte();
-
-		// KigPaper-0172 start - don't parse itemstack
-
-		if (!WindSpigotConfig.stopDecodingItemStackOnPlace) {
-			this.d = serializer.decodeItemStack();
-		} else {
-			// Consume everything and leave 3 bytes at the end
-			if (serializer.readableBytes() < 3) {
-				throw new DecoderException("Expected 3 facing bytes");
-			}
-			serializer.skipBytes(serializer.readableBytes() - 3);
-		}
-
-		// KigPaper-0172 end
-
+		this.d = serializer.decodeItemStack();
 		this.e = serializer.readUnsignedByte() / 16.0F;
 		this.f = serializer.readUnsignedByte() / 16.0F;
 		this.g = serializer.readUnsignedByte() / 16.0F;
