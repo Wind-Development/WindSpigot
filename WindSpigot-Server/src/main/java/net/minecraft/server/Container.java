@@ -19,8 +19,6 @@ import org.bukkit.inventory.InventoryView;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import ga.windpvp.windspigot.config.WindSpigotConfig;
-
 public abstract class Container {
 
 	public List<ItemStack> b = Lists.newArrayList();
@@ -83,7 +81,7 @@ public abstract class Container {
 			ItemStack itemstack1 = this.b.get(i);
 
 			if (!ItemStack.fastMatches(itemstack1, itemstack)
-					|| (tickCount % WindSpigotConfig.itemDirtyTicks == 0 && !ItemStack.matches(itemstack1, itemstack))) { // Spigot
+					|| (tickCount % 20 == 0 && !ItemStack.matches(itemstack1, itemstack))) { // Spigot
 				itemstack1 = itemstack == null ? null : itemstack.cloneItemStack();
 				this.b.set(i, itemstack1);
 
