@@ -183,7 +183,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.event.fire-player-move-event", "Enables the player move event.");
 		c.addComment("settings.event.fire-leaf-decay-event", "Enables the leaf decay event.");
 		c.addComment("settings.brand-name", "Changes the brand name of the server.\nThis will show in statistics, server lists, client crashes,\n and in the client debug screen. (accessed by pressing F3)");
-		c.addComment("settings.stop-decoding-itemstack-on-place", "Disables decoding itemstacks when not needed. May interfere with some plugins, so only enable if you know what you are doing.");
 		c.addComment("settings.anti-crash.enabled", "Kicks players if they try to do an action that could crash the server.");
 		c.addComment("settings.chunk.threads", "The amount of threads used for chunks.");
 		c.addComment("settings.chunk.players-per-thread", "The amount of players for each thread.");
@@ -196,7 +195,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.anti-enderpearl-glitch", "Blocks enderpearl glitching.");
 		c.addComment("settings.disable-block-fall-animation", "Disables the fall animation for blocks.");
 		c.addComment("settings.disable-infinisleeper-thread-usage", "Disable infinisleeper thread usage, only enable this if you know what are you doing.");
-		c.addComment("settings.item-dirty-ticks", "Controls the interval for the item-dirty check. Minecraft checks an item every tick to see if it was changed. This can be expensive because it also needs to check all NBT data. Spigot only checks for basic count/data/type data and does a deep check every 20 ticks by default.");
 		c.addComment("settings.tcp-fast-open.enabled", "Enables the TCP_FASTOPEN socket option.");
 		c.addComment("settings.tcp-fast-open.mode", "Options: 0 - Disabled.; 1 - TFO is enabled for outgoing connections (clients).; 2 - TFO is enabled for incoming connections (servers).; 3 - TFO is enabled for both clients and servers.");
 		c.addComment("settings.instant-interaction", "Disables delay of all interactions.");
@@ -552,12 +550,6 @@ public class WindSpigotConfig {
 		serverBrandName = getString("settings.brand-name", "WindSpigot");
 	}
 
-	public static boolean stopDecodingItemStackOnPlace;
-
-	private static void stopDecodingItemStackOnPlace() {
-		stopDecodingItemStackOnPlace = getBoolean("settings.stop-decoding-itemstack-on-place", false);
-	}
-
 	public static boolean enableAntiCrash;
 
 	private static void enableAntiCrash() {
@@ -624,12 +616,6 @@ public class WindSpigotConfig {
 
 	private static void disableInfiniSleeperThreadUsage() {
 		disableInfiniSleeperThreadUsage = getBoolean("settings.disable-infinisleeper-thread-usage", false);
-	}
-
-	public static int itemDirtyTicks;
-
-	private static void itemDirtyTicks() {
-		itemDirtyTicks = getInt("settings.item-dirty-ticks", 20);
 	}
 
 	public static boolean enableTcpFastOpen;
