@@ -1,8 +1,7 @@
 package net.minecraft.server;
 
-import ga.windpvp.windspigot.random.FastRandom;
-
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerListBox, ITileEntityContainer {
 	public int a;
@@ -15,7 +14,6 @@ public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerL
 	public float l;
 	public float m;
 	public float n;
-	private static Random o = new FastRandom();
 	private String p;
 
 	public TileEntityEnchantTable() {
@@ -55,11 +53,12 @@ public class TileEntityEnchantTable extends TileEntity implements IUpdatePlayerL
 			double var4 = var1.locZ - (this.position.getZ() + 0.5F);
 			this.n = (float) MathHelper.b(var4, var2);
 			this.j += 0.1F;
-			if (this.j < 0.5F || o.nextInt(40) == 0) {
+			Random random = ThreadLocalRandom.current(); // FalchusSpigot - ThreadLocalRandom
+			if (this.j < 0.5F || random.nextInt(40) == 0) {
 				float var6 = this.h;
 
 				do {
-					this.h += o.nextInt(4) - o.nextInt(4);
+					this.h += random.nextInt(4) - random.nextInt(4);
 				} while (var6 == this.h);
 			}
 		} else {
