@@ -10,7 +10,6 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import ga.windpvp.windspigot.random.FastRandom;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.WeatherType;
@@ -955,7 +954,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 			this.isLoading = true;
 			WorldChunkManager worldchunkmanager = this.worldProvider.m();
 			List list = worldchunkmanager.a();
-			Random random = new FastRandom(this.getSeed());
+			Random random = new Random(this.getSeed());
 			BlockPosition blockposition = worldchunkmanager.a(0, 0, 256, list, random);
 			int i = 0;
 			int j = this.worldProvider.getSeaLevel();
@@ -963,7 +962,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 
 			// CraftBukkit start
 			if (this.generator != null) {
-				Random rand = new FastRandom(this.getSeed());
+				Random rand = new Random(this.getSeed());
 				org.bukkit.Location spawn = this.generator.getFixedSpawnLocation(this.getWorld(), rand);
 
 				if (spawn != null) {
