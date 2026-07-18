@@ -12,11 +12,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Queue;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.LockSupport;
 import java.util.function.BooleanSupplier;
@@ -24,7 +24,6 @@ import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
-import ga.windpvp.windspigot.random.FastRandom;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -79,7 +78,6 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 	public final MethodProfiler methodProfiler = new MethodProfiler();
 	private ServerConnection q; // Spigot
 	private final ServerPing r = new ServerPing();
-	private final Random s = new FastRandom();
 	private String serverIp;
 	private int u = -1;
 
@@ -957,7 +955,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 			this.X = i;
 			this.r.setPlayerSample(new ServerPing.ServerPingPlayerSample(this.J(), this.I()));
 			GameProfile[] agameprofile = new GameProfile[Math.min(this.I(), 12)];
-			int j = MathHelper.nextInt(this.s, 0, this.I() - agameprofile.length);
+			int j = MathHelper.nextInt(ThreadLocalRandom.current(), 0, this.I() - agameprofile.length); // FalchusSpigot - ThreadLocalRandom
 
 			for (int k = 0; k < agameprofile.length; ++k) {
 				agameprofile[k] = this.v.v().get(j + k).getProfile();
