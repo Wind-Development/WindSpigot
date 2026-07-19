@@ -15,7 +15,7 @@ import net.minecraft.server.WorldServer;
 public class AsyncEntityTracker extends EntityTracker {
 	
 	private static final ExecutorService trackingThreadExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("WindSpigot Entity Tracker Thread").build());
-	private final WorldServer worldServer;	
+	protected final WorldServer worldServer;	
 	
 	public AsyncEntityTracker(WorldServer worldserver) {
 		super(worldserver);
