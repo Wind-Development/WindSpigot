@@ -191,7 +191,6 @@ See the patches list below.
 [KigPaper-0138] Fix some more memory leaks
 [KigPaper-0161] Fix CraftingManager memory leak
 [KigPaper-0167] Add setType without lighting update API
-[KigPaper-0172] NBT no-op for block place packet
 [KigPaper-0191] Don't calculate initial light if not requested
 
 [FlamePaper-0032] Dont load chunks for chests
