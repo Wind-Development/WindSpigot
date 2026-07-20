@@ -50,7 +50,7 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 28; // Update this every new configuration update
+		int configVersion = 29; // Update this every new configuration update
 
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
@@ -197,7 +197,8 @@ public class WindSpigotConfig {
 		c.addComment("settings.tcp-fast-open.enabled", "Enables the TCP_FASTOPEN socket option.");
 		c.addComment("settings.tcp-fast-open.mode", "Options: 0 - Disabled.; 1 - TFO is enabled for outgoing connections (clients).; 2 - TFO is enabled for incoming connections (servers).; 3 - TFO is enabled for both clients and servers.");
 		c.addComment("settings.instant-interaction", "Disables delay of all interactions.");
-        c.addComment("settings.disable-disconnect-spam", "Disables that players can be kicked because of disconnect.spam.");
+        c.addComment("settings.disconnect-spam.increment", "How much to add to the tab-spam counter per spam event (each time this check triggers)");
+        c.addComment("settings.disconnect-spam.limit", "Threshold for the running tab-spam counter; once it exceeds this value, the player is disconnected.");
 	}
 
 	private static void set(String path, Object val) {
@@ -635,10 +636,15 @@ public class WindSpigotConfig {
 		instantPlayInUseEntity = getBoolean("settings.instant-interaction", false);
 	}
 	
-    public static boolean disableDisconnectSpam;
-
-    private static void disableDisconnectSpam() {
-        disableDisconnectSpam = getBoolean("settings.disable-disconnect-spam", true);
+	
+	// Credit to uRyanxD and PandaSpigot for this feature
+	public static int tabSpamIncrement;
+	public static int tabSpamLimit;
+	
+    private static void tabSpam() {
+    	// Default is 10 and 500 - made it a bit more lenient
+        tabSpamIncrement = getInt("settings.disconnect-spam.increment", 5);
+        tabSpamLimit = getInt("settings.disconnect-spam.limit", 750);
     }
     
 }

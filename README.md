@@ -42,7 +42,8 @@ See the patches list below.
 [WindSpigot-0015] Configurable explosion animations and sound
 [WindSpigot-0016] Configurable weather changes
 [WindSpigot-0017] Configurable fishing rod speed multiplier
-[WindSpigot-0018] Toggle for disconnect.spam
+
+[PandaSpigot-0115] Break up and make tab spam limits configurable
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5

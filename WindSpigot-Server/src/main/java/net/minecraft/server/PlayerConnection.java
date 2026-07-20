@@ -84,6 +84,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	private static final AtomicIntegerFieldUpdater<PlayerConnection> chatSpamField = AtomicIntegerFieldUpdater
 			.newUpdater(PlayerConnection.class, "chatThrottle");
 	// CraftBukkit end
+	private final java.util.concurrent.atomic.AtomicInteger tabSpamLimiter = new java.util.concurrent.atomic.AtomicInteger(); // PandaSpigot - Configurable tab spam limits
 	private int m;
 	private final IntHashMap<Short> n = new IntHashMap<>();
 	private double o;
@@ -180,6 +181,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			 */
 			// CraftBukkit end
 		}
+		if (tabSpamLimiter.get() > 0) tabSpamLimiter.getAndDecrement(); // PandaSpigot - Split variable
 
 		if (this.m > 0) {
 			--this.m;
@@ -2379,16 +2381,11 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	@Override
 	public void a(PacketPlayInTabComplete packetplayintabcomplete) {
 		PlayerConnectionUtils.ensureMainThread(packetplayintabcomplete, this, this.player.u());
-        // WindSpigot start - toggle for disconnecting players for tab complete spam
-		if (!WindSpigotConfig.disableDisconnectSpam) {
-			// CraftBukkit start
-			if (chatSpamField.addAndGet(this, 10) > 500
-					&& !this.minecraftServer.getPlayerList().isOp(this.player.getProfile())) {
-				this.disconnect("disconnect.spam");
-				return;
-			}
-        }
-		// WindSpigot end
+		// CraftBukkit start
+        if (tabSpamLimiter.addAndGet(WindSpigotConfig.tabSpamIncrement) > WindSpigotConfig.tabSpamLimit && !this.minecraftServer.getPlayerList().isOp(this.player.getProfile())) { // PandaSpigot - Split and make configurable
+			this.disconnect("disconnect.spam");
+			return;
+		}        
 		// CraftBukkit end
 		ArrayList arraylist = Lists.newArrayList();
 		Iterator iterator = this.minecraftServer
