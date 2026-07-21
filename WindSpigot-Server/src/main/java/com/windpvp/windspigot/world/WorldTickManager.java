@@ -47,25 +47,6 @@ public class WorldTickManager {
         // Cache world tick runnables if not cached already
         this.cacheWorlds();
 
-        // Wait for entity tracking if async entity tracking takes this long
-        if (!WindSpigotConfig.disableTracking && WindSpigotConfig.fullAsyncTracking) {
-            for (WorldTicker ticker : this.worldTickers) {
-                if (!ticker.hasTracked) {
-                    continue;
-                }
-                try {
-                    ticker.getLatch().waitTillZero();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                ticker.worldserver.timings.tracker.stopTiming();
-                ticker.getLatch().reset();
-            }
-            for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-                player.playerConnection.sendQueuedPackets();
-            }
-        }
-
         // Move BukkitScheduler stuff here so async entity tracking does not interfere
         SpigotTimings.bukkitSchedulerTimer.startTiming(); // Spigot
         // CraftBukkit start
