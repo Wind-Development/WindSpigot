@@ -117,7 +117,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MapMaker;
 import com.mojang.authlib.GameProfile;
 import com.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
-import com.windpvp.windspigot.async.entitytracker.MultithreadedEntityTracker;
 import com.windpvp.windspigot.commons.PluginUtils;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 import com.windpvp.windspigot.knockback.KnockbackConfig;
@@ -1073,10 +1072,8 @@ public final class CraftServer implements Server {
 		// WindSpigot start
 		if (WindSpigotConfig.disableTracking) {
 			internal.tracker = new EntityTracker(internal);
-		} else if (WindSpigotConfig.fullAsyncTracking) {
-			internal.tracker = new AsyncEntityTracker(internal);
 		} else {
-			internal.tracker = new MultithreadedEntityTracker(internal);
+			internal.tracker = new AsyncEntityTracker(internal);
 		}
 		// WindSpigot end
 		internal.addIWorldAccess(new WorldManager(console, internal));
