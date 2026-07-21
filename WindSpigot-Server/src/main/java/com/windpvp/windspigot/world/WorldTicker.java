@@ -2,7 +2,6 @@ package com.windpvp.windspigot.world;
 
 import java.util.List;
 
-import com.windpvp.windspigot.async.AsyncUtil;
 import com.windpvp.windspigot.async.ResettableLatch;
 import com.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import com.windpvp.windspigot.config.WindSpigotConfig;
@@ -29,14 +28,10 @@ public class WorldTicker implements Runnable {
 			worldserver.getTracker().updatePlayers();
 		};
 	}
-	
-	@Override
-	public void run() {
-		run((!WindSpigotConfig.disableTracking && WindSpigotConfig.fullAsyncTracking));
-	}
 
 	// This is mostly copied code from world ticking
-	private void run(boolean handleTrackerAsync) {
+	@Override
+	public void run() {
 		// this.methodProfiler.a(worldserver.getWorldData().getName());
 		// this.methodProfiler.a("tick");
 		CrashReport crashreport;
@@ -74,36 +69,31 @@ public class WorldTicker implements Runnable {
 		}
 
         worldserver.timings.tracker.startTiming(); // Spigot
-		if (handleTrackerAsync) {
-			AsyncUtil.run(cachedUpdateTrackerTask, AsyncEntityTracker.getExecutor());
-		} else {
-
-			// this.methodProfiler.b();
-			// this.methodProfiler.a("tracker");
-			if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
-			{
-				// Tuinity start - controlled flush for entity tracker packets
-				List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(
-						MinecraftServer.getServer().getPlayerList().getPlayerCount());
-				for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-					PlayerConnection connection = player.playerConnection;
-					if (connection != null) {
-						connection.networkManager.disableAutomaticFlush();
-						disabledFlushes.add(connection.networkManager);
-					}
+		// this.methodProfiler.b();
+		// this.methodProfiler.a("tracker");
+		if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
+		{
+			// Tuinity start - controlled flush for entity tracker packets
+			List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(
+					MinecraftServer.getServer().getPlayerList().getPlayerCount());
+			for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+				PlayerConnection connection = player.playerConnection;
+				if (connection != null) {
+					connection.networkManager.disableAutomaticFlush();
+					disabledFlushes.add(connection.networkManager);
 				}
-				try {
-					worldserver.getTracker().updatePlayers();
-				} finally {
-					for (NetworkManager networkManager : disabledFlushes) {
-						networkManager.enableAutomaticFlush();
-					}
-				}
-				// Tuinity end - controlled flush for entity tracker packets
 			}
-	
-			worldserver.timings.tracker.stopTiming(); // Spigot
+			try {
+				worldserver.getTracker().updatePlayers();
+			} finally {
+				for (NetworkManager networkManager : disabledFlushes) {
+					networkManager.enableAutomaticFlush();
+				}
+			}
+			// Tuinity end - controlled flush for entity tracker packets
 		}
+
+		worldserver.timings.tracker.stopTiming(); // Spigot
 		// this.methodProfiler.b();
 		// this.methodProfiler.b();
 		worldserver.explosionDensityCache.clear(); // Paper - Optimize explosions
