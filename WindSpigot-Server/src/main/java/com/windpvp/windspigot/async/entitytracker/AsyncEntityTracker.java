@@ -8,8 +8,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
+import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.EntityTracker;
 import net.minecraft.server.EntityTrackerEntry;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
 public class AsyncEntityTracker extends EntityTracker {
@@ -31,13 +33,22 @@ public class AsyncEntityTracker extends EntityTracker {
 			
 			AsyncUtil.run(() -> {
 				for (int index = finalOffset; index < c.size(); index += WindSpigotConfig.trackingThreads) {
-					((IndexedLinkedHashSet<EntityTrackerEntry>) c).get(index).update();
+                    ((IndexedLinkedHashSet<EntityTrackerEntry>) c).get(index).update();
 				}
 				worldServer.ticker.getLatch().decrement();
 
 			}, trackingThreadExecutor);
 			
 		}
+		try {
+            worldServer.ticker.getLatch().waitTillZero();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+	    worldServer.ticker.getLatch().reset();
+        for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+            player.playerConnection.sendQueuedPackets();
+        }
 	}
 
 	public static ExecutorService getExecutor() {
