@@ -234,11 +234,11 @@ public class WindSpigotConfig {
 		return config.getString(path, config.getString(path));
 	}
 	
-	public static boolean disableTracking;
+	public static boolean tracking;
 	public static int trackingThreads;
 
 	private static void tracking() {
-		disableTracking = !getBoolean("settings.async.entity-tracking.enable", true);
+		tracking = getBoolean("settings.async.entity-tracking", true);
 		trackingThreads = getInt("settings.async.entity-tracking.threads", 4);
 	}
 
