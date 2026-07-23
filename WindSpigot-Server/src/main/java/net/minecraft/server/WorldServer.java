@@ -77,7 +77,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		// CraftBukkit end
 		this.server = minecraftserver;
 		// WindSpigot - async entity tracking
-		if (WindSpigotConfig.disableTracking) {
+		if (!WindSpigotConfig.tracking) {
 			this.tracker = new EntityTracker(this);
 		} else {
 		    this.tracker = new AsyncEntityTracker(this);
