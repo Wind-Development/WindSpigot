@@ -53,7 +53,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 		this.updateY = entity.locY;
 		this.updateZ = entity.locZ;
 
-		if (WindSpigotConfig.disableTracking) {
+		if (!WindSpigotConfig.tracking) {
 			this.addRemoveRate = 100;
 		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
 			this.addRemoveRate = 5; // projectile things
