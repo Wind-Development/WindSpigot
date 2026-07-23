@@ -1070,7 +1070,7 @@ public final class CraftServer implements Server {
 		internal.scoreboard = getScoreboardManager().getMainScoreboard().getHandle();
 
 		// WindSpigot start
-		if (WindSpigotConfig.disableTracking) {
+		if (!WindSpigotConfig.tracking) {
 			internal.tracker = new EntityTracker(internal);
 		} else {
 			internal.tracker = new AsyncEntityTracker(internal);
