@@ -20,7 +20,6 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.async.pathsearch.AsyncNavigation;
-import com.windpvp.windspigot.entity.EntityTickLimiter;
 
 @SuppressWarnings("unused")
 public class WindSpigotConfig {
@@ -390,33 +389,6 @@ public class WindSpigotConfig {
 	
 	private static void debugMode() {
 		debugMode = getBoolean("settings.debug-mode", false);
-	}
-
-	public static int tileMaxTickTime;
-	public static int entityMaxTickTime;
-
-	private static void maxTickTimes() {
-		entityMaxTickTime = getInt("settings.max-tick-time.entity", 35);
-		tileMaxTickTime = 1000; // We do not re-implement the tile entity tick cap, so we disable it by setting it to 1000
-	}
-	
-	public static boolean stopMobSpawnsDuringOverload;
-	
-	@SuppressWarnings({ "unchecked", "deprecation" })
-	private static void skippableEntities() {
-		List<String> skippableEntities = getList("settings.max-tick-time.skippable-entities",
-				Lists.newArrayList("BAT", "BLAZE", "CHICKEN", "COW", "CREEPER", "ENDERMAN", "HORSE", "IRON_GOLEM",
-						"MAGMA_CUBE", "MUSHROOM_COW", "PIG", "PIG_ZOMBIE", "RABBIT", "SHEEP", "SKELETON", "SILVERFISH",
-						"SLIME", "SNOWMAN", "SQUID", "WITCH", "ZOMBIE"));
-		
-		List<EntityType> finalEntities = Lists.newArrayList();
-		
-		for (String entityName : skippableEntities) {
-			finalEntities.add(EntityType.fromName(entityName));
-		}
-		EntityTickLimiter.addSkippableEntities(finalEntities);
-		
-		stopMobSpawnsDuringOverload = getBoolean("settings.max-tick-time.limit-on-overload", false);
 	}
 	
 	public static boolean improvedHitDetection;
