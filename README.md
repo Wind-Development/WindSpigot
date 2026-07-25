@@ -29,14 +29,12 @@ See the patches list below.
 [WindSpigot-0002] WindSpigot config
 [WindSpigot-0003] Mob AI toggle command
 [WindSpigot-0004] Parallel world ticking
-[WindSpigot-0005] Disable mob spawning if tps is not stable
 [WindSpigot-0006] Remove FastMath
 [WindSpigot-0007] Player ping command
 [WindSpigot-0008] Make NachoSpigot's async TNT configurable
 [WindSpigot-0009] Configurable entity hit delay
 [WindSpigot-0010] Configurable potion speeds
 [WindSpigot-0011] Make console display of player ips toggleable
-[WindSpigot-0012] Re-implement Spigot's max tick time for certain configurable entities
 [WindSpigot-0013] More configuration for knockback
 [WindSpigot-0014] Async entity path searching
 [WindSpigot-0015] Configurable explosion animations and sound
