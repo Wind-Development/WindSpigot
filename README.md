@@ -7,6 +7,11 @@
 ## Downloads
 See the **[releases](https://github.com/Wind-Development/WindSpigot/releases)** tab for the latest release.
 
+> [!TIP]
+> **Looking for even better performance?** Check out **[FalchusSpigot](https://falchus.com/spigot)**!
+> 
+> It is a high-performance fork of WindSpigot focused on improving server performance.
+
 ## FAQ
 
 #### What combat mechanics are improved on?
