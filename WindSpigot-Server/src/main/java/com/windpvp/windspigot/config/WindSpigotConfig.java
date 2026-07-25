@@ -119,8 +119,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.async.entity-tracking", "Configuration for the async entity tracker.");
 		c.addComment("settings.thread-affinity", "Only switch to true if your OS is properly configured!! (See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus) \nWhen properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
 		c.addComment("settings.command.mob-ai", "Enables the command \"/mobai\" which toggles mob ai. Users require the permission windspigot.command.mobai");
-		c.addComment("settings.limited-mob-spawns", "Disables mob spawning if TPS is lower than the specified threshold.");	
-		c.addComment("settings.limited-mob-spawns-threshold", "Threshold to disable mob spawning. This does not apply if limited mob spawns is not enabled. This option accepts decimals.");
 		c.addComment("settings.pearl-passthrough.fence-gate", "Allows pearls to pass through fences.");
 		c.addComment("settings.pearl-passthrough.tripwire", "Allows pearls to pass through tripwires.");
 		c.addComment("settings.pearl-passthrough.slab", "Allows pearls to pass through slabs.");
@@ -251,18 +249,6 @@ public class WindSpigotConfig {
 
 	private static void mobAiCmd() {
 		mobAiCmd = getBoolean("settings.command.mob-ai", true);
-	}
-
-	public static boolean limitedMobSpawns;
-
-	private static void limitedMobSpawns() {
-		limitedMobSpawns = getBoolean("settings.limited-mob-spawns", false);
-	}
-
-	public static double limitedMobSpawnsThreshold;
-
-	private static void limitedMobSpawnsThreshold() {
-		limitedMobSpawnsThreshold = getDouble("settings.limited-mob-spawns-threshold", 18);
 	}
 	
 	// FlamePaper start - 0117-Pearl-through-blocks
