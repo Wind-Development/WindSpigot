@@ -10,7 +10,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 // CraftBukkit end
 
 // CraftBukkit start
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
 
 public final class SpawnerCreature {
 
@@ -22,28 +21,13 @@ public final class SpawnerCreature {
 
 	// Spigot start - get entity count only from chunks being processed in b
 	private int getEntityCount(WorldServer server, Class oClass) {
-		// NachoSpigot start - remove Steam
+		// PandaSpigot start - use entire world, not just active chunks. Spigot broke vanilla expectations.
 		int sum = 0;
-		for (ObjectIterator<Chunk> objectIterator = (server.chunkProviderServer).chunks.values()
-				.iterator(); objectIterator.hasNext();) {
-			Chunk c = objectIterator.next();
+		for (Chunk c : server.chunkProviderServer.chunks.values()) {
 			sum += c.entityCount.get(oClass);
 		}
 		return sum;
-		// NachoSpigot end
-
-		// TacoSpigot start - use entire world, not just active chunks. Spigot broke
-		// vanilla expectations.
-//        if (true) {
-//
-//            server.chunkProviderServer.chunks.values().iterator()
-//            return server
-//                    .chunkProviderServer
-//                    .chunks.values()
-//                    .stream()
-//                    .collect(java.util.stream.Collectors.summingInt(c -> c.entityCount.get(oClass)));
-//        }
-//        // TacoSpigot end
+		// PandaSpigot end
 //        int i = 0;
 //        Iterator<Long> it = this.b.iterator();
 //        while ( it.hasNext() )
@@ -145,16 +129,10 @@ public final class SpawnerCreature {
 					 * CraftBukkit - use per-world limits
 					 */
 
-					if ((mobcnt = getEntityCount(worldserver, enumcreaturetype.a())) <= limit * i / 289) { // TacoSpigot
-																											// - use
-																											// 17x17
-																											// like
-																											// vanilla
-																											// (a at top
-																											// of file)
+					if ((mobcnt = getEntityCount(worldserver, enumcreaturetype.a())) <= limit * i / 289) { // PandaSpigot - use 17x17 like vanilla (a at top of file)
 						Iterator iterator1 = this.b.iterator();
 
-						int moblimit = (limit * i / 256) - mobcnt + 1; // Spigot - up to 1 more than limit
+						int moblimit = (limit * i / 289) - mobcnt + 1; // Spigot - up to 1 more than limit // PandaSpigot - use 17x17 like vanilla (a at top of file)
 						label115: while (iterator1.hasNext() && (moblimit > 0)) { // Spigot - while more allowed
 																					// CraftBukkit start = use LongHash
 																					// and LongObjectHashMap
