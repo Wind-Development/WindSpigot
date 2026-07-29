@@ -42,6 +42,7 @@ See the patches list below.
 [WindSpigot-0017] Configurable fishing rod speed multiplier
 
 [PandaSpigot-0115] Break up and make tab spam limits configurable
+[PandaSpigot-0072] Fix Bugs with Spigot Mob Spawn Logic
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
