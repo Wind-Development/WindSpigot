@@ -24,7 +24,7 @@ public final class SpawnerCreature {
 		// PandaSpigot start - use entire world, not just active chunks. Spigot broke vanilla expectations.
 		int sum = 0;
 		for (Chunk c : server.chunkProviderServer.chunks.values()) {
-			sum += c.entityCount.get(oClass);
+			sum += c.entityCount.getInt(oClass);
 		}
 		return sum;
 		// PandaSpigot end
