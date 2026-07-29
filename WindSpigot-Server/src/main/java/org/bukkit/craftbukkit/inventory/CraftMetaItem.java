@@ -278,8 +278,10 @@ class CraftMetaItem implements ItemMeta, Repairable {
 			NBTTagList nbttaglist = tag.getList(ATTRIBUTES.NBT, 10);
 
 			// Spigot start
-			gnu.trove.map.hash.TObjectDoubleHashMap<String> attributeTracker = new gnu.trove.map.hash.TObjectDoubleHashMap<String>();
-			gnu.trove.map.hash.TObjectDoubleHashMap<String> attributeTrackerX = new gnu.trove.map.hash.TObjectDoubleHashMap<String>();
+			// FalchusSpigot start - trove -> fastutil
+			it.unimi.dsi.fastutil.objects.Object2DoubleMap<String> attributeTracker = new it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap<String>();
+			it.unimi.dsi.fastutil.objects.Object2DoubleMap<String> attributeTrackerX = new it.unimi.dsi.fastutil.objects.Object2DoubleOpenHashMap<String>();
+			// FalchusSpigot end
 			Map<String, IAttribute> attributesByName = new HashMap<String, IAttribute>();
 			attributeTracker.put("generic.maxHealth", 20.0);
 			attributesByName.put("generic.maxHealth", GenericAttributes.maxHealth);
