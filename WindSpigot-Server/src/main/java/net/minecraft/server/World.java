@@ -225,7 +225,6 @@ public abstract class World implements IBlockAccess {
 		this.chunkTickRadius = (byte) ((this.getServer().getViewDistance() < 7) ? this.getServer().getViewDistance()
 				: 7);
 		this.chunkTickList = new it.unimi.dsi.fastutil.longs.Long2ShortOpenHashMap(spigotConfig.chunksPerTick * 5, 0.7f); // SportPaper: trove -> fastutil
-		this.chunkTickList.setAutoCompactionFactor(0);
 		// Spigot end
 
 		this.L = this.random.nextInt(12000);
