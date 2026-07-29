@@ -37,7 +37,7 @@ class TimingHistoryEntry {
 		this.data = handler.record.clone();
 		children = new TimingData[handler.children.size()];
 		int i = 0;
-		for (TimingData child : handler.children.valueCollection()) {
+		for (TimingData child : handler.children.values()) {
 			children[i++] = child.clone();
 		}
 	}
