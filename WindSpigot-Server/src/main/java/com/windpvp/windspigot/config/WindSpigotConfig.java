@@ -20,7 +20,6 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.async.pathsearch.AsyncNavigation;
-import com.windpvp.windspigot.entity.EntityTickLimiter;
 
 @SuppressWarnings("unused")
 public class WindSpigotConfig {
@@ -120,8 +119,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.async.entity-tracking", "Configuration for the async entity tracker.");
 		c.addComment("settings.thread-affinity", "Only switch to true if your OS is properly configured!! (See https://github.com/OpenHFT/Java-Thread-Affinity#isolcpus) \nWhen properly configured on the OS this allocates an entire cpu core to the server, it improves performance but uses more cpu.");
 		c.addComment("settings.command.mob-ai", "Enables the command \"/mobai\" which toggles mob ai. Users require the permission windspigot.command.mobai");
-		c.addComment("settings.limited-mob-spawns", "Disables mob spawning if TPS is lower than the specified threshold.");	
-		c.addComment("settings.limited-mob-spawns-threshold", "Threshold to disable mob spawning. This does not apply if limited mob spawns is not enabled. This option accepts decimals.");
 		c.addComment("settings.pearl-passthrough.fence-gate", "Allows pearls to pass through fences.");
 		c.addComment("settings.pearl-passthrough.tripwire", "Allows pearls to pass through tripwires.");
 		c.addComment("settings.pearl-passthrough.slab", "Allows pearls to pass through slabs.");
@@ -253,18 +250,6 @@ public class WindSpigotConfig {
 	private static void mobAiCmd() {
 		mobAiCmd = getBoolean("settings.command.mob-ai", true);
 	}
-
-	public static boolean limitedMobSpawns;
-
-	private static void limitedMobSpawns() {
-		limitedMobSpawns = getBoolean("settings.limited-mob-spawns", false);
-	}
-
-	public static double limitedMobSpawnsThreshold;
-
-	private static void limitedMobSpawnsThreshold() {
-		limitedMobSpawnsThreshold = getDouble("settings.limited-mob-spawns-threshold", 18);
-	}
 	
 	// FlamePaper start - 0117-Pearl-through-blocks
 	public static boolean pearlPassthroughFenceGate;
@@ -390,33 +375,6 @@ public class WindSpigotConfig {
 	
 	private static void debugMode() {
 		debugMode = getBoolean("settings.debug-mode", false);
-	}
-
-	public static int tileMaxTickTime;
-	public static int entityMaxTickTime;
-
-	private static void maxTickTimes() {
-		entityMaxTickTime = getInt("settings.max-tick-time.entity", 35);
-		tileMaxTickTime = 1000; // We do not re-implement the tile entity tick cap, so we disable it by setting it to 1000
-	}
-	
-	public static boolean stopMobSpawnsDuringOverload;
-	
-	@SuppressWarnings({ "unchecked", "deprecation" })
-	private static void skippableEntities() {
-		List<String> skippableEntities = getList("settings.max-tick-time.skippable-entities",
-				Lists.newArrayList("BAT", "BLAZE", "CHICKEN", "COW", "CREEPER", "ENDERMAN", "HORSE", "IRON_GOLEM",
-						"MAGMA_CUBE", "MUSHROOM_COW", "PIG", "PIG_ZOMBIE", "RABBIT", "SHEEP", "SKELETON", "SILVERFISH",
-						"SLIME", "SNOWMAN", "SQUID", "WITCH", "ZOMBIE"));
-		
-		List<EntityType> finalEntities = Lists.newArrayList();
-		
-		for (String entityName : skippableEntities) {
-			finalEntities.add(EntityType.fromName(entityName));
-		}
-		EntityTickLimiter.addSkippableEntities(finalEntities);
-		
-		stopMobSpawnsDuringOverload = getBoolean("settings.max-tick-time.limit-on-overload", false);
 	}
 	
 	public static boolean improvedHitDetection;

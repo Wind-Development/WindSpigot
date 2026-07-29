@@ -627,6 +627,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 			return false;
 		}
 		
+		WindSpigot.getInstance().getLagCompensator().clearCache(this); // WindSpigot (improved hit reg) clear cache on plugin teleport
         WindSpigot.getInstance().getLagCompensator().registerMovement(this, to); // Nacho
 
 		// If this player is riding another entity, we must dismount before teleporting.

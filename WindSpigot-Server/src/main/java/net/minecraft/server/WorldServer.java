@@ -254,20 +254,14 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		if (this.getGameRules().getBoolean("doMobSpawning")
 				&& this.worldData.getType() != WorldType.DEBUG_ALL_BLOCK_STATES
 				&& (this.allowMonsters || this.allowAnimals) && this.players.size() > 0) {
-			// WindSpigot start - disable mob spawning based on tps and server load
-			if (!(WindSpigotConfig.limitedMobSpawns
-					&& MinecraftServer.getServer().recentTps[0] < WindSpigotConfig.limitedMobSpawnsThreshold) // check if tps is low 
-					&& !(WindSpigotConfig.stopMobSpawnsDuringOverload && lastTickOverload)) { // check if server is overloaded
-				// WindSpigot end
-				timings.mobSpawn.startTiming(); // Spigot
-				this.R.a(this,
-						this.allowMonsters
-								&& (this.ticksPerMonsterSpawns != 0 && time % this.ticksPerMonsterSpawns == 0L),
-						this.allowAnimals && (this.ticksPerAnimalSpawns != 0 && time % this.ticksPerAnimalSpawns == 0L),
-						this.worldData.getTime() % 400L == 0L);
-				timings.mobSpawn.stopTiming(); // Spigot
-				// CraftBukkit end
-			}
+			timings.mobSpawn.startTiming(); // Spigot
+			this.R.a(this,
+					this.allowMonsters
+							&& (this.ticksPerMonsterSpawns != 0 && time % this.ticksPerMonsterSpawns == 0L),
+					this.allowAnimals && (this.ticksPerAnimalSpawns != 0 && time % this.ticksPerAnimalSpawns == 0L),
+					this.worldData.getTime() % 400L == 0L);
+			timings.mobSpawn.stopTiming(); // Spigot
+			// CraftBukkit end
 		}
 		// CraftBukkit end
 		if (this.nachoSpigotConfig.doChunkUnload) {

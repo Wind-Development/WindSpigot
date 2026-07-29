@@ -675,7 +675,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 
 		super.mount(entity);
 		if (this.vehicle != entity1) { // CraftBukkit
-			this.playerConnection.sendPacket(new PacketPlayOutAttachEntity(0, this, this.vehicle));
+			this.playerConnection.queuePacket(new PacketPlayOutAttachEntity(0, this, this.vehicle)); // WindSpigot - modify to work with our entity tracker changes (ensure spawn packet sent first) sendPacket -> queuePacket
 			this.playerConnection.a(this.locX, this.locY, this.locZ, this.yaw, this.pitch);
 		}
 
