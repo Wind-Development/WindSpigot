@@ -7,6 +7,9 @@ import java.util.List;
 // CraftBukkit start
 import java.util.Queue;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.shorts.Short2ShortArrayMap;
+import it.unimi.dsi.fastutil.shorts.Short2ShortMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.craftbukkit.chunkio.ChunkIOExecutor;
@@ -360,9 +363,9 @@ public class PlayerChunkMap {
 
 	class PlayerChunk {
 
-		private final List<EntityPlayer> b = Lists.newArrayList();
+		private final List<EntityPlayer> b = new ObjectArrayList<>(); // FalchusSpigot - ArrayList -> ObjectArrayList
 		private final ChunkCoordIntPair location;
-		private short[] dirtyBlocks = new short[64];
+		private Short2ShortMap dirtyBlocks = new Short2ShortArrayMap(64); // FalchusSpigot - use fast util
 		private int dirtyCount;
 		private int f;
 		private long g;
@@ -469,12 +472,12 @@ public class PlayerChunkMap {
 				short short0 = (short) (i << 12 | k << 8 | j);
 
 				for (int l = 0; l < this.dirtyCount; ++l) {
-					if (this.dirtyBlocks[l] == short0) {
+					if (this.dirtyBlocks.get(l) == short0) { // FalchusSpigot - use fast util
 						return;
 					}
 				}
 
-				this.dirtyBlocks[this.dirtyCount++] = short0;
+				this.dirtyBlocks.put((short) this.dirtyCount++, short0); // FalchusSpigot - use fast util
 			}
 
 		}
@@ -495,9 +498,11 @@ public class PlayerChunkMap {
 				int k;
 
 				if (this.dirtyCount == 1) {
-					i = (this.dirtyBlocks[0] >> 12 & 15) + this.location.x * 16;
-					j = this.dirtyBlocks[0] & 255;
-					k = (this.dirtyBlocks[0] >> 8 & 15) + this.location.z * 16;
+					// FalchusSpigot start - use fast util
+					i = (this.dirtyBlocks.get((short) 0) >> 12 & 15) + this.location.x * 16;
+					j = this.dirtyBlocks.get((short) 0) & 255;
+					k = (this.dirtyBlocks.get((short) 0) >> 8 & 15) + this.location.z * 16;
+					// FalchusSpigot end
 					BlockPosition blockposition = new BlockPosition(i, j, k);
 
 					this.a(new PacketPlayOutBlockChange(PlayerChunkMap.this.world, blockposition));
@@ -528,9 +533,11 @@ public class PlayerChunkMap {
 								PlayerChunkMap.this.world.getChunkAt(this.location.x, this.location.z)));
 
 						for (i = 0; i < this.dirtyCount; ++i) {
-							j = (this.dirtyBlocks[i] >> 12 & 15) + this.location.x * 16;
-							k = this.dirtyBlocks[i] & 255;
-							l = (this.dirtyBlocks[i] >> 8 & 15) + this.location.z * 16;
+							// FalchusSpigot start - use fast util
+							j = (this.dirtyBlocks.get((short) i) >> 12 & 15) + this.location.x * 16;
+							k = this.dirtyBlocks.get((short) i) & 255;
+							l = (this.dirtyBlocks.get((short) i)>> 8 & 15) + this.location.z * 16;
+							// FalchusSpigot end
 							BlockPosition blockposition1 = new BlockPosition(j, k, l);
 
 							if (PlayerChunkMap.this.world.getType(blockposition1).getBlock().isTileEntity()) {
