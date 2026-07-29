@@ -9,6 +9,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger; // PaperSpigot
 
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit; // CraftBukkit
@@ -48,7 +49,7 @@ public class Chunk {
 	private long u;
 	private int v;
 	private ConcurrentLinkedQueue<BlockPosition> w;
-	protected gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<>(); // Spigot
+	protected Object2IntOpenHashMap<Class> entityCount = new Object2IntOpenHashMap<>(); // Spigot // FalchusSpigot - use fast util
 	// PaperSpigot start - Asynchronous light updates
 	public AtomicInteger pendingLightUpdates = new AtomicInteger();
 	public long lightUpdateTime;
@@ -838,7 +839,7 @@ public class Chunk {
 		}
 		for (EnumCreatureType creatureType : EnumCreatureType.values()) {
 			if (creatureType.a().isAssignableFrom(entity.getClass())) {
-				this.entityCount.adjustOrPutValue(creatureType.a(), 1, 1);
+				this.entityCount.addTo(creatureType.a(), 1);
 			}
 		}
 		// Spigot end
@@ -879,7 +880,7 @@ public class Chunk {
 		}
 		for (EnumCreatureType creatureType : EnumCreatureType.values()) {
 			if (creatureType.a().isAssignableFrom(entity.getClass())) {
-				this.entityCount.adjustValue(creatureType.a(), -1);
+				this.entityCount.addTo(creatureType.a(), -1);
 			}
 		}
 		// Spigot end
