@@ -181,6 +181,7 @@ See the patches list below.
 [SportPaper-0203] Fix Teleport Invisibility
 [SportPaper-0204] Optimize toLegacyData removing unneeded sanity checks
 [SportPaper-0108] Optimize Network Queue
+[SportPaper-0260] Migrate from Trove to fastutil
 
 [PaperBin-????] WorldServer#everyoneDeeplySleeping optimization
 
@@ -213,4 +214,5 @@ See the patches list below.
 [Sugarcane-0022] Add YAML comments
 
 [FalchusSpigot-????] Use ThreadLocalRandom
+[FalchusSpigot-????] Use fastutil
 ```
