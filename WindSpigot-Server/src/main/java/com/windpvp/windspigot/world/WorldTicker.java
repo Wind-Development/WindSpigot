@@ -97,7 +97,6 @@ public class WorldTicker implements Runnable {
 		// this.methodProfiler.b();
 		// this.methodProfiler.b();
 		worldserver.explosionDensityCache.clear(); // Paper - Optimize explosions
-		worldserver.movementCache.clear(); // IonSpigot - Movement Cache
 	}
 	
 	public ResettableLatch getLatch() {
