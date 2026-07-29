@@ -27,7 +27,7 @@ public final class SpawnerCreature {
 		for (ObjectIterator<Chunk> objectIterator = (server.chunkProviderServer).chunks.values()
 				.iterator(); objectIterator.hasNext();) {
 			Chunk c = objectIterator.next();
-			sum += c.entityCount.getInt(oClass);
+			sum += c.entityCount.getInt(oClass); // SportPaper: trove -> fastutil
 		}
 		return sum;
 		// NachoSpigot end
