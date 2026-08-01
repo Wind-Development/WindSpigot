@@ -48,7 +48,7 @@ public class Chunk {
 	private long u;
 	private int v;
 	private ConcurrentLinkedQueue<BlockPosition> w;
-	protected gnu.trove.map.hash.TObjectIntHashMap<Class> entityCount = new gnu.trove.map.hash.TObjectIntHashMap<>(); // Spigot
+	protected it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<Class> entityCount = new it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<>(); // Spigot // SportPaper: trove -> fastutil
 	// PaperSpigot start - Asynchronous light updates
 	public AtomicInteger pendingLightUpdates = new AtomicInteger();
 	public long lightUpdateTime;
@@ -838,7 +838,7 @@ public class Chunk {
 		}
 		for (EnumCreatureType creatureType : EnumCreatureType.values()) {
 			if (creatureType.a().isAssignableFrom(entity.getClass())) {
-				this.entityCount.adjustOrPutValue(creatureType.a(), 1, 1);
+				this.entityCount.addTo(creatureType.a(), 1); // SportPaper: trove -> fastutil
 			}
 		}
 		// Spigot end
@@ -880,8 +880,8 @@ public class Chunk {
 			}
 		}
 		for (EnumCreatureType creatureType : EnumCreatureType.values()) {
-			if (creatureType.a().isAssignableFrom(entity.getClass())) {
-				this.entityCount.adjustValue(creatureType.a(), -1);
+			if (creatureType.a().isAssignableFrom(entity.getClass()) && this.entityCount.containsKey(creatureType.a())) { // SportPaper: trove -> fastutil
+				this.entityCount.addTo(creatureType.a(), -1); // SportPaper: trove -> fastutil
 			}
 		}
 		// Spigot end

@@ -28,7 +28,7 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 
 import co.aikar.util.LoadingIntMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 class TimingHandler implements Timing {
 
@@ -38,7 +38,7 @@ class TimingHandler implements Timing {
 	final String name;
 	final boolean verbose;
 
-	final TIntObjectHashMap<TimingData> children = new LoadingIntMap<TimingData>(TimingData.LOADER);
+	final Int2ObjectOpenHashMap<TimingData> children = new LoadingIntMap<>(TimingData.LOADER);
 
 	final TimingData record;
 	final TimingHandler groupHandler;
@@ -78,7 +78,7 @@ class TimingHandler implements Timing {
 		}
 
 		record.processTick(violated);
-		for (TimingData handler : children.valueCollection()) {
+		for (TimingData handler : children.values()) {
 			handler.processTick(violated);
 		}
 	}

@@ -169,7 +169,7 @@ public abstract class PlayerList {
 
 	// CraftBukkit start
 	private final CraftServer cserver;
-	private final Map<String, EntityPlayer> playersByName = new org.spigotmc.CaseInsensitiveMap<>();
+	private final Map<String, EntityPlayer> playersByName = new java.util.HashMap<>(); // SportPaper: remove trove
 
 	public PlayerList(MinecraftServer minecraftserver) {
 		this.cserver = minecraftserver.server = new CraftServer(minecraftserver, this);
