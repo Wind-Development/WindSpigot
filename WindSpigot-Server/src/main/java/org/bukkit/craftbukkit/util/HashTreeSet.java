@@ -1,14 +1,13 @@
 package org.bukkit.craftbukkit.util;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class HashTreeSet<V> implements Set<V> {
 
-	private HashSet<V> hash = new HashSet<V>();
+	private Set<V> hash = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<V>(); // FalchusSpigot - Replace java.util.HashSet with ObjectOpenHashSet
 	private TreeSet<V> tree = new TreeSet<V>();
 
 	public HashTreeSet() {

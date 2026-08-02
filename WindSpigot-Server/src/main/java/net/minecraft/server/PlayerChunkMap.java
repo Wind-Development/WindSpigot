@@ -7,6 +7,7 @@ import java.util.List;
 // CraftBukkit start
 import java.util.Queue;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.craftbukkit.chunkio.ChunkIOExecutor;
@@ -360,7 +361,7 @@ public class PlayerChunkMap {
 
 	class PlayerChunk {
 
-		private final List<EntityPlayer> b = Lists.newArrayList();
+		private final List<EntityPlayer> b = new ObjectArrayList<>(); // FalchusSpigot - ArrayList -> ObjectArrayList
 		private final ChunkCoordIntPair location;
 		private short[] dirtyBlocks = new short[64];
 		private int dirtyCount;
@@ -530,7 +531,7 @@ public class PlayerChunkMap {
 						for (i = 0; i < this.dirtyCount; ++i) {
 							j = (this.dirtyBlocks[i] >> 12 & 15) + this.location.x * 16;
 							k = this.dirtyBlocks[i] & 255;
-							l = (this.dirtyBlocks[i] >> 8 & 15) + this.location.z * 16;
+							l = (this.dirtyBlocks[i]>> 8 & 15) + this.location.z * 16;
 							BlockPosition blockposition1 = new BlockPosition(j, k, l);
 
 							if (PlayerChunkMap.this.world.getType(blockposition1).getBlock().isTileEntity()) {

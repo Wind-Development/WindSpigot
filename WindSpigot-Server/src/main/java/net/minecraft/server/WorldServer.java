@@ -422,11 +422,13 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		super.h();
 		if (this.worldData.getType() == WorldType.DEBUG_ALL_BLOCK_STATES) {
 			// Spigot start
-			gnu.trove.iterator.TLongShortIterator iterator = this.chunkTickList.iterator();
+			it.unimi.dsi.fastutil.objects.ObjectIterator<it.unimi.dsi.fastutil.longs.Long2ShortMap.Entry> iterator = this.chunkTickList.long2ShortEntrySet().fastIterator(); // SportPaper: trove -> fastutil
 
 			while (iterator.hasNext()) {
-				iterator.advance();
-				long chunkCoord = iterator.key();
+				// SportPaper start: trove -> fastutil
+				it.unimi.dsi.fastutil.longs.Long2ShortMap.Entry entry = iterator.next();
+				long chunkCoord = entry.getLongKey();
+				// SportPaper end
 
 				this.getChunkAt(World.keyToX(chunkCoord), World.keyToZ(chunkCoord)).b(false);
 				// Spigot end
@@ -443,9 +445,11 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 			// int k = chunkcoordintpair1.x * 16;
 			// int l = chunkcoordintpair1.z * 16;
 			// Spigot start
-			for (gnu.trove.iterator.TLongShortIterator iter = chunkTickList.iterator(); iter.hasNext();) {
-				iter.advance();
-				long chunkCoord = iter.key();
+			for (it.unimi.dsi.fastutil.objects.ObjectIterator<it.unimi.dsi.fastutil.longs.Long2ShortMap.Entry> iter = chunkTickList.long2ShortEntrySet().fastIterator(); iter.hasNext();) { // SportPaper: trove -> fastutil
+				// SportPaper start: trove -> fastutil
+				it.unimi.dsi.fastutil.longs.Long2ShortMap.Entry entry = iter.next();
+				long chunkCoord = entry.getLongKey();
+				// SportPaper end
 				int chunkX = World.keyToX(chunkCoord);
 				int chunkZ = World.keyToZ(chunkCoord);
 				// If unloaded, or in procedd of being unloaded, drop it
