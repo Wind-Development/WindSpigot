@@ -215,4 +215,5 @@ See the patches list below.
 
 [FalchusSpigot-????] Use ThreadLocalRandom
 [FalchusSpigot-????] Use fastutil
+[FalchusSpigot-????] Optimize config defaults
 ```
