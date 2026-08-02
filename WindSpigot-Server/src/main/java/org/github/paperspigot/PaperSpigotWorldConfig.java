@@ -368,7 +368,8 @@ public class PaperSpigotWorldConfig {
 	public boolean cacheChunkMaps;
 
 	private void cacheChunkMaps() {
-		cacheChunkMaps = getBoolean("cache-chunk-maps", false);
+		// FalchusSpigot - optimize config defaults false -> true
+		cacheChunkMaps = getBoolean("cache-chunk-maps", true);
 	}
 
 	public int containerUpdateTickRate;
