@@ -111,16 +111,14 @@ public class SpigotWorldConfig {
 	public double itemMerge;
 
 	private void itemMerge() {
-		// WindSpigot - optimize config defaults 2.5 -> 3.5
-		itemMerge = getDouble("merge-radius.item", 3.5);
+		itemMerge = getDouble("merge-radius.item", 2.5);
 		log("Item Merge Radius: " + itemMerge);
 	}
 
 	public double expMerge;
 
 	private void expMerge() {
-		// WindSpigot - optimize config defaults 3.0 -> 4.0
-		expMerge = getDouble("merge-radius.exp", 4.0);
+		expMerge = getDouble("merge-radius.exp", 3.0);
 		log("Experience Merge Radius: " + expMerge);
 	}
 
@@ -134,15 +132,13 @@ public class SpigotWorldConfig {
 	public byte mobSpawnRange;
 
 	private void mobSpawnRange() {
-		// WindSpigot - optimize config defaults 4 -> 2
-		mobSpawnRange = (byte) getInt("mob-spawn-range", 2);
+		mobSpawnRange = (byte) getInt("mob-spawn-range", 4);
 		log("Mob Spawn Range: " + mobSpawnRange);
 	}
 
-	// WindSpigot - optimize config defaults 32 -> 16, 32 -> 24, 16 -> 8
-	public int animalActivationRange = 16;
-	public int monsterActivationRange = 24;
-	public int miscActivationRange = 8;
+	public int animalActivationRange = 32;
+	public int monsterActivationRange = 32;
+	public int miscActivationRange = 16;
 
 	private void activationRange() {
 		animalActivationRange = getInt("entity-activation-range.animals", animalActivationRange);
@@ -251,8 +247,7 @@ public class SpigotWorldConfig {
 	public boolean nerfSpawnerMobs;
 
 	private void nerfSpawnerMobs() {
-		// WindSpigot - optimize config defaults false -> true
-		nerfSpawnerMobs = getBoolean("nerf-spawner-mobs", true);
+		nerfSpawnerMobs = getBoolean("nerf-spawner-mobs", false);
 		log("Nerfing mobs spawned from spawners: " + nerfSpawnerMobs);
 	}
 
