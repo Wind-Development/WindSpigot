@@ -121,9 +121,8 @@ public class PaperSpigotWorldConfig {
 	public int hardDespawnDistance;
 
 	private void despawnDistances() {
-		// WindSpigot - optimize config defaults 32 -> 20, 128 -> 40
-		softDespawnDistance = getInt("despawn-ranges.soft", 20); // 32^2 = 1024, Minecraft Default
-		hardDespawnDistance = getInt("despawn-ranges.hard", 40); // 128^2 = 16384, Minecraft Default;
+		softDespawnDistance = getInt("despawn-ranges.soft", 32); // 32^2 = 1024, Minecraft Default
+		hardDespawnDistance = getInt("despawn-ranges.hard", 128); // 128^2 = 16384, Minecraft Default;
 
 		if (softDespawnDistance > hardDespawnDistance) {
 			softDespawnDistance = hardDespawnDistance;
@@ -204,8 +203,7 @@ public class PaperSpigotWorldConfig {
 	public boolean tickNextTickListCapIgnoresRedstone;
 
 	private void tickNextTickCap() {
-		// WindSpigot - optimize config defaults 10000 -> 7500
-		tickNextTickCap = getInt("tick-next-tick-list-cap", 7500); // Higher values will be friendlier to vanilla style
+		tickNextTickCap = getInt("tick-next-tick-list-cap", 10000); // Higher values will be friendlier to vanilla style
 																	// mechanics (to a point) but may hurt performance
 		tickNextTickListCapIgnoresRedstone = getBoolean("tick-next-tick-list-cap-ignores-redstone", false); // Redstone
 																											// TickNextTicks
@@ -376,8 +374,7 @@ public class PaperSpigotWorldConfig {
 	public int containerUpdateTickRate;
 
 	private void containerUpdateTickRate() {
-		// WindSpigot - optimize config defaults 1 -> 4
-		containerUpdateTickRate = getInt("container-update-tick-rate", 4);
+		containerUpdateTickRate = getInt("container-update-tick-rate", 1);
 	}
 
 	public float tntExplosionVolume;
