@@ -154,7 +154,6 @@ See the patches list below.
 
 [IonSpigot-0003] Explosion Improvements
 [IonSpigot-0006] Fix Chunk Loading
-[IonSpigot-0012] Movement Cache
 [IonSpigot-0013] Implement PandaWire
 [IonSpigot-0014] Faster Chunk Entity List
 [IonSpigot-0020] Faster EntityTracker Collections
