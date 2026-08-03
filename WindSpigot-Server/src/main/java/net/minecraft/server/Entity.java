@@ -73,11 +73,6 @@ public abstract class Entity implements ICommandListener {
 	public double motX;
 	public double motY;
 	public double motZ;
-	// IonSpigot start - Movement Cache
-	public double lastMotX;
-	public double lastMotY;
-	public double lastMotZ;
-	// IonSpigot end
 	public float yaw;
 	public float pitch;
 	public float lastYaw;
@@ -538,16 +533,6 @@ public abstract class Entity implements ICommandListener {
 				return;
 			}
 
-			// IonSpigot start - Movement Cache
-			this.lastMotX = this.motX;
-			this.lastMotY = this.motY;
-			this.lastMotZ = this.motZ;
-
-			if (world.movementCache.move(this)) {
-				return;
-			}
-			// IonSpigot end
-
 			// CraftBukkit start - Don't do anything if we aren't moving
 			// We need to do this regardless of whether or not we are moving thanks to
 			// portals
@@ -847,7 +832,6 @@ public abstract class Entity implements ICommandListener {
 			if (d7 != d1) {
 				block.a(this.world, this);
 			}
-			world.movementCache.cache(this); // IonSpigot - Movement Cache
 
 			// CraftBukkit start
 			if (positionChanged && getBukkitEntity() instanceof Vehicle) {

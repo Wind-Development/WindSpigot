@@ -29,7 +29,6 @@ import com.google.common.collect.Lists;
 
 import co.aikar.timings.Timings;
 import co.aikar.timings.TimingsManager;
-import gnu.trove.map.hash.TObjectIntHashMap;
 import net.minecraft.server.AttributeRanged;
 import net.minecraft.server.GenericAttributes;
 import net.minecraft.server.MinecraftServer;
@@ -256,7 +255,7 @@ public class SpigotConfig {
 	}
 
 	public static boolean disableStatSaving;
-	public static TObjectIntHashMap<String> forcedStats = new TObjectIntHashMap<String>();
+	public static it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<String> forcedStats = new it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap<>(); // SportPaper: trove -> fastutil
 
 	private static void stats() {
 		disableStatSaving = getBoolean("stats.disable-saving", false);

@@ -113,7 +113,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.async", "Configuration for asynchronous things.");
 		c.addComment("settings.pearl-passthrough", "Configuration for ender pearls passing through certain blocks. (Credits to FlamePaper)");
 		c.addComment("settings.command", "Configuration for WindSpigot's commands");
-		c.addComment("settings.max-tick-time", "Configuration for maximum entity tick time");
 		c.addComment("settings.async.entity-tracking.enable", "Enables multithreaded entity tracking");
 		c.addComment("settings.async.entity-tracking.threads", "The amount of threads used for async entity tracking per world, increase or decrease this based on your server load.");
 		c.addComment("settings.async.entity-tracking", "Configuration for the async entity tracker.");
@@ -141,9 +140,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.async.path-searches.ensure-accuracy", "Ensures accuracy of async path searches, disabling this will result in possibly inaccurate targeting, but higher performance.");
 		c.addComment("settings.async.path-searches", "Configuration for async entity path searches");
 		c.addComment("settings.debug-mode", "This outputs information to developers in the console. There is no need to enable this.");
-		c.addComment("settings.max-tick-time.entity", "The maximum time that entities can take to tick before moving on. This may break some gameplay, so set to 1000 to disable. \nFor reference, there are 50 ms in a tick.");
-		c.addComment("settings.max-tick-time.skippable-entities", "The entity types that can be skipped when ticking. They will only be skipped if the server is lagging based on the set threshold. \nRemove entities from this list if their vanilla behavior is absolutely needed on your server.");
-		c.addComment("settings.max-tick-time.limit-on-overload", "If the server should stop mob spawns when there are too many mobs to handle and some have to be skipped.");
 		c.addComment("settings.improved-hit-detection", "Enables the usage of an improved hit registration based on lag compensation and small other details. (Credits to NachoSpigot and the original plugin)");
 		c.addComment("settings.animation.tnt", "Enables explosion animations.");
 		c.addComment("settings.sound.tnt", "Enables explosion sounds.");

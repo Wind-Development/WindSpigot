@@ -7,8 +7,8 @@ import java.util.Set;
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 
 import co.aikar.timings.SpigotTimings;
-import gnu.trove.set.TByteSet;
-import gnu.trove.set.hash.TByteHashSet;
+import it.unimi.dsi.fastutil.bytes.ByteOpenHashSet;
+import it.unimi.dsi.fastutil.bytes.ByteSet;
 import net.minecraft.server.Block;
 import net.minecraft.server.BlockPosition;
 import net.minecraft.server.Blocks;
@@ -38,7 +38,7 @@ public class AntiXray {
 		}
 
 		// For every block
-		TByteSet blocks = new TByteHashSet();
+		ByteSet blocks = new ByteOpenHashSet(); // SportPaper: trove -> fastutil
 		for (Integer i : config.hiddenBlocks) {
 			Block block = Block.getById(i);
 			// Check it exists and is not a tile entity
@@ -48,7 +48,7 @@ public class AntiXray {
 			}
 		}
 		// Bake it to a flat array of replacements
-		replacementOres = blocks.toArray();
+		replacementOres = blocks.toByteArray(); // SportPaper: trove -> fastutil
 	}
 
 	/**

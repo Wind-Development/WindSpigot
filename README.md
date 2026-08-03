@@ -155,7 +155,6 @@ See the patches list below.
 
 [IonSpigot-0003] Explosion Improvements
 [IonSpigot-0006] Fix Chunk Loading
-[IonSpigot-0012] Movement Cache
 [IonSpigot-0013] Implement PandaWire
 [IonSpigot-0014] Faster Chunk Entity List
 [IonSpigot-0020] Faster EntityTracker Collections
@@ -182,6 +181,7 @@ See the patches list below.
 [SportPaper-0203] Fix Teleport Invisibility
 [SportPaper-0204] Optimize toLegacyData removing unneeded sanity checks
 [SportPaper-0108] Optimize Network Queue
+[SportPaper-0260] Migrate from Trove to fastutil
 
 [PaperBin-????] WorldServer#everyoneDeeplySleeping optimization
 
@@ -214,4 +214,6 @@ See the patches list below.
 [Sugarcane-0022] Add YAML comments
 
 [FalchusSpigot-????] Use ThreadLocalRandom
+[FalchusSpigot-????] Use fastutil
+[FalchusSpigot-????] Optimize config defaults
 ```

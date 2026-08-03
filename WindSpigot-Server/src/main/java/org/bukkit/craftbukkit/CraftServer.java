@@ -611,8 +611,8 @@ public final class CraftServer implements Server {
 
 	@Override
 	public int getViewDistance() {
-		// WindSpigot - optimize config defaults 10 -> 6
-		return this.getConfigInt("view-distance", 6);
+		// FalchusSpigot - optimize config defaults 10 -> 8
+		return this.getConfigInt("view-distance", 8);
 	}
 
 	@Override

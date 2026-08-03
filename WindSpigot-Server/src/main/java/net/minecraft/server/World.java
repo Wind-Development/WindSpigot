@@ -36,7 +36,6 @@ import com.windpvp.windspigot.config.WindSpigotConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.elier.nachospigot.config.NachoWorldConfig;
 import me.rastrian.dev.PlayerMap;
-import me.suicidalkids.ion.movement.MovementCache;
 // WindSpigot end
 
 public abstract class World implements IBlockAccess {
@@ -137,7 +136,7 @@ public abstract class World implements IBlockAccess {
 
 	// Spigot start
 	private boolean guardEntityList;
-	protected final gnu.trove.map.hash.TLongShortHashMap chunkTickList;
+	protected final it.unimi.dsi.fastutil.longs.Long2ShortOpenHashMap chunkTickList; // SportPaper: trove -> fastutil
 	protected float growthOdds = 100;
 	protected float modifiedOdds = 100;
 	private final byte chunkTickRadius;
@@ -172,8 +171,6 @@ public abstract class World implements IBlockAccess {
 	public java.util.ArrayDeque<BlockRedstoneTorch.RedstoneUpdateInfo> redstoneUpdateInfos; // Paper - Move from Map in
 																							// BlockRedstoneTorch to
 																							// here
-
-	public final MovementCache movementCache = new MovementCache(); // IonSpigot - Movement Cache
 	
 	public static long chunkToKey(int x, int z) {
 		long k = (((x) & 0xFFFF0000L) << 16) | (((x) & 0x0000FFFFL));
@@ -224,9 +221,7 @@ public abstract class World implements IBlockAccess {
 		// Spigot start
 		this.chunkTickRadius = (byte) ((this.getServer().getViewDistance() < 7) ? this.getServer().getViewDistance()
 				: 7);
-		this.chunkTickList = new gnu.trove.map.hash.TLongShortHashMap(spigotConfig.chunksPerTick * 5, 0.7f,
-				Long.MIN_VALUE, Short.MIN_VALUE);
-		this.chunkTickList.setAutoCompactionFactor(0);
+		this.chunkTickList = new it.unimi.dsi.fastutil.longs.Long2ShortOpenHashMap(spigotConfig.chunksPerTick * 5, 0.7f); // SportPaper: trove -> fastutil
 		// Spigot end
 
 		this.L = this.random.nextInt(12000);
@@ -535,7 +530,6 @@ public abstract class World implements IBlockAccess {
 					this.methodProfiler.b();
 				}
 
-				movementCache.clear(); // IonSpigot - Movement Cache
 				/*
 				 * if ((i & 2) != 0 && (!this.isClientSide || (i & 4) == 0) && chunk.isReady())
 				 * { this.notify(blockposition); }
@@ -2623,7 +2617,7 @@ public abstract class World implements IBlockAccess {
 					int dx = (random.nextBoolean() ? 1 : -1) * random.nextInt(randRange);
 					int dz = (random.nextBoolean() ? 1 : -1) * random.nextInt(randRange);
 					long hash = chunkToKey(dx + j, dz + k);
-					if (!chunkTickList.contains(hash) && this.chunkProvider.isChunkLoaded(dx + j, dz + k)) {
+					if (!chunkTickList.containsKey(hash) && this.chunkProvider.isChunkLoaded(dx + j, dz + k)) { // SportPaper: trove -> fastutil
 						chunkTickList.put(hash, (short) -1); // no players
 					}
 				}
