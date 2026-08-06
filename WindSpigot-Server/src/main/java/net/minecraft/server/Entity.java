@@ -41,8 +41,6 @@ import com.windpvp.windspigot.cache.Constants;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 import com.windpvp.windspigot.random.FastRandom;
 
-import co.aikar.timings.SpigotTimings; // Spigot
-import co.aikar.timings.Timing; // Spigot
 import dev.cobblesword.nachospigot.knockback.KnockbackProfile;
 
 public abstract class Entity implements ICommandListener {
@@ -179,7 +177,6 @@ public abstract class Entity implements ICommandListener {
 	};
 
 	// Spigot start
-	public Timing tickTimer = SpigotTimings.getEntityTimings(this); // Spigot
 	public final byte activationType = org.spigotmc.ActivationRange.initializeEntityActivationType(this);
 	public final boolean defaultActivationState;
 	public long activatedTick = Integer.MIN_VALUE;
