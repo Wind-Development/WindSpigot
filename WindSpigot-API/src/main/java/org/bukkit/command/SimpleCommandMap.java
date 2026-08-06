@@ -47,7 +47,6 @@ public class SimpleCommandMap implements CommandMap {
 			register("bukkit", new ReloadCommand("reload"));
 			register("bukkit", new PluginsCommand("plugins"));
 		}
-		register("bukkit", new co.aikar.timings.TimingsCommand("timings")); // Spigot
 	}
 
 	public void setFallbackCommands() {
@@ -76,7 +75,6 @@ public class SimpleCommandMap implements CommandMap {
 	 * {@inheritDoc}
 	 */
 	public boolean register(String label, String fallbackPrefix, Command command) {
-		command.timings = co.aikar.timings.TimingsManager.getCommandTiming(fallbackPrefix, command); // Spigot
 		label = label.toLowerCase().trim();
 		fallbackPrefix = fallbackPrefix.toLowerCase().trim();
 		boolean registered = register(label, command, false, fallbackPrefix);
@@ -154,30 +152,10 @@ public class SimpleCommandMap implements CommandMap {
 			return false;
 		}
 		
-		// WindSpigot - null check
-		if (target.timings != null) {
-
-			try {
-				target.timings.startTiming(); // Spigot
-				// Note: we don't return the result of target.execute as thats success /
-				// failure, we return handled (true) or not handled (false)
-				target.execute(sender, sentCommandLabel, Arrays_copyOfRange(args, 1, args.length));
-				target.timings.stopTiming(); // Spigot
-			} catch (CommandException ex) {
-				target.timings.stopTiming(); // Spigot
-				throw ex;
-			} catch (Throwable ex) {
-				target.timings.stopTiming(); // Spigot
-				throw new CommandException("Unhandled exception executing '" + commandLine + "' in " + target, ex);
-			}
-		
-		} else {
-			try {
-				target.execute(sender, sentCommandLabel, Arrays_copyOfRange(args, 1, args.length));
-			} catch (Throwable ex) {
-				throw new CommandException("Unhandled exception executing '" + commandLine + "' in " + target, ex);
-			}
-			
+		try {
+			target.execute(sender, sentCommandLabel, Arrays_copyOfRange(args, 1, args.length));
+		} catch (Throwable ex) {
+			throw new CommandException("Unhandled exception executing '" + commandLine + "' in " + target, ex);
 		}
 
 		// return true as command was handled
