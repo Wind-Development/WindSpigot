@@ -47,9 +47,7 @@ class ChunkIOProvider implements AsynchronousExecutor.CallBackProvider<QueuedChu
 		chunk.addEntities();
 
 		if (queuedChunk.provider.chunkProvider != null) {
-			queuedChunk.provider.world.timings.syncChunkLoadStructuresTimer.startTiming(); // Spigot
 			queuedChunk.provider.chunkProvider.recreateStructures(chunk, queuedChunk.x, queuedChunk.z);
-			queuedChunk.provider.world.timings.syncChunkLoadStructuresTimer.stopTiming(); // Spigot
 		}
 
 		Server server = queuedChunk.provider.world.getServer();
