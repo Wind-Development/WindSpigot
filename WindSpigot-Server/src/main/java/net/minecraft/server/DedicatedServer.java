@@ -24,7 +24,6 @@ import com.windpvp.windspigot.commons.IPUtils;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 import com.windpvp.windspigot.knockback.KnockbackConfig;
 
-import co.aikar.timings.SpigotTimings; // Spigot
 import me.elier.nachospigot.config.NachoConfig;
 
 public class DedicatedServer extends MinecraftServer implements IMinecraftServer {
@@ -478,7 +477,6 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 	}
 
 	public void aO() {
-		SpigotTimings.serverCommandTimer.startTiming(); // Spigot
 		// [Paper-0350] start - use a Queue for Queueing Commands
 		ServerCommand servercommand;
 		while ((servercommand = this.l.poll()) != null) {
@@ -497,8 +495,6 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 			server.dispatchServerCommand(console, servercommand);
 			// CraftBukkit end
 		}
-
-		SpigotTimings.serverCommandTimer.stopTiming(); // Spigot
 	}
 
 	@Override
