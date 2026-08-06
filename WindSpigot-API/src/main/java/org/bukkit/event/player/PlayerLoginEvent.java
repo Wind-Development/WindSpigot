@@ -40,8 +40,7 @@ public class PlayerLoginEvent extends PlayerEvent {
 	 *
 	 * @param player   The {@link Player} for this event
 	 * @param hostname The hostname that was used to connect to the server
-	 * @param address  The address the player used to connect, provided for timing
-	 *                 issues
+	 * @param address  The address the player used to connect
 	 */
 	public PlayerLoginEvent(final Player player, final String hostname, final InetAddress address,
 			final InetAddress realAddress) { // Spigot
@@ -73,8 +72,7 @@ public class PlayerLoginEvent extends PlayerEvent {
 	 *
 	 * @param player   The {@link Player} for this event
 	 * @param hostname The hostname that was used to connect to the server
-	 * @param address  The address the player used to connect, provided for timing
-	 *                 issues
+	 * @param address  The address the player used to connect
 	 * @param result   The result status for this event
 	 * @param message  The message to be displayed if result denies login
 	 */
