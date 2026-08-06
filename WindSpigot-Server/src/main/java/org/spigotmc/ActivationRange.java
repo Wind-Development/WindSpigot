@@ -2,7 +2,6 @@ package org.spigotmc;
 
 import java.util.List;
 
-import co.aikar.timings.SpigotTimings;
 import net.minecraft.server.AxisAlignedBB;
 import net.minecraft.server.Chunk;
 import net.minecraft.server.Entity;
@@ -85,7 +84,6 @@ public class ActivationRange {
 	 * @param world
 	 */
 	public static void activateEntities(World world) {
-		SpigotTimings.entityActivationCheckTimer.startTiming();
 		final int miscActivationRange = world.spigotConfig.miscActivationRange;
 		final int animalActivationRange = world.spigotConfig.animalActivationRange;
 		final int monsterActivationRange = world.spigotConfig.monsterActivationRange;
@@ -116,7 +114,6 @@ public class ActivationRange {
 				}
 			}
 		}
-		SpigotTimings.entityActivationCheckTimer.stopTiming();
 	}
 
 	/**
@@ -209,10 +206,8 @@ public class ActivationRange {
 	 * @return
 	 */
 	public static boolean checkIfActive(Entity entity) {
-		SpigotTimings.checkIfActiveTimer.startTiming();
 		// Never safe to skip fireworks or entities not yet added to chunk
 		if (!entity.isAddedToChunk() || entity instanceof EntityFireworks || entity.loadChunks) { // PaperSpigot
-			SpigotTimings.checkIfActiveTimer.stopTiming();
 			return true;
 		}
 
@@ -239,7 +234,6 @@ public class ActivationRange {
 		if (isActive && !(chunk != null && chunk.areNeighborsLoaded(1))) {
 			isActive = false;
 		}
-		SpigotTimings.checkIfActiveTimer.stopTiming();
 		return isActive;
 	}
 }
