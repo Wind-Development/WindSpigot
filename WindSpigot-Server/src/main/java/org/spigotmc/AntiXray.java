@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 
-import co.aikar.timings.SpigotTimings;
 import it.unimi.dsi.fastutil.bytes.ByteOpenHashSet;
 import it.unimi.dsi.fastutil.bytes.ByteSet;
 import net.minecraft.server.Block;
@@ -68,7 +67,7 @@ public class AntiXray {
 	}
 
 	/**
-	 * Starts the timings handler, then updates all blocks within the set radius of
+	 * Updates all blocks within the set radius of
 	 * the given coordinate, revealing them if they are hidden ores.
 	 */
 	public void updateNearbyBlocks(World world, BlockPosition position) {
@@ -79,10 +78,8 @@ public class AntiXray {
 				return;
 			}
 			// PaperSpigot end
-			SpigotTimings.antiXrayUpdateTimer.startTiming();
 			updateNearbyBlocks(world, position, 2, false); // 2 is the radius, we shouldn't change it as that would make
 															// it exponentially slower
-			SpigotTimings.antiXrayUpdateTimer.stopTiming();
 		}
 	}
 
@@ -92,9 +89,7 @@ public class AntiXray {
 	 */
 	public void obfuscateSync(int chunkX, int chunkY, int bitmask, byte[] buffer, World world) {
 		if (world.spigotConfig.antiXray) {
-			SpigotTimings.antiXrayObfuscateTimer.startTiming();
 			obfuscate(chunkX, chunkY, bitmask, buffer, world);
-			SpigotTimings.antiXrayObfuscateTimer.stopTiming();
 		}
 	}
 
