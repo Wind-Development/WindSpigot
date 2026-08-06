@@ -4,7 +4,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 
-import co.aikar.timings.SpigotTimings;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
@@ -48,10 +47,8 @@ public class WorldTickManager {
         this.cacheWorlds();
 
         // Move BukkitScheduler stuff here so async entity tracking does not interfere
-        SpigotTimings.bukkitSchedulerTimer.startTiming(); // Spigot
         // CraftBukkit start
         MinecraftServer.getServer().server.getScheduler().mainThreadHeartbeat(MinecraftServer.getServer().at());
-        SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
         
         for (WorldTicker ticker : this.worldTickers) {
             ticker.run();
