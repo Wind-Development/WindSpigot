@@ -37,9 +37,7 @@ public class WorldTicker implements Runnable {
 		CrashReport crashreport;
 
 		try {
-			worldserver.timings.doTick.startTiming(); // Spigot
 			worldserver.doTick();
-			worldserver.timings.doTick.stopTiming(); // Spigot
 		} catch (Throwable throwable) {
 			// Spigot Start
 			try {
@@ -53,9 +51,7 @@ public class WorldTicker implements Runnable {
 		}
 
 		try {
-			worldserver.timings.tickEntities.startTiming(); // Spigot
 			worldserver.tickEntities();
-			worldserver.timings.tickEntities.stopTiming(); // Spigot
 		} catch (Throwable throwable1) {
 			// Spigot Start
 			try {
@@ -68,7 +64,6 @@ public class WorldTicker implements Runnable {
 			throw new ReportedException(crashreport);
 		}
 
-        worldserver.timings.tracker.startTiming(); // Spigot
 		// this.methodProfiler.b();
 		// this.methodProfiler.a("tracker");
 		if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
@@ -93,7 +88,6 @@ public class WorldTicker implements Runnable {
 			// Tuinity end - controlled flush for entity tracker packets
 		}
 
-		worldserver.timings.tracker.stopTiming(); // Spigot
 		// this.methodProfiler.b();
 		// this.methodProfiler.b();
 		worldserver.explosionDensityCache.clear(); // Paper - Optimize explosions
