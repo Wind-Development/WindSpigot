@@ -25,10 +25,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
 
-import co.aikar.timings.Timings;
-import co.aikar.timings.TimingsManager;
 import net.minecraft.server.AttributeRanged;
 import net.minecraft.server.GenericAttributes;
 import net.minecraft.server.MinecraftServer;
@@ -207,26 +204,6 @@ public class SpigotConfig {
 			System.out.println("Oudated config, disabling BungeeCord support!");
 		}
 		bungee = getBoolean("settings.bungeecord", false);
-	}
-
-	private static void timings() {
-		boolean timings = getBoolean("timings.enabled", false); // WindSpigot - disable timings by default
-		boolean verboseTimings = getBoolean("timings.verbose", true);
-		TimingsManager.privacy = getBoolean("timings.server-name-privacy", false);
-		TimingsManager.hiddenConfigs = getList("timings.hidden-config-entries",
-				Lists.newArrayList("database", "settings.bungeecord-addresses"));
-		int timingHistoryInterval = getInt("timings.history-interval", 300);
-		int timingHistoryLength = getInt("timings.history-length", 3600);
-
-		Timings.setVerboseTimingsEnabled(verboseTimings);
-		Timings.setTimingsEnabled(timings);
-		Timings.setHistoryInterval(timingHistoryInterval * 20);
-		Timings.setHistoryLength(timingHistoryLength * 20);
-
-		Bukkit.getLogger().log(Level.INFO,
-				"Spigot Timings: " + timings + " - Verbose: " + verboseTimings + " - Interval: "
-						+ timeSummary(Timings.getHistoryInterval() / 20) + " - Length: "
-						+ timeSummary(Timings.getHistoryLength() / 20));
 	}
 
 	protected static String timeSummary(int seconds) {
