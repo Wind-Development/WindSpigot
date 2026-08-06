@@ -48,7 +48,6 @@ public final class SimplePluginManager implements PluginManager {
 	private final Map<Boolean, Set<Permission>> defaultPerms = new LinkedHashMap<Boolean, Set<Permission>>();
 	private final Map<String, Map<Permissible, Boolean>> permSubs = new HashMap<String, Map<Permissible, Boolean>>();
 	private final Map<Boolean, Map<Permissible, Boolean>> defSubs = new HashMap<Boolean, Map<Permissible, Boolean>>();
-	private boolean useTimings = false;
 
 	public SimplePluginManager(Server instance, SimpleCommandMap commandMap) {
 		server = instance;
@@ -566,13 +565,6 @@ public final class SimplePluginManager implements PluginManager {
 			throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
 		}
 
-		executor = new co.aikar.timings.TimedEventExecutor(executor, plugin, null, event); // Spigot
-		// WindSpigot - remove dead code
-		// if (false) { // Spigot - RL handles useTimings check now
-		// getEventListeners(event)
-		// .register(new TimedRegisteredListener(listener, executor, priority, plugin,
-		// ignoreCancelled));
-		// } else {
 		getEventListeners(event)
 				.register(new RegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
 
@@ -729,18 +721,5 @@ public final class SimplePluginManager implements PluginManager {
 
 	public Set<Permission> getPermissions() {
 		return new HashSet<Permission>(permissions.values());
-	}
-
-	public boolean useTimings() {
-		return co.aikar.timings.Timings.isTimingsEnabled(); // Spigot
-	}
-
-	/**
-	 * Sets whether or not per event timing code should be used
-	 *
-	 * @param use True if per event timing code should be used
-	 */
-	public void useTimings(boolean use) {
-		co.aikar.timings.Timings.setTimingsEnabled(use); // Spigot
 	}
 }
