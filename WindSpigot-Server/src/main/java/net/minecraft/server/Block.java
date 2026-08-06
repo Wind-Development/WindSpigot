@@ -77,16 +77,6 @@ public class Block {
 	protected boolean y;
 	protected boolean z;
 	protected boolean isTileEntity;
-	// Spigot start
-	public co.aikar.timings.Timing timing;
-
-	public co.aikar.timings.Timing getTiming() {
-		if (timing == null) {
-			timing = co.aikar.timings.SpigotTimings.getBlockTiming(this);
-		}
-		return timing;
-	}
-	// Spigot end
 
 	protected double minX;
 	protected double minY;
