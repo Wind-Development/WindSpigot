@@ -9,12 +9,8 @@ import org.bukkit.inventory.InventoryHolder; // CraftBukkit
 
 import com.google.common.collect.Maps;
 
-import co.aikar.timings.SpigotTimings; // Spigot
-import co.aikar.timings.Timing; // Spigot
-
 public abstract class TileEntity {
 
-	public Timing tickTimer = SpigotTimings.getTileEntityTimings(this); // Spigot
 	private static final Logger a = LogManager.getLogger();
 	private static Map<String, Class<? extends TileEntity>> f = Maps.newHashMap();
 	private static Map<Class<? extends TileEntity>, String> g = Maps.newHashMap();
