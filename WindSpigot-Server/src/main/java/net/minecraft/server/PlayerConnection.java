@@ -60,7 +60,6 @@ import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 import com.windpvp.windspigot.events.PlayerIllegalBehaviourEvent;
 
-import co.aikar.timings.SpigotTimings; // Spigot
 import io.netty.buffer.Unpooled;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -1461,7 +1460,6 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	// CraftBukkit end
 
 	private void handleCommand(String s) {
-		SpigotTimings.playerCommandTimer.startTiming(); // Spigot
 		// CraftBukkit start - whole method
 		if (org.spigotmc.SpigotConfig.logCommands) {
 			PlayerConnection.c.info(this.player.getName() + " issued server command: " + s);
@@ -1473,13 +1471,11 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		this.server.getPluginManager().callEvent(event);
 
 		if (event.isCancelled()) {
-			SpigotTimings.playerCommandTimer.stopTiming(); // Spigot
 			return;
 		}
 
 		try {
 			if (this.server.dispatchCommand(event.getPlayer(), event.getMessage().substring(1))) {
-				SpigotTimings.playerCommandTimer.stopTiming(); // Spigot
 				return;
 			}
 		} catch (org.bukkit.command.CommandException ex) {
@@ -1487,10 +1483,8 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					org.bukkit.ChatColor.RED + "An internal error occurred while attempting to perform this command");
 			java.util.logging.Logger.getLogger(PlayerConnection.class.getName()).log(java.util.logging.Level.SEVERE,
 					null, ex);
-			SpigotTimings.playerCommandTimer.stopTiming(); // Spigot
 			return;
 		}
-		SpigotTimings.playerCommandTimer.stopTiming(); // Spigot
 		// this.minecraftServer.getCommandHandler().a(this.player, s);
 		// CraftBukkit end
 	}
