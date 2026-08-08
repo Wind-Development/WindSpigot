@@ -989,6 +989,12 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			if (reachDistance > (this.getPlayer().getGameMode() == org.bukkit.GameMode.CREATIVE
 					? CREATIVE_PLACE_DISTANCE_SQUARED
 					: SURVIVAL_PLACE_DISTANCE_SQUARED)) {
+				// WindSpigot start - fix ghost blocks at high CPS (CubingPaper-0074)
+				this.player.playerConnection.sendPacket(new PacketPlayOutBlockChange(worldserver, blockposition));
+				this.player.playerConnection.sendPacket(new PacketPlayOutBlockChange(worldserver, blockposition.shift(enumdirection)));
+				Slot slot = this.player.activeContainer.getSlot(this.player.inventory, this.player.inventory.itemInHandIndex);
+				this.player.playerConnection.sendPacket(new PacketPlayOutSetSlot(this.player.activeContainer.windowId, slot.rawSlotIndex, this.player.inventory.getItemInHand()));
+				// WindSpigot end
 				return;
 			}
 
