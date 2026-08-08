@@ -213,9 +213,8 @@ See the patches list below.
 
 [Sugarcane-0022] Add YAML comments
 
-[CubingPaper-0074] Prevent Ghost Blocks From Very High CPS
-
 [FalchusSpigot-????] Use ThreadLocalRandom
 [FalchusSpigot-????] Use fastutil
 [FalchusSpigot-????] Optimize config defaults
+[FalchusSpigot-????] Update invalidly placed blocks (Credits: Quadflame/Refrains)
 ```
