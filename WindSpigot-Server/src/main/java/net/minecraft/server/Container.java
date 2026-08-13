@@ -183,7 +183,11 @@ public abstract class Container {
 									itemstack2.count = slot1.getMaxStackSize(itemstack2);
 								}
 
-								l -= itemstack2.count - j1;
+								// PandaSpigot start - Fix SPIGOT-509: Negative or zero quantity items made when middle click dragging in creative
+								if (dragType != 2 || !entityhuman.abilities.canInstantlyBuild) {
+									l -= itemstack2.count - j1;
+								}
+								// PandaSpigot end
 								// slot1.set(itemstack2);
 								draggedSlots.put(slot1.rawSlotIndex, itemstack2); // CraftBukkit - Put in map instead of
 																					// setting
