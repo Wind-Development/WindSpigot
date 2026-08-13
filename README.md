@@ -221,4 +221,6 @@ See the patches list below.
 [FalchusSpigot-????] Use fastutil
 [FalchusSpigot-????] Optimize config defaults
 [FalchusSpigot-????] Update invalidly placed blocks (Credits: Quadflame/Refrains)
+
+[DashSpigot-0033] Fix SPIGOT-1746: Tile entities may not always tick
 ```
