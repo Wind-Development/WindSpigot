@@ -227,6 +227,7 @@ See the patches list below.
 [FalchusSpigot-????] Fix SPIGOT-4647: Properly cancel VehicleDamageEvent
 
 [DashSpigot-0033] Fix SPIGOT-1746: Tile entities may not always tick
+[DashSpigot-0011] Fix MC-94186: Dragon egg falling in lazy chunks
 
 [Titanium-0189] Fix MC-124833
 ```
