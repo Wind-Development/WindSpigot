@@ -1452,15 +1452,11 @@ public abstract class PlayerList {
 	}
 
 	public void u() {
-		for (int i = 0; i < this.players.size(); ++i) {
-			this.players.get(i).playerConnection.disconnect(this.server.server.getShutdownMessage()); // CraftBukkit
-																										// -
-																										// add
-																										// custom
-																										// shutdown
-																										// message
+		// PandaSpigot start - Fix SPIGOT-2622: Only one player receiving the server shutdown message
+		for (EntityPlayer player : this.players) {
+			player.playerConnection.disconnect(this.server.server.getShutdownMessage()); // CraftBukkit - add custom shutdown message
+		// PandaSpigot end
 		}
-
 	}
 
 	// CraftBukkit start
