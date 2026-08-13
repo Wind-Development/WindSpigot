@@ -94,6 +94,7 @@ See the patches list below.
 [Paper-0451] Reduce memory footprint of NBTTagCompound by spottedleaf
 [Paper-0797] Use Velocity compression and cipher natives
 [Paper-????] Cleanup allocated favicon ByteBuf by Shane Freeder
+[Paper-????] MC-80966 - Always send chunk sections
 
 <--> by Heath
 [Nacho-0001] Remove stream usage when counting entities
