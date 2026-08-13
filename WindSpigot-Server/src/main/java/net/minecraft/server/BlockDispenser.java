@@ -23,6 +23,9 @@ public class BlockDispenser extends BlockContainer {
 		return 4;
 	}
 
+	// FalchusSpigot start - Removed override of onPlace that was reversing placement direction when
+	// adjacent to another block, which was not consistent with single player block placement
+	/*
 	@Override
 	public void onPlace(World world, BlockPosition blockposition, IBlockData iblockdata) {
 		super.onPlace(world, blockposition, iblockdata);
@@ -54,6 +57,8 @@ public class BlockDispenser extends BlockContainer {
 					.set(BlockDispenser.TRIGGERED, Boolean.valueOf(false)), 2);
 		}
 	}
+	*/
+	// FalchusSpigot end
 
 	@Override
 	public boolean interact(World world, BlockPosition blockposition, IBlockData iblockdata, EntityHuman entityhuman,

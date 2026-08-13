@@ -43,6 +43,10 @@ See the patches list below.
 
 [PandaSpigot-0115] Break up and make tab spam limits configurable
 [PandaSpigot-0072] Fix Bugs with Spigot Mob Spawn Logic
+[PandaSpigot-0105] Fix SPIGOT-2622: Only one player receiving the server shutdown message
+[PandaSpigot-0060] Backport SPIGOT-5428: Better handling of some ItemMeta
+[PandaSpigot-0130] Backport Fix SPIGOT-3348: Skin Cache Bug
+[PandaSpigot-0118] Fix SPIGOT-509: Negative or zero quantity items made when middle click dragging in creative
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
@@ -217,5 +221,8 @@ See the patches list below.
 [FalchusSpigot-????] Use fastutil
 [FalchusSpigot-????] Optimize config defaults
 [FalchusSpigot-????] Update invalidly placed blocks (Credits: Quadflame/Refrains)
+[FalchusSpigot-????] Fix SPIGOT-1401: dispenser, dropper, furnace placement
 [FalchusSpigot-????] Fix SPIGOT-4647: Properly cancel VehicleDamageEvent
+
+[DashSpigot-0033] Fix SPIGOT-1746: Tile entities may not always tick
 ```
