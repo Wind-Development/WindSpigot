@@ -988,10 +988,30 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			if (reachDistance > (this.getPlayer().getGameMode() == org.bukkit.GameMode.CREATIVE
 					? CREATIVE_PLACE_DISTANCE_SQUARED
 					: SURVIVAL_PLACE_DISTANCE_SQUARED)) {
+                // FalchusSpigot start - Update invalidly placed blocks (Credits: Quadflame/Refrains)
+                this.player.playerConnection.sendPacket(new PacketPlayOutBlockChange(worldserver, blockposition)); // block they placed on
+                this.player.playerConnection.sendPacket(new PacketPlayOutBlockChange(worldserver, blockposition.shift(enumdirection))); // block they placed
+                if (this.player.activeContainer != null) {
+                    Slot slot = this.player.activeContainer.getSlot(this.player.inventory, this.player.inventory.itemInHandIndex);
+                    if (slot != null) {
+                        this.player.playerConnection.sendPacket(new PacketPlayOutSetSlot(this.player.activeContainer.windowId, slot.rawSlotIndex, this.player.inventory.getItemInHand())); // item update
+                    }
+                }
+                // FalchusSpigot end
 				return;
 			}
 
 			if (!worldserver.getWorldBorder().a(blockposition)) {
+                // FalchusSpigot start - Update invalidly placed blocks (Credits: Quadflame/Refrains)
+                this.player.playerConnection.sendPacket(new PacketPlayOutBlockChange(worldserver, blockposition)); // block they placed on
+                this.player.playerConnection.sendPacket(new PacketPlayOutBlockChange(worldserver, blockposition.shift(enumdirection))); // block they placed
+                if (this.player.activeContainer != null) {
+                    Slot slot = this.player.activeContainer.getSlot(this.player.inventory, this.player.inventory.itemInHandIndex);
+                    if (slot != null) {
+                        this.player.playerConnection.sendPacket(new PacketPlayOutSetSlot(this.player.activeContainer.windowId, slot.rawSlotIndex, this.player.inventory.getItemInHand())); // item update
+                    }
+                }
+                // FalchusSpigot end
 				return;
 			}
 
