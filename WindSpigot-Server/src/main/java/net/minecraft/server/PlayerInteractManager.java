@@ -307,6 +307,14 @@ public class PlayerInteractManager {
 				if (tileentity != null) {
 					this.player.playerConnection.sendPacket(tileentity.getUpdatePacket());
 				}
+				// PandaSpigot start - Fix item durability desync when block break event is cancelled
+				org.bukkit.craftbukkit.entity.CraftPlayer bukkitEntity = this.player.getBukkitEntity();
+
+				org.bukkit.inventory.ItemStack itemInHand = bukkitEntity.getInventory().getItemInHand();
+				if (itemInHand != null && itemInHand.getType().getMaxDurability() > 0) {
+					bukkitEntity.updateInventory();
+				}
+				// PandaSpigot end
 				return false;
 			}
 		}
