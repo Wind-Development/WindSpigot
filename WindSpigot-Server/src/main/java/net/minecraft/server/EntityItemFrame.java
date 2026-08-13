@@ -101,6 +101,10 @@ public class EntityItemFrame extends EntityHanging {
 			}
 
 			itemstack.a((EntityItemFrame) null);
+
+			// Paper - MC-124833 - conflicting reports of what server software this does and doesn't affect.
+			// It's a one liner with near-zero impact so we'll patch it anyway just in case
+			this.setItem(ItemStack.EMPTY);
 		}
 	}
 
