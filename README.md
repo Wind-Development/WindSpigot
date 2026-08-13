@@ -217,4 +217,5 @@ See the patches list below.
 [FalchusSpigot-????] Use fastutil
 [FalchusSpigot-????] Optimize config defaults
 [FalchusSpigot-????] Update invalidly placed blocks (Credits: Quadflame/Refrains)
+[FalchusSpigot-????] Fix SPIGOT-4647: Properly cancel VehicleDamageEvent
 ```
