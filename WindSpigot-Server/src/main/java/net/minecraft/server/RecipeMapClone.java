@@ -68,6 +68,12 @@ public class RecipeMapClone extends ShapelessRecipes implements IRecipe { // Cra
 				itemstack2.c(itemstack.getName());
 			}
 
+			// FalchusSpigot start - Fix MC-87 map scaling/cloning issues
+			if (itemstack.hasTag()) {
+				itemstack2.setTag(itemstack.getTag());
+			}
+			// FalchusSpigot end
+
 			return itemstack2;
 		} else {
 			return null;
