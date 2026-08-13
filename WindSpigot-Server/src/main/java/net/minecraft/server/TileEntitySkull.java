@@ -157,7 +157,7 @@ public class TileEntitySkull extends TileEntity {
 			} else if (MinecraftServer.getServer() == null) {
 				callback.apply(gameprofile);
 			} else {
-				GameProfile profile = skinCache.getIfPresent(gameprofile.getName());
+				GameProfile profile = skinCache.getIfPresent(gameprofile.getName().toLowerCase()); // PandaSpigot - Fix SPIGOT-3348: Skin Cache Bug
 				if (profile != null
 						&& Iterables.getFirst(profile.getProperties().get("textures"), (Object) null) != null) {
 					callback.apply(profile);
