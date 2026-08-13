@@ -222,6 +222,7 @@ See the patches list below.
 [FalchusSpigot-????] Optimize config defaults
 [FalchusSpigot-????] Update invalidly placed blocks (Credits: Quadflame/Refrains)
 [FalchusSpigot-????] Fix SPIGOT-1401: dispenser, dropper, furnace placement
+[FalchusSpigot-????] Fix SPIGOT-4647: Properly cancel VehicleDamageEvent
 
 [DashSpigot-0033] Fix SPIGOT-1746: Tile entities may not always tick
 ```
