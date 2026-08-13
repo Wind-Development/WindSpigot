@@ -216,6 +216,8 @@ public class ItemWorldMap extends ItemWorldMapBase {
 			worldmap1.c();
 			world.a("map_" + itemstack.getData(), worldmap1);
 
+			itemstack.getTag().remove("map_is_scaling"); // FalchusSpigot - Fix MC-87 map scaling/cloning issues
+
 			// CraftBukkit start
 			MapInitializeEvent event = new MapInitializeEvent(worldmap1.mapView);
 			Bukkit.getServer().getPluginManager().callEvent(event);

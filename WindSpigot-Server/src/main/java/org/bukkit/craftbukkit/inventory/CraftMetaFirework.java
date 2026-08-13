@@ -86,7 +86,13 @@ class CraftMetaFirework extends CraftMetaItem implements FireworkMeta {
 		List<FireworkEffect> effects = this.effects = new ArrayList<FireworkEffect>(fireworkEffects.size());
 
 		for (int i = 0; i < fireworkEffects.size(); i++) {
-			effects.add(getEffect(fireworkEffects.get(i)));
+			// PandaSpigot start - Backport SPIGOT-5428
+			try {
+				effects.add(getEffect((NBTTagCompound) fireworkEffects.get(i)));
+			} catch (IllegalArgumentException ex) {
+				// Ignore invalid effects
+			}
+			// PandaSpigot end
 		}
 	}
 

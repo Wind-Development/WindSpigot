@@ -104,6 +104,8 @@ public class ContainerWorkbench extends Container {
 
 			itemstack = itemstack1.cloneItemStack();
 			if (i == 0) {
+				itemstack1.getItem().d(itemstack1, this.g, entityhuman); // FalchusSpigot - Fix MC-87 map scaling/cloning issues
+
 				if (!this.a(itemstack1, 10, 46, true)) {
 					return null;
 				}

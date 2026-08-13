@@ -136,7 +136,7 @@ public abstract class EntityMinecartAbstract extends Entity implements INamableT
 				this.world.getServer().getPluginManager().callEvent(event);
 
 				if (event.isCancelled()) {
-					return true;
+					return false; // FalchusSpigot - fix SPIGOT-4647: Properly cancel VehicleDamageEvent
 				}
 
 				f = (float) event.getDamage();

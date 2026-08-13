@@ -23,6 +23,7 @@ import com.google.common.collect.Multimap;
 public final class ItemStack {
 
 	public static final DecimalFormat a = new DecimalFormat("#.###");
+	public static final ItemStack EMPTY = new ItemStack((Item) null); // Titanium
 	public int count;
 	public int c;
 	private Item item;
