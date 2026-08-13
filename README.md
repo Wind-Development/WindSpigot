@@ -43,6 +43,7 @@ See the patches list below.
 
 [PandaSpigot-0115] Break up and make tab spam limits configurable
 [PandaSpigot-0072] Fix Bugs with Spigot Mob Spawn Logic
+[PandaSpigot-0105] Fix SPIGOT-2622: Only one player receiving the server shutdown message
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
