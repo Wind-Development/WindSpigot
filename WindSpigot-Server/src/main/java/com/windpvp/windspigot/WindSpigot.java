@@ -46,8 +46,6 @@ public class WindSpigot {
 	
 	private volatile boolean statisticsEnabled = false;
 	
-	private LagCompensator lagCompensator;
-	
 	private final Set<PacketListener> packetListeners = Sets.newConcurrentHashSet();
 	private final Set<MovementListener> movementListeners = Sets.newConcurrentHashSet();
 
@@ -63,7 +61,6 @@ public class WindSpigot {
 		if (WindSpigotConfig.asyncKnockback) {
 			knockbackThread = new CombatThread("Knockback Thread");
 		}
-		lagCompensator = new LagCompensator();	
 		if (WindSpigotConfig.asyncTnt) {
 			AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);
 		}
