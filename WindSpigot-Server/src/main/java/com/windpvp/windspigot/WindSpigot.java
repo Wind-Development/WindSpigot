@@ -21,7 +21,6 @@ import com.windpvp.windspigot.commands.PingCommand;
 import com.windpvp.windspigot.commands.SetMaxSlotCommand;
 import com.windpvp.windspigot.commands.SpawnMobCommand;
 import com.windpvp.windspigot.config.WindSpigotConfig;
-import com.windpvp.windspigot.hitdetection.LagCompensator;
 import com.windpvp.windspigot.protocol.MovementListener;
 import com.windpvp.windspigot.protocol.PacketListener;
 import com.windpvp.windspigot.statistics.StatisticsClient;
