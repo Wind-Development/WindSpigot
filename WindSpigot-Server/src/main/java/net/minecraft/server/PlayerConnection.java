@@ -1650,7 +1650,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 			if (!flag) {
                 // Nacho - Increase the no player-player vision maximum reach
-                d0 = (WindSpigotConfig.improvedHitDetection) ? 12.75D : 9.0D;
+                d0 = 12.75D;
             } else {
             	// WindSpigot start - configurable reach cap            	
             	if (WindSpigotConfig.creativeBypass && this.player.playerInteractManager.getGameMode() == EnumGamemode.CREATIVE) {
