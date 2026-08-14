@@ -146,10 +146,6 @@ public class WindSpigot {
 	public CombatThread getKnockbackThread() {
 		return knockbackThread;
 	}
-	
-    public LagCompensator getLagCompensator() {
-        return lagCompensator;
-    }
     
 	public static void debug(String msg) {
 		if (WindSpigotConfig.debugMode)
