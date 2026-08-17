@@ -12,7 +12,7 @@ import net.minecraft.server.Packet;
 public class PlayerMap {
 
 	private static final int CHUNK_BITS = 5;
-	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectOpenHashMap<>();
+	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectOpenHashMap<>(); // WindSpigot - GamingOP69 - use Long2ObjectOpenHashMap for O(1) chunk lookups
 
 	private static long xzToKey(long x, long z) {
 		return (x << 32) + z - Integer.MIN_VALUE;

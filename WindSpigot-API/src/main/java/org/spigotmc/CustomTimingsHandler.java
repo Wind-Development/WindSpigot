@@ -50,6 +50,7 @@ public final class CustomTimingsHandler {
 	private static Method getCallerClass;
 
 	public CustomTimingsHandler(String name) {
+		// WindSpigot start - GamingOP69 - Java 8 through 25 version parsing
 		if (sunReflectAvailable == null) {
 			int major = getJavaMajorVersion();
 			if (major <= 8) {
@@ -64,6 +65,7 @@ public final class CustomTimingsHandler {
 				sunReflectAvailable = false;
 			}
 		}
+		// WindSpigot end - GamingOP69
 
 		Class calling = null;
 		if (sunReflectAvailable) {

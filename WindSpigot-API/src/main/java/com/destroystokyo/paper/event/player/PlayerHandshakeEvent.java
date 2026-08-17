@@ -39,7 +39,7 @@ public class PlayerHandshakeEvent extends Event implements Cancellable {
 	 */
 	public PlayerHandshakeEvent(String originalHandshake, boolean cancelled) {
 		this.originalHandshake = originalHandshake;
-		this.serverHostname = originalHandshake;
+		this.serverHostname = originalHandshake; // WindSpigot - GamingOP69 - initialize default serverHostname
 		this.cancelled = cancelled;
 	}
 

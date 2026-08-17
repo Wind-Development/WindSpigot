@@ -53,6 +53,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 		this.updateY = entity.locY;
 		this.updateZ = entity.locZ;
 
+		// WindSpigot start - GamingOP69 - restore active cannon tracking addRemoveRate
 		if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
 			this.addRemoveRate = 5; // projectile things
 		} else if (this.tracker instanceof EntityPlayer) {
@@ -61,6 +62,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 			this.addRemoveRate = 5; // default
 		}
 		this.addRemoveCooldown = this.tracker.getId() % addRemoveRate;
+		// WindSpigot end - GamingOP69
 	}
 
 	@Override

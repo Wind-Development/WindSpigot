@@ -112,6 +112,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
+	// WindSpigot start - GamingOP69 - ensure channel flush executes across threads
 	private void flush() {
 		if (this.channel != null && this.channel.isOpen()) {
 			if (this.channel.eventLoop().inEventLoop()) {
@@ -124,6 +125,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			}
 		}
 	}
+	// WindSpigot end - GamingOP69
 	// Tuinity end - allow controlled flushing
 
 	public NetworkManager(EnumProtocolDirection enumprotocoldirection) {
@@ -491,7 +493,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			}
 
 			if (this.channel.pipeline().get("compress") instanceof PacketCompressor) {
-				((PacketCompressor) this.channel.pipeline().get("compress")).a(compressionThreshold);
+				((PacketCompressor) this.channel.pipeline().get("compress")).a(compressionThreshold); // WindSpigot - GamingOP69 - fix pipeline key from decompress to compress
 			} else {
 				this.channel.pipeline().addBefore("encoder", "compress",
 						new PacketCompressor(compressor, compressionThreshold)); // Paper

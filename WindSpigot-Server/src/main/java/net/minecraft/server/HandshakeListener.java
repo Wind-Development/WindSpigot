@@ -90,6 +90,7 @@ public class HandshakeListener implements PacketHandshakingInListener {
 							return;
 						}
 
+						// WindSpigot start - GamingOP69 - null safety for TCPShield and PlayerHandshakeEvent
 						if (event.getServerHostname() != null) {
 							packethandshakinginsetprotocol.hostname = event.getServerHostname();
 						}
@@ -104,6 +105,7 @@ public class HandshakeListener implements PacketHandshakingInListener {
 							this.b.spoofedProfile = gson.fromJson(event.getPropertiesJson(),
 									com.mojang.authlib.properties.Property[].class);
 						}
+						// WindSpigot end - GamingOP69
 						handledByEvent = true; // Hooray, we did it!
 					}
 				}

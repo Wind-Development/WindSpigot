@@ -38,6 +38,7 @@ public class SearchHandler {
 		final int finalY = MathHelper.floor(targetEntity.locY) + 1;
 		final int finalZ = MathHelper.floor(targetEntity.locZ);
 		
+		// WindSpigot start - GamingOP69 - ensure isSearching resets in finally block
 		AsyncUtil.run(() -> {
 			try {
 				PathEntity path = navigation.doPathSearch(chunkCache, finalX, finalY, finalZ);
@@ -50,6 +51,7 @@ public class SearchHandler {
 				navigation.isSearching.set(false);
 			}
 		}, executor);
+		// WindSpigot end - GamingOP69
 	}
 
 	public static SearchHandler getInstance() {
@@ -66,6 +68,7 @@ public class SearchHandler {
 		
 		navigation.isSearching.set(true);
 		
+		// WindSpigot start - GamingOP69 - ensure isSearching resets in finally block
 		AsyncUtil.run(() -> {
 			try {
 				PathEntity path = navigation.doPathSearch(chunkCache, x, y, z);
@@ -78,6 +81,7 @@ public class SearchHandler {
 				navigation.isSearching.set(false);
 			}
 		}, executor);
+		// WindSpigot end - GamingOP69
 	}
 
 }

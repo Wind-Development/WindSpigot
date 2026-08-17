@@ -31,6 +31,7 @@ public class WorldTickManager {
         MinecraftServer.getServer().server.getScheduler().mainThreadHeartbeat(MinecraftServer.getServer().at());
         SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
         
+        // WindSpigot start - GamingOP69 - dynamic world ticking and prevent world unload memory leaks
         List<WorldServer> worlds = MinecraftServer.getServer().worlds;
         for (int i = 0; i < worlds.size(); i++) {
             WorldServer world = worlds.get(i);
@@ -44,6 +45,7 @@ public class WorldTickManager {
             }
             ticker.run();
         }
+        // WindSpigot end - GamingOP69
 	}
 
 	/*

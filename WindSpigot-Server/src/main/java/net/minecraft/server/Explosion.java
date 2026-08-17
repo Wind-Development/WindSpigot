@@ -106,6 +106,7 @@ public class Explosion {
 	}
 
 	public void affectEntities(List<Entity> list, Vec3D vec3d, float f3) {
+		// WindSpigot start - GamingOP69 - fix fireball & explosion knockback direction and radius scaling
 		double maxDistSq = (double) (f3 * f3);
 		for (Entity entity : list) {
 			if (!entity.aW()) {
@@ -145,12 +146,13 @@ public class Explosion {
 				}
 			}
 		}
+		// WindSpigot end - GamingOP69
 	}
 	
 	private void processEntityKnockback(Entity entity, double d7, double finalD, double finalD1, double finalD11, float f3, double d12) {
 		double d13 = (1.0D - d7) * d12;
 		if (d13 < 0.0D) {
-			return;
+			return; // WindSpigot - GamingOP69 - prevent negative knockback multiplier
 		}
 
 		if (entity.isCannoningEntity) {

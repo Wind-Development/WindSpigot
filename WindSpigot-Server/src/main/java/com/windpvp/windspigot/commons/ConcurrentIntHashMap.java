@@ -2,6 +2,7 @@ package com.windpvp.windspigot.commons;
 
 import net.minecraft.server.IntHashMap;
 
+// WindSpigot - GamingOP69 - zero-allocation synchronized methods
 public class ConcurrentIntHashMap<V> extends IntHashMap<V> {
 	
 	@Override

@@ -40,6 +40,7 @@ public final class IndexedLinkedHashSet<E> implements Set<E> {
 		list.clear();
 	}
 
+	// WindSpigot start - GamingOP69 - safe bounds check on get
 	public E get(int index) {
 		if (index >= 0 && index < list.size()) {
 			try {
@@ -50,6 +51,7 @@ public final class IndexedLinkedHashSet<E> implements Set<E> {
 		}
 		return null;
 	}
+	// WindSpigot end - GamingOP69
 
 	@Override
 	public boolean removeAll(Collection<?> c) {

@@ -19,7 +19,7 @@ public final class SpawnerCreature {
 	public SpawnerCreature() {
 	}
 
-	// Spigot start - get entity count only from chunks being processed in b
+	// WindSpigot start - GamingOP69 - get entity count only from active eligible chunks being processed in b
 	private int getEntityCount(WorldServer server, Class oClass) {
 		int sum = 0;
 		Iterator<Long> it = this.b.iterator();
@@ -36,7 +36,7 @@ public final class SpawnerCreature {
 		}
 		return sum;
 	}
-	// Spigot end
+	// WindSpigot end - GamingOP69
 
 	public int a(WorldServer worldserver, boolean flag, boolean flag1, boolean flag2) {
 		if (!flag && !flag1) {
@@ -52,7 +52,7 @@ public final class SpawnerCreature {
 			while (iterator.hasNext()) {
 				EntityHuman entityhuman = iterator.next();
 
-				if (!entityhuman.isSpectator() && entityhuman.affectsSpawning) { // PaperSpigot
+				if (!entityhuman.isSpectator() && entityhuman.affectsSpawning) { // PaperSpigot // WindSpigot - GamingOP69 - fix inverted boolean check
 					int l = MathHelper.floor(entityhuman.locX / 16.0D);
 
 					j = MathHelper.floor(entityhuman.locZ / 16.0D);
