@@ -212,6 +212,76 @@ public abstract class InventoryView {
 		return getTopInventory().getSize() + getBottomInventory().getSize();
 	}
 
+    // PandaSpigot start - Spigot API Backports
+    /**
+     * Determine the type of the slot by its raw slot ID.
+     * <p>
+     * If the type of the slot is unknown, then
+     * {@link SlotType#CONTAINER} will be returned.
+     *
+     * @param slot The raw slot ID
+     * @return the slot type
+     */
+    public SlotType getSlotType(int slot) { // copied from CraftInventoryView
+        SlotType type = SlotType.CONTAINER;
+        if (slot >= 0 && slot < getTopInventory().getSize()) {
+            switch (getType()) {
+                case FURNACE:
+                    if (slot == 2) {
+                        type = SlotType.RESULT;
+                    } else if (slot == 1) {
+                        type = SlotType.FUEL;
+                    } else {
+                        type = SlotType.CRAFTING;
+                    }
+                    break;
+                case BREWING:
+                    if (slot == 3) {
+                        type = SlotType.FUEL;
+                    } else {
+                        type = SlotType.CRAFTING;
+                    }
+                    break;
+                case ENCHANTING:
+                case BEACON:
+                    type = SlotType.CRAFTING;
+                    break;
+                case WORKBENCH:
+                case CRAFTING:
+                    if (slot == 0) {
+                        type = SlotType.RESULT;
+                    } else {
+                        type = SlotType.CRAFTING;
+                    }
+                    break;
+                case MERCHANT:
+                case ANVIL:
+                    if (slot == 2) {
+                        type = SlotType.RESULT;
+                    } else {
+                        type = SlotType.CRAFTING;
+                    }
+                    break;
+                default:
+                    // Nothing to do, it's a CONTAINER slot
+            }
+        } else {
+            if (slot == -999) {
+                type = SlotType.OUTSIDE;
+            } else if (getType() == InventoryType.CRAFTING) {
+                if (slot < 9) {
+                    type = SlotType.ARMOR;
+                } else if (slot > 35) {
+                    type = SlotType.QUICKBAR;
+                }
+            } else if (slot >= (countSlots() - 9)) {
+                type = SlotType.QUICKBAR;
+            }
+        }
+        return type;
+    }
+    // PandaSpigot end
+
 	/**
 	 * Sets an extra property of this inventory if supported by that inventory, for
 	 * example the state of a progress bar.
