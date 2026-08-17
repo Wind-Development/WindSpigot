@@ -31,16 +31,43 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        if [ -f RELEASE_NOTES.md ]; then
-          gh release create "${{ github.ref_name }}" \
-            WindSpigot-Server/target/WindSpigot.jar \
-            WindSpigot-API/target/WindSpigot-API.jar \
-            --title "WindSpigot ${{ github.ref_name }}" \
-            --notes-file RELEASE_NOTES.md
-        else
-          gh release create "${{ github.ref_name }}" \
-            WindSpigot-Server/target/WindSpigot.jar \
-            WindSpigot-API/target/WindSpigot-API.jar \
-            --title "WindSpigot ${{ github.ref_name }}" \
-            --generate-notes
+        TAG="${{ github.ref_name }}"
+        echo "Creating release for $TAG..."
+
+        # Delete any pre-existing release for this tag if left in inconsistent state
+        gh release delete "$TAG" -y 2>/dev/null || true
+
+        SUCCESS=0
+        for i in 1 2 3 4 5; do
+          echo "Release creation attempt $i/5..."
+          if [ -f RELEASE_NOTES.md ]; then
+            if gh release create "$TAG" \
+                WindSpigot-Server/target/WindSpigot.jar \
+                WindSpigot-API/target/WindSpigot-API.jar \
+                --title "WindSpigot $TAG" \
+                --notes-file RELEASE_NOTES.md \
+                --clobber; then
+              SUCCESS=1
+              echo "Release $TAG published successfully!"
+              break
+            fi
+          else
+            if gh release create "$TAG" \
+                WindSpigot-Server/target/WindSpigot.jar \
+                WindSpigot-API/target/WindSpigot-API.jar \
+                --title "WindSpigot $TAG" \
+                --generate-notes \
+                --clobber; then
+              SUCCESS=1
+              echo "Release $TAG published successfully!"
+              break
+            fi
+          fi
+          echo "Attempt $i failed. Retrying in $((i * 4)) seconds..."
+          sleep $((i * 4))
+        done
+
+        if [ $SUCCESS -eq 0 ]; then
+          echo "Failed to create release after 5 attempts."
+          exit 1
         fi
