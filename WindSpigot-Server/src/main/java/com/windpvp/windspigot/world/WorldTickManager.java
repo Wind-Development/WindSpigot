@@ -27,7 +27,8 @@ public class WorldTickManager {
         MinecraftServer.getServer().server.getScheduler().mainThreadHeartbeat(MinecraftServer.getServer().at());
         SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
         
-        for (WorldServer world : MinecraftServer.getServer().worlds) {
+	for (int i = 0; i < MinecraftServer.getServer().worlds.size(); ++i) {
+            WorldServer world = MinecraftServer.getServer().worlds.get(i);
 			if (world.ticker == null) {
             	world.ticker = new WorldTicker(world);
 			}
