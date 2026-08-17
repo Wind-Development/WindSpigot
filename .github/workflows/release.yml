@@ -31,8 +31,16 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        gh release create "${{ github.ref_name }}" \
-          WindSpigot-Server/target/WindSpigot.jar \
-          WindSpigot-API/target/WindSpigot-API.jar \
-          --title "WindSpigot ${{ github.ref_name }}" \
-          --generate-notes
+        if [ -f RELEASE_NOTES.md ]; then
+          gh release create "${{ github.ref_name }}" \
+            WindSpigot-Server/target/WindSpigot.jar \
+            WindSpigot-API/target/WindSpigot-API.jar \
+            --title "WindSpigot ${{ github.ref_name }}" \
+            --notes-file RELEASE_NOTES.md
+        else
+          gh release create "${{ github.ref_name }}" \
+            WindSpigot-Server/target/WindSpigot.jar \
+            WindSpigot-API/target/WindSpigot-API.jar \
+            --title "WindSpigot ${{ github.ref_name }}" \
+            --generate-notes
+        fi
