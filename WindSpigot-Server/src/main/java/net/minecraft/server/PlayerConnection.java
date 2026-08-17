@@ -970,6 +970,8 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			// inventory update packet to get sent
 			always = (itemstack.count != itemstackAmount) || itemstack.getItem() == Item.getItemOf(Blocks.WATERLILY);
 			// CraftBukkit end
+		} else if (blockposition == null || enumdirection == null || blockposition.getY() < 0) {
+			return;
 		} else if (blockposition.getY() >= this.minecraftServer.getMaxBuildHeight() - 1
 				&& (enumdirection == EnumDirection.UP
 						|| blockposition.getY() >= this.minecraftServer.getMaxBuildHeight())) {
@@ -1029,7 +1031,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			flag = true;
 		}
 
-		if (flag) {
+		if (flag && enumdirection != null && blockposition != null) {
 			this.player.playerConnection.sendPacket(new PacketPlayOutBlockChange(worldserver, blockposition));
 			this.player.playerConnection
 					.sendPacket(new PacketPlayOutBlockChange(worldserver, blockposition.shift(enumdirection)));
