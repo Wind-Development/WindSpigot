@@ -49,6 +49,7 @@ See the patches list below.
 [PandaSpigot-0118] Fix SPIGOT-509: Negative or zero quantity items made when middle click dragging in creative
 [PandaSpigot-0112] Fix MC-120567: Bed portal crash
 [PandaSpigot-0107] Fix GH-276: Item durability desync when some events are cancelled
+[PandaSpigot-0031] Add missing InventoryView.getSlotType API
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
