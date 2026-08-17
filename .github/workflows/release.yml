@@ -34,37 +34,31 @@ jobs:
         TAG="${{ github.ref_name }}"
         echo "Creating release for $TAG..."
 
-        # Delete any pre-existing release for this tag if left in inconsistent state
-        gh release delete "$TAG" -y 2>/dev/null || true
+        # Clean up any partially created release for this tag
+        gh release delete "$TAG" --yes 2>/dev/null || true
 
         SUCCESS=0
         for i in 1 2 3 4 5; do
           echo "Release creation attempt $i/5..."
           if [ -f RELEASE_NOTES.md ]; then
-            if gh release create "$TAG" \
-                WindSpigot-Server/target/WindSpigot.jar \
-                WindSpigot-API/target/WindSpigot-API.jar \
-                --title "WindSpigot $TAG" \
-                --notes-file RELEASE_NOTES.md \
-                --clobber; then
-              SUCCESS=1
-              echo "Release $TAG published successfully!"
-              break
-            fi
+            NOTES=$(cat RELEASE_NOTES.md)
           else
-            if gh release create "$TAG" \
-                WindSpigot-Server/target/WindSpigot.jar \
-                WindSpigot-API/target/WindSpigot-API.jar \
-                --title "WindSpigot $TAG" \
-                --generate-notes \
-                --clobber; then
-              SUCCESS=1
-              echo "Release $TAG published successfully!"
-              break
-            fi
+            NOTES="WindSpigot $TAG"
           fi
-          echo "Attempt $i failed. Retrying in $((i * 4)) seconds..."
-          sleep $((i * 4))
+
+          if gh release create "$TAG" \
+              WindSpigot-Server/target/WindSpigot.jar \
+              WindSpigot-API/target/WindSpigot-API.jar \
+              --title "WindSpigot $TAG" \
+              --notes "$NOTES"; then
+            SUCCESS=1
+            echo "Release $TAG published successfully!"
+            break
+          fi
+
+          WAIT=$((i * 4))
+          echo "Attempt $i failed. Retrying in ${WAIT} seconds..."
+          sleep $WAIT
         done
 
         if [ $SUCCESS -eq 0 ]; then
