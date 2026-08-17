@@ -2,33 +2,27 @@ name: WindSpigot Build and Upload
 
 on:
   push:
+    branches:
+      - master
 
 jobs:
   build-and-upload:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip]')"
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
     - name: Set up JDK 18.0.1
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
-        java-version: 18.0.1
-        server-id: github
+        java-version: '18.0.1'
         cache: 'maven'
-        
-    - name: Cache local Maven repository
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-      
+
     - name: Build with Maven
-      run: mvn package --file pom.xml
-      
+      run: mvn clean package --file pom.xml
+
     - name: Upload Server Artifact
       uses: actions/upload-artifact@v4
       with:
