@@ -118,7 +118,7 @@ public class EntityBoat extends Entity {
 				this.world.getServer().getPluginManager().callEvent(event);
 
 				if (event.isCancelled()) {
-					return true;
+					return false; // FalchusSpigot - fix SPIGOT-4647: Properly cancel VehicleDamageEvent
 				}
 				// f = event.getDamage(); // TODO Why don't we do this?
 				// CraftBukkit end

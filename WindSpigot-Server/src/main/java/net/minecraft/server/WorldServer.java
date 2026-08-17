@@ -334,10 +334,12 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 
 	protected void e() {
 		this.O = false;
-		for (EntityHuman entityhuman : this.players) {
-			if (entityhuman.isSleeping()) {
-				entityhuman.a(false, false, true);
-			}
+		Iterator iterator = this.players.stream().filter(EntityHuman::isSleeping).iterator(); // PandaSpigot - Fix MC-120567
+
+		while (iterator.hasNext()) {
+			EntityHuman entityhuman = (EntityHuman) iterator.next();
+
+			entityhuman.a(false, false, true); // PandaSpigot - Fix MC-120567
 		}
 		this.ag();
 	}

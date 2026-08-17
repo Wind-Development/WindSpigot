@@ -43,6 +43,12 @@ See the patches list below.
 
 [PandaSpigot-0115] Break up and make tab spam limits configurable
 [PandaSpigot-0072] Fix Bugs with Spigot Mob Spawn Logic
+[PandaSpigot-0105] Fix SPIGOT-2622: Only one player receiving the server shutdown message
+[PandaSpigot-0060] Backport SPIGOT-5428: Better handling of some ItemMeta
+[PandaSpigot-0130] Backport Fix SPIGOT-3348: Skin Cache Bug
+[PandaSpigot-0118] Fix SPIGOT-509: Negative or zero quantity items made when middle click dragging in creative
+[PandaSpigot-0112] Fix MC-120567: Bed portal crash
+[PandaSpigot-0107] Fix GH-276: Item durability desync when some events are cancelled
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
@@ -89,6 +95,7 @@ See the patches list below.
 [Paper-0451] Reduce memory footprint of NBTTagCompound by spottedleaf
 [Paper-0797] Use Velocity compression and cipher natives
 [Paper-????] Cleanup allocated favicon ByteBuf by Shane Freeder
+[Paper-????] MC-80966 - Always send chunk sections
 
 <--> by Heath
 [Nacho-0001] Remove stream usage when counting entities
@@ -217,4 +224,12 @@ See the patches list below.
 [FalchusSpigot-????] Use fastutil
 [FalchusSpigot-????] Optimize config defaults
 [FalchusSpigot-????] Update invalidly placed blocks (Credits: Quadflame/Refrains)
+[FalchusSpigot-????] Fix SPIGOT-1401: dispenser, dropper, furnace placement
+[FalchusSpigot-????] Fix SPIGOT-4647: Properly cancel VehicleDamageEvent
+[FalchusSpigot-????] Fix MC-87 map scaling/cloning issues
+
+[DashSpigot-0033] Fix SPIGOT-1746: Tile entities may not always tick
+[DashSpigot-0011] Fix MC-94186: Dragon egg falling in lazy chunks
+
+[Titanium-0189] Fix MC-124833
 ```

@@ -51,7 +51,7 @@ public class BlockDragonEgg extends Block {
 				}
 
 				if (blockposition1.getY() > 0) {
-					world.setTypeAndData(blockposition1, this.getBlockData(), 2);
+					world.setTypeAndData(blockposition1.up(), this.getBlockData(), 2); // DashSpigot - Fix MC-94186: Dragon egg falling in lazy chunks
 				}
 			}
 

@@ -55,8 +55,14 @@ public class CraftMetaBanner extends CraftMetaItem implements BannerMeta {
 			NBTTagList patterns = entityTag.getList(PATTERNS.NBT, 10);
 			for (int i = 0; i < Math.min(patterns.size(), 20); i++) {
 				NBTTagCompound p = patterns.get(i);
-				this.patterns.add(new Pattern(DyeColor.getByDyeData((byte) p.getInt(COLOR.NBT)),
-						PatternType.getByIdentifier(p.getString(PATTERN.NBT))));
+				// PandaSpigot start - Backport SPIGOT-5428
+				DyeColor color = DyeColor.getByDyeData((byte) p.getInt(COLOR.NBT));
+				PatternType pattern = PatternType.getByIdentifier(p.getString(PATTERN.NBT));
+
+				if (color != null && pattern != null) {
+					this.patterns.add(new Pattern(color, pattern));
+				}
+				// PandaSpigot end
 			}
 		}
 	}

@@ -1916,6 +1916,11 @@ public abstract class World implements IBlockAccess {
 
 					if (this.isLoaded(tileentity1.getPosition())) {
 						this.getChunkAtWorldCoords(tileentity1.getPosition()).a(tileentity1.getPosition(), tileentity1);
+						// DashSpigot start - From above. Fix SPIGOT-1746: Tile entities may not always tick
+						if (!this.tileEntityList.contains(tileentity1)) {
+							this.a(tileentity1);
+						}
+						// DashSpigot end
 					}
 
 					this.notify(tileentity1.getPosition());
