@@ -41,7 +41,14 @@ public final class IndexedLinkedHashSet<E> implements Set<E> {
 	}
 
 	public E get(int index) {
-		return list.get(index);
+		if (index >= 0 && index < list.size()) {
+			try {
+				return list.get(index);
+			} catch (IndexOutOfBoundsException e) {
+				return null;
+			}
+		}
+		return null;
 	}
 
 	@Override
