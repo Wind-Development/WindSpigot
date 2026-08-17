@@ -106,6 +106,7 @@ public class Explosion {
 	}
 
 	public void affectEntities(List<Entity> list, Vec3D vec3d, float f3) {
+		double maxDistSq = (double) (f3 * f3);
 		for (Entity entity : list) {
 			if (!entity.aW()) {
 				if (!entity.dead) {
@@ -114,30 +115,32 @@ public class Explosion {
 					double d10 = entity.locZ - this.posZ;
 					double distanceSquared = d8 * d8 + d9 * d9 + d10 * d10;
 
-					if (distanceSquared <= 64.0D && distanceSquared != 0.0D) {
+					if (distanceSquared <= maxDistSq && distanceSquared != 0.0D) {
 						double d11 = MathHelper.sqrt(distanceSquared);
 						double d7 = d11 / f3;
-						d8 /= d11;
-						d9 /= d11;
-						d10 /= d11;
+						if (d7 <= 1.0D) {
+							d8 /= d11;
+							d9 /= d11;
+							d10 /= d11;
 
-						// Paper - Optimize explosions
-						// double d12 = this.getBlockDensity(vec3d, entity);
-						double finalD = d8;
-						double finalD1 = d9;
-						double finalD11 = d10;
-						
-						// WindSpigot start - toggleable async explosions
-						if (WindSpigotConfig.asyncTnt) {
-							this.getBlockDensityAsync(vec3d, entity.getBoundingBox())
-									.thenAccept((d12) -> AsyncUtil.runPostTick(() -> {
-										processEntityKnockback(entity, d7, finalD, finalD1, finalD11, f3, d12);
-									}));
-						} else {
-							processEntityKnockback(entity, d7, finalD, finalD1, finalD11, f3,
-									this.getBlockDensitySync(vec3d, entity.getBoundingBox()));
+							// Paper - Optimize explosions
+							// double d12 = this.getBlockDensity(vec3d, entity);
+							double finalD = d8;
+							double finalD1 = d9;
+							double finalD11 = d10;
+							
+							// WindSpigot start - toggleable async explosions
+							if (WindSpigotConfig.asyncTnt) {
+								this.getBlockDensityAsync(vec3d, entity.getBoundingBox())
+										.thenAccept((d12) -> AsyncUtil.runPostTick(() -> {
+											processEntityKnockback(entity, d7, finalD, finalD1, finalD11, f3, d12);
+										}));
+							} else {
+								processEntityKnockback(entity, d7, finalD, finalD1, finalD11, f3,
+										this.getBlockDensitySync(vec3d, entity.getBoundingBox()));
+							}
+							// WindSpigot end
 						}
-						// WindSpigot end
 					}
 				}
 			}
@@ -146,6 +149,9 @@ public class Explosion {
 	
 	private void processEntityKnockback(Entity entity, double d7, double finalD, double finalD1, double finalD11, float f3, double d12) {
 		double d13 = (1.0D - d7) * d12;
+		if (d13 < 0.0D) {
+			return;
+		}
 
 		if (entity.isCannoningEntity) {
 			entity.g(finalD * d13, finalD1 * d13, finalD11 * d13);
