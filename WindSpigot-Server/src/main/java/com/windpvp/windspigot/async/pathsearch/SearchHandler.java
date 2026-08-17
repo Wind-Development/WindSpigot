@@ -39,14 +39,16 @@ public class SearchHandler {
 		final int finalZ = MathHelper.floor(targetEntity.locZ);
 		
 		AsyncUtil.run(() -> {
-			
-			PathEntity path = navigation.doPathSearch(chunkCache, finalX, finalY, finalZ);
-			SearchCacheEntryEntity cache = new SearchCacheEntryEntity(targetEntity, navigation.getEntity(), path);
+			try {
+				PathEntity path = navigation.doPathSearch(chunkCache, finalX, finalY, finalZ);
+				SearchCacheEntryEntity cache = new SearchCacheEntryEntity(targetEntity, navigation.getEntity(), path);
 
-			navigation.addEntry(cache);
-			
-			navigation.isSearching.set(false);
-
+				navigation.addEntry(cache);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			} finally {
+				navigation.isSearching.set(false);
+			}
 		}, executor);
 	}
 
@@ -65,14 +67,16 @@ public class SearchHandler {
 		navigation.isSearching.set(true);
 		
 		AsyncUtil.run(() -> {
-			
-			PathEntity path = navigation.doPathSearch(chunkCache, x, y, z);
-			SearchCacheEntryPosition cache = new SearchCacheEntryPosition(x, y, z, navigation.getEntity(), path);
+			try {
+				PathEntity path = navigation.doPathSearch(chunkCache, x, y, z);
+				SearchCacheEntryPosition cache = new SearchCacheEntryPosition(x, y, z, navigation.getEntity(), path);
 
-			navigation.addEntry(cache);
-			
-			navigation.isSearching.set(false);
-
+				navigation.addEntry(cache);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			} finally {
+				navigation.isSearching.set(false);
+			}
 		}, executor);
 	}
 
