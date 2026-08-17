@@ -44,9 +44,13 @@ public class PlayerMap {
 		// do remove
 		long key = xzToKey(player.playerMapX, player.playerMapZ);
 		List<EntityPlayer> list = map.get(key);
-		list.remove(player);
-		if (list.isEmpty()) {
-			map.remove(key);
+		// WindSpigot - GamingOP69 - guard null: move() can be called before add()
+		// (e.g., cross-world teleport) or when playerMapX/Z was not initialized.
+		if (list != null) {
+			list.remove(player);
+			if (list.isEmpty()) {
+				map.remove(key);
+			}
 		}
 
 		// do add
