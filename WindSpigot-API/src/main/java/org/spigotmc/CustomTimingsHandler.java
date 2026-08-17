@@ -51,10 +51,7 @@ public final class CustomTimingsHandler {
 
 	public CustomTimingsHandler(String name) {
 		if (sunReflectAvailable == null) {
-			String javaVer = System.getProperty("java.version");
-			String[] elements = javaVer.split("\\.");
-
-			int major = Integer.parseInt(elements.length >= 2 ? elements[1] : javaVer);
+			int major = getJavaMajorVersion();
 			if (major <= 8) {
 				sunReflectAvailable = true;
 
@@ -107,6 +104,35 @@ public final class CustomTimingsHandler {
 
 	public void stopTiming() {
 		handler.stopTiming();
+	}
+
+	private static int getJavaMajorVersion() {
+		String version = System.getProperty("java.version");
+		if (version == null) {
+			return 8;
+		}
+		if (version.startsWith("1.")) {
+			if (version.length() >= 3) {
+				try {
+					return Integer.parseInt(version.substring(2, 3));
+				} catch (NumberFormatException ignored) {
+				}
+			}
+			return 8;
+		}
+		int dot = version.indexOf(".");
+		if (dot != -1) {
+			version = version.substring(0, dot);
+		}
+		int dash = version.indexOf("-");
+		if (dash != -1) {
+			version = version.substring(0, dash);
+		}
+		try {
+			return Integer.parseInt(version);
+		} catch (NumberFormatException e) {
+			return 8;
+		}
 	}
 
 }
