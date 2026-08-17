@@ -39,18 +39,25 @@ public class SearchHandler {
 		final int finalZ = MathHelper.floor(targetEntity.locZ);
 		
 		// WindSpigot start - GamingOP69 - ensure isSearching resets in finally block
-		AsyncUtil.run(() -> {
-			try {
-				PathEntity path = navigation.doPathSearch(chunkCache, finalX, finalY, finalZ);
-				SearchCacheEntryEntity cache = new SearchCacheEntryEntity(targetEntity, navigation.getEntity(), path);
-
-				navigation.addEntry(cache);
-			} catch (Throwable t) {
-				t.printStackTrace();
-			} finally {
-				navigation.isSearching.set(false);
-			}
-		}, executor);
+		// Also guard against RejectedExecutionException: if the executor rejects the
+		// task (e.g. during server shutdown), the lambda finally block never runs and
+		// isSearching would be permanently stuck at true, freezing the mob's AI.
+		try {
+			AsyncUtil.run(() -> {
+				try {
+					PathEntity path = navigation.doPathSearch(chunkCache, finalX, finalY, finalZ);
+					SearchCacheEntryEntity cache = new SearchCacheEntryEntity(targetEntity, navigation.getEntity(), path);
+					navigation.addEntry(cache);
+				} catch (Throwable t) {
+					t.printStackTrace();
+				} finally {
+					navigation.isSearching.set(false);
+				}
+			}, executor);
+		} catch (java.util.concurrent.RejectedExecutionException e) {
+			// Executor shut down — reset flag immediately so mob AI is not frozen
+			navigation.isSearching.set(false);
+		}
 		// WindSpigot end - GamingOP69
 	}
 
@@ -69,18 +76,22 @@ public class SearchHandler {
 		navigation.isSearching.set(true);
 		
 		// WindSpigot start - GamingOP69 - ensure isSearching resets in finally block
-		AsyncUtil.run(() -> {
-			try {
-				PathEntity path = navigation.doPathSearch(chunkCache, x, y, z);
-				SearchCacheEntryPosition cache = new SearchCacheEntryPosition(x, y, z, navigation.getEntity(), path);
-
-				navigation.addEntry(cache);
-			} catch (Throwable t) {
-				t.printStackTrace();
-			} finally {
-				navigation.isSearching.set(false);
-			}
-		}, executor);
+		try {
+			AsyncUtil.run(() -> {
+				try {
+					PathEntity path = navigation.doPathSearch(chunkCache, x, y, z);
+					SearchCacheEntryPosition cache = new SearchCacheEntryPosition(x, y, z, navigation.getEntity(), path);
+					navigation.addEntry(cache);
+				} catch (Throwable t) {
+					t.printStackTrace();
+				} finally {
+					navigation.isSearching.set(false);
+				}
+			}, executor);
+		} catch (java.util.concurrent.RejectedExecutionException e) {
+			// Executor shut down — reset flag immediately so mob AI is not frozen
+			navigation.isSearching.set(false);
+		}
 		// WindSpigot end - GamingOP69
 	}
 
