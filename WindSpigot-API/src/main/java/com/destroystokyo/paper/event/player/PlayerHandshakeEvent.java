@@ -39,6 +39,7 @@ public class PlayerHandshakeEvent extends Event implements Cancellable {
 	 */
 	public PlayerHandshakeEvent(String originalHandshake, boolean cancelled) {
 		this.originalHandshake = originalHandshake;
+		this.serverHostname = originalHandshake;
 		this.cancelled = cancelled;
 	}
 

@@ -90,12 +90,20 @@ public class HandshakeListener implements PacketHandshakingInListener {
 							return;
 						}
 
-						packethandshakinginsetprotocol.hostname = event.getServerHostname();
-						this.b.l = new java.net.InetSocketAddress(event.getSocketAddressHostname(),
-								((java.net.InetSocketAddress) this.b.getSocketAddress()).getPort());
-						this.b.spoofedUUID = event.getUniqueId();
-						this.b.spoofedProfile = gson.fromJson(event.getPropertiesJson(),
-								com.mojang.authlib.properties.Property[].class);
+						if (event.getServerHostname() != null) {
+							packethandshakinginsetprotocol.hostname = event.getServerHostname();
+						}
+						if (event.getSocketAddressHostname() != null) {
+							this.b.l = new java.net.InetSocketAddress(event.getSocketAddressHostname(),
+									((java.net.InetSocketAddress) this.b.getSocketAddress()).getPort());
+						}
+						if (event.getUniqueId() != null) {
+							this.b.spoofedUUID = event.getUniqueId();
+						}
+						if (event.getPropertiesJson() != null) {
+							this.b.spoofedProfile = gson.fromJson(event.getPropertiesJson(),
+									com.mojang.authlib.properties.Property[].class);
+						}
 						handledByEvent = true; // Hooray, we did it!
 					}
 				}
