@@ -112,17 +112,23 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
-	// WindSpigot start - GamingOP69 - ensure channel flush executes across threads
+	// WindSpigot start - GamingOP69 - safe cross-thread flush via event loop submission
 	private void flush() {
-		if (this.channel != null && this.channel.isOpen()) {
-			if (this.channel.eventLoop().inEventLoop()) {
-				this.channel.flush();
-			} else {
-				try {
+		if (this.channel == null || !this.channel.isOpen()) {
+			return;
+		}
+		if (this.channel.eventLoop().inEventLoop()) {
+			this.channel.flush();
+		} else {
+			// Submitting to the event loop is the only thread-safe way to flush from
+			// outside the I/O thread. Calling channel.flush() directly from a foreign
+			// thread is not safe in Netty (not synchronized against pipeline writes).
+			// We check isActive() inside the task to avoid a flush on a closed channel.
+			this.channel.eventLoop().execute(() -> {
+				if (this.channel.isActive()) {
 					this.channel.flush();
-				} catch (Throwable ignored) {
 				}
-			}
+			});
 		}
 	}
 	// WindSpigot end - GamingOP69
