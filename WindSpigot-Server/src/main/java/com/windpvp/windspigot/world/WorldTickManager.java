@@ -11,31 +11,12 @@ import net.minecraft.server.WorldServer;
 
 public class WorldTickManager {
 
-	// List of cached world tickers
-	private final List<WorldTicker> worldTickers = Lists.newArrayList();
-
 	// Instance
 	private static WorldTickManager worldTickerManagerInstance;
 		
 	// Initializes the world ticker manager
 	public WorldTickManager() {
 		worldTickerManagerInstance = this;
-
-	}
-
-	private void cacheWorlds() {
-		// Only create new world tickers if needed
-		if (this.worldTickers.size() != MinecraftServer.getServer().worlds.size()) {
-			worldTickers.clear();
-						
-			// Create world tickers
-			for (WorldServer world : MinecraftServer.getServer().worlds) {
-				WorldTicker ticker = new WorldTicker(world);
-				worldTickers.add(ticker);	
-				world.ticker = ticker;
-			}
-
-		}
 	}
 
 	// Ticks all worlds
@@ -44,16 +25,23 @@ public class WorldTickManager {
 	}
 	
 	private void tickWorlds() {
-        // Cache world tick runnables if not cached already
-        this.cacheWorlds();
-
         // Move BukkitScheduler stuff here so async entity tracking does not interfere
         SpigotTimings.bukkitSchedulerTimer.startTiming(); // Spigot
         // CraftBukkit start
         MinecraftServer.getServer().server.getScheduler().mainThreadHeartbeat(MinecraftServer.getServer().at());
         SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
         
-        for (WorldTicker ticker : this.worldTickers) {
+        List<WorldServer> worlds = MinecraftServer.getServer().worlds;
+        for (int i = 0; i < worlds.size(); i++) {
+            WorldServer world = worlds.get(i);
+            if (world == null) {
+                continue;
+            }
+            WorldTicker ticker = world.ticker;
+            if (ticker == null) {
+                ticker = new WorldTicker(world);
+                world.ticker = ticker;
+            }
             ticker.run();
         }
 	}
