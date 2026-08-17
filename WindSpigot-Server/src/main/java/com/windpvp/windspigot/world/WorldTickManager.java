@@ -52,7 +52,9 @@ public class WorldTickManager {
         cacheWorlds();
         
         for (WorldTicker ticker : this.worldTickers) {
-            ticker.run();
+			if (MinecraftServer.getServer().worlds.contains(ticker.worldserver)) {
+            	ticker.run();
+			}
         }
 	}
 
