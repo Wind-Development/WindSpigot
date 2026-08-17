@@ -1036,8 +1036,13 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 
 		// Run tasks that are waiting on processing
 		SpigotTimings.processQueueTimer.startTiming(); // Spigot
-		while (!processQueue.isEmpty()) {
-			processQueue.remove().run();
+		Runnable processTask;
+		while ((processTask = this.processQueue.poll()) != null) {
+			try {
+				processTask.run();
+			} catch (Throwable t) {
+				LOGGER.error("Exception in processQueue task", t);
+			}
 		}
 		SpigotTimings.processQueueTimer.stopTiming(); // Spigot
 
@@ -1080,8 +1085,13 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 		this.worldTickerManager.tick();
 
 		// WindSpigot start - priority process queue
-		while (!priorityProcessQueue.isEmpty()) {
-			priorityProcessQueue.poll().run();
+		Runnable priorityTask;
+		while ((priorityTask = this.priorityProcessQueue.poll()) != null) {
+			try {
+				priorityTask.run();
+			} catch (Throwable t) {
+				LOGGER.error("Exception in priorityProcessQueue task", t);
+			}
 		}
 		// WindSpigot end
 		
