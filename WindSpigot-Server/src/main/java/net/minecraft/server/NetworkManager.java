@@ -113,10 +113,16 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	}
 
 	private void flush() {
-		if (this.channel.eventLoop().inEventLoop()) {
-			this.channel.flush();
-		} // [Nacho-Spigot] Fixed RejectedExecutionException: event executor terminated by
-			// BeyazPolis
+		if (this.channel != null && this.channel.isOpen()) {
+			if (this.channel.eventLoop().inEventLoop()) {
+				this.channel.flush();
+			} else {
+				try {
+					this.channel.flush();
+				} catch (Throwable ignored) {
+				}
+			}
+		}
 	}
 	// Tuinity end - allow controlled flushing
 
@@ -485,7 +491,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			}
 
 			if (this.channel.pipeline().get("compress") instanceof PacketCompressor) {
-				((PacketCompressor) this.channel.pipeline().get("decompress")).a(compressionThreshold);
+				((PacketCompressor) this.channel.pipeline().get("compress")).a(compressionThreshold);
 			} else {
 				this.channel.pipeline().addBefore("encoder", "compress",
 						new PacketCompressor(compressor, compressionThreshold)); // Paper
