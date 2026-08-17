@@ -156,20 +156,28 @@ public class ServerConnection {
 		}
 	}
 
+	// WindSpigot start - GamingOP69 - safe server shutdown without premature event loop termination or NPE
 	public void stopServer() throws InterruptedException {
 		this.started = false;
 		LOGGER.info("Shutting down event loops");
 		for (ChannelFuture channelfuture : this.getListeningChannels()) {
 			try {
 				channelfuture.channel().close().sync();
-			} finally {
-				a.get().shutdownGracefully();
-				b.get().shutdownGracefully();
-				c.get().shutdownGracefully();
+			} catch (Exception e) {
+				LOGGER.error("Error closing server channel", e);
 			}
 		}
-
+		if (a != null && a.isInitialized()) {
+			a.get().shutdownGracefully();
+		}
+		if (b != null && b.isInitialized()) {
+			b.get().shutdownGracefully();
+		}
+		if (c != null && c.isInitialized()) {
+			c.get().shutdownGracefully();
+		}
 	}
+	// WindSpigot end - GamingOP69
 
 	public void c() {
 		synchronized (this.getConnectedChannels()) {

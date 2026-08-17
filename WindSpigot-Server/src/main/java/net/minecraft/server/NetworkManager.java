@@ -239,12 +239,16 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 					shouldCheckPacket = true;
 				}
 			} else {   
-				// Check if the packet is a knockback packet
-		        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
-		        	// Send it with high priority
-		        	WindSpigot.getInstance().getKnockbackThread().addPacket(packet, this, null);
-		            return;
+				// Check if the packet is a knockback / velocity packet
+				// WindSpigot start - GamingOP69 - check outbound velocity/position packets and guard knockbackThread against null
+		        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition)) {
+		        	com.windpvp.windspigot.async.thread.CombatThread kbThread = WindSpigot.getInstance().getKnockbackThread();
+		        	if (kbThread != null) {
+		        		kbThread.addPacket(packet, this, null);
+		        		return;
+		        	}
 		        }
+		        // WindSpigot end - GamingOP69
 			}
 	        // WindSpigot end
 			this.dispatchPacket(packet, null, Boolean.TRUE);

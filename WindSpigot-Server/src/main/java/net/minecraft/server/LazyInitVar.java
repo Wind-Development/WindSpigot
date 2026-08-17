@@ -2,9 +2,9 @@ package net.minecraft.server;
 
 import java.util.function.Supplier;
 
+// WindSpigot start - GamingOP69 - thread-safe double-checked locking for LazyInitVar
 public class LazyInitVar<T> {
-	private T value;
-	private boolean cached = false;
+	private volatile T value;
 	private final Supplier<T> supplier;
 
 	public LazyInitVar(Supplier<T> supplier) {
@@ -12,10 +12,20 @@ public class LazyInitVar<T> {
 	}
 
 	public T get() {
-		if (!this.cached) {
-			this.cached = true;
-			this.value = this.supplier.get();
+		T result = this.value;
+		if (result == null) {
+			synchronized (this) {
+				result = this.value;
+				if (result == null) {
+					this.value = result = this.supplier.get();
+				}
+			}
 		}
-		return this.value;
+		return result;
+	}
+
+	public boolean isInitialized() {
+		return this.value != null;
 	}
 }
+// WindSpigot end - GamingOP69
