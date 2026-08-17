@@ -1041,8 +1041,10 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 		while ((processTask = this.processQueue.poll()) != null) {
 			try {
 				processTask.run();
-			} catch (Throwable t) {
-				LOGGER.error("Exception in processQueue task", t);
+			} catch (Exception e) {
+				// Catch Exception only — Errors (OOM, StackOverflow) must propagate
+				// and not be silently swallowed.
+				LOGGER.error("Exception in processQueue task", e);
 			}
 		}
 		SpigotTimings.processQueueTimer.stopTiming(); // Spigot
@@ -1091,8 +1093,9 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 		while ((priorityTask = this.priorityProcessQueue.poll()) != null) {
 			try {
 				priorityTask.run();
-			} catch (Throwable t) {
-				LOGGER.error("Exception in priorityProcessQueue task", t);
+			} catch (Exception e) {
+				// Catch Exception only — Errors (OOM, StackOverflow) must propagate
+				LOGGER.error("Exception in priorityProcessQueue task", e);
 			}
 		}
 		// WindSpigot end - GamingOP69

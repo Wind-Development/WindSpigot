@@ -17,7 +17,7 @@ public class ProcessQueueSafetyRegressionTest {
 
         // Task 1: Normal
         queue.add(() -> executedCount.incrementAndGet());
-        // Task 2: Throwing exception
+        // Task 2: Throws RuntimeException (an Exception subclass — must be isolated)
         queue.add(() -> {
             throw new RuntimeException("Task 2 failed purposefully");
         });
@@ -26,12 +26,13 @@ public class ProcessQueueSafetyRegressionTest {
         // Task 4: Normal
         queue.add(() -> executedCount.incrementAndGet());
 
-        // Process queue simulating MinecraftServer main loop fix
+        // Process queue simulating MinecraftServer main loop fix (catch Exception, not Throwable)
         Runnable task;
         while ((task = queue.poll()) != null) {
             try {
                 task.run();
-            } catch (Throwable t) {
+            } catch (Exception e) {
+                // Only Exception — Errors propagate
                 caughtErrors.incrementAndGet();
             }
         }
@@ -49,4 +50,29 @@ public class ProcessQueueSafetyRegressionTest {
         Runnable task = queue.poll();
         Assert.assertNull("Polling empty queue returns null", task);
     }
+
+    @Test
+    public void testErrorsAreNotSwallowedByExceptionCatch() {
+        // catch(Exception) must NOT catch Error subclasses.
+        // Verify that a JVM Error propagates through the catch(Exception) boundary.
+        Queue<Runnable> queue = new ConcurrentLinkedQueue<>();
+        queue.add(() -> { throw new OutOfMemoryError("simulated OOM"); });
+
+        boolean errorPropagated = false;
+        Runnable task = queue.poll();
+        if (task != null) {
+            try {
+                try {
+                    task.run();
+                } catch (Exception e) {
+                    // Should NOT reach here
+                    Assert.fail("OutOfMemoryError must not be caught by catch(Exception)");
+                }
+            } catch (OutOfMemoryError oom) {
+                errorPropagated = true; // Correct — Error propagated past the Exception catch
+            }
+        }
+        Assert.assertTrue("JVM Errors must propagate and not be swallowed by catch(Exception)", errorPropagated);
+    }
 }
+
