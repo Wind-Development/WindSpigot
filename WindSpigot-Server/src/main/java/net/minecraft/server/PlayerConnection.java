@@ -1833,7 +1833,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				}
 
 				InventoryView inventory = this.player.activeContainer.getBukkitView();
-				SlotType type = CraftInventoryView.getSlotType(inventory, packetplayinwindowclick.b());
+				SlotType type = inventory.getSlotType(packetplayinwindowclick.b());
 
 				InventoryClickEvent event = null;
 				ClickType click = ClickType.UNKNOWN;
