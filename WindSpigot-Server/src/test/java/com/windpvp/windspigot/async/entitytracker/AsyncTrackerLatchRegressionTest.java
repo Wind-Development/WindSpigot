@@ -1,6 +1,6 @@
 package com.windpvp.windspigot.async.entitytracker;
 
-import com.windpvp.windspigot.world.ResettableLatch;
+import com.windpvp.windspigot.async.ResettableLatch;
 import org.junit.Assert;
 import org.junit.Test;
 
