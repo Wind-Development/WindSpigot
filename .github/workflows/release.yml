@@ -28,12 +28,11 @@ jobs:
       run: mvn clean package --file pom.xml
 
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@v2
-      with:
-        name: WindSpigot ${{ github.ref_name }}
-        draft: false
-        prerelease: false
-        generate_release_notes: true
-        files: |
-          WindSpigot-Server/target/WindSpigot.jar
-          WindSpigot-API/target/WindSpigot-API.jar
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release create "${{ github.ref_name }}" \
+          WindSpigot-Server/target/WindSpigot.jar \
+          WindSpigot-API/target/WindSpigot-API.jar \
+          --title "WindSpigot ${{ github.ref_name }}" \
+          --generate-notes
