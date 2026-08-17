@@ -3,7 +3,7 @@ package me.rastrian.dev;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MathHelper;
@@ -12,7 +12,7 @@ import net.minecraft.server.Packet;
 public class PlayerMap {
 
 	private static final int CHUNK_BITS = 5;
-	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectArrayMap<>();
+	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectOpenHashMap<>();
 
 	private static long xzToKey(long x, long z) {
 		return (x << 32) + z - Integer.MIN_VALUE;
