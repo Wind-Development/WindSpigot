@@ -3,6 +3,7 @@ package org.bukkit.inventory;
 import org.bukkit.GameMode;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 
 /**
  * Represents a view linking two inventories and a single player (whose
