@@ -12,9 +12,8 @@ public class CitizensVersionDetectionTest {
     @Test
     public void testOlderBuildDetected() {
         Plugin plugin = Mockito.mock(Plugin.class);
-        PluginDescriptionFile desc = Mockito.mock(PluginDescriptionFile.class);
+        PluginDescriptionFile desc = new PluginDescriptionFile("Citizens", "2.0.25-SNAPSHOT (build 1770)", "net.citizensnpcs.Citizens");
         Mockito.when(plugin.getDescription()).thenReturn(desc);
-        Mockito.when(desc.getVersion()).thenReturn("2.0.25-SNAPSHOT (build 1770)");
 
         int build = PluginUtils.getCitizensBuild(plugin);
         Assert.assertEquals(1770, build);
@@ -24,9 +23,8 @@ public class CitizensVersionDetectionTest {
     @Test
     public void testNewerBuildDetected() {
         Plugin plugin = Mockito.mock(Plugin.class);
-        PluginDescriptionFile desc = Mockito.mock(PluginDescriptionFile.class);
+        PluginDescriptionFile desc = new PluginDescriptionFile("Citizens", "2.0.28-SNAPSHOT (build 2400)", "net.citizensnpcs.Citizens");
         Mockito.when(plugin.getDescription()).thenReturn(desc);
-        Mockito.when(desc.getVersion()).thenReturn("2.0.28-SNAPSHOT (build 2400)");
 
         int build = PluginUtils.getCitizensBuild(plugin);
         Assert.assertEquals(2400, build);
@@ -36,9 +34,8 @@ public class CitizensVersionDetectionTest {
     @Test
     public void testFallbackOnUnknownVersion() {
         Plugin plugin = Mockito.mock(Plugin.class);
-        PluginDescriptionFile desc = Mockito.mock(PluginDescriptionFile.class);
+        PluginDescriptionFile desc = new PluginDescriptionFile("Citizens", "unknown-version", "net.citizensnpcs.Citizens");
         Mockito.when(plugin.getDescription()).thenReturn(desc);
-        Mockito.when(desc.getVersion()).thenReturn("unknown-version");
 
         int build = PluginUtils.getCitizensBuild(plugin);
         Assert.assertEquals(2396, build);
