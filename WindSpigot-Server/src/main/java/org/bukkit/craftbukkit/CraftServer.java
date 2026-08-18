@@ -371,19 +371,30 @@ public final class CraftServer implements Server {
 					}
 					// Nacho end
 
-					// Nacho start - Add notice for older Citizens versions
+					// WindSpigot start - GamingOP69 - Auto-patch older Citizens EmptyChannel for Netty 4.1 compatibility
 					else if (plugin.getDescription().getFullName().contains("Citizens")) {
 						if (PluginUtils.getCitizensBuild(plugin) < 2396) {
-							logger.warning("Please update to Citizens 2.0.28 #7 or higher!\n"
-									+ "Previously, there was a fix for older versions, but that has been removed.\n"
-									+ "So, if you want Citizens to work, please update!\n"
-									+ "You can download the latest version with this link: "
-									+ "https://ci.citizensnpcs.co/job/Citizens2/\n"
-									+ "Sleeping for 10s so this message can be read.");
-							Thread.sleep(10000);
+							try {
+								javassist.ClassPool pool = javassist.ClassPool.getDefault();
+								pool.insertClassPath(new javassist.LoaderClassPath(plugin.getClass().getClassLoader()));
+								pool.importPackage("io.netty.channel.ChannelMetadata");
+
+								javassist.CtClass emptyChannel = pool.get("net.citizensnpcs.nms.v1_8_R3.network.EmptyChannel");
+								if (emptyChannel.isFrozen()) {
+									emptyChannel.defrost();
+								}
+
+								javassist.CtMethod metaData = emptyChannel.getDeclaredMethods("metadata")[0];
+								metaData.setBody("{ return new ChannelMetadata(true); }");
+
+								emptyChannel.toClass(plugin.getClass().getClassLoader(), plugin.getClass().getProtectionDomain());
+								logger.info("Successfully patched Citizens EmptyChannel for Netty 4.1 compatibility!");
+							} catch (Throwable t) {
+								logger.warning("Could not automatically patch Citizens: " + t.getMessage());
+							}
 						}
 					}
-					// Nacho end
+					// WindSpigot end - GamingOP69
 
 					plugin.getLogger().info(String.format("Loading %s", plugin.getDescription().getFullName()));
 					plugin.onLoad();

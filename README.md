@@ -254,5 +254,6 @@ See the patches list below.
 [GamingOP69-0017] Thread-safe synchronized explosion density cache for async TNT calculations
 [GamingOP69-0018] Exception-safe queued packet flushing in PlayerConnection
 [GamingOP69-0019] AntiCrash custom payload serializer null safety
+[GamingOP69-0020] Auto-patch legacy Citizens EmptyChannel for Netty 4.1 compatibility and eliminate 10s startup stall
 ```
 
