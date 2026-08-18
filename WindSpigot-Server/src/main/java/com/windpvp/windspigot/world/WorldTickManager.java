@@ -1,11 +1,7 @@
 package com.windpvp.windspigot.world;
 
 import java.util.List;
-import com.google.common.collect.Lists;
-import com.windpvp.windspigot.config.WindSpigotConfig;
-
 import co.aikar.timings.SpigotTimings;
-import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
 
