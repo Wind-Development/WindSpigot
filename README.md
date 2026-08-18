@@ -233,4 +233,26 @@ See the patches list below.
 [DashSpigot-0011] Fix MC-94186: Dragon egg falling in lazy chunks
 
 [Titanium-0189] Fix MC-124833
+
+<--> by GamingOP69
+[GamingOP69-0001] Fix fireball and explosion knockback vector direction calculation (dynamic radius scaling)
+[GamingOP69-0002] Fix NetworkManager flush cross-thread event loop submission and compression lookup
+[GamingOP69-0003] Fix WorldTickManager lifecycle and dynamic world unload memory leaks
+[GamingOP69-0004] Fix AsyncEntityTracker exception safety and deadlock prevention (try-finally latch countdown)
+[GamingOP69-0005] Fix EntityTrackerEntry visibility rates (remove 5s tracking lag)
+[GamingOP69-0006] Fix SpawnerCreature mob cap calculation and spectator check
+[GamingOP69-0007] Fix TCPShield and PlayerHandshakeEvent null safety
+[GamingOP69-0008] Validate block placement coordinates and direction in PlayerConnection
+[GamingOP69-0009] Fix MinecraftServer process queue polling race and exception safety
+[GamingOP69-0010] Optimize PlayerMap spatial lookups with Long2ObjectOpenHashMap and fix move NPE
+[GamingOP69-0011] Eliminate lambda allocations in ConcurrentIntHashMap
+[GamingOP69-0012] Fix async pathfinding isSearching reset in SearchHandler (recovery on rejected tasks)
+[GamingOP69-0013] Fix Java 9-25 version parsing in CustomTimingsHandler
+[GamingOP69-0014] Fix CombatThread NPE race and Spigot404Write per-instance packet queues
+[GamingOP69-0015] Fix LagCompensator multi-threaded data race between Netty IO and main thread
+[GamingOP69-0016] Thread-safe double-checked locking for LazyInitVar and safe ServerConnection shutdown
+[GamingOP69-0017] Thread-safe synchronized explosion density cache for async TNT calculations
+[GamingOP69-0018] Exception-safe queued packet flushing in PlayerConnection
+[GamingOP69-0019] AntiCrash custom payload serializer null safety
 ```
+
