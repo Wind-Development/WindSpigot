@@ -155,13 +155,17 @@
             <version>3.21.0</version>
         </dependency>
 
-		<!-- Kyori api -->
-		<!-- https://mvnrepository.com/artifact/net.kyori/adventure-api -->
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-key</artifactId>
-            <version>4.10.1</version>
-        </dependency>
+		<dependency>
+			<groupId>net.kyori</groupId>
+			<artifactId>adventure-key</artifactId>
+			<version>4.10.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.29.2-GA</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>

@@ -169,6 +169,10 @@ import net.minecraft.server.WorldServer;
 import net.minecraft.server.WorldSettings;
 import net.minecraft.server.WorldType;
 import xyz.sculas.nacho.malware.AntiMalware;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import javassist.LoaderClassPath;
 
 public final class CraftServer implements Server {
 	private static final Player[] EMPTY_PLAYER_ARRAY = new Player[0];
@@ -375,16 +379,16 @@ public final class CraftServer implements Server {
 					else if (plugin.getDescription().getFullName().contains("Citizens")) {
 						if (PluginUtils.getCitizensBuild(plugin) < 2396) {
 							try {
-								javassist.ClassPool pool = javassist.ClassPool.getDefault();
-								pool.insertClassPath(new javassist.LoaderClassPath(plugin.getClass().getClassLoader()));
+								ClassPool pool = ClassPool.getDefault();
+								pool.insertClassPath(new LoaderClassPath(plugin.getClass().getClassLoader()));
 								pool.importPackage("io.netty.channel.ChannelMetadata");
 
-								javassist.CtClass emptyChannel = pool.get("net.citizensnpcs.nms.v1_8_R3.network.EmptyChannel");
+								CtClass emptyChannel = pool.get("net.citizensnpcs.nms.v1_8_R3.network.EmptyChannel");
 								if (emptyChannel.isFrozen()) {
 									emptyChannel.defrost();
 								}
 
-								javassist.CtMethod metaData = emptyChannel.getDeclaredMethods("metadata")[0];
+								CtMethod metaData = emptyChannel.getDeclaredMethods("metadata")[0];
 								metaData.setBody("{ return new ChannelMetadata(true); }");
 
 								emptyChannel.toClass(plugin.getClass().getClassLoader(), plugin.getClass().getProtectionDomain());
