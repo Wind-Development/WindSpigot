@@ -75,6 +75,6 @@ public class CraftInventoryView extends InventoryView {
 	}
 
 	public static SlotType getSlotType(InventoryView inventory, int slot) {
-        return inventory.getSlotType(slot);
-    }
+		return inventory.getSlotType(slot);
+	}
 }
