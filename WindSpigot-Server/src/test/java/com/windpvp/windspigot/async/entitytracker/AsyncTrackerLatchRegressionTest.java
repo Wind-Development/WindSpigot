@@ -23,7 +23,7 @@ public class AsyncTrackerLatchRegressionTest {
                 try {
                     if (taskId % 2 == 0) {
                         // Simulate unexpected exception during entity tracking
-                        throw new RuntimeException("Simulated entity update error in thread " + taskId);
+                        throw new IllegalStateException("Simulated entity update error in thread " + taskId);
                     }
                 } catch (Throwable t) {
                     handledErrors.incrementAndGet();

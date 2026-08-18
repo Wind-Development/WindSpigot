@@ -26,11 +26,7 @@ public class BlockPlaceValidationTest {
         }
 
         // Coordinates must be within valid world height bounds
-        if (yCoord < 0 || yCoord >= maxBuildHeight) {
-            return false;
-        }
-
-        return true;
+        return yCoord >= 0 && yCoord < maxBuildHeight;
     }
 
     @Test

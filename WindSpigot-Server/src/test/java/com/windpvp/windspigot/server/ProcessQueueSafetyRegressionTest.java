@@ -17,9 +17,9 @@ public class ProcessQueueSafetyRegressionTest {
 
         // Task 1: Normal
         queue.add(() -> executedCount.incrementAndGet());
-        // Task 2: Throws RuntimeException (an Exception subclass — must be isolated)
+        // Task 2: Throws IllegalStateException (an Exception subclass — must be isolated)
         queue.add(() -> {
-            throw new RuntimeException("Task 2 failed purposefully");
+            throw new IllegalStateException("Task 2 failed purposefully");
         });
         // Task 3: Normal
         queue.add(() -> executedCount.incrementAndGet());

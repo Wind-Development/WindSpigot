@@ -55,7 +55,7 @@ public class ExplosionDensityCacheConcurrencyTest {
                     for (int j = 0; j < 1000; j++) {
                         int key = (id * 1000) + j;
                         float val = cache.get(key);
-                        // Read should not throw or corrupt
+                        Assert.assertTrue("Read value must be valid float", !Float.isInfinite(val));
                     }
                 } catch (Throwable t) {
                     failed.set(true);

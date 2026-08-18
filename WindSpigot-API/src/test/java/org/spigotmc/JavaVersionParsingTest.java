@@ -21,16 +21,17 @@ public class JavaVersionParsingTest {
             }
             return 8;
         }
-        int dot = version.indexOf(".");
+        String parsedVersion = version;
+        int dot = parsedVersion.indexOf(".");
         if (dot != -1) {
-            version = version.substring(0, dot);
+            parsedVersion = parsedVersion.substring(0, dot);
         }
-        int dash = version.indexOf("-");
+        int dash = parsedVersion.indexOf("-");
         if (dash != -1) {
-            version = version.substring(0, dash);
+            parsedVersion = parsedVersion.substring(0, dash);
         }
         try {
-            return Integer.parseInt(version);
+            return Integer.parseInt(parsedVersion);
         } catch (NumberFormatException e) {
             return 8;
         }
