@@ -106,6 +106,8 @@ public class Explosion {
 	}
 
 	public void affectEntities(List<Entity> list, Vec3D vec3d, float f3) {
+		// WindSpigot start - fix fireball & explosion knockback direction and radius scaling
+		double maxDistSq = (double) (f3 * f3);
 		for (Entity entity : list) {
 			if (!entity.aW()) {
 				if (!entity.dead) {
@@ -114,9 +116,10 @@ public class Explosion {
 					double d10 = entity.locZ - this.posZ;
 					double distanceSquared = d8 * d8 + d9 * d9 + d10 * d10;
 
-					if (distanceSquared <= 64.0D && distanceSquared != 0.0D) {
+					if (distanceSquared <= maxDistSq && distanceSquared != 0.0D) {
 						double d11 = MathHelper.sqrt(distanceSquared);
 						double d7 = d11 / f3;
+						// d7 <= 1.0D is guaranteed here since distanceSquared <= f3*f3
 						d8 /= d11;
 						d9 /= d11;
 						d10 /= d11;
@@ -126,7 +129,7 @@ public class Explosion {
 						double finalD = d8;
 						double finalD1 = d9;
 						double finalD11 = d10;
-						
+
 						// WindSpigot start - toggleable async explosions
 						if (WindSpigotConfig.asyncTnt) {
 							this.getBlockDensityAsync(vec3d, entity.getBoundingBox())
@@ -142,10 +145,15 @@ public class Explosion {
 				}
 			}
 		}
+		// WindSpigot end
 	}
-	
+
 	private void processEntityKnockback(Entity entity, double d7, double finalD, double finalD1, double finalD11, float f3, double d12) {
 		double d13 = (1.0D - d7) * d12;
+		if (d13 < 0.0D) {
+			return; // WindSpigot - prevent negative knockback multiplier
+		}
+
 
 		if (entity.isCannoningEntity) {
 			entity.g(finalD * d13, finalD1 * d13, finalD11 * d13);
