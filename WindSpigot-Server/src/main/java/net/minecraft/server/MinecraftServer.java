@@ -1035,11 +1035,20 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 //		SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
 
 		// Run tasks that are waiting on processing
+		// WindSpigot start - GamingOP69 - safe processQueue exception handling
 		SpigotTimings.processQueueTimer.startTiming(); // Spigot
-		while (!processQueue.isEmpty()) {
-			processQueue.remove().run();
+		Runnable processTask;
+		while ((processTask = this.processQueue.poll()) != null) {
+			try {
+				processTask.run();
+			} catch (Exception e) {
+				// Catch Exception only — Errors (OOM, StackOverflow) must propagate
+				// and not be silently swallowed.
+				LOGGER.error("Exception in processQueue task", e);
+			}
 		}
 		SpigotTimings.processQueueTimer.stopTiming(); // Spigot
+		// WindSpigot end - GamingOP69
 
 		SpigotTimings.chunkIOTickTimer.startTiming(); // Spigot
 		org.bukkit.craftbukkit.chunkio.ChunkIOExecutor.tick();
@@ -1079,11 +1088,17 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 		// WindSpigot - parallel worlds
 		this.worldTickerManager.tick();
 
-		// WindSpigot start - priority process queue
-		while (!priorityProcessQueue.isEmpty()) {
-			priorityProcessQueue.poll().run();
+		// WindSpigot start - GamingOP69 - safe priority process queue polling
+		Runnable priorityTask;
+		while ((priorityTask = this.priorityProcessQueue.poll()) != null) {
+			try {
+				priorityTask.run();
+			} catch (Exception e) {
+				// Catch Exception only — Errors (OOM, StackOverflow) must propagate
+				LOGGER.error("Exception in priorityProcessQueue task", e);
+			}
 		}
-		// WindSpigot end
+		// WindSpigot end - GamingOP69
 		
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot
