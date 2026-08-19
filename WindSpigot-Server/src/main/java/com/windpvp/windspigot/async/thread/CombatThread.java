@@ -10,8 +10,9 @@ public class CombatThread extends AsyncPacketThread {
     // Handle packets
     @Override
     public void run() {
-        while (this.packets.size() > 0) {
-            this.packets.poll().run();
+        Runnable task;
+        while ((task = this.packets.poll()) != null) {
+            task.run();
         }
     }
 } 

@@ -2,6 +2,7 @@ package com.windpvp.windspigot.hitdetection;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -18,45 +19,52 @@ public class LagCompensator {
         Adjusts hit detection to be more fair for players with worse ping.
      */
 
-    private final ListMultimap<UUID, Pair<Location, Long>> locationTimes = ArrayListMultimap.create();
+    // WindSpigot - GamingOP69 - registerMovement is called from Netty IO threads while
+    // getHistoryLocation/clearCache are called from the main server thread.
+    // ArrayListMultimap is not thread-safe; wrap it with synchronizedListMultimap.
+    private final ListMultimap<UUID, Pair<Location, Long>> locationTimes =
+            Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
     private final int historySize = 40;
     private final int pingOffset = 92;
     private final int timeResolution = 30;
 
     // Gets an estimate location of the player at "rewindMillisecs" ago
     public Location getHistoryLocation(Player player, int rewindMillisecs) {
-        if (!locationTimes.containsKey(player.getUniqueId()))
-            return player.getLocation();
+        // synchronizedListMultimap requires explicit sync during iteration
+        synchronized (locationTimes) {
+            if (!locationTimes.containsKey(player.getUniqueId()))
+                return player.getLocation();
 
-        List<Pair<Location, Long>> previousLocations = locationTimes.get(player.getUniqueId());
-        long currentTime = System.currentTimeMillis();
+            List<Pair<Location, Long>> previousLocations = locationTimes.get(player.getUniqueId());
+            long currentTime = System.currentTimeMillis();
 
-        int rewindTime = rewindMillisecs + pingOffset;
-        int timesSize = previousLocations.size() - 1;
+            int rewindTime = rewindMillisecs + pingOffset;
+            int timesSize = previousLocations.size() - 1;
 
-        for (int i = timesSize; i >= 0; i--) {
-            Pair<Location, Long> locationPair = previousLocations.get(i);
-            int elapsedTime = (int) (currentTime - locationPair.getValue());
+            for (int i = timesSize; i >= 0; i--) {
+                Pair<Location, Long> locationPair = previousLocations.get(i);
+                int elapsedTime = (int) (currentTime - locationPair.getValue());
 
-            if (elapsedTime >= rewindTime) {
-                if (i == timesSize)
-                    return locationPair.getKey();
+                if (elapsedTime >= rewindTime) {
+                    if (i == timesSize)
+                        return locationPair.getKey();
 
-                int maxRewindMilli = rewindMillisecs + pingOffset;
-                int millisSinceLoc = (int) (currentTime - locationPair.getValue());
+                    int maxRewindMilli = rewindMillisecs + pingOffset;
+                    int millisSinceLoc = (int) (currentTime - locationPair.getValue());
 
-                double movementRelAge = millisSinceLoc - maxRewindMilli;
-                double millisSinceLastLoc = currentTime - previousLocations.get(i + 1).getValue();
+                    double movementRelAge = millisSinceLoc - maxRewindMilli;
+                    double millisSinceLastLoc = currentTime - previousLocations.get(i + 1).getValue();
 
-                double nextMoveWeight = movementRelAge / (millisSinceLoc - millisSinceLastLoc);
-                Location before = locationPair.getKey().clone();
-                Location after = previousLocations.get(i + 1).getKey();
-                Vector interpolate = after.toVector().subtract(before.toVector());
+                    double nextMoveWeight = movementRelAge / (millisSinceLoc - millisSinceLastLoc);
+                    Location before = locationPair.getKey().clone();
+                    Location after = previousLocations.get(i + 1).getKey();
+                    Vector interpolate = after.toVector().subtract(before.toVector());
 
-                interpolate.multiply(nextMoveWeight);
-                before.add(interpolate);
+                    interpolate.multiply(nextMoveWeight);
+                    before.add(interpolate);
 
-                return before;
+                    return before;
+                }
             }
         }
 
@@ -66,16 +74,19 @@ public class LagCompensator {
     private void processPosition(Location loc, Player p) {
         if (!WindSpigotConfig.improvedHitDetection) return;
 
-        int timesSize = locationTimes.get(p.getUniqueId()).size();
-        long currTime = System.currentTimeMillis();
+        // synchronizedListMultimap requires explicit sync during iteration/compound ops
+        synchronized (locationTimes) {
+            int timesSize = locationTimes.get(p.getUniqueId()).size();
+            long currTime = System.currentTimeMillis();
 
-        if (timesSize > 0 && currTime - locationTimes.get(p.getUniqueId()).get(timesSize - 1).getValue() < timeResolution)
-            return;
+            if (timesSize > 0 && currTime - locationTimes.get(p.getUniqueId()).get(timesSize - 1).getValue() < timeResolution)
+                return;
 
-        locationTimes.put(p.getUniqueId(), Pair.of(loc, currTime));
+            locationTimes.put(p.getUniqueId(), Pair.of(loc, currTime));
 
-        if (timesSize > historySize)
-            locationTimes.get(p.getUniqueId()).remove(0);
+            if (timesSize > historySize)
+                locationTimes.get(p.getUniqueId()).remove(0);
+        }
     }
 
 
@@ -86,5 +97,6 @@ public class LagCompensator {
     public void clearCache(Player player) {
         locationTimes.removeAll(player.getUniqueId());
     }
+
 
 }
