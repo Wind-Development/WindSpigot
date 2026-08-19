@@ -2,20 +2,27 @@ name: WindSpigot PR Build
 
 on:
   pull_request:
+    paths-ignore:
+      - '**.md'
+      - '.gitattributes'
+      - '.gitignore'
+  workflow_dispatch:
 
 jobs:
   cleanup-and-build:
+    name: Verify PR Build & Tests
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip]')"
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v5
+
     - name: Set up JDK 18.0.1
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
-        java-version: 18.0.1
-        server-id: github
+        java-version: '18.0.1'
         cache: 'maven'
 
     - name: Build with Maven
-      run: mvn clean package --file pom.xml
+      run: mvn clean package --batch-mode --file pom.xml

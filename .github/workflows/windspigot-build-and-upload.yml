@@ -2,41 +2,45 @@ name: WindSpigot Build and Upload
 
 on:
   push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+      - '.gitattributes'
+      - '.gitignore'
+  workflow_dispatch:
 
 jobs:
   build-and-upload:
+    name: Build & Publish Artifacts
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip]')"
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout Repository
+      uses: actions/checkout@v5
 
     - name: Set up JDK 18.0.1
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
-        java-version: 18.0.1
-        server-id: github
+        java-version: '18.0.1'
         cache: 'maven'
-        
-    - name: Cache local Maven repository
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-      
+
     - name: Build with Maven
-      run: mvn package --file pom.xml
-      
+      run: mvn clean package --batch-mode --file pom.xml
+
     - name: Upload Server Artifact
       uses: actions/upload-artifact@v4
       with:
         name: WindSpigot-server
         path: WindSpigot-Server/target/WindSpigot.jar
+        if-no-files-found: error
+        retention-days: 30
 
     - name: Upload API Artifact
       uses: actions/upload-artifact@v4
       with:
         name: WindSpigot-API
         path: WindSpigot-API/target/WindSpigot-API.jar
+        if-no-files-found: error
+        retention-days: 30
