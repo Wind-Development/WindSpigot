@@ -112,12 +112,26 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
+	// WindSpigot start - GamingOP69 - safe cross-thread flush via event loop submission
 	private void flush() {
+		if (this.channel == null || !this.channel.isOpen()) {
+			return;
+		}
 		if (this.channel.eventLoop().inEventLoop()) {
 			this.channel.flush();
-		} // [Nacho-Spigot] Fixed RejectedExecutionException: event executor terminated by
-			// BeyazPolis
+		} else {
+			// Submitting to the event loop is the only thread-safe way to flush from
+			// outside the I/O thread. Calling channel.flush() directly from a foreign
+			// thread is not safe in Netty (not synchronized against pipeline writes).
+			// We check isActive() inside the task to avoid a flush on a closed channel.
+			this.channel.eventLoop().execute(() -> {
+				if (this.channel.isActive()) {
+					this.channel.flush();
+				}
+			});
+		}
 	}
+	// WindSpigot end - GamingOP69
 	// Tuinity end - allow controlled flushing
 
 	public NetworkManager(EnumProtocolDirection enumprotocoldirection) {
@@ -225,12 +239,16 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 					shouldCheckPacket = true;
 				}
 			} else {   
-				// Check if the packet is a knockback packet
-		        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
-		        	// Send it with high priority
-		        	WindSpigot.getInstance().getKnockbackThread().addPacket(packet, this, null);
-		            return;
+				// Check if the packet is a knockback / velocity packet
+				// WindSpigot start - GamingOP69 - check outbound velocity/position packets and guard knockbackThread against null
+		        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition)) {
+		        	com.windpvp.windspigot.async.thread.CombatThread kbThread = WindSpigot.getInstance().getKnockbackThread();
+		        	if (kbThread != null) {
+		        		kbThread.addPacket(packet, this, null);
+		        		return;
+		        	}
 		        }
+		        // WindSpigot end - GamingOP69
 			}
 	        // WindSpigot end
 			this.dispatchPacket(packet, null, Boolean.TRUE);
@@ -485,7 +503,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			}
 
 			if (this.channel.pipeline().get("compress") instanceof PacketCompressor) {
-				((PacketCompressor) this.channel.pipeline().get("decompress")).a(compressionThreshold);
+				((PacketCompressor) this.channel.pipeline().get("compress")).a(compressionThreshold); // WindSpigot - GamingOP69 - fix pipeline key from decompress to compress
 			} else {
 				this.channel.pipeline().addBefore("encoder", "compress",
 						new PacketCompressor(compressor, compressionThreshold)); // Paper
