@@ -145,22 +145,12 @@ public abstract class World implements IBlockAccess {
 	private int tileTickPosition;
 	public final PlayerMap playerMap = new PlayerMap();
 
-	// IonSpigot start - Optimise Density Cache
-	public final it.unimi.dsi.fastutil.ints.Int2FloatMap explosionDensityCache = new it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap(); // IonSpigot
-																																		// -
-																																		// Use
-																																		// faster
-																																		// collection
-																																		// here
-																																		// //
-																																		// PaperSpigot
-																																		// -
-																																		// Optimize
-																																		// explosions
+	// WindSpigot start - GamingOP69 - thread-safe synchronized Int2FloatMap for async explosion density calculation
+	public final it.unimi.dsi.fastutil.ints.Int2FloatMap explosionDensityCache = it.unimi.dsi.fastutil.ints.Int2FloatMaps.synchronize(new it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap());
 	{
 		explosionDensityCache.defaultReturnValue(-1.0f);
 	}
-	// IonSpigot end
+	// WindSpigot end - GamingOP69
 
 	public ExecutorService lightingExecutor = Executors
 			.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("PaperSpigot - Lighting Thread").build()); // PaperSpigot

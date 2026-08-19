@@ -3,7 +3,7 @@ package me.rastrian.dev;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.MathHelper;
@@ -12,7 +12,7 @@ import net.minecraft.server.Packet;
 public class PlayerMap {
 
 	private static final int CHUNK_BITS = 5;
-	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectArrayMap<>();
+	private final Long2ObjectMap<List<EntityPlayer>> map = new Long2ObjectOpenHashMap<>(); // WindSpigot - GamingOP69 - use Long2ObjectOpenHashMap for O(1) chunk lookups
 
 	private static long xzToKey(long x, long z) {
 		return (x << 32) + z - Integer.MIN_VALUE;
@@ -44,9 +44,13 @@ public class PlayerMap {
 		// do remove
 		long key = xzToKey(player.playerMapX, player.playerMapZ);
 		List<EntityPlayer> list = map.get(key);
-		list.remove(player);
-		if (list.isEmpty()) {
-			map.remove(key);
+		// WindSpigot - GamingOP69 - guard null: move() can be called before add()
+		// (e.g., cross-world teleport) or when playerMapX/Z was not initialized.
+		if (list != null) {
+			list.remove(player);
+			if (list.isEmpty()) {
+				map.remove(key);
+			}
 		}
 
 		// do add
