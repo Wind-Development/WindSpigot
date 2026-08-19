@@ -1,5 +1,6 @@
 package com.windpvp.windspigot.world;
 
+import java.util.List;
 import co.aikar.timings.SpigotTimings;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldServer;
@@ -12,7 +13,6 @@ public class WorldTickManager {
 	// Initializes the world ticker manager
 	public WorldTickManager() {
 		worldTickerManagerInstance = this;
-
 	}
 
 	// Ticks all worlds
@@ -26,14 +26,22 @@ public class WorldTickManager {
         // CraftBukkit start
         MinecraftServer.getServer().server.getScheduler().mainThreadHeartbeat(MinecraftServer.getServer().at());
         SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
-	        
-		for (int i = 0; i < MinecraftServer.getServer().worlds.size(); i++) {
-			WorldServer world = MinecraftServer.getServer().worlds.get(i);
-			if (world.ticker == null) {
-				world.ticker = new WorldTicker(world);
-			}
-			world.ticker.run();
-		}
+        
+        // WindSpigot start - GamingOP69 - dynamic world ticking and prevent world unload memory leaks
+        List<WorldServer> worlds = MinecraftServer.getServer().worlds;
+        for (int i = 0; i < worlds.size(); i++) {
+            WorldServer world = worlds.get(i);
+            if (world == null) {
+                continue;
+            }
+            WorldTicker ticker = world.ticker;
+            if (ticker == null) {
+                ticker = new WorldTicker(world);
+                world.ticker = ticker;
+            }
+            ticker.run();
+        }
+        // WindSpigot end - GamingOP69
 	}
 
 	/*

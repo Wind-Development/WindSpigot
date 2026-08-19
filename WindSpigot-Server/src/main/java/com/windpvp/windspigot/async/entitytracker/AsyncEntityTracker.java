@@ -31,13 +31,26 @@ public class AsyncEntityTracker extends EntityTracker {
 		for (int i = 1; i <= WindSpigotConfig.trackingThreads; i++) {
 			final int finalOffset = offset++;
 			
+			// WindSpigot start - GamingOP69 - wrap tracker update in try-finally for latch safety
 			AsyncUtil.run(() -> {
-				for (int index = finalOffset; index < c.size(); index += WindSpigotConfig.trackingThreads) {
-                    ((IndexedLinkedHashSet<EntityTrackerEntry>) c).get(index).update();
+				try {
+					int size = c.size();
+					for (int index = finalOffset; index < size; index += WindSpigotConfig.trackingThreads) {
+						if (c instanceof IndexedLinkedHashSet) {
+							EntityTrackerEntry entry = ((IndexedLinkedHashSet<EntityTrackerEntry>) c).get(index);
+							if (entry != null) {
+								entry.update();
+							}
+						}
+					}
+				} catch (Throwable t) {
+					t.printStackTrace();
+				} finally {
+					worldServer.ticker.getLatch().decrement();
 				}
-				worldServer.ticker.getLatch().decrement();
 
 			}, trackingThreadExecutor);
+			// WindSpigot end - GamingOP69
 			
 		}
 		try {

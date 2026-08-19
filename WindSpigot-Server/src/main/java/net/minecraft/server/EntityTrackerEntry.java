@@ -108,16 +108,16 @@ public class EntityTrackerEntry {
 		this.lastHeadYaw = MathHelper.d(entity.getHeadRotation() * 256.0F / 360.0F);
 		this.lastOnGround = entity.onGround;
 
-		if (WindSpigotConfig.disableTracking) {
-			this.addRemoveRate = 100;
-		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
+		// WindSpigot start - GamingOP69 - restore active entity tracking addRemoveRate
+		if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
 			this.addRemoveRate = 5; // projectile things
 		} else if (this.tracker instanceof EntityPlayer) {
-			this.addRemoveRate = 5; // players
+			this.addRemoveRate = 2; // players
 		} else {
-			this.addRemoveRate = 10; // default
+			this.addRemoveRate = 5; // default
 		}
 		this.addRemoveCooldown = this.tracker.getId() % addRemoveRate;
+		// WindSpigot end - GamingOP69
 	}
 
 	// Constructor is used by plugins via NMS
@@ -145,17 +145,16 @@ public class EntityTrackerEntry {
 		this.lastHeadYaw = MathHelper.d(entity.getHeadRotation() * 256.0F / 360.0F);
 		this.lastOnGround = entity.onGround;
 		
-		// WindSpigot - async entity tracking
-		if (WindSpigotConfig.disableTracking) {
-			this.addRemoveRate = 100;
-		} else if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
+		// WindSpigot start - GamingOP69 - restore active entity tracking addRemoveRate
+		if (this.tracker instanceof EntityArrow || this.tracker instanceof EntityProjectile) {
 			this.addRemoveRate = 5; // projectile things
 		} else if (this.tracker instanceof EntityPlayer) {
-			this.addRemoveRate = 5; // players
+			this.addRemoveRate = 2; // players
 		} else {
-			this.addRemoveRate = 10; // default
+			this.addRemoveRate = 5; // default
 		}
 		this.addRemoveCooldown = this.tracker.getId() % addRemoveRate;
+		// WindSpigot end - GamingOP69
 	}
 
 	@Override
