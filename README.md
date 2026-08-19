@@ -1,4 +1,4 @@
-# WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/windspigot-build-and-upload.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c5ee8d2ef324d23ab085d89139ea0e7)](https://www.codacy.com/gh/Wind-Development/WindSpigot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Wind-Development/WindSpigot&amp;utm_campaign=Badge_Grade) [![Discord](https://img.shields.io/discord/1318787858768597042?label=discord)](https://discord.gg/hqbJvQZpV2)
+# WindSpigot [![GitHub Workflow Status](https://github.com/Wind-Development/WindSpigot/actions/workflows/windspigot-build-and-upload.yml/badge.svg)](https://nightly.link/Wind-Development/WindSpigot/workflows/windspigot-build-and-upload/master/WindSpigot-server.zip) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3c5ee8d2ef324d23ab085d89139ea0e7)](https://www.codacy.com/gh/Wind-Development/WindSpigot/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Wind-Development/WindSpigot&utm_campaign=Badge_Grade) [![Discord](https://img.shields.io/discord/1318787858768597042?label=discord)](https://discord.gg/hqbJvQZpV2)
 
 ##### WindSpigot is a 1.8.8 Minecraft server software focused on improving overall server performance and pvp mechanics based on a **[fork of NachoSpigot](https://github.com/Argarian-Network/NachoSpigot/tree/async-entity-tracker)**.
 
@@ -40,6 +40,28 @@ See the patches list below.
 [WindSpigot-0015] Configurable explosion animations and sound
 [WindSpigot-0016] Configurable weather changes
 [WindSpigot-0017] Configurable fishing rod speed multiplier
+
+<--> by GamingOP69
+[WindSpigot-0018] Fix fireball and explosion knockback vector direction calculation (dynamic radius scaling)
+[WindSpigot-0019] Fix NetworkManager flush cross-thread event loop submission and compression lookup
+[WindSpigot-0020] Fix WorldTickManager lifecycle and dynamic world unload memory leaks
+[WindSpigot-0021] Fix AsyncEntityTracker exception safety and deadlock prevention (try-finally latch countdown)
+[WindSpigot-0022] Fix EntityTrackerEntry visibility rates (remove 5s tracking lag)
+[WindSpigot-0023] Fix SpawnerCreature mob cap calculation and spectator check
+[WindSpigot-0024] Fix TCPShield and PlayerHandshakeEvent null safety
+[WindSpigot-0025] Validate block placement coordinates and direction in PlayerConnection
+[WindSpigot-0026] Fix MinecraftServer process queue polling race and exception safety
+[WindSpigot-0027] Optimize PlayerMap spatial lookups with Long2ObjectOpenHashMap and fix move() NPE
+[WindSpigot-0028] Eliminate lambda allocations in ConcurrentIntHashMap
+[WindSpigot-0029] Fix async pathfinding isSearching reset in SearchHandler (recovery on rejected tasks)
+[WindSpigot-0030] Fix Java 9-25 version parsing in CustomTimingsHandler
+[WindSpigot-0031] Fix CombatThread NPE race and Spigot404Write per-instance packet queues
+[WindSpigot-0032] Fix LagCompensator multi-threaded data race between Netty IO and main thread
+[WindSpigot-0033] Thread-safe double-checked locking for LazyInitVar and safe ServerConnection shutdown
+[WindSpigot-0034] Thread-safe synchronized explosion density cache for async TNT calculations
+[WindSpigot-0035] Exception-safe queued packet flushing in PlayerConnection
+[WindSpigot-0036] AntiCrash custom payload serializer null safety
+[WindSpigot-0037] Auto-patch legacy Citizens EmptyChannel for Netty 4.1 compatibility
 
 [PandaSpigot-0115] Break up and make tab spam limits configurable
 [PandaSpigot-0072] Fix Bugs with Spigot Mob Spawn Logic
@@ -233,27 +255,4 @@ See the patches list below.
 [DashSpigot-0011] Fix MC-94186: Dragon egg falling in lazy chunks
 
 [Titanium-0189] Fix MC-124833
-
-<--> by GamingOP69
-[GamingOP69-0001] Fix fireball and explosion knockback vector direction calculation (dynamic radius scaling)
-[GamingOP69-0002] Fix NetworkManager flush cross-thread event loop submission and compression lookup
-[GamingOP69-0003] Fix WorldTickManager lifecycle and dynamic world unload memory leaks
-[GamingOP69-0004] Fix AsyncEntityTracker exception safety and deadlock prevention (try-finally latch countdown)
-[GamingOP69-0005] Fix EntityTrackerEntry visibility rates (remove 5s tracking lag)
-[GamingOP69-0006] Fix SpawnerCreature mob cap calculation and spectator check
-[GamingOP69-0007] Fix TCPShield and PlayerHandshakeEvent null safety
-[GamingOP69-0008] Validate block placement coordinates and direction in PlayerConnection
-[GamingOP69-0009] Fix MinecraftServer process queue polling race and exception safety
-[GamingOP69-0010] Optimize PlayerMap spatial lookups with Long2ObjectOpenHashMap and fix move NPE
-[GamingOP69-0011] Eliminate lambda allocations in ConcurrentIntHashMap
-[GamingOP69-0012] Fix async pathfinding isSearching reset in SearchHandler (recovery on rejected tasks)
-[GamingOP69-0013] Fix Java 9-25 version parsing in CustomTimingsHandler
-[GamingOP69-0014] Fix CombatThread NPE race and Spigot404Write per-instance packet queues
-[GamingOP69-0015] Fix LagCompensator multi-threaded data race between Netty IO and main thread
-[GamingOP69-0016] Thread-safe double-checked locking for LazyInitVar and safe ServerConnection shutdown
-[GamingOP69-0017] Thread-safe synchronized explosion density cache for async TNT calculations
-[GamingOP69-0018] Exception-safe queued packet flushing in PlayerConnection
-[GamingOP69-0019] AntiCrash custom payload serializer null safety
-[GamingOP69-0020] Auto-patch legacy Citizens EmptyChannel for Netty 4.1 compatibility and eliminate 10s startup stall
 ```
-
