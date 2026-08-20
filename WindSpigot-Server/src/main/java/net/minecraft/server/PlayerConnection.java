@@ -970,10 +970,10 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			// inventory update packet to get sent
 			always = (itemstack.count != itemstackAmount) || itemstack.getItem() == Item.getItemOf(Blocks.WATERLILY);
 			// CraftBukkit end
-		// WindSpigot start - GamingOP69 - validate placement direction and coordinates
+		// WindSpigot start - validate placement direction and coordinates
 		} else if (blockposition == null || enumdirection == null || blockposition.getY() < 0) {
 			return;
-		// WindSpigot end - GamingOP69
+		// WindSpigot end 
 		} else if (blockposition.getY() >= this.minecraftServer.getMaxBuildHeight() - 1
 				&& (enumdirection == EnumDirection.UP
 						|| blockposition.getY() >= this.minecraftServer.getMaxBuildHeight())) {
