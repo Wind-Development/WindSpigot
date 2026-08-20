@@ -31,7 +31,7 @@ public class AsyncEntityTracker extends EntityTracker {
 		for (int i = 1; i <= WindSpigotConfig.trackingThreads; i++) {
 			final int finalOffset = offset++;
 			
-			// WindSpigot start - GamingOP69 - wrap tracker update in try-finally for latch safety
+			// WindSpigot start - wrap tracker update in try-finally for latch safety
 			AsyncUtil.run(() -> {
 				try {
 					int size = c.size();
@@ -50,7 +50,7 @@ public class AsyncEntityTracker extends EntityTracker {
 				}
 
 			}, trackingThreadExecutor);
-			// WindSpigot end - GamingOP69
+			// WindSpigot end 
 			
 		}
 		try {
