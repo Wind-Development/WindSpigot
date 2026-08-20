@@ -2674,7 +2674,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		queuedPackets.add(packet);
 	}
 	
-	// WindSpigot start - GamingOP69 - safe queued packet draining with try-finally flush guarantee
+	// WindSpigot start - safe queued packet draining with try-finally flush guarantee
 	public void sendQueuedPackets() {
 		networkManager.disableAutomaticFlush();
 		try {
@@ -2686,7 +2686,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			networkManager.enableAutomaticFlush();
 		}
 	}
-	// WindSpigot end - GamingOP69
+	// WindSpigot end 
 
 	static class SyntheticClass_1 {
 
