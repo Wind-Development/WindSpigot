@@ -52,7 +52,7 @@ public final class SpawnerCreature {
 			while (iterator.hasNext()) {
 				EntityHuman entityhuman = iterator.next();
 
-				if (!entityhuman.isSpectator() && entityhuman.affectsSpawning) { // PaperSpigot // WindSpigot - GamingOP69 - fix inverted boolean check
+				if (!entityhuman.isSpectator() && entityhuman.affectsSpawning) { // PaperSpigot // WindSpigot - fix inverted boolean check
 					int l = MathHelper.floor(entityhuman.locX / 16.0D);
 
 					j = MathHelper.floor(entityhuman.locZ / 16.0D);
