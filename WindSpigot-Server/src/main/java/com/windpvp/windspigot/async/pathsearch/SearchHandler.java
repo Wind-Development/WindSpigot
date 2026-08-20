@@ -38,7 +38,7 @@ public class SearchHandler {
 		final int finalY = MathHelper.floor(targetEntity.locY) + 1;
 		final int finalZ = MathHelper.floor(targetEntity.locZ);
 		
-		// WindSpigot start - GamingOP69 - ensure isSearching resets in finally block
+		// WindSpigot start - ensure isSearching resets in finally block
 		// Also guard against RejectedExecutionException: if the executor rejects the
 		// task (e.g. during server shutdown), the lambda finally block never runs and
 		// isSearching would be permanently stuck at true, freezing the mob's AI.
@@ -58,7 +58,7 @@ public class SearchHandler {
 			// Executor shut down — reset flag immediately so mob AI is not frozen
 			navigation.isSearching.set(false);
 		}
-		// WindSpigot end - GamingOP69
+		// WindSpigot end
 	}
 
 	public static SearchHandler getInstance() {
@@ -75,7 +75,7 @@ public class SearchHandler {
 		
 		navigation.isSearching.set(true);
 		
-		// WindSpigot start - GamingOP69 - ensure isSearching resets in finally block
+		// WindSpigot start - ensure isSearching resets in finally block
 		try {
 			AsyncUtil.run(() -> {
 				try {
@@ -92,7 +92,7 @@ public class SearchHandler {
 			// Executor shut down — reset flag immediately so mob AI is not frozen
 			navigation.isSearching.set(false);
 		}
-		// WindSpigot end - GamingOP69
+		// WindSpigot end
 	}
 
 }
