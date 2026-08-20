@@ -13,7 +13,7 @@ import java.util.Queue;
 import net.minecraft.server.Packet;
 
 public class Spigot404Write {
-    // WindSpigot - GamingOP69 - was static (shared across all players — caused cross-player packet mixing).
+    // WindSpigot - was static (shared across all players — caused cross-player packet mixing).
     // Must be per-instance so each channel only drains its own packets.
     private final Queue<PacketQueue> packetsQueue = Queues.newConcurrentLinkedQueue();
     private final Tasks tasks = new Tasks();
