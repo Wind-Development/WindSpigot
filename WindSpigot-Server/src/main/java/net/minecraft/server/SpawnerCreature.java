@@ -19,7 +19,7 @@ public final class SpawnerCreature {
 	public SpawnerCreature() {
 	}
 
-	// WindSpigot start - GamingOP69 - get entity count only from active eligible chunks being processed in b
+	// WindSpigot start - get entity count only from active eligible chunks being processed in b
 	private int getEntityCount(WorldServer server, Class oClass) {
 		int sum = 0;
 		Iterator<Long> it = this.b.iterator();
@@ -36,7 +36,7 @@ public final class SpawnerCreature {
 		}
 		return sum;
 	}
-	// WindSpigot end - GamingOP69
+	// WindSpigot end
 
 	public int a(WorldServer worldserver, boolean flag, boolean flag1, boolean flag2) {
 		if (!flag && !flag1) {
