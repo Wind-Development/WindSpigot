@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 import java.util.function.Supplier;
 
-// WindSpigot start - GamingOP69 - thread-safe double-checked locking for LazyInitVar
+// WindSpigot start - thread-safe double-checked locking for LazyInitVar
 public class LazyInitVar<T> {
 	private volatile T value;
 	private final Supplier<T> supplier;
@@ -28,4 +28,4 @@ public class LazyInitVar<T> {
 		return this.value != null;
 	}
 }
-// WindSpigot end - GamingOP69
+// WindSpigot end 
