@@ -112,7 +112,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 	}
 
-	// WindSpigot start - GamingOP69 - safe cross-thread flush via event loop submission
+	// WindSpigot start - safe cross-thread flush via event loop submission
 	private void flush() {
 		if (this.channel == null || !this.channel.isOpen()) {
 			return;
@@ -131,7 +131,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			});
 		}
 	}
-	// WindSpigot end - GamingOP69
+	// WindSpigot end 
 	// Tuinity end - allow controlled flushing
 
 	public NetworkManager(EnumProtocolDirection enumprotocoldirection) {
@@ -240,7 +240,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 				}
 			} else {   
 				// Check if the packet is a knockback / velocity packet
-				// WindSpigot start - GamingOP69 - check outbound velocity/position packets and guard knockbackThread against null
+				// WindSpigot start - check outbound velocity/position packets and guard knockbackThread against null
 		        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition)) {
 		        	com.windpvp.windspigot.async.thread.CombatThread kbThread = WindSpigot.getInstance().getKnockbackThread();
 		        	if (kbThread != null) {
@@ -248,7 +248,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		        		return;
 		        	}
 		        }
-		        // WindSpigot end - GamingOP69
+		        // WindSpigot end
 			}
 	        // WindSpigot end
 			this.dispatchPacket(packet, null, Boolean.TRUE);
