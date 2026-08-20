@@ -156,7 +156,7 @@ public class ServerConnection {
 		}
 	}
 
-	// WindSpigot start - GamingOP69 - safe server shutdown without premature event loop termination or NPE
+	// WindSpigot start - safe server shutdown without premature event loop termination or NPE
 	public void stopServer() throws InterruptedException {
 		this.started = false;
 		LOGGER.info("Shutting down event loops");
@@ -177,7 +177,7 @@ public class ServerConnection {
 			c.get().shutdownGracefully();
 		}
 	}
-	// WindSpigot end - GamingOP69
+	// WindSpigot end 
 
 	public void c() {
 		synchronized (this.getConnectedChannels()) {
