@@ -503,7 +503,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			}
 
 			if (this.channel.pipeline().get("compress") instanceof PacketCompressor) {
-				((PacketCompressor) this.channel.pipeline().get("compress")).a(compressionThreshold); // WindSpigot - GamingOP69 - fix pipeline key from decompress to compress
+				((PacketCompressor) this.channel.pipeline().get("compress")).a(compressionThreshold); // WindSpigot - fix pipeline key from decompress to compress
 			} else {
 				this.channel.pipeline().addBefore("encoder", "compress",
 						new PacketCompressor(compressor, compressionThreshold)); // Paper
