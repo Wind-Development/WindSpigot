@@ -13,11 +13,11 @@ public class AntiCrash implements PacketListener {
 	public boolean onReceivedPacket(PlayerConnection playerConnection, Packet packet) {
 		if (packet instanceof PacketPlayInCustomPayload) {
 			PacketDataSerializer ab = ((PacketPlayInCustomPayload) packet).b();
-			// WindSpigot start - GamingOP69 - null safety for CustomPayload serializer
+			// WindSpigot start - null safety for CustomPayload serializer
 			if (ab == null) {
 				return true;
 			}
-			// WindSpigot end - GamingOP69
+			// WindSpigot end 
 			if (ab.refCnt() < 1) {
 				playerConnection.getNetworkManager().close(new ChatMessage("Wrong ref count!"));
 				return false;
