@@ -1035,7 +1035,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 //		SpigotTimings.bukkitSchedulerTimer.stopTiming(); // Spigot
 
 		// Run tasks that are waiting on processing
-		// WindSpigot start - GamingOP69 - safe processQueue exception handling
+		// WindSpigot start - safe processQueue exception handling
 		SpigotTimings.processQueueTimer.startTiming(); // Spigot
 		Runnable processTask;
 		while ((processTask = this.processQueue.poll()) != null) {
@@ -1048,7 +1048,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 			}
 		}
 		SpigotTimings.processQueueTimer.stopTiming(); // Spigot
-		// WindSpigot end - GamingOP69
+		// WindSpigot end 
 
 		SpigotTimings.chunkIOTickTimer.startTiming(); // Spigot
 		org.bukkit.craftbukkit.chunkio.ChunkIOExecutor.tick();
@@ -1088,7 +1088,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 		// WindSpigot - parallel worlds
 		this.worldTickerManager.tick();
 
-		// WindSpigot start - GamingOP69 - safe priority process queue polling
+		// WindSpigot start - safe priority process queue polling
 		Runnable priorityTask;
 		while ((priorityTask = this.priorityProcessQueue.poll()) != null) {
 			try {
@@ -1098,7 +1098,7 @@ public abstract class MinecraftServer extends ReentrantIAsyncHandler<TasksPerTic
 				LOGGER.error("Exception in priorityProcessQueue task", e);
 			}
 		}
-		// WindSpigot end - GamingOP69
+		// WindSpigot end
 		
 		this.methodProfiler.c("connection");
 		SpigotTimings.connectionTimer.startTiming(); // Spigot
