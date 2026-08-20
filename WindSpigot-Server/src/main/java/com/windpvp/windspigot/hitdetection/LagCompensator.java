@@ -19,7 +19,7 @@ public class LagCompensator {
         Adjusts hit detection to be more fair for players with worse ping.
      */
 
-    // WindSpigot - GamingOP69 - registerMovement is called from Netty IO threads while
+    // WindSpigot - registerMovement is called from Netty IO threads while
     // getHistoryLocation/clearCache are called from the main server thread.
     // ArrayListMultimap is not thread-safe; wrap it with synchronizedListMultimap.
     private final ListMultimap<UUID, Pair<Location, Long>> locationTimes =
