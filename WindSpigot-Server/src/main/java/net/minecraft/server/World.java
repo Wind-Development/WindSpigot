@@ -219,8 +219,7 @@ public abstract class World implements IBlockAccess {
 		this.ticksPerMonsterSpawns = this.getServer().getTicksPerMonsterSpawns(); // CraftBukkit
 		// CraftBukkit end
 		// Spigot start
-		this.chunkTickRadius = (byte) ((this.getServer().getViewDistance() < 7) ? this.getServer().getViewDistance()
-				: 7);
+		this.chunkTickRadius = (byte) ((spigotConfig.viewDistance < 7) ? spigotConfig.viewDistance : 7); // FalchusSpigot - Fix Spigot per-world view distance
 		this.chunkTickList = new it.unimi.dsi.fastutil.longs.Long2ShortOpenHashMap(spigotConfig.chunksPerTick * 5, 0.7f); // SportPaper: trove -> fastutil
 		// Spigot end
 
