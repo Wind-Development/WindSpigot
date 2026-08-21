@@ -8,11 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.EntityTracker;
-import net.minecraft.server.EntityTrackerEntry;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.WorldServer;
+import net.minecraft.server.*;
 
 public class AsyncEntityTracker extends EntityTracker {
 	
