@@ -46,9 +46,9 @@ public class AsyncEntityTracker extends EntityTracker {
             e.printStackTrace();
         }
 	    worldServer.ticker.getLatch().reset();
-        for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-            player.playerConnection.sendQueuedPackets();
-        }
+		for (EntityHuman human : worldServer.players) { // FalchusSpigot - per-world
+			((EntityPlayer) human).playerConnection.sendQueuedPackets();
+		}
 	}
 
 	public static ExecutorService getExecutor() {
