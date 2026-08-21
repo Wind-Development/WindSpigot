@@ -613,7 +613,7 @@ public class EntityEnderDragon extends EntityInsentient implements IComplex, IMo
 			if (this.by == 1) {
 				// CraftBukkit start - Use relative location for far away sounds
 				// this.world.a(1018, new BlockPosition(this), 0);
-				int viewDistance = ((WorldServer) this.world).getServer().getViewDistance() * 16;
+				int viewDistance = this.world.spigotConfig.viewDistance * 16; // FalchusSpigot - Fix Spigot per-world view distance
 				for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
 					double deltaX = this.locX - player.locX;
 					double deltaZ = this.locZ - player.locZ;
