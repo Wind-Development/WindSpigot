@@ -6,13 +6,7 @@ import com.windpvp.windspigot.async.ResettableLatch;
 import com.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 
-import net.minecraft.server.CrashReport;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.NetworkManager;
-import net.minecraft.server.PlayerConnection;
-import net.minecraft.server.ReportedException;
-import net.minecraft.server.WorldServer;
+import net.minecraft.server.*;
 
 public class WorldTicker implements Runnable {
 
