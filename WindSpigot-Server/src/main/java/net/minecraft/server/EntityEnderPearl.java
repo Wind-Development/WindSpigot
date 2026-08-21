@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.event.CraftEventFactory;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.cache.Constants;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 
@@ -130,7 +129,6 @@ public class EntityEnderPearl extends EntityProjectile {
 						}
 
 						entityplayer.playerConnection.teleport(teleEvent.getTo());
-						WindSpigot.getInstance().getLagCompensator().registerMovement(player, location); // Nacho
 						entityliving.fallDistance = 0.0F;
 						CraftEventFactory.entityDamage = this;
 						entityliving.damageEntity(DamageSource.FALL, 5.0F);

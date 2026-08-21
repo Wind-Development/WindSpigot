@@ -69,7 +69,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
-import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.cache.Constants;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 
@@ -626,9 +625,6 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 		if (event.isCancelled()) {
 			return false;
 		}
-		
-		WindSpigot.getInstance().getLagCompensator().clearCache(this); // WindSpigot (improved hit reg) clear cache on plugin teleport
-        WindSpigot.getInstance().getLagCompensator().registerMovement(this, to); // Nacho
 
 		// If this player is riding another entity, we must dismount before teleporting.
 		entity.mount(null);

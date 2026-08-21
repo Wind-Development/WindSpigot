@@ -1960,7 +1960,7 @@ public abstract class EntityLiving extends Entity {
 	public boolean hasLineOfSightAccurate(Entity entity) {
 		Vec3D vec = new Vec3D(this.locX, this.locY + (double) this.getHeadHeight(), this.locZ);
 
-		if (entity instanceof EntityPlayer && WindSpigotConfig.improvedHitDetection) {
+		if (entity instanceof EntityPlayer) {
 
 			// Head height is 1,5725
 			// Split it into three to get a more accurate line of sight -> 0.52416667
