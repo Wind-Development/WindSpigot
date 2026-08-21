@@ -207,8 +207,12 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
 
 				// CraftBukkit start - Use relative location for far away sounds
 				// this.world.a(1013, new BlockPosition(this), 0);
-				int viewDistance = this.world.spigotConfig.viewDistance * 16; // FalchusSpigot - Fix Spigot per-world view distance
-				for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+				// FalchusSpigot start
+				//int viewDistance = this.world.spigotConfig.viewDistance * 16; // FalchusSpigot - Fix Spigot per-world view distance
+				for (EntityHuman human : world.players) {
+					EntityPlayer player = (EntityPlayer) human;
+					int viewDistance = player.viewDistance;
+				// FalchusSpigot end
 					double deltaX = this.locX - player.locX;
 					double deltaZ = this.locZ - player.locZ;
 					double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
