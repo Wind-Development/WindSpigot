@@ -79,7 +79,7 @@ public class EntityLightning extends EntityWeather {
 												// "ambient.weather.thunder", 10000.0F, 0.8F + this.random.nextFloat() *
 												// 0.2F);
 			float pitch = 0.8F + this.random.nextFloat() * 0.2F;
-			int viewDistance = this.world.getServer().getViewDistance() * 16;
+			int viewDistance = this.world.spigotConfig.viewDistance * 16; // FalchusSpigot - Fix Spigot per-world view distance
 			for (EntityPlayer player : (List<EntityPlayer>) (List) this.world.players) {
 				double deltaX = this.locX - player.locX;
 				double deltaZ = this.locZ - player.locZ;
