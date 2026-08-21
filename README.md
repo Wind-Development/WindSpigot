@@ -229,6 +229,7 @@ See the patches list below.
 [FalchusSpigot-????] Fix SPIGOT-4647: Properly cancel VehicleDamageEvent
 [FalchusSpigot-????] Fix MC-87 map scaling/cloning issues
 [FalchusSpigot-????] Fix Spigot per-world view distance
+[FalchusSpigot-????] sendQueuedPackets per-world
 
 [DashSpigot-0033] Fix SPIGOT-1746: Tile entities may not always tick
 [DashSpigot-0011] Fix MC-94186: Dragon egg falling in lazy chunks
