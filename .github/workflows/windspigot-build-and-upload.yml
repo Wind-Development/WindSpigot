@@ -10,9 +10,6 @@ on:
       - '.gitignore'
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build-and-upload:
     name: Build & Publish Artifacts
@@ -33,7 +30,7 @@ jobs:
       run: mvn clean package --batch-mode --file pom.xml
 
     - name: Upload Server Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: WindSpigot-server
         path: WindSpigot-Server/target/WindSpigot.jar
@@ -41,7 +38,7 @@ jobs:
         retention-days: 30
 
     - name: Upload API Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: WindSpigot-API
         path: WindSpigot-API/target/WindSpigot-API.jar
