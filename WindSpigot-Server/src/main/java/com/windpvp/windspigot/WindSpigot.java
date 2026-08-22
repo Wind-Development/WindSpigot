@@ -21,7 +21,6 @@ import com.windpvp.windspigot.commands.PingCommand;
 import com.windpvp.windspigot.commands.SetMaxSlotCommand;
 import com.windpvp.windspigot.commands.SpawnMobCommand;
 import com.windpvp.windspigot.config.WindSpigotConfig;
-import com.windpvp.windspigot.hitdetection.LagCompensator;
 import com.windpvp.windspigot.protocol.MovementListener;
 import com.windpvp.windspigot.protocol.PacketListener;
 import com.windpvp.windspigot.statistics.StatisticsClient;
@@ -46,8 +45,6 @@ public class WindSpigot {
 	
 	private volatile boolean statisticsEnabled = false;
 	
-	private LagCompensator lagCompensator;
-	
 	private final Set<PacketListener> packetListeners = Sets.newConcurrentHashSet();
 	private final Set<MovementListener> movementListeners = Sets.newConcurrentHashSet();
 
@@ -63,7 +60,6 @@ public class WindSpigot {
 		if (WindSpigotConfig.asyncKnockback) {
 			knockbackThread = new CombatThread("Knockback Thread");
 		}
-		lagCompensator = new LagCompensator();	
 		if (WindSpigotConfig.asyncTnt) {
 			AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);
 		}
@@ -149,10 +145,6 @@ public class WindSpigot {
 	public CombatThread getKnockbackThread() {
 		return knockbackThread;
 	}
-	
-    public LagCompensator getLagCompensator() {
-        return lagCompensator;
-    }
     
 	public static void debug(String msg) {
 		if (WindSpigotConfig.debugMode)
