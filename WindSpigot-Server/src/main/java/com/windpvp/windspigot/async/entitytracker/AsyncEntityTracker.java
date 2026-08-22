@@ -8,11 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import me.rastrian.dev.utils.IndexedLinkedHashSet;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.EntityTracker;
-import net.minecraft.server.EntityTrackerEntry;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.WorldServer;
+import net.minecraft.server.*;
 
 public class AsyncEntityTracker extends EntityTracker {
 	
@@ -46,9 +42,9 @@ public class AsyncEntityTracker extends EntityTracker {
             e.printStackTrace();
         }
 	    worldServer.ticker.getLatch().reset();
-        for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-            player.playerConnection.sendQueuedPackets();
-        }
+		for (EntityHuman human : worldServer.players) { // FalchusSpigot - per-world
+			((EntityPlayer) human).playerConnection.sendQueuedPackets();
+		}
 	}
 
 	public static ExecutorService getExecutor() {

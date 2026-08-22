@@ -25,9 +25,11 @@ public class EntityTracker {
 		this.noTrackDistance = noTrackDistance;
 	}
 
+	private final WorldServer world;
 	private int e; 
 	
 	public EntityTracker(WorldServer worldserver) {
+		this.world = worldserver;
 		this.e = 128;
 	}
 
@@ -149,8 +151,8 @@ public class EntityTracker {
 			entry.update();
 		}
 	    // WindSpigot start
-        for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-            player.playerConnection.sendQueuedPackets();
+        for (EntityHuman human : world.players) { // FalchusSpigot - per-world
+            ((EntityPlayer) human).playerConnection.sendQueuedPackets();
         }
         // WindSpigot end
 	}
