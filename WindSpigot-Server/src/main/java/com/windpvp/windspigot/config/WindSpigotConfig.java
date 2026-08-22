@@ -140,7 +140,6 @@ public class WindSpigotConfig {
 		c.addComment("settings.async.path-searches.ensure-accuracy", "Ensures accuracy of async path searches, disabling this will result in possibly inaccurate targeting, but higher performance.");
 		c.addComment("settings.async.path-searches", "Configuration for async entity path searches");
 		c.addComment("settings.debug-mode", "This outputs information to developers in the console. There is no need to enable this.");
-		c.addComment("settings.improved-hit-detection", "Enables the usage of an improved hit registration based on lag compensation and small other details. (Credits to NachoSpigot and the original plugin)");
 		c.addComment("settings.animation.tnt", "Enables explosion animations.");
 		c.addComment("settings.sound.tnt", "Enables explosion sounds.");
 		c.addComment("settings.animation.spawner", "Enables mob spawner particles.");
@@ -371,12 +370,6 @@ public class WindSpigotConfig {
 	
 	private static void debugMode() {
 		debugMode = getBoolean("settings.debug-mode", false);
-	}
-	
-	public static boolean improvedHitDetection;
-
-	private static void hitReg() {
-		improvedHitDetection = getBoolean("settings.improved-hit-detection", true);
 	}
 	
 	public static boolean explosionAnimation;

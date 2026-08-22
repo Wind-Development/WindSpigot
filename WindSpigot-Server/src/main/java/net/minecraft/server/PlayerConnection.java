@@ -426,7 +426,6 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 						// If the event is cancelled we move the player back to their old location.
 						if (event.isCancelled()) {
-		                    WindSpigot.getInstance().getLagCompensator().registerMovement(player, to); // Nacho
 							this.player.playerConnection.sendPacket(new PacketPlayOutPosition(from.getX(), from.getY(),
 									from.getZ(), from.getYaw(), from.getPitch(),
 									Collections.<PacketPlayOutPosition.EnumPlayerTeleportFlags>emptySet()));
@@ -454,7 +453,6 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 							return;
 						}
 					}
-                    WindSpigot.getInstance().getLagCompensator().registerMovement(player, to); // Nacho - register movement
 				}
 
 				if (this.checkMovement && !this.player.dead) {
@@ -694,7 +692,6 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 			f1 = to.getPitch();
 		}
 		
-        WindSpigot.getInstance().getLagCompensator().registerMovement(player, to); // Nacho
 		this.internalTeleport(d0, d1, d2, f, f1, set);
 	}
 
@@ -1653,7 +1650,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 			if (!flag) {
                 // Nacho - Increase the no player-player vision maximum reach
-                d0 = (WindSpigotConfig.improvedHitDetection) ? 12.75D : 9.0D;
+                d0 = 12.75D;
             } else {
             	// WindSpigot start - configurable reach cap            	
             	if (WindSpigotConfig.creativeBypass && this.player.playerInteractManager.getGameMode() == EnumGamemode.CREATIVE) {
