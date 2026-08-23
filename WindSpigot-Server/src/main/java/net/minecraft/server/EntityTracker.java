@@ -151,9 +151,9 @@ public class EntityTracker {
 			entry.update();
 		}
 	    // WindSpigot start
-        for (EntityHuman human : world.players) { // FalchusSpigot - per-world
-            ((EntityPlayer) human).playerConnection.sendQueuedPackets();
-        }
+		for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+			player.playerConnection.sendQueuedPackets();
+		}
         // WindSpigot end
 	}
 
