@@ -106,8 +106,7 @@ public class Explosion {
 	}
 
 	public void affectEntities(List<Entity> list, Vec3D vec3d, float f3) {
-		// WindSpigot start - fix fireball & explosion knockback direction and radius scaling
-		double maxDistSq = (double) (f3 * f3);
+		double maxDistSq = (double) (f3 * f3); // WindSpigot - fix fireball & explosion knockback direction and radius scaling
 		for (Entity entity : list) {
 			if (!entity.aW()) {
 				if (!entity.dead) {
@@ -119,7 +118,7 @@ public class Explosion {
 					if (distanceSquared <= maxDistSq && distanceSquared != 0.0D) {
 						double d11 = MathHelper.sqrt(distanceSquared);
 						double d7 = d11 / f3;
-						// d7 <= 1.0D is guaranteed here since distanceSquared <= f3*f3
+						// WindSpigot - d7 <= 1.0D is guaranteed here since distanceSquared <= f3*f3
 						d8 /= d11;
 						d9 /= d11;
 						d10 /= d11;
@@ -145,7 +144,6 @@ public class Explosion {
 				}
 			}
 		}
-		// WindSpigot end
 	}
 
 	private void processEntityKnockback(Entity entity, double d7, double finalD, double finalD1, double finalD11, float f3, double d12) {
