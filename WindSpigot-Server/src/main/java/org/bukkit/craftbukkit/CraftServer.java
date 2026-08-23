@@ -375,7 +375,7 @@ public final class CraftServer implements Server {
 					}
 					// Nacho end
 
-					// WindSpigot start - GamingOP69 - Auto-patch older Citizens EmptyChannel for Netty 4.1 compatibility
+					// WindSpigot start - Auto-patch older Citizens EmptyChannel for Netty 4.1 compatibility
 					else if (plugin.getDescription().getFullName().contains("Citizens")) {
 						if (PluginUtils.getCitizensBuild(plugin) < 2396) {
 							try {
@@ -398,7 +398,7 @@ public final class CraftServer implements Server {
 							}
 						}
 					}
-					// WindSpigot end - GamingOP69
+					// WindSpigot end
 
 					plugin.getLogger().info(String.format("Loading %s", plugin.getDescription().getFullName()));
 					plugin.onLoad();
