@@ -56,6 +56,9 @@ public class WorldTicker implements Runnable {
 			worldserver.timings.tickEntities.startTiming(); // Spigot
 			worldserver.tickEntities();
 			worldserver.timings.tickEntities.stopTiming(); // Spigot
+            for (EntityHuman human : worldserver.players) { // FalchusSpigot - per-world
+                ((EntityPlayer) human).playerConnection.sendQueuedPackets();
+            }
 		} catch (Throwable throwable1) {
 			// Spigot Start
 			try {
