@@ -6,13 +6,7 @@ import com.windpvp.windspigot.async.ResettableLatch;
 import com.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 
-import net.minecraft.server.CrashReport;
-import net.minecraft.server.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.NetworkManager;
-import net.minecraft.server.PlayerConnection;
-import net.minecraft.server.ReportedException;
-import net.minecraft.server.WorldServer;
+import net.minecraft.server.*;
 
 public class WorldTicker implements Runnable {
 
@@ -74,12 +68,14 @@ public class WorldTicker implements Runnable {
         worldserver.timings.tracker.startTiming(); // Spigot
 		// this.methodProfiler.b();
 		// this.methodProfiler.a("tracker");
-		if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
+		if (worldserver.players.size() != 0) // Tuinity // FalchusSpigot - per-world
 		{
 			// Tuinity start - controlled flush for entity tracker packets
-			List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(
-					MinecraftServer.getServer().getPlayerList().getPlayerCount());
-			for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
+			// FalchusSpigot start - per-world
+			List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(worldserver.players.size());
+			for (EntityHuman human : worldserver.players) {
+				EntityPlayer player = (EntityPlayer) human;
+			// FalchusSpigot end
 				PlayerConnection connection = player.playerConnection;
 				if (connection != null) {
 					connection.networkManager.disableAutomaticFlush();
