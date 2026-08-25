@@ -50,6 +50,7 @@ See the patches list below.
 [PandaSpigot-0112] Fix MC-120567: Bed portal crash
 [PandaSpigot-0107] Fix GH-276: Item durability desync when some events are cancelled
 [PandaSpigot-0031] Add missing InventoryView.getSlotType API
+[PandaSpigot-0104] Backport modern tick loop system
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
