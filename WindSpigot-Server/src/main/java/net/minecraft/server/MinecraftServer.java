@@ -54,7 +54,7 @@ import xyz.sculas.nacho.async.AsyncExplosions;
 // WindSpigot start
 import net.openhft.affinity.AffinityLock;
 
-public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTask> implements Runnable, ICommandListener, IAsyncTaskHandler, IMojangStatistics { // PandaSpigot - Modern Tick Loop
+public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTask> implements Runnable, ICommandListener, IMojangStatistics { // PandaSpigot - Modern Tick Loop
 
 	public static final Logger LOGGER = LogManager.getLogger();
 	public static final File a = new File("usercache.json");
