@@ -8,4 +8,8 @@ public interface Packet<T extends PacketListener> {
 	void b(PacketDataSerializer var1) throws IOException;
 
 	void a(T var1);
+
+	default boolean instant() {
+		return false;
+	}
 }
