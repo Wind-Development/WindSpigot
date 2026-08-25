@@ -23,12 +23,11 @@ import org.bukkit.event.weather.LightningStrikeEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 import com.windpvp.windspigot.world.WorldTicker;
 
-public class WorldServer extends World implements IAsyncTaskHandler {
+public class WorldServer extends World /*implements IAsyncTaskHandler*/ { // PandaSpigot - Redirect to MinecraftServer so that IAsyncTaskHandler can handle it
 
 	private static final Logger a = LogManager.getLogger();
 	private final MinecraftServer server;
@@ -1319,6 +1318,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 		return this.entitiesByUUID.get(uuid);
 	}
 
+	/* // PandaSpigot start - Redirect to MinecraftServer so that IAsyncTaskHandler can handle it
 	@Override
 	public ListenableFuture<Object> postToMainThread(Runnable runnable) {
 		return this.server.postToMainThread(runnable);
@@ -1328,6 +1328,7 @@ public class WorldServer extends World implements IAsyncTaskHandler {
 	public boolean isMainThread() {
 		return this.server.isMainThread();
 	}
+	*/ // PandaSpigot end
 
 	static class BlockActionDataList extends ArrayList<BlockActionData> {
 
