@@ -1318,17 +1318,15 @@ public class WorldServer extends World /*implements IAsyncTaskHandler*/ { // Pan
 		return this.entitiesByUUID.get(uuid);
 	}
 
-	/* // PandaSpigot start - Redirect to MinecraftServer so that IAsyncTaskHandler can handle it
-	@Override
-	public ListenableFuture<Object> postToMainThread(Runnable runnable) {
-		return this.server.postToMainThread(runnable);
+	// PandaSpigot start - Redirect to MinecraftServer so that IAsyncTaskHandler can handle it
+	public void postToMainThread(Runnable runnable) {
+		this.server.postToMainThread(runnable);
 	}
 
-	@Override
 	public boolean isMainThread() {
 		return this.server.isMainThread();
 	}
-	*/ // PandaSpigot end
+	// PandaSpigot end
 
 	static class BlockActionDataList extends ArrayList<BlockActionData> {
 
