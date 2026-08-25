@@ -978,11 +978,10 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
 	private WorldTickManager worldTickerManager;
 
 	public void B() {
-		// PandaSpigot start - IAsyncTaskHandler handles this now
-		/*
 		SpigotTimings.minecraftSchedulerTimer.startTiming(); // Spigot
 		this.methodProfiler.a("jobs");
-
+		// PandaSpigot start - IAsyncTaskHandler handles this now
+		/*
 		// Spigot start
 		FutureTask<?> entry;
 		int count = this.j.size();
