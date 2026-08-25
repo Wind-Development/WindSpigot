@@ -1,6 +1,6 @@
 package net.minecraft.server;
 
-import io.papermc.paper.util.linkedqueue.CachedSizeConcurrentLinkedQueue;
+import com.google.common.collect.Queues;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +13,7 @@ public abstract class IAsyncTaskHandler<R extends Runnable> {
     public static final long BLOCK_TIME_NANOS = 100000L;
     private static final Logger LOGGER = LogManager.getLogger();
     private final String name;
-    private final Queue<R> pendingTasks = new CachedSizeConcurrentLinkedQueue<>(); // Paper - Make size() constant-time
+    private final Queue<R> pendingTasks = Queues.newConcurrentLinkedQueue();
     private int blockingCount;
 
     protected IAsyncTaskHandler(final String name) {
