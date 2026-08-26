@@ -716,7 +716,7 @@ public class EntityTrackerEntry {
 	}
 
 	// FalchusSpigot start
-	private void queuePacket(EntityPlayer entityplayer, Packet<?> packet, int trackerThread, boolean immediate, List<Packet<?>> queue) {
+	protected void queuePacket(EntityPlayer entityplayer, Packet<?> packet, int trackerThread, boolean immediate, List<Packet<?>> queue) {
 		if (packet == null) return;
 		if (immediate) {
 			queue.add(packet);
