@@ -22,7 +22,7 @@ import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 import com.windpvp.windspigot.exception.ExploitException;
 
-import com.falchus.spigot.connection.FastNetworkManager;
+import com.falchus.spigot.optimizations.FastNetworkManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
