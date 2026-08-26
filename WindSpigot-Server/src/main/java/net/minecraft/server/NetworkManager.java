@@ -123,6 +123,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	// Tuinity end - allow controlled flushing
 
 	public NetworkManager(EnumProtocolDirection enumprotocoldirection) {
+		this.fastNetworkManager = new FastNetworkManager(this); // FalchusSpigot
 		this.h = enumprotocoldirection;
 	}
 
