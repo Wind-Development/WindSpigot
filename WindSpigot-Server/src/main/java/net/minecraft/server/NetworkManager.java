@@ -22,6 +22,7 @@ import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 import com.windpvp.windspigot.exception.ExploitException;
 
+import com.falchus.spigot.connection.FastNetworkManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -59,6 +60,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 					(new ThreadFactoryBuilder()).setNameFormat("Netty Local Client IO #%d").setDaemon(true).build()));
 	// Nacho end
 
+	public final FastNetworkManager fastNetworkManager; // FalchusSpigot
 	private final EnumProtocolDirection h;
 	private final Queue<NetworkManager.QueuedPacket> i = Queues.newConcurrentLinkedQueue();
 	private final ReentrantReadWriteLock j = new ReentrantReadWriteLock();
