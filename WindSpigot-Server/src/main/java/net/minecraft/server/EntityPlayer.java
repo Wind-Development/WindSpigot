@@ -1157,7 +1157,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 	}
 
 	public void d(Entity entity) {
-		this.playerConnection.queuePacket(new PacketPlayOutEntityDestroy(entity.getId())); // WindSpigot - Queue packet instead of direct send
+		this.playerConnection.writePacketLazily(new PacketPlayOutEntityDestroy(entity.getId()));
 	}
 
 	@Override
