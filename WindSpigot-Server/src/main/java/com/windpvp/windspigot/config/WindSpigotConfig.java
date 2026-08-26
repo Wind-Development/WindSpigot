@@ -598,7 +598,7 @@ public class WindSpigotConfig {
         if (threadSize == -1) {
             threadSize = Math.max(1, Runtime.getRuntime().availableProcessors() - 1);
         } else {
-            threadSize = Math.max(1, thread_size);
+            threadSize = Math.max(1, threadSize);
         }
 	}
 	// FalchusSpigot end
