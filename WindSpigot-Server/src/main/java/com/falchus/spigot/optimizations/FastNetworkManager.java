@@ -14,7 +14,7 @@ import java.util.Queue;
 public class FastNetworkManager {
 
 	private final NetworkManager networkManager;
-	private final Queue<Packet<?>>[] queues = new Queue[WindSpigotConfig.thread_size];
+	private final Queue<Packet<?>>[] queues = new Queue[WindSpigotConfig.threadSize];
 
 	public FastNetworkManager(NetworkManager networkManager) {
 		this.networkManager = networkManager;
