@@ -1,12 +1,7 @@
 package net.minecraft.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 // CraftBukkit start
 import java.util.concurrent.ExecutionException;
