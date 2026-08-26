@@ -92,6 +92,7 @@ public class EntityTrackerEntry {
 	private int addRemoveRate;
 	private int addRemoveCooldown;
 	private boolean withinNoTrack = false;
+	private int trackerThread; // FalchusSpigot
 
 	// Constructor is used internally (Incompatible with NMS plugins)
 	public EntityTrackerEntry(EntityTracker entityTracker, Entity entity, int b, int c, boolean flag) {
@@ -172,10 +173,17 @@ public class EntityTrackerEntry {
 	}
 	
 	public void update() {
+	// FalchusSpigot start
+		update(0);
+	}
+
+	public void update(int trackerThread) {
+		this.trackerThread = trackerThread;
+	// FalchusSpigot end
 		this.withinNoTrack = this.withinNoTrack();
 		if (--this.addRemoveCooldown <= 0) {
 			this.removeFarPlayers();
-			this.addNearPlayers();
+			this.addNearPlayers(trackerThread, false);
 			this.addRemoveCooldown = this.addRemoveRate;
 		}
 
@@ -212,19 +220,32 @@ public class EntityTrackerEntry {
 	}
 
 	public void addNearPlayers() {
-		addNearPlayers(false);
+	// FalchusSpigot start
+		addNearPlayers(0, true);
 	}
 
-	private void addNearPlayers(boolean updateCooldown) {
+	private void addNearPlayers(int trackerThread, boolean immediate) {
+		addNearPlayers(trackerThread, immediate, false);
+	}
+
+	private void addNearPlayers(int trackerThread, boolean immediate, boolean updateCooldown) {
+	// FalchusSpigot end
 		if (this.withinNoTrack) {
 			return;
 		}
 		if (updateCooldown) {
 			this.addRemoveCooldown = addRemoveRate;
 		}
+		// FalchusSpigot start
+		this.addNearPlayersTrackerThread = trackerThread;
+		this.addNearPlayersImmediate = immediate;
+		// FalchusSpigot end
 		this.tracker.world.playerMap.forEachNearby(this.tracker.locX, this.tracker.locY, this.tracker.locZ,
 				this.getRange(), false, addNearPlayersConsumer);
 	}
+
+	private int addNearPlayersTrackerThread;
+	private boolean addNearPlayersImmediate;
 
 	private boolean withinNoTrack() {
 		return this.withinNoTrack(this.tracker);
@@ -245,7 +266,7 @@ public class EntityTrackerEntry {
 
 		@Override
 		public void accept(EntityPlayer entityPlayer) {
-			updatePlayer(entityPlayer);
+			updatePlayer(entityPlayer, addNearPlayersTrackerThread, addNearPlayersImmediate);
 		}
 	};
 
@@ -253,6 +274,12 @@ public class EntityTrackerEntry {
 	 * sends velocity, Location, rotation, and riding info.
 	 */
 	public void track(List<EntityHuman> list) {
+		// FalchusSpigot start
+		Packet<?> vehicleUpdate = null;
+		Packet<?> movementPacketUpdate = null;
+		Packet<?> velocityPacketUpdate = null;
+		Packet<?> headYawUpdate = null;
+		// FalchusSpigot end
 		this.n = false;
 		if (!this.isMoving || this.tracker.distanceSqured(this.posX, this.posY, this.posZ) > 16.0D) {
 			this.posX = this.tracker.locX;
@@ -265,7 +292,7 @@ public class EntityTrackerEntry {
 
 		if (this.lastRecoredRider != this.tracker.vehicle || this.tracker.vehicle != null && this.tickCount % 60 == 0) {
 			this.lastRecoredRider = this.tracker.vehicle;
-			this.broadcastInternal(new PacketPlayOutAttachEntity(0, this.tracker, this.tracker.vehicle));
+			vehicleUpdate = new PacketPlayOutAttachEntity(0, this.tracker, this.tracker.vehicle);
 		}
 
 		if (this.tracker instanceof EntityItemFrame && this.tickCount % 20 == 0) { // Paper
@@ -284,7 +311,7 @@ public class EntityTrackerEntry {
 					Packet packet = Items.FILLED_MAP.c(itemstack, this.tracker.world, entityplayer);
 
 					if (packet != null) {
-						entityplayer.playerConnection.queuePacket(packet);
+						entityplayer.playerConnection.queuePacket(packet, trackerThread);
 					}
 				}
 			}
@@ -367,8 +394,8 @@ public class EntityTrackerEntry {
 						this.motionX = this.tracker.motX;
 						this.motionY = this.tracker.motY;
 						this.motionZ = this.tracker.motZ;
-						this.broadcastInternal(new PacketPlayOutEntityVelocity(this.tracker.getId(), this.motionX, this.motionY,
-								this.motionZ));
+						velocityPacketUpdate = new PacketPlayOutEntityVelocity(this.tracker.getId(), this.motionX, this.motionY,
+								this.motionZ);
 					}
 				}
 
@@ -377,7 +404,7 @@ public class EntityTrackerEntry {
 					// first update,
 					// since we can't be certain what position they received in the spawn packet.
 					if (object instanceof PacketPlayOutEntityTeleport) {
-						this.broadcastInternal((Packet) object);
+						movementPacketUpdate = (Packet) object;
 					} else {
 						PacketPlayOutEntityTeleport teleportPacket = null;
 
@@ -388,9 +415,9 @@ public class EntityTrackerEntry {
 									teleportPacket = new PacketPlayOutEntityTeleport(this.tracker.getId(), i, j, k,
 											(byte) l, (byte) i1, this.tracker.onGround);
 								}
-								viewer.getKey().playerConnection.queuePacket(teleportPacket);
+								viewer.getKey().playerConnection.queuePacket(teleportPacket, trackerThread);
 							} else {
-								viewer.getKey().playerConnection.queuePacket((Packet) object);
+								viewer.getKey().playerConnection.queuePacket((Packet) object, trackerThread);
 							}
 						}
 					}
@@ -412,8 +439,8 @@ public class EntityTrackerEntry {
 				boolean flag2 = Math.abs(i - this.yRot) >= 4 || Math.abs(j - this.xRot) >= 4;
 
 				if (flag2) {
-					this.broadcastInternal(new PacketPlayOutEntity.PacketPlayOutEntityLook(this.tracker.getId(), (byte) i,
-							(byte) j, this.tracker.onGround));
+					movementPacketUpdate = new PacketPlayOutEntity.PacketPlayOutEntityLook(this.tracker.getId(), (byte) i,
+							(byte) j, this.tracker.onGround);
 					this.yRot = i;
 					this.xRot = j;
 				}
@@ -427,7 +454,7 @@ public class EntityTrackerEntry {
 
 			i = MathHelper.d(this.tracker.getHeadRotation() * 256.0F / 360.0F);
 			if (Math.abs(i - this.lastHeadYaw) >= 4) {
-				this.broadcastInternal(new PacketPlayOutEntityHeadRotation(this.tracker, (byte) i));
+				headYawUpdate = new PacketPlayOutEntityHeadRotation(this.tracker, (byte) i);
 				this.lastHeadYaw = i;
 			}
 
@@ -460,6 +487,11 @@ public class EntityTrackerEntry {
 			this.tracker.velocityChanged = false;
 		}
 
+		// FalchusSpigot start
+		if (vehicleUpdate != null || movementPacketUpdate != null || velocityPacketUpdate != null || headYawUpdate != null) {
+			queueToWatchers(trackerThread, vehicleUpdate, movementPacketUpdate, velocityPacketUpdate, headYawUpdate);
+		}
+		// FalchusSpigot end
 	}
 
 	private void b() {
@@ -499,17 +531,20 @@ public class EntityTrackerEntry {
 
 	}
 	
-	// WindSpigot start
-	protected void broadcastInternal(Packet<?> packet) {
-		Iterator iterator = this.trackedPlayers.iterator();
-
-		while (iterator.hasNext()) {
-			EntityPlayer entityplayer = (EntityPlayer) iterator.next();
-
-			entityplayer.playerConnection.queuePacket(packet);
+	// FalchusSpigot start
+	private void queueToWatchers(int trackerThread, Packet<?>... packets) {
+		for (EntityPlayer entityPlayer : trackedPlayers) {
+			for (Packet<?> packet : packets) {
+				if (packet != null) {
+					entityPlayer.playerConnection.queuePacket(packet, trackerThread);
+				}
+			}
 		}
 	}
-	// WindSpigot end
+	
+	protected void broadcastInternal(Packet<?> packet) {
+		queueToWatchers(trackerThread, packet);
+	}
 
 	public void broadcastIncludingSelf(Packet packet) {
 		this.broadcast(packet);
@@ -519,14 +554,13 @@ public class EntityTrackerEntry {
 
 	}
 
-	// WindSpigot start
 	protected void broadcastIncludingSelfInternal(Packet<?> packet) {
-		this.broadcast(packet);
+		this.broadcastInternal(packet);
 		if (this.tracker instanceof EntityPlayer) {
-			((EntityPlayer) this.tracker).playerConnection.queuePacket(packet);
+			((EntityPlayer) this.tracker).playerConnection.queuePacket(packet, trackerThread);
 		}
 	}
-	// WindSpigot end
+	// FalchusSpigot end
 	
 	public void a() {
 		Iterator iterator = this.trackedPlayers.iterator();
@@ -547,7 +581,15 @@ public class EntityTrackerEntry {
 
 	}
 
+	// FalchusSpigot start
 	public void updatePlayer(EntityPlayer entityplayer) {
+		if (entityplayer != tracker) {
+			updatePlayer(entityplayer, 0, true);
+		}
+	}
+
+	public void updatePlayer(EntityPlayer entityplayer, int trackerThread, boolean immediate) {
+	// FalchusSpigot end
 		// org.spigotmc.AsyncCatcher.catchOp( "player tracker update"); // Spigot
 		if (entityplayer != this.tracker) {
 			boolean isPlayerEntityTracked = this.trackedPlayers.contains(entityplayer);
@@ -563,20 +605,22 @@ public class EntityTrackerEntry {
 
 					// entityplayer.removeQueue.remove(Integer.valueOf(this.tracker.getId()));
 					// CraftBukkit end
-					this.trackedPlayerMap.put(entityplayer, true); // PaperBukkit
+					List<Packet<?>> queue = immediate ? new ArrayList<>(10) : null; // FalchusSpigot
 					Packet packet = this.c();
+					if (packet == null) return; // FalchusSpigot
 
-					entityplayer.playerConnection.queuePacket(packet);
+					this.trackedPlayerMap.put(entityplayer, true); // PaperBukkit // FalchusSpigot - after null check
+
+					queuePacket(entityplayer, packet, trackerThread, immediate, queue);
 					if (!this.tracker.getDataWatcher().d()) {
-						entityplayer.playerConnection.queuePacket(new PacketPlayOutEntityMetadata(this.tracker.getId(),
-								this.tracker.getDataWatcher(), true));
+						queuePacket(entityplayer, new PacketPlayOutEntityMetadata(this.tracker.getId(),
+								this.tracker.getDataWatcher(), true), trackerThread, immediate, queue);
 					}
 
 					NBTTagCompound nbttagcompound = this.tracker.getNBTTag();
 
 					if (nbttagcompound != null) {
-						entityplayer.playerConnection
-								.queuePacket(new PacketPlayOutUpdateEntityNBT(this.tracker.getId(), nbttagcompound));
+						queuePacket(entityplayer, new PacketPlayOutUpdateEntityNBT(this.tracker.getId(), nbttagcompound), trackerThread, immediate, queue);
 					}
 
 					if (this.tracker instanceof EntityLiving) {
@@ -592,8 +636,7 @@ public class EntityTrackerEntry {
 						// CraftBukkit end
 
 						if (!collection.isEmpty()) {
-							entityplayer.playerConnection
-									.queuePacket(new PacketPlayOutUpdateAttributes(this.tracker.getId(), collection));
+							queuePacket(entityplayer, new PacketPlayOutUpdateAttributes(this.tracker.getId(), collection), trackerThread, immediate, queue);
 						}
 					}
 
@@ -602,27 +645,26 @@ public class EntityTrackerEntry {
 					this.motionZ = this.tracker.motZ;
 
 					if (this.u && !(packet instanceof PacketPlayOutSpawnEntityLiving)) {
-						entityplayer.playerConnection.queuePacket(new PacketPlayOutEntityVelocity(this.tracker.getId(),
-								this.tracker.motX, this.tracker.motY, this.tracker.motZ));
+						queuePacket(entityplayer, new PacketPlayOutEntityVelocity(this.tracker.getId(),
+								this.tracker.motX, this.tracker.motY, this.tracker.motZ), trackerThread, immediate, queue);
 					}
 
 					if (this.tracker.vehicle != null) {
-						entityplayer.playerConnection
-								.queuePacket(new PacketPlayOutAttachEntity(0, this.tracker, this.tracker.vehicle));
+						queuePacket(entityplayer, new PacketPlayOutAttachEntity(0, this.tracker, this.tracker.vehicle), trackerThread, immediate, queue);
 					}
 
 					if (this.tracker instanceof EntityInsentient
 							&& ((EntityInsentient) this.tracker).getLeashHolder() != null) {
-						entityplayer.playerConnection.queuePacket(new PacketPlayOutAttachEntity(1, this.tracker,
-								((EntityInsentient) this.tracker).getLeashHolder()));
+						queuePacket(entityplayer, new PacketPlayOutAttachEntity(1, this.tracker,
+								((EntityInsentient) this.tracker).getLeashHolder()), trackerThread, immediate, queue);
 					}
 
 					if (this.tracker instanceof EntityLiving) {
 						for (int i = 0; i < 5; ++i) {
 							ItemStack itemstack = ((EntityLiving) this.tracker).getEquipment(i);
 							if (itemstack != null) {
-								entityplayer.playerConnection.queuePacket(
-										new PacketPlayOutEntityEquipment(this.tracker.getId(), i, itemstack));
+								queuePacket(entityplayer,
+										new PacketPlayOutEntityEquipment(this.tracker.getId(), i, itemstack), trackerThread, immediate, queue);
 							}
 						}
 					}
@@ -630,8 +672,7 @@ public class EntityTrackerEntry {
 					if (this.tracker instanceof EntityHuman) {
 						EntityHuman entityhuman = (EntityHuman) this.tracker;
 						if (entityhuman.isSleeping()) {
-							entityplayer.playerConnection
-									.queuePacket(new PacketPlayOutBed(entityhuman, new BlockPosition(this.tracker)));
+							queuePacket(entityplayer, new PacketPlayOutBed(entityhuman, new BlockPosition(this.tracker)), trackerThread, immediate, queue);
 						}
 					}
 
@@ -648,8 +689,7 @@ public class EntityTrackerEntry {
 						// the event loop and flushing the network stream).
 						// this.broadcast(new PacketPlayOutEntityHeadRotation(this.tracker, (byte)
 						// lastHeadYaw));
-						entityplayer.playerConnection
-								.queuePacket(new PacketPlayOutEntityHeadRotation(this.tracker, (byte) lastHeadYaw));
+						queuePacket(entityplayer, new PacketPlayOutEntityHeadRotation(this.tracker, (byte) lastHeadYaw), trackerThread, immediate, queue);
 						// SportPaper end
 					}
 					// CraftBukkit end
@@ -657,10 +697,15 @@ public class EntityTrackerEntry {
 					if (this.tracker instanceof EntityLiving) {
 						EntityLiving entityliving = (EntityLiving) this.tracker;
 						for (MobEffect mobeffect : entityliving.getEffects()) {
-							entityplayer.playerConnection
-									.queuePacket(new PacketPlayOutEntityEffect(this.tracker.getId(), mobeffect));
+							queuePacket(entityplayer, new PacketPlayOutEntityEffect(this.tracker.getId(), mobeffect), trackerThread, immediate, queue);
 						}
 					}
+
+					// FalchusSpigot start
+					if (immediate && queue != null && !queue.isEmpty()) {
+						entityplayer.playerConnection.sendPackets(queue, trackerThread);
+					}
+					// FalchusSpigot end
 				}
 			} else if (isPlayerEntityTracked) {
 				this.trackedPlayers.remove(entityplayer);
@@ -669,6 +714,17 @@ public class EntityTrackerEntry {
 
 		}
 	}
+
+	// FalchusSpigot start
+	private void queuePacket(EntityPlayer entityplayer, Packet<?> packet, int trackerThread, boolean immediate, List<Packet<?>> queue) {
+		if (packet == null) return;
+		if (immediate) {
+			queue.add(packet);
+		} else {
+			entityplayer.playerConnection.queuePacket(packet, trackerThread);
+		}
+	}
+	// FalchusSpigot end
 
 	public boolean c(EntityPlayer entityplayer) {
 		// CraftBukkit start - this.*Loc / 30 -> this.tracker.loc*
