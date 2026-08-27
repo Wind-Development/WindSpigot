@@ -3,7 +3,6 @@ package net.minecraft.server;
 import java.net.SocketAddress;
 import java.util.Iterator;
 import java.util.Queue;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
@@ -63,7 +62,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	public final FastNetworkManager fastNetworkManager; // FalchusSpigot
 	private final EnumProtocolDirection h;
 	private final Queue<NetworkManager.QueuedPacket> i = Queues.newConcurrentLinkedQueue();
-	private final ReentrantReadWriteLock j = new ReentrantReadWriteLock();
 	public Channel channel;
 	// Spigot Start // PAIL
 	public SocketAddress l;
@@ -238,13 +236,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	        // WindSpigot end
 			this.dispatchPacket(packet, null, Boolean.TRUE);
 		} else {
-			this.j.writeLock().lock();
-
-			try {
-				this.i.add(new NetworkManager.QueuedPacket(packet));
-			} finally {
-				this.j.writeLock().unlock();
-			}
+			// FalchusSpigot - remove unnecessary locks for packets (the packet queue is already thread safe)
+			this.i.add(new NetworkManager.QueuedPacket(packet));
 		}
 
 	}
@@ -256,13 +249,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			this.sendPacketQueue();
 			this.dispatchPacket(packet, ArrayUtils.insert(0, listeners, listener), Boolean.TRUE);
 		} else {
-			this.j.writeLock().lock();
-
-			try {
-				this.i.add(new NetworkManager.QueuedPacket(packet, ArrayUtils.insert(0, listeners, listener)));
-			} finally {
-				this.j.writeLock().unlock();
-			}
+			// FalchusSpigot - remove unnecessary locks for packets (the packet queue is already thread safe)
+			this.i.add(new NetworkManager.QueuedPacket(packet, ArrayUtils.insert(0, listeners, listener)));
 		}
 
 	}
@@ -311,8 +299,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 						this.setProtocol(enumprotocol);
 					}
 					try {
-						ChannelFuture channelfuture1 = (flush) ? this.channel.writeAndFlush(packet)
-								: this.channel.write(packet); // Tuinity - add flush parameter
+						ChannelFuture channelfuture1 = this.channel.writeAndFlush(packet); // Tuinity - add flush parameter
 						if (listeners != null) {
 							channelfuture1.addListeners(listeners);
 						}
@@ -360,25 +347,21 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		if (this.i.isEmpty()) {
 			return; // [Nacho-0019] :: Avoid lock every packet send
 		}
-		if (this.channel != null && this.channel.isOpen()) {
-			this.j.readLock().lock();
+		if (this.channel != null && this.channel.isActive()) {
+			// FalchusSpigot - remove unnecessary locks for packets (the packet queue is already thread safe)
 			boolean needsFlush = this.canFlush;
 			boolean hasWrotePacket = false;
-			try {
-				Iterator<QueuedPacket> iterator = this.i.iterator();
-				while (iterator.hasNext()) {
-					QueuedPacket queued = iterator.next();
-					Packet packet = queued.a;
-					if (hasWrotePacket && (needsFlush || this.canFlush)) {
-						flush();
-					}
-					iterator.remove();
-					this.dispatchPacket(packet, queued.b,
-							(!iterator.hasNext() && (needsFlush || this.canFlush)) ? Boolean.TRUE : Boolean.FALSE);
-					hasWrotePacket = true;
+			Iterator<QueuedPacket> iterator = this.i.iterator();
+			while (iterator.hasNext()) {
+				QueuedPacket queued = iterator.next();
+				Packet packet = queued.a;
+				if (hasWrotePacket && (needsFlush || this.canFlush)) {
+					flush();
 				}
-			} finally {
-				this.j.readLock().unlock();
+				iterator.remove();
+				this.dispatchPacket(packet, queued.b,
+						(!iterator.hasNext() && (needsFlush || this.canFlush)) ? Boolean.TRUE : Boolean.FALSE);
+				hasWrotePacket = true;
 			}
 		}
 	}

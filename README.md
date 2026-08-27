@@ -230,6 +230,7 @@ See the patches list below.
 [FalchusSpigot-????] Fix MC-87 map scaling/cloning issues
 [FalchusSpigot-????] Fix view distance lookup
 [FalchusSpigot-????] Only send Dragon/Wither Death sounds to same world
+[FalchusSpigot-????] Improve NetworkManager
 [FalchusSpigot-????] Add FastNetworkManager
 
 [DashSpigot-0033] Fix SPIGOT-1746: Tile entities may not always tick
