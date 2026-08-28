@@ -35,7 +35,7 @@ public class PlayerInteractManager {
 		worldsettings_enumgamemode.a(this.player.abilities);
 		this.player.updateAbilities();
 		this.player.server.getPlayerList()
-				.sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_GAME_MODE,
+				.sendAllLazily(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_GAME_MODE,
 						new EntityPlayer[] { this.player }), this.player); // CraftBukkit
 	}
 

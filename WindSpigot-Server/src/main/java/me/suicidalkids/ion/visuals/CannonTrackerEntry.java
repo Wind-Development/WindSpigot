@@ -195,7 +195,7 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 	}
 
 	@Override
-	public void updatePlayer(EntityPlayer entityplayer) {
+	public void updatePlayer(EntityPlayer entityplayer, int trackerThread, boolean immediate) {
 		// Check configurable distance as a cube then visible distance.
 		if (this.c(entityplayer) && this.tracker.h(entityplayer) < 4096.0D) {
 			if (this.tracker instanceof EntityPlayer && withinNoTrack()) {
@@ -208,30 +208,29 @@ public class CannonTrackerEntry extends EntityTrackerEntry {
 
 			// entityplayer.removeQueue.remove(Integer.valueOf(this.tracker.getId()));
 
-			this.trackedPlayerMap.put(entityplayer, true); // Paper
 			//this.trackedPlayers.add(entityplayer);
 			
 			// WindSpigot - fix cannon tracker
 			//this.trackedPlayers = this.trackedPlayerMap.keySet();
-			
-			Packet<?> packet = this.c(); // IonSpigot
-			if (packet == null) {
-				return; // IonSpigot - If it's null don't update the client!
-			}
 
-			entityplayer.playerConnection.queuePacket(packet);
+			List<Packet<?>> queue = immediate ? new ArrayList<>(10) : null; // FalchusSpigot
+			Packet<?> packet = this.c();
+			if (packet == null) return; // FalchusSpigot
+
+			this.trackedPlayerMap.put(entityplayer, true); // PaperBukkit // FalchusSpigot - after null check
+			
+			queuePacket(entityplayer, packet, trackerThread, immediate, queue);
 
 			if (this.tracker.getCustomNameVisible()) {
-				entityplayer.playerConnection.queuePacket(
-						new PacketPlayOutEntityMetadata(this.tracker.getId(), this.tracker.getDataWatcher(), true));
+				queuePacket(entityplayer,
+						new PacketPlayOutEntityMetadata(this.tracker.getId(), this.tracker.getDataWatcher(), true), trackerThread, immediate, queue);
 			}
 
-			entityplayer.playerConnection.queuePacket(new PacketPlayOutEntityVelocity(this.tracker.getId(),
-					this.tracker.motX, this.tracker.motY, this.tracker.motZ));
+			queuePacket(entityplayer, new PacketPlayOutEntityVelocity(this.tracker.getId(),
+					this.tracker.motX, this.tracker.motY, this.tracker.motZ), trackerThread, immediate, queue);
 
 			if (this.tracker.vehicle != null) {
-				entityplayer.playerConnection
-						.queuePacket(new PacketPlayOutAttachEntity(0, this.tracker, this.tracker.vehicle));
+				queuePacket(entityplayer, new PacketPlayOutAttachEntity(0, this.tracker, this.tracker.vehicle), trackerThread, immediate, queue);
 			}
 		} else if (this.trackedPlayers.contains(entityplayer)) {
 			this.trackedPlayers.remove(entityplayer);

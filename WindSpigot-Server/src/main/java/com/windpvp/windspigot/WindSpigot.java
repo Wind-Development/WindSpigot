@@ -14,7 +14,6 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.windpvp.windspigot.async.AsyncUtil;
 import com.windpvp.windspigot.async.pathsearch.SearchHandler;
-import com.windpvp.windspigot.async.thread.CombatThread;
 import com.windpvp.windspigot.commands.KnockbackCommand;
 import com.windpvp.windspigot.commands.MobAICommand;
 import com.windpvp.windspigot.commands.PingCommand;
@@ -37,8 +36,6 @@ public class WindSpigot {
 	private static final Logger DEBUG_LOGGER = LogManager.getLogger();
 	private static WindSpigot INSTANCE;
 	
-	private CombatThread knockbackThread;
-	
 	private final Executor statisticsExecutor = Executors
 			.newSingleThreadExecutor(new ThreadFactoryBuilder().setNameFormat("WindSpigot Statistics Thread")
 			.build());
@@ -57,9 +54,6 @@ public class WindSpigot {
 			new SearchHandler();
 		}
 		
-		if (WindSpigotConfig.asyncKnockback) {
-			knockbackThread = new CombatThread("Knockback Thread");
-		}
 		if (WindSpigotConfig.asyncTnt) {
 			AsyncExplosions.initExecutor(WindSpigotConfig.fixedPoolSize);
 		}
@@ -140,10 +134,6 @@ public class WindSpigot {
 
 	public StatisticsClient getClient() {
 		return this.client;
-	}
-	
-	public CombatThread getKnockbackThread() {
-		return knockbackThread;
 	}
     
 	public static void debug(String msg) {
