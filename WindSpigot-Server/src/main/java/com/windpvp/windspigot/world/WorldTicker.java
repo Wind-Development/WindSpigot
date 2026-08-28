@@ -73,24 +73,7 @@ public class WorldTicker implements Runnable {
 		// this.methodProfiler.a("tracker");
 		if (MinecraftServer.getServer().getPlayerList().getPlayerCount() != 0) // Tuinity
 		{
-			// Tuinity start - controlled flush for entity tracker packets
-			List<NetworkManager> disabledFlushes = new java.util.ArrayList<>(
-					MinecraftServer.getServer().getPlayerList().getPlayerCount());
-			for (EntityPlayer player : MinecraftServer.getServer().getPlayerList().players) {
-				PlayerConnection connection = player.playerConnection;
-				if (connection != null) {
-					connection.networkManager.disableAutomaticFlush();
-					disabledFlushes.add(connection.networkManager);
-				}
-			}
-			try {
-				worldserver.getTracker().updatePlayers();
-			} finally {
-				for (NetworkManager networkManager : disabledFlushes) {
-					networkManager.enableAutomaticFlush();
-				}
-			}
-			// Tuinity end - controlled flush for entity tracker packets
+			worldserver.getTracker().updatePlayers();
 		}
 
 		worldserver.timings.tracker.stopTiming(); // Spigot
