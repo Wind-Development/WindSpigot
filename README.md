@@ -136,7 +136,6 @@ See the patches list below.
 [Nacho-0049] Option to disable Enchantment table ticking
 
 <--> by Rastrian
-[Nacho-????] Async knockback and hit detection packets
 [Nacho-????] Multithreaded entity tracking
 [Nacho-????] Ticking fixes, tile optimization, and optional fast math
 [Nacho-????] Many more config options
@@ -228,6 +227,7 @@ See the patches list below.
 [FalchusSpigot-????] Only send Dragon/Wither Death sounds to same world
 [FalchusSpigot-????] Improve NetworkManager
 [FalchusSpigot-????] Add FastNetworkManager
+[FalchusSpigot-????] Async knockback
 
 [DashSpigot-0033] Fix SPIGOT-1746: Tile entities may not always tick
 [DashSpigot-0011] Fix MC-94186: Dragon egg falling in lazy chunks
