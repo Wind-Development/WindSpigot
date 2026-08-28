@@ -1,7 +1,5 @@
 package com.windpvp.windspigot.world;
 
-import java.util.List;
-
 import com.windpvp.windspigot.async.ResettableLatch;
 import com.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import com.windpvp.windspigot.config.WindSpigotConfig;
