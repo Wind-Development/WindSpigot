@@ -188,20 +188,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		if (this.isConnected()) {
 			this.sendPacketQueue();
 			// WindSpigot start - async kb
-			// based on https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit		
-			if (!shouldCheckPacket) {
-				// Wait a bit before checking for combat packets to send with priority
-				// The priority packet writer uses the last context executor
-				if (this.packetWrites.get() > 5) {
-					shouldCheckPacket = true;
-				}
-			} else {   
-				// Check if the packet is a knockback packet
-		        if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
-		        	// Send it with high priority
-		        	WindSpigot.getInstance().getKnockbackThread().addPacket(packet, this, null);
-		            return;
-		        }
+			// based on https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
+			// Check if the packet is a knockback packet
+			if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
+				// Send it with high priority
+				WindSpigot.getInstance().getKnockbackThread().addPacket(packet, this, null);
+				return;
 			}
 	        // WindSpigot end
 			this.dispatchPacket(packet, null);
