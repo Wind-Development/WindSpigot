@@ -172,15 +172,11 @@ See the patches list below.
 [IonSpigot-0037] Fast Cannon Entity Tracker
 
 [InsanePaper-269] Cache Chunk Coordinations
-[InsanePaper-390] Heavily optimize Tuinity controlled flush patch
 
 [Akarin-0001] Avoid double I/O operation on load player file by tsao chi
 [Akarin-0010] Save Json list asynchronously
 
 [Tuinity-????] Skip updating entity tracker without players
-[Tuinity-0017] Allow controlled flushing for network manager by Spottedleaf
-[Tuinity-0018] Consolidate flush calls for entity tracker packets
-[Tuinity-0052] Optimise non-flush packet sending
 
 [SportPaper-0027] Fix head rotation packet spam
 [SportPaper-0043] Get blocks in Chunk API
