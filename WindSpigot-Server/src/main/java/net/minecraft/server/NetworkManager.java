@@ -187,15 +187,13 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	public void handle(Packet packet) {
 		if (this.isConnected()) {
 			this.sendPacketQueue();
-			// WindSpigot start - async kb
+			// FalchusSpigot start - async kb
 			// based on https://github.com/Argarian-Network/NachoSpigot/tree/async-kb-hit
-			// Check if the packet is a knockback packet
-			if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition || packet instanceof PacketPlayInFlying.PacketPlayInPosition || packet instanceof PacketPlayInFlying)) {
-				// Send it with high priority
-				WindSpigot.getInstance().getKnockbackThread().addPacket(packet, this, null);
+			if (WindSpigotConfig.asyncKnockback && (packet instanceof PacketPlayOutEntityVelocity || packet instanceof PacketPlayOutPosition)) {
+				fastNetworkManager.writePacketLazily(packet, true);
 				return;
 			}
-	        // WindSpigot end
+	        // FalchusSpigot end
 			this.dispatchPacket(packet, null);
 		} else {
 			// FalchusSpigot - remove unnecessary locks for packets (the packet queue is already thread safe)
