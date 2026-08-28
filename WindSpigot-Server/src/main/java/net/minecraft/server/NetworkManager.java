@@ -90,36 +90,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		this.p = handled;
 	} // Nacho - OBFHELPER
 
-	// Tuinity start - allow controlled flushing
-	volatile boolean canFlush = true;
-	private final java.util.concurrent.atomic.AtomicInteger packetWrites = new java.util.concurrent.atomic.AtomicInteger();
-	private int flushPacketsStart;
-	private final Object flushLock = new Object();
-
-	public void disableAutomaticFlush() {
-		synchronized (this.flushLock) {
-			this.flushPacketsStart = this.packetWrites.get(); // must be volatile and before canFlush = false
-			this.canFlush = false;
-		}
-	}
-
-	public void enableAutomaticFlush() {
-		synchronized (this.flushLock) {
-			this.canFlush = true;
-			if (this.packetWrites.get() != this.flushPacketsStart) { // must be after canFlush = true
-				this.flush(); // only make the flush call if we need to
-			}
-		}
-	}
-
-	private void flush() {
-		if (this.channel.eventLoop().inEventLoop()) {
-			this.channel.flush();
-		} // [Nacho-Spigot] Fixed RejectedExecutionException: event executor terminated by
-			// BeyazPolis
-	}
-	// Tuinity end - allow controlled flushing
-
 	public NetworkManager(EnumProtocolDirection enumprotocoldirection) {
 		this.fastNetworkManager = new FastNetworkManager(this); // FalchusSpigot
 		this.h = enumprotocoldirection;
@@ -234,7 +204,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		        }
 			}
 	        // WindSpigot end
-			this.dispatchPacket(packet, null, Boolean.TRUE);
+			this.dispatchPacket(packet, null);
 		} else {
 			// FalchusSpigot - remove unnecessary locks for packets (the packet queue is already thread safe)
 			this.i.add(new NetworkManager.QueuedPacket(packet));
@@ -247,7 +217,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			GenericFutureListener<? extends Future<? super Void>>... listeners) {
 		if (this.isConnected()) {
 			this.sendPacketQueue();
-			this.dispatchPacket(packet, ArrayUtils.insert(0, listeners, listener), Boolean.TRUE);
+			this.dispatchPacket(packet, ArrayUtils.insert(0, listeners, listener));
 		} else {
 			// FalchusSpigot - remove unnecessary locks for packets (the packet queue is already thread safe)
 			this.i.add(new NetworkManager.QueuedPacket(packet, ArrayUtils.insert(0, listeners, listener)));
@@ -266,11 +236,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 	// Paper / Nacho end
 
 	public void dispatchPacket(final Packet<?> packet,
-			final GenericFutureListener<? extends Future<? super Void>>[] listeners, Boolean flushConditional) {
-		this.packetWrites.getAndIncrement(); // must be before using canFlush
-		boolean effectiveFlush = flushConditional == null ? this.canFlush : flushConditional;
-		final boolean flush = effectiveFlush || packet instanceof PacketPlayOutKeepAlive
-				|| packet instanceof PacketPlayOutKickDisconnect; // no delay for certain packets
+			final GenericFutureListener<? extends Future<? super Void>>[] listeners) {
 		final EnumProtocol enumprotocol = EnumProtocol.getProtocolForPacket(packet);
 		final EnumProtocol enumprotocol1 = this.channel.attr(NetworkManager.ATTRIBUTE_PROTOCOL).get();
 		if (enumprotocol1 != enumprotocol) {
@@ -280,67 +246,36 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 			if (enumprotocol != enumprotocol1) {
 				this.setProtocol(enumprotocol);
 			}
-			ChannelFuture channelfuture = flush ? this.channel.writeAndFlush(packet) : this.channel.write(packet);
+			ChannelFuture channelfuture = this.channel.writeAndFlush(packet);
 			if (listeners != null) {
 				channelfuture.addListeners(listeners);
 			}
 			channelfuture.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 		} else {
-			// Tuinity start - optimise packets that are not flushed
-			Runnable choice1 = null;
-			AbstractEventExecutor.LazyRunnable choice2 = null;
-			// note: since the type is not dynamic here, we need to actually copy the old
-			// executor code
-			// into two branches. On conflict, just re-copy - no changes were made inside
-			// the executor code.
-			if (flush) {
-				choice1 = () -> {
-					if (enumprotocol != enumprotocol1) {
-						this.setProtocol(enumprotocol);
-					}
-					try {
-						ChannelFuture channelfuture1 = this.channel.writeAndFlush(packet); // Tuinity - add flush parameter
-						if (listeners != null) {
-							channelfuture1.addListeners(listeners);
-						}
-						channelfuture1.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-					} catch (Exception e) {
-						LOGGER.error("NetworkException: " + getPlayer(), e);
-						close(new ChatMessage("disconnect.genericReason", "Internal Exception: " + e.getMessage()));
-						;
-					}
-				};
-			} else {
-				// explicitly declare a variable to make the lambda use the type
-				choice2 = () -> {
-					if (enumprotocol != enumprotocol1) {
-						this.setProtocol(enumprotocol);
-					}
-					try {
-						// Nacho - why not remove the check below if the check is done above? just code
-						// duplication...
-						// even IntelliJ screamed at me for doing leaving it like that :shrug:
-						ChannelFuture channelfuture1 = /* (flush) ? this.channel.writeAndFlush(packet) : */this.channel
-								.write(packet); // Nacho - see above // Tuinity - add flush parameter
-						if (listeners != null) {
-							channelfuture1.addListeners(listeners);
-						}
-						channelfuture1.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-					} catch (Exception e) {
-						LOGGER.error("NetworkException: " + getPlayer(), e);
-						close(new ChatMessage("disconnect.genericReason", "Internal Exception: " + e.getMessage()));
-						;
-					}
-				};
-			}
-			this.channel.eventLoop().execute(choice1 != null ? choice1 : choice2);
-			// Tuinity end - optimise packets that are not flushed
+			this.channel.eventLoop().execute(new Runnable() {
+                @Override
+                public void run() {
+                    if (enumprotocol != enumprotocol1) {
+                        NetworkManager.this.setProtocol(enumprotocol);
+                    }
+                    try {
+                        ChannelFuture channelfuture = NetworkManager.this.channel.writeAndFlush(packet);
+                        if (listeners != null) {
+                            channelfuture.addListeners(listeners);
+                        }
+                        channelfuture.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+                    } catch (Exception e) {
+                        LOGGER.error("NetworkException: " + getPlayer(), e);
+                        close(new ChatMessage("disconnect.genericReason", "Internal Exception: " + e.getMessage()));
+                    }
+                }
+            });
 		}
 	}
 
 	private void a(final Packet packet,
 			final GenericFutureListener<? extends Future<? super Void>>[] agenericfuturelistener) {
-		this.dispatchPacket(packet, agenericfuturelistener, Boolean.TRUE);
+		this.dispatchPacket(packet, agenericfuturelistener);
 	}
 
 	private void sendPacketQueue() {
@@ -349,19 +284,11 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 		}
 		if (this.channel != null && this.channel.isActive()) {
 			// FalchusSpigot - remove unnecessary locks for packets (the packet queue is already thread safe)
-			boolean needsFlush = this.canFlush;
-			boolean hasWrotePacket = false;
 			Iterator<QueuedPacket> iterator = this.i.iterator();
 			while (iterator.hasNext()) {
 				QueuedPacket queued = iterator.next();
-				Packet packet = queued.a;
-				if (hasWrotePacket && (needsFlush || this.canFlush)) {
-					flush();
-				}
 				iterator.remove();
-				this.dispatchPacket(packet, queued.b,
-						(!iterator.hasNext() && (needsFlush || this.canFlush)) ? Boolean.TRUE : Boolean.FALSE);
-				hasWrotePacket = true;
+				this.dispatchPacket(queued.a, queued.b);
 			}
 		}
 	}
