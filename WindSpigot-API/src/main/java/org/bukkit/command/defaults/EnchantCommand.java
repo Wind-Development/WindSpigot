@@ -98,7 +98,7 @@ public class EnchantCommand extends VanillaCommand {
 						Map<Enchantment, Integer> enchantments = item.getEnchantments();
 						boolean conflicts = false;
 
-						if (!force && !enchantments.isEmpty()) { // TODO: Improve this to use a "hasEnchantments" call
+						if (!force && !item.hasEnchantments()) {
 							for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
 								Enchantment enchant = entry.getKey();
 

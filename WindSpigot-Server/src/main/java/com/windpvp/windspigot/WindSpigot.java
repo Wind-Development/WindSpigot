@@ -85,19 +85,22 @@ public class WindSpigot {
 			PingCommand pingCommand = new PingCommand("ping");
 			commandMap.register(pingCommand.getName(), "", pingCommand);
 		}
-	
-		
 		
 		// NachoSpigot commands
-		// TODO: add configuration for all of these
-		SetMaxSlotCommand setMaxSlotCommand = new SetMaxSlotCommand("sms"); // [Nacho-0021] Add setMaxPlayers within Bukkit.getServer() and SetMaxSlot Command
-		commandMap.register(setMaxSlotCommand.getName(), "ns", setMaxSlotCommand);
+		if (WindSpigotConfig.setMaxSlotCommand) {
+			SetMaxSlotCommand setMaxSlotCommand = new SetMaxSlotCommand("sms"); // [Nacho-0021] Add setMaxPlayers within Bukkit.getServer() and SetMaxSlot Command
+			commandMap.register(setMaxSlotCommand.getName(), "ns", setMaxSlotCommand);
+		}
 
-		SpawnMobCommand spawnMobCommand = new SpawnMobCommand("spawnmob");
-		commandMap.register(spawnMobCommand.getName(), "ns", spawnMobCommand);
+		if (WindSpigotConfig.spawnMobCommand) {
+			SpawnMobCommand spawnMobCommand = new SpawnMobCommand("spawnmob");
+			commandMap.register(spawnMobCommand.getName(), "ns", spawnMobCommand);
+		}
 
-		KnockbackCommand knockbackCommand = new KnockbackCommand("kb");
-		commandMap.register(knockbackCommand.getName(), "ns", knockbackCommand);
+		if (WindSpigotConfig.knockbackCommand) {
+			KnockbackCommand knockbackCommand = new KnockbackCommand("kb");
+			commandMap.register(knockbackCommand.getName(), "ns", knockbackCommand);
+		}
 	}
 
 	private void initStatistics() {
