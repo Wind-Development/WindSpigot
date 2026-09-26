@@ -10,6 +10,8 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import io.netty.channel.epoll.Epoll;
+import io.netty.channel.kqueue.KQueue;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -506,23 +508,26 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 		return true;
 	}
 
+	// FalchusSpigot start
 	@Override
 	public boolean ai() {
-		// [Nacho-0039] Add a check to see if we are using Linux or not, if not ignore
-		// this.
-		return this.getTransport() == ServerConnection.EventGroupType.EPOLL
-				&& org.apache.commons.lang.SystemUtils.IS_OS_LINUX;
+		return propertyManager.getBoolean("use-native-transport", true);
 	}
 
 	@Override
 	public ServerConnection.EventGroupType getTransport() {
-		try {
-			return ServerConnection.EventGroupType
-					.valueOf(this.propertyManager.getString("transport-to-use", "default").toUpperCase());
-		} catch (Exception ignored) {
-			return ServerConnection.EventGroupType.DEFAULT;
+		ServerConnection.EventGroupType transport = ServerConnection.EventGroupType.NIO;
+		if (ai())
+		/* use-native-transport */ {
+			if (Epoll.isAvailable()) {
+				transport = ServerConnection.EventGroupType.EPOLL;
+			} else if (KQueue.isAvailable()) {
+				transport = ServerConnection.EventGroupType.KQUEUE;
+			}
 		}
+		return transport;
 	}
+	// FalchusSpigot end
 
 	public DedicatedPlayerList aP() {
 		return (DedicatedPlayerList) super.getPlayerList();
