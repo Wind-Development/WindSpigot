@@ -404,17 +404,6 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
 		return meta == null ? ImmutableMap.<Enchantment, Integer>of() : meta.getEnchants();
 	}
 
-	// WindSpigot start
-	/**
-	 * Checks if this ItemStack has any enchantments.
-	 *
-	 * @return True if this has any enchantments
-	 */
-	public boolean hasEnchantments() {
-		return !getEnchantments().isEmpty();
-	}
-	// WindSpigot stop
-
 	/**
 	 * Adds the specified enchantments to this item stack.
 	 * <p>
