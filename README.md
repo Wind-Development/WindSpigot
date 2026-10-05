@@ -42,7 +42,6 @@ See the patches list below.
 [WindSpigot-0017] Configurable fishing rod speed multiplier
 
 [PandaSpigot-0115] Break up and make tab spam limits configurable
-[PandaSpigot-0072] Fix Bugs with Spigot Mob Spawn Logic
 [PandaSpigot-0105] Fix SPIGOT-2622: Only one player receiving the server shutdown message
 [PandaSpigot-0060] Backport SPIGOT-5428: Better handling of some ItemMeta
 [PandaSpigot-0130] Backport Fix SPIGOT-3348: Skin Cache Bug
@@ -146,7 +145,6 @@ See the patches list below.
 [Nacho-0035] Made it so you can switch the brand name in nacho.yml
 [Nacho-0036] Add toggles for commands "reload", "version" and "plugins"
 [Nacho-0037] Add toggle for "Faster Operator"
-[Nacho-0039] Fixed a bug in Netty's epoll when using Windows
 [Nacho-0040] Change deprecated Netty parameter in ResourceLeakDetector
 [Nacho-0041] Fix block placement
 [Nacho-0042] Remove Spigot Watchdog
