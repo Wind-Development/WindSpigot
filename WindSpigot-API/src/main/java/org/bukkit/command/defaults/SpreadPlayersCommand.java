@@ -60,7 +60,7 @@ public class SpreadPlayersCommand extends VanillaCommand {
 		if (respectTeams.equalsIgnoreCase("true")) {
 			teams = true;
 		} else if (!respectTeams.equalsIgnoreCase("false")) {
-			sender.sendMessage(String.format(ChatColor.RED + "'%s' is not true or false", args[4]));
+			sender.sendMessage(ChatColor.RED + String.format("'%s' is not true or false", args[4]));
 			return false;
 		}
 
@@ -96,7 +96,7 @@ public class SpreadPlayersCommand extends VanillaCommand {
 		if (rangeSpread == -1) {
 			sender.sendMessage(String.format(
 					"Could not spread %d %s around %s,%s (too many players for space - try using spread of at most %s)",
-					spreadSize, teams ? "teams" : "players", x, z));
+					spreadSize, teams ? "teams" : "players", x, z, distance));
 			return false;
 		}
 
