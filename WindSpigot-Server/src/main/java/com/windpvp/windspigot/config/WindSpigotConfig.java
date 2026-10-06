@@ -599,16 +599,4 @@ public class WindSpigotConfig {
         tabSpamIncrement = getInt("settings.disconnect-spam.increment", 5);
         tabSpamLimit = getInt("settings.disconnect-spam.limit", 750);
     }
-
-	// FalchusSpigot start
-	public static int threadSize;
-	private static void threadSize() {
-        threadSize = getInt("thread-size", 3);
-        if (threadSize == -1) {
-            threadSize = Math.max(1, Runtime.getRuntime().availableProcessors() - 1);
-        } else {
-            threadSize = Math.max(1, threadSize);
-        }
-	}
-	// FalchusSpigot end
 }
