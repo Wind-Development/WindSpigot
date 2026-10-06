@@ -82,11 +82,10 @@ public abstract class VanillaCommand extends Command {
 	public static double getDouble(CommandSender sender, String input, double min, double max) {
 		double result = getDouble(sender, input);
 
-		// TODO: This should throw an exception instead.
 		if (result < min) {
-			result = min;
+			throw new NumberFormatException(String.format("Number must be at least %s", min));
 		} else if (result > max) {
-			result = max;
+			throw new NumberFormatException(String.format("Number must be at most %s", max));
 		}
 
 		return result;

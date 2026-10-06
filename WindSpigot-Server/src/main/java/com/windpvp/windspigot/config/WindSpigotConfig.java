@@ -161,6 +161,9 @@ public class WindSpigotConfig {
 		
 		// NachoSpigot stuff
 		c.addComment("settings.save-empty-scoreboard-teams", "Toggles whether or not the server should save empty scoreboard teams");
+		c.addComment("settings.command.setmaxslot", "Enables the /setmaxslot command");
+		c.addComment("settings.command.spawnmob", "Enables the /spawnmob command");
+		c.addComment("settings.command.knockback", "Enables the /knockback command");
 		c.addComment("settings.command.version", "Enables the /version command");
 		c.addComment("settings.command.plugins", "Enables the /plugins command");
 		c.addComment("settings.command.reload", "Enables the /reload command (It is recommended to not use /reload)");
@@ -438,11 +441,17 @@ public class WindSpigotConfig {
 		saveEmptyScoreboardTeams = getBoolean("settings.save-empty-scoreboard-teams", false);
 	}
 
+	public static boolean setMaxSlotCommand;
+	public static boolean spawnMobCommand;
+	public static boolean knockbackCommand;
 	public static boolean enableVersionCommand;
 	public static boolean enablePluginsCommand;
 	public static boolean enableReloadCommand;
 
 	private static void commands() {
+		setMaxSlotCommand = getBoolean("settings.command.setmaxslot", true);
+		spawnMobCommand = getBoolean("settings.command.spawnmob", true);
+		knockbackCommand = getBoolean("settings.command.knockback", true);
 		enableVersionCommand = getBoolean("settings.command.version", true);
 		enablePluginsCommand = getBoolean("settings.command.plugins", true);
 		enableReloadCommand = getBoolean("settings.command.reload", false);

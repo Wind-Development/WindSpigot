@@ -21,10 +21,8 @@ import io.netty.channel.DefaultEventLoopGroup;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.ServerChannel;
 import io.netty.channel.WriteBufferWaterMark;
-import io.netty.channel.epoll.Epoll;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
-import io.netty.channel.kqueue.KQueue;
 import io.netty.channel.kqueue.KQueueEventLoopGroup;
 import io.netty.channel.kqueue.KQueueServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -34,7 +32,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 public class ServerConnection {
 
 	public enum EventGroupType {
-		EPOLL, KQUEUE, NIO, DEFAULT
+		EPOLL, KQUEUE, NIO
 	}
 
 	private static final WriteBufferWaterMark SERVER_WRITE_MARK = new WriteBufferWaterMark(1 << 20, 1 << 21);
@@ -78,18 +76,6 @@ public class ServerConnection {
 	public ServerConnection(MinecraftServer server) {
 		this.server = server;
 		this.started = true;
-
-		if (server.ai())
-		/* use-native-transport */ {
-			if (Epoll.isAvailable()) {
-				this.eventGroupType = EventGroupType.EPOLL;
-				return;
-			} else if (KQueue.isAvailable()) {
-				this.eventGroupType = EventGroupType.KQUEUE;
-				return;
-			}
-		}
-
 		this.eventGroupType = server.getTransport();
 	}
 
@@ -98,49 +84,28 @@ public class ServerConnection {
 			Class<? extends ServerChannel> channel = null;
 			final int workerThreadCount = Runtime.getRuntime().availableProcessors();
 
-			{
-				// First time using fall-through, lol
-				switch (eventGroupType) {
-				default:
-				case DEFAULT: {
-					LOGGER.info("Finding best event group type using fall-through");
-				}
+			LOGGER.info("Finding best event group type using fall-through");
+			if (eventGroupType == EventGroupType.EPOLL) {
+				a = new LazyInitVar<>(() -> new EpollEventLoopGroup(2));
+				b = new LazyInitVar<>(() -> new EpollEventLoopGroup(workerThreadCount));
 
-				case EPOLL: {
-					if (Epoll.isAvailable()) {
-						a = new LazyInitVar<>(() -> new EpollEventLoopGroup(2));
-						b = new LazyInitVar<>(() -> new EpollEventLoopGroup(workerThreadCount));
+				channel = EpollServerSocketChannel.class;
 
-						channel = EpollServerSocketChannel.class;
+				LOGGER.info("Using epoll");
+			} else if (eventGroupType == EventGroupType.KQUEUE) {
+				a = new LazyInitVar<>(() -> new KQueueEventLoopGroup(2));
+				b = new LazyInitVar<>(() -> new KQueueEventLoopGroup(workerThreadCount));
 
-						LOGGER.info("Using epoll");
+				channel = KQueueServerSocketChannel.class;
 
-						break;
-					}
-				}
-				case KQUEUE: {
-					if (KQueue.isAvailable()) {
-						a = new LazyInitVar<>(() -> new KQueueEventLoopGroup(2));
-						b = new LazyInitVar<>(() -> new KQueueEventLoopGroup(workerThreadCount));
+				LOGGER.info("Using kqueue");
+			} else {
+				a = new LazyInitVar<>(() -> new NioEventLoopGroup(2));
+				b = new LazyInitVar<>(() -> new NioEventLoopGroup(workerThreadCount));
 
-						channel = KQueueServerSocketChannel.class;
+				channel = NioServerSocketChannel.class;
 
-						LOGGER.info("Using kqueue");
-
-						break;
-					}
-				}
-				case NIO: {
-					a = new LazyInitVar<>(() -> new NioEventLoopGroup(2));
-					b = new LazyInitVar<>(() -> new NioEventLoopGroup(workerThreadCount));
-
-					channel = NioServerSocketChannel.class;
-
-					LOGGER.info("Using NIO");
-
-					break;
-				}
-				}
+				LOGGER.info("Using NIO");
 			}
 
 			// Paper start - indicate Velocity natives in use
