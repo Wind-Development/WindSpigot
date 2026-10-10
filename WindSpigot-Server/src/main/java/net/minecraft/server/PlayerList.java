@@ -473,7 +473,7 @@ public abstract class PlayerList {
 			EntityPlayer entityplayer1 = this.players.get(i);
 
 			if (entityplayer1.getBukkitEntity().canSee(entityplayer.getBukkitEntity())) {
-				entityplayer1.playerConnection.sendPacket(packet);
+				entityplayer1.playerConnection.writePacketLazily(packet);
 			}
 
 			if (!entityplayer.getBukkitEntity().canSee(entityplayer1.getBukkitEntity())) {
@@ -1072,7 +1072,7 @@ public abstract class PlayerList {
 
 	public void tick() {
 		if (++this.u > 600) {
-			this.sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_LATENCY,
+			this.writeAllLazily(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_LATENCY,
 					this.players));
 			this.u = 0;
 		}
@@ -1086,6 +1086,14 @@ public abstract class PlayerList {
 
 	}
 
+	// FalchusSpigot start
+	public void writeAllLazily(Packet packet) {
+		for (int i = 0; i < this.players.size(); ++i) {
+			this.players.get(i).playerConnection.writePacketLazily(packet);
+		}
+	}
+	// FalchusSpigot end
+
 	// CraftBukkit start - add a world/entity limited version
 	public void sendAll(Packet packet, EntityHuman entityhuman) {
 		for (int i = 0; i < this.players.size(); ++i) {
@@ -1097,6 +1105,19 @@ public abstract class PlayerList {
 			this.players.get(i).playerConnection.sendPacket(packet);
 		}
 	}
+
+	// FalchusSpigot start
+	public void sendAllLazily(Packet packet, EntityHuman entityhuman) {
+		for (int i = 0; i < this.players.size(); ++i) {
+			EntityPlayer entityplayer = this.players.get(i);
+			if (entityhuman != null && entityhuman instanceof EntityPlayer
+					&& !entityplayer.getBukkitEntity().canSee(((EntityPlayer) entityhuman).getBukkitEntity())) {
+				continue;
+			}
+			this.players.get(i).playerConnection.writePacketLazily(packet);
+		}
+	}
+	// FalchusSpigot end
 
 	public void sendAll(Packet packet, World world) {
 		for (int i = 0; i < world.players.size(); ++i) {
