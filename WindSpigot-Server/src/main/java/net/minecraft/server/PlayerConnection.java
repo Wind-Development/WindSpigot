@@ -1,12 +1,7 @@
 package net.minecraft.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 // CraftBukkit start
 import java.util.concurrent.ExecutionException;
@@ -53,7 +48,6 @@ import org.bukkit.util.NumberConversions;
 import org.github.paperspigot.PaperSpigotConfig; // PaperSpigot
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.windpvp.windspigot.WindSpigot;
@@ -96,9 +90,6 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	private int creativeSlotCount = 0;
 	private long lastCustomPayloadPacketTS = -1L;
 	private boolean isExploiter = false;
-	
-	// WindSpigot - queue-able packets
-	private Queue<Packet<?>> queuedPackets = Queues.newLinkedBlockingQueue();
 
 	public PlayerConnection(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
 		this.minecraftServer = minecraftserver;
@@ -2665,20 +2656,32 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		return !this.player.joining && !this.networkManager.channel.config().isAutoRead();
 	}
 	
-	// WindSpigot start - queue-able packets
-	public void queuePacket(Packet<?> packet) {
+	// FalchusSpigot start - queue-able packets
+	public void writePacketLazily(Packet<?> packet) {
 		if (packet == null) return;
-		queuedPackets.add(packet);
+		networkManager.fastNetworkManager.writePacketLazily(packet);
 	}
-	
-	public void sendQueuedPackets() {
-		networkManager.disableAutomaticFlush();
-		while (!queuedPackets.isEmpty()) {
-			sendPacket(queuedPackets.poll());
+
+	public void queuePacket(Packet<?> packet, int trackerThread) {
+		if (packet == null) return;
+		networkManager.fastNetworkManager.queuePacket(packet, trackerThread);
+	}
+
+	public void sendPackets(List<Packet<?>> packets) {
+		sendPackets(packets, 0);
+	}
+
+	public void sendPackets(List<Packet<?>> packets, int trackerThread) {
+		for (Packet<?> packet : packets) {
+			queuePacket(packet, trackerThread);
 		}
-		networkManager.enableAutomaticFlush();
+		sendQueuedPackets();
 	}
-	// WindSpigot end
+
+	public void sendQueuedPackets() {
+		networkManager.fastNetworkManager.flushQueuedPackets();
+	}
+	// FalchusSpigot end
 
 	static class SyntheticClass_1 {
 
