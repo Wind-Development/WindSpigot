@@ -7,7 +7,6 @@ import com.windpvp.windspigot.config.WindSpigotConfig;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import me.rastrian.dev.utils.IndexedLinkedHashSet;
 import net.minecraft.server.*;
 
 public class AsyncEntityTracker extends EntityTracker {
@@ -21,17 +20,24 @@ public class AsyncEntityTracker extends EntityTracker {
 	}
 	
 	@Override
-	public void updatePlayers() {	
+	public void updatePlayers() {
+		// Snapshot the tracker entries once, on the ticking thread, before any worker
+		// starts. The workers then index into this stable array instead of reading the
+		// non-thread-safe IndexedLinkedHashSet concurrently, which could otherwise race
+		// with a structural change and throw or return the wrong entry. Reading the
+		// thread count once also keeps the loop bound and the stride consistent.
+		final EntityTrackerEntry[] entries = c.toArray(new EntityTrackerEntry[0]);
+		final int threads = WindSpigotConfig.trackingThreads;
 		int offset = 0;
-		
-		for (int i = 1; i <= WindSpigotConfig.trackingThreads; i++) {
+
+		for (int i = 1; i <= threads; i++) {
 			final int finalOffset = offset++;
-			
+
 			AsyncUtil.run(() -> {
 				try {
-					for (int index = finalOffset; index < c.size(); index += WindSpigotConfig.trackingThreads) {
+					for (int index = finalOffset; index < entries.length; index += threads) {
 						try {
-	                    	((IndexedLinkedHashSet<EntityTrackerEntry>) c).get(index).update(finalOffset);
+							entries[index].update(finalOffset);
 						} catch (Throwable t) {
 							t.printStackTrace();
 						}
@@ -40,7 +46,7 @@ public class AsyncEntityTracker extends EntityTracker {
 					worldServer.ticker.getLatch().decrement();
 				}
 			}, trackingThreadExecutor);
-			
+
 		}
 		try {
             worldServer.ticker.getLatch().waitTillZero();
