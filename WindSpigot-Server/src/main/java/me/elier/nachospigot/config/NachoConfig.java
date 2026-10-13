@@ -2,11 +2,11 @@ package me.elier.nachospigot.config;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +17,8 @@ import org.sugarcanemc.sugarcane.util.yaml.YamlCommenter;
 
 import com.google.common.base.Throwables;
 import com.windpvp.windspigot.WindSpigot;
+import com.windpvp.windspigot.config.NachoConfigMigration;
+import com.windpvp.windspigot.config.WindSpigotConfig;
 
 public class NachoConfig {
 
@@ -32,17 +34,20 @@ public class NachoConfig {
 	static YamlConfiguration config;
 	static int version;
 	
-	// If the config has been migrated to windspigot.yml
+	// If the config has been migrated to windspigot.yml (or no nacho.yml to migrate)
 	public static boolean hasMigrated = false;
 
 	public static void init(File configFile) {
-		/*if (!configFile.exists()) { TODO: uncomment this after config migration is finished
-			hasMigrated = true;
-			return;
-		}*/
-		
 		CONFIG_FILE = configFile;
 		config = new YamlConfiguration();
+
+		// No legacy file — nothing to migrate; keep an empty YAML for world-setting defaults
+		if (!configFile.exists()) {
+			hasMigrated = true;
+			config.options().copyDefaults(true);
+			return;
+		}
+
 		try {
 			WindSpigot.LOGGER.info("Loading NachoSpigot config from " + configFile.getName());
 			config.load(CONFIG_FILE);
@@ -78,34 +83,23 @@ public class NachoConfig {
 		}
 	}
 	
-	// Migrates all read data into the WindSpigot config
-	// TODO: save this data to file instead of just putting it in memory
+	/**
+	 * Migrates overlapping Nacho options into WindSpigotConfig fields and
+	 * {@code windspigot.yml} (including {@code world-settings}).
+	 */
 	public static void moveToWindSpigotConfig(Class<?> clazz, Class<?> windSpigotConfigClazz) {
-		for (Field oldField : clazz.getDeclaredFields()) {
-			
-			if (Modifier.isPublic(oldField.getModifiers()) && Modifier.isStatic(oldField.getModifiers()) && !oldField.getName().equals("CONFIG_FILE") && !oldField.getName().equals("hasMigrated")) {
-				oldField.setAccessible(true);
-
-				boolean found = false;
-				
-				for (Field newField : windSpigotConfigClazz.getDeclaredFields()) {
-					if (newField.getName().equals(oldField.getName())) {
-						found = true;
-						newField.setAccessible(true);
-
-				        try {
-							newField.set(null, oldField.get(null));
-						} catch (IllegalArgumentException | IllegalAccessException e) {
-							e.printStackTrace();
+		try {
+			int migrated = NachoConfigMigration.migrate(clazz, windSpigotConfigClazz, config,
+					WindSpigotConfig.config, new BiConsumer<String, String>() {
+						@Override
+						public void accept(String option, String reason) {
+							WindSpigot.LOGGER.warn("Unable to migrate option " + option + ": " + reason);
 						}
-					}
-				}
-				
-				if (!found) {
-					WindSpigot.LOGGER.warn("Unable to migrate option " + oldField.getName() + "!");
-				}
-			}
- 		}
+					});
+			WindSpigot.LOGGER.info("Migrated " + migrated + " nacho.yml option(s) into windspigot.yml");
+		} catch (IllegalAccessException e) {
+			LOGGER.log(Level.ERROR, "Failed to migrate nacho.yml into windspigot.yml", e);
+		}
 		hasMigrated = true;
 	}
 
