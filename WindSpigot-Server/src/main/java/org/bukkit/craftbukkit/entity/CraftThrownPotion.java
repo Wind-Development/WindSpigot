@@ -9,8 +9,9 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
+
+import com.windpvp.windspigot.potion.ThrownPotionEffects;
 
 import net.minecraft.server.EntityPotion;
 
@@ -19,11 +20,12 @@ public class CraftThrownPotion extends CraftProjectile implements ThrownPotion {
 		super(server, entity);
 	}
 
-	// TODO: This one does not handle custom NBT potion effects does it?
-	// In that case this method could be said to be misleading or incorrect
 	@Override
 	public Collection<PotionEffect> getEffects() {
-		return Potion.getBrewer().getEffectsFromDamage(getHandle().getPotionValue());
+		// Ensure the item stack exists (same side-effect as getItem()).
+		getHandle().getPotionValue();
+		// Include CustomPotionEffects NBT — matches EntityPotion splash via Items.POTION.h
+		return ThrownPotionEffects.getEffects(getHandle().item);
 	}
 
 	@Override

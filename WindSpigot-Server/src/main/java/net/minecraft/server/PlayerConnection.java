@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 import com.windpvp.windspigot.security.CreativeItemFilter;
@@ -54,12 +55,12 @@ import org.bukkit.util.NumberConversions;
 import org.github.paperspigot.PaperSpigotConfig; // PaperSpigot
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Floats;
 import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 import com.windpvp.windspigot.events.PlayerIllegalBehaviourEvent;
+import com.windpvp.windspigot.security.BookNbtValidator;
 
 import co.aikar.timings.SpigotTimings; // Spigot
 import io.netty.buffer.Unpooled;
@@ -97,9 +98,6 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 	private int creativeSlotCount = 0;
 	private long lastCustomPayloadPacketTS = -1L;
 	private boolean isExploiter = false;
-	
-	// WindSpigot - queue-able packets
-	private Queue<Packet<?>> queuedPackets = Queues.newLinkedBlockingQueue();
 
 	public PlayerConnection(MinecraftServer minecraftserver, NetworkManager networkmanager, EntityPlayer entityplayer) {
 		this.minecraftServer = minecraftserver;
@@ -2439,7 +2437,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					} else {
 						throw new IOException("Packet influx");
 					}
-					// TODO Check NBT data here
+					// WindSpigot - Validate book NBT (size/depth/types/keys) before handling
+					BookNbtValidator.validateBookPayload(packetplayincustompayload.b(),
+							"MC|BSign".equals(channelName));
 				}
 			} catch (Throwable ex) {
 				this.isExploiter = true;
@@ -2453,6 +2453,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					disconnect("Book edited too quickly!");
 					return;
 				}
+				this.lastBookTick = MinecraftServer.currentTick; // WindSpigot - book edit cooldown
 
 				serializer = new PacketDataSerializer(Unpooled.wrappedBuffer(packetplayincustompayload.b()));
 
@@ -2462,7 +2463,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 						return;
 					}
 
-					if (!ItemBookAndQuill.b(itemstack.getTag())) {
+					if (!ItemBookAndQuill.b(itemstack.getTag()) || !BookNbtValidator.isValidBookItem(itemstack, false)) {
 						throw new IOException("Invalid book tag!");
 					}
 
@@ -2490,6 +2491,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					disconnect("Book edited too quickly!");
 					return;
 				}
+				this.lastBookTick = MinecraftServer.currentTick; // WindSpigot - book sign cooldown
 				serializer = new PacketDataSerializer(Unpooled.wrappedBuffer(packetplayincustompayload.b()));
 
 				try {
@@ -2498,7 +2500,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 						return;
 					}
 
-					if (!ItemWrittenBook.b(itemstack.getTag())) {
+					if (!ItemWrittenBook.b(itemstack.getTag()) || !BookNbtValidator.isValidBookItem(itemstack, true)) {
 						throw new IOException("Invalid book tag!");
 					}
 
@@ -2661,20 +2663,32 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		return !this.player.joining && !this.networkManager.channel.config().isAutoRead();
 	}
 	
-	// WindSpigot start - queue-able packets
-	public void queuePacket(Packet<?> packet) {
+	// FalchusSpigot start - queue-able packets
+	public void writePacketLazily(Packet<?> packet) {
 		if (packet == null) return;
-		queuedPackets.add(packet);
+		networkManager.fastNetworkManager.writePacketLazily(packet);
 	}
-	
-	public void sendQueuedPackets() {
-		networkManager.disableAutomaticFlush();
-		while (!queuedPackets.isEmpty()) {
-			sendPacket(queuedPackets.poll());
+
+	public void queuePacket(Packet<?> packet, int trackerThread) {
+		if (packet == null) return;
+		networkManager.fastNetworkManager.queuePacket(packet, trackerThread);
+	}
+
+	public void sendPackets(List<Packet<?>> packets) {
+		sendPackets(packets, 0);
+	}
+
+	public void sendPackets(List<Packet<?>> packets, int trackerThread) {
+		for (Packet<?> packet : packets) {
+			queuePacket(packet, trackerThread);
 		}
-		networkManager.enableAutomaticFlush();
+		sendQueuedPackets();
 	}
-	// WindSpigot end
+
+	public void sendQueuedPackets() {
+		networkManager.fastNetworkManager.flushQueuedPackets();
+	}
+	// FalchusSpigot end
 
 	static class SyntheticClass_1 {
 

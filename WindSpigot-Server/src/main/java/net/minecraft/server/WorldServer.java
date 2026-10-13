@@ -90,6 +90,7 @@ public class WorldServer extends World /*implements IAsyncTaskHandler*/ { // Pan
 		this.B();
 		this.C();
 		this.getWorldBorder().a(minecraftserver.aI());
+		this.ticker = new WorldTicker(this); // WindSpigot
 	}
 
 	@Override
