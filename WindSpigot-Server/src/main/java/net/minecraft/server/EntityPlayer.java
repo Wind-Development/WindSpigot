@@ -67,7 +67,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 	// Spigot start
 	public boolean collidesWithEntities = true;
 	public int viewDistance; // PaperSpigot - Player view distance API
-	/* private int containerUpdateDelay; */ // PaperSpigot
+	private int containerUpdateDelay; // PaperSpigot
 	public List<EntityPotion> potions = new ArrayList<>(); // IonSpigot - Lag Compensated Potions
 
 	@Override
@@ -220,9 +220,9 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 		}
 
 		// PaperSpigot start - Configurable container update tick rate
-		if (/*--containerUpdateDelay <= 0*/ true) {
+		if (--containerUpdateDelay <= 0) {
 			this.activeContainer.b();
-			/* containerUpdateDelay = world.paperSpigotConfig.containerUpdateTickRate; */
+			containerUpdateDelay = world.paperSpigotConfig.containerUpdateTickRate;
 		}
 		// PaperSpigot end
 		if (!this.world.isClientSide && !this.activeContainer.a(this)) {
