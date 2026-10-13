@@ -1,8 +1,15 @@
 package net.minecraft.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Queue;
+import java.util.Set;
 import java.util.*;
 import java.util.concurrent.Callable;
+
+import com.windpvp.windspigot.security.CreativeItemFilter;
 // CraftBukkit start
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
@@ -125,12 +132,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		return (this.player == null) ? null : (CraftPlayer) this.player.getBukkitEntity();
 	}
 
-	private final static HashSet<Integer> invalidItems = new HashSet<Integer>(
-			java.util.Arrays.asList(8, 9, 10, 11, 26, 34, 36, 43, 51, 52, 55, 59, 60, 62, 63, 64, 68, 71, 74, 75, 83,
-					90, 92, 93, 94, 104, 105, 115, 117, 118, 119, 125, 127, 132, 140, 141, 142, 144)); // TODO: Check
-																										// after every
-																										// update.
-	// CraftBukkit end
+	// CraftBukkit end — creative filter: see CreativeItemFilter (Material-derived; replaces hardcoded ID TODO)
 
 	@Override
 	public void c() {
@@ -2211,9 +2213,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 			boolean flag1 = packetplayinsetcreativeslot.a() >= 1
 					&& packetplayinsetcreativeslot.a() < 36 + PlayerInventory.getHotbarSize();
-			// CraftBukkit - Add invalidItems check
+			// CraftBukkit - reject technical / non-inventory block IDs in creative slots
 			boolean flag2 = itemstack == null
-					|| itemstack.getItem() != null && (!invalidItems.contains(Item.getId(itemstack.getItem()))
+					|| itemstack.getItem() != null && (!CreativeItemFilter.isForbidden(Item.getId(itemstack.getItem()))
 							|| !org.spigotmc.SpigotConfig.filterCreativeItems); // Spigot
 			boolean flag3 = itemstack == null
 					|| itemstack.getData() >= 0 && itemstack.count <= 64 && itemstack.count > 0;
