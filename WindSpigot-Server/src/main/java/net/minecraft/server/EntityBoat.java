@@ -120,7 +120,8 @@ public class EntityBoat extends Entity {
 				if (event.isCancelled()) {
 					return false; // FalchusSpigot - fix SPIGOT-4647: Properly cancel VehicleDamageEvent
 				}
-				// f = event.getDamage(); // TODO Why don't we do this?
+				// Match EntityMinecartAbstract: honor plugin-modified VehicleDamageEvent damage
+				f = (float) event.getDamage();
 				// CraftBukkit end
 
 				this.b(-this.m());
