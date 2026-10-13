@@ -211,12 +211,6 @@
 			<artifactId>javafixes</artifactId>
 			<version>1.3.6.1</version>
 		</dependency>
-		
-        <dependency>
-            <groupId>org.checkerframework</groupId>
-            <artifactId>checker-qual</artifactId>
-            <version>3.21.0</version>
-        </dependency>
 
 		<!-- Kyori api -->
 		<!-- https://mvnrepository.com/artifact/net.kyori/adventure-api -->
@@ -307,11 +301,39 @@
 								<filter>
 									<artifact>org.spigotmc:minecraft-server:**</artifact>
 									<excludes>
+										<exclude>META-INF/MANIFEST.MF</exclude>
+										<exclude>com/google/common/**</exclude>
+										<exclude>com/google/gson/**</exclude>
+										<exclude>com/google/thirdparty/**</exclude>
+										<exclude>io/netty/**</exclude>
+										<exclude>org/apache/commons/lang3/**</exclude>
 										<exclude>org/apache/logging/log4j/**</exclude>
 									</excludes>
 								</filter>
+								<!-- Paper end - Update Log4j -->
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>org/sqlite/native/FreeBSD/x86/**</exclude>
+										<exclude>org/sqlite/native/Linux/arm/**</exclude>
+										<exclude>org/sqlite/native/Linux/armv6/**</exclude>
+										<exclude>org/sqlite/native/Linux/armv7/**</exclude>
+										<exclude>org/sqlite/native/Linux/x86/**</exclude>
+										<exclude>org/sqlite/native/Linux/ppc64/**</exclude>
+										<exclude>org/sqlite/native/Linux-Android/**</exclude>
+										<exclude>org/sqlite/native/Linux-Musl/x86/**</exclude>
+										<exclude>org/sqlite/native/Windows/armv7/**</exclude>
+										<exclude>org/sqlite/native/Windows/x86/**</exclude>
+										<exclude>org/jline/nativ/FreeBSD/**</exclude>
+										<exclude>org/jline/nativ/Linux/arm/**</exclude>
+										<exclude>org/jline/nativ/Linux/armv6/**</exclude>
+										<exclude>org/jline/nativ/Linux/armv7/**</exclude>
+										<exclude>org/jline/nativ/Linux/ppc64/**</exclude>
+										<exclude>org/jline/nativ/Linux/x86/**</exclude>
+										<exclude>org/jline/nativ/Windows/x86/**</exclude>
+									</excludes>
+								</filter>
 							</filters>
-							<!-- Paper end - Update Log4j -->
 							<relocations>
 								<relocation>
 									<pattern>joptsimple</pattern>
