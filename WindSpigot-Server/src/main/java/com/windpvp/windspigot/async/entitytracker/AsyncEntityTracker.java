@@ -31,7 +31,7 @@ public class AsyncEntityTracker extends EntityTracker {
 				try {
 					for (int index = finalOffset; index < c.size(); index += WindSpigotConfig.trackingThreads) {
 						try {
-	                    	((IndexedLinkedHashSet<EntityTrackerEntry>) c).get(index).update();
+	                    	((IndexedLinkedHashSet<EntityTrackerEntry>) c).get(index).update(finalOffset);
 						} catch (Throwable t) {
 							t.printStackTrace();
 						}

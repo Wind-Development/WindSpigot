@@ -67,7 +67,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 	// Spigot start
 	public boolean collidesWithEntities = true;
 	public int viewDistance; // PaperSpigot - Player view distance API
-	/* private int containerUpdateDelay; */ // PaperSpigot
+	private int containerUpdateDelay; // PaperSpigot
 	public List<EntityPotion> potions = new ArrayList<>(); // IonSpigot - Lag Compensated Potions
 
 	@Override
@@ -220,9 +220,9 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 		}
 
 		// PaperSpigot start - Configurable container update tick rate
-		if (/*--containerUpdateDelay <= 0*/ true) {
+		if (--containerUpdateDelay <= 0) {
 			this.activeContainer.b();
-			/* containerUpdateDelay = world.paperSpigotConfig.containerUpdateTickRate; */
+			containerUpdateDelay = world.paperSpigotConfig.containerUpdateTickRate;
 		}
 		// PaperSpigot end
 		if (!this.world.isClientSide && !this.activeContainer.a(this)) {
@@ -675,7 +675,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 
 		super.mount(entity);
 		if (this.vehicle != entity1) { // CraftBukkit
-			this.playerConnection.queuePacket(new PacketPlayOutAttachEntity(0, this, this.vehicle)); // WindSpigot - modify to work with our entity tracker changes (ensure spawn packet sent first) sendPacket -> queuePacket
+			this.playerConnection.sendPacket(new PacketPlayOutAttachEntity(0, this, this.vehicle));
 			this.playerConnection.a(this.locX, this.locY, this.locZ, this.yaw, this.pitch);
 		}
 
@@ -1157,7 +1157,7 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
 	}
 
 	public void d(Entity entity) {
-		this.playerConnection.queuePacket(new PacketPlayOutEntityDestroy(entity.getId())); // WindSpigot - Queue packet instead of direct send
+		this.playerConnection.writePacketLazily(new PacketPlayOutEntityDestroy(entity.getId()));
 	}
 
 	@Override

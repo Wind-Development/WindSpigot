@@ -1104,7 +1104,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 		EntityTracker tracker = ((WorldServer) entity.world).tracker;
 		EntityPlayer other = ((CraftPlayer) player).getHandle();
 
-		getHandle().playerConnection.sendPacket(
+		getHandle().playerConnection.writePacketLazily(
 				new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, other));
 		EntityTrackerEntry entry = tracker.trackedEntities.get(other.getId());
 		

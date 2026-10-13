@@ -599,5 +599,4 @@ public class WindSpigotConfig {
         tabSpamIncrement = getInt("settings.disconnect-spam.increment", 5);
         tabSpamLimit = getInt("settings.disconnect-spam.limit", 750);
     }
-    
 }
