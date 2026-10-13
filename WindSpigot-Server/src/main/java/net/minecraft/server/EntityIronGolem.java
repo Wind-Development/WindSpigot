@@ -123,6 +123,7 @@ public class EntityIronGolem extends EntityGolem {
 
 	@Override
 	public boolean r(Entity entity) {
+		this.markAttackCooldown(); // WindSpigot - ActivationRange attackTicks immunity
 		this.c = 10;
 		this.world.broadcastEntityEffect(this, (byte) 4);
 		boolean flag = entity.damageEntity(DamageSource.mobAttack(this), 7 + this.random.nextInt(15));

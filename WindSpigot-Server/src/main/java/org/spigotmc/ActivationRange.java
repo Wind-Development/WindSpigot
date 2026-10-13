@@ -176,8 +176,9 @@ public class ActivationRange {
 		// special cases.
 		if (entity instanceof EntityLiving) {
 			EntityLiving living = (EntityLiving) entity;
-			if ( /* TODO: Missed mapping? living.attackTicks > 0 || */ living.hurtTicks > 0
-					|| living.effects.size() > 0) {
+			// WindSpigot: attackTicks restored on EntityLiving (pre-1.8 AttackTime).
+			// Keep entities active while melee-attack cooldown is counting down.
+			if (living.attackTicks > 0 || living.hurtTicks > 0 || living.effects.size() > 0) {
 				return true;
 			}
 			if (entity instanceof EntityCreature && ((EntityCreature) entity).getGoalTarget() != null) {

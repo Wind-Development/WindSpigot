@@ -241,6 +241,7 @@ public class EntityWolf extends EntityTameableAnimal {
 
 	@Override
 	public boolean r(Entity entity) {
+		this.markAttackCooldown(); // WindSpigot - ActivationRange attackTicks immunity
 		boolean flag = entity.damageEntity(DamageSource.mobAttack(this),
 				((int) this.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).getValue()));
 

@@ -110,6 +110,7 @@ public class EntityOcelot extends EntityTameableAnimal {
 
 	@Override
 	public boolean r(Entity entity) {
+		this.markAttackCooldown(); // WindSpigot - ActivationRange attackTicks immunity
 		return entity.damageEntity(DamageSource.mobAttack(this), 3.0F);
 	}
 

@@ -229,6 +229,7 @@ public class EntityRabbit extends EntityAnimal {
 
 	@Override
 	public boolean r(Entity entity) {
+		this.markAttackCooldown(); // WindSpigot - ActivationRange attackTicks immunity
 		if (this.getRabbitType() == 99) {
 			this.makeSound("mob.attack", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
 			return entity.damageEntity(DamageSource.mobAttack(this), 8.0F);
