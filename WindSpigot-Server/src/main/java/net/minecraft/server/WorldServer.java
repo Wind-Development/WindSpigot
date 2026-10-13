@@ -1129,20 +1129,19 @@ public class WorldServer extends World /*implements IAsyncTaskHandler*/ { // Pan
 	@Override
 	public Explosion createExplosion(Entity entity, double d0, double d1, double d2, float f, boolean flag,
 			boolean flag1) {
-		// CraftBukkit start
-		Explosion explosion = super.createExplosion(entity, d0, d1, d2, f, flag, flag1);
+		// CraftBukkit/WindSpigot: vanilla WorldServer body (a(); a(false); broadcast)
+		// plus Bukkit cancel. EntityExplodeEvent/BlockExplodeEvent run inside
+		// Explosion.a(boolean) and set wasCanceled — skip client packets when cancelled
+		// so clients do not animate undestroyed blocks. a(false) matches vanilla
+		// WorldServer (World.createExplosion uses a(true) for non-server worlds).
+		Explosion explosion = new Explosion(this, entity, d0, d1, d2, f, flag, flag1);
+		explosion.a();
+		explosion.a(false);
 
 		if (explosion.wasCanceled) {
 			return explosion;
 		}
 
-		/*
-		 * Remove Explosion explosion = new Explosion(this, entity, d0, d1, d2, f, flag,
-		 * flag1);
-		 * 
-		 * explosion.a(); explosion.a(false);
-		 */
-		// CraftBukkit end - TODO: Check if explosions are still properly implemented
 		if (!flag1) {
 			explosion.clearBlocks();
 		}
