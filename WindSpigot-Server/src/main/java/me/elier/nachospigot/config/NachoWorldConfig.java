@@ -5,6 +5,8 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.windpvp.windspigot.config.WindSpigotConfig;
+
 public class NachoWorldConfig {
 
 	private final String worldName;
@@ -13,7 +15,14 @@ public class NachoWorldConfig {
 
 	public NachoWorldConfig(String worldName) {
 		this.worldName = worldName;
-		this.config = NachoConfig.config;
+		// Prefer windspigot.yml after migration copied world-settings there
+		if (WindSpigotConfig.config != null && WindSpigotConfig.config.contains("world-settings")) {
+			this.config = WindSpigotConfig.config;
+		} else if (NachoConfig.config != null) {
+			this.config = NachoConfig.config;
+		} else {
+			this.config = new YamlConfiguration();
+		}
 		init();
 	}
 
