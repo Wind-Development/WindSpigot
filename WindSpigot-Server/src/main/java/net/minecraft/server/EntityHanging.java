@@ -10,6 +10,7 @@ import org.bukkit.entity.Painting;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.painting.PaintingBreakEvent;
 // CraftBukkit end
+import com.windpvp.windspigot.entity.HangingBreakCauses;
 
 public abstract class EntityHanging extends Entity {
 
@@ -104,11 +105,9 @@ public abstract class EntityHanging extends Entity {
 			this.c = 0;
 			if (!this.dead && !this.survives()) {
 				// CraftBukkit start - fire break events
-				Material material = this.world.getType(new BlockPosition(this)).getBlock().getMaterial();
 				HangingBreakEvent.RemoveCause cause;
 
-				if (!material.equals(Material.AIR)) {
-					// TODO: This feels insufficient to catch 100% of suffocation cases
+				if (!this.world.getCubes(this, this.getBoundingBox()).isEmpty()) {
 					cause = HangingBreakEvent.RemoveCause.OBSTRUCTION;
 				} else {
 					cause = HangingBreakEvent.RemoveCause.PHYSICS;
