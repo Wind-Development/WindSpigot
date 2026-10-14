@@ -1862,11 +1862,11 @@ public abstract class EntityLiving extends Entity {
 				} // Spigot
 				Entity entity = (Entity) list.get(i);
 
-				// WindSpigot - half-rate non-player living collisions via server tick (not ticksLived)
-				if (!(this instanceof EntityPlayer) && entity instanceof EntityLiving
-						&& (MinecraftServer.currentTick & 1) == 0) {
-					continue;
-				}
+                // CraftBukkit start - Only handle mob (non-player) collisions every other tick
+                if (entity instanceof EntityLiving && !(this instanceof EntityPlayer) && (MinecraftServer.currentTick & 1) == 0) {
+                    continue;
+                }
+                // CraftBukkit end
 
 				entity.numCollisions++; // Spigot
 				numCollisions++; // Spigot
