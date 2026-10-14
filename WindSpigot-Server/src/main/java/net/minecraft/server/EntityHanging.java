@@ -105,11 +105,13 @@ public abstract class EntityHanging extends Entity {
 			this.c = 0;
 			if (!this.dead && !this.survives()) {
 				// CraftBukkit start - fire break events
-				// Obstruction = solid collision geometry in the hanging BB (same criterion as
-				// survives()' first check). Sampling only BlockPosition(this) for non-AIR
-				// misses large paintings and partial overlaps where the origin cell is still air.
-				HangingBreakEvent.RemoveCause cause = HangingBreakCauses
-						.whenUnsurviving(this.isObstructedByBlocks());
+				HangingBreakEvent.RemoveCause cause;
+
+				if (!this.world.getCubes(this, this.getBoundingBox()).isEmpty()) {
+					cause = HangingBreakEvent.RemoveCause.OBSTRUCTION;
+				} else {
+					cause = HangingBreakEvent.RemoveCause.PHYSICS;
+				}
 
 				HangingBreakEvent event = new HangingBreakEvent((Hanging) this.getBukkitEntity(), cause);
 				this.world.getServer().getPluginManager().callEvent(event);
@@ -134,16 +136,8 @@ public abstract class EntityHanging extends Entity {
 
 	}
 
-	/**
-	 * True when solid block collision boxes intersect this hanging entity's bounding box
-	 * (item frame / painting "suffocation" / obstruction by a placed block).
-	 */
-	public boolean isObstructedByBlocks() {
-		return !this.world.getCubes(this, this.getBoundingBox()).isEmpty();
-	}
-
 	public boolean survives() {
-		if (this.isObstructedByBlocks()) {
+		if (!this.world.getCubes(this, this.getBoundingBox()).isEmpty()) {
 			return false;
 		} else {
 			int i = Math.max(1, this.l() / 16);
