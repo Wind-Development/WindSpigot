@@ -124,11 +124,47 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		return (this.player == null) ? null : (CraftPlayer) this.player.getBukkitEntity();
 	}
 
-	private final static HashSet<Integer> invalidItems = new HashSet<Integer>(
-			java.util.Arrays.asList(8, 9, 10, 11, 26, 34, 36, 43, 51, 52, 55, 59, 60, 62, 63, 64, 68, 71, 74, 75, 83,
-					90, 92, 93, 94, 104, 105, 115, 117, 118, 119, 125, 127, 132, 140, 141, 142, 144)); // TODO: Check
-																										// after every
-																										// update.
+	// WindSpigot start - Material-derived creative invalid items
+	private final static HashSet<Integer> invalidItems = buildInvalidItems();
+
+	private static HashSet<Integer> buildInvalidItems() {
+		HashSet<Integer> ids = new HashSet<Integer>();
+		for (org.bukkit.Material material : org.bukkit.Material.values()) {
+			if (!material.isBlock() || material == org.bukkit.Material.AIR) {
+				continue;
+			}
+			org.bukkit.Material itemForm = org.bukkit.Material.getMaterial(material.name() + "_ITEM");
+			if (itemForm != null && itemForm.getId() != material.getId()) {
+				ids.add(Integer.valueOf(material.getId()));
+			}
+		}
+		addInvalidItem(ids, org.bukkit.Material.SIGN_POST, org.bukkit.Material.WALL_SIGN);
+		addInvalidItem(ids, org.bukkit.Material.STANDING_BANNER, org.bukkit.Material.WALL_BANNER);
+		addInvalidItem(ids, org.bukkit.Material.DIODE_BLOCK_OFF, org.bukkit.Material.DIODE_BLOCK_ON);
+		addInvalidItem(ids, org.bukkit.Material.REDSTONE_COMPARATOR_OFF, org.bukkit.Material.REDSTONE_COMPARATOR_ON);
+		addInvalidItem(ids, org.bukkit.Material.REDSTONE_TORCH_OFF);
+		addInvalidItem(ids, org.bukkit.Material.DOUBLE_STEP, org.bukkit.Material.WOOD_DOUBLE_STEP,
+				org.bukkit.Material.DOUBLE_STONE_SLAB2);
+		addInvalidItem(ids, org.bukkit.Material.WATER, org.bukkit.Material.STATIONARY_WATER, org.bukkit.Material.LAVA,
+				org.bukkit.Material.STATIONARY_LAVA, org.bukkit.Material.BED_BLOCK, org.bukkit.Material.PISTON_EXTENSION,
+				org.bukkit.Material.PISTON_MOVING_PIECE, org.bukkit.Material.FIRE, org.bukkit.Material.MOB_SPAWNER,
+				org.bukkit.Material.REDSTONE_WIRE, org.bukkit.Material.CROPS, org.bukkit.Material.SOIL,
+				org.bukkit.Material.BURNING_FURNACE, org.bukkit.Material.WOODEN_DOOR, org.bukkit.Material.IRON_DOOR_BLOCK,
+				org.bukkit.Material.GLOWING_REDSTONE_ORE, org.bukkit.Material.SUGAR_CANE_BLOCK, org.bukkit.Material.PORTAL,
+				org.bukkit.Material.CAKE_BLOCK, org.bukkit.Material.PUMPKIN_STEM, org.bukkit.Material.MELON_STEM,
+				org.bukkit.Material.NETHER_WARTS, org.bukkit.Material.ENDER_PORTAL, org.bukkit.Material.COCOA,
+				org.bukkit.Material.TRIPWIRE, org.bukkit.Material.DAYLIGHT_DETECTOR_INVERTED);
+		return ids;
+	}
+
+	private static void addInvalidItem(HashSet<Integer> ids, org.bukkit.Material... materials) {
+		for (org.bukkit.Material material : materials) {
+			if (material != null) {
+				ids.add(Integer.valueOf(material.getId()));
+			}
+		}
+	}
+	// WindSpigot end
 	// CraftBukkit end
 
 	@Override
