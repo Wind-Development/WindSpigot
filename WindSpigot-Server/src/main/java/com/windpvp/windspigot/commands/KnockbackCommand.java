@@ -367,7 +367,7 @@ public class KnockbackCommand extends Command {
 					}
 					double value = Double.parseDouble(args[3]);
 					profile.setWTapExtraHorizontal(value);
-				
+					profile.save();
 					knockbackCommandView(player, profile);
 					player.sendMessage("§aValue edited and saved.");
 					break;
@@ -379,7 +379,7 @@ public class KnockbackCommand extends Command {
 					}
 					double value = Double.parseDouble(args[3]);
 					profile.setWTapExtraVertical(value);
-					
+					profile.save();
 					knockbackCommandView(player, profile);
 					player.sendMessage("§aValue edited and saved.");
 					break;
@@ -391,7 +391,7 @@ public class KnockbackCommand extends Command {
 					}
 					double value = Double.parseDouble(args[3]);
 					profile.setAddHorizontal(value);
-					
+					profile.save();
 					knockbackCommandView(player, profile);
 					player.sendMessage("§aValue edited and saved.");
 					break;
@@ -403,7 +403,7 @@ public class KnockbackCommand extends Command {
 					}
 					double value = Double.parseDouble(args[3]);
 					profile.setAddVertical(value);
-					
+					profile.save();
 					knockbackCommandView(player, profile);
 					player.sendMessage("§aValue edited and saved.");
 					break;
