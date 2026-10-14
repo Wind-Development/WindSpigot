@@ -176,8 +176,8 @@ public class ActivationRange {
 		// special cases.
 		if (entity instanceof EntityLiving) {
 			EntityLiving living = (EntityLiving) entity;
-			if ( /* TODO: Missed mapping? living.attackTicks > 0 || */ living.hurtTicks > 0
-					|| living.effects.size() > 0) {
+            if (living.attackTicks > 0 || living.hurtTicks > 0
+					|| !living.effects.isEmpty()) {
 				return true;
 			}
 			if (entity instanceof EntityCreature && ((EntityCreature) entity).getGoalTarget() != null) {
