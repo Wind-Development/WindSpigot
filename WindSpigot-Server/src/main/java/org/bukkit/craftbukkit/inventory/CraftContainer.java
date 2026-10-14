@@ -97,7 +97,6 @@ public class CraftContainer extends Container {
 		switch (type) {
 		case CREATIVE:
 		case CRAFTING:
-			// Player crafting / creative UIs are client-owned; mirror CraftHumanEntity.openInventory.
 			throw new IllegalArgumentException("Can't open a " + type + " inventory!");
 		case WORKBENCH:
 			return "minecraft:crafting_table";
@@ -124,7 +123,6 @@ public class CraftContainer extends Container {
 		switch (cachedType) {
 		case CREATIVE:
 		case CRAFTING:
-			// Silent no-op / workbench fall-through hid programming errors and slot desync.
 			throw new IllegalArgumentException("Can't open a " + cachedType + " inventory!");
 		case PLAYER:
 		case CHEST:
