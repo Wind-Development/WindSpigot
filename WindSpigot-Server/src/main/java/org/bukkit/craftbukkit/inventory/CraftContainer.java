@@ -95,6 +95,9 @@ public class CraftContainer extends Container {
 
 	public static String getNotchInventoryType(InventoryType type) {
 		switch (type) {
+		case CREATIVE:
+		case CRAFTING:
+			throw new IllegalArgumentException("Can't open a " + type + " inventory!");
 		case WORKBENCH:
 			return "minecraft:crafting_table";
 		case FURNACE:
@@ -119,7 +122,8 @@ public class CraftContainer extends Container {
 	private void setupSlots(IInventory top, IInventory bottom) {
 		switch (cachedType) {
 		case CREATIVE:
-			break; // TODO: This should be an error?
+		case CRAFTING:
+			throw new IllegalArgumentException("Can't open a " + cachedType + " inventory!");
 		case PLAYER:
 		case CHEST:
 			setupChest(top, bottom);
@@ -130,7 +134,6 @@ public class CraftContainer extends Container {
 		case FURNACE:
 			setupFurnace(top, bottom);
 			break;
-		case CRAFTING: // TODO: This should be an error?
 		case WORKBENCH:
 			setupWorkbench(top, bottom);
 			break;
