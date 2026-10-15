@@ -53,8 +53,11 @@ public class FastNetworkManager {
 		ArrayList<Packet<?>> writing = new ArrayList<>();
 		Packet<?> packet;
 		for (int i = 0; i < queues.length; i++) {
+			// The tracker threads have already finished (the world ticker waits on the
+			// latch before flushing), so no one is adding to these queues right now.
+			// Drain them in place instead of allocating a fresh queue per flush, which
+			// avoided a lot of per-player, per-tick garbage.
 			Queue<Packet<?>> current = queues[i];
-			queues[i] = Queues.newConcurrentLinkedQueue();
 			while ((packet = current.poll()) != null) {
 				writing.add(packet);
 			}
