@@ -1,6 +1,8 @@
 package org.bukkit.craftbukkit.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -9,21 +11,63 @@ import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import com.google.common.collect.ImmutableList;
 
 import net.minecraft.server.EntityPotion;
+import net.minecraft.server.MobEffect;
+import net.minecraft.server.NBTTagCompound;
+import net.minecraft.server.NBTTagList;
+import net.minecraft.server.PotionBrewer;
 
 public class CraftThrownPotion extends CraftProjectile implements ThrownPotion {
 	public CraftThrownPotion(CraftServer server, EntityPotion entity) {
 		super(server, entity);
 	}
 
-	// TODO: This one does not handle custom NBT potion effects does it?
-	// In that case this method could be said to be misleading or incorrect
 	@Override
 	public Collection<PotionEffect> getEffects() {
-		return Potion.getBrewer().getEffectsFromDamage(getHandle().getPotionValue());
+		// Ensure the item stack exists (same side-effect as getItem()).
+		getHandle().getPotionValue();
+		// WindSpigot - include CustomPotionEffects (matches ItemPotion.h / EntityPotion splash)
+		net.minecraft.server.ItemStack item = getHandle().item;
+		if (item == null) {
+			return ImmutableList.of();
+		}
+		NBTTagCompound tag = item.hasTag() ? item.getTag() : null;
+		List<MobEffect> list;
+		if (tag != null && tag.hasKeyOfType("CustomPotionEffects", 9)) {
+			list = new ArrayList<MobEffect>();
+			NBTTagList nbtList = tag.getList("CustomPotionEffects", 10);
+			for (int i = 0; i < nbtList.size(); i++) {
+				MobEffect effect = MobEffect.b(nbtList.get(i));
+				if (effect != null) {
+					list.add(effect);
+				}
+			}
+		} else {
+			@SuppressWarnings("unchecked")
+			List<MobEffect> fromDamage = PotionBrewer.getEffects(item.getData(), false);
+			list = fromDamage;
+		}
+		if (list == null || list.isEmpty()) {
+			return ImmutableList.of();
+		}
+		ImmutableList.Builder<PotionEffect> builder = ImmutableList.builder();
+		for (MobEffect effect : list) {
+			if (effect == null) {
+				continue;
+			}
+			PotionEffectType type = PotionEffectType.getById(effect.getEffectId());
+			if (type == null) {
+				continue;
+			}
+			builder.add(new PotionEffect(type, effect.getDuration(), effect.getAmplifier(), effect.isAmbient(),
+					effect.isShowParticles()));
+		}
+		return builder.build();
 	}
 
 	@Override
