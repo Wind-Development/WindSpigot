@@ -10,7 +10,6 @@ import org.bukkit.entity.Painting;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.painting.PaintingBreakEvent;
 // CraftBukkit end
-import com.windpvp.windspigot.entity.HangingBreakCauses;
 
 public abstract class EntityHanging extends Entity {
 
