@@ -21,6 +21,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Painting;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.event.entity.EntityCombustByEntityEvent;
+import org.bukkit.event.entity.EntityCombustByBlockEvent;
 import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
@@ -106,6 +107,8 @@ public abstract class Entity implements ICommandListener {
 	public int noDamageTicks;
 	protected boolean justCreated;
 	protected boolean fireProof;
+	/** Last lava block intersecting the in-lava AABB (Paper-style; for Bukkit events). */
+	public BlockPosition lastLavaContact;
 	protected DataWatcher datawatcher;
 	private double ar;
 	private double as;
@@ -427,30 +430,22 @@ public abstract class Entity implements ICommandListener {
 		if (!this.fireProof) {
 			this.damageEntity(DamageSource.LAVA, 4.0F);
 
-			// CraftBukkit start - Fallen in lava TODO: this event spams!
-			if (this instanceof EntityLiving) {
-				if (fireTicks <= 0) {
-					// not on fire yet
-					// TODO: shouldn't be sending null for the block
-					org.bukkit.block.Block damager = null; // ((WorldServer) this.l).getWorld().getBlockAt(i, j, k);
-					org.bukkit.entity.Entity damagee = this.getBukkitEntity();
-					EntityCombustEvent combustEvent = new org.bukkit.event.entity.EntityCombustByBlockEvent(damager,
-							damagee, 15);
-					this.world.getServer().getPluginManager().callEvent(combustEvent);
-
-					if (!combustEvent.isCancelled()) {
-						this.setOnFire(combustEvent.getDuration());
-					}
-				} else {
-					// This will be called every single tick the entity is in lava, so don't throw
-					// an event
-					this.setOnFire(15);
+			// CraftBukkit / WindSpigot - lava combust once for living; pass real combuster block
+			if (this instanceof EntityLiving && this.fireTicks <= 0) {
+				org.bukkit.block.Block damager = null;
+				if (this.lastLavaContact != null) {
+					damager = this.world.getWorld().getBlockAt(this.lastLavaContact.getX(), this.lastLavaContact.getY(),
+							this.lastLavaContact.getZ());
 				}
-				return;
+				EntityCombustEvent combustEvent = new EntityCombustByBlockEvent(damager, this.getBukkitEntity(), 15);
+				this.world.getServer().getPluginManager().callEvent(combustEvent);
+				if (!combustEvent.isCancelled()) {
+					this.setOnFire(combustEvent.getDuration());
+				}
+			} else {
+				this.setOnFire(15);
 			}
-			// CraftBukkit end - we also don't throw an event unless the object in lava is
-			// living, to save on some event calls
-			this.setOnFire(15);
+			// CraftBukkit end
 		}
 	}
 
@@ -1146,9 +1141,36 @@ public abstract class Entity implements ICommandListener {
 	}
 
 	public boolean ab() {
-		return this.world.a(
-				this.getBoundingBox().grow(-0.10000000149011612D, -0.4000000059604645D, -0.10000000149011612D),
-				Material.LAVA);
+		this.lastLavaContact = this.findLavaContact();
+		return this.lastLavaContact != null;
+	}
+
+	/**
+	 * First lava block in the same AABB used by {@link #ab()}, or {@code null}.
+	 * Mirrors {@link World#a(AxisAlignedBB, Material)} but keeps the contact position
+	 * for {@link org.bukkit.event.entity.EntityCombustByBlockEvent}.
+	 */
+	private BlockPosition findLavaContact() {
+		AxisAlignedBB box = this.getBoundingBox().grow(-0.10000000149011612D, -0.4000000059604645D,
+				-0.10000000149011612D);
+		int minX = MathHelper.floor(box.a);
+		int maxX = MathHelper.floor(box.d + 1.0D);
+		int minY = MathHelper.floor(box.b);
+		int maxY = MathHelper.floor(box.e + 1.0D);
+		int minZ = MathHelper.floor(box.c);
+		int maxZ = MathHelper.floor(box.f + 1.0D);
+		BlockPosition.MutableBlockPosition cursor = new BlockPosition.MutableBlockPosition();
+
+		for (int x = minX; x < maxX; ++x) {
+			for (int y = minY; y < maxY; ++y) {
+				for (int z = minZ; z < maxZ; ++z) {
+					if (this.world.getType(cursor.c(x, y, z)).getBlock().getMaterial() == Material.LAVA) {
+						return new BlockPosition(x, y, z);
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	public void a(float f, float f1, float f2) {
