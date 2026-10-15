@@ -106,7 +106,7 @@ public abstract class EntityHanging extends Entity {
 				// CraftBukkit start - fire break events
 				HangingBreakEvent.RemoveCause cause;
 
-				if (!this.world.getCubes(this, this.getBoundingBox()).isEmpty()) {
+				if (!this.world.getCubes(this, this.getBoundingBox()).isEmpty()) { // WindSpigot - switch to getCubes check
 					cause = HangingBreakEvent.RemoveCause.OBSTRUCTION;
 				} else {
 					cause = HangingBreakEvent.RemoveCause.PHYSICS;
