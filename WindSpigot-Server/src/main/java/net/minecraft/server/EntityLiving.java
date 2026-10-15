@@ -1862,12 +1862,11 @@ public abstract class EntityLiving extends Entity {
 				} // Spigot
 				Entity entity = (Entity) list.get(i);
 
-				// TODO better check now?
-				// CraftBukkit start - Only handle mob (non-player) collisions every other tick
-				if (entity instanceof EntityLiving && !(this instanceof EntityPlayer) && this.ticksLived % 2 == 0) {
-					continue;
-				}
-				// CraftBukkit end
+                // CraftBukkit start - Only handle mob (non-player) collisions every other tick
+                if (entity instanceof EntityLiving && !(this instanceof EntityPlayer) && (MinecraftServer.currentTick & 1) == 0) {
+                    continue;
+                }
+                // CraftBukkit end
 
 				entity.numCollisions++; // Spigot
 				numCollisions++; // Spigot
