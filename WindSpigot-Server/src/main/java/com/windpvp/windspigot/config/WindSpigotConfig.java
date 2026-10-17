@@ -21,6 +21,8 @@ import com.google.common.collect.Lists;
 import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.async.pathsearch.AsyncNavigation;
 
+import me.elier.nachospigot.config.NachoConfig;
+
 @SuppressWarnings("unused")
 public class WindSpigotConfig {
 
@@ -49,21 +51,26 @@ public class WindSpigotConfig {
 		}
 		config.options().copyDefaults(true);
 
-		int configVersion = 29; // Update this every new configuration update
+		int configVersion = 30; // Update this every new configuration update
 
 		version = getInt("config-version", configVersion);
 		set("config-version", configVersion);
 		c.setHeader(HEADER);
 		readConfig(WindSpigotConfig.class, null);
 
-		// Move nacho config options to our config
-		/*if (!NachoConfig.hasMigrated) {
-			// TODO: finish config migration/loading
-			//NachoConfig.moveToWindSpigotConfig(NachoConfig.class, WindSpigotConfig.class);
-			LOGGER.info("Successfully loaded nacho.yml into memory!");
-			LOGGER.warn("Loading of nacho.yml will be removed in the future, so transfer the config options into windspigot.yml, then delete nacho.yml");
-			makeReadable();
-		}*/
+		// One-shot migration from nacho.yml → windspigot.yml (fields + YAML persistence)
+		boolean alreadyMigrated = config.getBoolean(NachoConfigMigration.MIGRATED_FLAG_PATH, false);
+		if (!NachoConfig.hasMigrated && !alreadyMigrated) {
+			NachoConfig.moveToWindSpigotConfig(NachoConfig.class, WindSpigotConfig.class);
+			LOGGER.info("nacho.yml settings were copied into windspigot.yml (including world-settings).");
+			LOGGER.info("You can delete nacho.yml after confirming windspigot.yml looks correct.");
+		} else if (!NachoConfig.hasMigrated && alreadyMigrated) {
+			// Keep Wind values; do not re-overwrite after operators edit windspigot.yml
+			NachoConfig.hasMigrated = true;
+		} else if (!alreadyMigrated) {
+			// Fresh install / no nacho.yml — mark so future nacho.yml drops do not surprise-overwrite
+			set(NachoConfigMigration.MIGRATED_FLAG_PATH, true);
+		}
 
 		try {
 			config.save(CONFIG_FILE);
@@ -158,6 +165,7 @@ public class WindSpigotConfig {
 		c.addComment("settings.spawners.max-nearby-entities", "Maximum number of nearby entities to avoid new spawns (Any value lower than 1 will disable this check)");
 		c.addComment("settings.spawners.required-player-range", "Area in which the player is required to spawn entities");
 		c.addComment("settings.fishing-rod-multiplier", "The speed multiplier of fishing rod projectiles.");
+		c.addComment("settings.migrated-from-nacho", "Internal flag set after nacho.yml options were copied into this file. Do not remove unless you intend to re-run migration.");
 		
 		// NachoSpigot stuff
 		c.addComment("settings.save-empty-scoreboard-teams", "Toggles whether or not the server should save empty scoreboard teams");
