@@ -41,9 +41,17 @@ public class FastNetworkManager {
 	}
 
 	public void queuePacket(Packet<?> packet, int trackerThread) {
-		if (packet != null) {
-			queues[trackerThread].add(packet);
+		if (packet == null) return;
+		// trackerThread normally comes from the entity tracker and is in
+		// [0, trackingThreads). Guard the index anyway: the queue array is sized once
+		// when the connection is created, so a mismatch (e.g. trackingThreads changed,
+		// or an unexpected caller) must not crash the netty/tracker thread with an
+		// ArrayIndexOutOfBoundsException. Fall back to a direct lazy write instead.
+		if (trackerThread < 0 || trackerThread >= queues.length) {
+			writePacketLazily(packet);
+			return;
 		}
+		queues[trackerThread].add(packet);
 	}
 
 	public void flushQueuedPackets() {
