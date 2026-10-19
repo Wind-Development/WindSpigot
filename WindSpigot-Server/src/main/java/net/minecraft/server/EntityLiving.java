@@ -44,6 +44,7 @@ public abstract class EntityLiving extends Entity {
 	public int av;
 	public float aw;
 	public int deathTicks;
+	public int attackTicks; // WindSpigot - restore attackTicks
 	public float ay;
 	public float az;
 	public float aA;
@@ -259,6 +260,12 @@ public abstract class EntityLiving extends Entity {
 		}
 
 		this.aE = this.aF;
+		// WindSpigot start
+		if (attackTicks > 0) {
+			--attackTicks;
+		}
+		// WindSpigot end
+
 		if (this.hurtTicks > 0) {
 			--this.hurtTicks;
 		}
@@ -412,6 +419,7 @@ public abstract class EntityLiving extends Entity {
 		nbttagcompound.setShort("HurtTime", (short) this.hurtTicks);
 		nbttagcompound.setInt("HurtByTimestamp", this.hurtTimestamp);
 		nbttagcompound.setShort("DeathTime", (short) this.deathTicks);
+		nbttagcompound.setShort("AttackTime", (short) attackTicks); // WindSpigot
 		nbttagcompound.setFloat("AbsorptionAmount", this.getAbsorptionHearts());
 		ItemStack[] aitemstack = this.getEquipment();
 		int i = aitemstack.length;
@@ -499,6 +507,7 @@ public abstract class EntityLiving extends Entity {
 
 		this.hurtTicks = nbttagcompound.getShort("HurtTime");
 		this.deathTicks = nbttagcompound.getShort("DeathTime");
+		attackTicks = nbttagcompound.getShort("AttackTime"); // WindSpigot
 		this.hurtTimestamp = nbttagcompound.getInt("HurtByTimestamp");
 	}
 
@@ -1608,6 +1617,7 @@ public abstract class EntityLiving extends Entity {
 	}
 
 	public boolean r(Entity entity) {
+		attackTicks = 20; // WindSpigot
 		this.p(entity);
 		return false;
 	}

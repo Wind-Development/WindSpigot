@@ -40,6 +40,7 @@ See the patches list below.
 [WindSpigot-0015] Configurable explosion animations and sound
 [WindSpigot-0016] Configurable weather changes
 [WindSpigot-0017] Configurable fishing rod speed multiplier
+[WindSpigot-0018] Restore attackTicks
 
 [PandaSpigot-0115] Break up and make tab spam limits configurable
 [PandaSpigot-0105] Fix SPIGOT-2622: Only one player receiving the server shutdown message
