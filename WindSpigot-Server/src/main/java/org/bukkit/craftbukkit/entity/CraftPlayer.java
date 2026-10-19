@@ -15,7 +15,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Achievement;
 import org.bukkit.BanList;
@@ -70,6 +69,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.mojang.authlib.GameProfile;
 import com.windpvp.windspigot.cache.Constants;
+import com.windpvp.windspigot.chunk.Packet51Cuboid;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 
 import io.netty.buffer.Unpooled;
@@ -78,7 +78,9 @@ import net.minecraft.server.AttributeInstance;
 import net.minecraft.server.AttributeMapServer;
 import net.minecraft.server.AttributeModifiable;
 import net.minecraft.server.AttributeRanged;
+import net.minecraft.server.Block;
 import net.minecraft.server.BlockPosition;
+import net.minecraft.server.Blocks;
 import net.minecraft.server.ChatComponentText;
 import net.minecraft.server.Container;
 import net.minecraft.server.Entity;
@@ -555,26 +557,29 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
 			return false;
 		}
 
-		/*
-		 * int x = loc.getBlockX(); int y = loc.getBlockY(); int z = loc.getBlockZ();
-		 * 
-		 * int cx = x >> 4; int cz = z >> 4;
-		 * 
-		 * if (sx <= 0 || sy <= 0 || sz <= 0) { return false; }
-		 * 
-		 * if ((x + sx - 1) >> 4 != cx || (z + sz - 1) >> 4 != cz || y < 0 || y + sy >
-		 * 128) { return false; }
-		 * 
-		 * if (data.length != (sx * sy * sz * 5) / 2) { return false; }
-		 * 
-		 * Packet51MapChunk packet = new Packet51MapChunk(x, y, z, sx, sy, sz, data);
-		 * 
-		 * getHandle().playerConnection.sendPacket(packet);
-		 * 
-		 * return true;
-		 */
+		// Packet51 cuboid Map Chunk was removed after early CraftBukkit; Paper later
+		// deleted this API entirely. For 1.8, translate the documented Packet51
+		// payload into per-block PacketPlayOutBlockChange (same client effect as
+		// sendBlockChange, for a cuboid within one chunk).
+		int x = loc.getBlockX();
+		int y = loc.getBlockY();
+		int z = loc.getBlockZ();
+		if (!Packet51Cuboid.isValid(x, y, z, sx, sy, sz, data)) {
+			return false;
+		}
 
-		throw new NotImplementedException("Chunk changes do not yet work"); // TODO: Chunk changes.
+		WorldServer world = ((CraftWorld) loc.getWorld()).getHandle();
+		PlayerConnection connection = getHandle().playerConnection;
+		Packet51Cuboid.forEachBlock(x, y, z, sx, sy, sz, data, (bx, by, bz, blockId, meta) -> {
+			PacketPlayOutBlockChange packet = new PacketPlayOutBlockChange(world, new BlockPosition(bx, by, bz));
+			Block nmsBlock = Block.getById(blockId);
+			if (nmsBlock == null) {
+				nmsBlock = Blocks.AIR;
+			}
+			packet.block = nmsBlock.fromLegacyData(meta);
+			connection.sendPacket(packet);
+		});
+		return true;
 	}
 
 	@Override
