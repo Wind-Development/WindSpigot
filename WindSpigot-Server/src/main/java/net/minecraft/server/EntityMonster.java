@@ -70,6 +70,7 @@ public abstract class EntityMonster extends EntityCreature implements IMonster {
 
 	@Override
 	public boolean r(Entity entity) {
+		attackTicks = 20; // WindSpigot
 		float f = (float) this.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).getValue();
 		int i = 0;
 

@@ -104,11 +104,9 @@ public abstract class EntityHanging extends Entity {
 			this.c = 0;
 			if (!this.dead && !this.survives()) {
 				// CraftBukkit start - fire break events
-				Material material = this.world.getType(new BlockPosition(this)).getBlock().getMaterial();
 				HangingBreakEvent.RemoveCause cause;
 
-				if (!material.equals(Material.AIR)) {
-					// TODO: This feels insufficient to catch 100% of suffocation cases
+				if (!this.world.getCubes(this, this.getBoundingBox()).isEmpty()) { // WindSpigot - switch to getCubes check
 					cause = HangingBreakEvent.RemoveCause.OBSTRUCTION;
 				} else {
 					cause = HangingBreakEvent.RemoveCause.PHYSICS;
