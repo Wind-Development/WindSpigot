@@ -212,6 +212,7 @@ See the patches list below.
 [MineTick-0017] Fix Insane Nether Portal Lag
 
 [Migot-0009] Prevent Creature Spawning in Unloaded Chunks
+[Migot-0036] Check for lava only once per tick
 
 [Sugarcane-0022] Add YAML comments
 
