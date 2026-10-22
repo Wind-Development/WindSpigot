@@ -49,64 +49,28 @@ public class KnockbackConfig {
 			final KnockbackProfile vanillaProfile = new CraftKnockbackProfile("vanilla");
 			vanillaProfile.save(true);
 		}
-		
-		if (!keys.contains("windpvp")) {
-			// WIP custom profile
-			final KnockbackProfile windpvpProfile = new CraftKnockbackProfile("windpvp");
-			
-			windpvpProfile.setHorizontal(0.35);
-			windpvpProfile.setRodHorizontal(0.425);
-			windpvpProfile.setArrowHorizontal(0.425);
-			windpvpProfile.setPearlHorizontal(0.35);
-			windpvpProfile.setSnowballHorizontal(0.425);
-			windpvpProfile.setEggHorizontal(0.425);
-			windpvpProfile.setExtraHorizontal(0.425);
-			windpvpProfile.setWTapExtraHorizontal(0.425);
 
-			windpvpProfile.setVertical(0.35);
-			windpvpProfile.setRodVertical(0.425);
-			windpvpProfile.setArrowVertical(0.425);
-			windpvpProfile.setPearlVertical(0.35);
-			windpvpProfile.setSnowballVertical(0.425);
-			windpvpProfile.setEggVertical(0.425);
-			windpvpProfile.setExtraVertical(0.085);
-			windpvpProfile.setWTapExtraVertical(0.085);
-			
+		// Finished WindSpigot PvP preset (was marked WIP). Seeds only when absent.
+		if (!keys.contains("windpvp")) {
+			final KnockbackProfile windpvpProfile = new CraftKnockbackProfile("windpvp");
+			KnockbackPresets.applyWindpvp(windpvpProfile);
 			windpvpProfile.save(true);
 		}
-		
+
 		if (!keys.contains("hypixel")) {
 			// Values taken from here: https://www.spigotmc.org/resources/legacykb-disable-netherite-knockback-resistance.86080/
-			
+
 			final KnockbackProfile hypixelProfile = new CraftKnockbackProfile("hypixel");
-			
+
 			hypixelProfile.setVertical(0.36);
 			hypixelProfile.setVerticalMax(0.43075);
-			
+
 			hypixelProfile.save(true);
 		}
-		
+
 		if (!keys.contains("kohi")) {
-			final KnockbackProfile defaultProfile = new CraftKnockbackProfile("kohi"); 
-
-			defaultProfile.setHorizontal(0.35);
-			defaultProfile.setRodHorizontal(0.35);
-			defaultProfile.setArrowHorizontal(0.35);
-			defaultProfile.setPearlHorizontal(0.35);
-			defaultProfile.setSnowballHorizontal(0.35);
-			defaultProfile.setEggHorizontal(0.35);
-			defaultProfile.setExtraHorizontal(0.425);
-			defaultProfile.setWTapExtraHorizontal(0.425);
-
-			defaultProfile.setVertical(0.35);
-			defaultProfile.setRodVertical(0.35);
-			defaultProfile.setArrowVertical(0.35);
-			defaultProfile.setPearlVertical(0.35);
-			defaultProfile.setSnowballVertical(0.35);
-			defaultProfile.setEggVertical(0.35);
-			defaultProfile.setExtraVertical(0.085);
-			defaultProfile.setWTapExtraVertical(0.085);
-
+			final KnockbackProfile defaultProfile = new CraftKnockbackProfile("kohi");
+			KnockbackPresets.applyKohi(defaultProfile);
 			defaultProfile.save(true);
 		}
 		
@@ -160,9 +124,22 @@ public class KnockbackConfig {
 
 	public static KnockbackProfile getCurrentKb() {
 		if (currentKb == null) {
-			setCurrentKb(getKbProfileByName("vanilla"));
+			// Match init() fallback (kohi), not vanilla — avoids a silent profile switch.
+			KnockbackProfile fallback = getKbProfileByName("kohi");
+			if (fallback == null) {
+				fallback = getKbProfileByName("vanilla");
+			}
+			setCurrentKb(fallback);
 		}
 		return currentKb;
+	}
+
+	/** Clears static state between unit tests. Not for production use. */
+	static void clearForTest() {
+		kbProfiles = new HashSet<>();
+		currentKb = null;
+		config = null;
+		CONFIG_FILE = null;
 	}
 
 	public static void setCurrentKb(KnockbackProfile kb) {
