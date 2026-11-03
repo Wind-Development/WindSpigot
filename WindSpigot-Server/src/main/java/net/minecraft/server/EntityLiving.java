@@ -1195,7 +1195,7 @@ public abstract class EntityLiving extends Entity {
 					if (human) {
 						if (!damagesource.ignoresArmor() && ((EntityHuman) EntityLiving.this).isBlocking()
 								&& f > 0.0F) {
-							return -(f - ((1.0F + f) * 0.5F));
+							return -(f - ((1.0F + f) * world.paperSpigotConfig.playerBlockingDamageMultiplier)); // PaperSpigot - Configurable damage multiplier for blocking
 						}
 					}
 					return -0.0;
