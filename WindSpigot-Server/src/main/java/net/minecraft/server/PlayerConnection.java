@@ -53,6 +53,7 @@ import com.google.common.primitives.Floats;
 import com.windpvp.windspigot.WindSpigot;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 import com.windpvp.windspigot.events.PlayerIllegalBehaviourEvent;
+import com.windpvp.windspigot.security.BookNbtValidator;
 
 import co.aikar.timings.SpigotTimings; // Spigot
 import io.netty.buffer.Unpooled;
@@ -2434,7 +2435,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					} else {
 						throw new IOException("Packet influx");
 					}
-					// TODO Check NBT data here
+					// WindSpigot - Validate book NBT (size/depth/types/keys) before handling
+					BookNbtValidator.validateBookPayload(packetplayincustompayload.b(),
+							"MC|BSign".equals(channelName));
 				}
 			} catch (Throwable ex) {
 				this.isExploiter = true;
@@ -2448,6 +2451,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					disconnect("Book edited too quickly!");
 					return;
 				}
+				this.lastBookTick = MinecraftServer.currentTick; // WindSpigot - book edit cooldown
 
 				serializer = new PacketDataSerializer(Unpooled.wrappedBuffer(packetplayincustompayload.b()));
 
@@ -2457,7 +2461,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 						return;
 					}
 
-					if (!ItemBookAndQuill.b(itemstack.getTag())) {
+					if (!ItemBookAndQuill.b(itemstack.getTag()) || !BookNbtValidator.isValidBookItem(itemstack, false)) {
 						throw new IOException("Invalid book tag!");
 					}
 
@@ -2485,6 +2489,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					disconnect("Book edited too quickly!");
 					return;
 				}
+				this.lastBookTick = MinecraftServer.currentTick; // WindSpigot - book sign cooldown
 				serializer = new PacketDataSerializer(Unpooled.wrappedBuffer(packetplayincustompayload.b()));
 
 				try {
@@ -2493,7 +2498,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 						return;
 					}
 
-					if (!ItemWrittenBook.b(itemstack.getTag())) {
+					if (!ItemWrittenBook.b(itemstack.getTag()) || !BookNbtValidator.isValidBookItem(itemstack, true)) {
 						throw new IOException("Invalid book tag!");
 					}
 
