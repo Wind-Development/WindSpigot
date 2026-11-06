@@ -229,6 +229,7 @@ See the patches list below.
 [FalchusSpigot-????] Improve NetworkManager
 [FalchusSpigot-????] Add FastNetworkManager
 [FalchusSpigot-????] Async knockback
+[FalchusSpigot-????] Fix getOfflinePlayer
 
 [DashSpigot-0033] Fix SPIGOT-1746: Tile entities may not always tick
 [DashSpigot-0011] Fix MC-94186: Dragon egg falling in lazy chunks
