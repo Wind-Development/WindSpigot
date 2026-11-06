@@ -31,11 +31,24 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 				InetSocketAddress var5 = (InetSocketAddress) var1.channel().remoteAddress();
 				MinecraftServer var6 = this.b.d();
 				int var7 = var3.readableBytes();
+				com.destroystokyo.paper.event.server.PaperServerListPingEvent event; // PandaSpigot - Backport PaperServerListPingEvent
 				String var8;
 				switch (var7) {
 				case 0:
 					a.debug("Ping: (<1.3.x) from {}:{}", new Object[] { var5.getAddress(), var5.getPort() });
-					var8 = String.format("%s§%d§%d", var6.getMotd(), var6.I(), var6.J());
+					// PandaSpigot start - Backport PaperServerListPingEvent
+					event = com.destroystokyo.paper.network.PaperLegacyStatusClient.processRequest(var6, var5, 39,
+							null);
+
+					if (event == null) {
+						var1.close();
+						break;
+					}
+
+					var8 = String.format("%s§%d§%d",
+							com.destroystokyo.paper.network.PaperLegacyStatusClient.getUnformattedMotd(event),
+							event.getNumPlayers(), event.getMaxPlayers());
+					// PandaSpigot end
 					this.a(var1, this.a(var8));
 					break;
 				case 1:
@@ -44,8 +57,20 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 					}
 
 					a.debug("Ping: (1.4-1.5.x) from {}:{}", new Object[] { var5.getAddress(), var5.getPort() });
-					var8 = String.format("§1\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", 127, var6.getVersion(),
-							var6.getMotd(), var6.I(), var6.J());
+					// PandaSpigot start - Backport PaperServerListPingEvent
+					event = com.destroystokyo.paper.network.PaperLegacyStatusClient.processRequest(var6, var5, 61,
+							null);
+
+					if (event == null) {
+						var1.close();
+						break;
+					}
+
+					var8 = String.format("§1\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", event.getProtocolVersion(),
+							event.getVersion(),
+							com.destroystokyo.paper.network.PaperLegacyStatusClient.getMotd(event),
+							event.getNumPlayers(), event.getMaxPlayers());
+					// PandaSpigot end
 					this.a(var1, this.a(var8));
 					break;
 				default:
@@ -54,17 +79,37 @@ public class LegacyPingHandler extends ChannelInboundHandlerAdapter {
 					var23 &= "MC|PingHost"
 							.equals(new String(var3.readBytes(var3.readShort() * 2).array(), Charsets.UTF_16BE));
 					int var9 = var3.readUnsignedShort();
-					var23 &= var3.readUnsignedByte() >= 73;
-					var23 &= 3 + var3.readBytes(var3.readShort() * 2).array().length + 4 == var9;
-					var23 &= var3.readInt() <= 65535;
+					// PandaSpigot start - Backport PaperServerListPingEvent
+					int protocolVersion = var3.readUnsignedByte();
+					byte[] host = var3.readBytes(var3.readShort() * 2).array();
+					int port = var3.readInt();
+
+					var23 &= protocolVersion >= 73;
+					var23 &= 3 + host.length + 4 == var9;
+					var23 &= port <= 65535;
+					// PandaSpigot end
 					var23 &= var3.readableBytes() == 0;
 					if (!var23) {
 						return;
 					}
 
 					a.debug("Ping: (1.6) from {}:{}", new Object[] { var5.getAddress(), var5.getPort() });
-					String var10 = String.format("§1\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d", 127, var6.getVersion(),
-							var6.getMotd(), var6.I(), var6.J());
+					// PandaSpigot start - Backport PaperServerListPingEvent
+					InetSocketAddress virtualHost = com.destroystokyo.paper.network.PaperNetworkClient
+							.prepareVirtualHost(new String(host, Charsets.UTF_16BE), port);
+					event = com.destroystokyo.paper.network.PaperLegacyStatusClient.processRequest(var6,
+							(InetSocketAddress) var1.channel().remoteAddress(), protocolVersion, virtualHost);
+
+					if (event == null) {
+						var1.close();
+						return;
+					}
+
+					String var10 = String.format("§1\u0000%d\u0000%s\u0000%s\u0000%d\u0000%d",
+							event.getProtocolVersion(), event.getVersion(),
+							com.destroystokyo.paper.network.PaperLegacyStatusClient.getMotd(event),
+							event.getNumPlayers(), event.getMaxPlayers());
+					// PandaSpigot end
 					ByteBuf var11 = this.a(var10);
 
 					try {
