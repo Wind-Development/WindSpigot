@@ -47,7 +47,7 @@ public class BlockStationary extends BlockFluids {
 						if (block.material == Material.AIR) {
 							if (this.f(world, blockposition1)) {
 								// CraftBukkit start - Prevent lava putting something on fire
-								if (world.getType(blockposition1) != Blocks.FIRE) {
+								if (world.getType(blockposition1).getBlock() != Blocks.FIRE) {
 									if (CraftEventFactory.callBlockIgniteEvent(world, blockposition1.getX(),
 											blockposition1.getY(), blockposition1.getZ(), blockposition.getX(),
 											blockposition.getY(), blockposition.getZ()).isCancelled()) {
@@ -69,7 +69,7 @@ public class BlockStationary extends BlockFluids {
 						if (world.isEmpty(blockposition2.up()) && this.m(world, blockposition2)) {
 							// CraftBukkit start - Prevent lava putting something on fire
 							BlockPosition up = blockposition2.up();
-							if (world.getType(up) != Blocks.FIRE) {
+							if (world.getType(up).getBlock() != Blocks.FIRE) {
 								if (CraftEventFactory
 										.callBlockIgniteEvent(world, up.getX(), up.getY(), up.getZ(),
 												blockposition.getX(), blockposition.getY(), blockposition.getZ())
