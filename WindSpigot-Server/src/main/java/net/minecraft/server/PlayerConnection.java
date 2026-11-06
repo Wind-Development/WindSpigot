@@ -1038,10 +1038,12 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 
 			this.player.activeContainer.b();
 			this.player.g = false;
-			// CraftBukkit - TODO CHECK IF NEEDED -- new if structure might not need
-			// 'always'. Kept it in for now, but may be able to remove in future
-			if (!ItemStack.matches(this.player.inventory.getItemInHand(), packetplayinblockplace.getItemStack())
-					|| always) {
+			// WindSpigot - keep || always: cancelled/throttled places leave server hand
+			// matching the client's packet stack (ItemStack.matches true) while the
+			// client already predicted a consume/place. Forced SetSlot resyncs that.
+			// Also covers air-use count changes (food/projectiles) and water lily.
+			if (slot != null && (!ItemStack.matches(this.player.inventory.getItemInHand(),
+					packetplayinblockplace.getItemStack()) || always)) {
 				this.sendPacket(new PacketPlayOutSetSlot(this.player.activeContainer.windowId, slot.rawSlotIndex,
 						this.player.inventory.getItemInHand()));
 			}
@@ -1918,40 +1920,45 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 				} else if (packetplayinwindowclick.f() == 2) {
 					if (packetplayinwindowclick.c() >= 0 && packetplayinwindowclick.c() < 9) {
 						click = ClickType.NUMBER_KEY;
-						Slot clickedSlot = this.player.activeContainer.getSlot(packetplayinwindowclick.b());
-						if (clickedSlot.isAllowed(player)) {
-							ItemStack hotbar = this.player.inventory.getItem(packetplayinwindowclick.c());
-							boolean canCleanSwap = hotbar == null
-									|| (clickedSlot.inventory == player.inventory && clickedSlot.isAllowed(hotbar)); // the
-																														// slot
-																														// will
-																														// accept
-																														// the
-																														// hotbar
-																														// item
-							if (clickedSlot.hasItem()) {
-								if (canCleanSwap) {
+						int rawSlot = packetplayinwindowclick.b();
+						// WindSpigot - reject out-of-range raw slots (incl. -999 outside).
+						// Container.getSlot clamps only high indices and throws on negatives.
+						if (rawSlot < 0 || rawSlot >= this.player.activeContainer.c.size()) {
+							action = InventoryAction.NOTHING;
+						} else {
+							Slot clickedSlot = this.player.activeContainer.getSlot(rawSlot);
+							if (clickedSlot != null && clickedSlot.isAllowed(player)) {
+								ItemStack hotbar = this.player.inventory.getItem(packetplayinwindowclick.c());
+								boolean canCleanSwap = hotbar == null
+										|| (clickedSlot.inventory == player.inventory && clickedSlot.isAllowed(hotbar)); // the
+																															// slot
+																															// will
+																															// accept
+																															// the
+																															// hotbar
+																															// item
+								if (clickedSlot.hasItem()) {
+									if (canCleanSwap) {
+										action = InventoryAction.HOTBAR_SWAP;
+									} else {
+										int firstEmptySlot = player.inventory.getFirstEmptySlotIndex();
+										if (firstEmptySlot > -1) {
+											action = InventoryAction.HOTBAR_MOVE_AND_READD;
+										} else {
+											action = InventoryAction.NOTHING; // This is not sane! Mojang: You should test
+																				// for other slots of same type
+										}
+									}
+								} else if (!clickedSlot.hasItem() && hotbar != null && clickedSlot.isAllowed(hotbar)) {
 									action = InventoryAction.HOTBAR_SWAP;
 								} else {
-									int firstEmptySlot = player.inventory.getFirstEmptySlotIndex();
-									if (firstEmptySlot > -1) {
-										action = InventoryAction.HOTBAR_MOVE_AND_READD;
-									} else {
-										action = InventoryAction.NOTHING; // This is not sane! Mojang: You should test
-																			// for other slots of same type
-									}
+									action = InventoryAction.NOTHING;
 								}
-							} else if (!clickedSlot.hasItem() && hotbar != null && clickedSlot.isAllowed(hotbar)) {
-								action = InventoryAction.HOTBAR_SWAP;
 							} else {
 								action = InventoryAction.NOTHING;
 							}
-						} else {
-							action = InventoryAction.NOTHING;
 						}
-						// Special constructor for number key
-						event = new InventoryClickEvent(inventory, type, packetplayinwindowclick.b(), click, action,
-								packetplayinwindowclick.c());
+						// InventoryClickEvent for NUMBER_KEY is built below (hotbar key ctor)
 					}
 				} else if (packetplayinwindowclick.f() == 3) {
 					if (packetplayinwindowclick.c() == 2) {
@@ -2010,16 +2017,18 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					if (packetplayinwindowclick.b() >= 0 && this.player.inventory.getCarried() != null) {
 						ItemStack cursor = this.player.inventory.getCarried();
 						action = InventoryAction.NOTHING;
-						// Quick check for if we have any of the item
-						if (inventory.getTopInventory()
-								.contains(org.bukkit.Material.getMaterial(Item.getId(cursor.getItem())))
-								|| inventory.getBottomInventory()
-										.contains(org.bukkit.Material.getMaterial(Item.getId(cursor.getItem())))) {
+						// WindSpigot - match Container double-click collect rules (material +
+						// data + NBT), not Material.contains which ignores durability/NBT and
+						// NPEs when getMaterial returns null for unknown item ids.
+						if (canCollectToCursor(cursor)) {
 							action = InventoryAction.COLLECT_TO_CURSOR;
 						}
 					}
 				}
-				// TODO check on updates
+				// WindSpigot - 1.8.8 PacketPlayInWindowClick modes 0-6 mapped above:
+				// 0 pickup, 1 quick-move, 2 number-key, 3 creative middle, 4 drop,
+				// 5 drag (InventoryDragEvent via Container), 6 double-click collect.
+				// Protocol is frozen on this fork; UNKNOWN covers anything else.
 
 				if (packetplayinwindowclick.f() != 5) {
 					if (click == ClickType.NUMBER_KEY) {
@@ -2682,6 +2691,21 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 		networkManager.fastNetworkManager.flushQueuedPackets();
 	}
 	// FalchusSpigot end
+
+	// WindSpigot - same stack rules as Container.a(Slot, ItemStack, true) for
+	// double-click collect-to-cursor (material, data, NBT).
+	private boolean canCollectToCursor(ItemStack cursor) {
+		if (cursor == null || cursor.count >= cursor.getMaxStackSize()) {
+			return false;
+		}
+		for (Slot slot : this.player.activeContainer.c) {
+			if (slot != null && slot.hasItem() && slot.isAllowed(this.player)
+					&& Container.a(slot, cursor, true)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	static class SyntheticClass_1 {
 
