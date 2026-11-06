@@ -1,7 +1,6 @@
 package com.windpvp.windspigot.world;
 
 import com.windpvp.windspigot.async.ResettableLatch;
-import com.windpvp.windspigot.async.entitytracker.AsyncEntityTracker;
 import com.windpvp.windspigot.config.WindSpigotConfig;
 
 import net.minecraft.server.CrashReport;
@@ -16,15 +15,9 @@ public class WorldTicker implements Runnable {
 
 	public final WorldServer worldserver;
 	private final ResettableLatch latch = new ResettableLatch(WindSpigotConfig.trackingThreads);
-	private final Runnable cachedUpdateTrackerTask;
-	protected volatile boolean hasTracked = false;
-	
+
 	public WorldTicker(WorldServer worldServer) {
 		this.worldserver = worldServer;
-		cachedUpdateTrackerTask = () -> {
-			hasTracked = true;
-			worldserver.getTracker().updatePlayers();
-		};
 	}
 
 	// This is mostly copied code from world ticking
