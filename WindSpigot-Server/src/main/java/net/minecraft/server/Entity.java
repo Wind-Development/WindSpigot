@@ -55,8 +55,21 @@ public abstract class Entity implements ICommandListener {
 	// CraftBukkit end
 
 	private static final AxisAlignedBB a = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
+	// Deliberately a plain int guarded by a lock, not an AtomicInteger: plugins (e.g. LibsDisguises)
+	// read this field reflectively with Field.getInt, which an AtomicInteger would break.
 	private static int entityCount = 1;
 	private int id;
+
+	/**
+	 * Entities may be constructed off the main thread (async tasks, plugins). A bare
+	 * {@code entityCount++} is not atomic, so two threads could be handed the same id; chunk
+	 * entity slices are keyed by id, so the second entity would silently never be added.
+	 */
+	private static int nextEntityId() {
+		synchronized (Entity.class) {
+			return Entity.entityCount++;
+		}
+	}
 	public double j;
 	public boolean k;
 	public Entity passenger;
@@ -206,7 +219,7 @@ public abstract class Entity implements ICommandListener {
 	}
 
 	public Entity(World world) {
-		this.id = Entity.entityCount++;
+		this.id = Entity.nextEntityId();
 		this.j = 1.0D;
 		this.boundingBox = Entity.a;
 		this.width = 0.6F;
