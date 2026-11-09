@@ -27,13 +27,18 @@ public class FastNetworkManager {
 		Channel channel = networkManager.channel;
 		if (channel == null || !channel.isActive()) return;
 
-		channel.eventLoop().execute(() -> {
-			ChannelFuture future = channel.write(packet);
-			future.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-			if (flush) {
-				channel.flush();
-			}
-		});
+        Runnable write = () -> {
+            ChannelFuture future = flush
+                    ? channel.writeAndFlush(packet)
+                    : channel.write(packet);
+            future.addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        };
+
+        if (channel.eventLoop().inEventLoop()) {
+            write.run();
+        } else {
+            channel.eventLoop().execute(write);
+        }
 	}
 
 	public void writePacketLazily(Packet<?> packet) {
