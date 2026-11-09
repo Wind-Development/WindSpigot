@@ -905,43 +905,6 @@ public abstract class EntityHuman extends EntityLiving {
 		return (float) i / (float) this.inventory.armor.length;
 	}
 
-	// CraftBukkit start
-	@Override
-	protected boolean d(DamageSource damagesource, float f) { // void -> boolean
-		return super.d(damagesource, f);
-		
-		// CraftBukkit end
-		
-		// WindSpigot - remove dead code
-		/*if (!this.isInvulnerable(damagesource)) {
-			if (!damagesource.ignoresArmor() && this.isBlocking() && f > 0.0F) {
-				f = (1.0F + f) * this.world.paperSpigotConfig.playerBlockingDamageMultiplier; // PaperSpigot -
-																								// Configurable damage
-																								// multiplier for
-																								// blocking;
-			}
-
-			f = this.applyArmorModifier(damagesource, f);
-			f = this.applyMagicModifier(damagesource, f);
-			float f1 = f;
-
-			f = Math.max(f - this.getAbsorptionHearts(), 0.0F);
-			this.setAbsorptionHearts(this.getAbsorptionHearts() - (f1 - f));
-			if (f != 0.0F) {
-				this.applyExhaustion(damagesource.getExhaustionCost());
-				float f2 = this.getHealth();
-
-				this.setHealth(this.getHealth() - f);
-				this.bs().a(damagesource, f2, f);
-				if (f < 3.4028235E37F) {
-					this.a(StatisticList.x, Math.round(f * 10.0F));
-				}
-
-			}
-		}*/
-		//return false; // CraftBukkit
-	}
-
 	public void openSign(TileEntitySign tileentitysign) {
 	}
 

@@ -321,7 +321,7 @@ public class EnchantmentManager {
 					arraylist = Lists.newArrayList();
 					arraylist.add(weightedrandomenchant);
 
-					for (int i1 = l; random.nextInt(50) <= i1; i1 >>= 1) {
+					for (int i1 = l; i1 > 0 && random.nextInt(50) <= i1; i1 >>= 1) {
 						Iterator iterator = map.keySet().iterator();
 
 						while (iterator.hasNext()) {
