@@ -3,6 +3,7 @@ package org.bukkit.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Location;
 import org.bukkit.World;
