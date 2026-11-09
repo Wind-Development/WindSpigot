@@ -79,6 +79,19 @@ public class EntityEnderPearl extends EntityProjectile {
 					// CraftBukkit start - Fire PlayerTeleportEvent
 					org.bukkit.craftbukkit.entity.CraftPlayer player = entityplayer.getBukkitEntity();
 					org.bukkit.Location location = getBukkitEntity().getLocation();
+
+					// FalchusSpigot start - lock enderpearl Y to player
+					// check if there is an entity in the position
+					if (movingobjectposition.entity != null) {
+						// set the Y to that entity's
+						location.setY(movingobjectposition.entity.locY);
+					}
+
+					// FalchusSpigot - Fix an issue with the player not landing on
+					// the ground, instead of going into the air when pearling.
+					location.setY((int) location.getY());
+					// FalchusSpigot end
+
 					location.setPitch(player.getLocation().getPitch());
 					location.setYaw(player.getLocation().getYaw());
 										
