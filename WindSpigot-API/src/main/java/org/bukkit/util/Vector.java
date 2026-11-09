@@ -19,8 +19,6 @@ import org.bukkit.configuration.serialization.SerializableAs;
 public class Vector implements Cloneable, ConfigurationSerializable {
 	private static final long serialVersionUID = -2657651106777219169L;
 
-	private static Random random = new Random();
-
 	/**
 	 * Threshold for fuzzy equals().
 	 */
@@ -764,6 +762,7 @@ public class Vector implements Cloneable, ConfigurationSerializable {
 	 * @return A random vector.
 	 */
 	public static Vector getRandom() {
+		Random random = ThreadLocalRandom.current(); // FalchusSpigot
 		return new Vector(random.nextDouble(), random.nextDouble(), random.nextDouble());
 	}
 
