@@ -7,13 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class EnchantmentManager {
 
+	private static final Random a = new Random();
 	private static final EnchantmentManager.EnchantmentModifierProtection b = new EnchantmentManager.EnchantmentModifierProtection(
 			null);
 	private static final EnchantmentManager.EnchantmentModifierDamage c = new EnchantmentManager.EnchantmentModifierDamage(
@@ -146,7 +146,7 @@ public class EnchantmentManager {
 		EnchantmentManager.b.b = null;
 		// KigPaper end
 
-		return (EnchantmentManager.b.a + 1 >> 1) + ThreadLocalRandom.current().nextInt((EnchantmentManager.b.a >> 1) + 1); // FalchusSpigot - ThreadLocalRandom
+		return (EnchantmentManager.b.a + 1 >> 1) + EnchantmentManager.a.nextInt((EnchantmentManager.b.a >> 1) + 1);
 	}
 
 	public static float a(ItemStack itemstack, EnumMonsterType enummonstertype) {
