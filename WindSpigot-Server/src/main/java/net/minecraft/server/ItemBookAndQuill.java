@@ -21,11 +21,7 @@ public class ItemBookAndQuill extends Item {
 		} else {
 			NBTTagList nbttaglist = nbttagcompound.getList("pages", 8);
 
-			// WindSpigot - Align with CraftMetaBook / BookNbtValidator limits (was 32767, uncapped pages)
-			if (nbttaglist.size() > com.windpvp.windspigot.security.BookNbtValidator.MAX_PAGES) {
-				return false;
-			}
-
+			long start = System.currentTimeMillis();
 			for (int i = 0; i < nbttaglist.size(); ++i) {
 				String s = nbttaglist.getString(i);
 
@@ -33,7 +29,7 @@ public class ItemBookAndQuill extends Item {
 					return false;
 				}
 
-				if (s.length() > com.windpvp.windspigot.security.BookNbtValidator.MAX_PAGE_LENGTH) {
+				if (s.length() > 32767) {
 					return false;
 				}
 			}
