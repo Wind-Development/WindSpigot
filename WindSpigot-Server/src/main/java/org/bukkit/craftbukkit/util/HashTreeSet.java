@@ -1,35 +1,21 @@
 package org.bukkit.craftbukkit.util;
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.TreeSet;
 
-public class HashTreeSet<V> implements Set<V> {
+public class HashTreeSet<V> {
 
 	private Set<V> hash = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<V>(); // FalchusSpigot - Replace java.util.HashSet with ObjectOpenHashSet
 	private TreeSet<V> tree = new TreeSet<V>();
 
-	public HashTreeSet() {
-
-	}
-
-	@Override
 	public int size() {
 		return hash.size();
 	}
 
-	@Override
 	public boolean isEmpty() {
 		return hash.isEmpty();
 	}
 
-	@Override
-	public boolean contains(Object o) {
-		return hash.contains(o);
-	}
-
-	@Override
 	public Iterator<V> iterator() {
 		return new Iterator<V>() {
 
@@ -58,55 +44,28 @@ public class HashTreeSet<V> implements Set<V> {
 		};
 	}
 
-	@Override
-	public Object[] toArray() {
-		return hash.toArray();
+	public boolean add(E e) {
+		if (!hash.add(e)) return false;
+		if (!tree.add(e)) {
+			hash.remove(e);
+			return false;
+		}
+		return true;
 	}
 
-	@Override
-	public Object[] toArray(Object[] a) {
-		return hash.toArray(a);
-	}
-
-	@Override
-	public boolean add(V e) {
-		hash.add(e);
-		return tree.add(e);
-	}
-
-	@Override
 	public boolean remove(Object o) {
-		hash.remove(o);
-		return tree.remove(o);
-	}
+		if (!hash.remove(o)) return false;
 
-	@Override
-	public boolean containsAll(Collection c) {
-		return hash.containsAll(c);
-	}
-
-	@Override
-	public boolean addAll(Collection c) {
-		tree.addAll(c);
-		return hash.addAll(c);
-	}
-
-	@Override
-	public boolean retainAll(Collection c) {
-		tree.retainAll(c);
-		return hash.retainAll(c);
-	}
-
-	@Override
-	public boolean removeAll(Collection c) {
-		tree.removeAll(c);
-		return hash.removeAll(c);
-	}
-
-	@Override
-	public void clear() {
-		hash.clear();
-		tree.clear();
+		if (!tree.remove(o)) {
+			Iterator<E> it = tree.iterator();
+			while (it.hasNext()) {
+				if (it.next().equals(o)) {
+					it.remove();
+					break;
+				}
+			}
+		}
+		return true;
 	}
 
 	public V first() {
