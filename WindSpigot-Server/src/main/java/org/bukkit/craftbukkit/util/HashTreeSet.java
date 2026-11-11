@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class HashTreeSet<V> {
+public class HashTreeSet<E> {
 
-	private Set<V> hash = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<V>(); // FalchusSpigot - Replace java.util.HashSet with ObjectOpenHashSet
-	private TreeSet<V> tree = new TreeSet<V>();
+	private Set<E> hash = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(); // FalchusSpigot - Replace java.util.HashSet with ObjectOpenHashSet
+	private TreeSet<E> tree = new TreeSet<>();
 
 	public int size() {
 		return hash.size();
@@ -17,11 +17,11 @@ public class HashTreeSet<V> {
 		return hash.isEmpty();
 	}
 
-	public Iterator<V> iterator() {
-		return new Iterator<V>() {
+	public Iterator<E> iterator() {
+		return new Iterator<E>() {
 
-			private Iterator<V> it = tree.iterator();
-			private V last;
+			private Iterator<E> it = tree.iterator();
+			private E last;
 
 			@Override
 			public boolean hasNext() {
@@ -29,7 +29,7 @@ public class HashTreeSet<V> {
 			}
 
 			@Override
-			public V next() {
+			public E next() {
 				return last = it.next();
 			}
 
@@ -69,7 +69,7 @@ public class HashTreeSet<V> {
 		return true;
 	}
 
-	public V first() {
+	public E first() {
 		return tree.first();
 	}
 
