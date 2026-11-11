@@ -1,7 +1,7 @@
 package org.bukkit.craftbukkit.util;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.TreeSet;
 
 public class HashTreeSet<V> {
 
