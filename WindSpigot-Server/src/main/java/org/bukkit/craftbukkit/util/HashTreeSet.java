@@ -55,7 +55,6 @@ public class HashTreeSet<E> {
 
 	public boolean remove(Object o) {
 		if (!hash.remove(o)) return false;
-
 		if (!tree.remove(o)) {
 			Iterator<E> it = tree.iterator();
 			while (it.hasNext()) {
