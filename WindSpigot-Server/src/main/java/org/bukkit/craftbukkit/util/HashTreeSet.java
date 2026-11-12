@@ -18,9 +18,9 @@ public class HashTreeSet<E> {
 	}
 
 	public Iterator<E> iterator() {
+		Iterator<E> it = tree.iterator();
 		return new Iterator<E>() {
 
-			private Iterator<E> it = tree.iterator();
 			private E last;
 
 			@Override
@@ -47,11 +47,10 @@ public class HashTreeSet<E> {
 
 	public boolean add(E e) {
 		if (!hash.add(e)) return false;
-		if (!tree.add(e)) {
-			hash.remove(e);
-			return false;
-		}
-		return true;
+		if (tree.add(e)) return true;
+
+		hash.remove(e);
+		return false;
 	}
 
 	public boolean remove(Object o) {
