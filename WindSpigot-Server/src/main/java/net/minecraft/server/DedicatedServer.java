@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Proxy;
-import java.util.Random;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import io.netty.channel.epoll.Epoll;
@@ -295,7 +295,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
 				String s = this.propertyManager.getString("level-seed", "");
 				String s1 = this.propertyManager.getString("level-type", "DEFAULT");
 				String s2 = this.propertyManager.getString("generator-settings", "");
-				long k = (new Random()).nextLong();
+				long k = ThreadLocalRandom.current().nextLong(); // FalchusSpigot - ThreadLocalRandom
 
 				if (s.length() > 0) {
 					try {
