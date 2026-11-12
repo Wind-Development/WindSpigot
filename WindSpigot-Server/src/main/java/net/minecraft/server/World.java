@@ -13,6 +13,7 @@ import java.util.concurrent.Callable;
 // PaperSpigot start
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockState;
@@ -3029,6 +3030,69 @@ public abstract class World implements IBlockAccess {
 			}
 		});
 		return true;
+	}
+
+	/**
+	 * WindSpigot - Asynchronous lighting updates batched
+	 * This reduces the amount of calculations because the neighbors are the same for the same x and z.
+	 * This also prevents lightingExecutor.submit spam when this function is accidentally called on the server thread
+	 *  while useAsyncLighting is set to true.
+	 */
+	public void updateLightBatched(final EnumSkyBlock enumskyblock, int x, int z, int yBottom, int yTop) {
+		Chunk chunk = this.getChunkIfLoaded(x >> 4, z >> 4);
+		if (chunk == null) {
+			return;
+		}
+
+		List<Chunk> neighbors = new ArrayList<>();
+		for (int cx = (x >> 4) - 1; cx <= (x >> 4) + 1; ++cx) {
+			for (int cz = (z >> 4) - 1; cz <= (z >> 4) + 1; ++cz) {
+				if (cx != x >> 4 && cz != z >> 4) {
+					Chunk neighbor = this.getChunkIfLoaded(cx, cz);
+					if (neighbor != null) {
+						neighbors.add(neighbor);
+					}
+				}
+			}
+		}
+
+		List<BlockPosition> positions = new ArrayList<>();
+		for (int i1 = yBottom; i1 < yTop; ++i1) {
+			positions.add(new BlockPosition(x, i1, z));
+		}
+
+		if (!chunk.world.paperSpigotConfig.useAsyncLighting) {
+			for (BlockPosition position : positions) {
+				this.c(enumskyblock, position, chunk, null);
+			}
+			return;
+		}
+
+		boolean isPrimaryThread = Bukkit.isPrimaryThread();
+
+		chunk.pendingLightUpdates.addAndGet(positions.size());
+		positions.forEach((p) -> neighbors.forEach(neighbor -> neighbor.pendingLightUpdates.incrementAndGet()));
+
+		chunk.lightUpdateTime = chunk.world.getTime();
+		neighbors.forEach(neighbor -> neighbor.lightUpdateTime = chunk.world.getTime());
+
+		if (!isPrimaryThread) {
+			for (BlockPosition position : positions) {
+				this.c(enumskyblock, position, chunk, neighbors);
+			}
+			return;
+		}
+
+		List<Runnable> tasks = positions.stream().map((p) ->
+				(Runnable) () -> World.this.c(enumskyblock, p, chunk, neighbors)).collect(Collectors.toList());
+
+		if (!tasks.isEmpty()) {
+			lightingExecutor.submit(() -> {
+				for (Runnable task : tasks) {
+					task.run();
+				}
+			});
+		}
 	}
 
 	public boolean a(boolean flag) {
