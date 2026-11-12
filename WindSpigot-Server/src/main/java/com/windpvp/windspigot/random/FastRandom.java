@@ -2,6 +2,7 @@
 package com.windpvp.windspigot.random;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -16,7 +17,16 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	
 	private static final long serialVersionUID = 1L;
 
-	protected long seed;
+	private static final AtomicLongFieldUpdater<FastRandom> SEED_UPDATER = AtomicLongFieldUpdater
+			.newUpdater(FastRandom.class, "seed");
+
+	/**
+	 * Xorshift never leaves the all-zero state, so a zero seed would make every
+	 * call return 0. A fixed non-zero value is used instead.
+	 */
+	private static final long ZERO_SEED_REPLACEMENT = 0x9E3779B97F4A7C15L;
+
+	protected volatile long seed;
 
 	/**
 	 * Creates a new pseudo random number generator. The seed is initialized to the
@@ -33,7 +43,11 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	 * @param seed the initial seed
 	 */
 	public FastRandom(long seed) {
-		this.seed = seed;
+		this.seed = nonZero(seed);
+	}
+
+	private static long nonZero(long seed) {
+		return seed == 0L ? ZERO_SEED_REPLACEMENT : seed;
 	}
 
 	/**
@@ -53,7 +67,7 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	 * @param seed the new seed
 	 */
 	public synchronized void setSeed(long seed) {
-		this.seed = seed;
+		this.seed = nonZero(seed);
 		super.setSeed(seed);
 	}
 
@@ -71,14 +85,16 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	 */
 	@Override
 	protected int next(int nbits) {
-		long x = seed;
-		x ^= (x << 21);
-		x ^= (x >>> 35);
-		x ^= (x << 4);
-		seed = x;
-		x &= ((1L << nbits) - 1);
-		
-		return (int) x;
+		long current;
+		long next;
+		do {
+			current = seed;
+			next = current ^ (current << 21);
+			next ^= (next >>> 35);
+			next ^= (next << 4);
+		} while (!SEED_UPDATER.compareAndSet(this, current, next)); // Lock-free, so shared instances stay thread safe
+
+		return (int) (next & ((1L << nbits) - 1));
 	}
 
 	/**
