@@ -1,22 +1,23 @@
 package org.bukkit.craftbukkit.util;
 
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
-public class HashTreeSet<E> {
+public class HashTreeSet<E> extends AbstractSet<E> { // FalchusSpigot - AbstractSet
 
-	private Set<E> hash = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(); // FalchusSpigot - Replace java.util.HashSet with ObjectOpenHashSet
-	private TreeSet<E> tree = new TreeSet<>();
+	private final Set<E> hash = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(); // FalchusSpigot - Replace java.util.HashSet with ObjectOpenHashSet
+	private final TreeSet<E> tree = new TreeSet<>();
 
+	@Override
 	public int size() {
 		return hash.size();
 	}
 
-	public boolean isEmpty() {
-		return hash.isEmpty();
+	@Override
+	public boolean contains(Object o) {
+		return hash.contains(o);
 	}
 
+	@Override
 	public Iterator<E> iterator() {
 		Iterator<E> it = tree.iterator();
 		return new Iterator<E>() {
@@ -35,16 +36,13 @@ public class HashTreeSet<E> {
 
 			@Override
 			public void remove() {
-				if (last == null) {
-					throw new IllegalStateException();
-				}
 				it.remove();
 				hash.remove(last);
-				last = null;
 			}
 		};
 	}
 
+	@Override
 	public boolean add(E e) {
 		if (!hash.add(e)) return false;
 		if (tree.add(e)) return true;
@@ -53,18 +51,24 @@ public class HashTreeSet<E> {
 		return false;
 	}
 
+	@Override
 	public boolean remove(Object o) {
-		if (!hash.remove(o)) return false;
-		if (!tree.remove(o)) {
-			Iterator<E> it = tree.iterator();
-			while (it.hasNext()) {
-				if (it.next().equals(o)) {
-					it.remove();
-					break;
-				}
+		if (!hash.contains(o)) return false;
+
+		for (Iterator<E> it = tree.iterator(); it.hasNext();) {
+			if (Objects.equals(it.next(), o)) {
+				it.remove();
+				hash.remove(o);
+				return true;
 			}
 		}
-		return true;
+		return false;
+	}
+
+	@Override
+	public void clear() {
+		hash.clear();
+		tree.clear();
 	}
 
 	public E first() {
