@@ -41,6 +41,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.util.CachedServerIcon;
 
 import com.avaje.ebean.config.ServerConfig;
+import com.destroystokyo.paper.profile.PlayerProfile;
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -913,6 +914,33 @@ public interface Server extends PluginMessageRecipient {
 	 *         {@link ServerListPingEvent#setServerIcon(CachedServerIcon)}
 	 */
 	CachedServerIcon loadServerIcon(BufferedImage image) throws IllegalArgumentException, Exception;
+
+	// PandaSpigot start - PlayerProfile API (PaperServerListPingEvent)
+	/**
+	 * Creates an empty player profile with the given UUID.
+	 *
+	 * @param uniqueId the UUID of the profile, or {@code null} for none
+	 * @return the new profile
+	 */
+	PlayerProfile createProfile(UUID uniqueId);
+
+	/**
+	 * Creates an empty player profile with the given name.
+	 *
+	 * @param name the name of the profile, or {@code null} for none
+	 * @return the new profile
+	 */
+	PlayerProfile createProfile(String name);
+
+	/**
+	 * Creates an empty player profile with the given UUID and name.
+	 *
+	 * @param uniqueId the UUID of the profile, or {@code null} for none
+	 * @param name     the name of the profile, or {@code null} for none
+	 * @return the new profile
+	 */
+	PlayerProfile createProfile(UUID uniqueId, String name);
+	// PandaSpigot end
 
 	/**
 	 * Set the idle kick timeout. Any players idle for the specified amount of time
