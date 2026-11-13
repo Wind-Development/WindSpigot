@@ -173,6 +173,12 @@ public interface Plugin extends TabExecutor {
 	 */
 	public Logger getLogger();
 
+	// PandaSpigot start - Add SLF4J logger
+	default org.slf4j.Logger getSLF4JLogger() {
+		return org.slf4j.LoggerFactory.getLogger(getLogger().getName());
+	}
+	// PandaSpigot end
+
 	/**
 	 * Returns the name of the plugin.
 	 * <p>

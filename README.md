@@ -52,6 +52,7 @@ See the patches list below.
 [PandaSpigot-0031] Add missing InventoryView.getSlotType API
 [PandaSpigot-0104] Backport modern tick loop system
 [PandaSpigot-0124] Fix VehicleDamageEvent API
+[PandaSpigot-0089] Add SLF4J implementation
 
 [Spigot-0097] Remove DataWatcher Locking by spottedleaf
 [Spigot-0138] Branchless NibbleArray by md5
