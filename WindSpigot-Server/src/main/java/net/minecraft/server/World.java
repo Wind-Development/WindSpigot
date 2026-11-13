@@ -1589,7 +1589,7 @@ public abstract class World implements IBlockAccess {
 		List list = this.getEntities(entity, axisalignedbb.grow(d0, d0, d0));
 
 		for (int j2 = 0; j2 < list.size(); ++j2) {
-			if (entity.passenger != list && entity.vehicle != list) {
+			if (entity.passenger != list.get(j2) && entity.vehicle != list.get(j2)) {
 				AxisAlignedBB axisalignedbb1 = ((Entity) list.get(j2)).S();
 
 				if (axisalignedbb1 != null && axisalignedbb1.b(axisalignedbb)) {
