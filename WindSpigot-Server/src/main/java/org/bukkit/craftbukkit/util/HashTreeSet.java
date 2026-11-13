@@ -1,27 +1,15 @@
 package org.bukkit.craftbukkit.util;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
-public class HashTreeSet<V> implements Set<V> {
+public class HashTreeSet<E> extends AbstractSet<E> { // FalchusSpigot - AbstractSet
 
-	private Set<V> hash = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<V>(); // FalchusSpigot - Replace java.util.HashSet with ObjectOpenHashSet
-	private TreeSet<V> tree = new TreeSet<V>();
-
-	public HashTreeSet() {
-
-	}
+	private final Set<E> hash = new it.unimi.dsi.fastutil.objects.ObjectOpenHashSet<>(); // FalchusSpigot - Replace java.util.HashSet with ObjectOpenHashSet
+	private final TreeSet<E> tree = new TreeSet<>();
 
 	@Override
 	public int size() {
 		return hash.size();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return hash.isEmpty();
 	}
 
 	@Override
@@ -30,11 +18,11 @@ public class HashTreeSet<V> implements Set<V> {
 	}
 
 	@Override
-	public Iterator<V> iterator() {
-		return new Iterator<V>() {
+	public Iterator<E> iterator() {
+		Iterator<E> it = tree.iterator();
+		return new Iterator<E>() {
 
-			private Iterator<V> it = tree.iterator();
-			private V last;
+			private E last;
 
 			@Override
 			public boolean hasNext() {
@@ -42,65 +30,39 @@ public class HashTreeSet<V> implements Set<V> {
 			}
 
 			@Override
-			public V next() {
+			public E next() {
 				return last = it.next();
 			}
 
 			@Override
 			public void remove() {
-				if (last == null) {
-					throw new IllegalStateException();
-				}
 				it.remove();
 				hash.remove(last);
-				last = null;
 			}
 		};
 	}
 
 	@Override
-	public Object[] toArray() {
-		return hash.toArray();
-	}
+	public boolean add(E e) {
+		if (!hash.add(e)) return false;
+		if (tree.add(e)) return true;
 
-	@Override
-	public Object[] toArray(Object[] a) {
-		return hash.toArray(a);
-	}
-
-	@Override
-	public boolean add(V e) {
-		hash.add(e);
-		return tree.add(e);
+		hash.remove(e);
+		return false;
 	}
 
 	@Override
 	public boolean remove(Object o) {
-		hash.remove(o);
-		return tree.remove(o);
-	}
+		if (!hash.contains(o)) return false;
 
-	@Override
-	public boolean containsAll(Collection c) {
-		return hash.containsAll(c);
-	}
-
-	@Override
-	public boolean addAll(Collection c) {
-		tree.addAll(c);
-		return hash.addAll(c);
-	}
-
-	@Override
-	public boolean retainAll(Collection c) {
-		tree.retainAll(c);
-		return hash.retainAll(c);
-	}
-
-	@Override
-	public boolean removeAll(Collection c) {
-		tree.removeAll(c);
-		return hash.removeAll(c);
+		for (Iterator<E> it = tree.iterator(); it.hasNext();) {
+			if (Objects.equals(it.next(), o)) {
+				it.remove();
+				hash.remove(o);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -109,7 +71,7 @@ public class HashTreeSet<V> implements Set<V> {
 		tree.clear();
 	}
 
-	public V first() {
+	public E first() {
 		return tree.first();
 	}
 

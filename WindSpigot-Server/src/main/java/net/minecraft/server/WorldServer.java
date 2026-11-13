@@ -642,9 +642,7 @@ public class WorldServer extends World /*implements IAsyncTaskHandler*/ { // Pan
 			}
 
 			// CraftBukkit - use M, PAIL: Rename nextTickList
-			if (!this.M.contains(nextticklistentry)) {
-				this.M.add(nextticklistentry);
-			}
+			this.M.add(nextticklistentry);
 		}
 
 	}
@@ -659,10 +657,7 @@ public class WorldServer extends World /*implements IAsyncTaskHandler*/ { // Pan
 		}
 
 		// CraftBukkit - use M, PAIL: Rename nextTickList
-		if (!this.M.contains(nextticklistentry)) {
-			this.M.add(nextticklistentry);
-		}
-
+		this.M.add(nextticklistentry);
 	}
 
 	@Override
