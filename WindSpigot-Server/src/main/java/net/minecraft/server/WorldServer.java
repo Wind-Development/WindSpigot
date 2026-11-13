@@ -720,15 +720,20 @@ public class WorldServer extends World /*implements IAsyncTaskHandler*/ { // Pan
 			timings.scheduledBlocksCleanup.stopTiming(); // Spigot
 
 			// PaperSpigot start - Allow redstone ticks to bypass the tickNextTickListCap
-			/*
-			 * if (paperSpigotConfig.tickNextTickListCapIgnoresRedstone) {
-			 * Iterator<NextTickListEntry> iterator = this.M.iterator(); while
-			 * (iterator.hasNext()) { NextTickListEntry next = iterator.next(); if (!flag &&
-			 * next.b > this.worldData.getTime()) { break; }
-			 * 
-			 * if (next.a().isPowerSource() || next.a() instanceof IContainer) {
-			 * iterator.remove(); this.V.add(next); } } }
-			 */
+			if (paperSpigotConfig.tickNextTickListCapIgnoresRedstone) {
+				Iterator<NextTickListEntry> iterator = this.M.iterator();
+				while (iterator.hasNext()) {
+					NextTickListEntry next = iterator.next();
+					if (!flag && next.b > this.worldData.getTime()) {
+						break;
+					}
+
+					if (next.a().isPowerSource() || next.a() instanceof IContainer) {
+						iterator.remove();
+						this.V.add(next);
+					}
+				}
+			}
 			// PaperSpigot end
 
 			this.methodProfiler.b();
