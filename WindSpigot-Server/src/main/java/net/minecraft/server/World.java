@@ -943,7 +943,7 @@ public abstract class World implements IBlockAccess {
 	public int b(int i, int j) {
 		if (i >= -30000000 && j >= -30000000 && i < 30000000 && j < 30000000) {
 			Chunk chunk = this.getChunkIfLoaded(i >> 4, j >> 4);
-			if (chunk != null) {
+			if (chunk == null) {
 				return 0;
 			} else {
 				return chunk.v();
