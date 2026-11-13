@@ -2448,6 +2448,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					disconnect("Book edited too quickly!");
 					return;
 				}
+				this.lastBookTick = MinecraftServer.currentTick; // WindSpigot - book edit cooldown
 
 				serializer = new PacketDataSerializer(Unpooled.wrappedBuffer(packetplayincustompayload.b()));
 
@@ -2485,6 +2486,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
 					disconnect("Book edited too quickly!");
 					return;
 				}
+				this.lastBookTick = MinecraftServer.currentTick; // WindSpigot - book sign cooldown
 				serializer = new PacketDataSerializer(Unpooled.wrappedBuffer(packetplayincustompayload.b()));
 
 				try {

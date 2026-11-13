@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.BlockChangeDelegate;
@@ -149,7 +150,7 @@ public class CraftWorld implements World {
 		environment = env;
 
 		if (server.chunkGCPeriod > 0) {
-			chunkGCTickCount = rand.nextInt(server.chunkGCPeriod);
+			chunkGCTickCount = ThreadLocalRandom.current().nextInt(server.chunkGCPeriod); // FalchusSpigot - ThreadLocalRandom
 		}
 	}
 

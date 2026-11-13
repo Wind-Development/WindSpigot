@@ -1,6 +1,6 @@
 package org.bukkit;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.generator.ChunkGenerator;
@@ -29,7 +29,7 @@ public class WorldCreator {
 		}
 
 		this.name = name;
-		this.seed = (new Random()).nextLong();
+		this.seed = ThreadLocalRandom.current().nextLong(); // FalchusSpigot - ThreadLocalRandom
 	}
 
 	/**
