@@ -170,6 +170,7 @@ public class UserCache {
 		return (String[]) arraylist.toArray(new String[arraylist.size()]);
 	}
 
+	public GameProfile getProfile(UUID uuid) { return this.a(uuid); } // FalchusSpigot - OBFHELPER
 	public GameProfile a(UUID uuid) {
 		UserCache.UserCacheEntry usercache_usercacheentry = this.d.get(uuid);
 
