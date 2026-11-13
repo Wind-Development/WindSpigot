@@ -2,15 +2,14 @@ package net.minecraft.server;
 
 // CraftBukkit start
 import java.util.List;
-import java.util.Random;
 
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 // CraftBukkit end
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TileEntityDispenser extends TileEntityContainer implements IInventory {
 
-	private static final Random f = new Random();
 	private ItemStack[] items = new ItemStack[9];
 	protected String a;
 
@@ -98,7 +97,7 @@ public class TileEntityDispenser extends TileEntityContainer implements IInvento
 		int j = 1;
 
 		for (int k = 0; k < this.items.length; ++k) {
-			if (this.items[k] != null && TileEntityDispenser.f.nextInt(j++) == 0) {
+			if (this.items[k] != null && ThreadLocalRandom.current().nextInt(j++) == 0) { // FalchusSpigot - ThreadLocalRandom
 				if (this.items[k].count == 0) {
 					continue; // CraftBukkit
 				}
