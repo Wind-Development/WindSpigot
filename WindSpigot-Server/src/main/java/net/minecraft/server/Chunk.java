@@ -1532,7 +1532,19 @@ public class Chunk {
 			this.g[i] = true;
 		}
 
-		this.h(false);
+		//WindSpigot start - Fix light updates spams lightingExecutor
+		if (!this.world.paperSpigotConfig.useAsyncLighting) {
+			this.h(false);
+			return;
+		}
+
+		this.world.lightingExecutor.submit(new Runnable() {
+			@Override
+			public void run() {
+				Chunk.this.h(false);
+			}
+		});
+		//WindSpigot end
 	}
 
 	private void a(EnumDirection enumdirection) {
