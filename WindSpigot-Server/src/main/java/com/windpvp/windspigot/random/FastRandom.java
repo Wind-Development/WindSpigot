@@ -2,21 +2,24 @@
 package com.windpvp.windspigot.random;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.concurrent.ThreadSafe;
 
 /**
- * Implementation of George Marsaglia's elegant Xorshift random generator which is 
+ * Implementation of George Marsaglia's elegant Xorshift random generator which is
  * 30% faster and better quality than the built-in java.util.random see also see
  * http://www.javamex.com/tutorials/random_numbers/xorshift.shtml
  */
 @Deprecated
 @ThreadSafe // The fast random can be used with multiple threads
 public strictfp class FastRandom extends Random implements Cloneable {
-	
+
 	private static final long serialVersionUID = 1L;
 
-	protected long seed;
+	// The seed is advanced with a lock-free CAS loop (see next()) so the shared
+	// Entity.SHARED_RANDOM can be used from several threads without racing on it.
+	private AtomicLong seed;
 
 	/**
 	 * Creates a new pseudo random number generator. The seed is initialized to the
@@ -33,7 +36,9 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	 * @param seed the initial seed
 	 */
 	public FastRandom(long seed) {
-		this.seed = seed;
+		// java.util.Random's constructor already called our setSeed() (creating the
+		// AtomicLong) before this body runs; store the exact seed without scrambling.
+		this.seed.set(seed);
 	}
 
 	/**
@@ -41,8 +46,8 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	 *
 	 * @returns the current seed
 	 */
-	public synchronized long getSeed() {
-		return seed;
+	public long getSeed() {
+		return seed.get();
 	}
 
 	/**
@@ -52,8 +57,13 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	 *
 	 * @param seed the new seed
 	 */
-	public synchronized void setSeed(long seed) {
-		this.seed = seed;
+	public void setSeed(long seed) {
+		// Invoked once from java.util.Random's constructor before our field exists.
+		if (this.seed == null) {
+			this.seed = new AtomicLong(seed);
+		} else {
+			this.seed.set(seed);
+		}
 		super.setSeed(seed);
 	}
 
@@ -71,22 +81,24 @@ public strictfp class FastRandom extends Random implements Cloneable {
 	 */
 	@Override
 	protected int next(int nbits) {
-		long x = seed;
-		x ^= (x << 21);
-		x ^= (x >>> 35);
-		x ^= (x << 4);
-		seed = x;
-		x &= ((1L << nbits) - 1);
-		
-		return (int) x;
+		long oldSeed, x;
+		do {
+			oldSeed = seed.get();
+			x = oldSeed;
+			x ^= (x << 21);
+			x ^= (x >>> 35);
+			x ^= (x << 4);
+		} while (!seed.compareAndSet(oldSeed, x));
+
+		return (int) (x & ((1L << nbits) - 1));
 	}
 
 	/**
 	 * Sets the specified seed value from the specified int[]
-	 * 
+	 *
 	 * @param array
 	 */
-	synchronized public void setSeed(int[] array) {
+	public void setSeed(int[] array) {
 		if (array.length == 0)
 			throw new IllegalArgumentException("Array length must be greater than zero");
 		setSeed(array.hashCode());
