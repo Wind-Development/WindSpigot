@@ -58,11 +58,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
 
 import co.aikar.util.JSONUtil.JSONPair;
 
@@ -225,9 +224,9 @@ class TimingsExport extends Thread {
 		return timingsCost;
 	}
 
-	private static JSONObject mapAsJSON(ConfigurationSection config, String parentKey) {
+	private static Map mapAsJSON(ConfigurationSection config, String parentKey) {
 
-		JSONObject object = new JSONObject();
+		Map object = createObject();
 		for (String key : config.getKeys(false)) {
 			String fullKey = (parentKey != null ? parentKey + "." + key : key);
 			if (fullKey.equals("database") || fullKey.equals("settings.bungeecord-addresses")
@@ -298,7 +297,7 @@ class TimingsExport extends Thread {
 				}
 			};
 
-			request.write(JSONValue.toJSONString(out).getBytes("UTF-8"));
+			request.write(new Gson().toJson(out).getBytes("UTF-8"));
 			request.close();
 
 			response = getResponse(con);
