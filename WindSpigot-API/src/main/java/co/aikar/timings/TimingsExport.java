@@ -224,7 +224,7 @@ class TimingsExport extends Thread {
 		return timingsCost;
 	}
 
-	private static JSONObject mapAsJSON(ConfigurationSection config, String parentKey) {
+	private static Map mapAsJSON(ConfigurationSection config, String parentKey) {
 
 		Map object = createObject();
 		for (String key : config.getKeys(false)) {
